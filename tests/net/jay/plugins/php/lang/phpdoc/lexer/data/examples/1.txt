@@ -1,0 +1,7 @@
+/**
+ *
+ */
+---------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_COMMENT_END('*/')

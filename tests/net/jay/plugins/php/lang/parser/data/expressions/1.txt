@@ -1,0 +1,19 @@
+<?php
+$a += 1;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Self assignment expression
+				Variable
+					PsiElement(variable)('$a')
+				PsiWhiteSpace(' ')
+				PsiElement(plus assign)('+=')
+				PsiWhiteSpace(' ')
+				Number
+					PsiElement(integer)('1')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

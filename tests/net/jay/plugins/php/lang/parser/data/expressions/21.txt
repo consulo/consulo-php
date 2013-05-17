@@ -1,0 +1,35 @@
+<?php
+$a ? $b : $c ? $d : $e;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Ternary expression
+				Ternary expression
+					Variable
+						PsiElement(variable)('$a')
+					PsiWhiteSpace(' ')
+					PsiElement(ternary)('?')
+					PsiWhiteSpace(' ')
+					Variable
+						PsiElement(variable)('$b')
+					PsiWhiteSpace(' ')
+					PsiElement(colon)(':')
+					PsiWhiteSpace(' ')
+					Variable
+						PsiElement(variable)('$c')
+				PsiWhiteSpace(' ')
+				PsiElement(ternary)('?')
+				PsiWhiteSpace(' ')
+				Variable
+					PsiElement(variable)('$d')
+				PsiWhiteSpace(' ')
+				PsiElement(colon)(':')
+				PsiWhiteSpace(' ')
+				Variable
+					PsiElement(variable)('$e')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

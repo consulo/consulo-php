@@ -1,0 +1,26 @@
+<?php function a($a, $b) {}?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Function
+			PsiElement(function)('function')
+			PsiWhiteSpace(' ')
+			Is reference
+				<empty list>
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				Parameter
+					PsiElement(variable)('$a')
+				PsiElement(comma)(',')
+				PsiWhiteSpace(' ')
+				Parameter
+					PsiElement(variable)('$b')
+			PsiElement())(')')
+			PsiWhiteSpace(' ')
+			PsiElement({)('{')
+			Group statement
+				<empty list>
+			PsiElement(})('}')
+		PsiElement(php closing tag)('?>')

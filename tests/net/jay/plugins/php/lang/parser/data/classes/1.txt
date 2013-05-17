@@ -1,0 +1,40 @@
+<?php
+class A {
+  public function b () {}
+}
+-----------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Class
+			PsiElement(class)('class')
+			PsiWhiteSpace(' ')
+			PsiElement(identifier)('A')
+			PsiWhiteSpace(' ')
+			Extends list
+				<empty list>
+			Implements list
+				<empty list>
+			PsiElement({)('{')
+			PsiWhiteSpace('\n  ')
+			Class method
+				Modifier list
+					PsiElement(public keyword)('public')
+				PsiWhiteSpace(' ')
+				PsiElement(function)('function')
+				PsiWhiteSpace(' ')
+				Is reference
+					<empty list>
+				PsiElement(identifier)('b')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Parameter list
+					<empty list>
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')

@@ -1,0 +1,19 @@
+<?php
+isset $a;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Isset function
+				PsiElement(isset keyword)('isset')
+				PsiErrorElement:Expected: (
+					<empty list>
+				PsiWhiteSpace(' ')
+				PsiElement(variable)('$a')
+				PsiErrorElement:Expected: )
+					<empty list>
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

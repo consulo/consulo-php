@@ -1,0 +1,21 @@
+<?php
+$a = -$b;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Variable
+					PsiElement(variable)('$a')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				Unary expression
+					PsiElement(minus)('-')
+					Variable
+						PsiElement(variable)('$b')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

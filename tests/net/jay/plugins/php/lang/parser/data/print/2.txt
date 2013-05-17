@@ -1,0 +1,20 @@
+<?php
+print print 1;
+?>
+---------------------------
+PHP file
+	Code
+		PsiElement(php opening tag)('<?php')
+		PsiWhiteSpace('\n')
+		Statement
+			Print expression
+				PsiElement(print)('print')
+				PsiWhiteSpace(' ')
+				Print expression
+					PsiElement(print)('print')
+					PsiWhiteSpace(' ')
+					Integer
+						PsiElement(integer)('1')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

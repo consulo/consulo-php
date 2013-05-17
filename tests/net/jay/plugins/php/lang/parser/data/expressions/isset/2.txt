@@ -1,0 +1,17 @@
+<?php
+isset ($a);
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Isset function
+				PsiElement(isset keyword)('isset')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				PsiElement(variable)('$a')
+				PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

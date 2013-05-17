@@ -1,0 +1,19 @@
+<?php
+5=12;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Number
+					PsiElement(integer)('5')
+				PsiErrorElement:Expression is not assignable
+					<empty list>
+				PsiElement(assign)('=')
+				Number
+					PsiElement(integer)('12')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

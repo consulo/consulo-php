@@ -1,0 +1,22 @@
+/**
+ * example of basic @param usage
+ * @param bool $baz
+ * @return mixed
+ */
+-------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('example')
+DOC_IDENTIFIER('of')
+DOC_IDENTIFIER('basic')
+DOC_TEXT('@')
+DOC_IDENTIFIER('param')
+DOC_IDENTIFIER('usage')
+DOC_LEADING_ASTERISK('*')
+DOC_TAG_NAME('@param')
+DOC_IDENTIFIER('bool')
+DOC_VARIABLE('$baz')
+DOC_LEADING_ASTERISK('*')
+DOC_TAG_NAME('@return')
+DOC_IDENTIFIER('mixed')
+DOC_COMMENT_END('*/')

@@ -1,0 +1,614 @@
+
+start:
+	statement_list
+;
+
+statement_list:
+	statement_list top_statement
+	| /* empty */
+;
+
+top_statement:
+	statement
+	| function_declaration_statement
+	| class_declaration_statement
+;
+
+statement:
+	'{' statement_list '}'
+	| kwIF '(' expr ')' statement elseif_list else_single
+	| kwIF '(' expr ')' ':' statement_list new_elseif_list new_else_single kwENDIF ';'
+	| kwWHILE '(' expr ')' while_statement
+	| kwDO statement kwWHILE '(' expr ')' ';'
+	| kwFOR '('
+		for_expr ';'
+		for_expr ';'
+		for_expr ')' for_statement
+	| kwSWITCH '(' expr ')' switch_case_list
+	| kwBREAK ';'
+	| kwBREAK expr ';'
+	| kwCONTINUE ';'
+	| kwCONTINUE expr ';'
+	| kwRETURN ';'
+	| kwRETURN expr ';'
+	| kwGLOBAL global_var_list ';'
+	| kwSTATIC static_var_list ';'
+	| kwECHO echo_expr_list ';'
+	| HTML
+	| expr ';'
+	| kwUNSET '(' unset_variables ')' ';'
+	| kwFOREACH '(' expr kwAS
+		foreach_variable foreach_optional_arg ')'
+		foreach_statement
+	| kwDECLARE '(' declare_list ')' declare_statement
+	| ';' /* empty statement */
+	| kwTRY '{' statement_list '}'
+		non_empty_catch_clauses
+	| kwTHROW expr ';'
+;
+
+catch_clause:
+	kwCATCH '(' fully_qualified_class_name VARIABLE ')' '{' statement_list '}'
+;
+
+non_empty_catch_clauses:
+	catch_clause
+	| non_empty_catch_clauses catch_clause
+;
+
+unset_variables:
+	variable
+	| unset_variables ',' variable
+;
+
+is_reference:
+	/* empty */
+	| '&'
+;
+
+function_declaration_statement:
+	kwFUNCTION is_reference IDENTIFIER '(' parameter_list ')'
+		'{' statement_list '}'
+;
+
+class_declaration_statement:
+	class_entry_type IDENTIFIER extends_from
+		implements_list
+		'{' class_statement_list '}'
+	| kwINTERFACE IDENTIFIER
+		interface_extends_list
+		'{' class_statement_list '}'
+;
+
+class_entry_type:
+	kwCLASS
+	| kwABSTRACT kwCLASS
+	| kwFINAL kwCLASS
+;
+
+extends_from:
+	/* empty */
+	| kwEXTENDS fully_qualified_class_name
+;
+
+interface_extends_list:
+	/* empty */
+	| kwEXTENDS interface_list
+;
+
+implements_list:
+	/* empty */
+	| kwIMPLEMENTS interface_list
+;
+
+interface_list:
+	fully_qualified_class_name
+	| interface_list ',' fully_qualified_class_name
+;
+
+foreach_optional_arg:
+	/* empty */
+	| opHASH_ARRAY foreach_variable
+;
+
+foreach_variable:
+	variable
+	| '&' variable
+;
+
+for_statement:
+	statement
+	| ':' statement_list kwENDFOR ';'
+;
+
+foreach_statement:
+	statement
+	| ':' statement_list kwENDFOREACH ';'
+;
+
+declare_statement:
+	statement
+	| ':' statement_list kwENDDECLARE ';'
+;
+
+declare_list:
+	IDENTIFIER '=' static_scalar
+	| declare_list ',' IDENTIFIER '=' static_scalar
+;
+
+switch_case_list:
+	'{' case_list '}'
+	| '{' ';' case_list '}'
+	| ':' case_list kwENDSWITCH ';'
+	| ':' ';' case_list kwENDSWITCH ';'
+;
+
+case_list:
+	/* empty */
+	| case_list kwCASE expr case_separator statement_list
+	| case_list kwDEFAULT case_separator statement_list
+;
+
+case_separator:
+	':'
+	| ';'
+;
+
+while_statement:
+	statement
+	| ':' statement_list kwENDWHILE ';'
+;
+
+elseif_list:
+	/* empty */
+	| elseif_list kwELSEIF '(' expr ')' statement
+;
+
+new_elseif_list:
+	/* empty */
+	| new_elseif_list kwELSEIF '(' expr ')' ':' statement_list
+;
+
+else_single:
+	/* empty */
+	| kwELSE statement
+;
+
+new_else_single:
+	/* empty */
+	| kwELSE ':' statement_list
+;
+
+parameter_list:
+	non_empty_parameter_list
+	| /* empty */
+;
+
+non_empty_parameter_list:
+	optional_class_type VARIABLE
+	| optional_class_type '&' VARIABLE
+	| optional_class_type '&' VARIABLE '=' static_scalar
+	| optional_class_type VARIABLE '=' static_scalar
+	| non_empty_parameter_list ',' optional_class_type VARIABLE
+	| non_empty_parameter_list ',' optional_class_type '&' VARIABLE
+	| non_empty_parameter_list ',' optional_class_type '&' VARIABLE '=' static_scalar
+	| non_empty_parameter_list ',' optional_class_type VARIABLE '=' static_scalar
+;
+
+optional_class_type:
+	/* empty */
+	| IDENTIFIER
+	| kwARRAY
+;
+
+function_call_parameter_list:
+	non_empty_function_call_parameter_list
+	| /* empty */
+;
+
+non_empty_function_call_parameter_list:
+	expr_without_variable
+	| variable
+	| '&' variable //write
+	| non_empty_function_call_parameter_list ',' expr_without_variable
+	| non_empty_function_call_parameter_list ',' variable
+	| non_empty_function_call_parameter_list ',' '&' variable //write
+;
+
+global_var_list:
+	global_var_list ',' global_var
+	| global_var
+;
+
+global_var:
+	VARIABLE
+	| '$' variable //read
+	| '$' '{' expr '}'
+;
+
+static_var_list:
+	static_var_list ',' VARIABLE
+	| static_var_list ',' VARIABLE '=' static_scalar
+	| VARIABLE
+	| VARIABLE '=' static_scalar
+;
+
+class_statement_list:
+	class_statement_list class_statement
+	| /* empty */
+;
+
+class_statement:
+	variable_modifiers class_variable_declaration ';'
+	| class_constant_declaration ';'
+	| method_modifiers kwFUNCTION is_reference IDENTIFIER
+		'(' parameter_list ')' method_body
+;
+
+method_body:
+	';' /* abstract method */
+	| '{' statement_list '}'
+;
+
+variable_modifiers:
+	non_empty_member_modifiers
+	| kwVAR
+;
+
+method_modifiers:
+	/* empty */
+	| non_empty_member_modifiers
+;
+
+non_empty_member_modifiers:
+	member_modifier
+	| non_empty_member_modifiers member_modifier
+;
+
+member_modifier:
+	kwPUBLIC
+	| kwPROTECTED
+	| kwPRIVATE
+	| kwSTATIC
+	| kwABSTRACT
+	| kwFINAL
+;
+
+class_variable_declaration:
+	class_variable_declaration ',' VARIABLE
+	| class_variable_declaration ',' VARIABLE '=' static_scalar
+	| VARIABLE
+	| VARIABLE '=' static_scalar
+;
+
+class_constant_declaration:
+	class_constant_declaration ',' IDENTIFIER '=' static_scalar
+	| kwCONST IDENTIFIER '=' static_scalar
+;
+
+echo_expr_list:
+	echo_expr_list ',' expr
+	| expr
+;
+
+for_expr:
+	/* empty */
+	| non_empty_for_expr
+;
+
+non_empty_for_expr:
+	non_empty_for_expr ',' expr
+	| expr
+;
+
+expr_without_variable:
+	kwLIST '(' assignment_list ')' '=' expr
+	| variable '=' expr
+	| variable '=' '&' variable
+	| variable '=' '&' kwNEW class_name_reference ctor_arguments
+	| kwNEW class_name_reference ctor_arguments
+	| kwCLONE expr
+	| variable opPLUS_ASGN expr
+	| variable opMINUS_ASGN expr
+	| variable opMUL_ASGN expr
+	| variable opDIV_ASGN expr
+	| variable opCONCAT_ASGN expr
+	| variable opREM_ASGN expr
+	| variable opBIT_AND_ASGN expr
+	| variable opBIT_OR_ASGN expr
+	| variable opBIT_XOR_ASGN expr
+	| variable opSHIFT_LEFT_ASGN expr
+	| variable opSHIFT_RIGHT_ASGN expr
+	| variable opINCREMENT //read+write
+	| opINCREMENT variable //read+write
+	| variable opDECREMENT //read+write
+	| opDECREMENT variable //read+write
+	| expr opOR expr
+	| expr opAND expr
+	| expr opLIT_OR expr
+	| expr opLIT_AND expr
+	| expr opLIT_XOR expr
+	| expr opBIT_OR expr
+	| expr opBIT_AND expr
+	| expr opBIT_XOR expr
+	| expr opCONCAT expr
+	| expr opPLUS expr
+	| expr opMINUS expr
+	| expr opMUL expr
+	| expr opDIV expr
+	| expr opREM expr
+	| expr opSHIFT_LEFT expr
+	| expr opSHIFT_RIGHT expr
+	| opPLUS expr //with precedence of opINCREMENT
+	| opMINUS expr //with precedence of opINCREMENT
+	| opNOT expr
+	| opBIT_NOT expr
+	| expr opIDENTICAL expr
+	| expr opNOT_IDENTICAL expr
+	| expr opEQUAL expr
+	| expr opNOT_EQUAL expr
+	| expr opLESS expr
+	| expr opLESS_OR_EQUAL expr
+	| expr opGREATER expr
+	| expr opGREATER_OR_EQUAL expr
+	| expr kwINSTANCEOF class_name_reference
+	| '(' expr ')'
+	| expr '?'
+		expr ':'
+		expr
+	| internal_functions_in_yacc
+	| opINTEGER_CAST expr
+	| opFLOAT_CAST expr
+	| opSTRING_CAST expr
+	| opARRAY_CAST expr
+	| opOBJECT_CAST expr
+	| opBOOLEAN_CAST expr
+	| opUNSET_CAST expr
+	| kwEXIT exit_expr
+	| opSILENCE expr
+	| scalar
+	| kwARRAY '(' array_pair_list ')'
+	| '`' encaps_list '`'
+	| kwPRINT expr
+;
+
+function_call:
+	IDENTIFIER '(' function_call_parameter_list ')'
+	| fully_qualified_class_name SCOPE_RESOLUTION IDENTIFIER '(' function_call_parameter_list ')'
+	| fully_qualified_class_name SCOPE_RESOLUTION variable_without_objects '('
+		function_call_parameter_list ')'
+	| variable_without_objects '(' function_call_parameter_list ')'
+;
+
+fully_qualified_class_name:
+	IDENTIFIER
+;
+
+class_name_reference:
+	IDENTIFIER
+	| dynamic_class_name_reference
+;
+
+dynamic_class_name_reference:
+	base_variable ARROW object_property dynamic_class_name_variable_properties
+	| base_variable
+;
+
+dynamic_class_name_variable_properties:
+	dynamic_class_name_variable_properties dynamic_class_name_variable_property
+	| /* empty */
+;
+
+dynamic_class_name_variable_property:
+	ARROW object_property
+;
+
+exit_expr:
+	/* empty */
+	| '(' ')'
+	| '(' expr ')'
+;
+
+ctor_arguments:
+	/* empty */
+	| '(' function_call_parameter_list ')'
+;
+
+common_scalar:
+	INTEGER_LITERAL
+	| FLOAT_LITERAL
+	| STRING_LITERAL
+	| CONST_LINE
+	| CONST_FILE
+	| CONST_CLASS
+	| CONST_METHOD
+	| CONST_FUNCTION
+;
+
+static_scalar: /* compile-time evaluated scalars */
+	common_scalar
+	| IDENTIFIER
+	| opPLUS static_scalar
+	| opMINUS static_scalar
+	| kwARRAY '(' static_array_pair_list ')'
+	| static_class_constant
+;
+
+static_class_constant:
+	IDENTIFIER SCOPE_RESOLUTION IDENTIFIER
+;
+
+scalar:
+	IDENTIFIER
+	| VARIABLE_NAME
+	| class_constant
+	| common_scalar
+	| '"' encaps_list '"'
+	| HEREDOC_START encaps_list HEREDOC_END
+;
+
+static_array_pair_list:
+	/* empty */
+	| non_empty_static_array_pair_list possible_comma
+;
+
+possible_comma:
+	/* empty */
+	| ','
+;
+
+non_empty_static_array_pair_list:
+	non_empty_static_array_pair_list ',' static_scalar opHASH_ARRAY static_scalar
+	| non_empty_static_array_pair_list ',' static_scalar
+	| static_scalar opHASH_ARRAY static_scalar
+	| static_scalar
+;
+
+expr:
+	variable //read
+	| expr_without_variable
+;
+
+variable:
+	base_variable_with_function_calls ARROW object_property method_or_not variable_properties
+	| base_variable_with_function_calls
+;
+
+variable_properties:
+	variable_properties variable_property
+	| /* empty */
+;
+
+variable_property:
+	ARROW object_property method_or_not
+;
+
+method_or_not:
+	'(' function_call_parameter_list ')'
+	| /* empty */
+;
+
+variable_without_objects:
+	reference_variable
+	| simple_indirect_reference reference_variable
+;
+
+static_member:
+	fully_qualified_class_name SCOPE_RESOLUTION variable_without_objects
+;
+
+base_variable_with_function_calls:
+	base_variable
+	| function_call
+;
+
+base_variable:
+	reference_variable
+	| simple_indirect_reference reference_variable
+	| static_member
+;
+
+reference_variable:
+	reference_variable '[' dim_offset ']'
+	| reference_variable '{' expr '}'
+	| compound_variable
+;
+
+compound_variable:
+	VARIABLE
+	| '$' '{' expr '}'
+;
+
+dim_offset:
+	/* empty */
+	| expr
+;
+
+object_property:
+	object_dim_list
+	| variable_without_objects
+;
+
+object_dim_list:
+	object_dim_list '[' dim_offset ']'
+	| object_dim_list '{' expr '}'
+	| variable_name
+;
+
+variable_name:
+	IDENTIFIER
+	| '{' expr '}'
+;
+
+simple_indirect_reference:
+	'$'
+	| simple_indirect_reference '$'
+;
+
+assignment_list:
+	assignment_list ',' assignment_list_element
+	| assignment_list_element
+;
+
+assignment_list_element:
+	variable
+	| kwLIST '(' assignment_list ')'
+	| /* empty */
+;
+
+array_pair_list:
+	/* empty */
+	| non_empty_array_pair_list possible_comma
+;
+
+non_empty_array_pair_list:
+	non_empty_array_pair_list ',' expr opHASH_ARRAY expr
+	| non_empty_array_pair_list ',' expr
+	| expr opHASH_ARRAY expr
+	| expr
+	| non_empty_array_pair_list ',' expr opHASH_ARRAY '&' variable //write
+	| non_empty_array_pair_list ',' '&' variable //write
+	| expr opHASH_ARRAY '&' variable //write
+	| '&' variable //write
+;
+
+encaps_list:
+	encaps_list encaps_var
+	| encaps_list HEREDOC_CONTENTS
+	| /* empty */
+
+;
+
+encaps_var:
+	VARIABLE
+	| VARIABLE '[' encaps_var_offset ']'
+	| VARIABLE ARROW IDENTIFIER
+	| DOLLAR_LBRACE expr '}'
+	| DOLLAR_LBRACE VARIABLE_NAME '[' expr ']' '}'
+	| chLBRACE variable '}'
+;
+
+encaps_var_offset:
+	IDENTIFIER
+	| VARIABLE_OFFSET_NUMBER
+	| VARIABLE
+;
+
+internal_functions_in_yacc:
+	kwISSET '(' isset_variables ')'
+	| kwEMPTY '(' variable ')'
+	| kwINCLUDE expr
+	| kwINCLUDE_ONCE expr
+	| kwEVAL '(' expr ')'
+	| kwREQUIRE expr
+	| kwREQUIRE_ONCE expr
+;
+
+isset_variables:
+	variable
+	| isset_variables ',' variable
+;
+
+class_constant:
+	fully_qualified_class_name SCOPE_RESOLUTION IDENTIFIER
+;

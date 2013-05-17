@@ -1,0 +1,18 @@
+
+<templates>
+  <template name="PHP file header" type="pattern"><![CDATA[<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ${USER}
+ * Date: ${DATE}
+ * Time: ${TIME}
+ * To change this template use File | Settings | File Templates.
+ */
+]]></template>
+  <template name="PHP file" type="template"><![CDATA[#parse("PHP file header.php")]]></template>
+  <template name="PHP class" type="template"><![CDATA[#parse("PHP file header.php")
+
+class ${NAME} {
+
+}]]></template>
+</templates>

@@ -1,0 +1,21 @@
+<?php
+$a+$b+$c;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Additive expression
+				Additive expression
+					Variable
+						PsiElement(variable)('$a')
+					PsiElement(plus)('+')
+					Variable
+						PsiElement(variable)('$b')
+				PsiElement(plus)('+')
+				Variable
+					PsiElement(variable)('$c')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

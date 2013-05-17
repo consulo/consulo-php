@@ -1,0 +1,9 @@
+<?php $a = !!$b ?>
+----------------------------
+php opening tag('<?php ')
+variable('$a')
+assign('=')
+not('!')
+not('!')
+variable('$b')
+php closing tag('?>')

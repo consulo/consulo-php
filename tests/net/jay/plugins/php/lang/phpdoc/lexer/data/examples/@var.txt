@@ -1,0 +1,22 @@
+/**
+ * example of documenting a variable's type
+ * @var string contains class1 information
+ */
+----------------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('example')
+DOC_IDENTIFIER('of')
+DOC_IDENTIFIER('documenting')
+DOC_IDENTIFIER('a')
+DOC_IDENTIFIER('variable')
+DOC_TEXT(''')
+DOC_IDENTIFIER('s')
+DOC_IDENTIFIER('type')
+DOC_LEADING_ASTERISK('*')
+DOC_TAG_NAME('@var')
+DOC_IDENTIFIER('string')
+DOC_IDENTIFIER('contains')
+DOC_IDENTIFIER('class1')
+DOC_IDENTIFIER('information')
+DOC_COMMENT_END('*/')

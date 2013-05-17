@@ -1,0 +1,68 @@
+<?php
+class A {
+  /**
+   * example of documenting a variable's type
+   * @var string contains class1 information
+   */
+  public $halo;
+}
+---------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Class
+			PsiElement(class)('class')
+			PsiWhiteSpace(' ')
+			PsiElement(identifier)('A')
+			PsiWhiteSpace(' ')
+			Extends list
+				<empty list>
+			Implements list
+				<empty list>
+			PsiElement({)('{')
+			PsiWhiteSpace('\n  ')
+			PhpDocComment
+				PsiElement(DOC_COMMENT_START)('/**')
+				PsiWhiteSpace('\n   ')
+				PsiElement(DOC_LEADING_ASTERISK)('*')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('example')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('of')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('documenting')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('a')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('variable')
+				PsiElement(DOC_TEXT)(''')
+				PsiElement(DOC_IDENTIFIER)('s')
+				PsiWhiteSpace(' ')
+				PsiElement(DOC_IDENTIFIER)('type')
+				PsiWhiteSpace('\n   ')
+				PsiElement(DOC_LEADING_ASTERISK)('*')
+				PsiWhiteSpace(' ')
+				PhpDocTag
+					PsiElement(DOC_TAG_NAME)('@var')
+					PsiWhiteSpace(' ')
+					PhpDocType
+						PsiElement(DOC_IDENTIFIER)('string')
+					PsiWhiteSpace(' ')
+					PhpDocTagValue
+						PsiElement(DOC_IDENTIFIER)('contains')
+						PsiWhiteSpace(' ')
+						PsiElement(DOC_IDENTIFIER)('class1')
+						PsiWhiteSpace(' ')
+						PsiElement(DOC_IDENTIFIER)('information')
+				PsiWhiteSpace('\n   ')
+				PsiElement(DOC_COMMENT_END)('*/')
+			PsiWhiteSpace('\n  ')
+			Class fields
+				Modifier list
+					PsiElement(public keyword)('public')
+				PsiWhiteSpace(' ')
+				Class field
+					PsiElement(variable)('$halo')
+			PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')

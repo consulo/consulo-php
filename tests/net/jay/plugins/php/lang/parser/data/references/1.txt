@@ -1,0 +1,16 @@
+<?php
+a();
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Function call
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				<empty list>
+			PsiElement())(')')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

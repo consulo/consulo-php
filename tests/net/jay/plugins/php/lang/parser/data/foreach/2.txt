@@ -1,0 +1,36 @@
+<?php
+foreach ($arr as $k => $value) {}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Foreach
+				PsiElement(foreach keyword)('foreach')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Variable
+					PsiElement(variable)('$arr')
+				PsiWhiteSpace(' ')
+				PsiElement(as)('as')
+				PsiWhiteSpace(' ')
+				Is reference
+					<empty list>
+				Variable
+					PsiElement(variable)('$k')
+				PsiWhiteSpace(' ')
+				PsiElement(hash)('=>')
+				PsiWhiteSpace(' ')
+				Is reference
+					<empty list>
+				Variable
+					PsiElement(variable)('$value')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

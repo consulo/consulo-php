@@ -1,0 +1,60 @@
+<?php
+if (1) {} elseif (1) {} else if (1) {} else {}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			If
+				PsiElement(if)('if')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Number
+					PsiElement(integer)('1')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+				PsiWhiteSpace(' ')
+				Elseif
+					PsiElement(elseif)('elseif')
+					PsiWhiteSpace(' ')
+					PsiElement(()('(')
+					Number
+						PsiElement(integer)('1')
+					PsiElement())(')')
+					PsiWhiteSpace(' ')
+					PsiElement({)('{')
+					Group statement
+						<empty list>
+					PsiElement(})('}')
+				PsiWhiteSpace(' ')
+				Else
+					PsiElement(else)('else')
+					PsiWhiteSpace(' ')
+					Statement
+						If
+							PsiElement(if)('if')
+							PsiWhiteSpace(' ')
+							PsiElement(()('(')
+							Number
+								PsiElement(integer)('1')
+							PsiElement())(')')
+							PsiWhiteSpace(' ')
+							PsiElement({)('{')
+							Group statement
+								<empty list>
+							PsiElement(})('}')
+							PsiWhiteSpace(' ')
+							Else
+								PsiElement(else)('else')
+								PsiWhiteSpace(' ')
+								PsiElement({)('{')
+								Group statement
+									<empty list>
+								PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

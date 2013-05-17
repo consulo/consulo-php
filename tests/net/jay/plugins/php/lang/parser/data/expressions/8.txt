@@ -1,0 +1,25 @@
+<?php
+$a = 10 and 10;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Literal logical expression
+				Assignment expression
+					Variable
+						PsiElement(variable)('$a')
+					PsiWhiteSpace(' ')
+					PsiElement(assign)('=')
+					PsiWhiteSpace(' ')
+					Number
+						PsiElement(integer)('10')
+				PsiWhiteSpace(' ')
+				PsiElement(literal and)('and')
+				PsiWhiteSpace(' ')
+				Number
+					PsiElement(integer)('10')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

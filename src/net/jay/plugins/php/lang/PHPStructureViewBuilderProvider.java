@@ -1,0 +1,36 @@
+package net.jay.plugins.php.lang;
+
+import com.intellij.ide.structureView.*;
+import com.intellij.ide.structureView.impl.StructureViewComposite;
+import com.intellij.ide.structureView.impl.TemplateLanguageStructureViewBuilder;
+import com.intellij.lang.PsiStructureViewFactory;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.psi.PsiFile;
+import net.jay.plugins.php.PHPBundle;
+import net.jay.plugins.php.lang.psi.PHPFile;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * @author Maxim.Mossienko
+ *         Date: 29.12.2008
+ *         Time: 22:56:06
+ */
+public class PHPStructureViewBuilderProvider implements PsiStructureViewFactory {
+  @Nullable
+  public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile) {
+    return new TemplateLanguageStructureViewBuilder(psiFile) {
+      protected StructureViewComposite.StructureViewDescriptor createMainView(final FileEditor fileEditor, final PsiFile mainFile) {
+        StructureView mainView = new TreeBasedStructureViewBuilder() {
+          @NotNull
+          public StructureViewModel createStructureViewModel() {
+            return new PHPStructureViewModel((PHPFile)mainFile);
+          }
+        }.createStructureView(fileEditor, mainFile.getProject());
+        return new StructureViewComposite.StructureViewDescriptor(PHPBundle.message("tab.structureview.view"), mainView, mainFile
+          .getFileType().getIcon());
+      }
+    };
+  }
+
+}

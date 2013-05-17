@@ -1,0 +1,17 @@
+<?php
+klass::$$field;
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Field reference
+			Class reference
+				PsiElement(identifier)('klass')
+			PsiElement(scope resolution)('::')
+			PsiElement(dollar)('$')
+			Variable
+				PsiElement(variable)('$field')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

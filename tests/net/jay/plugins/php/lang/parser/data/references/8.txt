@@ -1,0 +1,26 @@
+<?php
+$foo->{"f"."o"."o"};
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Field reference
+			Variable
+				PsiElement(variable)('$foo')
+			PsiElement(arrow)('->')
+			PsiElement({)('{')
+			Additive expression
+				Additive expression
+					String
+						PsiElement(string)('"f"')
+					PsiElement(dot)('.')
+					String
+						PsiElement(string)('"o"')
+				PsiElement(dot)('.')
+				String
+					PsiElement(string)('"o"')
+			PsiElement(})('}')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

@@ -1,0 +1,29 @@
+/**
+ * example of showing multiple possible return types
+ * @return int|string could be an int, could be a string
+ */
+--------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('example')
+DOC_IDENTIFIER('of')
+DOC_IDENTIFIER('showing')
+DOC_IDENTIFIER('multiple')
+DOC_IDENTIFIER('possible')
+DOC_IDENTIFIER('return')
+DOC_IDENTIFIER('types')
+DOC_LEADING_ASTERISK('*')
+DOC_TAG_NAME('@return')
+DOC_IDENTIFIER('int')
+DOC_PIPE('|')
+DOC_IDENTIFIER('string')
+DOC_IDENTIFIER('could')
+DOC_IDENTIFIER('be')
+DOC_IDENTIFIER('an')
+DOC_IDENTIFIER('int')
+DOC_TEXT(',')
+DOC_IDENTIFIER('could')
+DOC_IDENTIFIER('be')
+DOC_IDENTIFIER('a')
+DOC_IDENTIFIER('string')
+DOC_COMMENT_END('*/')

@@ -1,0 +1,82 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin url="http://idea-php.sourceforge.net">
+    <id>net.jay.plugins.php</id>
+    <name>PHP</name>
+    <description>
+        PHP support with refactoring
+    </description>
+    <version>α7</version>
+    <vendor email="a4blank@yahoo.com" logo="/net/jay/plugins/php/php.png" url="http://idea-php.sourceforge.net">Jay
+    </vendor>
+    <idea-version since-build="9164" until-build="9999"/>
+    <application-components>
+        <component>
+            <implementation-class>net.jay.plugins.php.PHPSupportApplicationComponent</implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.projectConfiguration.PhpModuleType</implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.projectConfiguration.PhpSdkType</implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.templates.PhpTemplatesLoader</implementation-class>
+        </component>
+    </application-components>
+    <project-components>
+        <component>
+            <implementation-class>net.jay.plugins.php.pom.PhpPomAspect</implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.highlighter.hierarchy.PhpHierarchyHighlightingPassFactory
+            </implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.psi.PhpPsiElementFactory</implementation-class>
+        </component>
+    </project-components>
+    <module-components>
+        <component>
+            <implementation-class>net.jay.plugins.php.lang.projectConfiguration.PhpModuleConfigurationEditorProvider
+            </implementation-class>
+        </component>
+        <component>
+            <implementation-class>net.jay.plugins.php.cache.PhpModuleCacheManager</implementation-class>
+        </component>
+    </module-components>
+    <!--<actions>
+      <action id="PhpGenerateGetterAction" class="net.jay.plugins.php.actions.generate.PhpGenerateGetterAction"
+              text="Getter" description="Generates getter">
+        <add-to-group group-id="GenerateGroup" anchor="first"/>
+      </action>
+    </actions>-->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
+        <gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>
+
+        <lang.parserDefinition language="PHP" implementationClass="net.jay.plugins.php.lang.parser.PHPParserDefinition"/>
+        <lang.commenter language="PHP" implementationClass="net.jay.plugins.php.lang.commenter.PHPCommenter"/>
+        <lang.findUsagesProvider language="PHP" implementationClass="net.jay.plugins.php.lang.findUsages.PhpFindUsagesProvider"/>
+        <lang.braceMatcher language="PHP" implementationClass="net.jay.plugins.php.lang.braceMatcher.PHPBraceMatcher"/>
+        <codeInsight.parameterInfo language="PHP"
+                               implementationClass="net.jay.plugins.php.lang.documentation.params.PhpParameterInfoHandler"/>
+
+        <syntaxHighlighter key="PHP" implementationClass="net.jay.plugins.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
+        <annotator language="PHP" implementationClass="net.jay.plugins.php.lang.annotator.PhpAnnotator"/>
+        <lang.fileViewProviderFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPFileViewProviderFactory"/>
+        <lang.psiStructureViewFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPStructureViewBuilderProvider"/>
+        <typedHandler implementation="net.jay.plugins.php.lang.PHPTypedHandler" />
+    </extensions>
+    <change-notes><![CDATA[
+	  <ul>
+	    <li>Rename refactoring</li>
+	    <li>Find usages</li>
+	    <li>Parameter info</li>
+	    <li>Fields resolve and completion</li>
+	    <li>Methods resolve and completion</li>
+	  </ul>
+      <p><b>IDEA8 version</b></p>
+      <span style="font-weight:normal">Rename refactoring only renames references which are resolved, so be careful.</span>
+	]]></change-notes>
+</idea-plugin>

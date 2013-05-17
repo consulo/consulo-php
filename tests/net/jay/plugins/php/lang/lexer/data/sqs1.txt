@@ -1,0 +1,8 @@
+<?php $v = 'a'; ?>
+-----------------
+php opening tag('<?php ')
+variable('$v')
+assign('=')
+single quoted string(''a'')
+semicolon(';')
+php closing tag('?>')

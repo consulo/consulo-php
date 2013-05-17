@@ -1,0 +1,29 @@
+<?php
+if (1):
+	$a;
+endif;
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			If
+				PsiElement(if)('if')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Number
+					PsiElement(integer)('1')
+				PsiElement())(')')
+				PsiElement(colon)(':')
+				PsiWhiteSpace('\n\t')
+				Group statement
+					Statement
+						Variable
+							PsiElement(variable)('$a')
+						PsiElement(semicolon)(';')
+				PsiWhiteSpace('\n')
+				PsiElement(endif)('endif')
+				PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

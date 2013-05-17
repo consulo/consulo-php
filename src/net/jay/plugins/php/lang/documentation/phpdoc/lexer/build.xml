@@ -1,0 +1,82 @@
+<!-- Use this build only with idea-flex.skeleton and with patched JFlex.jar -->
+<project name="Generate PhpDocFlexLexer" default="dist">
+	<property name="jflex.dir" value="../../../../../../../../../lib/jflex" />
+
+	<property name="lexer.dir" value="." />
+	<property name="lexer.file" value="${lexer.dir}/PhpDocFlexLexer.java" />
+	<property name="lexer.log" value="${lexer.dir}/PhpDocFlexLexer.log" />
+	<property name="lexer.source" value="${lexer.dir}/PhpDocFlexLexer.flex" />
+	<property name="lexer.skeleton" value="${jflex.dir}/idea-flex.skeleton" />
+	<property name="compiler.max.memory" value="256m" />
+	<property name="jflex.file" value="${jflex.dir}/lib/JFlex.jar" />
+
+	<target name="clean">
+		<delete file="${lexer.file}~" />
+		<delete file="${lexer.file}" />
+		<delete file="${lexer.log}" />
+	</target>
+
+	<target name="jflex" description="Generate PhpDocFlexLexer from flex" depends="clean">
+		<java jar="${jflex.file}" output="${lexer.log}" fork="true" maxmemory="${compiler.max.memory}">
+			<arg value="--charat" />
+			<arg value="-skel" />
+			<arg value="${lexer.skeleton}" />
+			<arg value="${lexer.source}" />
+		</java>
+
+		<!--<replace file="${lexer.file}">
+		<replacetoken><![CDATA[public void reset(CharSequence buffer, int start, int end,int initialState){
+    zzBuffer = buffer;
+    zzBufferArray = com.intellij.util.text.CharArrayUtil.fromSequenceWithoutCopying(buffer);
+    zzCurrentPos = zzMarkedPos = zzStartRead = start;
+    zzPushbackPos = 0;
+    zzAtEOF  = false;
+    zzAtBOL = true;
+    zzEndRead = end;
+    yybegin(initialState);
+  }
+]]></replacetoken>
+		<replacevalue><![CDATA[public void reset(CharSequence buffer, int start, int end,int initialState){
+    zzBuffer = buffer;
+    zzBufferArray = com.intellij.util.text.CharArrayUtil.fromSequenceWithoutCopying(buffer);
+    zzCurrentPos = zzMarkedPos = zzStartRead = start;
+    zzPushbackPos = 0;
+    zzAtEOF  = false;
+    zzAtBOL = true;
+    zzEndRead = end;
+    reset(initialState);
+  }
+
+]]></replacevalue>
+	</replace>
+		<replace file="${lexer.file}">
+		<replacetoken><![CDATA[public void reset(CharSequence buffer, int initialState){
+    zzBuffer = buffer;
+    zzBufferArray = null;
+    zzCurrentPos = zzMarkedPos = zzStartRead = 0;
+    zzPushbackPos = 0;
+    zzAtEOF = false;
+    zzAtBOL = true;
+    zzEndRead = buffer.length();
+    yybegin(initialState);
+  }
+]]></replacetoken>
+		<replacevalue><![CDATA[public void reset(CharSequence buffer, int initialState){
+    zzBuffer = buffer;
+    zzBufferArray = null;
+    zzCurrentPos = zzMarkedPos = zzStartRead = 0;
+    zzPushbackPos = 0;
+    zzAtEOF = false;
+    zzAtBOL = true;
+    zzEndRead = buffer.length();
+    reset(initialState);
+  }
+
+]]></replacevalue>
+	</replace>-->
+	</target>
+
+
+	<target name="dist" depends="clean, jflex" description="Generate PhpDocFlexLexer" />
+
+</project>

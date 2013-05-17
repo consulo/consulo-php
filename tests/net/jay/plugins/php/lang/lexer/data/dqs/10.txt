@@ -1,0 +1,10 @@
+<?php $v = "$a"; ?>
+-----------------
+php opening tag('<?php ')
+variable('$v')
+assign('=')
+double quote('"')
+variable('$a')
+double quote('"')
+semicolon(';')
+php closing tag('?>')

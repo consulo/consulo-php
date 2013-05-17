@@ -1,0 +1,10 @@
+<?php
+$a->array;
+?>
+------------------
+php opening tag('<?php\n')
+variable('$a')
+arrow('->')
+identifier('array')
+semicolon(';')
+php closing tag('?>')

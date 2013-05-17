@@ -1,0 +1,54 @@
+/**
+ * Short desc
+ *
+ * Long description first sentence starts here
+ * and continues on this line for a while
+ * finally concluding here at the end of
+ * this paragraph
+ *
+ * The blank line above denotes a paragraph break
+ */
+-------------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('Short')
+DOC_IDENTIFIER('desc')
+DOC_LEADING_ASTERISK('*')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('Long')
+DOC_IDENTIFIER('description')
+DOC_IDENTIFIER('first')
+DOC_IDENTIFIER('sentence')
+DOC_IDENTIFIER('starts')
+DOC_IDENTIFIER('here')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('and')
+DOC_IDENTIFIER('continues')
+DOC_IDENTIFIER('on')
+DOC_IDENTIFIER('this')
+DOC_IDENTIFIER('line')
+DOC_IDENTIFIER('for')
+DOC_IDENTIFIER('a')
+DOC_IDENTIFIER('while')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('finally')
+DOC_IDENTIFIER('concluding')
+DOC_IDENTIFIER('here')
+DOC_IDENTIFIER('at')
+DOC_IDENTIFIER('the')
+DOC_IDENTIFIER('end')
+DOC_IDENTIFIER('of')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('this')
+DOC_IDENTIFIER('paragraph')
+DOC_LEADING_ASTERISK('*')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('The')
+DOC_IDENTIFIER('blank')
+DOC_IDENTIFIER('line')
+DOC_IDENTIFIER('above')
+DOC_IDENTIFIER('denotes')
+DOC_IDENTIFIER('a')
+DOC_IDENTIFIER('paragraph')
+DOC_IDENTIFIER('break')
+DOC_COMMENT_END('*/')

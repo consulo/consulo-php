@@ -1,0 +1,52 @@
+/**
+ * @todo If we can detect that this requester had no session previously,
+ *       then why regenerate the id before the session has started?
+ *       Feedback wanted for:
+ //
+if (isset($_COOKIE[session_name()]) || (!use only cookies && isset($_REQUEST[session_name()]))) {
+    self::$_regenerateIdState = 1;
+} else {
+    self::$_regenerateIdState = -1;
+}
+//*/
+-----------------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_TAG_NAME('@todo')
+DOC_IDENTIFIER('If')
+DOC_IDENTIFIER('we')
+DOC_IDENTIFIER('can')
+DOC_IDENTIFIER('detect')
+DOC_IDENTIFIER('that')
+DOC_IDENTIFIER('this')
+DOC_IDENTIFIER('requester')
+DOC_IDENTIFIER('had')
+DOC_IDENTIFIER('no')
+DOC_IDENTIFIER('session')
+DOC_IDENTIFIER('previously')
+DOC_TEXT(',')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('then')
+DOC_IDENTIFIER('why')
+DOC_IDENTIFIER('regenerate')
+DOC_IDENTIFIER('the')
+DOC_IDENTIFIER('id')
+DOC_IDENTIFIER('before')
+DOC_IDENTIFIER('the')
+DOC_IDENTIFIER('session')
+DOC_IDENTIFIER('has')
+DOC_IDENTIFIER('started')
+DOC_TEXT('?')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('Feedback')
+DOC_IDENTIFIER('wanted')
+DOC_IDENTIFIER('for')
+DOC_TEXT(':')
+DOC_IGNORED('//')
+DOC_IGNORED('if (isset($_COOKIE[session_name()]) || (!use only cookies && isset($_REQUEST[session_name()]))) {')
+DOC_IGNORED('self::$_regenerateIdState = 1;')
+DOC_IGNORED('} else {')
+DOC_IGNORED('self::$_regenerateIdState = -1;')
+DOC_IGNORED('}')
+DOC_IGNORED('//')
+DOC_COMMENT_END('*/')

@@ -1,0 +1,17 @@
+<?php
+$klass::$field;
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Variable
+			PsiElement(variable)('$klass')
+		PsiErrorElement:Expected: semicolon
+			<empty list>
+		PsiElement(scope resolution)('::')
+		Variable
+			PsiElement(variable)('$field')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

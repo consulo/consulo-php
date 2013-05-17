@@ -1,0 +1,8 @@
+<?php $a + --$b ?>
+----------------------------
+php opening tag('<?php ')
+variable('$a')
+plus('+')
+decrement('--')
+variable('$b')
+php closing tag('?>')

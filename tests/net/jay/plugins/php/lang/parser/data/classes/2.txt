@@ -1,0 +1,46 @@
+<?php
+class A {
+  public $a = null;
+  public $b, $c;
+}
+-----------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Class
+			PsiElement(class)('class')
+			PsiWhiteSpace(' ')
+			PsiElement(identifier)('A')
+			PsiWhiteSpace(' ')
+			Extends list
+				<empty list>
+			Implements list
+				<empty list>
+			PsiElement({)('{')
+			PsiWhiteSpace('\n  ')
+			Class fields
+				Modifier list
+					PsiElement(public keyword)('public')
+				PsiWhiteSpace(' ')
+				Class field
+					PsiElement(variable)('$a')
+					PsiWhiteSpace(' ')
+					PsiElement(assign)('=')
+					PsiWhiteSpace(' ')
+					Constant
+						PsiElement(identifier)('null')
+			PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n  ')
+			Class fields
+				Modifier list
+					PsiElement(public keyword)('public')
+				PsiWhiteSpace(' ')
+				Class field
+					PsiElement(variable)('$b')
+				PsiElement(comma)(',')
+				PsiWhiteSpace(' ')
+				Class field
+					PsiElement(variable)('$c')
+			PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')

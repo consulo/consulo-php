@@ -1,0 +1,94 @@
+<?php
+/**
+ * @todo If we can detect that this requester had no session previously,
+ *       then why regenerate the id before the session has started?
+ *       Feedback wanted for:
+ //
+if (isset($_COOKIE[session_name()]) || (!use only cookies && isset($_REQUEST[session_name()]))) {
+    self::$_regenerateIdState = 1;
+} else {
+    self::$_regenerateIdState = -1;
+}
+//*/
+-----------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		PhpDocComment
+			PsiElement(DOC_COMMENT_START)('/**')
+			PsiWhiteSpace('\n ')
+			PsiElement(DOC_LEADING_ASTERISK)('*')
+			PsiWhiteSpace(' ')
+			PhpDocTag
+				PsiElement(DOC_TAG_NAME)('@todo')
+				PsiWhiteSpace(' ')
+				PhpDocTagValue
+					PsiElement(DOC_IDENTIFIER)('If')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('we')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('can')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('detect')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('that')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('this')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('requester')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('had')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('no')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('session')
+					PsiWhiteSpace(' ')
+					PsiElement(DOC_IDENTIFIER)('previously')
+					PsiElement(DOC_TEXT)(',')
+			PsiWhiteSpace('\n ')
+			PsiElement(DOC_LEADING_ASTERISK)('*')
+			PsiWhiteSpace('       ')
+			PsiElement(DOC_IDENTIFIER)('then')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('why')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('regenerate')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('the')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('id')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('before')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('the')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('session')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('has')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('started')
+			PsiElement(DOC_TEXT)('?')
+			PsiWhiteSpace('\n ')
+			PsiElement(DOC_LEADING_ASTERISK)('*')
+			PsiWhiteSpace('       ')
+			PsiElement(DOC_IDENTIFIER)('Feedback')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('wanted')
+			PsiWhiteSpace(' ')
+			PsiElement(DOC_IDENTIFIER)('for')
+			PsiElement(DOC_TEXT)(':')
+			PsiWhiteSpace('\n ')
+			PsiElement(DOC_IGNORED)('//')
+			PsiWhiteSpace('\n')
+			PsiElement(DOC_IGNORED)('if (isset($_COOKIE[session_name()]) || (!use only cookies && isset($_REQUEST[session_name()]))) {')
+			PsiWhiteSpace('\n    ')
+			PsiElement(DOC_IGNORED)('self::$_regenerateIdState = 1;')
+			PsiWhiteSpace('\n')
+			PsiElement(DOC_IGNORED)('} else {')
+			PsiWhiteSpace('\n    ')
+			PsiElement(DOC_IGNORED)('self::$_regenerateIdState = -1;')
+			PsiWhiteSpace('\n')
+			PsiElement(DOC_IGNORED)('}')
+			PsiWhiteSpace('\n')
+			PsiElement(DOC_IGNORED)('//')
+			PsiElement(DOC_COMMENT_END)('*/')

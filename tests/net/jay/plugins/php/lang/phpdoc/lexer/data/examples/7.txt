@@ -1,0 +1,13 @@
+/**
+ * Page-level DocBlock
+ yo yo yo
+ */
+-------------
+DOC_COMMENT_START('/**')
+DOC_LEADING_ASTERISK('*')
+DOC_IDENTIFIER('Page')
+DOC_TEXT('-')
+DOC_IDENTIFIER('level')
+DOC_IDENTIFIER('DocBlock')
+DOC_IGNORED('yo yo yo')
+DOC_COMMENT_END('*/')

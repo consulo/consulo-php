@@ -1,0 +1,11 @@
+<?php
+a()+1
+?>
+----------------------------
+php opening tag('<?php\n')
+identifier('a')
+(('(')
+)(')')
+plus('+')
+integer('1')
+php closing tag('?>')

@@ -1,0 +1,24 @@
+<?php $v = "a${a}"; ?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Assignment expression
+			Variable
+				PsiElement(variable)('$v')
+			PsiWhiteSpace(' ')
+			PsiElement(assign)('=')
+			PsiWhiteSpace(' ')
+			String
+				PsiElement(double quote)('"')
+				PsiElement(string)('a')
+				Variable
+					PsiElement(${)('${')
+					Variable name
+						Variable
+							PsiElement(variable name)('a')
+				PsiElement(})('}')
+				PsiElement(double quote)('"')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace(' ')
+		PsiElement(php closing tag)('?>')
