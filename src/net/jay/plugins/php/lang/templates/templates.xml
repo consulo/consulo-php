@@ -1,6 +1,5 @@
-
 <templates>
-  <template name="PHP file header" type="pattern"><![CDATA[<?php
+	<template name="PHP file header" type="pattern"><![CDATA[<?php
 /**
  * Created by IntelliJ IDEA.
  * User: ${USER}
@@ -9,8 +8,8 @@
  * To change this template use File | Settings | File Templates.
  */
 ]]></template>
-  <template name="PHP file" type="template"><![CDATA[#parse("PHP file header.php")]]></template>
-  <template name="PHP class" type="template"><![CDATA[#parse("PHP file header.php")
+	<template name="PHP file" type="template"><![CDATA[#parse("PHP file header.php")]]></template>
+	<template name="PHP class" type="template"><![CDATA[#parse("PHP file header.php")
 
 class ${NAME} {
 

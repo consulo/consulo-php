@@ -1,59 +1,69 @@
 package net.jay.plugins.php.cache;
 
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
-import net.jay.plugins.php.cache.psi.LightPhpFunction;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import net.jay.plugins.php.cache.psi.LightPhpClass;
+import net.jay.plugins.php.cache.psi.LightPhpFunction;
+import net.jay.plugins.php.cache.psi.LightPhpInterface;
 
 /**
  * @author jay
  * @date May 29, 2008 11:20:13 AM
  */
-public class IndexEntry {
+public class IndexEntry
+{
 
-  private List<LightPhpClass> classes = new ArrayList<LightPhpClass>();
+	private List<LightPhpClass> classes = new ArrayList<LightPhpClass>();
 
-  public void addClass(LightPhpClass klass) {
-    classes.add(klass);
-  }
+	public void addClass(LightPhpClass klass)
+	{
+		classes.add(klass);
+	}
 
-  public void removeClass(LightPhpClass klass) {
-    classes.remove(klass);
-  }
+	public void removeClass(LightPhpClass klass)
+	{
+		classes.remove(klass);
+	}
 
-  public List<LightPhpClass> getClasses() {
-    return classes;
-  }
+	public List<LightPhpClass> getClasses()
+	{
+		return classes;
+	}
 
-  private List<LightPhpInterface> interfaces = new ArrayList<LightPhpInterface>();
+	private List<LightPhpInterface> interfaces = new ArrayList<LightPhpInterface>();
 
-  public void addInterface(LightPhpInterface anInterface) {
-    interfaces.add(anInterface);
-  }
+	public void addInterface(LightPhpInterface anInterface)
+	{
+		interfaces.add(anInterface);
+	}
 
-  public void removeInterface(LightPhpInterface anInterface) {
-    interfaces.remove(anInterface);
-  }
+	public void removeInterface(LightPhpInterface anInterface)
+	{
+		interfaces.remove(anInterface);
+	}
 
-  public List<LightPhpInterface> getInterfaces() {
-    return interfaces;
-  }
+	public List<LightPhpInterface> getInterfaces()
+	{
+		return interfaces;
+	}
 
-  private List<LightPhpFunction> functions = new ArrayList<LightPhpFunction>();
+	private List<LightPhpFunction> functions = new ArrayList<LightPhpFunction>();
 
-  public void addFunction(LightPhpFunction function) {
-    functions.add(function);
-  }
+	public void addFunction(LightPhpFunction function)
+	{
+		functions.add(function);
+	}
 
-  public void removeFunction(LightPhpFunction function) {
-    functions.remove(function);
-  }
+	public void removeFunction(LightPhpFunction function)
+	{
+		functions.remove(function);
+	}
 
-  public List<LightPhpFunction> getFunctions() {
-    return functions;
-  }
+	public List<LightPhpFunction> getFunctions()
+	{
+		return functions;
+	}
 
   /*private List<RVirtualClass> myClasses = new ArrayList<RVirtualClass>();
   private List<RVirtualModule> myModules = new ArrayList<RVirtualModule>();

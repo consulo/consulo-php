@@ -1,29 +1,34 @@
 package net.jay.plugins.php.lang.parser.parsing.classes;
 
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
+import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
-import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 28.10.2007
  */
-public class ClassMemberModifiers implements PHPTokenTypes {
+public class ClassMemberModifiers implements PHPTokenTypes
+{
 
 	//	variable_modifiers:
 	//		non_empty_member_modifiers
 	//		| kwVAR
 	//	;
-	public static IElementType parseVariableModifiers(PHPPsiBuilder builder) {
-		if (!builder.compare(tsVARIABLE_MODIFIERS)) {
+	public static IElementType parseVariableModifiers(PHPPsiBuilder builder)
+	{
+		if(!builder.compare(tsVARIABLE_MODIFIERS))
+		{
 			return PHPElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker modifiers = builder.mark();
-		if (builder.compareAndEat(kwVAR)) {
+		if(builder.compareAndEat(kwVAR))
+		{
 			modifiers.done(PHPElementTypes.MODIFIER_LIST);
 			return PHPElementTypes.MODIFIER_LIST;
 		}
@@ -36,9 +41,11 @@ public class ClassMemberModifiers implements PHPTokenTypes {
 	//		/* empty */
 	//		| non_empty_member_modifiers
 	//	;
-	public static IElementType parseMethodModifiers(PHPPsiBuilder builder) {
+	public static IElementType parseMethodModifiers(PHPPsiBuilder builder)
+	{
 		PsiBuilder.Marker modifiers = builder.mark();
-		if (builder.compare(tsMODIFIERS)) {
+		if(builder.compare(tsMODIFIERS))
+		{
 			parseModifiers(builder);
 		}
 		modifiers.done(PHPElementTypes.MODIFIER_LIST);
@@ -58,11 +65,14 @@ public class ClassMemberModifiers implements PHPTokenTypes {
 	//		| kwABSTRACT
 	//		| kwFINAL
 	//	;
-	private static void parseModifiers(PHPPsiBuilder builder) {
-		if (!builder.compare(tsMODIFIERS)) {
+	private static void parseModifiers(PHPPsiBuilder builder)
+	{
+		if(!builder.compare(tsMODIFIERS))
+		{
 			builder.error(PHPParserErrors.expected("modifier"));
 		}
-		while (builder.compare(tsMODIFIERS)) {
+		while(builder.compare(tsMODIFIERS))
+		{
 			builder.advanceLexer();
 		}
 	}

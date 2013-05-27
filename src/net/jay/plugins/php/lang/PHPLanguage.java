@@ -9,10 +9,12 @@ import com.intellij.lang.xml.XMLLanguage;
  *
  * @author jay
  */
-public class PHPLanguage extends XMLLanguage {
+public class PHPLanguage extends XMLLanguage
+{
 
-    public PHPLanguage() {
-        super(PHPFileType.NAME);
-    }
+	public PHPLanguage()
+	{
+		super(PHPFileType.NAME);
+	}
 
 }

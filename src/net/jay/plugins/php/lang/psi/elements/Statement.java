@@ -7,6 +7,7 @@ package net.jay.plugins.php.lang.psi.elements;
  *
  * @author jay
  */
-public interface Statement extends PHPPsiElement {
+public interface Statement extends PHPPsiElement
+{
 
 }

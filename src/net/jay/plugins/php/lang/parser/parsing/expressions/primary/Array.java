@@ -1,21 +1,23 @@
 package net.jay.plugins.php.lang.parser.parsing.expressions.primary;
 
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import net.jay.plugins.php.lang.parser.parsing.calls.Variable;
+import net.jay.plugins.php.lang.parser.parsing.expressions.Expression;
+import net.jay.plugins.php.lang.parser.util.ListParsingHelper;
+import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
 import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
 import net.jay.plugins.php.lang.parser.util.ParserPart;
-import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
-import net.jay.plugins.php.lang.parser.util.ListParsingHelper;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
-import net.jay.plugins.php.lang.parser.parsing.expressions.Expression;
-import net.jay.plugins.php.lang.parser.parsing.calls.Variable;
-import com.intellij.psi.tree.IElementType;
+
 import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * @author jay
  * @time 20.12.2007 23:03:43
  */
-public class Array implements PHPTokenTypes {
+public class Array implements PHPTokenTypes
+{
 
 	//	array_pair_list:
 	//		/* empty */
@@ -33,57 +35,73 @@ public class Array implements PHPTokenTypes {
 	//		| '&' variable //write
 	//	;
 	//	kwARRAY '(' array_pair_list ')'
-	public static IElementType parse(PHPPsiBuilder builder) {
+	public static IElementType parse(PHPPsiBuilder builder)
+	{
 		PsiBuilder.Marker marker = builder.mark();
-		if (builder.compareAndEat(kwARRAY)) {
+		if(builder.compareAndEat(kwARRAY))
+		{
 			builder.match(chLPAREN);
-			ParserPart arrayItem = new ParserPart() {
-				public IElementType parse(PHPPsiBuilder builder) {
+			ParserPart arrayItem = new ParserPart()
+			{
+				public IElementType parse(PHPPsiBuilder builder)
+				{
 					PsiBuilder.Marker item = builder.mark();
-					if (builder.compareAndEat(opBIT_AND)) {
+					if(builder.compareAndEat(opBIT_AND))
+					{
 						IElementType result = Variable.parse(builder);
-						if (result == PHPElementTypes.EMPTY_INPUT) {
+						if(result == PHPElementTypes.EMPTY_INPUT)
+						{
 							builder.error(PHPParserErrors.expected("variable"));
 						}
 						item.done(PHPElementTypes.ARRAY_VALUE);
 						return PHPElementTypes.ARRAY_VALUE;
-					} else {
+					}
+					else
+					{
 						IElementType result = Expression.parse(builder);
-						if (result != PHPElementTypes.EMPTY_INPUT) {
-							if (builder.compare(opHASH_ARRAY)) {
+						if(result != PHPElementTypes.EMPTY_INPUT)
+						{
+							if(builder.compare(opHASH_ARRAY))
+							{
 								item.done(PHPElementTypes.ARRAY_KEY);
 								builder.advanceLexer();
 								item = builder.mark();
-								if (builder.compareAndEat(opBIT_AND)) {
+								if(builder.compareAndEat(opBIT_AND))
+								{
 									result = Variable.parse(builder);
-									if (result == PHPElementTypes.EMPTY_INPUT) {
+									if(result == PHPElementTypes.EMPTY_INPUT)
+									{
 										builder.error(PHPParserErrors.expected("variable"));
 									}
 									item.done(PHPElementTypes.ARRAY_VALUE);
 									return PHPElementTypes.ARRAY_VALUE;
-								} else {
+								}
+								else
+								{
 									result = Expression.parse(builder);
-									if (result == PHPElementTypes.EMPTY_INPUT) {
+									if(result == PHPElementTypes.EMPTY_INPUT)
+									{
 										builder.error(PHPParserErrors.expected("expression"));
 									}
 									item.done(PHPElementTypes.ARRAY_VALUE);
 									return PHPElementTypes.ARRAY_VALUE;
 								}
-							} else {
+							}
+							else
+							{
 								item.done(PHPElementTypes.ARRAY_VALUE);
 								return PHPElementTypes.ARRAY_VALUE;
 							}
-						} else {
+						}
+						else
+						{
 							item.drop();
 							return PHPElementTypes.EMPTY_INPUT;
 						}
 					}
 				}
 			};
-			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder,
-				arrayItem.parse(builder),
-				arrayItem,
-				true);
+			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, arrayItem.parse(builder), arrayItem, true);
 			builder.match(chRPAREN);
 			marker.done(PHPElementTypes.ARRAY);
 			return PHPElementTypes.ARRAY;

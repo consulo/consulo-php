@@ -7,9 +7,11 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 31.12.2007 3:44:46
  */
-public class PHPHTMLLexer extends LayeredLexer {
+public class PHPHTMLLexer extends LayeredLexer
+{
 
-	public PHPHTMLLexer() {
+	public PHPHTMLLexer()
+	{
 		super(new PHPHTMLMergingLexer());
 		registerLayer(new PHPFlexAdapter(), new IElementType[]{PHPStructuralTokenTypes.PHP_CODE});
 		registerLayer(new PHPFlexAdapter(), new IElementType[]{PHPStructuralTokenTypes.PHP_ECHO_CODE});

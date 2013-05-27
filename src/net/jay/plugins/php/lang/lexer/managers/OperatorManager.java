@@ -1,7 +1,8 @@
 package net.jay.plugins.php.lang.lexer.managers;
 
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.lexer.PHPFlexLexer;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.tree.IElementType;
 
@@ -12,7 +13,8 @@ import com.intellij.psi.tree.IElementType;
  *
  * @author jay
  */
-public class OperatorManager {
+public class OperatorManager
+{
 
 	private PHPFlexLexer lexer;
 	private CharSequence zzBuffer;
@@ -22,25 +24,32 @@ public class OperatorManager {
 	private boolean afterVariable;
 	private boolean afterArrow;
 
-	public OperatorManager(@NotNull final PHPFlexLexer lexer) {
+	public OperatorManager(@NotNull final PHPFlexLexer lexer)
+	{
 		this.lexer = lexer;
 		zzBuffer = lexer.getBuffer();
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		zzBuffer = lexer.getBuffer();
 	}
 
-	public IElementType process(IElementType type) {
-		if (PHPTokenTypes.tsWHITE_SPACE_OR_COMMENT.contains(type)) {
+	public IElementType process(IElementType type)
+	{
+		if(PHPTokenTypes.tsWHITE_SPACE_OR_COMMENT.contains(type))
+		{
 			return type;
 		}
 
 		afterArrow = PHPTokenTypes.ARROW == type;
 
-		if (afterVariable && PHPTokenTypes.tsUNARY_POSTFIX_OPS.contains(type)) {
+		if(afterVariable && PHPTokenTypes.tsUNARY_POSTFIX_OPS.contains(type))
+		{
 
-		} else {
+		}
+		else
+		{
 			afterOperator = PHPTokenTypes.tsOPERATORS.contains(type);
 		}
 		afterKeyword = PHPTokenTypes.tsKEYWORDS.contains(type);
@@ -49,13 +58,15 @@ public class OperatorManager {
 		return type;
 	}
 
-	public boolean unaryAllowed() {
+	public boolean unaryAllowed()
+	{
 		boolean unaryAllowed = afterOperator || afterKeyword || inStatementStart;
-//		System.out.println("asked for unary allowed: " + unaryAllowed);
+		//		System.out.println("asked for unary allowed: " + unaryAllowed);
 		return unaryAllowed;
 	}
 
-	public boolean isAfterArrow() {
+	public boolean isAfterArrow()
+	{
 		return afterArrow;
 	}
 }

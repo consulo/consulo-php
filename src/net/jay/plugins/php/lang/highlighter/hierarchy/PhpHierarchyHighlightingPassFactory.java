@@ -1,52 +1,61 @@
 package net.jay.plugins.php.lang.highlighter.hierarchy;
 
+import net.jay.plugins.php.lang.psi.PHPFile;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeHighlighting.TextEditorHighlightingPass;
 import com.intellij.codeHighlighting.TextEditorHighlightingPassFactory;
 import com.intellij.codeHighlighting.TextEditorHighlightingPassRegistrar;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
-import net.jay.plugins.php.lang.psi.PHPFile;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
  * @date Jun 25, 2008 12:03:27 AM
  */
-public class PhpHierarchyHighlightingPassFactory implements TextEditorHighlightingPassFactory {
-  
-  private final TextEditorHighlightingPassRegistrar registrar;
+public class PhpHierarchyHighlightingPassFactory implements TextEditorHighlightingPassFactory
+{
 
-  public PhpHierarchyHighlightingPassFactory(final TextEditorHighlightingPassRegistrar passRegistrar) {
-    registrar = passRegistrar;
-  }
+	private final TextEditorHighlightingPassRegistrar registrar;
 
-  @Nullable
-  public TextEditorHighlightingPass createHighlightingPass(final @Nullable PsiFile psiFile,
-                                                           @NotNull final Editor editor) {
-    if (psiFile instanceof PHPFile) {
-      return new PhpHierarchyHighlightingPass(psiFile.getProject(), editor, (PHPFile) psiFile);
-    }
-    return null;
-  }
+	public PhpHierarchyHighlightingPassFactory(final TextEditorHighlightingPassRegistrar passRegistrar)
+	{
+		registrar = passRegistrar;
+	}
 
-  public void projectOpened() {
-  }
+	@Nullable
+	public TextEditorHighlightingPass createHighlightingPass(final @Nullable PsiFile psiFile, @NotNull final Editor editor)
+	{
+		if(psiFile instanceof PHPFile)
+		{
+			return new PhpHierarchyHighlightingPass(psiFile.getProject(), editor, (PHPFile) psiFile);
+		}
+		return null;
+	}
 
-  public void projectClosed() {
-  }
+	public void projectOpened()
+	{
+	}
 
-  @NonNls
-  @NotNull
-  public String getComponentName() {
-    return "PhpSupport.PhpHierarchyHighlightingPassFactory";
-  }
+	public void projectClosed()
+	{
+	}
 
-  public void initComponent() {
-    registrar.registerTextEditorHighlightingPass(this, TextEditorHighlightingPassRegistrar.Anchor.LAST, 0, false, false);
-  }
+	@NonNls
+	@NotNull
+	public String getComponentName()
+	{
+		return "PhpSupport.PhpHierarchyHighlightingPassFactory";
+	}
 
-  public void disposeComponent() {
-  }
+	public void initComponent()
+	{
+		registrar.registerTextEditorHighlightingPass(this, TextEditorHighlightingPassRegistrar.Anchor.LAST, 0, false, false);
+	}
+
+	public void disposeComponent()
+	{
+	}
 }

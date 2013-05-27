@@ -1,22 +1,24 @@
 package net.jay.plugins.php.lang.parser.parsing.expressions.primary;
 
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
-import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.parser.parsing.calls.Variable;
+import net.jay.plugins.php.lang.parser.parsing.classes.StaticClassConstant;
 import net.jay.plugins.php.lang.parser.parsing.expressions.Expression;
 import net.jay.plugins.php.lang.parser.parsing.expressions.StaticScalar;
-import net.jay.plugins.php.lang.parser.parsing.classes.StaticClassConstant;
+import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
+import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
+import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import com.intellij.lang.PsiBuilder;
 
 /**
  * @author jay
  * @time 20.12.2007 21:45:27
  */
-public class Scalar implements PHPTokenTypes {
+public class Scalar implements PHPTokenTypes
+{
 
 	//	scalar:
 	//		IDENTIFIER
@@ -26,24 +28,29 @@ public class Scalar implements PHPTokenTypes {
 	//		| '"' encaps_list '"'
 	//		| HEREDOC_START encaps_list HEREDOC_END
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder) {
-		if (builder.compare(VARIABLE_NAME)) {
+	public static IElementType parse(PHPPsiBuilder builder)
+	{
+		if(builder.compare(VARIABLE_NAME))
+		{
 			PsiBuilder.Marker marker = builder.mark();
 			builder.advanceLexer();
 			marker.done(PHPElementTypes.VARIABLE);
 			return PHPElementTypes.VARIABLE;
 		}
 		IElementType result = StaticClassConstant.parse(builder);
-		if (result != PHPElementTypes.EMPTY_INPUT) {
+		if(result != PHPElementTypes.EMPTY_INPUT)
+		{
 			return result;
 		}
-		if (builder.compare(IDENTIFIER)) {
+		if(builder.compare(IDENTIFIER))
+		{
 			PsiBuilder.Marker marker = builder.mark();
 			builder.advanceLexer();
 			marker.done(PHPElementTypes.CONSTANT);
 			return PHPElementTypes.CONSTANT;
 		}
-		if (builder.compare(HEREDOC_START)) {
+		if(builder.compare(HEREDOC_START))
+		{
 			PsiBuilder.Marker marker = builder.mark();
 			builder.advanceLexer();
 			parseEncapsList(builder);
@@ -51,7 +58,8 @@ public class Scalar implements PHPTokenTypes {
 			marker.done(PHPElementTypes.HEREDOC);
 			return PHPElementTypes.HEREDOC;
 		}
-		if (builder.compare(chDOUBLE_QUOTE)) {
+		if(builder.compare(chDOUBLE_QUOTE))
+		{
 			PsiBuilder.Marker marker = builder.mark();
 			builder.advanceLexer();
 			parseEncapsList(builder);
@@ -60,7 +68,8 @@ public class Scalar implements PHPTokenTypes {
 			return PHPElementTypes.STRING;
 		}
 		result = StaticScalar.parseCommonScalar(builder);
-		if (result != PHPElementTypes.EMPTY_INPUT) {
+		if(result != PHPElementTypes.EMPTY_INPUT)
+		{
 			return result;
 		}
 		return PHPElementTypes.EMPTY_INPUT;
@@ -74,11 +83,15 @@ public class Scalar implements PHPTokenTypes {
 	//		| /* empty */
 	//
 	//	;
-	public static void parseEncapsList(PHPPsiBuilder builder) {
+	public static void parseEncapsList(PHPPsiBuilder builder)
+	{
 		TokenSet contents = TokenSet.create(HEREDOC_CONTENTS, STRING_LITERAL, EXEC_COMMAND);
-		while (true) {
-			if (!builder.compareAndEat(contents)) {
-				if (parseEncapsVar(builder) == PHPElementTypes.EMPTY_INPUT) {
+		while(true)
+		{
+			if(!builder.compareAndEat(contents))
+			{
+				if(parseEncapsVar(builder) == PHPElementTypes.EMPTY_INPUT)
+				{
 					break;
 				}
 			}
@@ -93,12 +106,16 @@ public class Scalar implements PHPTokenTypes {
 	//	| DOLLAR_LBRACE VARIABLE_NAME '[' expr ']' '}'
 	//	| chLBRACE variable '}'
 	//;
-	private static IElementType parseEncapsVar(PHPPsiBuilder builder) {
+	private static IElementType parseEncapsVar(PHPPsiBuilder builder)
+	{
 		PsiBuilder.Marker marker = builder.mark();
-		if (builder.compareAndEat(VARIABLE)) {
-			if (builder.compareAndEat(chLBRACKET)) {
+		if(builder.compareAndEat(VARIABLE))
+		{
+			if(builder.compareAndEat(chLBRACKET))
+			{
 				IElementType result = parseEncapsVarOffset(builder);
-				if (result == PHPElementTypes.EMPTY_INPUT) {
+				if(result == PHPElementTypes.EMPTY_INPUT)
+				{
 					builder.error(PHPParserErrors.expected("array index"));
 				}
 				builder.match(chRBRACKET);
@@ -106,7 +123,8 @@ public class Scalar implements PHPTokenTypes {
 				return PHPElementTypes.ARRAY;
 			}
 			marker.done(PHPElementTypes.VARIABLE);
-			if (builder.compareAndEat(ARROW)) {
+			if(builder.compareAndEat(ARROW))
+			{
 				marker = marker.precede();
 				builder.match(IDENTIFIER);
 				marker.done(PHPElementTypes.FIELD_REFERENCE);
@@ -114,40 +132,46 @@ public class Scalar implements PHPTokenTypes {
 			}
 			return PHPElementTypes.VARIABLE;
 		}
-		if (builder.compareAndEat(chLBRACE)) {
+		if(builder.compareAndEat(chLBRACE))
+		{
 			marker.drop();
 			IElementType result = Variable.parse(builder);
 			builder.match(chRBRACE);
 			return result;
 		}
-		if (builder.compareAndEat(DOLLAR_LBRACE)) {
-      PsiBuilder.Marker rollback = builder.mark();
-      if (builder.compareAndEat(VARIABLE_NAME) && builder.compare(chLBRACKET)) {
-        rollback.drop();
-        builder.match(chLBRACKET);
+		if(builder.compareAndEat(DOLLAR_LBRACE))
+		{
+			PsiBuilder.Marker rollback = builder.mark();
+			if(builder.compareAndEat(VARIABLE_NAME) && builder.compare(chLBRACKET))
+			{
+				rollback.drop();
+				builder.match(chLBRACKET);
 				PsiBuilder.Marker index = builder.mark();
 				IElementType result = Expression.parse(builder);
-				if (result == PHPElementTypes.EMPTY_INPUT) {
+				if(result == PHPElementTypes.EMPTY_INPUT)
+				{
 					builder.error(PHPParserErrors.expected("expression"));
 				}
 				index.done(PHPElementTypes.ARRAY_INDEX);
 				builder.match(chRBRACKET);
 				marker.done(PHPElementTypes.ARRAY);
-        builder.match(chRBRACE);
-        return PHPElementTypes.ARRAY;
+				builder.match(chRBRACE);
+				return PHPElementTypes.ARRAY;
 			}
-      rollback.rollbackTo();
-      PsiBuilder.Marker varname = builder.mark();
+			rollback.rollbackTo();
+			PsiBuilder.Marker varname = builder.mark();
 			IElementType result = Expression.parse(builder);
-			if (result == PHPElementTypes.EMPTY_INPUT) {
-        if (!builder.compareAndEat(VARIABLE_NAME)) {
-          builder.error(PHPParserErrors.expected("variable name"));
-        }
-      }
+			if(result == PHPElementTypes.EMPTY_INPUT)
+			{
+				if(!builder.compareAndEat(VARIABLE_NAME))
+				{
+					builder.error(PHPParserErrors.expected("variable name"));
+				}
+			}
 			varname.done(PHPElementTypes.VARIABLE_NAME);
 			marker.done(PHPElementTypes.VARIABLE);
-      builder.match(chRBRACE);
-      return PHPElementTypes.VARIABLE;
+			builder.match(chRBRACE);
+			return PHPElementTypes.VARIABLE;
 		}
 		marker.drop();
 		return PHPElementTypes.EMPTY_INPUT;
@@ -158,11 +182,15 @@ public class Scalar implements PHPTokenTypes {
 	//		| VARIABLE_OFFSET_NUMBER
 	//		| VARIABLE
 	//	;
-	private static IElementType parseEncapsVarOffset(PHPPsiBuilder builder) {
+	private static IElementType parseEncapsVarOffset(PHPPsiBuilder builder)
+	{
 		PsiBuilder.Marker marker = builder.mark();
-		if (!builder.compareAndEat(IDENTIFIER)) {
-			if (!builder.compareAndEat(VARIABLE_OFFSET_NUMBER)) {
-				if (!builder.compareAndEat(VARIABLE)) {
+		if(!builder.compareAndEat(IDENTIFIER))
+		{
+			if(!builder.compareAndEat(VARIABLE_OFFSET_NUMBER))
+			{
+				if(!builder.compareAndEat(VARIABLE))
+				{
 					marker.drop();
 					return PHPElementTypes.EMPTY_INPUT;
 				}

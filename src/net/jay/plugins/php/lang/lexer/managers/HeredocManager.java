@@ -9,7 +9,8 @@ import net.jay.plugins.php.lang.lexer.PHPFlexLexer;
  *
  * @author jay
  */
-public class HeredocManager extends ReadingManager {
+public class HeredocManager extends ReadingManager
+{
 
 	public static final int END_SEEN = 0;
 	public static final int SIMPLE_ESCAPE_SEEN = -1;
@@ -20,22 +21,26 @@ public class HeredocManager extends ReadingManager {
 	private String heredocID;
 	private static int myID = PHPFlexLexer.ST_START_HEREDOC;
 
-	public HeredocManager(PHPFlexLexer lexer, StatesManager manager) {
+	public HeredocManager(PHPFlexLexer lexer, StatesManager manager)
+	{
 		super(lexer);
 		stManager = manager;
 	}
 
-	public void startHeredoc() {
+	public void startHeredoc()
+	{
 		heredocID = lexer.yytext().toString().substring(3).trim();
 		stManager.toState(myID);
 	}
 
-	public String getHeredocID() {
+	public String getHeredocID()
+	{
 
 		return heredocID;
 	}
 
-	public int getHeredocEndLength() {
+	public int getHeredocEndLength()
+	{
 		return heredocID.length();
 	}
 
@@ -46,73 +51,94 @@ public class HeredocManager extends ReadingManager {
 	 * @param pos position to check
 	 * @return true if simple esc was found
 	 */
-	private boolean checkForSimpleEsc(final int pos) {
+	private boolean checkForSimpleEsc(final int pos)
+	{
 		char c0 = safeReadAt(pos);
 		char c1 = safeReadAt(pos + 1);
 		return c0 == '\\' && (c1 == '\'' || c1 == '"' || c1 == '\\');
 	}
 
-	private boolean checkForVariable(int pos) {
-		if (safeReadAt(pos - 1) == '\\') {
+	private boolean checkForVariable(int pos)
+	{
+		if(safeReadAt(pos - 1) == '\\')
+		{
 			return false;
 		}
-		if (safeReadAt(pos) == '$') {
+		if(safeReadAt(pos) == '$')
+		{
 			char nextChar = safeReadAt(pos + 1);
 			return (nextChar >= 'a' && nextChar <= 255) || nextChar == '_';
 		}
 		return false;
 	}
 
-	private boolean checkForExprSubtitution(int pos) {
-		if (safeReadAt(pos - 1) == '\\') {
+	private boolean checkForExprSubtitution(int pos)
+	{
+		if(safeReadAt(pos - 1) == '\\')
+		{
 			return false;
 		}
 		String s = safeReadStringAt(pos, 2);
 		return s.equals("{$");
 	}
 
-	private boolean checkForEndDelimiter(int pos) {
-		if (safeReadAt(pos) != '\n') {
+	private boolean checkForEndDelimiter(int pos)
+	{
+		if(safeReadAt(pos) != '\n')
+		{
 			return false;
 		}
 		String id = safeReadStringAt(pos + 1, heredocID.length());
-		if (!id.equals(heredocID)) {
+		if(!id.equals(heredocID))
+		{
 			return false;
 		}
 		int afterID = pos + 1 + heredocID.length();
-		if (safeReadAt(afterID) == '\n') {
+		if(safeReadAt(afterID) == '\n')
+		{
 			return true;
-		} else if (safeReadAt(afterID) == ';' && safeReadAt(afterID + 1) == '\n') {
+		}
+		else if(safeReadAt(afterID) == ';' && safeReadAt(afterID + 1) == '\n')
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 
-	public int eat() {
+	public int eat()
+	{
 		int pos = 0;
-		while (true) {
-// end seen
-			if (!canReadAt(pos) || checkForEndDelimiter(pos)) {
+		while(true)
+		{
+			// end seen
+			if(!canReadAt(pos) || checkForEndDelimiter(pos))
+			{
 				return pos > 0 ? pos : END_SEEN;
 			}
-// simple escape sequence
-			if (checkForSimpleEsc(pos)) {
+			// simple escape sequence
+			if(checkForSimpleEsc(pos))
+			{
 				return pos > 0 ? pos : SIMPLE_ESCAPE_SEEN;
 			}
-// expr subtitution
-			if (checkForExprSubtitution(pos)) {
+			// expr subtitution
+			if(checkForExprSubtitution(pos))
+			{
 				return pos > 0 ? pos : EXPR_SUBT_SEEN;
 			}
 
-			if (checkForVariable(pos)) {
+			if(checkForVariable(pos))
+			{
 				return pos > 0 ? pos : VARIABLE_SEEN;
 			}
 			pos++;
 		}
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		super.reset();
 	}
 }

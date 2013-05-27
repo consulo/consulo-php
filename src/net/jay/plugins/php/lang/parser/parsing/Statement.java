@@ -1,13 +1,14 @@
 package net.jay.plugins.php.lang.parser.parsing;
 
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.parser.parsing.expressions.Expression;
 import net.jay.plugins.php.lang.parser.parsing.statements.*;
 import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,9 +16,10 @@ import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
  * Date: 12.10.2007
  * Time: 11:44:18
  */
-public class Statement implements PHPTokenTypes {
+public class Statement implements PHPTokenTypes
+{
 
-  //	statement:
+	//	statement:
 	//		'{' statement_list '}'
 	//		| kwIF '(' expr ')' statement elseif_list else_single
 	//		| kwIF '(' expr ')' ':' statement_list new_elseif_list new_else_single kwENDIF ';'
@@ -52,27 +54,34 @@ public class Statement implements PHPTokenTypes {
 	//			non_empty_catch_clauses
 	//		| kwTHROW expr ';'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder) {
+	public static IElementType parse(PHPPsiBuilder builder)
+	{
 		//		'{' statement_list '}'
-		if (builder.compareAndEat(chLBRACE)) {
+		if(builder.compareAndEat(chLBRACE))
+		{
 			StatementList.parse(builder, chRBRACE);
 			builder.match(chRBRACE);
 			return PHPElementTypes.GROUP_STATEMENT;
 		}
 		//		HTML
-		if (builder.compare(TokenSet.create(HTML, PHP_CLOSING_TAG))) {
-      builder.compareAndEat(PHP_CLOSING_TAG);
-      PsiBuilder.Marker html = builder.mark();
-			if (builder.compareAndEat(HTML)) {
-			  html.done(PHPElementTypes.HTML);
-      } else {
-        html.drop();
-      }
-      builder.compareAndEat(TokenSet.create(PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG));
-      return PHPElementTypes.HTML;
+		if(builder.compare(TokenSet.create(HTML, PHP_CLOSING_TAG)))
+		{
+			builder.compareAndEat(PHP_CLOSING_TAG);
+			PsiBuilder.Marker html = builder.mark();
+			if(builder.compareAndEat(HTML))
+			{
+				html.done(PHPElementTypes.HTML);
+			}
+			else
+			{
+				html.drop();
+			}
+			builder.compareAndEat(TokenSet.create(PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG));
+			return PHPElementTypes.HTML;
 		}
 		//		';' /* empty statement */
-		if (builder.compare(opSEMICOLON)) {
+		if(builder.compare(opSEMICOLON))
+		{
 			PsiBuilder.Marker statement = builder.mark();
 			builder.advanceLexer();
 			statement.done(PHPElementTypes.STATEMENT);
@@ -80,9 +89,11 @@ public class Statement implements PHPTokenTypes {
 		}
 		IElementType result = parseStatementByKeyword(builder);
 		//		expr ';'
-		if (result == PHPElementTypes.EMPTY_INPUT) {
+		if(result == PHPElementTypes.EMPTY_INPUT)
+		{
 			result = Expression.parse(builder);
-			if (result != PHPElementTypes.EMPTY_INPUT && builder.getTokenType() != PHPTokenTypes.PHP_CLOSING_TAG) {
+			if(result != PHPElementTypes.EMPTY_INPUT && builder.getTokenType() != PHPTokenTypes.PHP_CLOSING_TAG)
+			{
 				builder.match(opSEMICOLON);
 			}
 		}
@@ -120,41 +131,43 @@ public class Statement implements PHPTokenTypes {
 	//			non_empty_catch_clauses
 	//		| kwTHROW expr ';'
 	//	;
-	private static IElementType parseStatementByKeyword(PHPPsiBuilder builder) {
-		if (!builder.compare(tsSTATEMENT_FIRST_TOKENS)) {
+	private static IElementType parseStatementByKeyword(PHPPsiBuilder builder)
+	{
+		if(!builder.compare(tsSTATEMENT_FIRST_TOKENS))
+		{
 			return PHPElementTypes.EMPTY_INPUT;
 		}
-		if (builder.compare(kwIF))
+		if(builder.compare(kwIF))
 			return IfStatement.parse(builder);
-		if (builder.compare(kwWHILE))
+		if(builder.compare(kwWHILE))
 			return WhileStatement.parse(builder);
-		if (builder.compare(kwDO))
+		if(builder.compare(kwDO))
 			return DoWhileStatement.parse(builder);
-		if (builder.compare(kwFOR))
+		if(builder.compare(kwFOR))
 			return ForStatement.parse(builder);
-		if (builder.compare(kwSWITCH))
+		if(builder.compare(kwSWITCH))
 			return SwitchStatement.parse(builder);
-		if (builder.compare(kwBREAK))
+		if(builder.compare(kwBREAK))
 			return BreakStatement.parse(builder);
-		if (builder.compare(kwCONTINUE))
+		if(builder.compare(kwCONTINUE))
 			return ContinueStatement.parse(builder);
-		if (builder.compare(kwRETURN))
+		if(builder.compare(kwRETURN))
 			return ReturnStatement.parse(builder);
-		if (builder.compare(kwGLOBAL))
+		if(builder.compare(kwGLOBAL))
 			return GlobalStatement.parse(builder);
-		if (builder.compare(kwSTATIC))
+		if(builder.compare(kwSTATIC))
 			return StaticStatement.parse(builder);
-		if (builder.compare(kwECHO))
+		if(builder.compare(kwECHO))
 			return EchoStatement.parse(builder);
-		if (builder.compare(kwUNSET))
+		if(builder.compare(kwUNSET))
 			return UnsetStatement.parse(builder);
-		if (builder.compare(kwFOREACH))
+		if(builder.compare(kwFOREACH))
 			return ForeachStatement.parse(builder);
-		if (builder.compare(kwDECLARE))
+		if(builder.compare(kwDECLARE))
 			return DeclareStatement.parse(builder);
-		if (builder.compare(kwTRY))
+		if(builder.compare(kwTRY))
 			return TryStatement.parse(builder);
-		if (builder.compare(kwTHROW))
+		if(builder.compare(kwTHROW))
 			return ThrowStatement.parse(builder);
 		return PHPElementTypes.EMPTY_INPUT;
 	}

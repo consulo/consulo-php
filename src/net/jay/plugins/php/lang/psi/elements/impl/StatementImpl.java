@@ -1,6 +1,7 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
 import net.jay.plugins.php.lang.psi.elements.Statement;
+
 import com.intellij.lang.ASTNode;
 
 /**
@@ -10,9 +11,11 @@ import com.intellij.lang.ASTNode;
  *
  * @author jay
  */
-public class StatementImpl extends PHPPsiElementImpl implements Statement {
+public class StatementImpl extends PHPPsiElementImpl implements Statement
+{
 
-	public StatementImpl(ASTNode node) {
+	public StatementImpl(ASTNode node)
+	{
 		super(node);
 	}
 }

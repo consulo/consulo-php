@@ -4,5 +4,6 @@ package net.jay.plugins.php.lang.psi.elements;
  * @author jay
  * @date Apr 4, 2008 2:03:33 PM
  */
-public interface SelfAssignmentExpression extends AssignmentExpression {
+public interface SelfAssignmentExpression extends AssignmentExpression
+{
 }

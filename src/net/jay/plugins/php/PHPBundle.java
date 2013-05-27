@@ -1,12 +1,11 @@
 package net.jay.plugins.php;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.PropertyKey;
-
-import java.util.ResourceBundle;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
+import java.util.ResourceBundle;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.PropertyKey;
 import com.intellij.CommonBundle;
 
 /**
@@ -16,21 +15,26 @@ import com.intellij.CommonBundle;
  *
  * @author jay
  */
-public class PHPBundle {
+public class PHPBundle
+{
 
 	private static Reference<ResourceBundle> ourBundle;
 
 	@NonNls
 	private static final String BUNDLE = "net.jay.plugins.php.PHPBundle";
 
-	public static String message(@PropertyKey(resourceBundle = BUNDLE)String key, Object... params) {
+	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params)
+	{
 		return CommonBundle.message(getBundle(), key, params);
 	}
 
-	private static ResourceBundle getBundle() {
+	private static ResourceBundle getBundle()
+	{
 		ResourceBundle bundle = null;
-		if (ourBundle != null) bundle = ourBundle.get();
-		if (bundle == null) {
+		if(ourBundle != null)
+			bundle = ourBundle.get();
+		if(bundle == null)
+		{
 			bundle = ResourceBundle.getBundle(BUNDLE);
 			ourBundle = new SoftReference<ResourceBundle>(bundle);
 		}

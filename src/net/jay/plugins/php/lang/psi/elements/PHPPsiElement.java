@@ -1,8 +1,8 @@
 package net.jay.plugins.php.lang.psi.elements;
 
-import com.intellij.psi.PsiElement;
-
 import java.util.List;
+
+import com.intellij.psi.PsiElement;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,12 +11,13 @@ import java.util.List;
  *
  * @author jay
  */
-public interface PHPPsiElement extends PsiElement {
-  PHPPsiElement getFirstPsiChild();
+public interface PHPPsiElement extends PsiElement
+{
+	PHPPsiElement getFirstPsiChild();
 
-  PHPPsiElement getNextPsiSibling();
+	PHPPsiElement getNextPsiSibling();
 
-  PHPPsiElement getPrevPsiSibling();
+	PHPPsiElement getPrevPsiSibling();
 
-  List<LightCopyContainer> getChildrenForCache();
+	List<LightCopyContainer> getChildrenForCache();
 }

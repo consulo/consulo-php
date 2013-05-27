@@ -1,10 +1,11 @@
 package net.jay.plugins.php.lang.lexer;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.psi.PHPElementType;
+
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +14,8 @@ import net.jay.plugins.php.lang.psi.PHPElementType;
  *
  * @author jay
  */
-public interface PHPTokenTypes extends PhpDocElementTypes {
+public interface PHPTokenTypes extends PhpDocElementTypes
+{
 
 	IElementType PHP_OPENING_TAG = new PHPElementType("php opening tag"); // <?php or <?
 	IElementType PHP_ECHO_OPENING_TAG = new PHPElementType("php echo opening tag"); // <?=
@@ -90,7 +92,7 @@ public interface PHPTokenTypes extends PhpDocElementTypes {
 	IElementType CONST_FILE = new PHPElementType("__FILE__ const");
 
 	IElementType LINE_COMMENT = new PHPElementType("line comment");
-//	IElementType DOC_COMMENT = new PHPElementType("doc comment");
+	//	IElementType DOC_COMMENT = new PHPElementType("doc comment");
 	IElementType C_STYLE_COMMENT = new PHPElementType("C style comment");
 	IElementType VARIABLE = new PHPElementType("variable");
 	IElementType VARIABLE_NAME = new PHPElementType("variable name"); // ???
@@ -111,8 +113,7 @@ public interface PHPTokenTypes extends PhpDocElementTypes {
 	IElementType HEREDOC_END = new PHPElementType("heredoc end");
 
 
-
-  IElementType chDOUBLE_QUOTE = new PHPElementType("double quote");
+	IElementType chDOUBLE_QUOTE = new PHPElementType("double quote");
 	IElementType chSINGLE_QUOTE = new PHPElementType("single quote");
 	IElementType chBACKTRICK = new PHPElementType("backtrick");
 	IElementType chLBRACE = new PHPElementType("{");
@@ -189,211 +190,82 @@ public interface PHPTokenTypes extends PhpDocElementTypes {
 	IElementType EXPR_SUBST_END = new PHPElementType("expression substitution end");
 
 
-	TokenSet tsPHP_OPENING_TAGS = TokenSet.create(
-		PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG
-	);
+	TokenSet tsPHP_OPENING_TAGS = TokenSet.create(PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG);
 
-	TokenSet tsSTATEMENT_PRIMARY = TokenSet.create(
-		kwIF, kwFOR, kwFOREACH, kwWHILE, kwDO,
-		kwBREAK, kwCONTINUE, kwECHO, kwGLOBAL, kwFUNCTION,
-		kwUNSET, kwSWITCH, kwTRY
+	TokenSet tsSTATEMENT_PRIMARY = TokenSet.create(kwIF, kwFOR, kwFOREACH, kwWHILE, kwDO, kwBREAK, kwCONTINUE, kwECHO, kwGLOBAL, kwFUNCTION, kwUNSET, kwSWITCH, kwTRY
 
 	);
 
-	TokenSet tsKEYWORDS = TokenSet.orSet(
-		tsSTATEMENT_PRIMARY,
-		TokenSet.create(
-			kwABSTACT, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS,
-			kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO,
-			kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR,
-			kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION,
-			kwEXIT, kwEXTENDS, kwFINAL, kwFUNCTION, kwGLOBAL,
-			kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, kwINTERFACE,
-			kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, kwPRIVATE,
-			kwPROTECTED, kwPUBLIC, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN,
-			kwSTATIC, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF
-		)
-	);
+	TokenSet tsKEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(kwABSTACT, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO, kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, kwFINAL, kwFUNCTION, kwGLOBAL, kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, kwINTERFACE, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, kwPRIVATE, kwPROTECTED, kwPUBLIC, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, kwSTATIC, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF));
 
-	TokenSet tsMATH_OPS = TokenSet.create(
-		opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM
-	);
+	TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM);
 
-	TokenSet tsBIT_OPS = TokenSet.create(
-		opBIT_AND, opBIT_NOT, opBIT_OR, opBIT_XOR, opSHIFT_LEFT, opSHIFT_RIGHT
-	);
+	TokenSet tsBIT_OPS = TokenSet.create(opBIT_AND, opBIT_NOT, opBIT_OR, opBIT_XOR, opSHIFT_LEFT, opSHIFT_RIGHT);
 
-	TokenSet tsASGN_OPS = TokenSet.create(
-		opAND_ASGN, opBIT_AND_ASGN, opBIT_OR_ASGN, opBIT_XOR_ASGN, opCONCAT_ASGN,
-		opMINUS_ASGN, opMUL_ASGN, opOR_ASGN, opPLUS_ASGN, opSHIFT_RIGHT_ASGN,
-		opSHIFT_LEFT_ASGN, opREM_ASGN, opASGN
-	);
+	TokenSet tsASGN_OPS = TokenSet.create(opAND_ASGN, opBIT_AND_ASGN, opBIT_OR_ASGN, opBIT_XOR_ASGN, opCONCAT_ASGN, opMINUS_ASGN, opMUL_ASGN, opOR_ASGN, opPLUS_ASGN, opSHIFT_RIGHT_ASGN, opSHIFT_LEFT_ASGN, opREM_ASGN, opASGN);
 
-	TokenSet tsCAST_OPS = TokenSet.create(
-		opINTEGER_CAST, opFLOAT_CAST, opBOOLEAN_CAST, opSTRING_CAST,
-		opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST
-	);
+	TokenSet tsCAST_OPS = TokenSet.create(opINTEGER_CAST, opFLOAT_CAST, opBOOLEAN_CAST, opSTRING_CAST, opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST);
 
-	TokenSet tsUNARY_PREFIX_OPS = TokenSet.orSet(
-		TokenSet.create(opNOT, opDECREMENT, opINCREMENT, opNEGATE, opBIT_NOT, opSILENCE, opUNARY_PLUS, kwNEW, kwPRINT),
-		tsCAST_OPS
-	);
+	TokenSet tsUNARY_PREFIX_OPS = TokenSet.orSet(TokenSet.create(opNOT, opDECREMENT, opINCREMENT, opNEGATE, opBIT_NOT, opSILENCE, opUNARY_PLUS, kwNEW, kwPRINT), tsCAST_OPS);
 
-	TokenSet tsUNARY_POSTFIX_OPS = TokenSet.create(
-		opDECREMENT, opINCREMENT
-	);
+	TokenSet tsUNARY_POSTFIX_OPS = TokenSet.create(opDECREMENT, opINCREMENT);
 
-	TokenSet tsUNARY_OPS = TokenSet.orSet(
-		tsUNARY_PREFIX_OPS,
-		tsUNARY_POSTFIX_OPS
-	);
+	TokenSet tsUNARY_OPS = TokenSet.orSet(tsUNARY_PREFIX_OPS, tsUNARY_POSTFIX_OPS);
 
 
+	TokenSet tsCOMPARE_OPS = TokenSet.create(opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL, opGREATER, opLESS, opGREATER_OR_EQUAL, opLESS_OR_EQUAL);
 
-	TokenSet tsCOMPARE_OPS = TokenSet.create(
-		opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL, opGREATER, opLESS,
-		opGREATER_OR_EQUAL, opLESS_OR_EQUAL
-	);
+	TokenSet tsLOGICAL_OPS = TokenSet.create(opAND, opOR);
 
-	TokenSet tsLOGICAL_OPS = TokenSet.create(
-		opAND, opOR
-	);
+	TokenSet tsTERNARY_OPS = TokenSet.create(opQUEST/*, opCOLON*/);
 
-	TokenSet tsTERNARY_OPS = TokenSet.create(
-		opQUEST/*, opCOLON*/
-	);
+	TokenSet tsBINARY_OPS = TokenSet.orSet(TokenSet.create(opLIT_AND, opLIT_OR, opLIT_XOR, opCONCAT, kwINSTANCEOF), tsASGN_OPS, tsBIT_OPS, tsCOMPARE_OPS, tsMATH_OPS, tsLOGICAL_OPS, tsTERNARY_OPS);
 
-	TokenSet tsBINARY_OPS = TokenSet.orSet(
-		TokenSet.create(
-			opLIT_AND, opLIT_OR, opLIT_XOR, opCONCAT, kwINSTANCEOF
-		),
-		tsASGN_OPS,
-		tsBIT_OPS,
-		tsCOMPARE_OPS,
-		tsMATH_OPS,
-		tsLOGICAL_OPS,
-		tsTERNARY_OPS
-	);
-
-	TokenSet tsOPERATORS = TokenSet.orSet(
-		tsBINARY_OPS,
-		tsUNARY_OPS
-	);
+	TokenSet tsOPERATORS = TokenSet.orSet(tsBINARY_OPS, tsUNARY_OPS);
 
 
+	TokenSet tsCOMMENTS = TokenSet.create(LINE_COMMENT, DOC_COMMENT, C_STYLE_COMMENT);
 
-	TokenSet tsCOMMENTS = TokenSet.create(
-		LINE_COMMENT, DOC_COMMENT, C_STYLE_COMMENT
-	);
+	TokenSet tsCONSTANTS = TokenSet.create(CONST_CLASS, CONST_FILE, CONST_FUNCTION, CONST_LINE, CONST_METHOD);
 
-	TokenSet tsCONSTANTS = TokenSet.create(
-		CONST_CLASS, CONST_FILE, CONST_FUNCTION, CONST_LINE, CONST_METHOD
-	);
+	TokenSet tsNUMBERS = TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL);
 
-	TokenSet tsNUMBERS = TokenSet.create(
-		INTEGER_LITERAL, FLOAT_LITERAL
-	);
+	TokenSet tsSTRINGS = TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE);
 
-  TokenSet tsSTRINGS = TokenSet.create(
-    STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE
-  );
+	TokenSet tsSTRING_EDGE = TokenSet.create(chDOUBLE_QUOTE, chSINGLE_QUOTE, chBACKTRICK);
 
-  TokenSet tsSTRING_EDGE = TokenSet.create(
-		chDOUBLE_QUOTE, chSINGLE_QUOTE, chBACKTRICK
-	);
+	TokenSet tsEXPR_SUBST_MARKS = TokenSet.create(EXPR_SUBST_BEGIN, EXPR_SUBST_END);
 
-	TokenSet tsEXPR_SUBST_MARKS = TokenSet.create(
-		EXPR_SUBST_BEGIN, EXPR_SUBST_END
-	);
+	TokenSet tsOPENING_BRACKETS = TokenSet.create(chLBRACE, chLBRACKET, chLPAREN);
 
-	TokenSet tsOPENING_BRACKETS = TokenSet.create(
-		chLBRACE, chLBRACKET, chLPAREN
-	);
+	TokenSet tsCLOSING_BRACKETS = TokenSet.create(chRBRACE, chRBRACKET, chRPAREN);
 
-	TokenSet tsCLOSING_BRACKETS = TokenSet.create(
-		chRBRACE, chRBRACKET, chRPAREN
-	);
+	TokenSet tsBRACKETS = TokenSet.orSet(tsOPENING_BRACKETS, tsCLOSING_BRACKETS);
 
-	TokenSet tsBRACKETS = TokenSet.orSet(
-		tsOPENING_BRACKETS, tsCLOSING_BRACKETS
-	);
+	TokenSet tsWHITE_SPACE_OR_COMMENT = TokenSet.create(DOC_COMMENT, C_STYLE_COMMENT, LINE_COMMENT, WHITE_SPACE);
 
-	TokenSet tsWHITE_SPACE_OR_COMMENT = TokenSet.create(
-		DOC_COMMENT, C_STYLE_COMMENT, LINE_COMMENT, WHITE_SPACE
-	);
+	TokenSet tsREFERENCE_FIRST_TOKENS = TokenSet.create(VARIABLE, IDENTIFIER, DOLLAR);
 
-	TokenSet tsREFERENCE_FIRST_TOKENS = TokenSet.create(
-		VARIABLE,
-		IDENTIFIER,
-		DOLLAR
-	);
+	TokenSet tsOPERAND_FIRST_TOKENS = TokenSet.orSet(tsREFERENCE_FIRST_TOKENS, tsCONSTANTS, tsNUMBERS, tsSTRING_EDGE, TokenSet.create(kwARRAY, kwEMPTY, kwEXIT, kwISSET));
 
-	TokenSet tsOPERAND_FIRST_TOKENS = TokenSet.orSet(
-		tsREFERENCE_FIRST_TOKENS,
-		tsCONSTANTS,
-		tsNUMBERS,
-		tsSTRING_EDGE,
-		TokenSet.create(kwARRAY, kwEMPTY, kwEXIT, kwISSET)
-	);
+	TokenSet tsPRIMARY_TOKENS = TokenSet.orSet(tsOPERAND_FIRST_TOKENS, tsUNARY_OPS, TokenSet.create(chLPAREN));
 
-	TokenSet tsPRIMARY_TOKENS = TokenSet.orSet(
-		tsOPERAND_FIRST_TOKENS,
-		tsUNARY_OPS,
-		TokenSet.create(chLPAREN)
-	);
+	TokenSet tsTERMINATOR = TokenSet.create(opSEMICOLON, PHP_CLOSING_TAG);
 
-	TokenSet tsTERMINATOR = TokenSet.create(
-		opSEMICOLON,
-		PHP_CLOSING_TAG
-	);
+	TokenSet tsHEREDOC_IDS = TokenSet.create(HEREDOC_START, HEREDOC_END);
 
-	TokenSet tsHEREDOC_IDS = TokenSet.create(
-		HEREDOC_START,
-		HEREDOC_END
-	);
+	TokenSet tsCOMMON_SCALARS = TokenSet.orSet(tsCONSTANTS, tsNUMBERS, TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE));
 
-	TokenSet tsCOMMON_SCALARS = TokenSet.orSet(
-		tsCONSTANTS,
-		tsNUMBERS,
-		TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE)
-	);
+	TokenSet tsJUNKS = TokenSet.create(HTML, PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG);
 
-	TokenSet tsJUNKS = TokenSet.create(
-		HTML, PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG
-	);
+	TokenSet tsMODIFIERS = TokenSet.create(kwPRIVATE, kwPROTECTED, kwPUBLIC, kwABSTACT, kwFINAL, kwSTATIC);
 
-	TokenSet tsMODIFIERS = TokenSet.create(
-		kwPRIVATE, kwPROTECTED, kwPUBLIC,
-		kwABSTACT, kwFINAL, kwSTATIC
-	);
+	TokenSet tsVARIABLE_MODIFIERS = TokenSet.orSet(tsMODIFIERS, TokenSet.create(kwVAR));
 
-	TokenSet tsVARIABLE_MODIFIERS = TokenSet.orSet(
-		tsMODIFIERS, TokenSet.create(kwVAR)
-	);
+	TokenSet tsEXPRESSION_FIRST_TOKENS = TokenSet.orSet(tsCOMMON_SCALARS, tsCAST_OPS, TokenSet.create(kwPRINT, kwARRAY, kwEXIT, kwREQUIRE, kwREQUIRE_ONCE, kwINCLUDE, kwINCLUDE_ONCE, kwEVAL, kwEMPTY, kwISSET, kwNEW, kwCLONE, kwLIST), TokenSet.create(VARIABLE, VARIABLE_NAME, DOLLAR, IDENTIFIER, opINCREMENT, opDECREMENT, opPLUS, opMINUS, opNOT, opBIT_NOT, opSILENCE, chLPAREN, chDOUBLE_QUOTE, chBACKTRICK, HEREDOC_START));
 
-	TokenSet tsEXPRESSION_FIRST_TOKENS = TokenSet.orSet(
-		tsCOMMON_SCALARS,
-		tsCAST_OPS,
-		TokenSet.create(
-			kwPRINT, kwARRAY, kwEXIT, kwREQUIRE, kwREQUIRE_ONCE, kwINCLUDE, kwINCLUDE_ONCE,
-			kwEVAL, kwEMPTY, kwISSET, kwNEW, kwCLONE, kwLIST
-		),
-		TokenSet.create(
-			VARIABLE, VARIABLE_NAME, DOLLAR, IDENTIFIER,
-			opINCREMENT, opDECREMENT, opPLUS, opMINUS, opNOT, opBIT_NOT, opSILENCE,
-			chLPAREN, chDOUBLE_QUOTE, chBACKTRICK, HEREDOC_START
-		)
-	);
-
-	TokenSet tsSTATEMENT_FIRST_TOKENS = TokenSet.create(
-		kwIF, kwWHILE, kwDO, kwFOR, kwSWITCH, kwBREAK, kwCONTINUE,
-		kwRETURN, kwGLOBAL, kwSTATIC, kwECHO, kwUNSET, kwFOREACH,
-		kwDECLARE, kwTRY, kwTHROW
-	);
+	TokenSet tsSTATEMENT_FIRST_TOKENS = TokenSet.create(kwIF, kwWHILE, kwDO, kwFOR, kwSWITCH, kwBREAK, kwCONTINUE, kwRETURN, kwGLOBAL, kwSTATIC, kwECHO, kwUNSET, kwFOREACH, kwDECLARE, kwTRY, kwTHROW);
 
 
-	TokenSet ASSIGNABLE = TokenSet.create(
-		PHPElementTypes.VARIABLE, PHPElementTypes.ARRAY,
-		PHPElementTypes.FIELD_REFERENCE
-	);
+	TokenSet ASSIGNABLE = TokenSet.create(PHPElementTypes.VARIABLE, PHPElementTypes.ARRAY, PHPElementTypes.FIELD_REFERENCE);
 }

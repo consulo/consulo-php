@@ -1,19 +1,21 @@
 package net.jay.plugins.php.lang.parser.util;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import net.jay.plugins.php.PHPBundle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.HashSet;
+
+import net.jay.plugins.php.PHPBundle;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 
 /**
  * @author markov
  * @date 14.10.2007
  */
-public class PHPParserErrors {
+public class PHPParserErrors
+{
 
 	private static final String EXPECTED_MESSAGE = PHPBundle.message("parsing.message.expected");
 	private static final String UNEXPECTED_MESSAGE = PHPBundle.message("parsing.message.unexpected");
@@ -22,57 +24,70 @@ public class PHPParserErrors {
 	private static HashMap<TokenSet, String> errorCache = new HashMap<TokenSet, String>();
 
 	@NotNull
-	public static String expected(String s) {
+	public static String expected(String s)
+	{
 		return EXPECTED_MESSAGE + " " + s;
 	}
 
 	@NotNull
-	private static String unexpected(String s) {
+	private static String unexpected(String s)
+	{
 		return UNEXPECTED_MESSAGE + " " + s;
 	}
 
 	@NotNull
-	public static String expected(IElementType type) {
+	public static String expected(IElementType type)
+	{
 		return expected(getPresentableName(type));
 	}
 
 	@Nullable
-	private static String getPresentableName(final IElementType type) {
+	private static String getPresentableName(final IElementType type)
+	{
 		return type.toString();
 	}
 
 	@NotNull
-	public static String unexpected(IElementType type) {
+	public static String unexpected(IElementType type)
+	{
 		return unexpected(getPresentableName(type));
 	}
 
 	@NotNull
-	public static String expected(TokenSet types) {
+	public static String expected(TokenSet types)
+	{
 		return EXPECTED_MESSAGE + " " + setToString(types);
 	}
 
 	@NotNull
-	public static String unexpected(TokenSet types) {
+	public static String unexpected(TokenSet types)
+	{
 		return UNEXPECTED_MESSAGE + " " + setToString(types);
 	}
 
 	@NotNull
-	private static String setToString(@NotNull final TokenSet set) {
+	private static String setToString(@NotNull final TokenSet set)
+	{
 		final String cachedString = errorCache.get(set);
-		if (cachedString != null) {
+		if(cachedString != null)
+		{
 			return cachedString;
 		}
 
 		// stringSet used for not to add tokens with similar text, tCOLON2 and tCOLON3 for example!
 		final HashSet<String> stringSet = new HashSet<String>();
 		final StringBuilder buffer = new StringBuilder();
-		for (IElementType myToken : set.getTypes()) {
+		for(IElementType myToken : set.getTypes())
+		{
 			final String tokenText = getPresentableName(myToken);
-			if (tokenText == null || tokenText.length() == 0) {
+			if(tokenText == null || tokenText.length() == 0)
+			{
 				continue;
 			}
-			if (!stringSet.contains(tokenText)) {
-				if (buffer.length() != 0) {
+			if(!stringSet.contains(tokenText))
+			{
+				if(buffer.length() != 0)
+				{
 					buffer.append(" or ");
 				}
 				stringSet.add(tokenText);

@@ -1,12 +1,12 @@
 package net.jay.plugins.php.lang.parser.util;
 
 import com.intellij.psi.tree.IElementType;
-import com.intellij.lang.PsiBuilder;
 
 /**
  * @author jay
  */
-public interface ParserPart {
+public interface ParserPart
+{
 
 	/**
 	 * Parses some part of BNF tree

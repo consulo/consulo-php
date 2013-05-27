@@ -1,12 +1,13 @@
 package net.jay.plugins.php.lang.parser.parsing.functions;
 
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.parser.parsing.StatementList;
 import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
 import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,20 +15,24 @@ import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
  * Date: 12.10.2007
  * Time: 11:44:29
  */
-public class Function implements PHPTokenTypes {
+public class Function implements PHPTokenTypes
+{
 
 	//	function_declaration_statement:
 	//		kwFUNCTION is_reference IDENTIFIER '(' parameter_list ')'
 	//			'{' statement_list '}'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder) {
-		if (!builder.compare(kwFUNCTION)) {
+	public static IElementType parse(PHPPsiBuilder builder)
+	{
+		if(!builder.compare(kwFUNCTION))
+		{
 			return PHPElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker function = builder.mark();
 		builder.advanceLexer();
 		IsReference.parse(builder);
-		if (!builder.compareAndEat(IDENTIFIER)) {
+		if(!builder.compareAndEat(IDENTIFIER))
+		{
 			builder.error(PHPParserErrors.expected("function name"));
 		}
 		builder.match(chLPAREN);

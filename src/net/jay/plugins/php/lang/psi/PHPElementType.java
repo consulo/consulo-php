@@ -1,8 +1,9 @@
 package net.jay.plugins.php.lang.psi;
 
-import com.intellij.psi.tree.IElementType;
 import net.jay.plugins.php.lang.PHPFileType;
+
 import org.jetbrains.annotations.NonNls;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,9 +12,11 @@ import org.jetbrains.annotations.NonNls;
  *
  * @author jay
  */
-public class PHPElementType extends IElementType {
+public class PHPElementType extends IElementType
+{
 
-	public PHPElementType(@NonNls String debugName) {
+	public PHPElementType(@NonNls String debugName)
+	{
 		super(debugName, PHPFileType.PHP.getLanguage());
 	}
 }

@@ -1,7 +1,5 @@
 package net.jay.plugins.php.lang.parser.parsing.functions;
 
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.parser.parsing.classes.ClassReference;
@@ -11,11 +9,15 @@ import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
 import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
 import net.jay.plugins.php.lang.parser.util.ParserPart;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+
 /**
  * @author markov
  * @date 14.10.2007
  */
-public class ParameterList implements PHPTokenTypes {
+public class ParameterList implements PHPTokenTypes
+{
 
 	//	parameter_list:
 	//		non_empty_parameter_list
@@ -23,7 +25,8 @@ public class ParameterList implements PHPTokenTypes {
 	//	;
 	//
 
-	public static IElementType parse(PHPPsiBuilder builder) {
+	public static IElementType parse(PHPPsiBuilder builder)
+	{
 		PsiBuilder.Marker parameterList = builder.mark();
 		ParserPart parameterParser = new Parameter();
 		int result = ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, parameterParser.parse(builder), parameterParser, false);
@@ -57,22 +60,28 @@ public class ParameterList implements PHPTokenTypes {
 			optional_class_type [opBIT_AND] VARIABLE [opASGN static_scalar]
 		;
 	 */
-	private static class Parameter implements ParserPart {
+	private static class Parameter implements ParserPart
+	{
 
-		public IElementType parse(PHPPsiBuilder builder) {
+		public IElementType parse(PHPPsiBuilder builder)
+		{
 			PsiBuilder.Marker parameter = builder.mark();
-			if (ClassReference.parse(builder) == PHPElementTypes.EMPTY_INPUT) {
+			if(ClassReference.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+			{
 				builder.compareAndEat(kwARRAY);
 			}
 			builder.compareAndEat(opBIT_AND);
-			if (!builder.compareAndEat(VARIABLE)) {
+			if(!builder.compareAndEat(VARIABLE))
+			{
 				parameter.rollbackTo();
 				return PHPElementTypes.EMPTY_INPUT;
 			}
-			if (builder.compare(opASGN)) {
+			if(builder.compare(opASGN))
+			{
 				PsiBuilder.Marker defaultValue = builder.mark();
 				builder.advanceLexer();
-				if (StaticScalar.parse(builder) == PHPElementTypes.EMPTY_INPUT) {
+				if(StaticScalar.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+				{
 					builder.error(PHPParserErrors.expected("default value"));
 				}
 				defaultValue.done(PHPElementTypes.PARAMETER_DEFAULT_VALUE);

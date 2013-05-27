@@ -1,13 +1,15 @@
 package net.jay.plugins.php.lang.lexer;
 
-import com.intellij.psi.tree.IElementType;
 import net.jay.plugins.php.lang.psi.PHPElementType;
+
+import com.intellij.psi.tree.IElementType;
 
 /**
  * @author jay
  * @time 31.12.2007 3:48:05
  */
-public interface PHPStructuralTokenTypes {
+public interface PHPStructuralTokenTypes
+{
 
 	IElementType PHP_CODE = new PHPElementType("PHP_CODE");
 	IElementType PHP_ECHO_CODE = new PHPElementType("PHP_ECHO_CODE");

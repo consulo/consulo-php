@@ -11,8 +11,10 @@ import com.intellij.psi.PsiManager;
  *         Date: 29.12.2008
  *         Time: 22:56:06
  */
-public class PHPFileViewProviderFactory implements FileViewProviderFactory {
-  public FileViewProvider createFileViewProvider(final VirtualFile file, final Language language, final PsiManager manager, final boolean physical) {
-    return new PHPFileViewProvider(manager, file, physical);
-  }
+public class PHPFileViewProviderFactory implements FileViewProviderFactory
+{
+	public FileViewProvider createFileViewProvider(final VirtualFile file, final Language language, final PsiManager manager, final boolean physical)
+	{
+		return new PHPFileViewProvider(manager, file, physical);
+	}
 }

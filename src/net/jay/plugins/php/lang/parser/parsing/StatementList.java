@@ -1,14 +1,15 @@
 package net.jay.plugins.php.lang.parser.parsing;
 
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import net.jay.plugins.php.lang.parser.parsing.classes.ClassDeclaration;
+import net.jay.plugins.php.lang.parser.parsing.functions.Function;
+import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
+import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
-import net.jay.plugins.php.lang.parser.parsing.functions.Function;
-import net.jay.plugins.php.lang.parser.parsing.classes.ClassDeclaration;
-import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
-import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +17,8 @@ import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
  * Date: 12.10.2007
  * Time: 10:31:27
  */
-public class StatementList {
+public class StatementList
+{
 
 	//	statement_list:
 	//		statement_list top_statement
@@ -28,29 +30,37 @@ public class StatementList {
 	//		| function_declaration_statement
 	//		| class_declaration_statement
 	//	;
-	public static void parse(PHPPsiBuilder builder, IElementType ... endDelimeters) {
+	public static void parse(PHPPsiBuilder builder, IElementType... endDelimeters)
+	{
 		parse(builder, TokenSet.create(endDelimeters));
 	}
 
-	private static void parse(PHPPsiBuilder builder, TokenSet whereToStop) {
+	private static void parse(PHPPsiBuilder builder, TokenSet whereToStop)
+	{
 		PsiBuilder.Marker statementList = builder.mark();
 
-		if (!whereToStop.contains(builder.getTokenType())) {
+		if(!whereToStop.contains(builder.getTokenType()))
+		{
 			int previous;
-			while (true) {
+			while(true)
+			{
 				previous = builder.getCurrentOffset();
-				if (!parseTopStatement(builder)) {
-          final IElementType tokenType = builder.getTokenType();
-          if (tokenType != null) {
-            builder.error("Unexpected token: " + tokenType);
-            builder.advanceLexer();
-          }
-        }
+				if(!parseTopStatement(builder))
+				{
+					final IElementType tokenType = builder.getTokenType();
+					if(tokenType != null)
+					{
+						builder.error("Unexpected token: " + tokenType);
+						builder.advanceLexer();
+					}
+				}
 
-				if (builder.eof() || whereToStop.contains(builder.getTokenType())) {
+				if(builder.eof() || whereToStop.contains(builder.getTokenType()))
+				{
 					break;
 				}
-				if (previous == builder.getCurrentOffset()) {
+				if(previous == builder.getCurrentOffset())
+				{
 					builder.error(PHPParserErrors.unexpected(builder.getTokenType()));
 					builder.advanceLexer();
 				}
@@ -60,25 +70,32 @@ public class StatementList {
 		statementList.done(PHPElementTypes.GROUP_STATEMENT);
 	}
 
-	private static boolean parseTopStatement(PHPPsiBuilder builder) {
-    if (builder.compare(PHPTokenTypes.PHP_OPENING_TAG)) {
-      builder.advanceLexer();
-    } else if (builder.compare(PHPTokenTypes.PHP_ECHO_OPENING_TAG)) {
-      builder.advanceLexer();
-    }
+	private static boolean parseTopStatement(PHPPsiBuilder builder)
+	{
+		if(builder.compare(PHPTokenTypes.PHP_OPENING_TAG))
+		{
+			builder.advanceLexer();
+		}
+		else if(builder.compare(PHPTokenTypes.PHP_ECHO_OPENING_TAG))
+		{
+			builder.advanceLexer();
+		}
 
-    IElementType parsed = Function.parse(builder);
-		if (parsed == PHPElementTypes.EMPTY_INPUT) {
+		IElementType parsed = Function.parse(builder);
+		if(parsed == PHPElementTypes.EMPTY_INPUT)
+		{
 			parsed = ClassDeclaration.parse(builder);
 		}
-		if (parsed == PHPElementTypes.EMPTY_INPUT) {
+		if(parsed == PHPElementTypes.EMPTY_INPUT)
+		{
 			parsed = Statement.parse(builder);
 		}
 
-    if (builder.compare(PHPTokenTypes.PHP_CLOSING_TAG)) {
-      builder.advanceLexer();
-    }
-    return parsed != PHPElementTypes.EMPTY_INPUT;
+		if(builder.compare(PHPTokenTypes.PHP_CLOSING_TAG))
+		{
+			builder.advanceLexer();
+		}
+		return parsed != PHPElementTypes.EMPTY_INPUT;
 	}
 
 }

@@ -9,9 +9,11 @@ import com.intellij.lexer.FlexAdapter;
  *
  * @author jay
  */
-public class PHPFlexAdapter extends FlexAdapter {
+public class PHPFlexAdapter extends FlexAdapter
+{
 
-	public PHPFlexAdapter() {
+	public PHPFlexAdapter()
+	{
 		super(new PHPFlexLexer(false));
 	}
 

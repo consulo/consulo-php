@@ -1,51 +1,62 @@
 package net.jay.plugins.php.lang.documentation.phpdoc.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.containers.HashMap;
+import java.lang.reflect.Constructor;
+import java.util.Map;
+
 import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
 import net.jay.plugins.php.lang.psi.elements.impl.PHPPsiElementImpl;
 
-import java.lang.reflect.Constructor;
-import java.util.Map;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.util.containers.HashMap;
 
 /**
  * @author jay
  * @date Jun 29, 2008 12:03:19 AM
  */
-public class PhpDocPsiCreator implements PhpDocElementTypes {
+public class PhpDocPsiCreator implements PhpDocElementTypes
+{
 
-  public static final Map<String, Class<? extends PhpDocPsiElement>> tagMap = new HashMap<String, Class<? extends PhpDocPsiElement>>();
-  static {
-    tagMap.put("@var", PhpDocVarTagImpl.class);
-    tagMap.put("@return", PhpDocReturnTagImpl.class);
-  }
+	public static final Map<String, Class<? extends PhpDocPsiElement>> tagMap = new HashMap<String, Class<? extends PhpDocPsiElement>>();
 
-  public static PsiElement createElement(ASTNode node) {
-    IElementType type = node.getElementType();
+	static
+	{
+		tagMap.put("@var", PhpDocVarTagImpl.class);
+		tagMap.put("@return", PhpDocReturnTagImpl.class);
+	}
 
-    if (type == phpDocTag) {
-      final String tagName = node.getText().split("\\s", 2)[0];
-      final Class<? extends PhpDocPsiElement> klass = tagMap.get(tagName);
-      if (klass != null) {
-        try {
-          final Constructor<? extends PhpDocPsiElement> constructor = klass.getDeclaredConstructor(ASTNode.class);
-          return constructor.newInstance(node);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    }
+	public static PsiElement createElement(ASTNode node)
+	{
+		IElementType type = node.getElementType();
 
-    if (type == phpDocType) {
-      return new PhpDocTypeImpl(node);
-    }
+		if(type == phpDocTag)
+		{
+			final String tagName = node.getText().split("\\s", 2)[0];
+			final Class<? extends PhpDocPsiElement> klass = tagMap.get(tagName);
+			if(klass != null)
+			{
+				try
+				{
+					final Constructor<? extends PhpDocPsiElement> constructor = klass.getDeclaredConstructor(ASTNode.class);
+					return constructor.newInstance(node);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 
-    return new PHPPsiElementImpl(node);
-  }
+		if(type == phpDocType)
+		{
+			return new PhpDocTypeImpl(node);
+		}
+
+		return new PHPPsiElementImpl(node);
+	}
 
 }

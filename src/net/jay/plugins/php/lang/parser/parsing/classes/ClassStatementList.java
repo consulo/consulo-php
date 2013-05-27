@@ -1,26 +1,31 @@
 package net.jay.plugins.php.lang.parser.parsing.classes;
 
-import com.intellij.psi.tree.IElementType;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
-import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import net.jay.plugins.php.lang.parser.util.PHPParserErrors;
+import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
+
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 26.10.2007
  */
-public class ClassStatementList implements PHPTokenTypes {
+public class ClassStatementList implements PHPTokenTypes
+{
 
 	//	class_statement_list:
 	//		class_statement_list class_statement
 	//		| /* empty */
 	//	;
-	public static void parse(PHPPsiBuilder builder) {
-		while (!builder.eof() && !builder.compare(chRBRACE)) {
+	public static void parse(PHPPsiBuilder builder)
+	{
+		while(!builder.eof() && !builder.compare(chRBRACE))
+		{
 			IElementType result = parseStatement(builder);
-			if (result == PHPElementTypes.EMPTY_INPUT) {
+			if(result == PHPElementTypes.EMPTY_INPUT)
+			{
 				builder.error(PHPParserErrors.unexpected(builder.getTokenType()));
 				builder.advanceLexer();
 			}
@@ -33,15 +38,22 @@ public class ClassStatementList implements PHPTokenTypes {
 	//		| method_modifiers kwFUNCTION is_reference IDENTIFIER
 	//			'(' parameter_list ')' method_body
 	//	;
-	private static IElementType parseStatement(PHPPsiBuilder builder) {
+	private static IElementType parseStatement(PHPPsiBuilder builder)
+	{
 		IElementType result = ClassConstant.parse(builder);
-		if (result != PHPElementTypes.EMPTY_INPUT) {
+		if(result != PHPElementTypes.EMPTY_INPUT)
+		{
 			builder.match(opSEMICOLON);
-		} else {
+		}
+		else
+		{
 			result = ClassField.parse(builder);
-			if (result != PHPElementTypes.EMPTY_INPUT) {
+			if(result != PHPElementTypes.EMPTY_INPUT)
+			{
 				builder.match(opSEMICOLON);
-			} else {
+			}
+			else
+			{
 				result = ClassMethod.parse(builder);
 			}
 		}

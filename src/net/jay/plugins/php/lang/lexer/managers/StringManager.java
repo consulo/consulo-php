@@ -1,6 +1,7 @@
 package net.jay.plugins.php.lang.lexer.managers;
 
 import net.jay.plugins.php.lang.lexer.PHPFlexLexer;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author jay
  */
-public abstract class StringManager extends ReadingManager {
+public abstract class StringManager extends ReadingManager
+{
 
 	public static final int END_SEEN = 0;
 	public static final int SIMPLE_ESCAPE_SEEN = -1;
@@ -19,11 +21,13 @@ public abstract class StringManager extends ReadingManager {
 	public static final int VARIABLE_SEEN = -4;
 	protected char DELIMITER;
 
-	public StringManager(@NotNull final PHPFlexLexer lexer) {
+	public StringManager(@NotNull final PHPFlexLexer lexer)
+	{
 		super(lexer);
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		super.reset();
 	}
 
@@ -33,7 +37,8 @@ public abstract class StringManager extends ReadingManager {
 	 * @param pos position to check
 	 * @return true if endDelimiter can be find
 	 */
-	protected boolean checkForEndDelimiter(final int pos) {
+	protected boolean checkForEndDelimiter(final int pos)
+	{
 		char c = safeReadAt(pos);
 		return c == DELIMITER;
 	}
@@ -45,7 +50,8 @@ public abstract class StringManager extends ReadingManager {
 	 * @param pos position to check
 	 * @return true if simple esc was found
 	 */
-	protected boolean checkForSimpleEsc(final int pos) {
+	protected boolean checkForSimpleEsc(final int pos)
+	{
 		char c0 = safeReadAt(pos);
 		char c1 = safeReadAt(pos + 1);
 		return c0 == '\\' && (c1 == DELIMITER || c1 == '\\');

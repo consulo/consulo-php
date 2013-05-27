@@ -1,27 +1,27 @@
 <!-- Use this build only with idea-flex.skeleton and with patched JFlex.jar -->
 <project name="Generate PhpDocFlexLexer" default="dist">
-	<property name="jflex.dir" value="../../../../../../../../../lib/jflex" />
+	<property name="jflex.dir" value="../../../../../../../../../lib/jflex"/>
 
-	<property name="lexer.dir" value="." />
-	<property name="lexer.file" value="${lexer.dir}/PhpDocFlexLexer.java" />
-	<property name="lexer.log" value="${lexer.dir}/PhpDocFlexLexer.log" />
-	<property name="lexer.source" value="${lexer.dir}/PhpDocFlexLexer.flex" />
-	<property name="lexer.skeleton" value="${jflex.dir}/idea-flex.skeleton" />
-	<property name="compiler.max.memory" value="256m" />
-	<property name="jflex.file" value="${jflex.dir}/lib/JFlex.jar" />
+	<property name="lexer.dir" value="."/>
+	<property name="lexer.file" value="${lexer.dir}/PhpDocFlexLexer.java"/>
+	<property name="lexer.log" value="${lexer.dir}/PhpDocFlexLexer.log"/>
+	<property name="lexer.source" value="${lexer.dir}/PhpDocFlexLexer.flex"/>
+	<property name="lexer.skeleton" value="${jflex.dir}/idea-flex.skeleton"/>
+	<property name="compiler.max.memory" value="256m"/>
+	<property name="jflex.file" value="${jflex.dir}/lib/JFlex.jar"/>
 
 	<target name="clean">
-		<delete file="${lexer.file}~" />
-		<delete file="${lexer.file}" />
-		<delete file="${lexer.log}" />
+		<delete file="${lexer.file}~"/>
+		<delete file="${lexer.file}"/>
+		<delete file="${lexer.log}"/>
 	</target>
 
 	<target name="jflex" description="Generate PhpDocFlexLexer from flex" depends="clean">
 		<java jar="${jflex.file}" output="${lexer.log}" fork="true" maxmemory="${compiler.max.memory}">
-			<arg value="--charat" />
-			<arg value="-skel" />
-			<arg value="${lexer.skeleton}" />
-			<arg value="${lexer.source}" />
+			<arg value="--charat"/>
+			<arg value="-skel"/>
+			<arg value="${lexer.skeleton}"/>
+			<arg value="${lexer.source}"/>
 		</java>
 
 		<!--<replace file="${lexer.file}">
@@ -77,6 +77,6 @@
 	</target>
 
 
-	<target name="dist" depends="clean, jflex" description="Generate PhpDocFlexLexer" />
+	<target name="dist" depends="clean, jflex" description="Generate PhpDocFlexLexer"/>
 
 </project>

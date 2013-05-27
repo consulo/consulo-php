@@ -1,18 +1,22 @@
 package net.jay.plugins.php.lang;
 
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.highlighter.EditorHighlighter;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import javax.swing.Icon;
+
 import net.jay.plugins.php.PHPBundle;
 import net.jay.plugins.php.PHPIcons;
 import net.jay.plugins.php.lang.highlighter.PHPSyntaxHighlighter;
+
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.editor.highlighter.EditorHighlighter;
+import com.intellij.openapi.fileTypes.EditorHighlighterProvider;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders;
+import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,43 +25,58 @@ import javax.swing.*;
  *
  * @author jay
  */
-public class PHPFileType extends LanguageFileType {
-    public static final PHPFileType PHP = new PHPFileType();
-    public static final String DEFAULT_EXTENSION = "php";
-    public static final String DESCRIPTION = PHPBundle.message("filetype.description");
-    public static final String NAME = "PHP";
-    public static final
-    @NonNls
-    String[] EXTENTIONS = new String[]{DEFAULT_EXTENSION, "inc", "phtml", "php3"};
+public class PHPFileType extends LanguageFileType
+{
+	public static final PHPFileType PHP = new PHPFileType();
+	public static final String DEFAULT_EXTENSION = "php";
+	public static final String DESCRIPTION = PHPBundle.message("filetype.description");
+	public static final String NAME = "PHP";
+	public static final
+	@NonNls
+	String[] EXTENTIONS = new String[]{
+			DEFAULT_EXTENSION,
+			"inc",
+			"phtml",
+			"php3"
+	};
 
-    protected PHPFileType() {
-        super(new PHPLanguage());
-    }
+	protected PHPFileType()
+	{
+		super(new PHPLanguage());
+		FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, new EditorHighlighterProvider()
+		{
+			@Override
+			public EditorHighlighter getEditorHighlighter(@Nullable Project project, @NotNull FileType fileType, @Nullable VirtualFile virtualFile, @NotNull EditorColorsScheme editorColorsScheme)
+			{
+				return new PHPSyntaxHighlighter(project, virtualFile, editorColorsScheme);
+			}
+		});
+	}
 
-    @NotNull
-    @NonNls
-    public String getName() {
-        return NAME;
-    }
+	@NotNull
+	@NonNls
+	public String getName()
+	{
+		return NAME;
+	}
 
-    @NotNull
-    public String getDescription() {
-        return DESCRIPTION;
-    }
+	@NotNull
+	public String getDescription()
+	{
+		return DESCRIPTION;
+	}
 
-    @NotNull
-    @NonNls
-    public String getDefaultExtension() {
-        return DEFAULT_EXTENSION;
-    }
+	@NotNull
+	@NonNls
+	public String getDefaultExtension()
+	{
+		return DEFAULT_EXTENSION;
+	}
 
-    @Nullable
-    public Icon getIcon() {
-        return PHPIcons.PHP_ICON;
-    }
+	@Nullable
+	public Icon getIcon()
+	{
+		return PHPIcons.PHP_ICON;
+	}
 
-    @Override
-    public EditorHighlighter getEditorHighlighter(@Nullable final Project project, @Nullable final VirtualFile virtualFile, @NotNull EditorColorsScheme colors) {
-        return new PHPSyntaxHighlighter(project, virtualFile, colors);
-    }
 }

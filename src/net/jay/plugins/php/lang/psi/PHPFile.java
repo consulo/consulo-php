@@ -1,5 +1,17 @@
 package net.jay.plugins.php.lang.psi;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.jay.plugins.php.cache.PhpFileInfo;
+import net.jay.plugins.php.cache.psi.LightPhpFile;
+import net.jay.plugins.php.lang.PHPFileType;
+import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
+import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import net.jay.plugins.php.util.PhpPresentationUtil;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.fileTypes.FileType;
@@ -9,22 +21,11 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.impl.source.parsing.ChameleonTransforming;
 import com.intellij.psi.impl.source.tree.CompositeElement;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.search.ProjectScope;
+import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.xml.XmlChildRole;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
-import net.jay.plugins.php.cache.PhpFileInfo;
-import net.jay.plugins.php.cache.psi.LightPhpFile;
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-import net.jay.plugins.php.util.PhpPresentationUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,93 +34,119 @@ import java.util.List;
  *
  * @author jay
  */
-public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement {
+public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
+{
 
-    public PHPFile(FileViewProvider viewProvider) {
-        super(viewProvider, PHPFileType.PHP.getLanguage());
-    }
+	public PHPFile(FileViewProvider viewProvider)
+	{
+		super(viewProvider, PHPFileType.PHP.getLanguage());
+	}
 
-    public PHPPsiElement getFirstPsiChild() {
-        PsiElement[] children = getChildren();
-        if (children.length > 0) {
-            if (children[0] instanceof PHPPsiElement) {
-                return (PHPPsiElement) children[0];
-            }
-        }
-        return null;
-    }
+	public PHPPsiElement getFirstPsiChild()
+	{
+		PsiElement[] children = getChildren();
+		if(children.length > 0)
+		{
+			if(children[0] instanceof PHPPsiElement)
+			{
+				return (PHPPsiElement) children[0];
+			}
+		}
+		return null;
+	}
 
-    public PHPPsiElement getNextPsiSibling() {
-        return null;
-    }
+	public PHPPsiElement getNextPsiSibling()
+	{
+		return null;
+	}
 
-    public PHPPsiElement getPrevPsiSibling() {
-        return null;
-    }
+	public PHPPsiElement getPrevPsiSibling()
+	{
+		return null;
+	}
 
-    public List<LightCopyContainer> getChildrenForCache() {
-        List<LightCopyContainer> elements = new ArrayList<LightCopyContainer>();
-        for (PsiElement element : getChildren()) {
-            if (element instanceof LightCopyContainer) {
-                elements.add((LightCopyContainer) element);
-            }
-        }
-        if (elements.size() > 0) {
-            return elements;
-        }
-        for (PsiElement element : getChildren()) {
-            if (element instanceof PHPPsiElement) {
-                elements.addAll(((PHPPsiElement) element).getChildrenForCache());
-            }
-        }
-        return elements;
-    }
+	public List<LightCopyContainer> getChildrenForCache()
+	{
+		List<LightCopyContainer> elements = new ArrayList<LightCopyContainer>();
+		for(PsiElement element : getChildren())
+		{
+			if(element instanceof LightCopyContainer)
+			{
+				elements.add((LightCopyContainer) element);
+			}
+		}
+		if(elements.size() > 0)
+		{
+			return elements;
+		}
+		for(PsiElement element : getChildren())
+		{
+			if(element instanceof PHPPsiElement)
+			{
+				elements.addAll(((PHPPsiElement) element).getChildrenForCache());
+			}
+		}
+		return elements;
+	}
 
-    public LightPhpFile getLightCopy(PhpFileInfo info) {
-        LightPhpFile file = new LightPhpFile(info);
-        for (LightCopyContainer container : getChildrenForCache()) {
-            file.addChild(container.getLightCopy(file));
-        }
-        return file;
-    }
+	public LightPhpFile getLightCopy(PhpFileInfo info)
+	{
+		LightPhpFile file = new LightPhpFile(info);
+		for(LightCopyContainer container : getChildrenForCache())
+		{
+			file.addChild(container.getLightCopy(file));
+		}
+		return file;
+	}
 
-    @NotNull
-    public FileType getFileType() {
-        return PHPFileType.PHP;
-    }
+	@NotNull
+	public FileType getFileType()
+	{
+		return PHPFileType.PHP;
+	}
 
-    public String toString() {
-        return "PHP file";
-    }
+	public String toString()
+	{
+		return "PHP file";
+	}
 
-    public void accept(@NotNull PsiElementVisitor visitor) {
-        if (visitor instanceof PHPElementVisitor) {
-            ((PHPElementVisitor) visitor).visitPhpFile(this);
-        } else {
-            super.accept(visitor);
-        }
-    }
+	public void accept(@NotNull PsiElementVisitor visitor)
+	{
+		if(visitor instanceof PHPElementVisitor)
+		{
+			((PHPElementVisitor) visitor).visitPhpFile(this);
+		}
+		else
+		{
+			super.accept(visitor);
+		}
+	}
 
-    public ItemPresentation getPresentation() {
-        return PhpPresentationUtil.getFilePresentation(this);
-    }
+	public ItemPresentation getPresentation()
+	{
+		return PhpPresentationUtil.getFilePresentation(this);
+	}
 
-    public XmlDocument getDocument() {
-        CompositeElement treeElement = calcTreeElement();
-        ChameleonTransforming.transformChildren(treeElement);
-        final PsiElement asPsiElement = treeElement.findChildByRoleAsPsiElement(XmlChildRole.HTML_DOCUMENT);
-        if (asPsiElement instanceof XmlDocument) {
-            return (XmlDocument) asPsiElement;
-        }
-        return null;
-    }
+	public XmlDocument getDocument()
+	{
+		CompositeElement treeElement = calcTreeElement();
+		ChameleonTransforming.transformChildren(treeElement);
+		final PsiElement asPsiElement = treeElement.findChildByRoleAsPsiElement(XmlChildRole.HTML_DOCUMENT);
+		if(asPsiElement instanceof XmlDocument)
+		{
+			return (XmlDocument) asPsiElement;
+		}
+		return null;
+	}
 
-    public boolean processElements(PsiElementProcessor processor, PsiElement place) {
-        final XmlDocument document = getDocument();
-        return document == null || document.processElements(processor, place);
-    }
+	public boolean processElements(PsiElementProcessor processor, PsiElement place)
+	{
+		final XmlDocument document = getDocument();
+		return document == null || document.processElements(processor, place);
+	}
 
-    public GlobalSearchScope getFileResolveScope() {
-        return ProjectScope.getAllScope(getProject());
-    }
+	public GlobalSearchScope getFileResolveScope()
+	{
+		return ProjectScope.getAllScope(getProject());
+	}
 }
