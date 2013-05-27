@@ -3,14 +3,9 @@ package net.jay.plugins.php.lang.highlighter.hierarchy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.markup.HighlighterLayer;
-import com.intellij.openapi.editor.markup.HighlighterTargetArea;
-import com.intellij.openapi.editor.markup.MarkupModel;
-import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 
@@ -28,9 +23,9 @@ public class PhpGutterUtil
 		ApplicationManager.getApplication().assertIsDispatchThread();
 
 		final List<PhpLineMarkerInfo> array = new ArrayList<PhpLineMarkerInfo>();
-		final PhpLineMarkerInfo[] oldMarkers = getLineMarkers(document, project);
+	//	final PhpLineMarkerInfo[] oldMarkers = getLineMarkers(document, project);
 
-		final MarkupModel markupModel = document.getMarkupModel(project);
+	/*	final MarkupModel markupModel = document.getMarkupModel(project);
 		if(oldMarkers != null)
 		{
 			for(PhpLineMarkerInfo info : oldMarkers)
@@ -60,11 +55,11 @@ public class PhpGutterUtil
 		if(LOG.isDebugEnabled())
 		{
 			LOG.debug("Added line markers:" + markers.size());
-		}
+		}  */
 	}
 
 	private static final Key<PhpLineMarkerInfo[]> PHP_LINE_MARKERS_IN_EDITOR = Key.create("PHP_LINE_MARKERS_IN_EDITOR");
-
+ /*
 	@Nullable
 	public static PhpLineMarkerInfo[] getLineMarkers(final Document document, final Project project)
 	{
@@ -78,5 +73,5 @@ public class PhpGutterUtil
 		ApplicationManager.getApplication().assertIsDispatchThread();
 		MarkupModel markup = document.getMarkupModel(project);
 		markup.putUserData(PHP_LINE_MARKERS_IN_EDITOR, lineMarkers);
-	}
+	}    */
 }

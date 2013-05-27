@@ -123,6 +123,18 @@ public class PhpOverridenGutterInfo extends PhpGutterInfo
 		{
 			return Alignment.LEFT;
 		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			return false;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return 0;
+		}
 	}
 
 	private class MyNavigateAction extends AnAction

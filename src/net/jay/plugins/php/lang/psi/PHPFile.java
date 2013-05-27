@@ -12,13 +12,13 @@ import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 import net.jay.plugins.php.util.PhpPresentationUtil;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.impl.source.parsing.ChameleonTransforming;
 import com.intellij.psi.impl.source.tree.CompositeElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.ProjectScope;
@@ -26,6 +26,7 @@ import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.xml.XmlChildRole;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
+import com.intellij.psi.xml.XmlTag;
 
 /**
  * Created by IntelliJ IDEA.
@@ -130,12 +131,19 @@ public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
 	public XmlDocument getDocument()
 	{
 		CompositeElement treeElement = calcTreeElement();
-		ChameleonTransforming.transformChildren(treeElement);
+	//	ChameleonTransforming.transformChildren(treeElement);
 		final PsiElement asPsiElement = treeElement.findChildByRoleAsPsiElement(XmlChildRole.HTML_DOCUMENT);
 		if(asPsiElement instanceof XmlDocument)
 		{
 			return (XmlDocument) asPsiElement;
 		}
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public XmlTag getRootTag()
+	{
 		return null;
 	}
 
@@ -148,5 +156,11 @@ public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
 	public GlobalSearchScope getFileResolveScope()
 	{
 		return ProjectScope.getAllScope(getProject());
+	}
+
+	@Override
+	public boolean ignoreReferencedElementAccessibility()
+	{
+		return false;
 	}
 }

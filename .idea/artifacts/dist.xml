@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact name="dist">
+    <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
+    <root id="root">
+      <element id="directory" name="php">
+        <element id="directory" name="lib">
+          <element id="archive" name="php.jar">
+            <element id="module-output" name="consulo-php" />
+            <element id="directory" name="META-INF">
+              <element id="dir-copy" path="$PROJECT_DIR$/META-INF" />
+            </element>
+          </element>
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -43,11 +43,6 @@ public class PHPStringLiteralLexer extends LexerBase
 		myStringType = stringType;
 	}
 
-	public void start(char[] buffer)
-	{
-		start(buffer, 0, buffer.length);
-	}
-
 	public void start(CharSequence buffer, int startOffset, int endOffset, int initialState)
 	{
 		myBuffer = buffer;
@@ -95,9 +90,9 @@ public class PHPStringLiteralLexer extends LexerBase
 		{
 			for(int i = myStart + 2; i < myStart + 4; i++)
 			{
-				if(i >= myEnd || (i == myStart + 2 && !isHexDigit(myBuffer[i])))
+				if(i >= myEnd || (i == myStart + 2 && !isHexDigit(myBuffer.charAt(i))))
 					return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
-				else if(i > myStart + 2 && !isHexDigit(myBuffer[i]))
+				else if(i > myStart + 2 && !isHexDigit(myBuffer.charAt(i)))
 					break;
 			}
 			return StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN;
@@ -107,9 +102,9 @@ public class PHPStringLiteralLexer extends LexerBase
 		{
 			for(int i = myStart + 1; i < myStart + 4; i++)
 			{
-				if(i >= myEnd || (i == myStart + 1 && !isOctalDigit(myBuffer[i])))
+				if(i >= myEnd || (i == myStart + 1 && !isOctalDigit(myBuffer.charAt(i))))
 					return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
-				else if(i > myStart + 1 && !isOctalDigit(myBuffer[i]))
+				else if(i > myStart + 1 && !isOctalDigit(myBuffer.charAt(i)))
 					break;
 			}
 			return StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN;
@@ -133,12 +128,12 @@ public class PHPStringLiteralLexer extends LexerBase
 		if(myStart >= myEnd)
 			return null;
 
-		if(myBuffer[myStart] != '\\')
+		if(myBuffer.charAt(myStart) != '\\')
 			return myOriginalLiteralToken;
 
 		if(myStart + 1 >= myEnd)
 			return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
-		final char nextChar = myBuffer[myStart + 1];
+		final char nextChar = myBuffer.charAt(myStart + 1);
 
 		if(myStringType == TYPE_SINGLE_QUOTE)
 		{
@@ -169,8 +164,9 @@ public class PHPStringLiteralLexer extends LexerBase
 		}
 		if(myState == AFTER_LAST_QUOTE)
 			return start;
+
 		int i = start;
-		if(myBuffer[i] == '\\')
+		if(myBuffer.charAt(i) == '\\')
 		{
 			LOG.assertTrue(myState == AFTER_FIRST_QUOTE);
 			i++;
@@ -180,14 +176,14 @@ public class PHPStringLiteralLexer extends LexerBase
 				return i;
 			}
 
-			if(myBuffer[i] >= '0' && myBuffer[i] <= '7')
+			if(myBuffer.charAt(i) >= '0' && myBuffer.charAt(i) <= '7')
 			{
-				char first = myBuffer[i];
+				char first = myBuffer.charAt(i);
 				i++;
-				if(i < myBufferEnd && myBuffer[i] >= '0' && myBuffer[i] <= '7')
+				if(i < myBufferEnd && myBuffer.charAt(i) >= '0' && myBuffer.charAt(i) <= '7')
 				{
 					i++;
-					if(i < myBufferEnd && first <= '3' && myBuffer[i] >= '0' && myBuffer[i] <= '7')
+					if(i < myBufferEnd && first <= '3' && myBuffer.charAt(i) >= '0' && myBuffer.charAt(i) <= '7')
 					{
 						i++;
 					}
@@ -195,14 +191,14 @@ public class PHPStringLiteralLexer extends LexerBase
 				return i;
 			}
 
-			if(myBuffer[i] == 'x')
+			if(myBuffer.charAt(i) == 'x')
 			{
 				i++;
 				for(; i < start + 4; i++)
 				{
 					if(i == myBufferEnd ||
-							myBuffer[i] == '\n' ||
-							myBuffer[i] == myQuoteChar)
+							myBuffer.charAt(i) == '\n' ||
+							myBuffer.charAt(i) == myQuoteChar)
 					{
 						return i;
 					}
@@ -216,18 +212,18 @@ public class PHPStringLiteralLexer extends LexerBase
 		}
 		else
 		{
-			LOG.assertTrue(myState == AFTER_FIRST_QUOTE || myBuffer[i] == myQuoteChar);
+			LOG.assertTrue(myState == AFTER_FIRST_QUOTE || myBuffer.charAt(i) == myQuoteChar);
 			while(i < myBufferEnd)
 			{
-				if(myBuffer[i] == '\\')
+				if(myBuffer.charAt(i) == '\\')
 				{
 					return i;
 				}
-				//if (myBuffer[i] == '\n') {
+				//if (myBuffer.charAt(i) == '\n') {
 				//  myState = AFTER_LAST_QUOTE;
 				//  return i;
 				//}
-				if(myState == AFTER_FIRST_QUOTE && myBuffer[i] == myQuoteChar)
+				if(myState == AFTER_FIRST_QUOTE && myBuffer.charAt(i) == myQuoteChar)
 				{
 					myState = AFTER_LAST_QUOTE;
 					return i + 1;

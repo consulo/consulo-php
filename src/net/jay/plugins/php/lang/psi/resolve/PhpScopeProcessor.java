@@ -3,6 +3,9 @@ package net.jay.plugins.php.lang.psi.resolve;
 import net.jay.plugins.php.lang.psi.elements.Parameter;
 import net.jay.plugins.php.lang.psi.elements.Variable;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.ResolveState;
@@ -31,7 +34,9 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 		return execute(element);
 	}
 
-	public <T> T getHint(Class<T> tClass)
+	@Nullable
+	@Override
+	public <T> T getHint(@NotNull Key<T> tKey)
 	{
 		return null;
 	}

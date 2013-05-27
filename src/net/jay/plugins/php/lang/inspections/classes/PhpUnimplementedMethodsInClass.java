@@ -114,7 +114,7 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					}
 
 					//noinspection ConstantConditions
-					ProblemDescriptor descriptor = new ProblemDescriptorImpl(clazz.getFirstChild(), endNode, PHPBundle.message("php.inspections.unimplemented_methods_in_class.descr", methodList.toString()), new LocalQuickFix[0], ProblemHighlightType.GENERIC_ERROR_OR_WARNING, false, null);
+					ProblemDescriptor descriptor = new ProblemDescriptorImpl(clazz.getFirstChild(), endNode, PHPBundle.message("php.inspections.unimplemented_methods_in_class.descr", methodList.toString()), new LocalQuickFix[0], ProblemHighlightType.GENERIC_ERROR_OR_WARNING, false, null, false);
 					holder.registerProblem(descriptor);
 				}
 			}

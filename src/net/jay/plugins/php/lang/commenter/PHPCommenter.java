@@ -32,6 +32,20 @@ public class PHPCommenter implements CodeDocumentationAwareCommenter
 	}
 
 	@Nullable
+	@Override
+	public String getCommentedBlockCommentPrefix()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public String getCommentedBlockCommentSuffix()
+	{
+		return null;
+	}
+
+	@Nullable
 	public IElementType getLineCommentTokenType()
 	{
 		return PHPTokenTypes.LINE_COMMENT;

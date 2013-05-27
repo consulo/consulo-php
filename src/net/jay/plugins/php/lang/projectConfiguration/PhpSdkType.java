@@ -51,7 +51,15 @@ public class PhpSdkType extends SdkType implements ApplicationComponent
 	public boolean isValidSdkHome(String path)
 	{
 		final VirtualFile file = VfsUtil.findRelativeFile(path, null);
-		return file != null && PhpModuleType.isValidPhpSdkHomeDirectory(file);
+	//	return file != null && PhpModuleType.isValidPhpSdkHomeDirectory(file);
+		return true;
+	}
+
+	@Nullable
+	@Override
+	public String getVersionString(String s)
+	{
+		return null;
 	}
 
 	public String suggestSdkName(String currentSdkName, String sdkHome)
@@ -163,12 +171,6 @@ public class PhpSdkType extends SdkType implements ApplicationComponent
 
 	@Override
 	public Icon getIcon()
-	{
-		return PHPIcons.PHP_ICON;
-	}
-
-	@Override
-	public Icon getIconForAddAction()
 	{
 		return PHPIcons.PHP_ICON;
 	}

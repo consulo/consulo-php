@@ -23,11 +23,9 @@ import net.jay.plugins.php.util.VirtualFileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ProjectTopics;
-import com.intellij.ide.startup.CacheUpdater;
-import com.intellij.ide.startup.FileContent;
-import com.intellij.ide.startup.FileSystemSynchronizer;
+import com.intellij.ide.caches.CacheUpdater;
+import com.intellij.ide.caches.FileContent;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -35,8 +33,6 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.ModuleAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.ex.ProjectRootManagerEx;
-import com.intellij.openapi.startup.StartupManager;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
@@ -45,7 +41,6 @@ import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.openapi.vfs.VirtualFileMoveEvent;
 import com.intellij.openapi.vfs.VirtualFilePropertyEvent;
-import com.intellij.openapi.vfs.ex.VirtualFileManagerEx;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
@@ -593,7 +588,7 @@ public class PhpModuleFilesCache implements Disposable, CacheUpdater
 	// CacheUpdaterFunctionality
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public VirtualFile[] queryNeededFiles()
+	public VirtualFile[] queryNeededFiles(ProgressIndicator progressIndicator)
 	{
 		final Set<String> urls2Remove = new HashSet<String>(fileStorage.getAllUrls());
 		final Collection<VirtualFile> foundFiles = scanForFiles(cacheRootURLs);
@@ -618,6 +613,14 @@ public class PhpModuleFilesCache implements Disposable, CacheUpdater
 
 		return neededFiles.toArray(new VirtualFile[neededFiles.size()]);
 	}
+
+	@Override
+	public int getNumberOfPendingUpdateJobs()
+	{
+		return 0;
+	}
+
+	@Override
 
 	public void processFile(@NotNull final FileContent fileContent)
 	{
@@ -733,19 +736,19 @@ public class PhpModuleFilesCache implements Disposable, CacheUpdater
 
 	private void registerAsCacheUpdater()
 	{
-		final FileSystemSynchronizer fileSystemSynchronizer = StartupManager.getInstance(project).getFileSystemSynchronizer();
+	/*	final FileSystemSynchronizer fileSystemSynchronizer = StartupManager.getInstance(project).getFileSystemSynchronizer();
 		if(fileSystemSynchronizer != null)
 		{
-			fileSystemSynchronizer.registerCacheUpdater(this);
+			StartupManager.getInstance(project).registerCacheUpdater(this);
 		}
 		ProjectRootManagerEx.getInstanceEx(project).registerChangeUpdater(this);
-		((VirtualFileManagerEx) VirtualFileManagerEx.getInstance()).registerRefreshUpdater(this);
+		((VirtualFileManagerEx) VirtualFileManagerEx.getInstance()).registerRefreshUpdater(this);   */
 	}
 
 	private void unregisterAsCacheUpdater()
 	{
-		ProjectRootManagerEx.getInstanceEx(project).unregisterChangeUpdater(this);
-		((VirtualFileManagerEx) VirtualFileManagerEx.getInstance()).unregisterRefreshUpdater(this);
+		/*ProjectRootManagerEx.getInstanceEx(project).unregisterChangeUpdater(this);
+		((VirtualFileManagerEx) VirtualFileManagerEx.getInstance()).unregisterRefreshUpdater(this);   */
 	}
 
 	/**
@@ -753,23 +756,8 @@ public class PhpModuleFilesCache implements Disposable, CacheUpdater
 	 */
 	public void forceUpdate()
 	{
-		final FileSystemSynchronizer synchronizer = new FileSystemSynchronizer();
-		synchronizer.registerCacheUpdater(this);
-		if(!ApplicationManager.getApplication().isUnitTestMode() && project.isOpen())
-		{
-			Runnable process = new Runnable()
-			{
-				public void run()
-				{
-					synchronizer.execute();
-				}
-			};
-			ProgressManager.getInstance().runProcessWithProgressSynchronously(process, PHPBundle.message("progress.indicator.title.roots.changed"), false, project);
-		}
-		else
-		{
-			synchronizer.execute();
-		}
+		//StartupManager.getInstance(project).registerCacheUpdater(this);
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@ import com.intellij.refactoring.RefactoringActionHandler;
  * @author jay
  * @date Jul 1, 2008 2:52:51 PM
  */
-public class PhpRefactoringSupportProvider implements RefactoringSupportProvider
+public class PhpRefactoringSupportProvider extends RefactoringSupportProvider
 {
 
 	public boolean isSafeDeleteAvailable(PsiElement element)

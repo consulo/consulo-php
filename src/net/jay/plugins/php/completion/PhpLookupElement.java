@@ -70,7 +70,11 @@ public class PhpLookupElement extends LookupElement
 			@Override
 			public void renderElement(LookupElement element, LookupElementPresentation presentation)
 			{
-				presentation.setItemText(lookupString, false, bold);
+				presentation.setItemText(lookupString);
+				if(bold)
+				{
+					presentation.setItemTextBold(true);
+				}
 				if(!StringUtils.isEmpty(tailText))
 				{
 					presentation.setTailText(tailText);
