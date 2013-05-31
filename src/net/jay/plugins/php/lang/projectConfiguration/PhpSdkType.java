@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.projectRoots.AdditionalDataConfigurable;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
+import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkAdditionalData;
 import com.intellij.openapi.projectRoots.SdkModel;
@@ -128,7 +128,7 @@ public class PhpSdkType extends SdkType implements ApplicationComponent
 	public Sdk[] getSdks()
 	{
 		final List<Sdk> sdks = new ArrayList<Sdk>();
-		for(Sdk sdk : ProjectJdkTable.getInstance().getAllJdks())
+		for(Sdk sdk : ProjectSdkTable.getInstance().getAllSdks())
 		{
 			if(sdk.getSdkType() == this)
 				sdks.add(sdk);
@@ -153,7 +153,7 @@ public class PhpSdkType extends SdkType implements ApplicationComponent
 				sdkModificator.setVersionString(PHPBundle.message("default.php.sdk.version"));
 				sdkModificator.setHomePath(path);
 				sdkModificator.commitChanges();
-				ProjectJdkTable.getInstance().addJdk(sdk);
+				ProjectSdkTable.getInstance().addSdk(sdk);
 				return sdk;
 			}
 		});
