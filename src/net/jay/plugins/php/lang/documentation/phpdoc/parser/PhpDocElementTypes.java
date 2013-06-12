@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
 import com.intellij.lang.PsiBuilder;
+import com.intellij.lang.PsiBuilderFactory;
 import com.intellij.lang.PsiParser;
-import com.intellij.peer.PeerFactory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.ILazyParseableElementType;
 
@@ -31,12 +31,12 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 
 		public ASTNode parseContents(ASTNode chameleon)
 		{
-			final PeerFactory factory = PeerFactory.getInstance();
+			PsiBuilderFactory factory = PsiBuilderFactory.getInstance();
 			final PsiElement parentElement = chameleon.getTreeParent().getPsi();
 
-			final PsiBuilder builder = factory.createBuilder(chameleon, new PhpDocLexer(), getLanguage(), chameleon.getText(), parentElement.getProject());
+			final PsiBuilder builder = factory.createBuilder(parentElement.getProject(), chameleon, new PhpDocLexer(), getLanguage(), Language.UNKNOWN_VERSION, chameleon.getText());
 			final PsiParser parser = new PhpDocParser();
-			return parser.parse(this, builder).getFirstChildNode();
+			return parser.parse(this, builder, Language.UNKNOWN_VERSION).getFirstChildNode();
 		}
 	};
 

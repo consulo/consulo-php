@@ -5,6 +5,7 @@ import net.jay.plugins.php.lang.parser.util.PHPPsiBuilder;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
@@ -20,7 +21,7 @@ public class PHPPsiParser implements PsiParser
 {
 
 	@NotNull
-	public ASTNode parse(IElementType root, PsiBuilder builder)
+	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{
 		//		builder.setDebugMode(true);
 		PHPPsiBuilder psiBuilder = new PHPPsiBuilder(builder);
