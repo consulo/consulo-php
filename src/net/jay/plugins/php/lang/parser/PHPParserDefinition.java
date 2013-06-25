@@ -45,19 +45,19 @@ public class PHPParserDefinition implements ParserDefinition
 	}
 
 	@NotNull
-	public TokenSet getWhitespaceTokens()
+	public TokenSet getWhitespaceTokens(LanguageVersion languageVersion)
 	{
 		return TokenSet.create(PHPTokenTypes.WHITE_SPACE, PHPTokenTypes.DOC_WHITESPACE);
 	}
 
 	@NotNull
-	public TokenSet getCommentTokens()
+	public TokenSet getCommentTokens(LanguageVersion languageVersion)
 	{
 		return PHPTokenTypes.tsCOMMENTS;
 	}
 
 	@NotNull
-	public TokenSet getStringLiteralElements()
+	public TokenSet getStringLiteralElements(LanguageVersion languageVersion)
 	{
 		return PHPTokenTypes.tsSTRINGS;
 	}
