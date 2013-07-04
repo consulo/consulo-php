@@ -40,7 +40,7 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory"/>
 		<fileTypeDetector implementation="net.jay.plugins.php.lang.PhpFileDetector"/>
-		<additionalTextAttributes scheme="Default" file="Default.xml" />
+		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml" />
 
 		<colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
 		<gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>

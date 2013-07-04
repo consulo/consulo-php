@@ -61,6 +61,10 @@ public class PhpFileSyntaxHighlighter extends SyntaxHighlighterBase
 		ATTRIBUTES.put(StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN, PHPHighlightingData.BAD_CHARACTER);
 		ATTRIBUTES.put(PHPTokenTypes.UNKNOWN_SYMBOL, PHPHighlightingData.BAD_CHARACTER);
 		ATTRIBUTES.put(PHPTokenTypes.PREDEFINED_IDENTIFIER, PHPHighlightingData.PREDEFINED_SYMBOL);
+
+		ATTRIBUTES.put(PHPTokenTypes.PHP_OPENING_TAG, PHPHighlightingData.TAG);
+		ATTRIBUTES.put(PHPTokenTypes.PHP_ECHO_OPENING_TAG, PHPHighlightingData.TAG);
+		ATTRIBUTES.put(PHPTokenTypes.PHP_CLOSING_TAG, PHPHighlightingData.TAG);
 		registerPHPDoc();
 	}
 

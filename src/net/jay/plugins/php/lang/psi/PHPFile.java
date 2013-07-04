@@ -35,7 +35,7 @@ import com.intellij.psi.xml.XmlTag;
  *
  * @author jay
  */
-public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
+public class PHPFile extends PsiFileBase implements PHPPsiElement
 {
 
 	public PHPFile(FileViewProvider viewProvider)
@@ -126,41 +126,5 @@ public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
 	public ItemPresentation getPresentation()
 	{
 		return PhpPresentationUtil.getFilePresentation(this);
-	}
-
-	public XmlDocument getDocument()
-	{
-		CompositeElement treeElement = calcTreeElement();
-	//	ChameleonTransforming.transformChildren(treeElement);
-		final PsiElement asPsiElement = treeElement.findChildByRoleAsPsiElement(XmlChildRole.HTML_DOCUMENT);
-		if(asPsiElement instanceof XmlDocument)
-		{
-			return (XmlDocument) asPsiElement;
-		}
-		return null;
-	}
-
-	@Nullable
-	@Override
-	public XmlTag getRootTag()
-	{
-		return null;
-	}
-
-	public boolean processElements(PsiElementProcessor processor, PsiElement place)
-	{
-		final XmlDocument document = getDocument();
-		return document == null || document.processElements(processor, place);
-	}
-
-	public GlobalSearchScope getFileResolveScope()
-	{
-		return ProjectScope.getAllScope(getProject());
-	}
-
-	@Override
-	public boolean ignoreReferencedElementAccessibility()
-	{
-		return false;
 	}
 }
