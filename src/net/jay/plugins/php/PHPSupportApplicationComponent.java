@@ -24,7 +24,7 @@ import com.intellij.xml.util.XmlUtil;
  *
  * @author jay
  */
-public class PHPSupportApplicationComponent implements ApplicationComponent, XmlFileNSInfoProvider, InspectionToolProvider
+public class PHPSupportApplicationComponent implements ApplicationComponent, InspectionToolProvider
 {
 
 	public PHPSupportApplicationComponent()
@@ -50,19 +50,6 @@ public class PHPSupportApplicationComponent implements ApplicationComponent, Xml
 	public String getComponentName()
 	{
 		return "PHPSupportApplicationComponent";
-	}
-
-	@Nullable
-	public String[][] getDefaultNamespaces(@NotNull XmlFile xmlFile)
-	{
-		if(xmlFile.getFileType() == PHPFileType.INSTANCE)
-			return new String[][]{
-					{
-							"",
-							XmlUtil.HTML_URI
-					}
-			};
-		return null;
 	}
 
 	public Class[] getInspectionClasses()
