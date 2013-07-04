@@ -1,27 +1,5 @@
 package net.jay.plugins.php.cache;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.util.PhpVirtualFileScanner;
-import net.jay.plugins.php.util.VirtualFileUtil;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ProjectTopics;
 import com.intellij.ide.caches.CacheUpdater;
 import com.intellij.ide.caches.FileContent;
@@ -34,19 +12,18 @@ import com.intellij.openapi.project.ModuleAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileAdapter;
-import com.intellij.openapi.vfs.VirtualFileEvent;
-import com.intellij.openapi.vfs.VirtualFileListener;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.VirtualFileMoveEvent;
-import com.intellij.openapi.vfs.VirtualFilePropertyEvent;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.PsiTreeChangeAdapter;
-import com.intellij.psi.PsiTreeChangeEvent;
+import com.intellij.openapi.vfs.*;
+import com.intellij.psi.*;
 import com.intellij.util.messages.MessageBusConnection;
+import net.jay.plugins.php.PHPBundle;
+import net.jay.plugins.php.lang.psi.PHPFile;
+import net.jay.plugins.php.util.PhpVirtualFileScanner;
+import net.jay.plugins.php.util.VirtualFileUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * @author jay
@@ -659,6 +636,10 @@ public class PhpModuleFilesCache implements Disposable, CacheUpdater
 						return;
 					}
 					final String oldName = (String) event.getOldValue();
+					if(oldName == null)
+					{
+						return;
+					}
 					processFileDeleted(VirtualFileUtil.constructUrl(event.getParent(), oldName));
 					processFileAdded(file);
 				}
