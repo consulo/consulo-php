@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ModuleManager">
+    <modules>
+      <module name="consulo-php" dirurl="file://$PROJECT_DIR$">
+        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" />
+        <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" />
+        <content url="file://$MODULE_DIR$">
+          <content-folder type="RESOURCE" url="file://$MODULE_DIR$/resources" />
+          <content-folder type="SOURCE" url="file://$MODULE_DIR$/src" />
+        </content>
+        <orderEntry type="module-extension-sdk" extension-id="java" />
+        <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
+        <orderEntry type="sourceFolder" forTests="false" />
+        <orderEntry type="module-library">
+          <library name="consulo:XML">
+            <CLASSES>
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/xml/lib/xml-copyright.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/xml/lib/xml.jar!/" />
+            </CLASSES>
+            <JAVADOC />
+            <SOURCES />
+          </library>
+        </orderEntry>
+      </module>
+    </modules>
+  </component>
+</project>
+
