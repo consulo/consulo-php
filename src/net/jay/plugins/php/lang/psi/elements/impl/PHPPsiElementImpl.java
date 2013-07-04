@@ -43,7 +43,7 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 	@NotNull
 	public Language getLanguage()
 	{
-		return PHPFileType.PHP.getLanguage();
+		return PHPFileType.INSTANCE.getLanguage();
 	}
 
 	@Nullable

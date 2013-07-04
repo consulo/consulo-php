@@ -26,7 +26,7 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 		@NotNull
 		public Language getLanguage()
 		{
-			return PHPFileType.PHP.getLanguage();
+			return PHPFileType.INSTANCE.getLanguage();
 		}
 
 		public ASTNode parseContents(ASTNode chameleon)

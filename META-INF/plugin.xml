@@ -12,9 +12,6 @@
 		<component>
 			<implementation-class>net.jay.plugins.php.PHPSupportApplicationComponent</implementation-class>
 		</component>
-		<component>
-			<implementation-class>net.jay.plugins.php.lang.projectConfiguration.PhpSdkType</implementation-class>
-		</component>
 	</application-components>
 	<project-components>
 		<component>
@@ -41,6 +38,8 @@
 	</actions>-->
 
 	<extensions defaultExtensionNs="com.intellij">
+		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory" />
+
 		<colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
 		<gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>
         <sdkType implementation="net.jay.plugins.php.lang.projectConfiguration.PhpSdkType" />

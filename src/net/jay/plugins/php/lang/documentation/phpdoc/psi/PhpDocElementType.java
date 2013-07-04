@@ -14,6 +14,6 @@ public class PhpDocElementType extends IElementType
 
 	public PhpDocElementType(@NotNull String debugName)
 	{
-		super(debugName, PHPFileType.PHP.getLanguage());
+		super(debugName, PHPFileType.INSTANCE.getLanguage());
 	}
 }

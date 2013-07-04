@@ -67,7 +67,7 @@ public class PhpPsiElementFactory implements ProjectComponent
 
 	private PHPFile createDummyFile(String fileText, boolean isPhisical)
 	{
-		return (PHPFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PHPFileType.PHP.getDefaultExtension(), PHPFileType.PHP, "<?php\n" + fileText, System.currentTimeMillis(), isPhisical);
+		return (PHPFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PHPFileType.INSTANCE.getDefaultExtension(), PHPFileType.INSTANCE, "<?php\n" + fileText, System.currentTimeMillis(), isPhisical);
 	}
 
 

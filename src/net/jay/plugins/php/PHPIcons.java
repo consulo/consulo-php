@@ -13,13 +13,9 @@ import com.intellij.util.Icons;
  *
  * @author jay
  */
+@Deprecated
 public class PHPIcons
 {
-	public static final String PATH = "/net/jay/plugins/php/";
-
-	public static final Icon PHP_ICON = IconLoader.findIcon(PATH + "php.png");
-	public static final Icon PHP_LARGE_ICON = IconLoader.findIcon(PATH + "php24.png");
-
 	public static final Icon FINAL_MARK = IconLoader.findIcon("/nodes/finalMark.png");
 	public static final Icon STATIC_MARK = IconLoader.findIcon("/nodes/staticMark.png");
 

@@ -13,7 +13,6 @@ import com.intellij.codeInsight.completion.CompletionUtil;
 import com.intellij.codeInspection.InspectionToolProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlFileNSInfoProvider;
 import com.intellij.xml.util.XmlUtil;
@@ -38,8 +37,7 @@ public class PHPSupportApplicationComponent implements ApplicationComponent, Xml
 		{
 			public void run()
 			{
-				FileTypeManager.getInstance().registerFileType(PHPFileType.PHP, PHPFileType.EXTENTIONS);
-				CompletionUtil.registerCompletionData(PHPFileType.PHP, new PhpCompletionData());
+				CompletionUtil.registerCompletionData(PHPFileType.INSTANCE, new PhpCompletionData());
 			}
 		});
 	}
@@ -57,7 +55,7 @@ public class PHPSupportApplicationComponent implements ApplicationComponent, Xml
 	@Nullable
 	public String[][] getDefaultNamespaces(@NotNull XmlFile xmlFile)
 	{
-		if(xmlFile.getFileType() == PHPFileType.PHP)
+		if(xmlFile.getFileType() == PHPFileType.INSTANCE)
 			return new String[][]{
 					{
 							"",

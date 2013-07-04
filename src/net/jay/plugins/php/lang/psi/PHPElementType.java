@@ -17,6 +17,6 @@ public class PHPElementType extends IElementType
 
 	public PHPElementType(@NonNls String debugName)
 	{
-		super(debugName, PHPFileType.PHP.getLanguage());
+		super(debugName, PHPFileType.INSTANCE.getLanguage());
 	}
 }

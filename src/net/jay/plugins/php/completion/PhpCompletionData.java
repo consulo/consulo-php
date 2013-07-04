@@ -140,7 +140,7 @@ public class PhpCompletionData extends CompletionData
 		{
 			public Object[] get(PsiElement psiElement, CompletionContext completionContext)
 			{
-				if(psiElement.getLanguage() != PHPFileType.PHP.getLanguage())
+				if(psiElement.getLanguage() != PHPFileType.INSTANCE.getLanguage())
 				{
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}

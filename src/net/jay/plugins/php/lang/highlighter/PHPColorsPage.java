@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.swing.Icon;
 
 import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.PHPIcons;
+import net.jay.plugins.php.PHPIcons2;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -81,7 +81,7 @@ public class PHPColorsPage implements ColorSettingsPage
 	@Nullable
 	public Icon getIcon()
 	{
-		return PHPIcons.PHP_ICON;
+		return PHPIcons2.Php;
 	}
 
 	@NotNull

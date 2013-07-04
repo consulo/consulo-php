@@ -3,7 +3,7 @@ package net.jay.plugins.php.lang;
 import javax.swing.Icon;
 
 import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.PHPIcons;
+import net.jay.plugins.php.PHPIcons2;
 import net.jay.plugins.php.lang.highlighter.PHPSyntaxHighlighter;
 
 import org.jetbrains.annotations.NonNls;
@@ -27,7 +27,8 @@ import com.intellij.openapi.vfs.VirtualFile;
  */
 public class PHPFileType extends LanguageFileType
 {
-	public static final PHPFileType PHP = new PHPFileType();
+	public static final PHPFileType INSTANCE = new PHPFileType();
+
 	public static final String DEFAULT_EXTENSION = "php";
 	public static final String DESCRIPTION = PHPBundle.message("filetype.description");
 	public static final String NAME = "PHP";
@@ -76,7 +77,7 @@ public class PHPFileType extends LanguageFileType
 	@Nullable
 	public Icon getIcon()
 	{
-		return PHPIcons.PHP_ICON;
+		return PHPIcons2.Php;
 	}
 
 }

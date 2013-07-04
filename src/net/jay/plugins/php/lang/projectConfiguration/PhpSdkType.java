@@ -1,15 +1,22 @@
 package net.jay.plugins.php.lang.projectConfiguration;
 
-import com.intellij.openapi.projectRoots.*;
+import javax.swing.Icon;
+
+import net.jay.plugins.php.PHPBundle;
+import net.jay.plugins.php.PHPIcons2;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.projectRoots.AdditionalDataConfigurable;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkAdditionalData;
+import com.intellij.openapi.projectRoots.SdkModel;
+import com.intellij.openapi.projectRoots.SdkModificator;
+import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.PHPIcons;
-import org.jdom.Element;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author Maxim
@@ -34,8 +41,24 @@ public class PhpSdkType extends SdkType
 	public boolean isValidSdkHome(String path)
 	{
 		final VirtualFile file = VfsUtil.findRelativeFile(path, null);
-	//	return file != null && PhpModuleType.isValidPhpSdkHomeDirectory(file);
-		return true;
+		return isValidPhpSdkHomeDirectory(file);
+	}
+	public static boolean isValidPhpSdkHomeDirectory(VirtualFile file)
+	{
+		boolean correctHome = false;
+
+		for(VirtualFile child : file.getChildren())
+		{
+			if(child.getNameWithoutExtension().equals("php"))
+			{
+				if((SystemInfo.isWindows && "exe".equals(child.getExtension())) || (!SystemInfo.isWindows && child.getExtension() == null))
+				{
+					correctHome = true;
+					break;
+				}
+			}
+		}
+		return correctHome;
 	}
 
 	@Nullable
@@ -56,7 +79,7 @@ public class PhpSdkType extends SdkType
 	}
 
 	@Nullable
-	public static String getVMExecutablePath(Sdk sdk)
+	public static String getExecutablePath(Sdk sdk)
 	{
 		return sdk.getHomePath() + "php" + (SystemInfo.isWindows ? ".exe" : "");
 	}
@@ -65,6 +88,7 @@ public class PhpSdkType extends SdkType
 	{
 	}
 
+	@NotNull
 	public String getPresentableName()
 	{
 		return PHPBundle.message("php.sdk.type.name");
@@ -89,6 +113,13 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Icon getIcon()
 	{
-		return PHPIcons.PHP_ICON;
+		return PHPIcons2.Php;
+	}
+
+	@Nullable
+	@Override
+	public Icon getGroupIcon()
+	{
+		return PHPIcons2.Php;
 	}
 }

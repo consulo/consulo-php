@@ -40,7 +40,7 @@ public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
 
 	public PHPFile(FileViewProvider viewProvider)
 	{
-		super(viewProvider, PHPFileType.PHP.getLanguage());
+		super(viewProvider, PHPFileType.INSTANCE.getLanguage());
 	}
 
 	public PHPPsiElement getFirstPsiChild()
@@ -103,7 +103,7 @@ public class PHPFile extends PsiFileBase implements XmlFile, PHPPsiElement
 	@NotNull
 	public FileType getFileType()
 	{
-		return PHPFileType.PHP;
+		return PHPFileType.INSTANCE;
 	}
 
 	public String toString()
