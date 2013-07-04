@@ -43,7 +43,7 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
 		<gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>
-
+        <sdkType implementation="net.jay.plugins.php.lang.projectConfiguration.PhpSdkType" />
 		<lang.parserDefinition language="PHP" implementationClass="net.jay.plugins.php.lang.parser.PHPParserDefinition"/>
 		<lang.commenter language="PHP" implementationClass="net.jay.plugins.php.lang.commenter.PHPCommenter"/>
 		<lang.findUsagesProvider language="PHP" implementationClass="net.jay.plugins.php.lang.findUsages.PhpFindUsagesProvider"/>
