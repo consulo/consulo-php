@@ -43,7 +43,7 @@ public class PHPFileType extends LanguageFileType
 
 	protected PHPFileType()
 	{
-		super(new PHPLanguage());
+		super(PHPLanguage.INSTANCE);
 		FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, new EditorHighlighterProvider()
 		{
 			@Override

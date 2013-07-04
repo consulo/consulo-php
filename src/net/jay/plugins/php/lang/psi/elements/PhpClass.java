@@ -27,4 +27,5 @@ public interface PhpClass extends PHPPsiElement, PhpNamedElement, LightCopyConta
 
 	public boolean isFinal();
 
+	public boolean isInterface();
 }

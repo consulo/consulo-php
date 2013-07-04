@@ -28,9 +28,7 @@ import com.intellij.psi.templateLanguages.TemplateLanguageFileViewProvider;
  */
 public class PHPFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProvider implements TemplateLanguageFileViewProvider
 {
-
-	private static final Language PHP_LANGUAGE = Language.findInstance(PHPLanguage.class);
-	private static final Set<Language> ourRelevantLanguages = new THashSet<Language>(Arrays.asList(StdLanguages.HTML, PHP_LANGUAGE));
+	private static final Set<Language> ourRelevantLanguages = new THashSet<Language>(Arrays.asList(StdLanguages.HTML, PHPLanguage.INSTANCE));
 
 	public PHPFileViewProvider(PsiManager manager, VirtualFile file, boolean physical)
 	{
@@ -47,7 +45,7 @@ public class PHPFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 	@NotNull
 	public Language getBaseLanguage()
 	{
-		return PHP_LANGUAGE;
+		return PHPLanguage.INSTANCE;
 	}
 
 	@NotNull
@@ -56,7 +54,7 @@ public class PHPFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 		return StdLanguages.HTML;
 	}
 
-	private static TemplateDataElementType ourTemplateDataType = new TemplateDataElementType("TEMPLATE_DATA in PHP", PHP_LANGUAGE, PHPTokenTypes.HTML, PHPElementTypes.PHP_OUTER_TYPE);
+	private static TemplateDataElementType ourTemplateDataType = new TemplateDataElementType("TEMPLATE_DATA in PHP", PHPLanguage.INSTANCE, PHPTokenTypes.HTML, PHPElementTypes.PHP_OUTER_TYPE);
 
 	@Override
 	@Nullable

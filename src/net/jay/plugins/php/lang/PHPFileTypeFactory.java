@@ -13,6 +13,9 @@ public class PHPFileTypeFactory extends FileTypeFactory
 	@Override
 	public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer)
 	{
-		fileTypeConsumer.consume(PHPFileType.INSTANCE);
+		for(String extention : PHPFileType.EXTENTIONS)
+		{
+			fileTypeConsumer.consume(PHPFileType.INSTANCE, extention);
+		}
 	}
 }

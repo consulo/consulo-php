@@ -2,7 +2,6 @@ package net.jay.plugins.php.lang.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.JavaTokenType;
 
 %%
 

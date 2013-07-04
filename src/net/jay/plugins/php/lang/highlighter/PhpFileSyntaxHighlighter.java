@@ -3,16 +3,16 @@ package net.jay.plugins.php.lang.highlighter;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.jay.plugins.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.JavaDocTokenType;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.java.IJavaDocElementType;
 import com.intellij.psi.xml.XmlTokenType;
 
 /**
@@ -39,15 +39,15 @@ public class PhpFileSyntaxHighlighter extends SyntaxHighlighterBase
 
 	static
 	{
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsCOMMENTS, PHPHighlightingData.COMMENT);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsNUMBERS, PHPHighlightingData.NUMBER);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsCONSTANTS, PHPHighlightingData.CONSTANT);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsSTRING_EDGE, PHPHighlightingData.STRING);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsEXPR_SUBST_MARKS, PHPHighlightingData.EXPR_SUBST_MARKS);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsOPERATORS, PHPHighlightingData.OPERATION_SIGN);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsKEYWORDS, PHPHighlightingData.KEYWORD);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsBRACKETS, PHPHighlightingData.BRACKETS);
-		fillMap(ATTRIBUTES, PHPTokenTypes.tsHEREDOC_IDS, PHPHighlightingData.HEREDOC_ID);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsCOMMENTS, PHPHighlightingData.COMMENT);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsNUMBERS, PHPHighlightingData.NUMBER);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsCONSTANTS, PHPHighlightingData.CONSTANT);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsSTRING_EDGE, PHPHighlightingData.STRING);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsEXPR_SUBST_MARKS, PHPHighlightingData.EXPR_SUBST_MARKS);
+		//safeMap(ATTRIBUTES, PHPTokenTypes.tsBINARY_OPS, PHPHighlightingData.OPERATION_SIGN);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsKEYWORDS, PHPHighlightingData.KEYWORD);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsBRACKETS, PHPHighlightingData.BRACKETS);
+		safeMap(ATTRIBUTES, PHPTokenTypes.tsHEREDOC_IDS, PHPHighlightingData.HEREDOC_ID);
 		ATTRIBUTES.put(PHPTokenTypes.HEREDOC_CONTENTS, PHPHighlightingData.HEREDOC_CONTENT);
 		ATTRIBUTES.put(PHPTokenTypes.opCOMMA, PHPHighlightingData.COMMA);
 		ATTRIBUTES.put(PHPTokenTypes.opSEMICOLON, PHPHighlightingData.SEMICOLON);
@@ -80,14 +80,14 @@ public class PhpFileSyntaxHighlighter extends SyntaxHighlighterBase
 
 	private static void registerPHPDoc()
 	{
-		ATTRIBUTES.put(JavaDocTokenType.DOC_TAG_NAME, PHPHighlightingData.DOC_COMMENT);
-		DOC_ATTRIBUTES.put(JavaDocTokenType.DOC_TAG_NAME, PHPHighlightingData.DOC_TAG);
+		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_COMMENT);
+		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_TAG);
 
 		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate()
 		{
 			public boolean matches(IElementType type)
 			{
-				return type instanceof IJavaDocElementType;
+				return type instanceof PhpDocElementType;
 			}
 		});
 

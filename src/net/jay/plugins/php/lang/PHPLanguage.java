@@ -1,6 +1,7 @@
 package net.jay.plugins.php.lang;
 
-import com.intellij.lang.xml.XMLLanguage;
+import com.intellij.lang.Language;
+import com.intellij.psi.templateLanguages.TemplateLanguage;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,12 +10,18 @@ import com.intellij.lang.xml.XMLLanguage;
  *
  * @author jay
  */
-public class PHPLanguage extends XMLLanguage
+public class PHPLanguage extends Language implements TemplateLanguage
 {
+	public static final PHPLanguage INSTANCE = new PHPLanguage();
 
 	public PHPLanguage()
 	{
-		super(PHPFileType.NAME);
+		super("PHP");
 	}
 
+	@Override
+	public boolean isCaseSensitive()
+	{
+		return true;
+	}
 }

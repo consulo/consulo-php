@@ -7,7 +7,6 @@ import net.jay.plugins.php.lang.psi.elements.impl.TryImpl;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiReferenceExpression;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,11 +21,6 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 	public void visitPhpElement(PHPPsiElement element)
 	{
 		visitElement(element);
-	}
-
-	public void visitReferenceExpression(PsiReferenceExpression expression)
-	{
-		visitElement(expression);
 	}
 
 	public void visitPhpClass(PhpClass clazz)

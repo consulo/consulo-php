@@ -158,6 +158,11 @@ public class PhpClassImpl extends PhpClassBaseImpl implements PhpClass
 		return getNode().getFirstChildNode().getElementType() == PHPTokenTypes.kwFINAL;
 	}
 
+	public boolean isInterface()
+	{
+		return getNode().getFirstChildNode().getElementType() == PHPTokenTypes.kwINTERFACE;
+	}
+
 	public PhpModifier getModifier()
 	{
 		PhpModifier modifier = new PhpModifier();
