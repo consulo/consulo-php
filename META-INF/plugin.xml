@@ -38,6 +38,7 @@
 	</actions>-->
 
 	<extensions defaultExtensionNs="com.intellij">
+		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider" />
 		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory"/>
 		<fileTypeDetector implementation="net.jay.plugins.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="net.jay.plugins.php.PhpXmlFileNSInfoProvider" />
