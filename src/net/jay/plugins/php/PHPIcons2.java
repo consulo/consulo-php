@@ -1,8 +1,9 @@
 package net.jay.plugins.php;
 
-import javax.swing.Icon;
-
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
+
+import javax.swing.*;
 
 /**
  * @author VISTALL
@@ -11,4 +12,7 @@ import com.intellij.openapi.util.IconLoader;
 public interface PHPIcons2
 {
 	Icon Php = IconLoader.findIcon("/net/jay/plugins/php/php.png");
+
+	Icon Class = AllIcons.Nodes.Class;
+	Icon Interface = AllIcons.Nodes.Interface;
 }

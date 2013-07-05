@@ -1,31 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.psi.LightElementUtil;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpField;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.completion.UsageContext;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.Field;
-import net.jay.plugins.php.lang.psi.elements.FieldReference;
-import net.jay.plugins.php.lang.psi.elements.MethodReference;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-import net.jay.plugins.php.lang.psi.resolve.types.PhpType;
-import net.jay.plugins.php.lang.psi.resolve.types.PhpTypedElement;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -34,6 +8,23 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.cache.psi.LightElementUtil;
+import net.jay.plugins.php.cache.psi.LightPhpClass;
+import net.jay.plugins.php.cache.psi.LightPhpElement;
+import net.jay.plugins.php.cache.psi.LightPhpField;
+import net.jay.plugins.php.completion.PhpVariantsUtil;
+import net.jay.plugins.php.completion.UsageContext;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.lang.psi.resolve.types.PhpType;
+import net.jay.plugins.php.lang.psi.resolve.types.PhpTypedElement;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -218,7 +209,7 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 		//noinspection ConstantConditions
 		if(getNameNode() != null && !getFieldName().equals(name))
 		{
-			final ConstantReference constantReference = PhpPsiElementFactory.getInstance(getProject()).createConstantReference(name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
 		}
 		return this;

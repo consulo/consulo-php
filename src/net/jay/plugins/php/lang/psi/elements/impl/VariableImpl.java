@@ -1,39 +1,26 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.Icon;
-
+import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.*;
+import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.util.ArrayUtil;
+import com.intellij.util.IncorrectOperationException;
 import net.jay.plugins.php.PHPIcons;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.AssignmentExpression;
-import net.jay.plugins.php.lang.psi.elements.Catch;
-import net.jay.plugins.php.lang.psi.elements.Foreach;
-import net.jay.plugins.php.lang.psi.elements.Global;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.SelfAssignmentExpression;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.*;
 import net.jay.plugins.php.lang.psi.resolve.PhpResolveProcessor;
 import net.jay.plugins.php.lang.psi.resolve.PhpVariantsProcessor;
 import net.jay.plugins.php.lang.psi.resolve.ResolveUtil;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -64,7 +51,7 @@ public class VariableImpl extends PhpNamedElementImpl implements Variable
 		//noinspection ConstantConditions
 		if(canReadName() && !getName().equals(name))
 		{
-			final Variable variable = PhpPsiElementFactory.getInstance(getProject()).createVariable(name);
+			final Variable variable = PhpPsiElementFactory.createVariable(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), variable.getNameNode());
 		}
 		return this;

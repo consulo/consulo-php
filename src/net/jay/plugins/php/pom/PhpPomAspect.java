@@ -1,11 +1,5 @@
 package net.jay.plugins.php.pom;
 
-import java.util.Collections;
-
-import net.jay.plugins.php.lang.psi.PHPFile;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.pom.PomModel;
 import com.intellij.pom.PomModelAspect;
@@ -13,6 +7,9 @@ import com.intellij.pom.event.PomModelEvent;
 import com.intellij.pom.tree.TreeAspect;
 import com.intellij.pom.tree.events.TreeChangeEvent;
 import com.intellij.psi.PsiFile;
+import net.jay.plugins.php.lang.psi.PHPFile;
+
+import java.util.Collections;
 
 /**
  * @author jay
@@ -52,28 +49,5 @@ public class PhpPomAspect implements PomModelAspect
 		}
 		final PhpChangeSet phpChangeSet = new PhpChangeSet(model, (PHPFile) file);
 		event.registerChangeSet(this, phpChangeSet);
-	}
-
-	public void projectOpened()
-	{
-	}
-
-	public void projectClosed()
-	{
-	}
-
-	@NonNls
-	@NotNull
-	public String getComponentName()
-	{
-		return "PhpSupport.PhpPomAspect";
-	}
-
-	public void initComponent()
-	{
-	}
-
-	public void disposeComponent()
-	{
 	}
 }

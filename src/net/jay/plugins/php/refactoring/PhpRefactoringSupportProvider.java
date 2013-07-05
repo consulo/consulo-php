@@ -1,10 +1,9 @@
 package net.jay.plugins.php.refactoring;
 
-import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.refactoring.InlineHandler;
 import com.intellij.lang.refactoring.RefactoringSupportProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.RefactoringActionHandler;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -36,17 +35,6 @@ public class PhpRefactoringSupportProvider extends RefactoringSupportProvider
 	}
 
 	public RefactoringActionHandler getIntroduceFieldHandler()
-	{
-		return null;
-	}
-
-	public boolean doInplaceRenameFor(PsiElement element, PsiElement context)
-	{
-		return false;
-	}
-
-	@Nullable
-	public InlineHandler getInlineHandler()
 	{
 		return null;
 	}

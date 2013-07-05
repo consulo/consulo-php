@@ -1,1 +1,4 @@
 #parse("PHP File Header.php")
+<?php
+
+?>

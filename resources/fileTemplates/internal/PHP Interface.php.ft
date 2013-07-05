@@ -1,7 +1,7 @@
 #parse("PHP File Header.php")
 
 <?php
-class ${NAME} {
+interface ${NAME} {
 
 }
 ?>

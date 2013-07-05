@@ -21,28 +21,35 @@
 			<implementation-class>net.jay.plugins.php.lang.highlighter.hierarchy.PhpHierarchyHighlightingPassFactory
 			</implementation-class>
 		</component>
-		<component>
-			<implementation-class>net.jay.plugins.php.lang.psi.PhpPsiElementFactory</implementation-class>
-		</component>
 	</project-components>
 	<module-components>
 		<component>
 			<implementation-class>net.jay.plugins.php.cache.PhpModuleCacheManager</implementation-class>
 		</component>
 	</module-components>
-	<!--<actions>
-	  <action id="PhpGenerateGetterAction" class="net.jay.plugins.php.actions.generate.PhpGenerateGetterAction"
-			  text="Getter" description="Generates getter">
-		<add-to-group group-id="GenerateGroup" anchor="first"/>
-	  </action>
-	</actions>-->
+	<actions>
+		<action id="PhpNewFile" class="net.jay.plugins.php.actions.PhpCreateFileAction">
+			<add-to-group group-id="NewGroup1" anchor="first"/>
+		</action>
+		<action id="PhpNewClass" class="net.jay.plugins.php.actions.PhpCreateClassAction">
+			<add-to-group group-id="NewGroup1" anchor="after" relative-to-action="PhpNewFile"/>
+		</action>
+
+		<action id="PhpGenerateGetterAction" class="net.jay.plugins.php.actions.generate.PhpGenerateGetterAction" text="Getter" description="Generates getter">
+			<add-to-group group-id="GenerateGroup" anchor="first"/>
+		</action>
+	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider" />
+		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider"/>
 		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory"/>
 		<fileTypeDetector implementation="net.jay.plugins.php.lang.PhpFileDetector"/>
-		<xml.fileNSInfoProvider implementation="net.jay.plugins.php.PhpXmlFileNSInfoProvider" />
-		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml" />
+		<xml.fileNSInfoProvider implementation="net.jay.plugins.php.PhpXmlFileNSInfoProvider"/>
+		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
+
+		<internalFileTemplate name="PHP Class"/>
+		<internalFileTemplate name="PHP File"/>
+		<internalFileTemplate name="PHP Interface"/>
 
 		<colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
 		<gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>

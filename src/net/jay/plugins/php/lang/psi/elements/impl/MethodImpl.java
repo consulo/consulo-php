@@ -1,7 +1,10 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import javax.swing.Icon;
-
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.IncorrectOperationException;
 import net.jay.plugins.php.PHPIcons;
 import net.jay.plugins.php.cache.psi.LightPhpElement;
 import net.jay.plugins.php.cache.psi.LightPhpMethod;
@@ -9,24 +12,15 @@ import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
+import net.jay.plugins.php.lang.psi.elements.*;
 import net.jay.plugins.php.lang.psi.resolve.types.PhpType;
 import net.jay.plugins.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
+
+import javax.swing.*;
 
 /**
  * @author jay
@@ -46,7 +40,7 @@ public class MethodImpl extends FunctionImpl implements Method
 		//noinspection ConstantConditions
 		if(getNameNode() != null && !getName().equals(name))
 		{
-			final ConstantReference constantReference = PhpPsiElementFactory.getInstance(getProject()).createConstantReference(name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
 		}
 		return this;

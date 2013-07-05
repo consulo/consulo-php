@@ -1,7 +1,9 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import javax.swing.Icon;
-
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.util.IncorrectOperationException;
 import net.jay.plugins.php.PHPIcons;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
@@ -10,14 +12,11 @@ import net.jay.plugins.php.lang.psi.elements.Variable;
 import net.jay.plugins.php.lang.psi.resolve.types.PhpType;
 import net.jay.plugins.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.util.IncorrectOperationException;
+
+import javax.swing.*;
 
 /**
  * @author jay
@@ -48,7 +47,7 @@ public class ParameterImpl extends PhpNamedElementImpl implements Parameter
 		//noinspection ConstantConditions
 		if(getNameNode() != null && !getName().equals(name))
 		{
-			final Variable variable = PhpPsiElementFactory.getInstance(getProject()).createVariable(name);
+			final Variable variable = PhpPsiElementFactory.createVariable(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), variable.getNameNode());
 		}
 		return this;

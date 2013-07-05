@@ -1,29 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.Icon;
-
-import net.jay.plugins.php.PHPIcons;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.ExtendsList;
-import net.jay.plugins.php.lang.psi.elements.Field;
-import net.jay.plugins.php.lang.psi.elements.ImplementsList;
-import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-import net.jay.plugins.php.util.PhpPresentationUtil;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
@@ -31,6 +7,20 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiElementFilter;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.PHPIcons;
+import net.jay.plugins.php.cache.psi.LightPhpClass;
+import net.jay.plugins.php.cache.psi.LightPhpElement;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import net.jay.plugins.php.util.PhpPresentationUtil;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -116,7 +106,7 @@ public class PhpClassImpl extends PhpClassBaseImpl implements PhpClass
 		//noinspection ConstantConditions
 		if(getNameNode() != null && !getName().equals(name))
 		{
-			final ConstantReference constantReference = PhpPsiElementFactory.getInstance(getProject()).createConstantReference(name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
 		}
 		return this;

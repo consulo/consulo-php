@@ -1,42 +1,23 @@
 package net.jay.plugins.php.lang.psi;
 
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.GroupStatement;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
+import net.jay.plugins.php.lang.PHPFileType;
+import net.jay.plugins.php.lang.psi.elements.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
  * @date Jul 1, 2008 4:10:20 PM
  */
-public class PhpPsiElementFactory implements ProjectComponent
+public class PhpPsiElementFactory
 {
-
-	private Project project;
-
-	public PhpPsiElementFactory(Project project)
-	{
-		this.project = project;
-	}
-
-	public static PhpPsiElementFactory getInstance(Project project)
-	{
-		return project.getComponent(PhpPsiElementFactory.class);
-	}
-
-	public ConstantReference createConstantReference(@NotNull String constantName)
+	public static ConstantReference createConstantReference(Project project, @NotNull String constantName)
 	{
 		assert constantName.length() > 0;
-		final PsiFile psiFile = createFile(constantName);
+		final PsiFile psiFile = createFile(project, constantName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
 		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
@@ -44,10 +25,10 @@ public class PhpPsiElementFactory implements ProjectComponent
 		return (ConstantReference) psiElement;
 	}
 
-	public Variable createVariable(@NotNull String variableName)
+	public static Variable createVariable(Project project, @NotNull String variableName)
 	{
 		assert variableName.length() > 0;
-		final PsiFile psiFile = createFile("$" + variableName);
+		final PsiFile psiFile = createFile(project, "$" + variableName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
 		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
@@ -55,42 +36,29 @@ public class PhpPsiElementFactory implements ProjectComponent
 		return (Variable) psiElement;
 	}
 
-	public PsiFile createFile(String fileText)
+	public static PhpClass createClass(Project project, @NotNull String text)
 	{
-		return createFile(fileText, false);
+		final PsiFile psiFile = createFile(project, text);
+		final PsiElement child = psiFile.getFirstChild();
+		assert child instanceof GroupStatement;
+		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		assert psiElement instanceof PhpClass;
+		return (PhpClass) psiElement;
 	}
 
-	public PHPFile createFile(String fileText, boolean isPhisical)
+	public static PsiFile createFile(Project project, String fileText)
 	{
-		return createDummyFile(fileText, isPhisical);
+		return createFile(project, fileText, false);
 	}
 
-	private PHPFile createDummyFile(String fileText, boolean isPhisical)
+	public static PHPFile createFile(Project project, String fileText, boolean isPhysical)
 	{
-		return (PHPFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PHPFileType.INSTANCE.getDefaultExtension(), PHPFileType.INSTANCE, "<?php\n" + fileText, System.currentTimeMillis(), isPhisical);
+		return createDummyFile(project, fileText, isPhysical);
 	}
 
-
-	public void projectOpened()
+	private static PHPFile createDummyFile(Project project, String fileText, boolean isPhysical)
 	{
-	}
-
-	public void projectClosed()
-	{
-	}
-
-	@NonNls
-	@NotNull
-	public String getComponentName()
-	{
-		return "PhpSupport.PhpPsiElementFactory";
-	}
-
-	public void initComponent()
-	{
-	}
-
-	public void disposeComponent()
-	{
+		return (PHPFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PHPFileType.INSTANCE.getDefaultExtension(), PHPFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
+				System.currentTimeMillis(), isPhysical);
 	}
 }

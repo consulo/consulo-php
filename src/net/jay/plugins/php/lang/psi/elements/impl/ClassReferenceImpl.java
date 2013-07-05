@@ -1,28 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.DeclarationsIndex;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
-import net.jay.plugins.php.completion.ClassUsageContext;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
-import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.NewExpression;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-import net.jay.plugins.php.lang.psi.resolve.PhpResolveResult;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -33,6 +10,23 @@ import com.intellij.psi.ResolveResult;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.cache.DeclarationsIndex;
+import net.jay.plugins.php.cache.psi.LightPhpClass;
+import net.jay.plugins.php.cache.psi.LightPhpElement;
+import net.jay.plugins.php.cache.psi.LightPhpInterface;
+import net.jay.plugins.php.completion.ClassUsageContext;
+import net.jay.plugins.php.completion.PhpVariantsUtil;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.lang.psi.resolve.PhpResolveResult;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -169,7 +163,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		//noinspection ConstantConditions
 		if(getNameNode() != null && !getReferenceName().equals(name))
 		{
-			final ConstantReference constantReference = PhpPsiElementFactory.getInstance(getProject()).createConstantReference(name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
 		}
 		return this;
