@@ -3,13 +3,11 @@ package org.consulo.php.module.extension;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModifiableRootModel;
-import org.consulo.module.extension.ModuleInheritableNamedPointer;
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
 import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sun.net.www.content.image.jpeg;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +22,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	public PhpMutableModuleExtension(@NotNull String id, @NotNull Module module, PhpModuleExtension originalExtension) {
 		super(id, module);
 		myOriginalExtension = originalExtension;
+		commit(originalExtension);
 	}
 
 	@NotNull
