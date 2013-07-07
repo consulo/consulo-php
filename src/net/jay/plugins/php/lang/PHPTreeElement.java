@@ -1,19 +1,5 @@
 package net.jay.plugins.php.lang;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-import net.jay.plugins.php.util.PhpPresentationUtil;
-
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
@@ -21,6 +7,12 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.RowIcon;
+import net.jay.plugins.php.lang.psi.PHPFile;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.util.PhpPresentationUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author AG
@@ -49,7 +41,7 @@ class PHPTreeElement implements StructureViewTreeElement
 		if(myElement instanceof PhpClass)
 		{
 			PhpClass e = (PhpClass) myElement;
-			return new PresentationData(e.getName(), null, e.getIcon(), e.getIcon(), null);
+			return new PresentationData(e.getName(), null, e.getIcon(),  null);
 		}
 		if(myElement instanceof Method)
 		{
@@ -59,7 +51,7 @@ class PHPTreeElement implements StructureViewTreeElement
 			RowIcon rowIcon = new RowIcon(2);
 			rowIcon.setIcon(e.getIcon(), 0);
 			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(e.getModifier()), 1);
-			return new PresentationData(b.toString(), null, rowIcon, rowIcon, null);
+			return new PresentationData(b.toString(), null, rowIcon, null);
 		}
 		if(myElement instanceof Function)
 		{
@@ -69,7 +61,7 @@ class PHPTreeElement implements StructureViewTreeElement
 			RowIcon rowIcon = new RowIcon(2);
 			rowIcon.setIcon(e.getIcon(), 0);
 			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(PhpModifier.PUBLIC), 1);
-			return new PresentationData(b.toString(), null, rowIcon, rowIcon, null);
+			return new PresentationData(b.toString(), null, rowIcon, null);
 		}
 		if(myElement instanceof PhpNamedElement)
 		{
@@ -77,7 +69,7 @@ class PHPTreeElement implements StructureViewTreeElement
 			RowIcon rowIcon = new RowIcon(2);
 			rowIcon.setIcon(e.getIcon(), 0);
 			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(PhpModifier.PUBLIC), 1);
-			return new PresentationData(e.getName(), null, rowIcon, rowIcon, null);
+			return new PresentationData(e.getName(), null, rowIcon, null);
 		}
 		return null;
 	}
