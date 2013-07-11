@@ -1,7 +1,10 @@
 package net.jay.plugins.php.lang;
 
 import com.intellij.lang.Language;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.psi.templateLanguages.TemplateLanguage;
+import org.consulo.php.PhpLanguageLevel;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,4 +27,10 @@ public class PHPLanguage extends Language implements TemplateLanguage
 	{
 		return true;
 	}
+
+  @NotNull
+  @Override
+  public LanguageVersion[] getVersions() {
+    return PhpLanguageLevel.VALUES;
+  }
 }

@@ -8,6 +8,7 @@ import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.Processor;
+import org.consulo.php.PhpLanguageLevel;
 
 /**
  * @author jay
@@ -20,7 +21,7 @@ public class PhpWordsScanner implements WordsScanner
 
 	public PhpWordsScanner()
 	{
-		lexer = new PHPFlexAdapter();
+		lexer = new PHPFlexAdapter(PhpLanguageLevel.HIGHEST);
 	}
 
 	public void processWords(CharSequence fileText, final Processor<WordOccurrence> processor)
@@ -31,7 +32,7 @@ public class PhpWordsScanner implements WordsScanner
 		while(lexer.getTokenType() != null)
 		{
 			final IElementType type = lexer.getTokenType();
-			if(type == PHPTokenTypes.IDENTIFIER || PHPTokenTypes.tsKEYWORDS.contains(type))
+			if(type == PHPTokenTypes.IDENTIFIER || PHPTokenTypes.KEYWORDS.contains(type))
 			{
 				if(occurrence == null)
 				{

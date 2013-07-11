@@ -1,6 +1,7 @@
 package net.jay.plugins.php.lang.lexer;
 
 import com.intellij.lexer.FlexAdapter;
+import org.consulo.php.PhpLanguageLevel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,9 +13,9 @@ import com.intellij.lexer.FlexAdapter;
 public class PHPFlexAdapter extends FlexAdapter
 {
 
-	public PHPFlexAdapter()
+	public PHPFlexAdapter(PhpLanguageLevel languageLevel)
 	{
-		super(new PHPFlexLexer(false));
+		super(new PHPFlexLexer(false, languageLevel));
 	}
 
 }

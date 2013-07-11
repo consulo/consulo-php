@@ -52,7 +52,7 @@ public class OperatorManager
 		{
 			afterOperator = PHPTokenTypes.tsOPERATORS.contains(type);
 		}
-		afterKeyword = PHPTokenTypes.tsKEYWORDS.contains(type);
+		afterKeyword = PHPTokenTypes.KEYWORDS.contains(type);
 		afterVariable = PHPTokenTypes.VARIABLE == type;
 		inStatementStart = (PHPTokenTypes.opSEMICOLON == type || PHPTokenTypes.tsPHP_OPENING_TAGS.contains(type) || PHPTokenTypes.tsOPENING_BRACKETS.contains(type));
 		return type;

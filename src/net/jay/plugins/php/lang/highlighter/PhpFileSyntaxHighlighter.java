@@ -1,51 +1,52 @@
 package net.jay.plugins.php.lang.highlighter;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.jay.plugins.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
+import net.jay.plugins.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocElementType;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import org.consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
+import org.consulo.php.PhpLanguageLevel;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Maxim.Mossienko
  *         Date: 29.01.2009
  *         Time: 22:30:17
  */
-public class PhpFileSyntaxHighlighter extends SyntaxHighlighterBase
-{
+public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlighter {
 	private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 	private static final Map<IElementType, TextAttributesKey> DOC_ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 
-	@NotNull
-	public Lexer getHighlightingLexer()
-	{
-		return new PHPHighlightingLexer();
+	public PhpFileSyntaxHighlighter(LanguageVersion languageVersion) {
+		super(languageVersion);
+	}
+
+	@Override
+	public Lexer getHighlightingLexer(LanguageVersion languageVersion) {
+		return new PHPHighlightingLexer((PhpLanguageLevel) languageVersion);
 	}
 
 	@NotNull
-	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
-	{
+	public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
 		return pack(ATTRIBUTES.get(tokenType), DOC_ATTRIBUTES.get(tokenType));
 	}
 
-	static
-	{
+	static {
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsCOMMENTS, PHPHighlightingData.COMMENT);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsNUMBERS, PHPHighlightingData.NUMBER);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsCONSTANTS, PHPHighlightingData.CONSTANT);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsSTRING_EDGE, PHPHighlightingData.STRING);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsEXPR_SUBST_MARKS, PHPHighlightingData.EXPR_SUBST_MARKS);
 		//safeMap(ATTRIBUTES, PHPTokenTypes.tsBINARY_OPS, PHPHighlightingData.OPERATION_SIGN);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsKEYWORDS, PHPHighlightingData.KEYWORD);
+		safeMap(ATTRIBUTES, PHPTokenTypes.KEYWORDS, PHPHighlightingData.KEYWORD);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsBRACKETS, PHPHighlightingData.BRACKETS);
 		safeMap(ATTRIBUTES, PHPTokenTypes.tsHEREDOC_IDS, PHPHighlightingData.HEREDOC_ID);
 		ATTRIBUTES.put(PHPTokenTypes.HEREDOC_CONTENTS, PHPHighlightingData.HEREDOC_CONTENT);
@@ -68,35 +69,28 @@ public class PhpFileSyntaxHighlighter extends SyntaxHighlighterBase
 		registerPHPDoc();
 	}
 
-	private static void registerHtmlMarkup(IElementType[] htmlTokens, IElementType[] htmlTokens2)
-	{
-		for(IElementType idx : htmlTokens)
-		{
+	private static void registerHtmlMarkup(IElementType[] htmlTokens, IElementType[] htmlTokens2) {
+		for (IElementType idx : htmlTokens) {
 			ATTRIBUTES.put(idx, PHPHighlightingData.DOC_COMMENT);
 			DOC_ATTRIBUTES.put(idx, PHPHighlightingData.DOC_MARKUP);
 		}
 
-		for(IElementType idx : htmlTokens2)
-		{
+		for (IElementType idx : htmlTokens2) {
 			ATTRIBUTES.put(idx, PHPHighlightingData.DOC_COMMENT);
 		}
 	}
 
-	private static void registerPHPDoc()
-	{
+	private static void registerPHPDoc() {
 		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_COMMENT);
 		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_TAG);
 
-		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate()
-		{
-			public boolean matches(IElementType type)
-			{
+		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate() {
+			public boolean matches(IElementType type) {
 				return type instanceof PhpDocElementType;
 			}
 		});
 
-		for(IElementType type : javadoc)
-		{
+		for (IElementType type : javadoc) {
 			ATTRIBUTES.put(type, PHPHighlightingData.DOC_COMMENT);
 		}
 

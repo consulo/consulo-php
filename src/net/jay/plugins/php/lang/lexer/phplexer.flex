@@ -9,15 +9,18 @@ import gnu.trove.THashSet;
 import java.util.Arrays;
 import java.util.Set;
 import net.jay.plugins.php.completion.PhpCompletionData;
+import org.consulo.php.PhpLanguageLevel;
 %%
 
 %{
   private static Set<String> ourPredefinedSymbols = new THashSet<String>(Arrays.asList(PhpCompletionData.predefinedFuncs));
   private boolean myHighlightingMode;
+  private PhpLanguageLevel myLanguageLevel;
 
-	public PHPFlexLexer(boolean highlightingMode) {
+	public PHPFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
 		this((java.io.Reader)null);
 		myHighlightingMode = highlightingMode;
+		myLanguageLevel = languageLevel;
 	}
 
 	//private StringManager sqsManager = new SingleQuotedStringManager(this);
@@ -190,6 +193,9 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"clone"                            { return PHPTokenTypes.kwCLONE; }
 	"new"                              { return PHPTokenTypes.kwNEW; }
 	"instanceof"                       { return PHPTokenTypes.kwINSTANCEOF; }
+
+	"namespace"                        { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PHPTokenTypes.NAMESPACE_KEYWORD : PHPTokenTypes.IDENTIFIER;}
+	"use"                              { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PHPTokenTypes.USE_KEYWORD : PHPTokenTypes.IDENTIFIER;}
 
 	//   flow control
 	"if"                               { return opManager.process(PHPTokenTypes.kwIF); }

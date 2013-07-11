@@ -1,20 +1,19 @@
 package net.jay.plugins.php.lang.highlighter;
 
-import java.util.Map;
-
-import javax.swing.Icon;
-
-import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.PHPIcons2;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import net.jay.plugins.php.PHPBundle;
+import net.jay.plugins.php.PHPIcons2;
+import org.consulo.php.PhpLanguageLevel;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -99,7 +98,7 @@ public class PHPColorsPage implements ColorSettingsPage
 	@NotNull
 	public SyntaxHighlighter getHighlighter()
 	{
-		return new PhpFileSyntaxHighlighter();
+		return new PhpFileSyntaxHighlighter(PhpLanguageLevel.HIGHEST);
 	}
 
 	@NonNls

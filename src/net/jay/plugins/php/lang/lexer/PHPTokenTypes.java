@@ -48,6 +48,8 @@ public interface PHPTokenTypes extends PhpDocElementTypes
 	IElementType kwENDDECLARE = new PHPElementType("enddeclare");
 
 	IElementType kwEXIT = new PHPElementType("exit");
+	IElementType NAMESPACE_KEYWORD = new PHPElementType("NAMESPACE_KEYWORD");
+	IElementType USE_KEYWORD = new PHPElementType("USE_KEYWORD");
 	IElementType kwPRIVATE = new PHPElementType("private");
 	IElementType kwFUNCTION = new PHPElementType("function");
 	IElementType kwNEW = new PHPElementType("new");
@@ -196,7 +198,10 @@ public interface PHPTokenTypes extends PhpDocElementTypes
 
 	);
 
-	TokenSet tsKEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(kwABSTACT, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO, kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, kwFINAL, kwFUNCTION, kwGLOBAL, kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, kwINTERFACE, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, kwPRIVATE, kwPROTECTED, kwPUBLIC, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, kwSTATIC, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF));
+	TokenSet KEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(kwABSTACT, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO,
+			kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, kwFINAL, kwFUNCTION, kwGLOBAL, kwIMPLEMENTS,
+			kwINCLUDE, kwINCLUDE_ONCE, kwINTERFACE, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, kwPRIVATE, kwPROTECTED, kwPUBLIC, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, kwSTATIC, kwTHROW, kwUNSET,
+			kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD));
 
 	TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM);
 

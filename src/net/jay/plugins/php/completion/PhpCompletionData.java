@@ -77,7 +77,7 @@ public class PhpCompletionData extends CompletionData
 
 	static
 	{
-		final IElementType[] iElementTypes = PHPTokenTypes.tsKEYWORDS.getTypes();
+		final IElementType[] iElementTypes = PHPTokenTypes.KEYWORDS.getTypes();
 		keywords = new String[iElementTypes.length];
 		int i = 0;
 

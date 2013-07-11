@@ -4,6 +4,7 @@ import net.jay.plugins.php.lang.lexer.PHPFlexAdapter;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PHPFile;
 
+import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageVersion;
@@ -28,12 +29,13 @@ public class PHPParserDefinition implements ParserDefinition
 {
 
 	@NotNull
-	public Lexer createLexer(Project project, LanguageVersion languageVersion)
+	public Lexer createLexer(Project project, @NotNull LanguageVersion languageVersion)
 	{
-		return new PHPFlexAdapter();
+		return new PHPFlexAdapter((PhpLanguageLevel) languageVersion);
 	}
 
-	public PsiParser createParser(Project project, LanguageVersion languageVersion)
+	@NotNull
+	public PsiParser createParser(Project project, @NotNull LanguageVersion languageVersion)
 	{
 		return new PHPPsiParser();
 	}
@@ -45,19 +47,19 @@ public class PHPParserDefinition implements ParserDefinition
 	}
 
 	@NotNull
-	public TokenSet getWhitespaceTokens(LanguageVersion languageVersion)
+	public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion)
 	{
 		return TokenSet.create(PHPTokenTypes.WHITE_SPACE, PHPTokenTypes.DOC_WHITESPACE);
 	}
 
 	@NotNull
-	public TokenSet getCommentTokens(LanguageVersion languageVersion)
+	public TokenSet getCommentTokens(@NotNull LanguageVersion languageVersion)
 	{
 		return PHPTokenTypes.tsCOMMENTS;
 	}
 
 	@NotNull
-	public TokenSet getStringLiteralElements(LanguageVersion languageVersion)
+	public TokenSet getStringLiteralElements(@NotNull LanguageVersion languageVersion)
 	{
 		return PHPTokenTypes.tsSTRINGS;
 	}

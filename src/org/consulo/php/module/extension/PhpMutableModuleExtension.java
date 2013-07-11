@@ -5,12 +5,11 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
-import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
+import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author VISTALL
@@ -31,12 +30,16 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 		return (MutableModuleInheritableNamedPointer<Sdk>) super.getInheritableSdk();
 	}
 
+	@Override
+	@NotNull
+	public MutableModuleInheritableNamedPointer<PhpLanguageLevel> getInheritableLanguageLevel() {
+		return myLanguageLevel;
+	}
+
 	@Nullable
 	@Override
 	public JComponent createConfigurablePanel(@NotNull ModifiableRootModel modifiableRootModel, @Nullable Runnable runnable) {
-		JPanel jPanel = new JPanel(new BorderLayout());
-		jPanel.add(new ModuleExtensionWithSdkPanel(this, runnable), BorderLayout.NORTH);
-		return jPanel;
+		return new PhpModuleExtensionPanel(this, runnable);
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 
 	@Override
 	public boolean isModified() {
-		return isModifiedImpl(myOriginalExtension);
+		return isModifiedImpl(myOriginalExtension) || !myOriginalExtension.getInheritableLanguageLevel().equals(getInheritableLanguageLevel());
 	}
 
 	@Override
