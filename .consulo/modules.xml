@@ -4,6 +4,7 @@
     <modules>
       <module name="consulo-php" dirurl="file://$PROJECT_DIR$">
         <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="MODULE_DIR" />
+        <extension id="lombok" />
         <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" />
         <content url="file://$MODULE_DIR$">
           <content-folder type="RESOURCE" url="file://$MODULE_DIR$/resources" />
@@ -20,6 +21,18 @@
             </CLASSES>
             <JAVADOC />
             <SOURCES />
+          </library>
+        </orderEntry>
+        <orderEntry type="module-library">
+          <library>
+            <CLASSES>
+              <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5.jar!/" />
+            </CLASSES>
+            <JAVADOC />
+            <SOURCES>
+              <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" />
+            </SOURCES>
+            <jarDirectory url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" recursive="false" type="SOURCES" />
           </library>
         </orderEntry>
       </module>

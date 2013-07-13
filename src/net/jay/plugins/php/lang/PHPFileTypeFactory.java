@@ -1,8 +1,9 @@
 package net.jay.plugins.php.lang;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
+import org.consulo.php.vfs.PharFileType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -17,5 +18,6 @@ public class PHPFileTypeFactory extends FileTypeFactory
 		{
 			fileTypeConsumer.consume(PHPFileType.INSTANCE, extention);
 		}
+		fileTypeConsumer.consume(PharFileType.INSTANCE);
 	}
 }

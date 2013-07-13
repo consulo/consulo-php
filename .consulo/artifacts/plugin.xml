@@ -10,6 +10,7 @@
               <element id="dir-copy" path="$PROJECT_DIR$/META-INF" />
             </element>
           </element>
+          <element id="file-copy" path="$PROJECT_DIR$/lib/commons-compress-1.5.jar" />
         </element>
       </element>
     </root>
