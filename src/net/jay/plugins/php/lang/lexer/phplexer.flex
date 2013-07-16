@@ -398,7 +398,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.PHP_OPENING_TAG;
 }
 
-<YYINITIAL>"<?php"([ \t]|{NEWLINE}) {
+<YYINITIAL>"<?php" {
 	sManager.toState(ST_IN_SCRIPTING);
 	return PHPTokenTypes.PHP_OPENING_TAG;
 }
@@ -468,12 +468,17 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.LINE_COMMENT;
 }
 
-<ST_IN_SCRIPTING>("?>"|"</script"{WHITESPACE}*">"){NEWLINE}? {
+<ST_IN_SCRIPTING>("</script"{WHITESPACE}*">"){NEWLINE}? {
 	yybegin(YYINITIAL);
 	return PHPTokenTypes.PHP_CLOSING_TAG;
 }
 
-<ST_IN_SCRIPTING>"%>"{NEWLINE}? {
+<ST_IN_SCRIPTING>"?>" {
+	yybegin(YYINITIAL);
+	return PHPTokenTypes.PHP_CLOSING_TAG;
+}
+
+<ST_IN_SCRIPTING>"%>" {
 	yybegin(YYINITIAL);
 	return PHPTokenTypes.PHP_CLOSING_TAG;
 }
