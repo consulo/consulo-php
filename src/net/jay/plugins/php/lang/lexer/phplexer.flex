@@ -383,11 +383,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.HTML;
 }
 
-<YYINITIAL>"<?"|"<script"{WHITESPACE}+"language"{WHITESPACE}*"="{WHITESPACE}*("php"|"\"php\""|"\'php\'"){WHITESPACE}*">" {
-	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.PHP_OPENING_TAG;
-}
-
 <YYINITIAL>"<%="|"<?=" {
 	sManager.toState(ST_IN_SCRIPTING);
 	return PHPTokenTypes.PHP_ECHO_OPENING_TAG;
@@ -398,7 +393,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.PHP_OPENING_TAG;
 }
 
-<YYINITIAL>"<?php" {
+<YYINITIAL>"<?php" | "<?" {
 	sManager.toState(ST_IN_SCRIPTING);
 	return PHPTokenTypes.PHP_OPENING_TAG;
 }
@@ -466,11 +461,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	assert(eatResult > 0);
 	zzMarkedPos += eatResult - 1;
 	return PHPTokenTypes.LINE_COMMENT;
-}
-
-<ST_IN_SCRIPTING>("</script"{WHITESPACE}*">"){NEWLINE}? {
-	yybegin(YYINITIAL);
-	return PHPTokenTypes.PHP_CLOSING_TAG;
 }
 
 <ST_IN_SCRIPTING>"?>" {
