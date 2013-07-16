@@ -253,8 +253,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"__FUNCTION__"                     { return opManager.process(PHPTokenTypes.CONST_FUNCTION); }
 	"__CLASS__"                        { return opManager.process(PHPTokenTypes.CONST_CLASS); }
 	"__METHOD__"                       { return opManager.process(PHPTokenTypes.CONST_METHOD); }
-
-	.                                  { return PHPTokenTypes.BAD_CHARACTER; }
 }
 
 <ST_IN_SCRIPTING>{
@@ -383,19 +381,9 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.HTML;
 }
 
-<YYINITIAL>"<%="|"<?=" {
+<YYINITIAL>"<%=" |"<?=" | "<%" |"<?php" | "<?" {
 	sManager.toState(ST_IN_SCRIPTING);
 	return PHPTokenTypes.PHP_ECHO_OPENING_TAG;
-}
-
-<YYINITIAL>"<%" {
-	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.PHP_OPENING_TAG;
-}
-
-<YYINITIAL>"<?php" | "<?" {
-	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.PHP_OPENING_TAG;
 }
 
 <ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE,ST_VAR_OFFSET>"$"{LABEL} {
@@ -570,7 +558,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PHPTokenTypes.chBACKTRICK;
 }
 
-<ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC,ST_START_HEREDOC,ST_END_HEREDOC,ST_LOOKING_FOR_PROPERTY,
-ST_LOOKING_FOR_VARNAME,ST_VAR_OFFSET,ST_COMMENT,ST_DOC_COMMENT,ST_ONE_LINE_COMMENT>{ANY_CHAR} {
+<ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC,ST_START_HEREDOC,ST_END_HEREDOC,ST_LOOKING_FOR_PROPERTY,ST_LOOKING_FOR_VARNAME,ST_VAR_OFFSET,ST_COMMENT,ST_DOC_COMMENT,ST_ONE_LINE_COMMENT>{ANY_CHAR} {
 	return PHPTokenTypes.UNKNOWN_SYMBOL;
 }
