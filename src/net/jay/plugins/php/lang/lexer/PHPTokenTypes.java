@@ -1,5 +1,6 @@
 package net.jay.plugins.php.lang.lexer;
 
+import com.intellij.psi.TokenType;
 import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.psi.PHPElementType;
@@ -14,7 +15,7 @@ import com.intellij.psi.tree.TokenSet;
  *
  * @author jay
  */
-public interface PHPTokenTypes extends PhpDocElementTypes
+public interface PHPTokenTypes extends PhpDocElementTypes, TokenType
 {
 
 	IElementType PHP_OPENING_TAG = new PHPElementType("php opening tag"); // <?php or <?

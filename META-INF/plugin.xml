@@ -68,6 +68,7 @@
 		<syntaxHighlighter key="PHP" implementationClass="net.jay.plugins.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
 		<annotator language="PHP" implementationClass="net.jay.plugins.php.lang.annotator.PhpAnnotator"/>
 		<lang.fileViewProviderFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPFileViewProviderFactory"/>
+		<lang.substitutor language="HTML" implementationClass="org.consulo.php.PhpLanguageSubstitutor" />
 		<lang.psiStructureViewFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPStructureViewBuilderProvider"/>
 		<typedHandler implementation="net.jay.plugins.php.lang.PHPTypedHandler"/>
 	</extensions>

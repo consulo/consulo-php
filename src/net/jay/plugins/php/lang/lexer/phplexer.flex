@@ -254,6 +254,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"__CLASS__"                        { return opManager.process(PHPTokenTypes.CONST_CLASS); }
 	"__METHOD__"                       { return opManager.process(PHPTokenTypes.CONST_METHOD); }
 
+	.                                  { return PHPTokenTypes.BAD_CHARACTER; }
 }
 
 <ST_IN_SCRIPTING>{
