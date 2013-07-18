@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement;
 public interface Catch extends PHPPsiElement
 {
 
-	public Variable getException();
+	public PhpVariableReference getException();
 
 	public ClassReference getExceptionType();
 

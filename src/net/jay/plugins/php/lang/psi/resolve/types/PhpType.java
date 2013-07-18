@@ -1,16 +1,12 @@
 package net.jay.plugins.php.lang.psi.resolve.types;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpMethod;
-
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpMethod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author jay
@@ -19,25 +15,25 @@ import org.jetbrains.annotations.Nullable;
 public class PhpType implements Serializable
 {
 
-	Collection<LightPhpClass> classes = new ArrayList<LightPhpClass>();
+	Collection<PhpClass> classes = new ArrayList<PhpClass>();
 
-	public PhpType(LightPhpClass... classes)
+	public PhpType(PhpClass... classes)
 	{
 		this.classes.addAll(Arrays.asList(classes));
 	}
 
-	public void addClasses(Collection<LightPhpClass> classes)
+	public void addClasses(Collection<PhpClass> classes)
 	{
 		this.classes.addAll(classes);
 	}
 
-	public void addClass(LightPhpClass klass)
+	public void addClass(PhpClass klass)
 	{
 		classes.add(klass);
 	}
 
 	@Nullable
-	public LightPhpClass getType()
+	public PhpClass getType()
 	{
 		if(classes.size() == 1)
 		{
@@ -47,17 +43,17 @@ public class PhpType implements Serializable
 	}
 
 	@NotNull
-	public Collection<LightPhpClass> getTypes()
+	public Collection<PhpClass> getTypes()
 	{
 		return classes;
 	}
 
-	public Collection<LightPhpMethod> getMethods()
+	public Collection<PhpMethod> getMethods()
 	{
-		List<LightPhpMethod> methods = new ArrayList<LightPhpMethod>();
-		for(LightPhpClass klass : classes)
+		List<PhpMethod> methods = new ArrayList<PhpMethod>();
+		for(PhpClass klass : classes)
 		{
-			methods.addAll(klass.getMethods());
+			Collections.addAll(methods, klass.getMethods());
 		}
 		return methods;
 	}
@@ -65,7 +61,7 @@ public class PhpType implements Serializable
 	public String toString()
 	{
 		StringBuilder str = new StringBuilder();
-		for(LightPhpClass klass : classes)
+		for(PhpClass klass : classes)
 		{
 			str.append(klass.getName()).append("|");
 		}

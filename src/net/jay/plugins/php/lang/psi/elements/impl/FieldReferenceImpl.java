@@ -1,30 +1,17 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import net.jay.plugins.php.cache.psi.LightElementUtil;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpField;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.completion.UsageContext;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
 import net.jay.plugins.php.lang.psi.elements.*;
-import net.jay.plugins.php.lang.psi.resolve.types.PhpType;
-import net.jay.plugins.php.lang.psi.resolve.types.PhpTypedElement;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jay
@@ -50,29 +37,29 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 		}
 	}
 
-	private ASTNode getNameNode()
+	private PsiElement getNameIdentifier()
 	{
 		if(getClassReference() != null)
 		{
-			return this.getNode().findChildByType(PHPTokenTypes.VARIABLE);
+			return findChildByType(PHPTokenTypes.VARIABLE);
 		}
 		if(getObjectReference() != null)
 		{
-			return this.getNode().findChildByType(PHPTokenTypes.IDENTIFIER);
+			return findChildByType(PHPTokenTypes.IDENTIFIER);
 		}
 		return null;
 	}
 
 	public boolean canReadName()
 	{
-		return getNameNode() != null;
+		return getNameIdentifier() != null;
 	}
 
 	public String getFieldName()
 	{
 		if(canReadName())
 		{
-			String name = getNameNode().getText();
+			String name = getNameIdentifier().getText();
 			if(getClassReference() != null)
 			{
 				name = name.substring(1);
@@ -95,7 +82,7 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 	public PsiElement getObjectReference()
 	{
 		PsiElement object = getFirstPsiChild();
-		if(object instanceof FieldReference || object instanceof Variable || object instanceof MethodReference)
+		if(object instanceof FieldReference || object instanceof PhpVariableReference || object instanceof PhpMethodReference)
 		{
 			return object;
 		}
@@ -129,8 +116,8 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 	{
 		if(canReadName())
 		{
-			ASTNode nameNode = getNameNode();
-			int startOffset = nameNode.getPsi().getStartOffsetInParent();
+			PsiElement nameNode = getNameIdentifier();
+			int startOffset = nameNode.getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
 		}
 		return null;
@@ -138,7 +125,7 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 
 	public Object[] getVariants()
 	{
-		final PsiElement objectReference = getObjectReference();
+		/*final PsiElement objectReference = getObjectReference();
 		if(objectReference instanceof PhpTypedElement)
 		{
 			final PhpType type = ((PhpTypedElement) objectReference).getType();
@@ -166,14 +153,14 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
 				return list.toArray(new LookupElement[list.size()]);
 			}
-		}
+		}        */
 		return new Object[0];
 	}
 
 	@Nullable
 	public PsiElement resolve()
 	{
-		final PsiElement objectReference = getObjectReference();
+		/*final PsiElement objectReference = getObjectReference();
 		if(objectReference instanceof PhpTypedElement)
 		{
 			final PhpType type = ((PhpTypedElement) objectReference).getType();
@@ -188,7 +175,7 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 					}
 				}
 			}
-		}
+		}   */
 		return null;
 	}
 
@@ -206,11 +193,12 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
+		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
-		if(getNameNode() != null && !getFieldName().equals(name))
+		if(nameIdentifier != null && !getFieldName().equals(name))
 		{
 			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
-			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
+			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;
 	}
@@ -238,7 +226,7 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 	 */
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof Field)
+		if(element instanceof PhpField)
 		{
 			return element == resolve();
 		}

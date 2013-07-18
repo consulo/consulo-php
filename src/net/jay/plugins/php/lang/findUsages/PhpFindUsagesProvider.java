@@ -1,13 +1,7 @@
 package net.jay.plugins.php.lang.findUsages;
 
-import net.jay.plugins.php.lang.psi.elements.Field;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.lang.psi.elements.PhpField;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +27,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement)
 	{
-		return psiElement instanceof PhpClass || psiElement instanceof PhpInterface || psiElement instanceof Method || psiElement instanceof Function || psiElement instanceof Field || psiElement instanceof Parameter || psiElement instanceof Variable;
+		return psiElement instanceof PhpClass || psiElement instanceof PhpMethod || psiElement instanceof Function || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
 	}
 
 	@Nullable
@@ -45,33 +39,30 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	@NotNull
 	public String getType(@NotNull PsiElement element)
 	{
-		if(element instanceof Variable)
+		if(element instanceof PhpVariableReference)
 		{
-			return "Variable";
+			return "PhpVariableReference";
 		}
-		if(element instanceof Parameter)
+		if(element instanceof PhpParameter)
 		{
-			return "Parameter";
+			return "PhpParameter";
 		}
 		if(element instanceof PhpClass)
 		{
-			return "Class";
+			return ((PhpClass) element).isInterface() ? "Interface" : "Class";
 		}
-		if(element instanceof PhpInterface)
+
+		if(element instanceof PhpMethod)
 		{
-			return "Interface";
-		}
-		if(element instanceof Method)
-		{
-			return "Method";
+			return "PhpMethod";
 		}
 		if(element instanceof Function)
 		{
 			return "Function";
 		}
-		if(element instanceof Field)
+		if(element instanceof PhpField)
 		{
-			return "Field";
+			return "PhpField";
 		}
 		return "";
 	}

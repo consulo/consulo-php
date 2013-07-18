@@ -1,8 +1,8 @@
 package net.jay.plugins.php.lang.psi.elements;
 
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * @author jay
@@ -12,6 +12,6 @@ public interface ImplementsList extends PHPPsiElement
 {
 
 	@NotNull
-	public List<PhpInterface> getInterfaces();
+	public List<PhpClass> getInterfaces();
 
 }

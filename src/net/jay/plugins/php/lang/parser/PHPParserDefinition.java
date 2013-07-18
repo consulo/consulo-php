@@ -1,11 +1,5 @@
 package net.jay.plugins.php.lang.parser;
 
-import net.jay.plugins.php.lang.lexer.PHPFlexAdapter;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.PHPFile;
-
-import org.consulo.php.PhpLanguageLevel;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
@@ -15,8 +9,17 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import net.jay.plugins.php.lang.lexer.PHPFlexAdapter;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.PHPFile;
+import org.consulo.php.PhpLanguageLevel;
+import org.consulo.php.psi.PhpInstancableTokenType;
+import org.consulo.php.psi.PhpStubElements;
+import org.consulo.php.psi.impl.stub.elements.PhpStubElement;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,7 +46,7 @@ public class PHPParserDefinition implements ParserDefinition
 	@NotNull
 	public IFileElementType getFileNodeType()
 	{
-		return PHPElementTypes.FILE;
+		return PhpStubElements.FILE;
 	}
 
 	@NotNull
@@ -67,6 +70,13 @@ public class PHPParserDefinition implements ParserDefinition
 	@NotNull
 	public PsiElement createElement(ASTNode node)
 	{
+		IElementType elementType = node.getElementType();
+		if(elementType instanceof PhpStubElement) {
+			return ((PhpStubElement) elementType).createPsi(node);
+		}
+		else if(elementType instanceof PhpInstancableTokenType) {
+			return ((PhpInstancableTokenType) elementType).createPsi(node);
+		}
 		return PHPPsiCreator.create(node);
 	}
 

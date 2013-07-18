@@ -21,17 +21,15 @@ public class ClassField implements PHPTokenTypes
 	//	variable_modifiers class_variable_declaration
 
 	//	class_variable_declaration:
-	//		class_variable_declaration ',' VARIABLE
-	//		| class_variable_declaration ',' VARIABLE '=' static_scalar
-	//		| VARIABLE
-	//		| VARIABLE '=' static_scalar
+	//		class_variable_declaration ',' VARIABLE_REFERENCE
+	//		| class_variable_declaration ',' VARIABLE_REFERENCE '=' static_scalar
+	//		| VARIABLE_REFERENCE
+	//		| VARIABLE_REFERENCE '=' static_scalar
 	//	;
 	public static IElementType parse(PHPPsiBuilder builder)
 	{
-		PsiBuilder.Marker classFields = builder.mark();
 		if(ClassMemberModifiers.parseVariableModifiers(builder) == PHPElementTypes.EMPTY_INPUT)
 		{
-			classFields.drop();
 			return PHPElementTypes.EMPTY_INPUT;
 		}
 		ParserPart fieldParser = new ParserPart()
@@ -55,11 +53,9 @@ public class ClassField implements PHPTokenTypes
 		IElementType result = fieldParser.parse(builder);
 		if(result == PHPElementTypes.EMPTY_INPUT)
 		{
-			classFields.rollbackTo();
 			return PHPElementTypes.EMPTY_INPUT;
 		}
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, result, fieldParser, false);
-		classFields.done(PHPElementTypes.CLASS_FIELDS);
 		return null;
 	}
 

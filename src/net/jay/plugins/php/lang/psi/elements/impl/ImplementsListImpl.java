@@ -1,15 +1,14 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.ImplementsList;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.ImplementsList;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -23,9 +22,9 @@ public class ImplementsListImpl extends PHPPsiElementImpl implements ImplementsL
 	}
 
 	@NotNull
-	public List<PhpInterface> getInterfaces()
+	public List<PhpClass> getInterfaces()
 	{
-		List<PhpInterface> result = new ArrayList<PhpInterface>();
+		List<PhpClass> result = new ArrayList<PhpClass>();
 
 		final PsiElement[] children = getChildren();
 		for(PsiElement child : children)
@@ -34,9 +33,9 @@ public class ImplementsListImpl extends PHPPsiElementImpl implements ImplementsL
 			{
 				//noinspection ConstantConditions
 				final PsiElement element = child.getReference().resolve();
-				if(element instanceof PhpInterface)
+				if(element instanceof PhpClass)
 				{
-					result.add((PhpInterface) element);
+					result.add((PhpClass) element);
 				}
 			}
 		}

@@ -4,7 +4,7 @@ import net.jay.plugins.php.PHPBundle;
 import net.jay.plugins.php.lang.highlighter.PHPHighlightingData;
 import net.jay.plugins.php.lang.psi.elements.ClassReference;
 import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
 import com.intellij.lang.annotation.Annotation;
@@ -26,7 +26,7 @@ public class PhpAnnotatorVisitor extends PHPElementVisitor
 	}
 
 	@SuppressWarnings({"ConstantConditions"})
-	public void visitPhpVariable(Variable variable)
+	public void visitVariableReference(PhpVariableReference variable)
 	{
 		if(variable.canReadName())
 		{

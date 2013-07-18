@@ -1,24 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.psi.LightElementUtil;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpMethod;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.completion.UsageContext;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.ClassConstantReference;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -28,6 +9,16 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.completion.PhpVariantsUtil;
+import net.jay.plugins.php.completion.UsageContext;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -146,30 +137,21 @@ public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements Cla
 			final PsiElement psiElement = classReference.resolve();
 			if(psiElement instanceof PhpClass)
 			{
-				final LightPhpClass lightPhpClass = LightElementUtil.findLightClassByPsi((PhpClass) psiElement);
-				if(lightPhpClass != null)
-				{
 					final UsageContext context = new UsageContext();
 					final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-					LightPhpClass lightContextClass = null;
-					if(contextClass != null)
-					{
-						lightContextClass = LightElementUtil.findLightClassByPsi(contextClass);
-					}
-					if(lightContextClass != null)
-					{
-						context.setClassForAccessFilter(lightContextClass);
-					}
+
+					context.setClassForAccessFilter(contextClass);
+
 					final PhpModifier modifier = new PhpModifier();
 					if(!classReference.getText().equals("parent"))
 					{
 						modifier.setState(PhpModifier.State.STATIC);
 					}
 					context.setModifier(modifier);
-					context.setCallingObjectClass(lightPhpClass);
+					context.setCallingObjectClass(contextClass);
 
-					final List<LightPhpElement> toComplete = new ArrayList<LightPhpElement>();
-					for(LightPhpMethod method : lightPhpClass.getMethods())
+					final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
+					for(PhpMethod method : contextClass.getMethods())
 					{
 						toComplete.add(method);
 					}
@@ -179,7 +161,6 @@ public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements Cla
 
 					final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
 					return list.toArray(new LookupElement[list.size()]);
-				}
 			}
 		}
 		return new Object[0];

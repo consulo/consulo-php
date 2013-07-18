@@ -1,29 +1,18 @@
 package net.jay.plugins.php.completion;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpElementWithModifier;
-import net.jay.plugins.php.cache.psi.LightPhpField;
-import net.jay.plugins.php.cache.psi.LightPhpFunction;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
-import net.jay.plugins.php.cache.psi.LightPhpMethod;
-import net.jay.plugins.php.completion.insert.PhpClassConstructorInsertHandler;
-import net.jay.plugins.php.completion.insert.PhpClassInsertHandler;
-import net.jay.plugins.php.completion.insert.PhpMethodInsertHandler;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-import net.jay.plugins.php.util.PhpPresentationUtil;
-
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupItem;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.RowIcon;
+import net.jay.plugins.php.completion.insert.PhpMethodInsertHandler;
+import net.jay.plugins.php.lang.psi.elements.*;
+import net.jay.plugins.php.util.PhpPresentationUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author jay
@@ -33,15 +22,15 @@ public class PhpVariantsUtil
 {
 
 	@SuppressWarnings({"unchecked"})
-	public static List<LookupElement> getLookupItemsForClasses(List<? extends LightPhpElement> classes, ClassUsageContext context)
+	public static List<LookupElement> getLookupItemsForClasses(Collection<? extends PhpClass> classes, ClassUsageContext context)
 	{
-		List<LightPhpElement> filtered = new ArrayList<LightPhpElement>();
-		for(LightPhpElement element : classes)
+		/*List<PhpClass> filtered = new ArrayList<PhpClass>();
+		for(PhpClass element : classes)
 		{
-			if(element instanceof LightPhpClass && !context.isInImplements())
+			if(element instanceof PhpClass && !context.isInImplements())
 			{
-				LightPhpClass klass = (LightPhpClass) element;
-				if(!klass.getModifier().isAbstract() || context.isInInstanceof() || context.isInExtends())
+				PhpClass klass = (PhpClass) element;
+				if(!klass.isAbstract() || context.isInInstanceof() || context.isInExtends())
 				{
 					if(context.isStatic() && klass.hasStaticMembers())
 					{
@@ -60,11 +49,11 @@ public class PhpVariantsUtil
 					filtered.add(element);
 				}
 			}
-		}
+		}       */
 
 		final List<LookupElement> items = new ArrayList<LookupElement>();
-		final List<String> names = new ArrayList<String>();
-		for(LightPhpElement element : filtered)
+		/*final List<String> names = new ArrayList<String>();
+		for(PhpClass element : filtered)
 		{
 			if(!names.contains(element.getName()))
 			{
@@ -80,13 +69,13 @@ public class PhpVariantsUtil
 				}
 				items.add(lookupItem);
 			}
-		}
+		}      */
 		return items;
 	}
 
-	public static List<LookupElement> getLookupItems(List<? extends LightPhpElement> elements, UsageContext context)
+	public static List<LookupElement> getLookupItems(List<? extends PhpNamedElement> elements, UsageContext context)
 	{
-		List<LightPhpElement> filtered = new ArrayList<LightPhpElement>();
+	/*	List<PhpNamedElement> filtered = new ArrayList<PhpNamedElement>();
 		for(LightPhpElement element : elements)
 		{
 			if(element instanceof LightPhpElementWithModifier)
@@ -133,41 +122,41 @@ public class PhpVariantsUtil
 				filtered.add(element);
 			}
 		}
-
+           */
 		final List<LookupElement> items = new ArrayList<LookupElement>();
-		for(LightPhpElement element : filtered)
+		/*for(LightPhpElement element : filtered)
 		{
 			items.add(getLookupItem(element, context));
-		}
+		} */
 		return items;
 	}
 
 	@SuppressWarnings({"unchecked"})
-	public static LookupElement getLookupItem(LightPhpElement element, UsageContext context)
+	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
 		PhpLookupElement item = new PhpLookupElement(element);
 		item.icon = PhpPresentationUtil.getIcon(element);
 		if(context != null)
 		{
-			final LightPhpClass objectClass = context.getCallingObjectClass();
-			if(element.getParentOfType(LightPhpClass.class) == objectClass)
+			final PhpClass objectClass = context.getCallingObjectClass();
+			if(PsiTreeUtil.getParentOfType(element, PhpClass.class) == objectClass)
 			{
 				item.bold = true;
 			}
 		}
-		if(element instanceof LightPhpField)
+		if(element instanceof PhpField)
 		{
-			item.typeText = ((LightPhpField) element).getType();
+			item.typeText = ((PhpField) element).getType().toString();
 		}
-		else if(element instanceof LightPhpMethod)
+		else if(element instanceof PhpMethod)
 		{
-			item.typeText = ((LightPhpMethod) element).getTypeString();
+			item.typeText = ((PhpMethod) element).getType().toString();
 			item.tailText = "()";
 		}
-		else if(element instanceof LightPhpFunction)
+		/*else if(element instanceof LightPhpFunction)
 		{
 			item.tailText = "()";
-		}
+		}         */
 		item.handler = getInsertHandler(element);
 		return item;
 	}
@@ -185,27 +174,27 @@ public class PhpVariantsUtil
 	public static LookupItem getLookupItemForVariable(PHPPsiElement element)
 	{
 		final PhpLookupItem item = new PhpLookupItem(null);
-		if(element instanceof Variable)
+		if(element instanceof PhpVariableReference)
 		{
-			Variable variable = (Variable) element;
+			PhpVariableReference variable = (PhpVariableReference) element;
 			item.setName(variable.getName());
 			final RowIcon icon = new RowIcon(2);
 			icon.setIcon(variable.getIcon(), 0);
 			item.setIcon(icon);
-			final LightPhpClass variableType = variable.getType().getType();
+			final PhpClass variableType = variable.getType().getType();
 			if(variableType != null)
 			{
 				item.setTypeHint(variableType.getName());
 			}
 		}
-		else if(element instanceof Parameter)
+		else if(element instanceof PhpParameter)
 		{
-			Parameter parameter = (Parameter) element;
+			PhpParameter parameter = (PhpParameter) element;
 			item.setName(parameter.getName());
 			final RowIcon icon = new RowIcon(2);
 			icon.setIcon(parameter.getIcon(), 0);
 			item.setIcon(icon);
-			final LightPhpClass variableType = parameter.getType().getType();
+			final PhpClass variableType = parameter.getType().getType();
 			if(variableType != null)
 			{
 				item.setTypeHint(variableType.getName());
@@ -214,16 +203,16 @@ public class PhpVariantsUtil
 		return new LookupItem<PhpLookupItem>(item, item.getPresentation());
 	}
 
-	public static InsertHandler getInsertHandler(LightPhpElement element)
+	public static InsertHandler getInsertHandler(PhpNamedElement element)
 	{
-		if(element instanceof LightPhpMethod)
+		if(element instanceof PhpMethod)
 		{
 			return PhpMethodInsertHandler.getInstance();
 		}
-		if(element instanceof LightPhpFunction)
+	/*	if(element instanceof LightPhpFunction)
 		{
 			return PhpMethodInsertHandler.getInstance();
-		}
+		}  */
 		return new BasicInsertHandler();
 	}
 

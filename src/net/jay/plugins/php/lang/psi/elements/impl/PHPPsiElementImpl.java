@@ -1,17 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.Icon;
-
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
@@ -19,6 +7,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import net.jay.plugins.php.lang.PHPLanguage;
+import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,15 +30,10 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 		super(node);
 	}
 
-	public String toString()
-	{
-		return getNode().getElementType().toString();
-	}
-
 	@NotNull
 	public Language getLanguage()
 	{
-		return PHPFileType.INSTANCE.getLanguage();
+		return PHPLanguage.INSTANCE;
 	}
 
 	@Nullable
@@ -61,23 +51,6 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 			return icon;
 		}
 		return null;
-	}
-
-	public List<LightCopyContainer> getChildrenForCache()
-	{
-		List<LightCopyContainer> elements = new ArrayList<LightCopyContainer>();
-		for(PsiElement element : getChildren())
-		{
-			if(element instanceof LightCopyContainer)
-			{
-				elements.add((LightCopyContainer) element);
-			}
-			else if(element instanceof PHPPsiElement)
-			{
-				elements.addAll(((PHPPsiElement) element).getChildrenForCache());
-			}
-		}
-		return elements;
 	}
 
 	public void accept(@NotNull final PsiElementVisitor visitor)

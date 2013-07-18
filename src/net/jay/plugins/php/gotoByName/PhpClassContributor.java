@@ -1,19 +1,13 @@
 package net.jay.plugins.php.gotoByName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.DeclarationsIndex;
-import net.jay.plugins.php.cache.PhpModuleCacheManager;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-
 import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.search.GlobalSearchScope;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.index.PhpClassIndex;
+
+import java.util.Collection;
 
 /**
  * @author jay
@@ -31,23 +25,12 @@ public class PhpClassContributor implements ChooseByNameContributor
 	 *                               library classes) should be included in the returned array.
 	 * @return the array of names.
 	 */
+	@Override
 	public String[] getNames(Project project, boolean includeNonProjectItems)
 	{
-		final ArrayList<String> names = new ArrayList<String>();
-		final Module[] modules = ModuleManager.getInstance(project).getModules();
+		Collection<String> allKeys = PhpClassIndex.INSTANCE.getAllKeys(project);
 
-		for(Module module : modules)
-		{
-			PhpModuleCacheManager moduleCacheManager = module.getComponent(PhpModuleCacheManager.class);
-			if(moduleCacheManager != null)
-			{
-				DeclarationsIndex index = moduleCacheManager.getDeclarationsIndex();
-				names.addAll(index.getAllClassNames());
-				names.addAll(index.getAllInterfaceNames());
-			}
-		}
-
-		return names.toArray(new String[names.size()]);
+		return allKeys.toArray(new String[allKeys.size()]);
 	}
 
 	/**
@@ -61,36 +44,7 @@ public class PhpClassContributor implements ChooseByNameContributor
 	 */
 	public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems)
 	{
-		final ArrayList<NavigationItem> items = new ArrayList<NavigationItem>();
-		final Module[] modules = ModuleManager.getInstance(project).getModules();
-
-		for(Module module : modules)
-		{
-			PhpModuleCacheManager moduleCacheManager = module.getComponent(PhpModuleCacheManager.class);
-			if(moduleCacheManager != null)
-			{
-				DeclarationsIndex index = moduleCacheManager.getDeclarationsIndex();
-				final List<LightPhpClass> classes = index.getClassesByName(name);
-				for(LightPhpClass klass : classes)
-				{
-					final PHPPsiElement element = klass.getPsi(project);
-					if(element != null)
-					{
-						items.add((NavigationItem) element);
-					}
-				}
-				final List<LightPhpInterface> interfaces = index.getInterfacesByName(name);
-				for(LightPhpInterface anInterface : interfaces)
-				{
-					final PHPPsiElement element = anInterface.getPsi(project);
-					if(element != null)
-					{
-						items.add((NavigationItem) element);
-					}
-				}
-			}
-		}
-
-		return items.toArray(new NavigationItem[items.size()]);
+		Collection<PhpClass> phpClasses = PhpClassIndex.INSTANCE.get(name, project, GlobalSearchScope.allScope(project));
+		return phpClasses.toArray(new NavigationItem[phpClasses.size()]);
 	}
 }

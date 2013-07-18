@@ -1,22 +1,6 @@
 package net.jay.plugins.php.util;
 
-import java.io.File;
-
-import javax.swing.Icon;
-
-import net.jay.plugins.php.PHPIcons;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpField;
-import net.jay.plugins.php.cache.psi.LightPhpFunction;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
-import net.jay.plugins.php.cache.psi.LightPhpMethod;
-import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpInterface;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
-
-import org.jetbrains.annotations.NotNull;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.module.Module;
@@ -28,6 +12,13 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.RowIcon;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ui.EmptyIcon;
+import net.jay.plugins.php.PHPIcons;
+import net.jay.plugins.php.lang.psi.PHPFile;
+import net.jay.plugins.php.lang.psi.elements.*;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import java.io.File;
 
 /**
  * @author jay
@@ -53,25 +44,6 @@ public class PhpPresentationUtil
 			}
 		}
 		return getPresentablePathForFile(classRoot, klass.getProject());
-	}
-
-	@SuppressWarnings({"ConstantConditions"})
-	private static String getPresentablePathForInterface(@NotNull PhpInterface phpInterface)
-	{
-		VirtualFile classRoot = phpInterface.getContainingFile().getVirtualFile();
-		if(phpInterface.getName() != null)
-		{
-			final String[] fileNames = ArrayUtil.reverseArray(phpInterface.getName().split("_"));
-			for(String fileName : fileNames)
-			{
-				if(!classRoot.getNameWithoutExtension().equals(fileName))
-				{
-					break;
-				}
-				classRoot = classRoot.getParent();
-			}
-		}
-		return getPresentablePathForFile(classRoot, phpInterface.getProject());
 	}
 
 	private static String getPresentablePathForFile(@NotNull VirtualFile file, Project project)
@@ -104,12 +76,6 @@ public class PhpPresentationUtil
 		return new PresentationData(klass.getName(), location, klass.getIcon(), klass.getIcon(), null);
 	}
 
-	public static ItemPresentation getInterfacePresentation(PhpInterface phpInterface)
-	{
-		String location = getPresentablePathForInterface(phpInterface);
-		return new PresentationData(phpInterface.getName(), location, phpInterface.getIcon(), phpInterface.getIcon(), null);
-	}
-
 	public static ItemPresentation getFilePresentation(PHPFile phpFile)
 	{
 		final VirtualFile virtualFile = phpFile.getVirtualFile();
@@ -118,16 +84,20 @@ public class PhpPresentationUtil
 		return new PresentationData(phpFile.getName(), location, phpFile.getIcon(0), phpFile.getIcon(0), null);
 	}
 
-	public static Icon getIcon(LightPhpElement element)
+	public static Icon getIcon(PhpNamedElement element)
 	{
 		RowIcon result = new RowIcon(2);
 		result.setIcon(new EmptyIcon(PHPIcons.CLASS.getIconWidth(), PHPIcons.CLASS.getIconHeight()), 0);
 
-		if(element instanceof LightPhpClass)
+		if(element instanceof PhpClass)
 		{
-			final LightPhpClass klass = (LightPhpClass) element;
+			final PhpClass klass = (PhpClass) element;
 			final PhpModifier modifier = klass.getModifier();
-			if(modifier.isAbstract())
+			if(klass.isInterface())
+			{
+				result.setIcon(AllIcons.Nodes.Interface, 0);
+			}
+			else if(modifier.isAbstract())
 			{
 				result.setIcon(PHPIcons.ABSTRACT_CLASS, 0);
 			}
@@ -141,17 +111,10 @@ public class PhpPresentationUtil
 			}
 
 		}
-		if(element instanceof LightPhpInterface)
+
+		if(element instanceof PhpField)
 		{
-			result.setIcon(PHPIcons.INTERFACE, 0);
-		}
-		if(element instanceof LightPhpFunction)
-		{
-			result.setIcon(PHPIcons.FIELD, 0);
-		}
-		if(element instanceof LightPhpField)
-		{
-			final LightPhpField field = (LightPhpField) element;
+			final PhpField field = (PhpField) element;
 			final PhpModifier modifier = field.getModifier();
 			if(modifier.isStatic())
 			{
@@ -164,9 +127,9 @@ public class PhpPresentationUtil
 			result.setIcon(getAccessIcon(modifier), 1);
 		}
 
-		if(element instanceof LightPhpMethod)
+		if(element instanceof PhpMethod)
 		{
-			final LightPhpMethod method = (LightPhpMethod) element;
+			final PhpMethod method = (PhpMethod) element;
 			final PhpModifier modifier = method.getModifier();
 			if(modifier.isStatic())
 			{

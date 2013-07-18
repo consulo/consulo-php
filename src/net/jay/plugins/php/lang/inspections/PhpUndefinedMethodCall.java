@@ -1,7 +1,7 @@
 package net.jay.plugins.php.lang.inspections;
 
 import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.lang.psi.elements.MethodReference;
+import net.jay.plugins.php.lang.psi.elements.PhpMethodReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.Nls;
@@ -29,7 +29,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 	{
 		return new PHPElementVisitor()
 		{
-			public void visitPhpMethodReference(MethodReference reference)
+			public void visitPhpMethodReference(PhpMethodReference reference)
 			{
 				if(reference.canReadName())
 				{
@@ -37,7 +37,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 					final ResolveResult[] results = ((PsiPolyVariantReference) reference.getReference()).multiResolve(false);
 					if(results.length == 0)
 					{
-						holder.registerProblem(reference.getNameNode().getPsi(), PHPBundle.message("php.inspections.undefined_method_call"));
+						holder.registerProblem(reference, PHPBundle.message("php.inspections.undefined_method_call"));
 					}
 				}
 			}

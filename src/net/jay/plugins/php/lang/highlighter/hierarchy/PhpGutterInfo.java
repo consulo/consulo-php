@@ -1,11 +1,10 @@
 package net.jay.plugins.php.lang.highlighter.hierarchy;
 
-import java.util.List;
-
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.project.Project;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * @author jay
@@ -15,9 +14,9 @@ abstract public class PhpGutterInfo extends PhpLineMarkerInfo
 {
 
 	protected Project project;
-	protected List<? extends LightPhpElement> elements;
+	protected List<? extends PhpNamedElement> elements;
 
-	public PhpGutterInfo(final int startOffset, @NotNull Project project, @NotNull List<? extends LightPhpElement> elements)
+	public PhpGutterInfo(final int startOffset, @NotNull Project project, @NotNull List<? extends PhpNamedElement> elements)
 	{
 		super(startOffset);
 		this.project = project;
@@ -30,7 +29,7 @@ abstract public class PhpGutterInfo extends PhpLineMarkerInfo
 		return project;
 	}
 
-	public List<? extends LightPhpElement> getElements()
+	public List<? extends PhpNamedElement> getElements()
 	{
 		return elements;
 	}

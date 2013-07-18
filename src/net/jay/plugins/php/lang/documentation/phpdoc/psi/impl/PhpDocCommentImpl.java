@@ -1,20 +1,15 @@
 package net.jay.plugins.php.lang.documentation.phpdoc.psi.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
-import net.jay.plugins.php.lang.psi.elements.LightCopyContainer;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.CompositePsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
+import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
+import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
+import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import org.jetbrains.annotations.NonNls;
 
 /**
  * @author jay
@@ -82,11 +77,6 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 			}
 		}
 		return prevSibling;
-	}
-
-	public List<LightCopyContainer> getChildrenForCache()
-	{
-		return new ArrayList<LightCopyContainer>();
 	}
 
 	@NonNls

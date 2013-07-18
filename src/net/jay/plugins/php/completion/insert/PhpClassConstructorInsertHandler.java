@@ -1,12 +1,11 @@
 package net.jay.plugins.php.completion.insert;
 
-import net.jay.plugins.php.completion.PhpLookupItem;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
+import net.jay.plugins.php.completion.PhpLookupItem;
+import net.jay.plugins.php.lang.psi.elements.Function;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
 
 /**
  * @author jay
@@ -29,7 +28,7 @@ public class PhpClassConstructorInsertHandler extends PhpMethodInsertHandler
 	protected Function getMethod(Editor editor, LookupElement element)
 	{
 		PhpLookupItem item = (PhpLookupItem) element.getObject();
-		final PHPPsiElement psiElement = item.getLightElement().getPsi(editor.getProject());
+		final PhpNamedElement psiElement = item.getLightElement();
 		if(psiElement instanceof PhpClass)
 		{
 			return (Function) ((PhpClass) psiElement).getConstructor();

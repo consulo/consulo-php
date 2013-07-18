@@ -2,7 +2,7 @@ package net.jay.plugins.php.lang.psi.elements.impl;
 
 import net.jay.plugins.php.lang.psi.elements.Catch;
 import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,14 +30,14 @@ public class CatchImpl extends PHPPsiElementImpl implements Catch
 		return PsiTreeUtil.getChildOfType(this, ClassReference.class);
 	}
 
-	public Variable getException()
+	public PhpVariableReference getException()
 	{
-		return PsiTreeUtil.getChildOfType(this, Variable.class);
+		return PsiTreeUtil.getChildOfType(this, PhpVariableReference.class);
 	}
 
 	public PsiElement getStatement()
 	{
-		final Variable exception = getException();
+		final PhpVariableReference exception = getException();
 		if(exception != null)
 		{
 			return exception.getNextPsiSibling();

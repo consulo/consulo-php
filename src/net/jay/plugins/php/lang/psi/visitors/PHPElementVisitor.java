@@ -28,19 +28,14 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 		visitPhpElement(clazz);
 	}
 
-	public void visitPhpMethod(Method method)
+	public void visitPhpMethod(PhpMethod phpMethod)
 	{
-		visitPhpElement(method);
+		visitPhpElement(phpMethod);
 	}
 
 	public void visitPhpFunction(Function function)
 	{
 		visitPhpElement(function);
-	}
-
-	public void visitPhpInterface(PhpInterface iface)
-	{
-		visitPhpElement(iface);
 	}
 
 	public void visitPhpNewExpression(NewExpression expression)
@@ -73,17 +68,17 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpCatch);
 	}
 
-	public void visitPhpParameterList(ParameterList list)
+	public void visitPhpParameterList(PhpParameterList list)
 	{
 		visitPhpElement(list);
 	}
 
-	public void visitPhpParameter(Parameter parameter)
+	public void visitPhpParameter(PhpParameter parameter)
 	{
 		visitPhpElement(parameter);
 	}
 
-	public void visitPhpVariable(Variable variable)
+	public void visitVariableReference(PhpVariableReference variable)
 	{
 		visitPhpElement(variable);
 	}
@@ -107,7 +102,7 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 		visitPhpElement(classReference);
 	}
 
-	public void visitPhpMethodReference(MethodReference reference)
+	public void visitPhpMethodReference(PhpMethodReference reference)
 	{
 		visitPhpElement(reference);
 	}
@@ -122,9 +117,9 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 		visitPhpElement(fieldReference);
 	}
 
-	public void visitPhpField(Field field)
+	public void visitPhpField(PhpField phpField)
 	{
-		visitPhpElement(field);
+		visitPhpElement(phpField);
 	}
 
 	public void visitPhpConstant(ConstantReference constant)

@@ -1,21 +1,5 @@
 package net.jay.plugins.php.lang.inspections.classes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import net.jay.plugins.php.PHPBundle;
-import net.jay.plugins.php.cache.psi.LightElementUtil;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpMethod;
-import net.jay.plugins.php.lang.inspections.PhpInspection;
-import net.jay.plugins.php.lang.psi.elements.ExtendsList;
-import net.jay.plugins.php.lang.psi.elements.ImplementsList;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
@@ -25,6 +9,19 @@ import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+import net.jay.plugins.php.PHPBundle;
+import net.jay.plugins.php.lang.inspections.PhpInspection;
+import net.jay.plugins.php.lang.psi.elements.ExtendsList;
+import net.jay.plugins.php.lang.psi.elements.ImplementsList;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpMethod;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author jay
@@ -59,14 +56,10 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 				{
 					return;
 				}
-				final LightPhpClass lightClass = LightElementUtil.findLightClassByPsi(clazz);
-				if(lightClass == null)
-				{
-					return;
-				}
-				final List<LightPhpMethod> methods = lightClass.getMethods();
-				final List<LightPhpMethod> abstractMethods = new ArrayList<LightPhpMethod>();
-				for(LightPhpMethod method : methods)
+
+				final PhpMethod[] methods = clazz.getMethods();
+				final List<PhpMethod> abstractMethods = new ArrayList<PhpMethod>();
+				for(PhpMethod method : methods)
 				{
 					if(method.getModifier().isAbstract())
 					{
@@ -84,9 +77,9 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					else
 					{
 						methodList.append("methods ");
-						for(Iterator<LightPhpMethod> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
+						for(Iterator<PhpMethod> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
 						{
-							LightPhpMethod abstractMethod = methodIterator.next();
+							PhpMethod abstractMethod = methodIterator.next();
 							methodList.append("'").append(abstractMethod.getName()).append("'");
 							if(methodIterator.hasNext())
 							{
@@ -104,9 +97,9 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					{
 						endNode = PsiTreeUtil.getChildOfType(clazz, ExtendsList.class);
 					}
-					else if(clazz.getNameNode() != null)
+					else if(clazz.getNameIdentifier() != null)
 					{
-						endNode = clazz.getNameNode().getPsi();
+						endNode = clazz.getNameIdentifier();
 					}
 					else
 					{

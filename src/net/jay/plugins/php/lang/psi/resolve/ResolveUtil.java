@@ -30,7 +30,7 @@ public class ResolveUtil
 			{
 				if(processor instanceof PhpResolveProcessor)
 				{
-					return ((PhpResolveProcessor) processor).getResult().get(0);
+					return ((PhpResolveProcessor) processor).getResult().iterator().next();
 				}
 			}
 			// stop walkup at function level

@@ -1,108 +1,77 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.DeclarationsIndex;
-import net.jay.plugins.php.cache.psi.LightPhpFunction;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.FunctionCall;
-import net.jay.plugins.php.lang.psi.elements.ParameterList;
-import net.jay.plugins.php.lang.psi.resolve.PhpResolveResult;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.ResolveState;
+import com.intellij.psi.*;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.elements.FunctionCall;
+import net.jay.plugins.php.lang.psi.elements.PhpParameterList;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
  * @date May 15, 2008 12:36:39 PM
  */
-public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
-{
+public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall {
 
-	public FunctionCallImpl(ASTNode node)
-	{
+	public FunctionCallImpl(ASTNode node) {
 		super(node);
 	}
 
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PHPElementVisitor)
-		{
+	public void accept(@NotNull PsiElementVisitor visitor) {
+		if (visitor instanceof PHPElementVisitor) {
 			((PHPElementVisitor) visitor).visitPhpFunctionCall(this);
-		}
-		else
-		{
+		} else {
 			visitor.visitElement(this);
 		}
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
-	{
-		if(lastParent != getParameterList())
-		{
-			if(getParameterList() != null && !getParameterList().processDeclarations(processor, state, null, source))
-			{
+	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source) {
+		if (lastParent != getParameterList()) {
+			if (getParameterList() != null && !getParameterList().processDeclarations(processor, state, null, source)) {
 				return false;
 			}
 		}
 		return super.processDeclarations(processor, state, lastParent, source);
 	}
 
-	public PsiReference getReference()
-	{
-		if(canReadName())
+	public PsiReference getReference() {
+		if (canReadName())
 			return this;
 		return null;
 	}
 
-	public PsiElement getElement()
-	{
+	public PsiElement getElement() {
 		return this;
 	}
 
-	private ASTNode getNameNode()
-	{
+	private ASTNode getNameNode() {
 		return getNode().findChildByType(PHPTokenTypes.IDENTIFIER);
 	}
 
-	public boolean canReadName()
-	{
+	public boolean canReadName() {
 		return getNameNode() != null;
 	}
 
-	public String getFunctionName()
-	{
-		if(canReadName())
-		{
+	public String getFunctionName() {
+		if (canReadName()) {
 			return getNameNode().getText();
 		}
 		return null;
 	}
 
-	public ParameterList getParameterList()
-	{
-		return PsiTreeUtil.getChildOfType(this, ParameterList.class);
+	public PhpParameterList getParameterList() {
+		return PsiTreeUtil.getChildOfType(this, PhpParameterList.class);
 	}
 
-	public TextRange getRangeInElement()
-	{
-		if(canReadName())
-		{
+	public TextRange getRangeInElement() {
+		if (canReadName()) {
 			ASTNode nameNode = getNameNode();
 			int startOffset = nameNode.getPsi().getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
@@ -116,20 +85,17 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 * @return the target element, or null if it was not possible to resolve the reference to a valid target.
 	 */
 	@Nullable
-	public PsiElement resolve()
-	{
+	public PsiElement resolve() {
 		ResolveResult[] results = multiResolve(false);
-		if(results.length == 1)
-		{
+		if (results.length == 1) {
 			return results[0].getElement();
 		}
 		return null;
 	}
 
 	@NotNull
-	public ResolveResult[] multiResolve(boolean incompleteCode)
-	{
-		DeclarationsIndex index = DeclarationsIndex.getInstance(this);
+	public ResolveResult[] multiResolve(boolean incompleteCode) {
+		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
 		List<LightPhpFunction> functions = index.getFunctionsByName(getFunctionName());
 		ResolveResult[] result = new PhpResolveResult[functions.size()];
 		for(int i = 0; i < functions.size(); i++)
@@ -137,7 +103,8 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 			LightPhpFunction function = functions.get(i);
 			result[i] = new PhpResolveResult(function.getPsi(getProject()));
 		}
-		return result;
+		return result;  */
+		return new ResolveResult[0];
 	}
 
 	/**
@@ -147,8 +114,7 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 *
 	 * @return the canonical text of the reference.
 	 */
-	public String getCanonicalText()
-	{
+	public String getCanonicalText() {
 		return null;
 	}
 
@@ -161,8 +127,7 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rename cannot be handled for some reason.
 	 */
-	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
-	{
+	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
 		return null;
 	}
 
@@ -176,8 +141,7 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rebind cannot be handled for some reason.
 	 */
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
-	{
+	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
 		return null;
 	}
 
@@ -187,8 +151,7 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 * @param element the element to check target for.
 	 * @return true if the reference targets that element, false otherwise.
 	 */
-	public boolean isReferenceTo(PsiElement element)
-	{
+	public boolean isReferenceTo(PsiElement element) {
 		return false;
 	}
 
@@ -201,16 +164,16 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 *
 	 * @return the array of available identifiers.
 	 */
-	public Object[] getVariants()
-	{
-		DeclarationsIndex index = DeclarationsIndex.getInstance(this);
+	public Object[] getVariants() {
+		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
 		List<LightPhpFunction> variants = new ArrayList<LightPhpFunction>();
 		for(String functionName : index.getAllFunctionNames())
 		{
 			variants.addAll(index.getFunctionsByName(functionName));
 		}
 		List<LookupElement> lookupItems = PhpVariantsUtil.getLookupItems(variants, null);
-		return lookupItems.toArray(new Object[lookupItems.size()]);
+		return lookupItems.toArray(new Object[lookupItems.size()]);   */
+		return new Object[0];
 	}
 
 	/**
@@ -221,8 +184,7 @@ public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall
 	 *
 	 * @return true if the refence is soft, false otherwise.
 	 */
-	public boolean isSoft()
-	{
+	public boolean isSoft() {
 		return false;
 	}
 }

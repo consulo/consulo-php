@@ -1,6 +1,6 @@
 package net.jay.plugins.php.completion;
 
-import net.jay.plugins.php.cache.psi.LightPhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
 import net.jay.plugins.php.lang.psi.elements.PhpModifier;
 
 /**
@@ -11,8 +11,8 @@ public class UsageContext
 {
 
 	private PhpModifier modifier = null;
-	private LightPhpClass classForAccessFilter = null;
-	private LightPhpClass callingObjectClass = null;
+	private PhpClass classForAccessFilter = null;
+	private PhpClass callingObjectClass = null;
 
 	public UsageContext()
 	{
@@ -20,7 +20,7 @@ public class UsageContext
 		classForAccessFilter = null;
 	}
 
-	public UsageContext(PhpModifier modifier, LightPhpClass classForAccessFilter)
+	public UsageContext(PhpModifier modifier, PhpClass classForAccessFilter)
 	{
 		this.modifier = modifier;
 		this.classForAccessFilter = classForAccessFilter;
@@ -36,22 +36,22 @@ public class UsageContext
 		this.modifier = modifier;
 	}
 
-	public LightPhpClass getClassForAccessFilter()
+	public PhpClass getClassForAccessFilter()
 	{
 		return classForAccessFilter;
 	}
 
-	public void setClassForAccessFilter(LightPhpClass klass)
+	public void setClassForAccessFilter(PhpClass klass)
 	{
 		this.classForAccessFilter = klass;
 	}
 
-	public LightPhpClass getCallingObjectClass()
+	public PhpClass getCallingObjectClass()
 	{
 		return callingObjectClass;
 	}
 
-	public void setCallingObjectClass(LightPhpClass callingObjectClass)
+	public void setCallingObjectClass(PhpClass callingObjectClass)
 	{
 		this.callingObjectClass = callingObjectClass;
 	}

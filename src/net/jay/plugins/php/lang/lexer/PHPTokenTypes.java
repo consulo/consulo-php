@@ -273,5 +273,5 @@ public interface PHPTokenTypes extends PhpDocElementTypes, TokenType
 	TokenSet tsSTATEMENT_FIRST_TOKENS = TokenSet.create(kwIF, kwWHILE, kwDO, kwFOR, kwSWITCH, kwBREAK, kwCONTINUE, kwRETURN, kwGLOBAL, kwSTATIC, kwECHO, kwUNSET, kwFOREACH, kwDECLARE, kwTRY, kwTHROW);
 
 
-	TokenSet ASSIGNABLE = TokenSet.create(PHPElementTypes.VARIABLE, PHPElementTypes.ARRAY, PHPElementTypes.FIELD_REFERENCE);
+	TokenSet ASSIGNABLE = TokenSet.create(PHPElementTypes.VARIABLE_REFERENCE, PHPElementTypes.ARRAY, PHPElementTypes.FIELD_REFERENCE);
 }

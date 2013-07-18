@@ -1,16 +1,15 @@
 package net.jay.plugins.php.completion;
 
-import javax.swing.Icon;
-
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,9 +26,9 @@ public class PhpLookupElement extends LookupElement
 	public String tailText = "";
 	public boolean bold = false;
 	public Icon icon;
-	public LightPhpElement element;
+	public PhpNamedElement element;
 
-	public PhpLookupElement(LightPhpElement element)
+	public PhpLookupElement(PhpNamedElement element)
 	{
 		this.element = element;
 		lookupString = element.getName();

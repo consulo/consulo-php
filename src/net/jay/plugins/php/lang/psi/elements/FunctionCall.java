@@ -13,5 +13,5 @@ public interface FunctionCall extends PHPPsiElement, PsiPolyVariantReference
 
 	String getFunctionName();
 
-	ParameterList getParameterList();
+	PhpParameterList getParameterList();
 }

@@ -34,8 +34,8 @@ public class Scalar implements PHPTokenTypes
 		{
 			PsiBuilder.Marker marker = builder.mark();
 			builder.advanceLexer();
-			marker.done(PHPElementTypes.VARIABLE);
-			return PHPElementTypes.VARIABLE;
+			marker.done(PHPElementTypes.VARIABLE_REFERENCE);
+			return PHPElementTypes.VARIABLE_REFERENCE;
 		}
 		IElementType result = StaticClassConstant.parse(builder);
 		if(result != PHPElementTypes.EMPTY_INPUT)
@@ -99,9 +99,9 @@ public class Scalar implements PHPTokenTypes
 	}
 
 	//encaps_var:
-	//	VARIABLE
-	//	| VARIABLE '[' encaps_var_offset ']'
-	//	| VARIABLE ARROW IDENTIFIER
+	//	VARIABLE_REFERENCE
+	//	| VARIABLE_REFERENCE '[' encaps_var_offset ']'
+	//	| VARIABLE_REFERENCE ARROW IDENTIFIER
 	//	| DOLLAR_LBRACE expr '}'
 	//	| DOLLAR_LBRACE VARIABLE_NAME '[' expr ']' '}'
 	//	| chLBRACE variable '}'
@@ -122,7 +122,7 @@ public class Scalar implements PHPTokenTypes
 				marker.done(PHPElementTypes.ARRAY);
 				return PHPElementTypes.ARRAY;
 			}
-			marker.done(PHPElementTypes.VARIABLE);
+			marker.done(PHPElementTypes.VARIABLE_REFERENCE);
 			if(builder.compareAndEat(ARROW))
 			{
 				marker = marker.precede();
@@ -130,7 +130,7 @@ public class Scalar implements PHPTokenTypes
 				marker.done(PHPElementTypes.FIELD_REFERENCE);
 				return PHPElementTypes.FIELD_REFERENCE;
 			}
-			return PHPElementTypes.VARIABLE;
+			return PHPElementTypes.VARIABLE_REFERENCE;
 		}
 		if(builder.compareAndEat(chLBRACE))
 		{
@@ -169,9 +169,9 @@ public class Scalar implements PHPTokenTypes
 				}
 			}
 			varname.done(PHPElementTypes.VARIABLE_NAME);
-			marker.done(PHPElementTypes.VARIABLE);
+			marker.done(PHPElementTypes.VARIABLE_REFERENCE);
 			builder.match(chRBRACE);
-			return PHPElementTypes.VARIABLE;
+			return PHPElementTypes.VARIABLE_REFERENCE;
 		}
 		marker.drop();
 		return PHPElementTypes.EMPTY_INPUT;
@@ -180,7 +180,7 @@ public class Scalar implements PHPTokenTypes
 	//	encaps_var_offset:
 	//		IDENTIFIER
 	//		| VARIABLE_OFFSET_NUMBER
-	//		| VARIABLE
+	//		| VARIABLE_REFERENCE
 	//	;
 	private static IElementType parseEncapsVarOffset(PHPPsiBuilder builder)
 	{

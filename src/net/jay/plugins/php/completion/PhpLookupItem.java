@@ -1,15 +1,13 @@
 package net.jay.plugins.php.completion;
 
-import java.awt.Color;
-
-import javax.swing.Icon;
-
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-
 import com.intellij.codeInsight.lookup.LookupValueWithPriority;
 import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author jay
@@ -18,13 +16,13 @@ import com.intellij.openapi.util.Iconable;
 public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIHint, LookupValueWithPriority, Iconable
 {
 
-	private LightPhpElement element;
+	private PhpNamedElement element;
 	private String name = "";
 	private Icon icon = null;
 	private boolean bold = false;
 	private String type = "";
 
-	public PhpLookupItem(LightPhpElement element)
+	public PhpLookupItem(PhpNamedElement element)
 	{
 		this.element = element;
 	}
@@ -74,7 +72,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		this.icon = icon;
 	}
 
-	public LightPhpElement getLightElement()
+	public PhpNamedElement getLightElement()
 	{
 		return element;
 	}

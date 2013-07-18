@@ -1,17 +1,5 @@
 package net.jay.plugins.php.lang.highlighter.hierarchy;
 
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.util.gotoByName.GotoFileCellRenderer;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -20,6 +8,15 @@ import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.awt.RelativePoint;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpMethod;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -35,10 +32,9 @@ public class PhpGutterNavigator
 		final ArrayList<Navigatable> navigatable = new ArrayList<Navigatable>();
 		final List<PsiElement> views = new ArrayList<PsiElement>();
 
-		for(LightPhpElement element : info.getElements())
+		for(PhpNamedElement psiElement : info.getElements())
 		{
-			PsiElement psiElement = element.getPsi(project);
-			if(psiElement instanceof Method)
+			if(psiElement instanceof PhpMethod)
 			{
 				views.add(PsiTreeUtil.getParentOfType(psiElement, PhpClass.class));
 			}

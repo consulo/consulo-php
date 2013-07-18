@@ -1,26 +1,17 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jay.plugins.php.cache.DeclarationsIndex;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpFunction;
-import net.jay.plugins.php.completion.ClassUsageContext;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
+import net.jay.plugins.php.completion.ClassUsageContext;
+import net.jay.plugins.php.lang.psi.elements.ConstantReference;
+import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -58,11 +49,11 @@ public class ConstantReferenceImpl extends PhpNamedElementImpl implements Consta
 
 	public TextRange getRangeInElement()
 	{
-		final ASTNode nameNode = getNameNode();
-		if(nameNode != null)
+		final PsiElement nameIdentifier = getNameIdentifier();
+		if(nameIdentifier != null)
 		{
-			int startOffset = nameNode.getPsi().getStartOffsetInParent();
-			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
+			int startOffset = nameIdentifier.getStartOffsetInParent();
+			return new TextRange(startOffset, startOffset + nameIdentifier.getTextLength());
 		}
 		return null;
 	}
@@ -82,7 +73,7 @@ public class ConstantReferenceImpl extends PhpNamedElementImpl implements Consta
 
 	public Object[] getVariants()
 	{
-		DeclarationsIndex index = DeclarationsIndex.getInstance(this);
+		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
 		if(index == null)
 		{
 			return new Object[0];
@@ -102,7 +93,8 @@ public class ConstantReferenceImpl extends PhpNamedElementImpl implements Consta
 			functions.addAll(index.getFunctionsByName(functionName));
 		}
 		list.addAll(PhpVariantsUtil.getLookupItems(functions, null));
-		return list.toArray(new LookupElement[list.size()]);
+		return list.toArray(new LookupElement[list.size()]);     */
+		return new Object[0];
 	}
 
 	public String getCanonicalText()

@@ -11,8 +11,8 @@ public interface Foreach extends PHPPsiElement
 
 	public PsiElement getArray();
 
-	public Variable getKey();
+	public PhpVariableReference getKey();
 
-	public Variable getValue();
+	public PhpVariableReference getValue();
 
 }

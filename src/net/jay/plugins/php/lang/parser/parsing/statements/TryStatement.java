@@ -39,7 +39,7 @@ public class TryStatement implements PHPTokenTypes
 	}
 
 	//	catch_clause:
-	//		kwCATCH '(' fully_qualified_class_name VARIABLE ')' '{' statement_list '}'
+	//		kwCATCH '(' fully_qualified_class_name VARIABLE_REFERENCE ')' '{' statement_list '}'
 	//	;
 	//
 	//	non_empty_catch_clauses:
@@ -72,7 +72,7 @@ public class TryStatement implements PHPTokenTypes
 		}
 		PsiBuilder.Marker variable = builder.mark();
 		builder.match(VARIABLE);
-		variable.done(PHPElementTypes.VARIABLE);
+		variable.done(PHPElementTypes.VARIABLE_REFERENCE);
 
 		builder.match(chRPAREN);
 		builder.match(chLBRACE);

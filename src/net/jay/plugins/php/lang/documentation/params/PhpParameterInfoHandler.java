@@ -2,10 +2,10 @@ package net.jay.plugins.php.lang.documentation.params;
 
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.MethodReference;
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.ParameterList;
+import net.jay.plugins.php.lang.psi.elements.PhpMethod;
+import net.jay.plugins.php.lang.psi.elements.PhpMethodReference;
+import net.jay.plugins.php.lang.psi.elements.PhpParameter;
+import net.jay.plugins.php.lang.psi.elements.PhpParameterList;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
@@ -50,16 +50,16 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		final PsiFile psiFile = context.getFile();
 		if(psiFile instanceof PHPFile)
 		{
-			final MethodReference methodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), MethodReference.class, false);
-			if(methodReference != null)
+			final PhpMethodReference phpMethodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
+			if(phpMethodReference != null)
 			{
-				final PsiElement element = methodReference.resolve();
-				if(element != null && element instanceof Method)
+				final PsiElement element = phpMethodReference.resolve();
+				if(element != null && element instanceof PhpMethod)
 				{
 					context.setItemsToShow(new Object[]{element});
 				}
 			}
-			return methodReference;
+			return phpMethodReference;
 		}
 		return null;
 	}
@@ -74,7 +74,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		final PsiFile psiFile = context.getFile();
 		if(psiFile instanceof PHPFile)
 		{
-			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), MethodReference.class, false);
+			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
 		}
 		return null;
 	}
@@ -83,9 +83,9 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	{
 		int index = -1;
 		final int caret = context.getOffset();
-		if(element instanceof MethodReference)
+		if(element instanceof PhpMethodReference)
 		{
-			final ParameterList callArgs = PsiTreeUtil.getChildOfType((PsiElement) element, ParameterList.class);
+			final PhpParameterList callArgs = PsiTreeUtil.getChildOfType((PsiElement) element, PhpParameterList.class);
 			LOG.assertTrue(callArgs != null);
 			index = ParameterInfoUtils.getCurrentParameterIndex(callArgs.getNode(), caret, PHPTokenTypes.opCOMMA);
 			// If we are just before the arguments
@@ -96,7 +96,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		}
 		else
 		{
-			if(caret > ((MethodReference) element).getTextRange().getEndOffset())
+			if(caret > ((PhpMethodReference) element).getTextRange().getEndOffset())
 			{
 				index = 0;
 			}
@@ -116,8 +116,8 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 
 	public void updateUI(Object element, ParameterInfoUIContext context)
 	{
-		LOG.assertTrue(element instanceof Method);
-		Method method = (Method) element;
+		LOG.assertTrue(element instanceof PhpMethod);
+		PhpMethod phpMethod = (PhpMethod) element;
 
 		// Index to show
 		final int index = context.getCurrentParameterIndex();
@@ -127,7 +127,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		int start = -1;
 		int end = -1;
 
-		final Parameter[] parameters = method.getParameters();
+		final PhpParameter[] parameters = phpMethod.getParameters();
 		if(parameters.length > 0)
 		{
 			for(int i = 0; i < parameters.length; i++)
@@ -136,7 +136,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 				{
 					buff.append(", ");
 				}
-				final Parameter parameter = parameters[i];
+				final PhpParameter parameter = parameters[i];
 				String paramName = "$" + parameter.getName();
 				if(paramName.equals("$"))
 				{

@@ -1,12 +1,16 @@
 package net.jay.plugins.php.lang.parser;
 
-import net.jay.plugins.php.lang.PHPLanguage;
-import net.jay.plugins.php.lang.psi.PHPElementType;
-
 import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import net.jay.plugins.php.lang.PHPLanguage;
+import net.jay.plugins.php.lang.psi.PHPElementType;
+import net.jay.plugins.php.lang.psi.elements.impl.PhpFieldImpl;
+import net.jay.plugins.php.lang.psi.elements.impl.PhpMethodReferenceImpl;
+import net.jay.plugins.php.lang.psi.elements.impl.PhpVariableReferenceImpl;
+import org.consulo.php.psi.PhpInstancableTokenType;
+import org.consulo.php.psi.PhpStubElements;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +19,7 @@ import com.intellij.psi.tree.TokenSet;
  *
  * @author jay
  */
-public interface PHPElementTypes
+public interface PHPElementTypes extends PhpStubElements
 {
 
 	final IFileElementType FILE = new IFileElementType(Language.findInstance(PHPLanguage.class));
@@ -25,11 +29,9 @@ public interface PHPElementTypes
 
 	IElementType GROUP_STATEMENT = new PHPElementType("Group statement");
 	IElementType STATEMENT = new PHPElementType("Statement");
-
-	IElementType CLASS = new PHPElementType("Class");
 	IElementType FUNCTION = new PHPElementType("Function");
-	IElementType PARAMETER_LIST = new PHPElementType("Parameter list");
-	IElementType PARAMETER = new PHPElementType("Parameter");
+	IElementType PARAMETER_LIST = new PHPElementType("PhpParameter list");
+	IElementType PARAMETER = new PHPElementType("PhpParameter");
 
 	IElementType UNARY_EXPRESSION = new PHPElementType("Unary expression");
 	IElementType ASSIGNMENT_EXPRESSION = new PHPElementType("Assignment expression");
@@ -63,7 +65,7 @@ public interface PHPElementTypes
 	IElementType STRING = new PHPElementType("String");
 	IElementType CONSTANT = new PHPElementType("Constant");
 	IElementType CLASS_REFERENCE = new PHPElementType("Class reference");
-	IElementType VARIABLE = new PHPElementType("Variable");
+	IElementType VARIABLE_REFERENCE = new PhpInstancableTokenType("VARIABLE_REFERENCE", PhpVariableReferenceImpl.class);
 	IElementType ARRAY_INDEX = new PHPElementType("Array index");
 	IElementType CLASS_CONSTANT_REFERENCE = new PHPElementType("Class constant reference");
 	IElementType ELSE_IF = new PHPElementType("Elseif");
@@ -83,7 +85,7 @@ public interface PHPElementTypes
 
 
 	IElementType IS_REFERENCE = new PHPElementType("Is reference");
-	IElementType PARAMETER_DEFAULT_VALUE = new PHPElementType("Parameter default value");
+	IElementType PARAMETER_DEFAULT_VALUE = new PHPElementType("PhpParameter default value");
 	IElementType COMMON_SCALAR = new PHPElementType("Common scalar");
 	IElementType STATIC_SCALAR = new PHPElementType("Static scalar");
 	IElementType EXTENDS_LIST = new PHPElementType("Extends list");
@@ -91,8 +93,7 @@ public interface PHPElementTypes
 	IElementType IMPLEMENTS_LIST = new PHPElementType("Implements list");
 	IElementType CLASS_CONSTANT = new PHPElementType("Class constant");
 	IElementType MODIFIER_LIST = new PHPElementType("Modifier list");
-	IElementType CLASS_FIELD = new PHPElementType("Class field");
-	IElementType CLASS_FIELDS = new PHPElementType("Class fields");
+	IElementType CLASS_FIELD = new PhpInstancableTokenType("FIELD", PhpFieldImpl.class);
 	IElementType CLASS_METHOD = new PHPElementType("Class method");
 	IElementType SWITCH = new PHPElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PHPElementType("Default case");
@@ -107,10 +108,10 @@ public interface PHPElementTypes
 	IElementType EXPRESSION = new PHPElementType("Expression");
 	IElementType OBSCURE_VARIABLE = new PHPElementType("Obscure variable");
 	IElementType FUNCTION_CALL = new PHPElementType("Function call");
-	IElementType FIELD_REFERENCE = new PHPElementType("Field reference");
-	IElementType METHOD_REFERENCE = new PHPElementType("Method reference");
+	IElementType FIELD_REFERENCE = new PHPElementType("PhpField reference");
+	IElementType METHOD_REFERENCE = new PhpInstancableTokenType("METHOD_REFERENCE", PhpMethodReferenceImpl.class);
 	IElementType HEREDOC = new PHPElementType("Heredoc");
-	IElementType VARIABLE_NAME = new PHPElementType("Variable name");
+	IElementType VARIABLE_NAME = new PHPElementType("PhpVariableReference name");
 	IElementType NUMBER = new PHPElementType("Number");
 	IElementType SHELL_COMMAND = new PHPElementType("Shell command");
 

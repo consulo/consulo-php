@@ -227,7 +227,7 @@ public class Variable implements PHPTokenTypes
 				if(result != PHPElementTypes.EMPTY_INPUT)
 				{
 					rollback.drop();
-					if(result == PHPElementTypes.VARIABLE)
+					if(result == PHPElementTypes.VARIABLE_REFERENCE)
 					{
 						return PHPElementTypes.FIELD_REFERENCE;
 					}
@@ -266,7 +266,7 @@ public class Variable implements PHPTokenTypes
 				{
 					var.drop();
 				}
-				return PHPElementTypes.VARIABLE;
+				return PHPElementTypes.VARIABLE_REFERENCE;
 			}
 		}
 		return result;
@@ -351,14 +351,14 @@ public class Variable implements PHPTokenTypes
 	}
 
 	//	compound_variable:
-	//		VARIABLE
+	//		VARIABLE_REFERENCE
 	//		| '$' '{' expr '}'
 	//	;
 	private static IElementType parseCompoundVariable(PHPPsiBuilder builder)
 	{
 		if(builder.compareAndEat(VARIABLE))
 		{
-			return PHPElementTypes.VARIABLE;
+			return PHPElementTypes.VARIABLE_REFERENCE;
 		}
 		PsiBuilder.Marker rollback = builder.mark();
 		if(builder.compareAndEat(DOLLAR))
@@ -368,7 +368,7 @@ public class Variable implements PHPTokenTypes
 				rollback.drop();
 				Expression.parse(builder);
 				builder.match(chRBRACE);
-				return PHPElementTypes.VARIABLE;
+				return PHPElementTypes.VARIABLE_REFERENCE;
 			}
 		}
 		rollback.rollbackTo();

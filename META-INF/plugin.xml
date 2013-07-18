@@ -20,16 +20,7 @@
 		<component>
 			<implementation-class>net.jay.plugins.php.pom.PhpPomAspect</implementation-class>
 		</component>
-		<component>
-			<implementation-class>net.jay.plugins.php.lang.highlighter.hierarchy.PhpHierarchyHighlightingPassFactory
-			</implementation-class>
-		</component>
 	</project-components>
-	<module-components>
-		<component>
-			<implementation-class>net.jay.plugins.php.cache.PhpModuleCacheManager</implementation-class>
-		</component>
-	</module-components>
 	<actions>
 		<action id="PhpNewFile" class="net.jay.plugins.php.actions.PhpCreateFileAction">
 			<add-to-group group-id="NewGroup1" anchor="first"/>
@@ -72,5 +63,9 @@
 		<lang.psiStructureViewFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPStructureViewBuilderProvider"/>
 		<multiHostInjector implementation="org.consulo.php.PhpMultiHostInjector" />
 		<typedHandler implementation="net.jay.plugins.php.lang.PHPTypedHandler"/>
+
+		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
+
+		<stubElementTypeHolder class="org.consulo.php.psi.PhpStubElements" />
 	</extensions>
 </idea-plugin>

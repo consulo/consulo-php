@@ -246,7 +246,7 @@ class_statement:
 ;
 
 method_body:
-	';' /* abstract method */
+	';' /* abstract phpMethod */
 	| '{' statement_list '}'
 ;
 

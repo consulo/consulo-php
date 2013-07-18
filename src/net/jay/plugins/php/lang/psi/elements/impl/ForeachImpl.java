@@ -1,7 +1,7 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
 import net.jay.plugins.php.lang.psi.elements.Foreach;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,19 +27,19 @@ public class ForeachImpl extends PHPPsiElementImpl implements Foreach
 		return getFirstPsiChild();
 	}
 
-	public Variable getKey()
+	public PhpVariableReference getKey()
 	{
 		PsiElement[] children = getChildren();
 		int variables = 0;
-		Variable firstVariable = null;
+		PhpVariableReference firstVariable = null;
 		for(int i = 1; i < children.length; i++)
 		{
 			PsiElement child = children[i];
-			if(child instanceof Variable)
+			if(child instanceof PhpVariableReference)
 			{
 				if(++variables == 1)
 				{
-					firstVariable = (Variable) child;
+					firstVariable = (PhpVariableReference) child;
 				}
 			}
 		}
@@ -50,14 +50,14 @@ public class ForeachImpl extends PHPPsiElementImpl implements Foreach
 		return null;
 	}
 
-	public Variable getValue()
+	public PhpVariableReference getValue()
 	{
 		PsiElement lastChild = getLastChild();
 		while(lastChild != null)
 		{
-			if(lastChild instanceof Variable)
+			if(lastChild instanceof PhpVariableReference)
 			{
-				return (Variable) lastChild;
+				return (PhpVariableReference) lastChild;
 			}
 			lastChild = lastChild.getPrevSibling();
 		}

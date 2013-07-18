@@ -35,14 +35,14 @@ public class ParameterList implements PHPTokenTypes
 	}
 
 	//	non_empty_parameter_list:
-	//		optional_class_type VARIABLE
-	//		| optional_class_type '&' VARIABLE
-	//		| optional_class_type '&' VARIABLE '=' static_scalar
-	//		| optional_class_type VARIABLE '=' static_scalar
-	//		| non_empty_parameter_list ',' optional_class_type VARIABLE
-	//		| non_empty_parameter_list ',' optional_class_type '&' VARIABLE
-	//		| non_empty_parameter_list ',' optional_class_type '&' VARIABLE '=' static_scalar
-	//		| non_empty_parameter_list ',' optional_class_type VARIABLE '=' static_scalar
+	//		optional_class_type VARIABLE_REFERENCE
+	//		| optional_class_type '&' VARIABLE_REFERENCE
+	//		| optional_class_type '&' VARIABLE_REFERENCE '=' static_scalar
+	//		| optional_class_type VARIABLE_REFERENCE '=' static_scalar
+	//		| non_empty_parameter_list ',' optional_class_type VARIABLE_REFERENCE
+	//		| non_empty_parameter_list ',' optional_class_type '&' VARIABLE_REFERENCE
+	//		| non_empty_parameter_list ',' optional_class_type '&' VARIABLE_REFERENCE '=' static_scalar
+	//		| non_empty_parameter_list ',' optional_class_type VARIABLE_REFERENCE '=' static_scalar
 	//	;
 	//
 	//	optional_class_type:
@@ -57,7 +57,7 @@ public class ParameterList implements PHPTokenTypes
 		;
 
 		parameter:
-			optional_class_type [opBIT_AND] VARIABLE [opASGN static_scalar]
+			optional_class_type [opBIT_AND] VARIABLE_REFERENCE [opASGN static_scalar]
 		;
 	 */
 	private static class Parameter implements ParserPart

@@ -33,10 +33,7 @@ public class PHPPsiCreator implements PHPElementTypes
 			return new PhpDocCommentImpl();
 		}
 
-		if(type == VARIABLE)
-		{
-			return new VariableImpl(node);
-		}
+
 		if(type == STATEMENT)
 		{
 			return new StatementImpl(node);
@@ -51,11 +48,11 @@ public class PHPPsiCreator implements PHPElementTypes
 		}
 		if(type == PARAMETER_LIST)
 		{
-			return new ParameterListImpl(node);
+			return new PhpParameterListImpl(node);
 		}
 		if(type == PARAMETER)
 		{
-			return new ParameterImpl(node);
+			return new PhpParameterImpl(node);
 		}
 		if(type == NEW_EXPRESSION)
 		{
@@ -79,15 +76,7 @@ public class PHPPsiCreator implements PHPElementTypes
 		}
 		if(type == CLASS_METHOD)
 		{
-			return new MethodImpl(node);
-		}
-		if(type == CLASS)
-		{
-			return new PhpClassImpl(node);
-		}
-		if(type == INTERFACE)
-		{
-			return new PhpInterfaceImpl(node);
+			return new PhpMethodImpl(node);
 		}
 		if(type == CATCH)
 		{
@@ -103,7 +92,7 @@ public class PHPPsiCreator implements PHPElementTypes
 		}
 		if(type == CLASS_FIELD)
 		{
-			return new FieldImpl(node);
+			return new PhpFieldImpl(node);
 		}
 		if(type == IF)
 		{
@@ -133,10 +122,7 @@ public class PHPPsiCreator implements PHPElementTypes
 		{
 			return new FunctionCallImpl(node);
 		}
-		if(type == METHOD_REFERENCE)
-		{
-			return new MethodReferenceImpl(node);
-		}
+
 		if(type == EXTENDS_LIST)
 		{
 			return new ExtendsListImpl(node);

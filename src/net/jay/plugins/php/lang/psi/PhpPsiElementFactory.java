@@ -25,15 +25,15 @@ public class PhpPsiElementFactory
 		return (ConstantReference) psiElement;
 	}
 
-	public static Variable createVariable(Project project, @NotNull String variableName)
+	public static PhpVariableReference createVariable(Project project, @NotNull String variableName)
 	{
 		assert variableName.length() > 0;
 		final PsiFile psiFile = createFile(project, "$" + variableName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
 		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
-		assert psiElement instanceof Variable;
-		return (Variable) psiElement;
+		assert psiElement instanceof PhpVariableReference;
+		return (PhpVariableReference) psiElement;
 	}
 
 	public static PhpClass createClass(Project project, @NotNull String text)

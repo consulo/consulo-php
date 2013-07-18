@@ -7,6 +7,6 @@ package net.jay.plugins.php.lang.psi.elements;
 public interface Global extends PHPPsiElement
 {
 
-	public Variable[] getVariables();
+	public PhpVariableReference[] getVariables();
 
 }

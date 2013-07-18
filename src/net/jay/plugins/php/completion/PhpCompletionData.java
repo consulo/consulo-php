@@ -1,26 +1,7 @@
 package net.jay.plugins.php.completion;
 
-import java.io.InputStream;
-import java.util.List;
-
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.ClassConstantReference;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.FieldReference;
-import net.jay.plugins.php.lang.psi.elements.Method;
-import net.jay.plugins.php.lang.psi.elements.MethodReference;
-import net.jay.plugins.php.lang.psi.elements.NewExpression;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.codeInsight.TailType;
-import com.intellij.codeInsight.completion.BasicInsertHandler;
-import com.intellij.codeInsight.completion.CompletionContext;
-import com.intellij.codeInsight.completion.CompletionData;
-import com.intellij.codeInsight.completion.CompletionVariant;
-import com.intellij.codeInsight.completion.InsertionContext;
+import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorModificationUtil;
@@ -34,6 +15,13 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
+import net.jay.plugins.php.lang.PHPFileType;
+import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import net.jay.plugins.php.lang.psi.elements.*;
+import org.jetbrains.annotations.NonNls;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Maxim
@@ -106,7 +94,7 @@ public class PhpCompletionData extends CompletionData
 				//        System.out.println(psiElement.getParent().getParent().getText());
 				//        System.out.println("--------");
 				final PsiElement parent = psiElement.getParent();
-				if(parent instanceof Variable)
+				if(parent instanceof PhpVariableReference)
 				{
 					return false;
 				}
@@ -114,7 +102,7 @@ public class PhpCompletionData extends CompletionData
 				{
 					return false;
 				}
-				if(parent instanceof MethodReference)
+				if(parent instanceof PhpMethodReference)
 				{
 					return false;
 				}
@@ -145,7 +133,7 @@ public class PhpCompletionData extends CompletionData
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}
 				//noinspection ConstantConditions
-				if(psiElement.getNode().getElementType() == PHPTokenTypes.IDENTIFIER && psiElement.getParent() instanceof Method && ((Method) psiElement.getParent()).getNameNode() == psiElement.getNode())
+				if(psiElement.getNode().getElementType() == PHPTokenTypes.IDENTIFIER && psiElement.getParent() instanceof PhpMethod && ((PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
 				{
 					return new Object[]{
 							"__construct",
@@ -161,7 +149,7 @@ public class PhpCompletionData extends CompletionData
 		registerVariant(variant);
 
 		variant = new CompletionVariant(TrueFilter.INSTANCE);
-		variant.includeScopeClass(Variable.class);
+		variant.includeScopeClass(PhpVariableReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.addCompletion(superGlobals);
 		registerVariant(variant);
@@ -195,8 +183,8 @@ public class PhpCompletionData extends CompletionData
 				EditorModificationUtil.insertStringAtCaret(editor, "()");
 				PsiDocumentManager.getInstance(editor.getProject()).commitDocument(editor.getDocument());
 				PhpClass klass = (PhpClass) element.getObject();
-				Method method = klass.getConstructor();
-				if(method != null && method.getParameters().length > 0)
+				PhpMethod phpMethod = klass.getConstructor();
+				if(phpMethod != null && phpMethod.getParameters().length > 0)
 				{
 					editor.getCaretModel().moveCaretRelatively(-1, 0, false, false, true);
 				}
@@ -221,7 +209,7 @@ public class PhpCompletionData extends CompletionData
 	{
 		PsiReference reference = psiElement.getContainingFile().findReferenceAt(i);
 		String prefix = super.findPrefix(psiElement, i);
-		if(reference instanceof Variable && prefix.startsWith("$"))
+		if(reference instanceof PhpVariableReference && prefix.startsWith("$"))
 		{
 			prefix = prefix.substring(1);
 		}

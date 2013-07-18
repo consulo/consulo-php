@@ -1,7 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements;
 
-import java.util.List;
-
 import com.intellij.psi.PsiElement;
 
 /**
@@ -18,6 +16,4 @@ public interface PHPPsiElement extends PsiElement
 	PHPPsiElement getNextPsiSibling();
 
 	PHPPsiElement getPrevPsiSibling();
-
-	List<LightCopyContainer> getChildrenForCache();
 }

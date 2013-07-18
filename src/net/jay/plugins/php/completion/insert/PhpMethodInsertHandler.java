@@ -1,14 +1,13 @@
 package net.jay.plugins.php.completion.insert;
 
-import net.jay.plugins.php.completion.PhpLookupElement;
-import net.jay.plugins.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
+import net.jay.plugins.php.completion.PhpLookupElement;
+import net.jay.plugins.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
+import net.jay.plugins.php.lang.psi.elements.Function;
+import net.jay.plugins.php.lang.psi.elements.PhpNamedElement;
 
 /**
  * @author jay
@@ -71,7 +70,7 @@ public class PhpMethodInsertHandler implements InsertHandler
 
 	protected Function getMethod(Editor editor, LookupElement element)
 	{
-		final PHPPsiElement psiElement = ((PhpLookupElement) element).element.getPsi(editor.getProject());
+		final PhpNamedElement psiElement = ((PhpLookupElement) element).element;
 		if(psiElement instanceof Function)
 		{
 			return (Function) psiElement;

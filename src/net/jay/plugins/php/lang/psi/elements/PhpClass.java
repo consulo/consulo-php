@@ -1,31 +1,28 @@
 package net.jay.plugins.php.lang.psi.elements;
 
-import javax.swing.Icon;
-
 /**
  * @author jay
  * @date Apr 8, 2008 1:53:42 PM
  */
-public interface PhpClass extends PHPPsiElement, PhpNamedElement, LightCopyContainer
+public interface PhpClass extends PHPPsiElement, PhpNamedElement
 {
+	static String CONSTRUCTOR = "__construct";
 
-	public static String CONSTRUCTOR = "__construct";
+	PhpModifier getModifier();
 
-	public Field[] getFields();
+	PhpField[] getFields();
 
-	public Method[] getMethods();
+	PhpMethod[] getMethods();
 
-	public PhpClass getSuperClass();
+	PhpClass getSuperClass();
 
-	public PhpInterface[] getImplementedInterfaces();
+	PhpClass[] getImplementedInterfaces();
 
-	public Method getConstructor();
+	PhpMethod getConstructor();
 
-	public Icon getIcon();
+	boolean isAbstract();
 
-	public boolean isAbstract();
+	boolean isFinal();
 
-	public boolean isFinal();
-
-	public boolean isInterface();
+	boolean isInterface();
 }

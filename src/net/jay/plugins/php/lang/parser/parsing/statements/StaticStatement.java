@@ -37,10 +37,10 @@ public class StaticStatement implements PHPTokenTypes
 	}
 
 	//	static_var_list:
-	//		static_var_list ',' VARIABLE
-	//		| static_var_list ',' VARIABLE '=' static_scalar
-	//		| VARIABLE
-	//		| VARIABLE '=' static_scalar
+	//		static_var_list ',' VARIABLE_REFERENCE
+	//		| static_var_list ',' VARIABLE_REFERENCE '=' static_scalar
+	//		| VARIABLE_REFERENCE
+	//		| VARIABLE_REFERENCE '=' static_scalar
 	//	;
 	private static void parseStaticVarList(PHPPsiBuilder builder)
 	{
@@ -58,8 +58,8 @@ public class StaticStatement implements PHPTokenTypes
 				{
 					StaticScalar.parse(builder);
 				}
-				var.done(PHPElementTypes.VARIABLE);
-				return PHPElementTypes.VARIABLE;
+				var.done(PHPElementTypes.VARIABLE_REFERENCE);
+				return PHPElementTypes.VARIABLE_REFERENCE;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, staticVariable.parse(builder), staticVariable, false);

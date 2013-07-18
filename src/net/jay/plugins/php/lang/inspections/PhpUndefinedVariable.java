@@ -2,7 +2,7 @@ package net.jay.plugins.php.lang.inspections;
 
 import net.jay.plugins.php.PHPBundle;
 import net.jay.plugins.php.completion.PhpCompletionData;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.Nls;
@@ -33,7 +33,7 @@ public class PhpUndefinedVariable extends PhpInspection
 		return new PHPElementVisitor()
 		{
 			@SuppressWarnings({"ConstantConditions"})
-			public void visitPhpVariable(Variable variable)
+			public void visitVariableReference(PhpVariableReference variable)
 			{
 				if(variable.canReadName())
 				{

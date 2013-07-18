@@ -31,7 +31,7 @@ public class PhpVirtualFileScanner
 	 * see <code>searchRubyFilesUnderDirectory(@Nullable final Module module, @NotNull final VirtualFile dir)</code>
 	 *
 	 * @param file     File or directory
-	 * @param allFiles Method adds all found files into this set
+	 * @param allFiles PhpMethod adds all found files into this set
 	 */
 	public static void addFiles(@Nullable final VirtualFile file, @NotNull final Set<VirtualFile> allFiles)
 	{

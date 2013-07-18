@@ -1,6 +1,5 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -10,23 +9,17 @@ import com.intellij.psi.ResolveResult;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import net.jay.plugins.php.cache.DeclarationsIndex;
-import net.jay.plugins.php.cache.psi.LightPhpClass;
-import net.jay.plugins.php.cache.psi.LightPhpElement;
-import net.jay.plugins.php.cache.psi.LightPhpInterface;
 import net.jay.plugins.php.completion.ClassUsageContext;
-import net.jay.plugins.php.completion.PhpVariantsUtil;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.*;
-import net.jay.plugins.php.lang.psi.resolve.PhpResolveResult;
+import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.ConstantReference;
+import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpMethod;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jay
@@ -40,9 +33,9 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		super(node);
 	}
 
-	public ASTNode getNameNode()
+	public PsiElement getNameIdentifier()
 	{
-		return getNode().findChildByType(PHPTokenTypes.IDENTIFIER);
+		return findChildByType(PHPTokenTypes.IDENTIFIER);
 	}
 
 	public String getReferenceName()
@@ -71,7 +64,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 	@NotNull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		boolean instantiation = getParent() instanceof NewExpression;
+		/*boolean instantiation = getParent() instanceof NewExpression;
 
 		if(getReferenceName().equals("self"))
 		{
@@ -108,7 +101,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 			final PhpClass klass = (PhpClass) classes.get(i).getPsi(getProject());
 			if(klass != null && instantiation)
 			{
-				Method constructor = klass.getConstructor();
+				PhpMethod constructor = klass.getConstructor();
 				if(constructor == null)
 				{
 					element = klass;
@@ -126,10 +119,11 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		}
 		for(int i = 0; i < interfaces.size(); i++)
 		{
-			final PhpInterface anInterface = (PhpInterface) interfaces.get(i).getPsi(getProject());
+			final PhpClass anInterface = (PhpClass) interfaces.get(i).getPsi(getProject());
 			result[i + classes.size()] = new PhpResolveResult(anInterface);
 		}
-		return result;
+		return result; */
+		return new ResolveResult[0];
 	}
 
 	public PsiElement getElement()
@@ -160,11 +154,12 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
+		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
-		if(getNameNode() != null && !getReferenceName().equals(name))
+		if(nameIdentifier != null && !getReferenceName().equals(name))
 		{
 			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
-			getNameNode().getTreeParent().replaceChild(getNameNode(), constantReference.getNameNode());
+			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;
 	}
@@ -176,7 +171,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof PhpClass || element instanceof PhpInterface || element instanceof Method)
+		if(element instanceof PhpClass || element instanceof PhpMethod)
 		{
 			final PsiElement resolveResult = resolve();
 			final boolean isReference = element == resolveResult;
@@ -184,7 +179,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 			{
 				return isReference;
 			}
-			if(element instanceof PhpClass && resolveResult instanceof Method)
+			if(element instanceof PhpClass && resolveResult instanceof PhpMethod)
 			{
 				return PsiTreeUtil.getParentOfType(resolveResult, PhpClass.class) == element;
 			}
@@ -218,23 +213,10 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 
 	public Object[] getVariants()
 	{
-		DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-		if(index == null)
-		{
-			return new Object[0];
-		}
-
-		List<LightPhpElement> variants = new ArrayList<LightPhpElement>();
-		for(String className : index.getAllClassNames())
-		{
-			variants.addAll(index.getClassesByName(className));
-		}
-		for(String interfaceName : index.getAllInterfaceNames())
-		{
-			variants.addAll(index.getInterfacesByName(interfaceName));
-		}
-		final List<LookupElement> list = PhpVariantsUtil.getLookupItemsForClasses(variants, getUsageContext());
-		return list.toArray(new LookupElement[list.size()]);
+		/*Collection<PhpClass> classes = PhpIndexUtil.getClasses(this);
+		final List<LookupElement> list = PhpVariantsUtil.getLookupItemsForClasses(classes, getUsageContext());
+		return list.toArray(new LookupElement[list.size()]);   */
+		return new Object[0];
 	}
 
 	public boolean isSoft()

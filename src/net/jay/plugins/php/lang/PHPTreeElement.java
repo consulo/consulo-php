@@ -43,9 +43,9 @@ class PHPTreeElement implements StructureViewTreeElement
 			PhpClass e = (PhpClass) myElement;
 			return new PresentationData(e.getName(), null, e.getIcon(),  null);
 		}
-		if(myElement instanceof Method)
+		if(myElement instanceof PhpMethod)
 		{
-			Method e = (Method) myElement;
+			PhpMethod e = (PhpMethod) myElement;
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
 			RowIcon rowIcon = new RowIcon(2);
@@ -74,12 +74,12 @@ class PHPTreeElement implements StructureViewTreeElement
 		return null;
 	}
 
-	private void listParameters(StringBuilder b, Parameter[] parameters)
+	private void listParameters(StringBuilder b, PhpParameter[] parameters)
 	{
 		b.append('(');
 		for(int i = 0; i < parameters.length; i++)
 		{
-			Parameter parameter = parameters[i];
+			PhpParameter parameter = parameters[i];
 			b.append(parameter.getName());
 			if(parameters.length - i > 1)
 				b.append(", ");
@@ -103,7 +103,7 @@ class PHPTreeElement implements StructureViewTreeElement
 		{
 			if(element instanceof PhpNamedElement)
 			{
-				if(!(element instanceof Parameter) && (!(element instanceof Variable) || ((Variable) element).isDeclaration()) && !(element instanceof ConstantReference))
+				if(!(element instanceof PhpParameter) && (!(element instanceof PhpVariableReference) || ((PhpVariableReference) element).isDeclaration()) && !(element instanceof ConstantReference))
 					children.add(new PHPTreeElement(element));
 			}
 			else

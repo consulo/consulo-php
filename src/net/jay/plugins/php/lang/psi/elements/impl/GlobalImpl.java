@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.jay.plugins.php.lang.psi.elements.Global;
-import net.jay.plugins.php.lang.psi.elements.Variable;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -23,23 +23,23 @@ public class GlobalImpl extends PHPPsiElementImpl implements Global
 		super(node);
 	}
 
-	public Variable[] getVariables()
+	public PhpVariableReference[] getVariables()
 	{
-		List<Variable> variables = new ArrayList<Variable>();
+		List<PhpVariableReference> variables = new ArrayList<PhpVariableReference>();
 		for(PsiElement element : this.getChildren())
 		{
-			if(element instanceof Variable)
+			if(element instanceof PhpVariableReference)
 			{
-				variables.add((Variable) element);
+				variables.add((PhpVariableReference) element);
 			}
 		}
-		return variables.toArray(new Variable[variables.size()]);
+		return variables.toArray(new PhpVariableReference[variables.size()]);
 	}
 
 	@Override
 	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
 	{
-		for(Variable variable : this.getVariables())
+		for(PhpVariableReference variable : this.getVariables())
 		{
 			if(!processor.execute(variable, state))
 			{

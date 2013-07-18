@@ -169,7 +169,7 @@ public class AssignmentExpression implements PHPTokenTypes
 					builder.match(chLPAREN);
 					parseAssignmentList(builder);
 					builder.match(chRPAREN);
-					return PHPElementTypes.VARIABLE;
+					return PHPElementTypes.VARIABLE_REFERENCE;
 				}
 				IElementType result = Variable.parse(builder);
 				if(!ASSIGNABLE.contains(result))

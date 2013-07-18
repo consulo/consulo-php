@@ -1,15 +1,14 @@
 package net.jay.plugins.php.lang.psi.resolve;
 
-import net.jay.plugins.php.lang.psi.elements.Parameter;
-import net.jay.plugins.php.lang.psi.elements.Variable;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import net.jay.plugins.php.lang.psi.elements.PhpParameter;
+import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -17,9 +16,9 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  */
 public class PhpScopeProcessor implements PsiScopeProcessor
 {
-	protected PsiNamedElement element;
+	protected PHPPsiElement element;
 
-	public PhpScopeProcessor(PsiNamedElement element)
+	public PhpScopeProcessor(PHPPsiElement element)
 	{
 		this.element = element;
 	}
@@ -47,9 +46,9 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 
 	protected boolean isAppropriateDeclarationType(PsiElement possibleDeclaration)
 	{
-		if(element instanceof Variable)
+		if(element instanceof PhpVariableReference)
 		{
-			return possibleDeclaration instanceof Variable || possibleDeclaration instanceof Parameter;
+			return possibleDeclaration instanceof PhpVariableReference || possibleDeclaration instanceof PhpParameter;
 		}
 		return false;
 	}

@@ -43,7 +43,7 @@ public class GlobalStatement implements PHPTokenTypes
 	//	;
 	//
 	//	global_var:
-	//		VARIABLE
+	//		VARIABLE_REFERENCE
 	//		| '$' variable //read
 	//		| '$' '{' expr '}'
 	//	;
@@ -60,20 +60,20 @@ public class GlobalStatement implements PHPTokenTypes
 				PsiBuilder.Marker variable = builder.mark();
 				if(builder.compareAndEat(VARIABLE))
 				{
-					variable.done(PHPElementTypes.VARIABLE);
-					return PHPElementTypes.VARIABLE;
+					variable.done(PHPElementTypes.VARIABLE_REFERENCE);
+					return PHPElementTypes.VARIABLE_REFERENCE;
 				}
 				builder.match(DOLLAR);
 				if(builder.compareAndEat(chLBRACE))
 				{
 					Expression.parse(builder);
 					builder.match(chRBRACE);
-					variable.done(PHPElementTypes.VARIABLE);
-					return PHPElementTypes.VARIABLE;
+					variable.done(PHPElementTypes.VARIABLE_REFERENCE);
+					return PHPElementTypes.VARIABLE_REFERENCE;
 				}
 				Variable.parse(builder);
-				variable.done(PHPElementTypes.VARIABLE);
-				return PHPElementTypes.VARIABLE;
+				variable.done(PHPElementTypes.VARIABLE_REFERENCE);
+				return PHPElementTypes.VARIABLE_REFERENCE;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, globalVariable.parse(builder), globalVariable, false);
