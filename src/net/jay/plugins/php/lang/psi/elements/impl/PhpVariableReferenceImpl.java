@@ -6,6 +6,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
+import lombok.val;
 import net.jay.plugins.php.PHPIcons;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
@@ -43,11 +44,13 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return null;
 	}
 
+	@Override
 	public PsiElement getNameIdentifier()
 	{
 		return findChildByType(PHPTokenTypes.VARIABLE);
 	}
 
+	@Override
 	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
@@ -60,6 +63,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return this;
 	}
 
+	@Override
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
 		if(psiElementVisitor instanceof PHPElementVisitor)
@@ -81,6 +85,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return super.processDeclarations(processor, resolveState, psiElement, psiElement1);
 	}
 
+	@Override
 	public boolean isDeclaration()
 	{
 		if((getParent() instanceof AssignmentExpression) && !(getParent() instanceof SelfAssignmentExpression))
@@ -109,11 +114,13 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	 *
 	 * @return true if variable's name is set and readable, false otherwise
 	 */
+	@Override
 	public boolean canReadName()
 	{
 		return getNode().getChildren(null).length == 1 && getNode().getFirstChildNode().getElementType() == PHPTokenTypes.VARIABLE;
 	}
 
+	@Override
 	public PsiReference getReference()
 	{
 		if(canReadName())
@@ -121,16 +128,19 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return null;
 	}
 
+	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@Override
 	public TextRange getRangeInElement()
 	{
 		return new TextRange(1, getTextLength());
 	}
 
+	@Override
 	@Nullable
 	public PsiElement resolve()
 	{
@@ -142,6 +152,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return null;
 	}
 
+	@Override
 	@NotNull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
@@ -162,21 +173,25 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return result.toArray(new ResolveResult[result.size()]);
 	}
 
+	@Override
 	public String getCanonicalText()
 	{
 		return getName();
 	}
 
+	@Override
 	public PsiElement handleElementRename(String s) throws IncorrectOperationException
 	{
 		return setName(s);
 	}
 
+	@Override
 	public PsiElement bindToElement(@NotNull PsiElement psiElement) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@Override
 	public boolean isReferenceTo(PsiElement psiElement)
 	{
 		if(psiElement instanceof PhpVariableReference || psiElement instanceof PhpParameter)
@@ -186,21 +201,24 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return false;
 	}
 
+	@Override
 	public Object[] getVariants()
 	{
 		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
 		ResolveUtil.treeWalkUp(this, processor);
-		final List<PHPPsiElement> variants = processor.getVariants();
+		val variants = processor.getVariants();
 		//      final List<LookupItem> list = PhpVariantsUtil.getLookupItemsForVariables(variants);
 		//      return list.toArray(new LookupItem[list.size()]);
 		return variants.toArray(new Object[variants.size()]);
 	}
 
+	@Override
 	public boolean isSoft()
 	{
 		return false;
 	}
 
+	@Override
 	@Nullable
 	public Icon getIcon()
 	{
