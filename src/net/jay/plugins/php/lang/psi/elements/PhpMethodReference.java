@@ -16,7 +16,7 @@ public interface PhpMethodReference extends PHPPsiElement, PsiPolyVariantReferen
 	String getMethodName();
 
 	@Nullable
-	ClassReference getClassReference();
+	PhpClassReference getClassReference();
 
 	@Nullable
 	PsiElement getObjectReference();

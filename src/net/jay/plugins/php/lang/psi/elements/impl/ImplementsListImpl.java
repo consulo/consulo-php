@@ -2,7 +2,7 @@ package net.jay.plugins.php.lang.psi.elements.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
 import net.jay.plugins.php.lang.psi.elements.ImplementsList;
 import net.jay.plugins.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class ImplementsListImpl extends PHPPsiElementImpl implements ImplementsL
 		final PsiElement[] children = getChildren();
 		for(PsiElement child : children)
 		{
-			if(child instanceof ClassReference)
+			if(child instanceof PhpClassReference)
 			{
 				//noinspection ConstantConditions
 				final PsiElement element = child.getReference().resolve();

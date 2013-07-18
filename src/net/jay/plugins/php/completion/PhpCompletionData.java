@@ -98,7 +98,7 @@ public class PhpCompletionData extends CompletionData
 				{
 					return false;
 				}
-				if(parent instanceof ClassReference)
+				if(parent instanceof PhpClassReference)
 				{
 					return false;
 				}
@@ -171,7 +171,7 @@ public class PhpCompletionData extends CompletionData
 				return true;
 			}
 		});
-		variant.includeScopeClass(ClassReference.class);
+		variant.includeScopeClass(PhpClassReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.setInsertHandler(new BasicInsertHandler()
 		{

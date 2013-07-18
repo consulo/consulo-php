@@ -97,7 +97,7 @@ public abstract class PHPElementVisitor extends PsiElementVisitor
 		visitPhpElement(ifStatement);
 	}
 
-	public void visitPhpClassReference(ClassReference classReference)
+	public void visitPhpClassReference(PhpClassReference classReference)
 	{
 		visitPhpElement(classReference);
 	}

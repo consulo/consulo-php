@@ -2,7 +2,7 @@ package net.jay.plugins.php.lang.annotator;
 
 import net.jay.plugins.php.PHPBundle;
 import net.jay.plugins.php.lang.highlighter.PHPHighlightingData;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
 import net.jay.plugins.php.lang.psi.elements.ConstantReference;
 import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
@@ -45,7 +45,7 @@ public class PhpAnnotatorVisitor extends PHPElementVisitor
 		}
 	}
 
-	public void visitPhpClassReference(ClassReference classReference)
+	public void visitPhpClassReference(PhpClassReference classReference)
 	{
 		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
 		{

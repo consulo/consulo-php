@@ -6,9 +6,7 @@ import com.intellij.psi.PsiPolyVariantReference;
  * @author jay
  * @date May 11, 2008 9:55:46 PM
  */
-public interface ClassReference extends PHPPsiElement, PsiPolyVariantReference
+public interface PhpClassReference extends PHPPsiElement, PsiPolyVariantReference
 {
-
-	public String getReferenceName();
-
+	String getReferenceName();
 }

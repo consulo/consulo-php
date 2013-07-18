@@ -71,12 +71,12 @@ public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements Cla
 	}
 
 	@Nullable
-	public ClassReference getClassReference()
+	public PhpClassReference getClassReference()
 	{
 		PHPPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
+		if(reference instanceof PhpClassReference)
 		{
-			return (ClassReference) reference;
+			return (PhpClassReference) reference;
 		}
 		return null;
 	}
@@ -131,7 +131,7 @@ public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements Cla
 
 	public Object[] getVariants()
 	{
-		final ClassReference classReference = getClassReference();
+		final PhpClassReference classReference = getClassReference();
 		if(classReference != null)
 		{
 			final PsiElement psiElement = classReference.resolve();

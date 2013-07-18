@@ -6,16 +6,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import lombok.val;
 import net.jay.plugins.php.completion.ClassUsageContext;
 import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
 import net.jay.plugins.php.lang.parser.PHPElementTypes;
 import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
-import net.jay.plugins.php.lang.psi.elements.ConstantReference;
 import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
 import net.jay.plugins.php.lang.psi.elements.PhpMethod;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
@@ -25,10 +24,10 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 11, 2008 9:56:57 PM
  */
-public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassReference
+public class PhpClassReferenceImpl extends PHPPsiElementImpl implements PhpClassReference
 {
 
-	public ClassReferenceImpl(ASTNode node)
+	public PhpClassReferenceImpl(ASTNode node)
 	{
 		super(node);
 	}
@@ -38,11 +37,13 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		return findChildByType(PHPTokenTypes.IDENTIFIER);
 	}
 
+	@Override
 	public String getReferenceName()
 	{
 		return getText();
 	}
 
+	@Override
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PHPElementVisitor)
@@ -55,11 +56,13 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		}
 	}
 
+	@Override
 	public PsiReference getReference()
 	{
 		return this;
 	}
 
+	@Override
 	@SuppressWarnings({"ConstantConditions"})
 	@NotNull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
@@ -126,16 +129,19 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		return new ResolveResult[0];
 	}
 
+	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@Override
 	public TextRange getRangeInElement()
 	{
 		return new TextRange(0, getTextLength());
 	}
 
+	@Override
 	@Nullable
 	public PsiElement resolve()
 	{
@@ -147,34 +153,38 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		return null;
 	}
 
+	@Override
 	public String getCanonicalText()
 	{
 		return null;
 	}
 
+	@Override
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getReferenceName().equals(name))
 		{
-			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			val constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;
 	}
 
+	@Override
 	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
 		if(element instanceof PhpClass || element instanceof PhpMethod)
 		{
-			final PsiElement resolveResult = resolve();
-			final boolean isReference = element == resolveResult;
+			val resolveResult = resolve();
+			val isReference = element == resolveResult;
 			if(isReference)
 			{
 				return isReference;
@@ -191,7 +201,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 	{
 		ClassUsageContext context = new ClassUsageContext();
 		//noinspection ConstantConditions
-		final IElementType parent = getParent().getNode().getElementType();
+		val parent = getParent().getNode().getElementType();
 		if(parent == PHPElementTypes.INSTANCEOF_EXPRESSION)
 		{
 			context.setInInstanceof(true);
@@ -211,6 +221,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		return context;
 	}
 
+	@Override
 	public Object[] getVariants()
 	{
 		/*Collection<PhpClass> classes = PhpIndexUtil.getClasses(this);
@@ -219,6 +230,7 @@ public class ClassReferenceImpl extends PHPPsiElementImpl implements ClassRefere
 		return new Object[0];
 	}
 
+	@Override
 	public boolean isSoft()
 	{
 		return false;

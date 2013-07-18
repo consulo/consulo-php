@@ -17,7 +17,7 @@ public interface FieldReference extends PHPPsiElement, PsiReference
 	public String getFieldName();
 
 	@Nullable
-	public ClassReference getClassReference();
+	public PhpClassReference getClassReference();
 
 	@Nullable
 	public PsiElement getObjectReference();

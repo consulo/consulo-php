@@ -136,9 +136,9 @@ public class PhpTypeAnnotatorVisitor extends PHPElementVisitor
 	{
 		PhpType type = new PhpType();
 		val classReference = expression.getFirstPsiChild();
-		if(classReference instanceof ClassReference)
+		if(classReference instanceof PhpClassReference)
 		{
-			PsiElement klass = ((ClassReference) classReference).resolve();
+			PsiElement klass = ((PhpClassReference) classReference).resolve();
 			if(!(klass instanceof PhpClass))
 			{
 				klass = PsiTreeUtil.getParentOfType(klass, PhpClass.class);
@@ -155,9 +155,9 @@ public class PhpTypeAnnotatorVisitor extends PHPElementVisitor
 	{
 		PhpType type = new PhpType();
 		val classReference = parameter.getFirstPsiChild();
-		if(classReference instanceof ClassReference)
+		if(classReference instanceof PhpClassReference)
 		{
-			Collection<PhpClass> classesFor = PhpIndexUtil.getClassesForName(parameter, ((ClassReference) classReference).getReferenceName());
+			Collection<PhpClass> classesFor = PhpIndexUtil.getClassesForName(parameter, ((PhpClassReference) classReference).getReferenceName());
 			type.addClasses(classesFor);
 		}
 		parameter.putUserData(TYPE_KEY, type);

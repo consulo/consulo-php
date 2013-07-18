@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import net.jay.plugins.php.lang.PHPLanguage;
 import net.jay.plugins.php.lang.psi.PHPElementType;
+import net.jay.plugins.php.lang.psi.elements.impl.PhpClassReferenceImpl;
 import net.jay.plugins.php.lang.psi.elements.impl.PhpFieldImpl;
 import net.jay.plugins.php.lang.psi.elements.impl.PhpMethodReferenceImpl;
 import net.jay.plugins.php.lang.psi.elements.impl.PhpVariableReferenceImpl;
@@ -64,7 +65,7 @@ public interface PHPElementTypes extends PhpStubElements
 	IElementType IF = new PHPElementType("If");
 	IElementType STRING = new PHPElementType("String");
 	IElementType CONSTANT = new PHPElementType("Constant");
-	IElementType CLASS_REFERENCE = new PHPElementType("Class reference");
+	IElementType CLASS_REFERENCE = new PhpInstancableTokenType("CLASS_REFERENCE", PhpClassReferenceImpl.class);
 	IElementType VARIABLE_REFERENCE = new PhpInstancableTokenType("VARIABLE_REFERENCE", PhpVariableReferenceImpl.class);
 	IElementType ARRAY_INDEX = new PHPElementType("Array index");
 	IElementType CLASS_CONSTANT_REFERENCE = new PHPElementType("Class constant reference");

@@ -110,10 +110,7 @@ public class PHPPsiCreator implements PHPElementTypes
 		{
 			return new ForImpl(node);
 		}
-		if(type == CLASS_REFERENCE)
-		{
-			return new ClassReferenceImpl(node);
-		}
+
 		if(type == FIELD_REFERENCE)
 		{
 			return new FieldReferenceImpl(node);

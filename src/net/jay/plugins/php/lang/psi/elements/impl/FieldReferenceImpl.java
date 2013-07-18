@@ -69,12 +69,12 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 		return null;
 	}
 
-	public ClassReference getClassReference()
+	public PhpClassReference getClassReference()
 	{
 		PHPPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
+		if(reference instanceof PhpClassReference)
 		{
-			return (ClassReference) reference;
+			return (PhpClassReference) reference;
 		}
 		return null;
 	}

@@ -69,12 +69,12 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements PhpMe
 	}
 
 	@Nullable
-	public ClassReference getClassReference()
+	public PhpClassReference getClassReference()
 	{
 		PHPPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
+		if(reference instanceof PhpClassReference)
 		{
-			return (ClassReference) reference;
+			return (PhpClassReference) reference;
 		}
 		return null;
 	}
@@ -160,7 +160,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements PhpMe
 		}
 		context.setModifier(getReferenceType());
 
-		final ClassReference classReference = getClassReference();
+		final PhpClassReference classReference = getClassReference();
 		if(classReference != null)
 		{
 			final PsiElement element = classReference.resolve();

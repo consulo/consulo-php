@@ -11,7 +11,7 @@ public interface Catch extends PHPPsiElement
 
 	public PhpVariableReference getException();
 
-	public ClassReference getExceptionType();
+	public PhpClassReference getExceptionType();
 
 	public PsiElement getStatement();
 

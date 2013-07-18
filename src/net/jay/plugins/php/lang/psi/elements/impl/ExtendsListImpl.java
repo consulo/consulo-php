@@ -1,6 +1,6 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
 import net.jay.plugins.php.lang.psi.elements.ExtendsList;
 import net.jay.plugins.php.lang.psi.elements.PhpClass;
 
@@ -27,7 +27,7 @@ public class ExtendsListImpl extends PHPPsiElementImpl implements ExtendsList
 		if(children.length > 0)
 		{
 			final PsiElement element = children[0];
-			if(element instanceof ClassReference)
+			if(element instanceof PhpClassReference)
 			{
 				//noinspection ConstantConditions
 				final PsiElement resolveResult = element.getReference().resolve();

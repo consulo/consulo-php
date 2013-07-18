@@ -1,7 +1,7 @@
 package net.jay.plugins.php.lang.psi.elements.impl;
 
 import net.jay.plugins.php.lang.psi.elements.Catch;
-import net.jay.plugins.php.lang.psi.elements.ClassReference;
+import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
 import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
 import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
 
@@ -25,9 +25,9 @@ public class CatchImpl extends PHPPsiElementImpl implements Catch
 		super(node);
 	}
 
-	public ClassReference getExceptionType()
+	public PhpClassReference getExceptionType()
 	{
-		return PsiTreeUtil.getChildOfType(this, ClassReference.class);
+		return PsiTreeUtil.getChildOfType(this, PhpClassReference.class);
 	}
 
 	public PhpVariableReference getException()
