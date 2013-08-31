@@ -61,7 +61,7 @@
 		<lang.fileViewProviderFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPFileViewProviderFactory"/>
 		<lang.substitutor language="HTML" implementationClass="org.consulo.php.PhpLanguageSubstitutor" />
 		<lang.psiStructureViewFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPStructureViewBuilderProvider"/>
-		<multiHostInjector implementation="org.consulo.php.PhpMultiHostInjector" />
+		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="org.consulo.php.PhpMultiHostInjector" />
 		<typedHandler implementation="net.jay.plugins.php.lang.PHPTypedHandler"/>
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>

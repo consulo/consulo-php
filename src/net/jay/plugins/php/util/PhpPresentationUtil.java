@@ -1,6 +1,7 @@
 package net.jay.plugins.php.util;
 
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.module.Module;
@@ -81,7 +82,7 @@ public class PhpPresentationUtil
 		final VirtualFile virtualFile = phpFile.getVirtualFile();
 		assert virtualFile != null;
 		String location = getPresentablePathForFile(virtualFile, phpFile.getProject());
-		return new PresentationData(phpFile.getName(), location, phpFile.getIcon(0), phpFile.getIcon(0), null);
+		return new PresentationData(phpFile.getName(), location, IconDescriptorUpdaters.getIcon(phpFile, 0), IconDescriptorUpdaters.getIcon(phpFile, 0), null);
 	}
 
 	public static Icon getIcon(PhpNamedElement element)

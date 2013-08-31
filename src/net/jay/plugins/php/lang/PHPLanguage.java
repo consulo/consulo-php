@@ -13,24 +13,21 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author jay
  */
-public class PHPLanguage extends Language implements TemplateLanguage
-{
+public class PHPLanguage extends Language implements TemplateLanguage {
 	public static final PHPLanguage INSTANCE = new PHPLanguage();
 
-	public PHPLanguage()
-	{
+	public PHPLanguage() {
 		super("PHP");
 	}
 
 	@Override
-	public boolean isCaseSensitive()
-	{
+	public boolean isCaseSensitive() {
 		return true;
 	}
 
-  @NotNull
-  @Override
-  public LanguageVersion[] getVersions() {
-    return PhpLanguageLevel.VALUES;
-  }
+	@NotNull
+	@Override
+	public LanguageVersion[] findVersions() {
+		return PhpLanguageLevel.VALUES;
+	}
 }

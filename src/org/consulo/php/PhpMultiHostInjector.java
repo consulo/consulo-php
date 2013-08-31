@@ -11,16 +11,13 @@ import com.intellij.psi.xml.XmlText;
 import net.jay.plugins.php.lang.PHPLanguage;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author VISTALL
  * @since 16.07.13.
  */
 public class PhpMultiHostInjector implements MultiHostInjector {
 	@Override
-	public void getLanguagesToInject(@NotNull MultiHostRegistrar multiHostRegistrar, @NotNull PsiElement element) {
+	public void injectLanguages(@NotNull MultiHostRegistrar multiHostRegistrar, @NotNull PsiElement element) {
 		XmlTag xmlTag = (XmlTag) element;
 		if (!"script".equals(xmlTag.getName())) {
 			return;
@@ -46,11 +43,5 @@ public class PhpMultiHostInjector implements MultiHostInjector {
 				.startInjecting(PHPLanguage.INSTANCE)
 				.addPlace("<?php", "?>", (PsiLanguageInjectionHost) textElement, new TextRange(0, textElement.getTextLength()))
 				.doneInjecting();
-	}
-
-	@NotNull
-	@Override
-	public List<? extends Class<? extends PsiElement>> elementsToInjectIn() {
-		return Arrays.asList(XmlTag.class);
 	}
 }
