@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="plugin">
-    <output-path>$PROJECT_DIR$/out/artifacts/plugin</output-path>
+  <artifact build-on-make="true" name="dist">
+    <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
     <root id="root">
       <element id="directory" name="php">
         <element id="directory" name="lib">
