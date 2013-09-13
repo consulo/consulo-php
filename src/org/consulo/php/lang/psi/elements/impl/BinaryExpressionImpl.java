@@ -1,15 +1,15 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.psi.elements.BinaryExpression;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.elements.BinaryExpression;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -34,14 +34,14 @@ public class BinaryExpressionImpl extends PhpElementImpl implements BinaryExpres
 
 	public IElementType getOperation()
 	{
-		return getNode().getChildren(PHPTokenTypes.tsOPERATORS)[0].getElementType();
+		return getNode().getChildren(PhpTokenTypes.tsOPERATORS)[0].getElementType();
 	}
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpBinaryExpression(this);
+			((PhpElementVisitor) visitor).visitPhpBinaryExpression(this);
 		}
 		else
 		{

@@ -1,23 +1,22 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 08.11.2007
  */
-public class DeclareStatement implements PHPTokenTypes
+public class DeclareStatement implements PhpTokenTypes
 {
 
 	//		kwDECLARE '(' declare_list ')' declare_statement

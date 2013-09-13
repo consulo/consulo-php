@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpression;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
@@ -11,7 +11,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 29.10.2007
  */
-public class Expression implements PHPTokenTypes
+public class Expression implements PhpTokenTypes
 {
 
 	//	expr:

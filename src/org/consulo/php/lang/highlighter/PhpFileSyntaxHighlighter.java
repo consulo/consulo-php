@@ -8,7 +8,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
 import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 
 	@Override
 	public Lexer getHighlightingLexer(LanguageVersion languageVersion) {
-		return new PHPHighlightingLexer((PhpLanguageLevel) languageVersion);
+		return new PhpHighlightingLexer((PhpLanguageLevel) languageVersion);
 	}
 
 	@NotNull
@@ -40,48 +40,48 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 	}
 
 	static {
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsCOMMENTS, PHPHighlightingData.COMMENT);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsNUMBERS, PHPHighlightingData.NUMBER);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsCONSTANTS, PHPHighlightingData.CONSTANT);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsSTRING_EDGE, PHPHighlightingData.STRING);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsEXPR_SUBST_MARKS, PHPHighlightingData.EXPR_SUBST_MARKS);
-		//safeMap(ATTRIBUTES, PHPTokenTypes.tsBINARY_OPS, PHPHighlightingData.OPERATION_SIGN);
-		safeMap(ATTRIBUTES, PHPTokenTypes.KEYWORDS, PHPHighlightingData.KEYWORD);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsBRACKETS, PHPHighlightingData.BRACKETS);
-		safeMap(ATTRIBUTES, PHPTokenTypes.tsHEREDOC_IDS, PHPHighlightingData.HEREDOC_ID);
-		ATTRIBUTES.put(PHPTokenTypes.HEREDOC_CONTENTS, PHPHighlightingData.HEREDOC_CONTENT);
-		ATTRIBUTES.put(PHPTokenTypes.opCOMMA, PHPHighlightingData.COMMA);
-		ATTRIBUTES.put(PHPTokenTypes.opSEMICOLON, PHPHighlightingData.SEMICOLON);
-		ATTRIBUTES.put(PHPTokenTypes.STRING_LITERAL, PHPHighlightingData.STRING);
-		ATTRIBUTES.put(PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE, PHPHighlightingData.STRING);
-		ATTRIBUTES.put(PHPTokenTypes.EXEC_COMMAND, PHPHighlightingData.EXEC_COMMAND);
-		ATTRIBUTES.put(PHPTokenTypes.chBACKTRICK, PHPHighlightingData.EXEC_COMMAND);
-		ATTRIBUTES.put(PHPTokenTypes.IDENTIFIER, PHPHighlightingData.IDENTIFIER);
-		ATTRIBUTES.put(PHPTokenTypes.VARIABLE, PHPHighlightingData.VAR);
-		ATTRIBUTES.put(StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN, PHPHighlightingData.ESCAPE_SEQUENCE);
-		ATTRIBUTES.put(StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN, PHPHighlightingData.BAD_CHARACTER);
-		ATTRIBUTES.put(PHPTokenTypes.UNKNOWN_SYMBOL, PHPHighlightingData.BAD_CHARACTER);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsCOMMENTS, PhpHighlightingData.COMMENT);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsNUMBERS, PhpHighlightingData.NUMBER);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsCONSTANTS, PhpHighlightingData.CONSTANT);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsSTRING_EDGE, PhpHighlightingData.STRING);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsEXPR_SUBST_MARKS, PhpHighlightingData.EXPR_SUBST_MARKS);
+		//safeMap(ATTRIBUTES, PhpTokenTypes.tsBINARY_OPS, PhpHighlightingData.OPERATION_SIGN);
+		safeMap(ATTRIBUTES, PhpTokenTypes.KEYWORDS, PhpHighlightingData.KEYWORD);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsBRACKETS, PhpHighlightingData.BRACKETS);
+		safeMap(ATTRIBUTES, PhpTokenTypes.tsHEREDOC_IDS, PhpHighlightingData.HEREDOC_ID);
+		ATTRIBUTES.put(PhpTokenTypes.HEREDOC_CONTENTS, PhpHighlightingData.HEREDOC_CONTENT);
+		ATTRIBUTES.put(PhpTokenTypes.opCOMMA, PhpHighlightingData.COMMA);
+		ATTRIBUTES.put(PhpTokenTypes.opSEMICOLON, PhpHighlightingData.SEMICOLON);
+		ATTRIBUTES.put(PhpTokenTypes.STRING_LITERAL, PhpHighlightingData.STRING);
+		ATTRIBUTES.put(PhpTokenTypes.STRING_LITERAL_SINGLE_QUOTE, PhpHighlightingData.STRING);
+		ATTRIBUTES.put(PhpTokenTypes.EXEC_COMMAND, PhpHighlightingData.EXEC_COMMAND);
+		ATTRIBUTES.put(PhpTokenTypes.chBACKTRICK, PhpHighlightingData.EXEC_COMMAND);
+		ATTRIBUTES.put(PhpTokenTypes.IDENTIFIER, PhpHighlightingData.IDENTIFIER);
+		ATTRIBUTES.put(PhpTokenTypes.VARIABLE, PhpHighlightingData.VAR);
+		ATTRIBUTES.put(StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN, PhpHighlightingData.ESCAPE_SEQUENCE);
+		ATTRIBUTES.put(StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN, PhpHighlightingData.BAD_CHARACTER);
+		ATTRIBUTES.put(PhpTokenTypes.UNKNOWN_SYMBOL, PhpHighlightingData.BAD_CHARACTER);
 
-		ATTRIBUTES.put(PHPTokenTypes.PHP_OPENING_TAG, PHPHighlightingData.TAG);
-		ATTRIBUTES.put(PHPTokenTypes.PHP_ECHO_OPENING_TAG, PHPHighlightingData.TAG);
-		ATTRIBUTES.put(PHPTokenTypes.PHP_CLOSING_TAG, PHPHighlightingData.TAG);
+		ATTRIBUTES.put(PhpTokenTypes.PHP_OPENING_TAG, PhpHighlightingData.TAG);
+		ATTRIBUTES.put(PhpTokenTypes.PHP_ECHO_OPENING_TAG, PhpHighlightingData.TAG);
+		ATTRIBUTES.put(PhpTokenTypes.PHP_CLOSING_TAG, PhpHighlightingData.TAG);
 		registerPHPDoc();
 	}
 
 	private static void registerHtmlMarkup(IElementType[] htmlTokens, IElementType[] htmlTokens2) {
 		for (IElementType idx : htmlTokens) {
-			ATTRIBUTES.put(idx, PHPHighlightingData.DOC_COMMENT);
-			DOC_ATTRIBUTES.put(idx, PHPHighlightingData.DOC_MARKUP);
+			ATTRIBUTES.put(idx, PhpHighlightingData.DOC_COMMENT);
+			DOC_ATTRIBUTES.put(idx, PhpHighlightingData.DOC_MARKUP);
 		}
 
 		for (IElementType idx : htmlTokens2) {
-			ATTRIBUTES.put(idx, PHPHighlightingData.DOC_COMMENT);
+			ATTRIBUTES.put(idx, PhpHighlightingData.DOC_COMMENT);
 		}
 	}
 
 	private static void registerPHPDoc() {
-		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_COMMENT);
-		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PHPHighlightingData.DOC_TAG);
+		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_COMMENT);
+		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_TAG);
 
 		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate() {
 			public boolean matches(IElementType type) {
@@ -90,7 +90,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 		});
 
 		for (IElementType type : javadoc) {
-			ATTRIBUTES.put(type, PHPHighlightingData.DOC_COMMENT);
+			ATTRIBUTES.put(type, PhpHighlightingData.DOC_COMMENT);
 		}
 
 		IElementType javaDocMarkup[] = {

@@ -4,6 +4,7 @@ import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.elements.PhpMethod;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
 import org.consulo.php.lang.psi.elements.PhpModifier;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
-		return new PHPElementVisitor()
+		return new PhpElementVisitor()
 		{
 			@SuppressWarnings({"ConstantConditions"})
 			public void visitPhpMethodReference(PhpMethodReference reference)

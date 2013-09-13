@@ -7,6 +7,8 @@ import junit.framework.Test;
 import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
 import net.jay.plugins.php.utils.PathUtils;
 import org.consulo.php.PhpLanguageLevel;
+import org.consulo.php.lang.lexer.PhpFlexAdapter;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NonNls;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class LexerTest extends BasePHPFileSetTestCase {
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();
         List<String> typeTexts = new ArrayList<String>();
-        Lexer lexer = new PHPFlexAdapter(PhpLanguageLevel.HIGHEST);
+        Lexer lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
         lexer.start(fileText);
         IElementType type = lexer.getTokenType();
         while (type != null) {
@@ -57,7 +59,7 @@ public class LexerTest extends BasePHPFileSetTestCase {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < types.size(); i++) {
             IElementType elementType = types.get(i);
-            if (elementType != PHPTokenTypes.WHITE_SPACE) {
+            if (elementType != PhpTokenTypes.WHITE_SPACE) {
                 String currentText = typeTexts.get(i);
                 currentText = StringUtil.replace(currentText, "\n", "\\n");
                 currentText = StringUtil.replace(currentText, "\r", "\\r");

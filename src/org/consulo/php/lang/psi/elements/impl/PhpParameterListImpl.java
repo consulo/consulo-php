@@ -7,6 +7,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
 import org.consulo.php.lang.psi.elements.PhpParameter;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,9 +30,9 @@ public class PhpParameterListImpl extends PhpElementImpl implements PhpParameter
 	@Override
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpParameterList(this);
+			((PhpElementVisitor) visitor).visitPhpParameterList(this);
 		}
 		else
 		{

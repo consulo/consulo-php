@@ -1,10 +1,11 @@
 package org.consulo.php.lang.annotator;
 
 import org.consulo.php.PhpBundle;
-import org.consulo.php.lang.highlighter.PHPHighlightingData;
+import org.consulo.php.lang.highlighter.PhpHighlightingData;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.ConstantReference;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -14,7 +15,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
  * @author jay
  * @date Apr 11, 2008 10:44:55 AM
  */
-public class PhpAnnotatorVisitor extends PHPElementVisitor
+public class PhpAnnotatorVisitor extends PhpElementVisitor
 {
 
 	private AnnotationHolder holder;
@@ -49,7 +50,7 @@ public class PhpAnnotatorVisitor extends PHPElementVisitor
 		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
 		{
 			Annotation annotation = holder.createInfoAnnotation(classReference, null);
-			TextAttributesKey keyword = PHPHighlightingData.KEYWORD;
+			TextAttributesKey keyword = PhpHighlightingData.KEYWORD;
 			annotation.setTextAttributes(keyword);
 		}
 	}
@@ -59,7 +60,7 @@ public class PhpAnnotatorVisitor extends PHPElementVisitor
 		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
 		{
 			Annotation annotation = holder.createInfoAnnotation(constant, null);
-			TextAttributesKey keyword = PHPHighlightingData.KEYWORD;
+			TextAttributesKey keyword = PhpHighlightingData.KEYWORD;
 			annotation.setTextAttributes(keyword);
 		}
 	}

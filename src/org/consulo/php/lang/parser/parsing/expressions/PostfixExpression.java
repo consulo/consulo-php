@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
@@ -12,7 +12,7 @@ import com.intellij.psi.tree.TokenSet;
  * @author jay
  * @time 17.12.2007 13:40:42
  */
-public class PostfixExpression implements PHPTokenTypes
+public class PostfixExpression implements PhpTokenTypes
 {
 
 	private static TokenSet POSTFIX_OPERATORS = TokenSet.create(opINCREMENT, opDECREMENT);

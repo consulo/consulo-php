@@ -9,7 +9,7 @@ import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.ConstantReference;
 import org.jetbrains.annotations.NonNls;
@@ -59,7 +59,7 @@ public class PhpStubbedNamedElementImpl<T extends StubElement> extends PhpStubEl
 	@Nullable
 	@Override
 	public PsiElement getNameIdentifier() {
-		return findChildByType(PHPTokenTypes.IDENTIFIER);
+		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 }
 

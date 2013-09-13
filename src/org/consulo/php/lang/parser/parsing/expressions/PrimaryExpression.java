@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.primary.Array;
@@ -19,7 +19,7 @@ import com.intellij.psi.tree.TokenSet;
  * @author jay
  * @time 17.12.2007 13:16:25
  */
-public class PrimaryExpression implements PHPTokenTypes
+public class PrimaryExpression implements PhpTokenTypes
 {
 
 	//	scalar

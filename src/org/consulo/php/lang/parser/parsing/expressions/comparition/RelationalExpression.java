@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.comparition;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.bit.ShiftExpression;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.TokenSet;
  * User: markov
  * Date: 15.12.2007
  */
-public class RelationalExpression implements PHPTokenTypes
+public class RelationalExpression implements PhpTokenTypes
 {
 
 	private static TokenSet RELATIONAL_OPERATORS = TokenSet.create(opGREATER, opGREATER_OR_EQUAL, opLESS, opLESS_OR_EQUAL);

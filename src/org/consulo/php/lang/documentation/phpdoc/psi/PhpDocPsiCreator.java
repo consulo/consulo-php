@@ -1,18 +1,17 @@
 package org.consulo.php.lang.documentation.phpdoc.psi;
 
-import java.lang.reflect.Constructor;
-import java.util.Map;
-
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.util.containers.HashMap;
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
 import org.consulo.php.lang.psi.elements.impl.PhpElementImpl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.containers.HashMap;
+import java.lang.reflect.Constructor;
+import java.util.Map;
 
 /**
  * @author jay

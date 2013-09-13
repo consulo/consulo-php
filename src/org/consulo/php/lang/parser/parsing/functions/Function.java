@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.functions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.IElementType;
  * Date: 12.10.2007
  * Time: 11:44:29
  */
-public class Function implements PHPTokenTypes
+public class Function implements PhpTokenTypes
 {
 
 	//	function_declaration_statement:

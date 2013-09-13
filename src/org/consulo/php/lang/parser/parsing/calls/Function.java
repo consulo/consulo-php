@@ -1,23 +1,22 @@
 package org.consulo.php.lang.parser.parsing.calls;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
+import org.consulo.php.lang.parser.util.ParserPart;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.consulo.php.lang.parser.util.ParserPart;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 16.11.2007
  */
-public class Function implements PHPTokenTypes
+public class Function implements PhpTokenTypes
 {
 
 	//	function_call:

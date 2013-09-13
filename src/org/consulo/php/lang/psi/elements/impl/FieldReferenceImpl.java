@@ -6,9 +6,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,9 +27,9 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpFieldReference(this);
+			((PhpElementVisitor) visitor).visitPhpFieldReference(this);
 		}
 		else
 		{
@@ -40,11 +41,11 @@ public class FieldReferenceImpl extends PhpTypedElementImpl implements FieldRefe
 	{
 		if(getClassReference() != null)
 		{
-			return findChildByType(PHPTokenTypes.VARIABLE);
+			return findChildByType(PhpTokenTypes.VARIABLE);
 		}
 		if(getObjectReference() != null)
 		{
-			return findChildByType(PHPTokenTypes.IDENTIFIER);
+			return findChildByType(PhpTokenTypes.IDENTIFIER);
 		}
 		return null;
 	}

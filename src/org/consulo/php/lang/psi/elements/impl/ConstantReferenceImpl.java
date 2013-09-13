@@ -8,6 +8,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.lang.psi.elements.ConstantReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,9 +27,9 @@ public class ConstantReferenceImpl extends PhpNamedElementImpl implements Consta
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpConstant(this);
+			((PhpElementVisitor) visitor).visitPhpConstant(this);
 		}
 		else
 		{

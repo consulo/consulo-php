@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.logical;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 14.12.2007
  */
-public class LiteralXorExpression implements PHPTokenTypes
+public class LiteralXorExpression implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
@@ -17,7 +17,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 06.11.2007
  */
-public class ForeachStatement implements PHPTokenTypes
+public class ForeachStatement implements PhpTokenTypes
 {
 
 	//	kwFOREACH '(' expr kwAS

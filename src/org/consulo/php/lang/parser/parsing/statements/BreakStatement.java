@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 03.11.2007
  */
-public class BreakStatement implements PHPTokenTypes
+public class BreakStatement implements PhpTokenTypes
 {
 
 	//	kwBREAK ';'

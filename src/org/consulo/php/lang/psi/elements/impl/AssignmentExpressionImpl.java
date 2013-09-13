@@ -1,6 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.AssignmentExpression;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -32,9 +33,9 @@ public class AssignmentExpressionImpl extends PhpTypedElementImpl implements Ass
 
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
-		if(psiElementVisitor instanceof PHPElementVisitor)
+		if(psiElementVisitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) psiElementVisitor).visitPhpAssignmentExpression(this);
+			((PhpElementVisitor) psiElementVisitor).visitPhpAssignmentExpression(this);
 		}
 		else
 		{

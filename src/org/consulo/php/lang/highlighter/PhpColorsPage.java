@@ -48,27 +48,27 @@ public class PhpColorsPage implements ColorSettingsPage
 
 
 	private static final AttributesDescriptor[] ATTRS = new AttributesDescriptor[]{
-			new AttributesDescriptor(PhpBundle.message("color.settings.keyword"), PHPHighlightingData.KEYWORD),
-			new AttributesDescriptor(PhpBundle.message("color.settings.comment"), PHPHighlightingData.COMMENT),
-			new AttributesDescriptor(PhpBundle.message("color.settings.number"), PHPHighlightingData.NUMBER),
-			new AttributesDescriptor(PhpBundle.message("color.settings.string"), PHPHighlightingData.STRING),
-			new AttributesDescriptor(PhpBundle.message("color.settings.exec_command"), PHPHighlightingData.EXEC_COMMAND),
-			new AttributesDescriptor(PhpBundle.message("color.settings.escape_sequence"), PHPHighlightingData.ESCAPE_SEQUENCE),
-			new AttributesDescriptor(PhpBundle.message("color.settings.operation"), PHPHighlightingData.OPERATION_SIGN),
-			new AttributesDescriptor(PhpBundle.message("color.settings.brackets"), PHPHighlightingData.BRACKETS),
-			new AttributesDescriptor(PhpBundle.message("color.settings.predefined.symbols"), PHPHighlightingData.PREDEFINED_SYMBOL),
-			//new AttributesDescriptor(PhpBundle.message("color.settings.expression_subtitution_marks"), PHPHighlightingData.EXPR_SUBST_MARKS),
-			new AttributesDescriptor(PhpBundle.message("color.settings.bad_character"), PHPHighlightingData.BAD_CHARACTER),
-			new AttributesDescriptor(PhpBundle.message("color.settings.comma"), PHPHighlightingData.COMMA),
-			new AttributesDescriptor(PhpBundle.message("color.settings.semicolon"), PHPHighlightingData.SEMICOLON),
-			new AttributesDescriptor(PhpBundle.message("color.settings.heredoc_id"), PHPHighlightingData.HEREDOC_ID),
-			new AttributesDescriptor(PhpBundle.message("color.settings.heredoc_content"), PHPHighlightingData.HEREDOC_CONTENT),
-			new AttributesDescriptor(PhpBundle.message("color.settings.var"), PHPHighlightingData.VAR),
-			new AttributesDescriptor(PhpBundle.message("color.settings.identifier"), PHPHighlightingData.IDENTIFIER),
-			new AttributesDescriptor(PhpBundle.message("color.settings.constant"), PHPHighlightingData.CONSTANT),
-			new AttributesDescriptor(PhpBundle.message("color.settings.doccomment"), PHPHighlightingData.DOC_COMMENT),
-			new AttributesDescriptor(PhpBundle.message("color.settings.doctag"), PHPHighlightingData.DOC_TAG),
-			new AttributesDescriptor(PhpBundle.message("color.settings.docmarkup"), PHPHighlightingData.DOC_MARKUP)
+			new AttributesDescriptor(PhpBundle.message("color.settings.keyword"), PhpHighlightingData.KEYWORD),
+			new AttributesDescriptor(PhpBundle.message("color.settings.comment"), PhpHighlightingData.COMMENT),
+			new AttributesDescriptor(PhpBundle.message("color.settings.number"), PhpHighlightingData.NUMBER),
+			new AttributesDescriptor(PhpBundle.message("color.settings.string"), PhpHighlightingData.STRING),
+			new AttributesDescriptor(PhpBundle.message("color.settings.exec_command"), PhpHighlightingData.EXEC_COMMAND),
+			new AttributesDescriptor(PhpBundle.message("color.settings.escape_sequence"), PhpHighlightingData.ESCAPE_SEQUENCE),
+			new AttributesDescriptor(PhpBundle.message("color.settings.operation"), PhpHighlightingData.OPERATION_SIGN),
+			new AttributesDescriptor(PhpBundle.message("color.settings.brackets"), PhpHighlightingData.BRACKETS),
+			new AttributesDescriptor(PhpBundle.message("color.settings.predefined.symbols"), PhpHighlightingData.PREDEFINED_SYMBOL),
+			//new AttributesDescriptor(PhpBundle.message("color.settings.expression_subtitution_marks"), PhpHighlightingData.EXPR_SUBST_MARKS),
+			new AttributesDescriptor(PhpBundle.message("color.settings.bad_character"), PhpHighlightingData.BAD_CHARACTER),
+			new AttributesDescriptor(PhpBundle.message("color.settings.comma"), PhpHighlightingData.COMMA),
+			new AttributesDescriptor(PhpBundle.message("color.settings.semicolon"), PhpHighlightingData.SEMICOLON),
+			new AttributesDescriptor(PhpBundle.message("color.settings.heredoc_id"), PhpHighlightingData.HEREDOC_ID),
+			new AttributesDescriptor(PhpBundle.message("color.settings.heredoc_content"), PhpHighlightingData.HEREDOC_CONTENT),
+			new AttributesDescriptor(PhpBundle.message("color.settings.var"), PhpHighlightingData.VAR),
+			new AttributesDescriptor(PhpBundle.message("color.settings.identifier"), PhpHighlightingData.IDENTIFIER),
+			new AttributesDescriptor(PhpBundle.message("color.settings.constant"), PhpHighlightingData.CONSTANT),
+			new AttributesDescriptor(PhpBundle.message("color.settings.doccomment"), PhpHighlightingData.DOC_COMMENT),
+			new AttributesDescriptor(PhpBundle.message("color.settings.doctag"), PhpHighlightingData.DOC_TAG),
+			new AttributesDescriptor(PhpBundle.message("color.settings.docmarkup"), PhpHighlightingData.DOC_MARKUP)
 	};
 
 	@NotNull

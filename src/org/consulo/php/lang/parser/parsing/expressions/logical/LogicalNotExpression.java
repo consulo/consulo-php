@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.logical;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.InstanceofExpression;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 16.12.2007 21:00:36
  */
-public class LogicalNotExpression implements PHPTokenTypes
+public class LogicalNotExpression implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

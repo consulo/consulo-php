@@ -5,12 +5,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.PhpParameter;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,7 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	@Override
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PHPTokenTypes.VARIABLE);
+		return findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
 	@Override
@@ -57,9 +58,9 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpParameter(this);
+			((PhpElementVisitor) visitor).visitPhpParameter(this);
 		}
 		else
 		{

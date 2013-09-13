@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.util;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 
 import com.intellij.lang.PsiBuilder;
@@ -10,7 +10,7 @@ import com.intellij.psi.tree.IElementType;
  * @author markov
  * @date 15.10.2007
  */
-public class ListParsingHelper implements PHPTokenTypes
+public class ListParsingHelper implements PhpTokenTypes
 {
 
 	/**

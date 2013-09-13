@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.bit.BitOrExpression;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 20.12.2007 23:25:11
  */
-public class PrintExpression implements PHPTokenTypes
+public class PrintExpression implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

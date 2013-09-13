@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
@@ -17,7 +17,7 @@ import com.intellij.psi.tree.TokenSet;
  * User: markov
  * Date: 04.11.2007
  */
-public class GlobalStatement implements PHPTokenTypes
+public class GlobalStatement implements PhpTokenTypes
 {
 
 	//	kwGLOBAL global_var_list ';'

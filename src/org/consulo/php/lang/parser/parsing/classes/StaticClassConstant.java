@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
@@ -11,7 +11,7 @@ import com.intellij.psi.tree.IElementType;
  * @author markov
  * @date 17.10.2007
  */
-public class StaticClassConstant implements PHPTokenTypes
+public class StaticClassConstant implements PhpTokenTypes
 {
 
 	//	static_class_constant:

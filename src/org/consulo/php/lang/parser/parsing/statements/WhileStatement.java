@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 31.10.2007
  */
-public class WhileStatement implements PHPTokenTypes
+public class WhileStatement implements PhpTokenTypes
 {
 
 	//	kwWHILE '(' expr ')' while_statement

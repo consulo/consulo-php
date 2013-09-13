@@ -1,15 +1,14 @@
 package org.consulo.php.lang.parser.parsing;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassDeclaration;
 import org.consulo.php.lang.parser.parsing.functions.Function;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -72,11 +71,11 @@ public class StatementList
 
 	private static boolean parseTopStatement(PhpPsiBuilder builder)
 	{
-		if(builder.compare(PHPTokenTypes.PHP_OPENING_TAG))
+		if(builder.compare(PhpTokenTypes.PHP_OPENING_TAG))
 		{
 			builder.advanceLexer();
 		}
-		else if(builder.compare(PHPTokenTypes.PHP_ECHO_OPENING_TAG))
+		else if(builder.compare(PhpTokenTypes.PHP_ECHO_OPENING_TAG))
 		{
 			builder.advanceLexer();
 		}
@@ -91,7 +90,7 @@ public class StatementList
 			parsed = Statement.parse(builder);
 		}
 
-		if(builder.compare(PHPTokenTypes.PHP_CLOSING_TAG))
+		if(builder.compare(PhpTokenTypes.PHP_CLOSING_TAG))
 		{
 			builder.advanceLexer();
 		}

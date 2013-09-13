@@ -1,7 +1,7 @@
 package org.consulo.php.lang.lexer.managers;
 
 import org.consulo.php.lang.lexer.PhpFlexLexer;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.tree.IElementType;
@@ -35,24 +35,24 @@ public class OperatorManager
 
 	public IElementType process(IElementType type)
 	{
-		if(PHPTokenTypes.tsWHITE_SPACE_OR_COMMENT.contains(type))
+		if(PhpTokenTypes.tsWHITE_SPACE_OR_COMMENT.contains(type))
 		{
 			return type;
 		}
 
-		afterArrow = PHPTokenTypes.ARROW == type;
+		afterArrow = PhpTokenTypes.ARROW == type;
 
-		if(afterVariable && PHPTokenTypes.tsUNARY_POSTFIX_OPS.contains(type))
+		if(afterVariable && PhpTokenTypes.tsUNARY_POSTFIX_OPS.contains(type))
 		{
 
 		}
 		else
 		{
-			afterOperator = PHPTokenTypes.tsOPERATORS.contains(type);
+			afterOperator = PhpTokenTypes.tsOPERATORS.contains(type);
 		}
-		afterKeyword = PHPTokenTypes.KEYWORDS.contains(type);
-		afterVariable = PHPTokenTypes.VARIABLE == type;
-		inStatementStart = (PHPTokenTypes.opSEMICOLON == type || PHPTokenTypes.tsPHP_OPENING_TAGS.contains(type) || PHPTokenTypes.tsOPENING_BRACKETS.contains(type));
+		afterKeyword = PhpTokenTypes.KEYWORDS.contains(type);
+		afterVariable = PhpTokenTypes.VARIABLE == type;
+		inStatementStart = (PhpTokenTypes.opSEMICOLON == type || PhpTokenTypes.tsPHP_OPENING_TAGS.contains(type) || PhpTokenTypes.tsOPENING_BRACKETS.contains(type));
 		return type;
 	}
 

@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,9 +63,9 @@ public class PhpFile extends PsiFileBase implements PhpElement
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpFile(this);
+			((PhpElementVisitor) visitor).visitPhpFile(this);
 		}
 		else
 		{

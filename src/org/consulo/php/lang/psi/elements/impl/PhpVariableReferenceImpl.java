@@ -8,13 +8,14 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
 import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.elements.Global;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import org.consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import org.consulo.php.lang.psi.resolve.ResolveUtil;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +48,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	@Override
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PHPTokenTypes.VARIABLE);
+		return findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
 	@Override
@@ -66,9 +67,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	@Override
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
-		if(psiElementVisitor instanceof PHPElementVisitor)
+		if(psiElementVisitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) psiElementVisitor).visitVariableReference(this);
+			((PhpElementVisitor) psiElementVisitor).visitVariableReference(this);
 		}
 		else
 		{
@@ -117,7 +118,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	@Override
 	public boolean canReadName()
 	{
-		return getNode().getChildren(null).length == 1 && getNode().getFirstChildNode().getElementType() == PHPTokenTypes.VARIABLE;
+		return getNode().getChildren(null).length == 1 && getNode().getFirstChildNode().getElementType() == PhpTokenTypes.VARIABLE;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -44,7 +44,7 @@ public class StaticArrayPairList
 				IElementType result = StaticScalar.parse(builder);
 				if(result != PhpElementTypes.EMPTY_INPUT)
 				{
-					if(builder.compare(PHPTokenTypes.opHASH_ARRAY))
+					if(builder.compare(PhpTokenTypes.opHASH_ARRAY))
 					{
 						staticArrayPair.done(PhpElementTypes.ARRAY_KEY);
 						builder.advanceLexer();

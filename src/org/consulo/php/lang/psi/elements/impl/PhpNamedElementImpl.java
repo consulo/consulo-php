@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.ConstantReference;
 import org.consulo.php.lang.psi.elements.PhpElement;
@@ -42,7 +42,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	@Nullable
 	@Override
 	public PsiElement getNameIdentifier() {
-		return findChildByType(PHPTokenTypes.IDENTIFIER);
+		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	public String getName()

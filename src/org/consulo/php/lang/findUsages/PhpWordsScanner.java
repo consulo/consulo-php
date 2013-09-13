@@ -1,7 +1,7 @@
 package org.consulo.php.lang.findUsages;
 
 import org.consulo.php.lang.lexer.PhpFlexAdapter;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 
 import com.intellij.lang.cacheBuilder.WordOccurrence;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -32,7 +32,7 @@ public class PhpWordsScanner implements WordsScanner
 		while(lexer.getTokenType() != null)
 		{
 			final IElementType type = lexer.getTokenType();
-			if(type == PHPTokenTypes.IDENTIFIER || PHPTokenTypes.KEYWORDS.contains(type))
+			if(type == PhpTokenTypes.IDENTIFIER || PhpTokenTypes.KEYWORDS.contains(type))
 			{
 				if(occurrence == null)
 				{
@@ -47,7 +47,7 @@ public class PhpWordsScanner implements WordsScanner
 					return;
 				}
 			}
-			else if(type == PHPTokenTypes.VARIABLE)
+			else if(type == PhpTokenTypes.VARIABLE)
 			{
 				if(occurrence == null)
 				{
@@ -62,12 +62,12 @@ public class PhpWordsScanner implements WordsScanner
 					return;
 				}
 			}
-			else if(PHPTokenTypes.tsCOMMENTS.contains(type))
+			else if(PhpTokenTypes.tsCOMMENTS.contains(type))
 			{
 				if(!stripWords(processor, fileText, lexer.getTokenStart(), lexer.getTokenEnd(), WordOccurrence.Kind.COMMENTS, occurrence))
 					return;
 			}
-			else if(PHPTokenTypes.tsSTRINGS.contains(type))
+			else if(PhpTokenTypes.tsSTRINGS.contains(type))
 			{
 				if(!stripWords(processor, fileText, lexer.getTokenStart(), lexer.getTokenEnd(), WordOccurrence.Kind.LITERALS, occurrence))
 					return;

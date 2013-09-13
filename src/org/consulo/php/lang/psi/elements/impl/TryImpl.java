@@ -2,6 +2,7 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.Try;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -29,9 +30,9 @@ public class TryImpl extends PhpElementImpl implements Try
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpTry(this);
+			((PhpElementVisitor) visitor).visitPhpTry(this);
 		}
 	}
 

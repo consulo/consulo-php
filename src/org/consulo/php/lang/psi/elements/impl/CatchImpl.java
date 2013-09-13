@@ -3,6 +3,7 @@ package org.consulo.php.lang.psi.elements.impl;
 import org.consulo.php.lang.psi.elements.Catch;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -46,9 +47,9 @@ public class CatchImpl extends PhpElementImpl implements Catch
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpCatch(this);
+			((PhpElementVisitor) visitor).visitPhpCatch(this);
 		}
 		else
 		{

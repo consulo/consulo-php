@@ -2,6 +2,7 @@ package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
-		return new PHPElementVisitor()
+		return new PhpElementVisitor()
 		{
 			public void visitPhpMethodReference(PhpMethodReference reference)
 			{

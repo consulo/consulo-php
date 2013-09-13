@@ -4,11 +4,12 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import org.consulo.php.lang.psi.resolve.ResolveUtil;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +31,9 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements PhpMe
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpMethodReference(this);
+			((PhpElementVisitor) visitor).visitPhpMethodReference(this);
 		}
 		else
 		{
@@ -43,7 +44,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements PhpMe
 	@Override
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PHPTokenTypes.IDENTIFIER);
+		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	public boolean canReadName()

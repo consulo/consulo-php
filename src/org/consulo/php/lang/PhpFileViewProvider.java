@@ -11,7 +11,7 @@ import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.psi.templateLanguages.TemplateDataElementType;
 import com.intellij.psi.templateLanguages.TemplateLanguageFileViewProvider;
 import gnu.trove.THashSet;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +52,7 @@ public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 		return HTMLLanguage.INSTANCE;
 	}
 
-	private static TemplateDataElementType ourTemplateDataType = new TemplateDataElementType("TEMPLATE_DATA in PHP", PhpLanguage.INSTANCE, PHPTokenTypes.HTML, PhpElementTypes.PHP_OUTER_TYPE);
+	private static TemplateDataElementType ourTemplateDataType = new TemplateDataElementType("TEMPLATE_DATA in PHP", PhpLanguage.INSTANCE, PhpTokenTypes.HTML, PhpElementTypes.PHP_OUTER_TYPE);
 
 	@Override
 	@Nullable

@@ -9,7 +9,7 @@ import com.intellij.psi.PsiFile;
 /**
  * @author spLeaner
  */
-public abstract class PhpRecursiveElementVisitor extends PHPElementVisitor
+public abstract class PhpRecursiveElementVisitor extends PhpElementVisitor
 {
 	private final boolean myVisitAllFileRoots;
 

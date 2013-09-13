@@ -11,9 +11,9 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.completion.PhpVariantsUtil;
 import org.consulo.php.completion.UsageContext;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,9 +34,9 @@ public class ClassConstantReferenceImpl extends PhpElementImpl implements ClassC
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpClassConstantReference(this);
+			((PhpElementVisitor) visitor).visitPhpClassConstantReference(this);
 		}
 		else
 		{
@@ -46,7 +46,7 @@ public class ClassConstantReferenceImpl extends PhpElementImpl implements ClassC
 
 	private ASTNode getNameNode()
 	{
-		return getNode().findChildByType(PHPTokenTypes.IDENTIFIER);
+		return getNode().findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	public boolean canReadName()

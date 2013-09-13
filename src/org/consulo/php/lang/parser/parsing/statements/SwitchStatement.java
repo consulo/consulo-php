@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.TokenSet;
  * User: markov
  * Date: 01.11.2007
  */
-public class SwitchStatement implements PHPTokenTypes
+public class SwitchStatement implements PhpTokenTypes
 {
 
 	//	kwSWITCH '(' expr ')' switch_case_list

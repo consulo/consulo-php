@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.math;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.logical.LogicalNotExpression;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.TokenSet;
  * @author jay
  * @time 16.12.2007 20:50:23
  */
-public class MultiplicativeExpression implements PHPTokenTypes
+public class MultiplicativeExpression implements PhpTokenTypes
 {
 
 	private static TokenSet MULTIPLICATIVE_OPERATORS = TokenSet.create(opDIV, opMUL, opREM);

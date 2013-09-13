@@ -15,6 +15,7 @@ import org.consulo.php.lang.psi.elements.ExtendsList;
 import org.consulo.php.lang.psi.elements.ImplementsList;
 import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +48,7 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
-		return new PHPElementVisitor()
+		return new PhpElementVisitor()
 		{
 			public void visitPhpClass(PhpClass clazz)
 			{

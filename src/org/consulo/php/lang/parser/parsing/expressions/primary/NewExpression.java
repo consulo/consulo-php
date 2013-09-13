@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.primary;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Function;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
@@ -14,7 +14,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 21.12.2007 16:42:00
  */
-public class NewExpression implements PHPTokenTypes
+public class NewExpression implements PhpTokenTypes
 {
 
 	// kwNEW class_name_reference ctor_arguments

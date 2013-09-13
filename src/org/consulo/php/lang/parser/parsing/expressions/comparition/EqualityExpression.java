@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.comparition;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.TokenSet;
  * User: markov
  * Date: 15.12.2007
  */
-public class EqualityExpression implements PHPTokenTypes
+public class EqualityExpression implements PhpTokenTypes
 {
 
 	private static TokenSet EQUALITY_OPERATORS = TokenSet.create(opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL);

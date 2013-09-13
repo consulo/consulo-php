@@ -10,12 +10,13 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
 import org.consulo.php.completion.ClassUsageContext;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PHPTokenTypes.IDENTIFIER);
+		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	@Override
@@ -45,9 +46,9 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpClassReference(this);
+			((PhpElementVisitor) visitor).visitPhpClassReference(this);
 		}
 		else
 		{

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpression;
 import org.consulo.php.lang.parser.parsing.expressions.logical.OrExpression;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 15.12.2007
  */
-public class TernaryExpression implements PHPTokenTypes
+public class TernaryExpression implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

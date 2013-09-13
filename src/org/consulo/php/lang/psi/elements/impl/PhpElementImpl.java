@@ -9,6 +9,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,9 +55,9 @@ public class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
 
 	public void accept(@NotNull final PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpElement(this);
+			((PhpElementVisitor) visitor).visitPhpElement(this);
 		}
 		else
 		{

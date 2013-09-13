@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.primary;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 20.12.2007 23:03:43
  */
-public class Array implements PHPTokenTypes
+public class Array implements PhpTokenTypes
 {
 
 	//	array_pair_list:

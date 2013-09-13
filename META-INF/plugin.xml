@@ -8,7 +8,7 @@
 	<depends>com.intellij.xml</depends>
 	<application-components>
 		<component>
-			<implementation-class>org.consulo.php.PHPSupportApplicationComponent</implementation-class>
+			<implementation-class>org.consulo.php.PhpSupportApplicationComponent</implementation-class>
 		</component>
 		<component>
 			<implementation-class>org.consulo.php.vfs.PharFileSystem</implementation-class>

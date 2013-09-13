@@ -11,6 +11,7 @@ import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.psi.elements.Function;
 import org.consulo.php.lang.psi.elements.PhpParameter;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,9 +50,9 @@ public class FunctionImpl extends PhpNamedElementImpl implements Function
 
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
-		if(psiElementVisitor instanceof PHPElementVisitor)
+		if(psiElementVisitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) psiElementVisitor).visitPhpFunction(this);
+			((PhpElementVisitor) psiElementVisitor).visitPhpFunction(this);
 		}
 		else
 		{

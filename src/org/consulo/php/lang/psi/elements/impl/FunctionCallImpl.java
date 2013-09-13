@@ -6,9 +6,10 @@ import com.intellij.psi.*;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.elements.FunctionCall;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,8 +24,8 @@ public class FunctionCallImpl extends PhpElementImpl implements FunctionCall {
 	}
 
 	public void accept(@NotNull PsiElementVisitor visitor) {
-		if (visitor instanceof PHPElementVisitor) {
-			((PHPElementVisitor) visitor).visitPhpFunctionCall(this);
+		if (visitor instanceof PhpElementVisitor) {
+			((PhpElementVisitor) visitor).visitPhpFunctionCall(this);
 		} else {
 			visitor.visitElement(this);
 		}
@@ -51,7 +52,7 @@ public class FunctionCallImpl extends PhpElementImpl implements FunctionCall {
 	}
 
 	private ASTNode getNameNode() {
-		return getNode().findChildByType(PHPTokenTypes.IDENTIFIER);
+		return getNode().findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	public boolean canReadName() {

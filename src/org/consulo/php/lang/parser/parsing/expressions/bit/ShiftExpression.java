@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.bit;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.math.AdditiveExpression;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.TokenSet;
  * User: markov
  * Date: 16.12.2007
  */
-public class ShiftExpression implements PHPTokenTypes
+public class ShiftExpression implements PhpTokenTypes
 {
 
 	private static TokenSet SHIFT_OPERATORS = TokenSet.create(opSHIFT_LEFT, opSHIFT_RIGHT);

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.primary.NewExpression;
@@ -17,7 +17,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 15.12.2007
  */
-public class AssignmentExpression implements PHPTokenTypes
+public class AssignmentExpression implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

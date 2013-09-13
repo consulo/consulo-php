@@ -1,14 +1,13 @@
 package org.consulo.php.lang.parser.parsing;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.parsing.statements.*;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +15,7 @@ import com.intellij.psi.tree.TokenSet;
  * Date: 12.10.2007
  * Time: 11:44:18
  */
-public class Statement implements PHPTokenTypes
+public class Statement implements PhpTokenTypes
 {
 
 	//	statement:
@@ -92,7 +91,7 @@ public class Statement implements PHPTokenTypes
 		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			result = Expression.parse(builder);
-			if(result != PhpElementTypes.EMPTY_INPUT && builder.getTokenType() != PHPTokenTypes.PHP_CLOSING_TAG)
+			if(result != PhpElementTypes.EMPTY_INPUT && builder.getTokenType() != PHP_CLOSING_TAG)
 			{
 				builder.match(opSEMICOLON);
 			}

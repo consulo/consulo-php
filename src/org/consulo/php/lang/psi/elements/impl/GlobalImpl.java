@@ -1,16 +1,15 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.consulo.php.lang.psi.elements.Global;
-import org.consulo.php.lang.psi.elements.PhpVariableReference;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import org.consulo.php.lang.psi.elements.Global;
+import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay

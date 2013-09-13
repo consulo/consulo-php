@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.IElementType;
  * User: markov
  * Date: 06.11.2007
  */
-public class EchoStatement implements PHPTokenTypes
+public class EchoStatement implements PhpTokenTypes
 {
 
 	//	kwECHO echo_expr_list ';'

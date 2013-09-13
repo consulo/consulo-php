@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.IElementType;
  * Date: 12.10.2007
  * Time: 11:44:37
  */
-public class ClassDeclaration implements PHPTokenTypes
+public class ClassDeclaration implements PhpTokenTypes
 {
 
 	//	class_declaration_statement:

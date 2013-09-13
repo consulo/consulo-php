@@ -9,8 +9,9 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
 import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.util.PhpPresentationUtil;
 import org.consulo.php.psi.PhpStubElements;
 import org.consulo.php.psi.impl.PhpStubbedNamedElementImpl;
@@ -78,8 +79,8 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Override
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor) {
-		if (psiElementVisitor instanceof PHPElementVisitor) {
-			((PHPElementVisitor) psiElementVisitor).visitPhpClass(this);
+		if (psiElementVisitor instanceof PhpElementVisitor) {
+			((PhpElementVisitor) psiElementVisitor).visitPhpClass(this);
 		} else {
 			super.accept(psiElementVisitor);
 		}
@@ -99,17 +100,17 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Override
 	public boolean isAbstract() {
-		return getNode().getFirstChildNode().getElementType() == PHPTokenTypes.kwABSTACT;
+		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwABSTACT;
 	}
 
 	@Override
 	public boolean isFinal() {
-		return getNode().getFirstChildNode().getElementType() == PHPTokenTypes.kwFINAL;
+		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwFINAL;
 	}
 
 	@Override
 	public boolean isInterface() {
-		return getNode().getFirstChildNode().getElementType() == PHPTokenTypes.kwINTERFACE;
+		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwINTERFACE;
 	}
 
 	@Override

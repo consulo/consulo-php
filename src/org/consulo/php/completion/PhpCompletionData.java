@@ -16,7 +16,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
 import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NonNls;
 
 import java.io.InputStream;
@@ -64,7 +64,7 @@ public class PhpCompletionData extends CompletionData
 
 	static
 	{
-		final IElementType[] iElementTypes = PHPTokenTypes.KEYWORDS.getTypes();
+		final IElementType[] iElementTypes = PhpTokenTypes.KEYWORDS.getTypes();
 		keywords = new String[iElementTypes.length];
 		int i = 0;
 
@@ -132,7 +132,7 @@ public class PhpCompletionData extends CompletionData
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}
 				//noinspection ConstantConditions
-				if(psiElement.getNode().getElementType() == PHPTokenTypes.IDENTIFIER && psiElement.getParent() instanceof org.consulo.php.lang.psi.elements.PhpMethod && ((org.consulo.php.lang.psi.elements.PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
+				if(psiElement.getNode().getElementType() == PhpTokenTypes.IDENTIFIER && psiElement.getParent() instanceof org.consulo.php.lang.psi.elements.PhpMethod && ((org.consulo.php.lang.psi.elements.PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
 				{
 					return new Object[]{
 							"__construct",

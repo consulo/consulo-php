@@ -1,21 +1,20 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.functions.IsReference;
 import org.consulo.php.lang.parser.parsing.functions.ParameterList;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 27.10.2007
  */
-public class ClassMethod implements PHPTokenTypes
+public class ClassMethod implements PhpTokenTypes
 {
 
 	//	method_modifiers kwFUNCTION is_reference IDENTIFIER '(' parameter_list ')' method_body

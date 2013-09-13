@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.PhpIcons2;
-import org.consulo.php.lang.highlighter.PHPSyntaxHighlighter;
+import org.consulo.php.lang.highlighter.PhpSyntaxHighlighter;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ public class PhpFileType extends LanguageFileType
 			@Override
 			public EditorHighlighter getEditorHighlighter(@Nullable Project project, @NotNull FileType fileType, @Nullable VirtualFile virtualFile, @NotNull EditorColorsScheme editorColorsScheme)
 			{
-				return new PHPSyntaxHighlighter(project, virtualFile, editorColorsScheme);
+				return new PhpSyntaxHighlighter(project, virtualFile, editorColorsScheme);
 			}
 		});
 	}

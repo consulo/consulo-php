@@ -1,18 +1,17 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 26.10.2007
  */
-public class ClassStatementList implements PHPTokenTypes
+public class ClassStatementList implements PhpTokenTypes
 {
 
 	//	class_statement_list:

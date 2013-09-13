@@ -2,6 +2,7 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.Else;
 import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -29,9 +30,9 @@ public class ElseImpl extends PhpElementImpl implements Else
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpElse(this);
+			((PhpElementVisitor) visitor).visitPhpElse(this);
 		}
 		else
 		{

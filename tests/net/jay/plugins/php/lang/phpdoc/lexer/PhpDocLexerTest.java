@@ -4,10 +4,10 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
 import junit.framework.Test;
-import net.jay.plugins.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
-import net.jay.plugins.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import net.jay.plugins.php.lang.lexer.LexerTest;
 import net.jay.plugins.php.utils.PathUtils;
+import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
+import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.jetbrains.annotations.NonNls;
 
 import java.util.ArrayList;

@@ -2,6 +2,7 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.Foreach;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -65,9 +66,9 @@ public class ForeachImpl extends PhpElementImpl implements Foreach
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpForeach(this);
+			((PhpElementVisitor) visitor).visitPhpForeach(this);
 		}
 		else
 		{

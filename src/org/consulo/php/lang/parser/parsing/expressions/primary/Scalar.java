@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions.primary;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.classes.StaticClassConstant;
@@ -17,7 +17,7 @@ import com.intellij.psi.tree.TokenSet;
  * @author jay
  * @time 20.12.2007 21:45:27
  */
-public class Scalar implements PHPTokenTypes
+public class Scalar implements PhpTokenTypes
 {
 
 	//	scalar:

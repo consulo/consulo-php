@@ -1,6 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.NewExpression;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -19,9 +20,9 @@ public class NewExpressionImpl extends PhpTypedElementImpl implements NewExpress
 
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
-		if(psiElementVisitor instanceof PHPElementVisitor)
+		if(psiElementVisitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) psiElementVisitor).visitPhpNewExpression(this);
+			((PhpElementVisitor) psiElementVisitor).visitPhpNewExpression(this);
 		}
 		else
 		{

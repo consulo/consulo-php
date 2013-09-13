@@ -8,11 +8,12 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,9 +57,9 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
 	{
-		if(psiElementVisitor instanceof PHPElementVisitor)
+		if(psiElementVisitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) psiElementVisitor).visitPhpMethod(this);
+			((PhpElementVisitor) psiElementVisitor).visitPhpMethod(this);
 		}
 		else
 		{
@@ -91,10 +92,10 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 	{
 		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
-		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
+		final ASTNode[] nodes = modifierList.getNode().getChildren(PhpTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)
 		{
-			if(node.getElementType() == PHPTokenTypes.kwFINAL)
+			if(node.getElementType() == PhpTokenTypes.kwFINAL)
 			{
 				return true;
 			}
@@ -106,10 +107,10 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 	{
 		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
-		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
+		final ASTNode[] nodes = modifierList.getNode().getChildren(PhpTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)
 		{
-			if(node.getElementType() == PHPTokenTypes.kwABSTACT)
+			if(node.getElementType() == PhpTokenTypes.kwABSTACT)
 			{
 				return true;
 			}
@@ -127,10 +128,10 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 	{
 		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
-		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
+		final ASTNode[] nodes = modifierList.getNode().getChildren(PhpTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)
 		{
-			if(node.getElementType() == PHPTokenTypes.kwSTATIC)
+			if(node.getElementType() == PhpTokenTypes.kwSTATIC)
 			{
 				return true;
 			}

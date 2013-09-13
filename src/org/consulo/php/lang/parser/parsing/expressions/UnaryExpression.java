@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.TokenSet;
  * @author jay
  * @time 16.12.2007 23:43:35
  */
-public class UnaryExpression implements PHPTokenTypes
+public class UnaryExpression implements PhpTokenTypes
 {
 
 	private static TokenSet CAST_OPERATORS = TokenSet.create(opBOOLEAN_CAST, opINTEGER_CAST, opSTRING_CAST, opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST, opFLOAT_CAST);

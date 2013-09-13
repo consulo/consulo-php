@@ -1,20 +1,20 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.consulo.php.lang.psi.elements.Else;
-import org.consulo.php.lang.psi.elements.ElseIf;
-import org.consulo.php.lang.psi.elements.If;
-import org.consulo.php.lang.psi.elements.PhpElement;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.consulo.php.lang.psi.elements.Else;
+import org.consulo.php.lang.psi.elements.ElseIf;
+import org.consulo.php.lang.psi.elements.If;
+import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -61,9 +61,9 @@ public class IfImpl extends PhpElementImpl implements If
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpIf(this);
+			((PhpElementVisitor) visitor).visitPhpIf(this);
 		}
 		else
 		{

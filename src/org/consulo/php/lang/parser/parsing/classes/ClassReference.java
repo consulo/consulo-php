@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @time 27.10.2007
  */
-public class ClassReference implements PHPTokenTypes
+public class ClassReference implements PhpTokenTypes
 {
 
 	public static IElementType parse(PhpPsiBuilder builder)

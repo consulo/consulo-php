@@ -6,6 +6,7 @@ import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
 import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.index.PhpIndexUtil;
 
 import java.util.Collection;
@@ -14,7 +15,7 @@ import java.util.Collection;
  * @author jay
  * @date Jun 18, 2008 12:03:21 PM
  */
-public class PhpTypeAnnotatorVisitor extends PHPElementVisitor
+public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 {
 
 	public static final Key<PhpType> TYPE_KEY = new Key<PhpType>("PhpTypeKey");

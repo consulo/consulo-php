@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing.functions;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
@@ -16,7 +16,7 @@ import com.intellij.psi.tree.IElementType;
  * @author markov
  * @date 14.10.2007
  */
-public class ParameterList implements PHPTokenTypes
+public class ParameterList implements PhpTokenTypes
 {
 
 	//	parameter_list:

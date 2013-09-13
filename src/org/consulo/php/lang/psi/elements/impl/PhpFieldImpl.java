@@ -6,7 +6,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
@@ -14,6 +13,7 @@ import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpField;
 import org.consulo.php.lang.psi.elements.PhpModifier;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,9 +35,9 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
-		if(visitor instanceof PHPElementVisitor)
+		if(visitor instanceof PhpElementVisitor)
 		{
-			((PHPElementVisitor) visitor).visitPhpField(this);
+			((PhpElementVisitor) visitor).visitPhpField(this);
 		}
 		else
 		{
@@ -54,7 +54,7 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	@Override
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PHPTokenTypes.VARIABLE);
+		return findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
 	public String getName()
@@ -86,18 +86,18 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 			final PhpElement element = ((PhpElement) getParent()).getFirstPsiChild();
 			if(element.getNode().getElementType() == PhpElementTypes.MODIFIER_LIST)
 			{
-				final ASTNode[] nodes = element.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
+				final ASTNode[] nodes = element.getNode().getChildren(PhpTokenTypes.tsMODIFIERS);
 				for(ASTNode node : nodes)
 				{
-					if(node.getElementType() == PHPTokenTypes.kwPUBLIC)
+					if(node.getElementType() == PhpTokenTypes.kwPUBLIC)
 					{
 						modifier.setAccess(PhpModifier.Access.PUBLIC);
 					}
-					else if(node.getElementType() == PHPTokenTypes.kwPROTECTED)
+					else if(node.getElementType() == PhpTokenTypes.kwPROTECTED)
 					{
 						modifier.setAccess(PhpModifier.Access.PROTECTED);
 					}
-					else if(node.getElementType() == PHPTokenTypes.kwPRIVATE)
+					else if(node.getElementType() == PhpTokenTypes.kwPRIVATE)
 					{
 						modifier.setAccess(PhpModifier.Access.PRIVATE);
 					}

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.parser.parsing;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
@@ -17,15 +17,15 @@ public class Program
 	//	;
 	public static void parse(PhpPsiBuilder builder)
 	{
-		/*while (builder.compare(PHPTokenTypes.tsJUNKS)) {
+		/*while (builder.compare(PhpTokenTypes.tsJUNKS)) {
 			builder.advanceLexer();
 		}*/
-		StatementList.parse(builder, PHPTokenTypes.PHP_CLOSING_TAG);
+		StatementList.parse(builder, PhpTokenTypes.PHP_CLOSING_TAG);
 		while(!builder.eof())
 		{
 			builder.advanceLexer();
 		}
-	/*while (builder.compare(PHPTokenTypes.PHP_CLOSING_TAG) || builder.compare(PHPTokenTypes.HTML)) {
+	/*while (builder.compare(PhpTokenTypes.PHP_CLOSING_TAG) || builder.compare(PhpTokenTypes.HTML)) {
 			builder.advanceLexer();
 		}*/
 	}

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.params;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpFile;
 import org.consulo.php.lang.psi.elements.PhpMethod;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
@@ -87,7 +87,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		{
 			final PhpParameterList callArgs = PsiTreeUtil.getChildOfType((PsiElement) element, PhpParameterList.class);
 			LOG.assertTrue(callArgs != null);
-			index = ParameterInfoUtils.getCurrentParameterIndex(callArgs.getNode(), caret, PHPTokenTypes.opCOMMA);
+			index = ParameterInfoUtils.getCurrentParameterIndex(callArgs.getNode(), caret, PhpTokenTypes.opCOMMA);
 			// If we are just before the arguments
 			if(index == -1 && callArgs.getTextOffset() == caret + 1)
 			{
