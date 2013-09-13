@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
-import net.jay.plugins.php.lang.psi.elements.impl.*;
+import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
+import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
+import org.consulo.php.lang.psi.elements.impl.*;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;

@@ -1,14 +1,14 @@
-package net.jay.plugins.php.lang.lexer;
+package org.consulo.php.lang.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import net.jay.plugins.php.lang.lexer.managers.*;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.managers.*;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import gnu.trove.THashSet;
 import java.util.Arrays;
 import java.util.Set;
-import net.jay.plugins.php.completion.PhpCompletionData;
+import org.consulo.php.completion.PhpCompletionData;
 import org.consulo.php.PhpLanguageLevel;
 %%
 

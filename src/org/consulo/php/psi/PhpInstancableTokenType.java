@@ -3,8 +3,8 @@ package org.consulo.php.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ReflectionUtil;
-import net.jay.plugins.php.lang.PHPLanguage;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

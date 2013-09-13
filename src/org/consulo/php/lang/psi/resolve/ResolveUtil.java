@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi.resolve;
 
-import net.jay.plugins.php.lang.psi.elements.Function;
+import org.consulo.php.lang.psi.elements.Function;
 
 import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.PsiElement;

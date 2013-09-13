@@ -1,9 +1,9 @@
 package org.consulo.php.index;
 
 import com.intellij.psi.search.GlobalSearchScope;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpMethod;
 
 import java.util.Collection;
 import java.util.Collections;

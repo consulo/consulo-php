@@ -1,7 +1,7 @@
 package org.consulo.php.completion;
 
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
-import net.jay.plugins.php.lang.psi.elements.PhpModifier;
+import org.consulo.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpModifier;
 
 /**
  * @author jay

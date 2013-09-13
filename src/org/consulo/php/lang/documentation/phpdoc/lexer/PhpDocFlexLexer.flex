@@ -1,5 +1,5 @@
 
-package net.jay.plugins.php.lang.documentation.phpdoc.lexer;
+package org.consulo.php.lang.documentation.phpdoc.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;

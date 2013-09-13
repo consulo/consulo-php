@@ -1,9 +1,9 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.Catch;
-import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
-import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.Catch;
+import org.consulo.php.lang.psi.elements.PhpClassReference;
+import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

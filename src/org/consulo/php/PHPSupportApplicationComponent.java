@@ -1,11 +1,11 @@
 package org.consulo.php;
 
 import org.consulo.php.completion.PhpCompletionData;
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.inspections.PhpDynamicAsStaticMethodCall;
+import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall;
 import org.consulo.php.lang.inspections.PhpUndefinedMethodCall;
-import net.jay.plugins.php.lang.inspections.PhpUndefinedVariable;
-import net.jay.plugins.php.lang.inspections.classes.PhpUnimplementedMethodsInClass;
+import org.consulo.php.lang.inspections.PhpUndefinedVariable;
+import org.consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

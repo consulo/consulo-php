@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi;
 
-import net.jay.plugins.php.lang.PHPFileType;
+import org.consulo.php.lang.PHPFileType;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.psi.tree.IElementType;

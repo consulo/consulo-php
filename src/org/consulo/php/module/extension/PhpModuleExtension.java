@@ -2,7 +2,7 @@ package org.consulo.php.module.extension;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.projectRoots.SdkType;
-import net.jay.plugins.php.lang.projectConfiguration.PhpSdkType;
+import org.consulo.php.lang.projectConfiguration.PhpSdkType;
 import org.consulo.module.extension.ModuleInheritableNamedPointer;
 import org.consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import org.consulo.php.PhpLanguageLevel;

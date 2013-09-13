@@ -6,10 +6,10 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import net.jay.plugins.php.lang.PHPFileType;
+import org.consulo.php.lang.PHPFileType;
 import org.consulo.php.lang.psi.elements.PHPPsiElement;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
-import net.jay.plugins.php.util.PhpPresentationUtil;
+import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**

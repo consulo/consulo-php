@@ -15,7 +15,7 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.ui.EmptyIcon;
 import org.consulo.php.PHPIcons;
 import org.consulo.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import net.jay.plugins.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PHPFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.

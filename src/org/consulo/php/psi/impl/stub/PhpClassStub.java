@@ -2,7 +2,7 @@ package org.consulo.php.psi.impl.stub;
 
 import com.intellij.psi.stubs.StubBase;
 import com.intellij.psi.stubs.StubElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.psi.PhpStubElements;
 
 /**

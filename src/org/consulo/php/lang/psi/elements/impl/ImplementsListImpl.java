@@ -2,9 +2,9 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
-import net.jay.plugins.php.lang.psi.elements.ImplementsList;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpClassReference;
+import org.consulo.php.lang.psi.elements.ImplementsList;
+import org.consulo.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

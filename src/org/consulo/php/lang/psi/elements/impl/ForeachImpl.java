@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.Foreach;
-import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.Foreach;
+import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

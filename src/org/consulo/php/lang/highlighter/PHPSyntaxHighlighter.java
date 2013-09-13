@@ -8,7 +8,7 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import net.jay.plugins.php.lang.PHPLanguage;
+import org.consulo.php.lang.PHPLanguage;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

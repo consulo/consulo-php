@@ -2,7 +2,7 @@ package org.consulo.php.lang.psi.elements;
 
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.psi.PsiNamedElement;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 
 import javax.swing.*;
 

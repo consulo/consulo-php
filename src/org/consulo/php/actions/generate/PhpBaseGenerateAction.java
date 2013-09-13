@@ -8,8 +8,8 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

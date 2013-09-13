@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.psi.tags;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
 
 /**
  * @author jay

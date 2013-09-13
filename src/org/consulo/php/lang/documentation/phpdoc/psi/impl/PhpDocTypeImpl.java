@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.psi.impl;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocType;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 
 import com.intellij.lang.ASTNode;
 

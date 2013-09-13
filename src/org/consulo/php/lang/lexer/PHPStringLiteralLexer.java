@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
  */
 public class PHPStringLiteralLexer extends LexerBase
 {
-	private static final Logger LOG = Logger.getInstance("#net.jay.plugins.php.lang.lexer.PHPStringLiteralLexer");
+	private static final Logger LOG = Logger.getInstance("#org.consulo.php.lang.lexer.PHPStringLiteralLexer");
 
 	private static final short BEFORE_FIRST_QUOTE = 0;
 	private static final short AFTER_FIRST_QUOTE = 1;

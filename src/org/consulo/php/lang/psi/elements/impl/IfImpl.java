@@ -3,11 +3,11 @@ package org.consulo.php.lang.psi.elements.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jay.plugins.php.lang.psi.elements.Else;
-import net.jay.plugins.php.lang.psi.elements.ElseIf;
-import net.jay.plugins.php.lang.psi.elements.If;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.Else;
+import org.consulo.php.lang.psi.elements.ElseIf;
+import org.consulo.php.lang.psi.elements.If;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

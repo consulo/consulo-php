@@ -1,7 +1,7 @@
 package org.consulo.php.lang.annotator;
 
 import org.consulo.php.PHPBundle;
-import net.jay.plugins.php.lang.highlighter.PHPHighlightingData;
+import org.consulo.php.lang.highlighter.PHPHighlightingData;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.ConstantReference;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;

@@ -15,9 +15,9 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NonNls;
 
 import java.io.InputStream;
@@ -94,23 +94,23 @@ public class PhpCompletionData extends CompletionData
 				//        System.out.println(psiElement.getParent().getParent().getText());
 				//        System.out.println("--------");
 				final PsiElement parent = psiElement.getParent();
-				if(parent instanceof net.jay.plugins.php.lang.psi.elements.PhpVariableReference)
+				if(parent instanceof org.consulo.php.lang.psi.elements.PhpVariableReference)
 				{
 					return false;
 				}
-				if(parent instanceof net.jay.plugins.php.lang.psi.elements.PhpClassReference)
+				if(parent instanceof org.consulo.php.lang.psi.elements.PhpClassReference)
 				{
 					return false;
 				}
-				if(parent instanceof net.jay.plugins.php.lang.psi.elements.PhpMethodReference)
+				if(parent instanceof org.consulo.php.lang.psi.elements.PhpMethodReference)
 				{
 					return false;
 				}
-				if(parent instanceof net.jay.plugins.php.lang.psi.elements.ClassConstantReference)
+				if(parent instanceof org.consulo.php.lang.psi.elements.ClassConstantReference)
 				{
 					return false;
 				}
-				if(parent instanceof net.jay.plugins.php.lang.psi.elements.FieldReference)
+				if(parent instanceof org.consulo.php.lang.psi.elements.FieldReference)
 				{
 					return false;
 				}
@@ -133,7 +133,7 @@ public class PhpCompletionData extends CompletionData
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}
 				//noinspection ConstantConditions
-				if(psiElement.getNode().getElementType() == PHPTokenTypes.IDENTIFIER && psiElement.getParent() instanceof net.jay.plugins.php.lang.psi.elements.PhpMethod && ((net.jay.plugins.php.lang.psi.elements.PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
+				if(psiElement.getNode().getElementType() == PHPTokenTypes.IDENTIFIER && psiElement.getParent() instanceof org.consulo.php.lang.psi.elements.PhpMethod && ((org.consulo.php.lang.psi.elements.PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
 				{
 					return new Object[]{
 							"__construct",
@@ -149,7 +149,7 @@ public class PhpCompletionData extends CompletionData
 		registerVariant(variant);
 
 		variant = new CompletionVariant(TrueFilter.INSTANCE);
-		variant.includeScopeClass(net.jay.plugins.php.lang.psi.elements.PhpVariableReference.class);
+		variant.includeScopeClass(org.consulo.php.lang.psi.elements.PhpVariableReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.addCompletion(superGlobals);
 		registerVariant(variant);
@@ -159,7 +159,7 @@ public class PhpCompletionData extends CompletionData
 			@SuppressWarnings({"RedundantIfStatement"})
 			public boolean isAcceptable(Object element, PsiElement context)
 			{
-				if(context.getParent() instanceof net.jay.plugins.php.lang.psi.elements.NewExpression)
+				if(context.getParent() instanceof org.consulo.php.lang.psi.elements.NewExpression)
 				{
 					return true;
 				}
@@ -171,7 +171,7 @@ public class PhpCompletionData extends CompletionData
 				return true;
 			}
 		});
-		variant.includeScopeClass(net.jay.plugins.php.lang.psi.elements.PhpClassReference.class);
+		variant.includeScopeClass(org.consulo.php.lang.psi.elements.PhpClassReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.setInsertHandler(new BasicInsertHandler()
 		{
@@ -182,8 +182,8 @@ public class PhpCompletionData extends CompletionData
 				Editor editor = context.getEditor();
 				EditorModificationUtil.insertStringAtCaret(editor, "()");
 				PsiDocumentManager.getInstance(editor.getProject()).commitDocument(editor.getDocument());
-				net.jay.plugins.php.lang.psi.elements.PhpClass klass = (net.jay.plugins.php.lang.psi.elements.PhpClass) element.getObject();
-				net.jay.plugins.php.lang.psi.elements.PhpMethod phpMethod = klass.getConstructor();
+				org.consulo.php.lang.psi.elements.PhpClass klass = (org.consulo.php.lang.psi.elements.PhpClass) element.getObject();
+				org.consulo.php.lang.psi.elements.PhpMethod phpMethod = klass.getConstructor();
 				if(phpMethod != null && phpMethod.getParameters().length > 0)
 				{
 					editor.getCaretModel().moveCaretRelatively(-1, 0, false, false, true);
@@ -209,7 +209,7 @@ public class PhpCompletionData extends CompletionData
 	{
 		PsiReference reference = psiElement.getContainingFile().findReferenceAt(i);
 		String prefix = super.findPrefix(psiElement, i);
-		if(reference instanceof net.jay.plugins.php.lang.psi.elements.PhpVariableReference && prefix.startsWith("$"))
+		if(reference instanceof org.consulo.php.lang.psi.elements.PhpVariableReference && prefix.startsWith("$"))
 		{
 			prefix = prefix.substring(1);
 		}

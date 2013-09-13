@@ -1,6 +1,6 @@
 package org.consulo.php.lang.findUsages;
 
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.elements.PhpField;
 
 import org.consulo.php.lang.psi.elements.PhpNamedElement;

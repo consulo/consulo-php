@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.While;
+import org.consulo.php.lang.psi.elements.While;
 
 import com.intellij.lang.ASTNode;
 

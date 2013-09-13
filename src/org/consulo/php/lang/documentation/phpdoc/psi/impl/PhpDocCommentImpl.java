@@ -4,10 +4,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.CompositePsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
+import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
+import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import org.consulo.php.lang.psi.elements.PHPPsiElement;
 import org.jetbrains.annotations.NonNls;
 

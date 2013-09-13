@@ -4,7 +4,7 @@ import com.intellij.lang.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.util.LanguageVersionUtil;
-import net.jay.plugins.php.lang.PHPFileType;
+import org.consulo.php.lang.PHPFileType;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;

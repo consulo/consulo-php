@@ -1,13 +1,11 @@
 <idea-plugin version="2">
-	<id>net.jay.plugins.php</id>
+	<id>org.consulo.php</id>
 	<name>PHP</name>
 	<description>
 		PHP support with refactoring
 	</description>
 	<vendor>Jay &amp; Consulo.org</vendor>
 	<depends>com.intellij.xml</depends>
-	<depends>org.consulo.java</depends>
-	<depends>org.consulo.java.platform</depends>
 	<application-components>
 		<component>
 			<implementation-class>org.consulo.php.PHPSupportApplicationComponent</implementation-class>
@@ -18,7 +16,7 @@
 	</application-components>
 	<project-components>
 		<component>
-			<implementation-class>net.jay.plugins.php.pom.PhpPomAspect</implementation-class>
+			<implementation-class>org.consulo.php.pom.PhpPomAspect</implementation-class>
 		</component>
 	</project-components>
 	<actions>
@@ -36,8 +34,8 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider"/>
-		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory"/>
-		<fileTypeDetector implementation="net.jay.plugins.php.lang.PhpFileDetector"/>
+		<fileTypeFactory implementation="org.consulo.php.lang.PHPFileTypeFactory"/>
+		<fileTypeDetector implementation="org.consulo.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="org.consulo.php.PhpXmlFileNSInfoProvider"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
 
@@ -45,24 +43,24 @@
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 
-		<colorSettingsPage implementation="net.jay.plugins.php.lang.highlighter.PHPColorsPage"/>
-		<gotoClassContributor implementation="net.jay.plugins.php.gotoByName.PhpClassContributor"/>
-		<sdkType implementation="net.jay.plugins.php.lang.projectConfiguration.PhpSdkType"/>
+		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PHPColorsPage"/>
+		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
+		<sdkType implementation="org.consulo.php.lang.projectConfiguration.PhpSdkType"/>
 		<psi.packageResolver implementation="org.consulo.php.module.packageSupport.PhpPsiPackageResolver" />
 		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.psi.impl.PhpLanguageVersionResolver" />
-		<lang.parserDefinition language="PHP" implementationClass="net.jay.plugins.php.lang.parser.PHPParserDefinition"/>
-		<lang.commenter language="PHP" implementationClass="net.jay.plugins.php.lang.commenter.PHPCommenter"/>
-		<lang.findUsagesProvider language="PHP" implementationClass="net.jay.plugins.php.lang.findUsages.PhpFindUsagesProvider"/>
-		<lang.braceMatcher language="PHP" implementationClass="net.jay.plugins.php.lang.braceMatcher.PHPBraceMatcher"/>
-		<codeInsight.parameterInfo language="PHP" implementationClass="net.jay.plugins.php.lang.documentation.params.PhpParameterInfoHandler"/>
+		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PHPParserDefinition"/>
+		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PHPCommenter"/>
+		<lang.findUsagesProvider language="PHP" implementationClass="org.consulo.php.lang.findUsages.PhpFindUsagesProvider"/>
+		<lang.braceMatcher language="PHP" implementationClass="org.consulo.php.lang.braceMatcher.PHPBraceMatcher"/>
+		<codeInsight.parameterInfo language="PHP" implementationClass="org.consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
-		<syntaxHighlighter key="PHP" implementationClass="net.jay.plugins.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
-		<annotator language="PHP" implementationClass="net.jay.plugins.php.lang.annotator.PhpAnnotator"/>
-		<lang.fileViewProviderFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPFileViewProviderFactory"/>
+		<syntaxHighlighter key="PHP" implementationClass="org.consulo.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
+		<annotator language="PHP" implementationClass="org.consulo.php.lang.annotator.PhpAnnotator"/>
+		<lang.fileViewProviderFactory language="PHP" implementationClass="org.consulo.php.lang.PHPFileViewProviderFactory"/>
 		<lang.substitutor language="HTML" implementationClass="org.consulo.php.PhpLanguageSubstitutor" />
-		<lang.psiStructureViewFactory language="PHP" implementationClass="net.jay.plugins.php.lang.PHPStructureViewBuilderProvider"/>
+		<lang.psiStructureViewFactory language="PHP" implementationClass="org.consulo.php.lang.PHPStructureViewBuilderProvider"/>
 		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="org.consulo.php.PhpMultiHostInjector" />
-		<typedHandler implementation="net.jay.plugins.php.lang.PHPTypedHandler"/>
+		<typedHandler implementation="org.consulo.php.lang.PHPTypedHandler"/>
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
 

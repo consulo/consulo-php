@@ -3,7 +3,7 @@ package org.consulo.php.lang.documentation.phpdoc.psi;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;

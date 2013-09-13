@@ -1,9 +1,9 @@
 package org.consulo.php.lang.parser.parsing.expressions.bit;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
-import net.jay.plugins.php.lang.parser.parsing.expressions.AssignmentExpression;
-import net.jay.plugins.php.lang.parser.parsing.expressions.comparition.EqualityExpression;
+import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
+import org.consulo.php.lang.parser.parsing.expressions.comparition.EqualityExpression;
 import org.consulo.php.lang.parser.util.PHPParserErrors;
 import org.consulo.php.lang.parser.util.PHPPsiBuilder;
 

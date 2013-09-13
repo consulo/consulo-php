@@ -5,9 +5,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import net.jay.plugins.php.lang.psi.elements.PhpParameterList;
-import net.jay.plugins.php.lang.psi.elements.PhpParameter;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.elements.PhpParameter;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**

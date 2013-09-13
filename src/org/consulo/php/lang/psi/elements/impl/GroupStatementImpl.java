@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.GroupStatement;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.GroupStatement;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

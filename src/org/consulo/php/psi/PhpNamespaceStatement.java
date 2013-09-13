@@ -1,6 +1,6 @@
 package org.consulo.php.psi;
 
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
 
 /**
  * @author VISTALL

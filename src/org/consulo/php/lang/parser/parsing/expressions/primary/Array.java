@@ -1,9 +1,9 @@
 package org.consulo.php.lang.parser.parsing.expressions.primary;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PHPElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
-import net.jay.plugins.php.lang.parser.parsing.expressions.Expression;
+import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
 import org.consulo.php.lang.parser.util.PHPParserErrors;
 import org.consulo.php.lang.parser.util.PHPPsiBuilder;

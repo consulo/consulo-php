@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.parser.util.PHPPsiBuilder;
 
 /**

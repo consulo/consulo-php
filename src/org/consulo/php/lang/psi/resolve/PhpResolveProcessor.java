@@ -3,10 +3,10 @@ package org.consulo.php.lang.psi.resolve;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
-import net.jay.plugins.php.lang.psi.elements.PhpField;
-import net.jay.plugins.php.lang.psi.elements.PhpMethod;
-import net.jay.plugins.php.lang.psi.elements.PhpParameter;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpField;
+import org.consulo.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.elements.PhpParameter;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

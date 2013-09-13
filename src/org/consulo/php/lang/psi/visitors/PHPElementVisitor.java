@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.visitors;
 
-import net.jay.plugins.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.elements.impl.ClassConstantReferenceImpl;
 import org.consulo.php.lang.psi.elements.impl.TryImpl;
 

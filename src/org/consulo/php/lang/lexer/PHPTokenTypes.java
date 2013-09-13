@@ -1,8 +1,8 @@
 package org.consulo.php.lang.lexer;
 
 import com.intellij.psi.TokenType;
-import net.jay.plugins.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import org.consulo.php.lang.parser.PHPElementTypes;
 import org.consulo.php.lang.psi.PHPElementType;
 
 import com.intellij.psi.tree.IElementType;

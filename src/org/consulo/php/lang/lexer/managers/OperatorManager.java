@@ -1,7 +1,7 @@
 package org.consulo.php.lang.lexer.managers;
 
-import net.jay.plugins.php.lang.lexer.PHPFlexLexer;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.tree.IElementType;

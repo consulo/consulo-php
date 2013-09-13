@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.SelfAssignmentExpression;
+import org.consulo.php.lang.psi.elements.SelfAssignmentExpression;
 
 import com.intellij.lang.ASTNode;
 

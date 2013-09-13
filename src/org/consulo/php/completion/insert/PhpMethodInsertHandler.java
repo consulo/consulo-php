@@ -4,9 +4,9 @@ import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
-import net.jay.plugins.php.completion.PhpLookupElement;
-import net.jay.plugins.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
-import net.jay.plugins.php.lang.psi.elements.Function;
+import org.consulo.php.completion.PhpLookupElement;
+import org.consulo.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
+import org.consulo.php.lang.psi.elements.Function;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 
 /**

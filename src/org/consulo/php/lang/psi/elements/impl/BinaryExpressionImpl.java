@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.BinaryExpression;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.psi.elements.BinaryExpression;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

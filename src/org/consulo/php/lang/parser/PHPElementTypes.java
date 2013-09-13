@@ -4,7 +4,7 @@ import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import net.jay.plugins.php.lang.PHPLanguage;
+import org.consulo.php.lang.PHPLanguage;
 import org.consulo.php.lang.psi.PHPElementType;
 import org.consulo.php.lang.psi.elements.impl.PhpClassReferenceImpl;
 import org.consulo.php.lang.psi.elements.impl.PhpFieldImpl;

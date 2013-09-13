@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.consulo.php.PHPBundle;
-import net.jay.plugins.php.lang.inspections.PhpInspection;
+import org.consulo.php.lang.inspections.PhpInspection;
 import org.consulo.php.lang.psi.elements.ExtendsList;
 import org.consulo.php.lang.psi.elements.ImplementsList;
 import org.consulo.php.lang.psi.elements.PhpClass;

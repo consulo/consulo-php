@@ -4,12 +4,12 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.PhpPsiElementFactory;
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import org.consulo.php.lang.psi.resolve.ResolveUtil;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

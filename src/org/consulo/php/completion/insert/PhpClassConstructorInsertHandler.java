@@ -2,9 +2,9 @@ package org.consulo.php.completion.insert;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
-import net.jay.plugins.php.completion.PhpLookupItem;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.completion.PhpLookupItem;
+import org.consulo.php.lang.psi.elements.Function;
+import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 
 /**

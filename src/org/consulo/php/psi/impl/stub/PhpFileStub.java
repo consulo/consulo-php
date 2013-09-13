@@ -1,7 +1,7 @@
 package org.consulo.php.psi.impl.stub;
 
 import com.intellij.psi.stubs.PsiFileStubImpl;
-import net.jay.plugins.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.PHPFile;
 
 /**
  * @author VISTALL

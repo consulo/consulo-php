@@ -3,9 +3,9 @@ package org.consulo.php.lang.documentation.phpdoc.psi.impl.tags;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocType;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
+import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
+import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import org.consulo.php.lang.psi.elements.PHPPsiElement;
 
 import com.intellij.lang.ASTNode;

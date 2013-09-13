@@ -8,8 +8,8 @@ import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.RowIcon;
 import org.consulo.php.lang.psi.PHPFile;
-import net.jay.plugins.php.lang.psi.elements.*;
-import net.jay.plugins.php.util.PhpPresentationUtil;
+import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.util.PhpPresentationUtil;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 
 import java.util.ArrayList;

@@ -6,10 +6,10 @@ import com.intellij.psi.*;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import net.jay.plugins.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.psi.elements.FunctionCall;
-import net.jay.plugins.php.lang.psi.elements.PhpParameterList;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.psi.elements.FunctionCall;
+import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

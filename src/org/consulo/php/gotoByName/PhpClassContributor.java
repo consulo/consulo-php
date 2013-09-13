@@ -4,7 +4,7 @@ import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.index.PhpClassIndex;
 
 import java.util.Collection;

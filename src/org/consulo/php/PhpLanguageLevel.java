@@ -2,8 +2,8 @@ package org.consulo.php;
 
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageVersion;
-import net.jay.plugins.php.lang.PHPLanguage;
 import org.consulo.annotations.Immutable;
+import org.consulo.php.lang.PHPLanguage;
 import org.consulo.util.pointers.Named;
 import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;

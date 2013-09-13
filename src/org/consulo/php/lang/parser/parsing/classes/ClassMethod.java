@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
-import net.jay.plugins.php.lang.parser.parsing.StatementList;
-import net.jay.plugins.php.lang.parser.parsing.functions.IsReference;
-import net.jay.plugins.php.lang.parser.parsing.functions.ParameterList;
+import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.parsing.StatementList;
+import org.consulo.php.lang.parser.parsing.functions.IsReference;
+import org.consulo.php.lang.parser.parsing.functions.ParameterList;
 import org.consulo.php.lang.parser.util.PHPPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;

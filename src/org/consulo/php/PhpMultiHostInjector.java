@@ -8,7 +8,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagValue;
 import com.intellij.psi.xml.XmlText;
-import net.jay.plugins.php.lang.PHPLanguage;
+import org.consulo.php.lang.PHPLanguage;
 import org.jetbrains.annotations.NotNull;
 
 /**

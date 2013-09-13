@@ -1,7 +1,7 @@
 package org.consulo.php.completion.insert;
 
-import net.jay.plugins.php.completion.PhpCompletionUtil;
-import net.jay.plugins.php.completion.PhpLookupItem;
+import org.consulo.php.completion.PhpCompletionUtil;
+import org.consulo.php.completion.PhpLookupItem;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.completion.TemplateInsertHandler;

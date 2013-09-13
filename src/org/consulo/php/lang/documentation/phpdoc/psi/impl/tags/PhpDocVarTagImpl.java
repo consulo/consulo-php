@@ -1,8 +1,8 @@
 package org.consulo.php.lang.documentation.phpdoc.psi.impl.tags;
 
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.PhpDocType;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
-import net.jay.plugins.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
+import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
+import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.util.PsiTreeUtil;

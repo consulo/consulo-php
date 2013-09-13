@@ -5,7 +5,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiPackageBase;
 import com.intellij.util.ArrayFactory;
-import net.jay.plugins.php.lang.PHPLanguage;
+import org.consulo.php.lang.PHPLanguage;
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.php.psi.PhpPackage;
 import org.consulo.psi.PsiPackage;

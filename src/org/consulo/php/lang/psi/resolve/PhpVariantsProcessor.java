@@ -2,7 +2,7 @@ package org.consulo.php.lang.psi.resolve;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import net.jay.plugins.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PHPPsiElement;
 
 import java.util.ArrayList;
 import java.util.List;

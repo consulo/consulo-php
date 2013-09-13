@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import net.jay.plugins.php.lang.psi.elements.PhpClassReference;
-import net.jay.plugins.php.lang.psi.elements.ExtendsList;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpClassReference;
+import org.consulo.php.lang.psi.elements.ExtendsList;
+import org.consulo.php.lang.psi.elements.PhpClass;
 
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;

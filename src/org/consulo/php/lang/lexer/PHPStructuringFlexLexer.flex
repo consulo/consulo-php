@@ -1,4 +1,4 @@
-package net.jay.plugins.php.lang.lexer;
+package org.consulo.php.lang.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;

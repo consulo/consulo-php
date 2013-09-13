@@ -4,8 +4,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
-import net.jay.plugins.php.lang.PHPFileType;
-import net.jay.plugins.php.lang.psi.elements.*;
+import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 
 /**

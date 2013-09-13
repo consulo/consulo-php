@@ -1,7 +1,7 @@
 package org.consulo.php.index;
 
 import com.intellij.psi.stubs.StubIndexKey;
-import net.jay.plugins.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.elements.PhpClass;
 
 /**
  * @author VISTALL

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.consulo.php.lang.psi.elements.Global;
-import net.jay.plugins.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.elements.PhpVariableReference;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

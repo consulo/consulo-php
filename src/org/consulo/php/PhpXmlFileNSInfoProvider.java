@@ -3,7 +3,7 @@ package org.consulo.php;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlFileNSInfoProvider;
 import com.intellij.xml.util.XmlUtil;
-import net.jay.plugins.php.lang.PHPFileType;
+import org.consulo.php.lang.PHPFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

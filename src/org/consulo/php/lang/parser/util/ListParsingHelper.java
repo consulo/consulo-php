@@ -1,7 +1,7 @@
 package org.consulo.php.lang.parser.util;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import net.jay.plugins.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PHPElementTypes;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;

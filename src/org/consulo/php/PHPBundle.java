@@ -21,7 +21,7 @@ public class PHPBundle
 	private static Reference<ResourceBundle> ourBundle;
 
 	@NonNls
-	private static final String BUNDLE = "net.jay.plugins.php.PHPBundle";
+	private static final String BUNDLE = "org.consulo.php.PHPBundle";
 
 	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params)
 	{

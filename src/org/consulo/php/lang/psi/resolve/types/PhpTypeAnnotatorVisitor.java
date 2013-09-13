@@ -5,8 +5,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
-import net.jay.plugins.php.lang.psi.elements.*;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.consulo.php.index.PhpIndexUtil;
 
 import java.util.Collection;

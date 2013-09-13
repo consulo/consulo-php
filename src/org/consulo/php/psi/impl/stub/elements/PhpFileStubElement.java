@@ -1,7 +1,7 @@
 package org.consulo.php.psi.impl.stub.elements;
 
 import com.intellij.psi.tree.IStubFileElementType;
-import net.jay.plugins.php.lang.PHPLanguage;
+import org.consulo.php.lang.PHPLanguage;
 import org.consulo.php.psi.impl.stub.PhpFileStub;
 import org.jetbrains.annotations.NotNull;
 

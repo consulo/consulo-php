@@ -8,10 +8,10 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.PHPIcons;
-import net.jay.plugins.php.lang.psi.elements.Function;
-import net.jay.plugins.php.lang.psi.elements.PhpParameter;
-import net.jay.plugins.php.lang.psi.elements.PhpParameterList;
-import net.jay.plugins.php.lang.psi.visitors.PHPElementVisitor;
+import org.consulo.php.lang.psi.elements.Function;
+import org.consulo.php.lang.psi.elements.PhpParameter;
+import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
