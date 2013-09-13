@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.PhpParameter;
@@ -71,7 +71,7 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	@Nullable
 	public Icon getIcon()
 	{
-		return PHPIcons.PARAMETER;
+		return PhpIcons.PARAMETER;
 	}
 
 	@NotNull

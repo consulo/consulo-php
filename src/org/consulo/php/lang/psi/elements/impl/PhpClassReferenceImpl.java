@@ -11,7 +11,7 @@ import com.intellij.util.IncorrectOperationException;
 import lombok.val;
 import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
@@ -202,19 +202,19 @@ public class PhpClassReferenceImpl extends PHPPsiElementImpl implements PhpClass
 		ClassUsageContext context = new ClassUsageContext();
 		//noinspection ConstantConditions
 		val parent = getParent().getNode().getElementType();
-		if(parent == PHPElementTypes.INSTANCEOF_EXPRESSION)
+		if(parent == PhpElementTypes.INSTANCEOF_EXPRESSION)
 		{
 			context.setInInstanceof(true);
 		}
-		if(parent == PHPElementTypes.EXTENDS_LIST)
+		if(parent == PhpElementTypes.EXTENDS_LIST)
 		{
 			context.setInExtends(true);
 		}
-		if(parent == PHPElementTypes.IMPLEMENTS_LIST)
+		if(parent == PhpElementTypes.IMPLEMENTS_LIST)
 		{
 			context.setInImplements(true);
 		}
-		if(parent == PHPElementTypes.NEW_EXPRESSION)
+		if(parent == PhpElementTypes.NEW_EXPRESSION)
 		{
 			context.setInNew(true);
 		}

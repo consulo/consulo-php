@@ -1,7 +1,7 @@
 package org.consulo.php.lang.parser.parsing;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +15,7 @@ public class Program
 	//	start:
 	//		statement_list
 	//	;
-	public static void parse(PHPPsiBuilder builder)
+	public static void parse(PhpPsiBuilder builder)
 	{
 		/*while (builder.compare(PHPTokenTypes.tsJUNKS)) {
 			builder.advanceLexer();

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.inspections;
 
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.elements.PhpMethod;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
 import org.consulo.php.lang.psi.elements.PhpModifier;
@@ -22,7 +22,7 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 	@NotNull
 	public String getDisplayName()
 	{
-		return PHPBundle.message("php.inspections.dynamic_as_static_method_call");
+		return PhpBundle.message("php.inspections.dynamic_as_static_method_call");
 	}
 
 	@NotNull
@@ -41,7 +41,7 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 						final PhpMethod phpMethod = (PhpMethod) element;
 						if(!phpMethod.isStatic())
 						{
-							holder.registerProblem(reference, PHPBundle.message("php.inspections.dynamic_as_static_method_call"));
+							holder.registerProblem(reference, PhpBundle.message("php.inspections.dynamic_as_static_method_call"));
 						}
 					}
 				}

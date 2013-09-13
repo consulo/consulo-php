@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -26,19 +26,19 @@ public class ClassField implements PHPTokenTypes
 	//		| VARIABLE_REFERENCE
 	//		| VARIABLE_REFERENCE '=' static_scalar
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		if(ClassMemberModifiers.parseVariableModifiers(builder) == PHPElementTypes.EMPTY_INPUT)
+		if(ClassMemberModifiers.parseVariableModifiers(builder) == PhpElementTypes.EMPTY_INPUT)
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		ParserPart fieldParser = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(VARIABLE))
 				{
-					return PHPElementTypes.EMPTY_INPUT;
+					return PhpElementTypes.EMPTY_INPUT;
 				}
 				PsiBuilder.Marker field = builder.mark();
 				builder.match(VARIABLE);
@@ -46,14 +46,14 @@ public class ClassField implements PHPTokenTypes
 				{
 					StaticScalar.parse(builder);
 				}
-				field.done(PHPElementTypes.CLASS_FIELD);
-				return PHPElementTypes.CLASS_FIELD;
+				field.done(PhpElementTypes.CLASS_FIELD);
+				return PhpElementTypes.CLASS_FIELD;
 			}
 		};
 		IElementType result = fieldParser.parse(builder);
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, result, fieldParser, false);
 		return null;

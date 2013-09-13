@@ -1,8 +1,8 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -17,18 +17,18 @@ public class PostfixExpression implements PHPTokenTypes
 
 	private static TokenSet POSTFIX_OPERATORS = TokenSet.create(opINCREMENT, opDECREMENT);
 
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		IElementType result = PrimaryExpression.parse(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT && builder.compareAndEat(POSTFIX_OPERATORS))
+		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(POSTFIX_OPERATORS))
 		{
 			if(!ASSIGNABLE.contains(result))
 			{
 				builder.error("Expression is not assignable");
 			}
-			marker.done(PHPElementTypes.POSTFIX_EXPRESSION);
-			result = PHPElementTypes.POSTFIX_EXPRESSION;
+			marker.done(PhpElementTypes.POSTFIX_EXPRESSION);
+			result = PhpElementTypes.POSTFIX_EXPRESSION;
 		}
 		else
 		{

@@ -1,6 +1,6 @@
 package org.consulo.php.pom;
 
-import org.consulo.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.PhpFile;
 
 import com.intellij.pom.PomModel;
 import com.intellij.pom.PomModelAspect;
@@ -14,15 +14,15 @@ public class PhpChangeSet implements PomChangeSet
 {
 
 	private PomModel model;
-	private PHPFile changedFile;
+	private PhpFile changedFile;
 
-	public PhpChangeSet(PomModel model, PHPFile file)
+	public PhpChangeSet(PomModel model, PhpFile file)
 	{
 		this.model = model;
 		changedFile = file;
 	}
 
-	public PHPFile getChangedFile()
+	public PhpFile getChangedFile()
 	{
 		return changedFile;
 	}

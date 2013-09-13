@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.functions.IsReference;
 import org.consulo.php.lang.parser.parsing.functions.ParameterList;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -19,18 +19,18 @@ public class ClassMethod implements PHPTokenTypes
 {
 
 	//	method_modifiers kwFUNCTION is_reference IDENTIFIER '(' parameter_list ')' method_body
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(tsMODIFIERS) && !builder.compare(kwFUNCTION))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker method = builder.mark();
 		ClassMemberModifiers.parseMethodModifiers(builder);
 		if(!builder.compare(kwFUNCTION))
 		{
 			method.rollbackTo();
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		builder.match(kwFUNCTION);
 		IsReference.parse(builder);
@@ -49,15 +49,15 @@ public class ClassMethod implements PHPTokenTypes
 	//		';' /* abstract method */
 	//		| '{' statement_list '}'
 	//	;
-	private static IElementType parseMethodBody(PHPPsiBuilder builder)
+	private static IElementType parseMethodBody(PhpPsiBuilder builder)
 	{
 		if(builder.compareAndEat(opSEMICOLON))
 		{
-			return PHPElementTypes.CLASS_METHOD;
+			return PhpElementTypes.CLASS_METHOD;
 		}
 		builder.match(chLBRACE);
 		StatementList.parse(builder, chRBRACE);
 		builder.match(chRBRACE);
-		return PHPElementTypes.CLASS_METHOD;
+		return PhpElementTypes.CLASS_METHOD;
 	}
 }

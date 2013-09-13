@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -19,11 +19,11 @@ public class StaticStatement implements PHPTokenTypes
 {
 
 	//	kwSTATIC static_var_list ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwSTATIC))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
@@ -32,8 +32,8 @@ public class StaticStatement implements PHPTokenTypes
 		{
 			builder.match(opSEMICOLON);
 		}
-		statement.done(PHPElementTypes.STATIC);
-		return PHPElementTypes.STATIC;
+		statement.done(PhpElementTypes.STATIC);
+		return PhpElementTypes.STATIC;
 	}
 
 	//	static_var_list:
@@ -42,15 +42,15 @@ public class StaticStatement implements PHPTokenTypes
 	//		| VARIABLE_REFERENCE
 	//		| VARIABLE_REFERENCE '=' static_scalar
 	//	;
-	private static void parseStaticVarList(PHPPsiBuilder builder)
+	private static void parseStaticVarList(PhpPsiBuilder builder)
 	{
 		ParserPart staticVariable = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(VARIABLE))
 				{
-					return PHPElementTypes.EMPTY_INPUT;
+					return PhpElementTypes.EMPTY_INPUT;
 				}
 				PsiBuilder.Marker var = builder.mark();
 				builder.match(VARIABLE);
@@ -58,8 +58,8 @@ public class StaticStatement implements PHPTokenTypes
 				{
 					StaticScalar.parse(builder);
 				}
-				var.done(PHPElementTypes.VARIABLE_REFERENCE);
-				return PHPElementTypes.VARIABLE_REFERENCE;
+				var.done(PhpElementTypes.VARIABLE_REFERENCE);
+				return PhpElementTypes.VARIABLE_REFERENCE;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, staticVariable.parse(builder), staticVariable, false);

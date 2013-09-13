@@ -2,8 +2,8 @@ package org.consulo.php.lang.projectConfiguration;
 
 import javax.swing.Icon;
 
-import org.consulo.php.PHPBundle;
-import org.consulo.php.PHPIcons2;
+import org.consulo.php.PhpBundle;
+import org.consulo.php.PhpIcons2;
 
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +70,7 @@ public class PhpSdkType extends SdkType
 
 	public String suggestSdkName(String currentSdkName, String sdkHome)
 	{
-		return PHPBundle.message("default.php.sdk.name");
+		return PhpBundle.message("default.php.sdk.name");
 	}
 
 	public AdditionalDataConfigurable createAdditionalDataConfigurable(SdkModel sdkModel, SdkModificator sdkModificator)
@@ -91,7 +91,7 @@ public class PhpSdkType extends SdkType
 	@NotNull
 	public String getPresentableName()
 	{
-		return PHPBundle.message("php.sdk.type.name");
+		return PhpBundle.message("php.sdk.type.name");
 	}
 
 
@@ -105,7 +105,7 @@ public class PhpSdkType extends SdkType
 	{
 		final boolean b = super.setupSdkPaths(sdk, sdkModel);
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
-		sdkModificator.setVersionString(PHPBundle.message("default.php.sdk.version"));
+		sdkModificator.setVersionString(PhpBundle.message("default.php.sdk.version"));
 		sdkModificator.commitChanges();
 		return b;
 	}
@@ -113,13 +113,13 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Icon getIcon()
 	{
-		return PHPIcons2.Php;
+		return PhpIcons2.Php;
 	}
 
 	@Nullable
 	@Override
 	public Icon getGroupIcon()
 	{
-		return PHPIcons2.Php;
+		return PhpIcons2.Php;
 	}
 }

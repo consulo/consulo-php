@@ -34,7 +34,7 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider"/>
-		<fileTypeFactory implementation="org.consulo.php.lang.PHPFileTypeFactory"/>
+		<fileTypeFactory implementation="org.consulo.php.lang.PhpFileTypeFactory"/>
 		<fileTypeDetector implementation="org.consulo.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="org.consulo.php.PhpXmlFileNSInfoProvider"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
@@ -43,24 +43,24 @@
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 
-		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PHPColorsPage"/>
+		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
 		<sdkType implementation="org.consulo.php.lang.projectConfiguration.PhpSdkType"/>
 		<psi.packageResolver implementation="org.consulo.php.module.packageSupport.PhpPsiPackageResolver" />
 		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.psi.impl.PhpLanguageVersionResolver" />
-		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PHPParserDefinition"/>
-		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PHPCommenter"/>
+		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PhpParserDefinition"/>
+		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PhpCommenter"/>
 		<lang.findUsagesProvider language="PHP" implementationClass="org.consulo.php.lang.findUsages.PhpFindUsagesProvider"/>
-		<lang.braceMatcher language="PHP" implementationClass="org.consulo.php.lang.braceMatcher.PHPBraceMatcher"/>
+		<lang.braceMatcher language="PHP" implementationClass="org.consulo.php.lang.braceMatcher.PhpBraceMatcher"/>
 		<codeInsight.parameterInfo language="PHP" implementationClass="org.consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
 		<syntaxHighlighter key="PHP" implementationClass="org.consulo.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
 		<annotator language="PHP" implementationClass="org.consulo.php.lang.annotator.PhpAnnotator"/>
-		<lang.fileViewProviderFactory language="PHP" implementationClass="org.consulo.php.lang.PHPFileViewProviderFactory"/>
+		<lang.fileViewProviderFactory language="PHP" implementationClass="org.consulo.php.lang.PhpFileViewProviderFactory"/>
 		<lang.substitutor language="HTML" implementationClass="org.consulo.php.PhpLanguageSubstitutor" />
-		<lang.psiStructureViewFactory language="PHP" implementationClass="org.consulo.php.lang.PHPStructureViewBuilderProvider"/>
+		<lang.psiStructureViewFactory language="PHP" implementationClass="org.consulo.php.lang.PhpStructureViewBuilderProvider"/>
 		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="org.consulo.php.PhpMultiHostInjector" />
-		<typedHandler implementation="org.consulo.php.lang.PHPTypedHandler"/>
+		<typedHandler implementation="org.consulo.php.lang.PhpTypedHandler"/>
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
 

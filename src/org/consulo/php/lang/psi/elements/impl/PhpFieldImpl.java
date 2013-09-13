@@ -4,12 +4,13 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpField;
 import org.consulo.php.lang.psi.elements.PhpModifier;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
@@ -48,7 +49,7 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	@Override
 	public Icon getIcon()
 	{
-		return PHPIcons.FIELD;
+		return PhpIcons.FIELD;
 	}
 
 	@Override
@@ -83,8 +84,8 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 		if(modifier == null)
 		{
 			PhpModifier modifier = new PhpModifier();
-			final PHPPsiElement element = ((PHPPsiElement) getParent()).getFirstPsiChild();
-			if(element.getNode().getElementType() == PHPElementTypes.MODIFIER_LIST)
+			final PhpElement element = ((PhpElement) getParent()).getFirstPsiChild();
+			if(element.getNode().getElementType() == PhpElementTypes.MODIFIER_LIST)
 			{
 				final ASTNode[] nodes = element.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
 				for(ASTNode node : nodes)
@@ -101,7 +102,7 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 					{
 						modifier.setAccess(PhpModifier.Access.PRIVATE);
 					}
-					else if(node.getElementType() == PHPTokenTypes.kwSTATIC)
+					else if(node.getElementType() == PhpTokenTypes.kwSTATIC)
 					{
 						modifier.setState(PhpModifier.State.STATIC);
 					}
@@ -115,9 +116,9 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	public PhpDocComment getDocComment()
 	{
 		final PsiElement parent = getParent();
-		if(parent instanceof PHPPsiElement)
+		if(parent instanceof PhpElement)
 		{
-			final PHPPsiElement element = ((PHPPsiElement) parent).getPrevPsiSibling();
+			final PhpElement element = ((PhpElement) parent).getPrevPsiSibling();
 			if(element instanceof PhpDocComment)
 			{
 				return (PhpDocComment) element;

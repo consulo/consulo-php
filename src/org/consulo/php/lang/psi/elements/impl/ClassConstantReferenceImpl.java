@@ -74,7 +74,7 @@ public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements Cla
 	@Nullable
 	public PhpClassReference getClassReference()
 	{
-		PHPPsiElement reference = getFirstPsiChild();
+		PhpElement reference = getFirstPsiChild();
 		if(reference instanceof PhpClassReference)
 		{
 			return (PhpClassReference) reference;

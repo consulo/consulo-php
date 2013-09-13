@@ -4,11 +4,11 @@ package org.consulo.php.lang.psi.elements;
  * @author jay
  * @date Jul 2, 2008 3:06:22 AM
  */
-public interface ElseIf extends PHPPsiElement
+public interface ElseIf extends PhpElement
 {
 
-	public PHPPsiElement getCondition();
+	public PhpElement getCondition();
 
-	public PHPPsiElement getStatement();
+	public PhpElement getStatement();
 
 }

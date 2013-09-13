@@ -1,6 +1,6 @@
 package org.consulo.php.lang.annotator;
 
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.highlighter.PHPHighlightingData;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.ConstantReference;
@@ -41,7 +41,7 @@ public class PhpAnnotatorVisitor extends PHPElementVisitor
 		}
 		else
 		{
-			holder.createInfoAnnotation(variable, PHPBundle.message("annotation.variable.variable"));
+			holder.createInfoAnnotation(variable, PhpBundle.message("annotation.variable.variable"));
 		}
 	}
 

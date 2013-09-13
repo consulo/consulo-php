@@ -4,7 +4,7 @@ package org.consulo.php.lang.psi.elements;
  * @author jay
  * @date May 5, 2008 8:06:33 AM
  */
-public interface Global extends PHPPsiElement
+public interface Global extends PhpElement
 {
 
 	public PhpVariableReference[] getVariables();

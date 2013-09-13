@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class BacktrickedStringManager extends SubstitutionsAwareStringManager
 {
 
-	public BacktrickedStringManager(@NotNull final PHPFlexLexer lexer)
+	public BacktrickedStringManager(@NotNull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 		DELIMITER = '`';

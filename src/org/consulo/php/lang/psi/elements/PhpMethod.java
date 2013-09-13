@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * @author jay
  * @date Apr 3, 2008 11:08:55 PM
  */
-public interface PhpMethod extends PHPPsiElement, PhpNamedElement,  PhpTypedElement
+public interface PhpMethod extends PhpElement, PhpNamedElement,  PhpTypedElement
 {
 	@NotNull
 	public PhpParameter[] getParameters();

@@ -14,6 +14,6 @@ public interface ParserPart
 	 * @param builder standard builder to mark AST nodes
 	 * @return type of expression that was parsed
 	 */
-	public IElementType parse(PHPPsiBuilder builder);
+	public IElementType parse(PhpPsiBuilder builder);
 
 }

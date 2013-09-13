@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.psi;
 
-import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.PhpFileType;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.tree.IElementType;
@@ -14,6 +14,6 @@ public class PhpDocElementType extends IElementType
 
 	public PhpDocElementType(@NotNull String debugName)
 	{
-		super(debugName, PHPFileType.INSTANCE.getLanguage());
+		super(debugName, PhpFileType.INSTANCE.getLanguage());
 	}
 }

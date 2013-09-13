@@ -1,12 +1,12 @@
 package org.consulo.php.lang.parser.parsing.functions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -25,13 +25,13 @@ public class ParameterList implements PHPTokenTypes
 	//	;
 	//
 
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker parameterList = builder.mark();
 		ParserPart parameterParser = new Parameter();
 		int result = ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, parameterParser.parse(builder), parameterParser, false);
-		parameterList.done(PHPElementTypes.PARAMETER_LIST);
-		return (result > 0) ? PHPElementTypes.PARAMETER_LIST : PHPElementTypes.EMPTY_INPUT;
+		parameterList.done(PhpElementTypes.PARAMETER_LIST);
+		return (result > 0) ? PhpElementTypes.PARAMETER_LIST : PhpElementTypes.EMPTY_INPUT;
 	}
 
 	//	non_empty_parameter_list:
@@ -63,10 +63,10 @@ public class ParameterList implements PHPTokenTypes
 	private static class Parameter implements ParserPart
 	{
 
-		public IElementType parse(PHPPsiBuilder builder)
+		public IElementType parse(PhpPsiBuilder builder)
 		{
 			PsiBuilder.Marker parameter = builder.mark();
-			if(ClassReference.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+			if(ClassReference.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 			{
 				builder.compareAndEat(kwARRAY);
 			}
@@ -74,20 +74,20 @@ public class ParameterList implements PHPTokenTypes
 			if(!builder.compareAndEat(VARIABLE))
 			{
 				parameter.rollbackTo();
-				return PHPElementTypes.EMPTY_INPUT;
+				return PhpElementTypes.EMPTY_INPUT;
 			}
 			if(builder.compare(opASGN))
 			{
 				PsiBuilder.Marker defaultValue = builder.mark();
 				builder.advanceLexer();
-				if(StaticScalar.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+				if(StaticScalar.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 				{
-					builder.error(PHPParserErrors.expected("default value"));
+					builder.error(PhpParserErrors.expected("default value"));
 				}
-				defaultValue.done(PHPElementTypes.PARAMETER_DEFAULT_VALUE);
+				defaultValue.done(PhpElementTypes.PARAMETER_DEFAULT_VALUE);
 			}
-			parameter.done(PHPElementTypes.PARAMETER);
-			return PHPElementTypes.PARAMETER;
+			parameter.done(PhpElementTypes.PARAMETER);
+			return PhpElementTypes.PARAMETER;
 		}
 	}
 

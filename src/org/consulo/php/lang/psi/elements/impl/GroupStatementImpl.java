@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.GroupStatement;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -38,9 +38,9 @@ public class GroupStatementImpl extends PHPPsiElementImpl implements GroupStatem
 				}
 			}
 		}
-		else if(lastParent instanceof PHPPsiElement)
+		else if(lastParent instanceof PhpElement)
 		{
-			PHPPsiElement statement = ((PHPPsiElement) lastParent).getPrevPsiSibling();
+			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))

@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +16,7 @@ public abstract class PhpStubElement<StubT extends StubElement, PsiT extends Psi
 {
 	public PhpStubElement(@NotNull @NonNls String debugName)
 	{
-		super(debugName, PHPLanguage.INSTANCE);
+		super(debugName, PhpLanguage.INSTANCE);
 	}
 
 	public abstract PsiT createPsi(ASTNode node);

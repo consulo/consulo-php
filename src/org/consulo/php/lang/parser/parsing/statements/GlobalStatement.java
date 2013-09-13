@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -21,11 +21,11 @@ public class GlobalStatement implements PHPTokenTypes
 {
 
 	//	kwGLOBAL global_var_list ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compareAndEat(kwGLOBAL))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		parseGlobalVarList(builder);
@@ -33,8 +33,8 @@ public class GlobalStatement implements PHPTokenTypes
 		{
 			builder.match(opSEMICOLON);
 		}
-		statement.done(PHPElementTypes.GLOBAL);
-		return PHPElementTypes.GLOBAL;
+		statement.done(PhpElementTypes.GLOBAL);
+		return PhpElementTypes.GLOBAL;
 	}
 
 	//	global_var_list:
@@ -47,33 +47,33 @@ public class GlobalStatement implements PHPTokenTypes
 	//		| '$' variable //read
 	//		| '$' '{' expr '}'
 	//	;
-	private static void parseGlobalVarList(PHPPsiBuilder builder)
+	private static void parseGlobalVarList(PhpPsiBuilder builder)
 	{
 		ParserPart globalVariable = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(TokenSet.create(VARIABLE, DOLLAR)))
 				{
-					return PHPElementTypes.EMPTY_INPUT;
+					return PhpElementTypes.EMPTY_INPUT;
 				}
 				PsiBuilder.Marker variable = builder.mark();
 				if(builder.compareAndEat(VARIABLE))
 				{
-					variable.done(PHPElementTypes.VARIABLE_REFERENCE);
-					return PHPElementTypes.VARIABLE_REFERENCE;
+					variable.done(PhpElementTypes.VARIABLE_REFERENCE);
+					return PhpElementTypes.VARIABLE_REFERENCE;
 				}
 				builder.match(DOLLAR);
 				if(builder.compareAndEat(chLBRACE))
 				{
 					Expression.parse(builder);
 					builder.match(chRBRACE);
-					variable.done(PHPElementTypes.VARIABLE_REFERENCE);
-					return PHPElementTypes.VARIABLE_REFERENCE;
+					variable.done(PhpElementTypes.VARIABLE_REFERENCE);
+					return PhpElementTypes.VARIABLE_REFERENCE;
 				}
 				Variable.parse(builder);
-				variable.done(PHPElementTypes.VARIABLE_REFERENCE);
-				return PHPElementTypes.VARIABLE_REFERENCE;
+				variable.done(PhpElementTypes.VARIABLE_REFERENCE);
+				return PhpElementTypes.VARIABLE_REFERENCE;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, globalVariable.parse(builder), globalVariable, false);

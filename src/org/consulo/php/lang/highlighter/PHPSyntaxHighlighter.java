@@ -8,7 +8,7 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +24,7 @@ public class PHPSyntaxHighlighter extends LayeredLexerEditorHighlighter
 {
 	public PHPSyntaxHighlighter(@Nullable final Project project, @Nullable final VirtualFile virtualFile, @NotNull final EditorColorsScheme colors)
 	{
-		super(new PhpFileSyntaxHighlighter(LanguageVersionResolvers.INSTANCE.forLanguage(PHPLanguage.INSTANCE).getLanguageVersion(PHPLanguage.INSTANCE, project, virtualFile)), colors);
+		super(new PhpFileSyntaxHighlighter(LanguageVersionResolvers.INSTANCE.forLanguage(PhpLanguage.INSTANCE).getLanguageVersion(PhpLanguage.INSTANCE, project, virtualFile)), colors);
 		registerLayer(PHPTokenTypes.HTML, new LayerDescriptor(SyntaxHighlighter.PROVIDER.create(StdFileTypes.HTML, project, virtualFile), ""));
 	}
 }

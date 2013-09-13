@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,14 +16,14 @@ import com.intellij.psi.tree.IElementType;
 public class OperatorManager
 {
 
-	private PHPFlexLexer lexer;
+	private PhpFlexLexer lexer;
 	private boolean afterOperator;
 	private boolean afterKeyword;
 	private boolean inStatementStart;
 	private boolean afterVariable;
 	private boolean afterArrow;
 
-	public OperatorManager(@NotNull final PHPFlexLexer lexer)
+	public OperatorManager(@NotNull final PhpFlexLexer lexer)
 	{
 		this.lexer = lexer;
 	}

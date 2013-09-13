@@ -20,7 +20,7 @@ public class PhpFileDetector implements FileTypeRegistry.FileTypeDetector
 	{
 		if(FileUtil.isHashBangLine(charSequence, "php"))
 		{
-			return PHPFileType.INSTANCE;
+			return PhpFileType.INSTANCE;
 		}
 		return null;
 	}

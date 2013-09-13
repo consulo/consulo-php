@@ -1,12 +1,12 @@
 package org.consulo.php.lang.parser.parsing.expressions.primary;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -35,7 +35,7 @@ public class Array implements PHPTokenTypes
 	//		| '&' variable //write
 	//	;
 	//	kwARRAY '(' array_pair_list ')'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		if(builder.compareAndEat(kwARRAY))
@@ -43,71 +43,71 @@ public class Array implements PHPTokenTypes
 			builder.match(chLPAREN);
 			ParserPart arrayItem = new ParserPart()
 			{
-				public IElementType parse(PHPPsiBuilder builder)
+				public IElementType parse(PhpPsiBuilder builder)
 				{
 					PsiBuilder.Marker item = builder.mark();
 					if(builder.compareAndEat(opBIT_AND))
 					{
 						IElementType result = Variable.parse(builder);
-						if(result == PHPElementTypes.EMPTY_INPUT)
+						if(result == PhpElementTypes.EMPTY_INPUT)
 						{
-							builder.error(PHPParserErrors.expected("variable"));
+							builder.error(PhpParserErrors.expected("variable"));
 						}
-						item.done(PHPElementTypes.ARRAY_VALUE);
-						return PHPElementTypes.ARRAY_VALUE;
+						item.done(PhpElementTypes.ARRAY_VALUE);
+						return PhpElementTypes.ARRAY_VALUE;
 					}
 					else
 					{
 						IElementType result = Expression.parse(builder);
-						if(result != PHPElementTypes.EMPTY_INPUT)
+						if(result != PhpElementTypes.EMPTY_INPUT)
 						{
 							if(builder.compare(opHASH_ARRAY))
 							{
-								item.done(PHPElementTypes.ARRAY_KEY);
+								item.done(PhpElementTypes.ARRAY_KEY);
 								builder.advanceLexer();
 								item = builder.mark();
 								if(builder.compareAndEat(opBIT_AND))
 								{
 									result = Variable.parse(builder);
-									if(result == PHPElementTypes.EMPTY_INPUT)
+									if(result == PhpElementTypes.EMPTY_INPUT)
 									{
-										builder.error(PHPParserErrors.expected("variable"));
+										builder.error(PhpParserErrors.expected("variable"));
 									}
-									item.done(PHPElementTypes.ARRAY_VALUE);
-									return PHPElementTypes.ARRAY_VALUE;
+									item.done(PhpElementTypes.ARRAY_VALUE);
+									return PhpElementTypes.ARRAY_VALUE;
 								}
 								else
 								{
 									result = Expression.parse(builder);
-									if(result == PHPElementTypes.EMPTY_INPUT)
+									if(result == PhpElementTypes.EMPTY_INPUT)
 									{
-										builder.error(PHPParserErrors.expected("expression"));
+										builder.error(PhpParserErrors.expected("expression"));
 									}
-									item.done(PHPElementTypes.ARRAY_VALUE);
-									return PHPElementTypes.ARRAY_VALUE;
+									item.done(PhpElementTypes.ARRAY_VALUE);
+									return PhpElementTypes.ARRAY_VALUE;
 								}
 							}
 							else
 							{
-								item.done(PHPElementTypes.ARRAY_VALUE);
-								return PHPElementTypes.ARRAY_VALUE;
+								item.done(PhpElementTypes.ARRAY_VALUE);
+								return PhpElementTypes.ARRAY_VALUE;
 							}
 						}
 						else
 						{
 							item.drop();
-							return PHPElementTypes.EMPTY_INPUT;
+							return PhpElementTypes.EMPTY_INPUT;
 						}
 					}
 				}
 			};
 			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, arrayItem.parse(builder), arrayItem, true);
 			builder.match(chRPAREN);
-			marker.done(PHPElementTypes.ARRAY);
-			return PHPElementTypes.ARRAY;
+			marker.done(PhpElementTypes.ARRAY);
+			return PhpElementTypes.ARRAY;
 		}
 		marker.drop();
-		return PHPElementTypes.EMPTY_INPUT;
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 
 }

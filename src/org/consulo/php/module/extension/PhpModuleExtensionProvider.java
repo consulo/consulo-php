@@ -1,7 +1,7 @@
 package org.consulo.php.module.extension;
 
 import com.intellij.openapi.module.Module;
-import org.consulo.php.PHPIcons2;
+import org.consulo.php.PhpIcons2;
 import org.consulo.module.extension.ModuleExtensionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ public class PhpModuleExtensionProvider implements ModuleExtensionProvider<PhpMo
 	@Nullable
 	@Override
 	public Icon getIcon() {
-		return PHPIcons2.Php;
+		return PhpIcons2.Php;
 	}
 
 	@NotNull

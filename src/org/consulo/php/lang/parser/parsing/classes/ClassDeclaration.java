@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -27,10 +27,10 @@ public class ClassDeclaration implements PHPTokenTypes
 	//			interface_extends_list
 	//			'{' class_statement_list '}'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		IElementType result = parseInterface(builder);
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			result = parseClass(builder);
 		}
@@ -46,29 +46,29 @@ public class ClassDeclaration implements PHPTokenTypes
 	//		| kwABSTRACT kwCLASS
 	//		| kwFINAL kwCLASS
 	//	;
-	private static IElementType parseClass(PHPPsiBuilder builder)
+	private static IElementType parseClass(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwCLASS) && !builder.compare(kwABSTACT) && !builder.compare(kwFINAL))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker classMarker = builder.mark();
-		IElementType currentClass = PHPElementTypes.CLASS;
+		IElementType currentClass = PhpElementTypes.CLASS;
 		if(builder.compareAndEat(kwABSTACT))
 		{
-			currentClass = PHPElementTypes.CLASS;
+			currentClass = PhpElementTypes.CLASS;
 		}
 		else
 		{
 			if(builder.compareAndEat(kwFINAL))
 			{
-				currentClass = PHPElementTypes.CLASS;
+				currentClass = PhpElementTypes.CLASS;
 			}
 		}
 		builder.match(kwCLASS);
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
-			builder.error(PHPParserErrors.expected("class name"));
+			builder.error(PhpParserErrors.expected("class name"));
 		}
 		parseClassExtends(builder);
 		parseClassImplements(builder);
@@ -81,14 +81,14 @@ public class ClassDeclaration implements PHPTokenTypes
 	//		/* empty */
 	//		| kwEXTENDS fully_qualified_class_name
 	//	;
-	private static IElementType parseClassExtends(PHPPsiBuilder builder)
+	private static IElementType parseClassExtends(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker extendsMarker = builder.mark();
 		if(builder.compareAndEat(kwEXTENDS))
 		{
 			ClassReference.parse(builder);
 		}
-		extendsMarker.done(PHPElementTypes.EXTENDS_LIST);
+		extendsMarker.done(PhpElementTypes.EXTENDS_LIST);
 		return null;
 	}
 
@@ -97,39 +97,39 @@ public class ClassDeclaration implements PHPTokenTypes
 	//		/* empty */
 	//		| kwIMPLEMENTS interface_list
 	//	;
-	private static IElementType parseClassImplements(PHPPsiBuilder builder)
+	private static IElementType parseClassImplements(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker implementsList = builder.mark();
 		if(builder.compareAndEat(kwIMPLEMENTS))
 		{
 			parseInterfaceList(builder);
 		}
-		implementsList.done(PHPElementTypes.IMPLEMENTS_LIST);
-		return PHPElementTypes.IMPLEMENTS_LIST;
+		implementsList.done(PhpElementTypes.IMPLEMENTS_LIST);
+		return PhpElementTypes.IMPLEMENTS_LIST;
 	}
 
 	//		kwINTERFACE IDENTIFIER
 	//		interface_extends_list
 	//		'{' class_statement_list '}'
-	private static IElementType parseInterface(PHPPsiBuilder builder)
+	private static IElementType parseInterface(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwINTERFACE))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker interfaceMarker = builder.mark();
 		builder.advanceLexer();
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
-			builder.error(PHPParserErrors.expected("interface name"));
+			builder.error(PhpParserErrors.expected("interface name"));
 		}
 		parseInterfaceExtends(builder);
 		parseClassStatements(builder);
-		interfaceMarker.done(PHPElementTypes.INTERFACE);
-		return PHPElementTypes.INTERFACE;
+		interfaceMarker.done(PhpElementTypes.INTERFACE);
+		return PhpElementTypes.INTERFACE;
 	}
 
-	private static void parseClassStatements(PHPPsiBuilder builder)
+	private static void parseClassStatements(PhpPsiBuilder builder)
 	{
 		builder.match(chLBRACE);
 		ClassStatementList.parse(builder);
@@ -145,22 +145,22 @@ public class ClassDeclaration implements PHPTokenTypes
 	//		fully_qualified_class_name
 	//		| interface_list ',' fully_qualified_class_name
 	//	;
-	private static IElementType parseInterfaceExtends(PHPPsiBuilder builder)
+	private static IElementType parseInterfaceExtends(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker extendsList = builder.mark();
 		if(builder.compareAndEat(kwEXTENDS))
 		{
 			parseInterfaceList(builder);
 		}
-		extendsList.done(PHPElementTypes.EXTENDS_LIST);
-		return PHPElementTypes.EXTENDS_LIST;
+		extendsList.done(PhpElementTypes.EXTENDS_LIST);
+		return PhpElementTypes.EXTENDS_LIST;
 	}
 
-	private static void parseInterfaceList(PHPPsiBuilder builder)
+	private static void parseInterfaceList(PhpPsiBuilder builder)
 	{
 		ParserPart interfaceParser = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return ClassReference.parse(builder);
 			}

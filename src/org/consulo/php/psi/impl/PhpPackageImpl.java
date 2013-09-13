@@ -5,7 +5,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiPackageBase;
 import com.intellij.util.ArrayFactory;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.php.psi.PhpPackage;
 import org.consulo.psi.PsiPackage;
@@ -37,6 +37,6 @@ public class PhpPackageImpl extends PsiPackageBase implements PhpPackage {
 	@NotNull
 	@Override
 	public Language getLanguage() {
-		return PHPLanguage.INSTANCE;
+		return PhpLanguage.INSTANCE;
 	}
 }

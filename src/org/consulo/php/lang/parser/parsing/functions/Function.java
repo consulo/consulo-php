@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.functions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -22,18 +22,18 @@ public class Function implements PHPTokenTypes
 	//		kwFUNCTION is_reference IDENTIFIER '(' parameter_list ')'
 	//			'{' statement_list '}'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwFUNCTION))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker function = builder.mark();
 		builder.advanceLexer();
 		IsReference.parse(builder);
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
-			builder.error(PHPParserErrors.expected("function name"));
+			builder.error(PhpParserErrors.expected("function name"));
 		}
 		builder.match(chLPAREN);
 		ParameterList.parse(builder);
@@ -41,7 +41,7 @@ public class Function implements PHPTokenTypes
 		builder.match(chLBRACE);
 		StatementList.parse(builder, chRBRACE);
 		builder.match(chRBRACE);
-		function.done(PHPElementTypes.FUNCTION);
-		return PHPElementTypes.FUNCTION;
+		function.done(PhpElementTypes.FUNCTION);
+		return PhpElementTypes.FUNCTION;
 	}
 }

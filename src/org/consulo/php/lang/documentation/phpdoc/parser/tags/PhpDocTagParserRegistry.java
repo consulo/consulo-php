@@ -2,7 +2,7 @@ package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 
 import java.util.Map;
 
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.util.containers.HashMap;
 
@@ -28,7 +28,7 @@ public class PhpDocTagParserRegistry
 		}
 	}
 
-	public static void parse(PHPPsiBuilder builder)
+	public static void parse(PhpPsiBuilder builder)
 	{
 		final PhpDocTagParser tagParser = parsers.get(builder.getTokenText());
 		if(tagParser != null)

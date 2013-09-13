@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,9 +19,9 @@ import org.jetbrains.annotations.NotNull;
 public class ReadingManager
 {
 
-	protected PHPFlexLexer lexer;
+	protected PhpFlexLexer lexer;
 
-	public ReadingManager(@NotNull final PHPFlexLexer lexer)
+	public ReadingManager(@NotNull final PhpFlexLexer lexer)
 	{
 		this.lexer = lexer;
 	}

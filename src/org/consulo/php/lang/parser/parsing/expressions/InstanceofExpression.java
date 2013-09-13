@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -16,19 +16,19 @@ import com.intellij.psi.tree.IElementType;
 public class InstanceofExpression implements PHPTokenTypes
 {
 
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		IElementType result = UnaryExpression.parse(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT && builder.compareAndEat(kwINSTANCEOF))
+		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(kwINSTANCEOF))
 		{
 			result = ClassReference.parseClassNameReference(builder);
-			if(result == PHPElementTypes.EMPTY_INPUT)
+			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
-				builder.error(PHPParserErrors.expected("class reference"));
+				builder.error(PhpParserErrors.expected("class reference"));
 			}
-			marker.done(PHPElementTypes.INSTANCEOF_EXPRESSION);
-			result = PHPElementTypes.INSTANCEOF_EXPRESSION;
+			marker.done(PhpElementTypes.INSTANCEOF_EXPRESSION);
+			result = PhpElementTypes.INSTANCEOF_EXPRESSION;
 		}
 		else
 		{

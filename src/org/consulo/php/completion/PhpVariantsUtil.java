@@ -162,17 +162,17 @@ public class PhpVariantsUtil
 		return item;
 	}
 
-	public static List<LookupItem> getLookupItemsForVariables(List<? extends org.consulo.php.lang.psi.elements.PHPPsiElement> elements)
+	public static List<LookupItem> getLookupItemsForVariables(List<? extends PhpElement> elements)
 	{
 		List<LookupItem> result = new ArrayList<LookupItem>();
-		for(org.consulo.php.lang.psi.elements.PHPPsiElement element : elements)
+		for(PhpElement element : elements)
 		{
 			result.add(getLookupItemForVariable(element));
 		}
 		return result;
 	}
 
-	public static LookupItem getLookupItemForVariable(org.consulo.php.lang.psi.elements.PHPPsiElement element)
+	public static LookupItem getLookupItemForVariable(PhpElement element)
 	{
 		final PhpLookupItem item = new PhpLookupItem(null);
 		if(element instanceof org.consulo.php.lang.psi.elements.PhpVariableReference)

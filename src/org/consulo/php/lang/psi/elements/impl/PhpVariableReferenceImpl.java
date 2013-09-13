@@ -7,7 +7,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
@@ -223,7 +223,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	@Nullable
 	public Icon getIcon()
 	{
-		return PHPIcons.VARIABLE;
+		return PhpIcons.VARIABLE;
 	}
 
 }

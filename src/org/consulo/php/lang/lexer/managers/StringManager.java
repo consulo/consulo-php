@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +21,7 @@ public abstract class StringManager extends ReadingManager
 	public static final int VARIABLE_SEEN = -4;
 	protected char DELIMITER;
 
-	public StringManager(@NotNull final PHPFlexLexer lexer)
+	public StringManager(@NotNull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 	}

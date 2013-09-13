@@ -1,8 +1,8 @@
 package org.consulo.php.lang.parser.parsing.functions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 
@@ -13,10 +13,10 @@ import com.intellij.lang.PsiBuilder;
 public class IsReference
 {
 
-	public static void parse(PHPPsiBuilder builder)
+	public static void parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker isReference = builder.mark();
 		builder.compareAndEat(PHPTokenTypes.opBIT_AND);
-		isReference.done(PHPElementTypes.IS_REFERENCE);
+		isReference.done(PhpElementTypes.IS_REFERENCE);
 	}
 }

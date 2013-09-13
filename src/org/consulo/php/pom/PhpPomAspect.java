@@ -7,7 +7,7 @@ import com.intellij.pom.event.PomModelEvent;
 import com.intellij.pom.tree.TreeAspect;
 import com.intellij.pom.tree.events.TreeChangeEvent;
 import com.intellij.psi.PsiFile;
-import org.consulo.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.PhpFile;
 
 import java.util.Collections;
 
@@ -43,11 +43,11 @@ public class PhpPomAspect implements PomModelAspect
 
 		final ASTNode rootElement = changeSet.getRootElement();
 		final PsiFile file = (PsiFile) rootElement.getPsi();
-		if(!(file instanceof PHPFile))
+		if(!(file instanceof PhpFile))
 		{
 			return;
 		}
-		final PhpChangeSet phpChangeSet = new PhpChangeSet(model, (PHPFile) file);
+		final PhpChangeSet phpChangeSet = new PhpChangeSet(model, (PhpFile) file);
 		event.registerChangeSet(this, phpChangeSet);
 	}
 }

@@ -1,7 +1,7 @@
 package org.consulo.php.lang.documentation.phpdoc.parser;
 
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocTagParserRegistry;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * @author jay
@@ -10,7 +10,7 @@ import org.consulo.php.lang.parser.util.PHPPsiBuilder;
 public class PhpDocParsing implements PhpDocElementTypes
 {
 
-	public void parse(PHPPsiBuilder builder)
+	public void parse(PhpPsiBuilder builder)
 	{
 		builder.match(DOC_COMMENT_START);
 		while(!builder.compare(DOC_COMMENT_END) && !builder.eof())

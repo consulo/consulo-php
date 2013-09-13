@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -20,13 +20,13 @@ public class IfStatement implements PHPTokenTypes
 
 	//		kwIF '(' expr ')' statement elseif_list else_single
 	//		| kwIF '(' expr ')' ':' statement_list new_elseif_list new_else_single kwENDIF ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker statement = builder.mark();
 		if(!builder.compareAndEat(kwIF))
 		{
 			statement.drop();
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		builder.match(chLPAREN);
 		Expression.parse(builder);
@@ -44,8 +44,8 @@ public class IfStatement implements PHPTokenTypes
 		{
 			parseOldStyleIf(builder);
 		}
-		statement.done(PHPElementTypes.IF);
-		return PHPElementTypes.IF;
+		statement.done(PhpElementTypes.IF);
+		return PhpElementTypes.IF;
 	}
 
 	//		statement_list new_elseif_list new_else_single kwENDIF ';'
@@ -59,7 +59,7 @@ public class IfStatement implements PHPTokenTypes
 	//		/* empty */
 	//		| kwELSE ':' statement_list
 	//	;
-	private static void parseNewStyleIf(PHPPsiBuilder builder)
+	private static void parseNewStyleIf(PhpPsiBuilder builder)
 	{
 		StatementList.parse(builder, kwELSEIF, kwELSE, kwENDIF);
 		while(builder.compare(kwELSEIF))
@@ -71,7 +71,7 @@ public class IfStatement implements PHPTokenTypes
 			builder.match(chRPAREN);
 			builder.match(opCOLON);
 			StatementList.parse(builder, kwELSEIF, kwELSE, kwENDIF);
-			elseifClause.done(PHPElementTypes.ELSE_IF);
+			elseifClause.done(PhpElementTypes.ELSE_IF);
 		}
 		if(builder.compare(kwELSE))
 		{
@@ -79,7 +79,7 @@ public class IfStatement implements PHPTokenTypes
 			builder.advanceLexer();
 			builder.match(opCOLON);
 			StatementList.parse(builder, kwENDIF);
-			elseClause.done(PHPElementTypes.ELSE);
+			elseClause.done(PhpElementTypes.ELSE);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class IfStatement implements PHPTokenTypes
 	//		/* empty */
 	//		| kwELSE statement
 	//	;
-	private static void parseOldStyleIf(PHPPsiBuilder builder)
+	private static void parseOldStyleIf(PhpPsiBuilder builder)
 	{
 		Statement.parse(builder);
 		while(builder.compare(kwELSEIF))
@@ -105,14 +105,14 @@ public class IfStatement implements PHPTokenTypes
 			Expression.parse(builder);
 			builder.match(chRPAREN);
 			Statement.parse(builder);
-			elseifClause.done(PHPElementTypes.ELSE_IF);
+			elseifClause.done(PhpElementTypes.ELSE_IF);
 		}
 		if(builder.compare(kwELSE))
 		{
 			PsiBuilder.Marker elseClause = builder.mark();
 			builder.advanceLexer();
 			Statement.parse(builder);
-			elseClause.done(PHPElementTypes.ELSE);
+			elseClause.done(PhpElementTypes.ELSE);
 		}
 	}
 }

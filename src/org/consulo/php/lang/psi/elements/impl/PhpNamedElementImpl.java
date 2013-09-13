@@ -7,7 +7,7 @@ import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.ConstantReference;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
@@ -63,7 +63,7 @@ abstract public class PhpNamedElementImpl extends PHPPsiElementImpl implements P
 
 	public PhpDocComment getDocComment()
 	{
-		final PHPPsiElement element = getPrevPsiSibling();
+		final PhpElement element = getPrevPsiSibling();
 		if(element instanceof PhpDocComment)
 		{
 			return (PhpDocComment) element;

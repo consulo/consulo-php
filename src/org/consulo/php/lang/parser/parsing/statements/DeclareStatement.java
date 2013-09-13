@@ -1,12 +1,12 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -21,11 +21,11 @@ public class DeclareStatement implements PHPTokenTypes
 {
 
 	//		kwDECLARE '(' declare_list ')' declare_statement
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwDECLARE))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
@@ -35,15 +35,15 @@ public class DeclareStatement implements PHPTokenTypes
 		builder.match(chRPAREN);
 		parseDeclareStatement(builder);
 
-		statement.done(PHPElementTypes.DECLARE);
-		return PHPElementTypes.DECLARE;
+		statement.done(PhpElementTypes.DECLARE);
+		return PhpElementTypes.DECLARE;
 	}
 
 	//	declare_statement:
 	//		statement
 	//		| ':' statement_list kwENDDECLARE ';'
 	//	;
-	private static void parseDeclareStatement(PHPPsiBuilder builder)
+	private static void parseDeclareStatement(PhpPsiBuilder builder)
 	{
 		if(builder.compareAndEat(opCOLON))
 		{
@@ -63,22 +63,22 @@ public class DeclareStatement implements PHPTokenTypes
 	//		IDENTIFIER '=' static_scalar
 	//		| declare_list ',' IDENTIFIER '=' static_scalar
 	//	;
-	private static void parseDeclareList(PHPPsiBuilder builder)
+	private static void parseDeclareList(PhpPsiBuilder builder)
 	{
 		ParserPart listParser = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(IDENTIFIER))
 				{
-					return PHPElementTypes.EMPTY_INPUT;
+					return PhpElementTypes.EMPTY_INPUT;
 				}
 				PsiBuilder.Marker directive = builder.mark();
 				builder.advanceLexer();
 				builder.match(opASGN);
 				StaticScalar.parse(builder);
-				directive.done(PHPElementTypes.DECLARE_DIRECTIVE);
-				return PHPElementTypes.DECLARE_DIRECTIVE;
+				directive.done(PhpElementTypes.DECLARE_DIRECTIVE);
+				return PhpElementTypes.DECLARE_DIRECTIVE;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, listParser.parse(builder), listParser, false);

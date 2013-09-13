@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 
@@ -21,7 +21,7 @@ public class PhpDocVarTagParser extends PhpDocTagParser
 		return "@var";
 	}
 
-	public void parse(PHPPsiBuilder builder)
+	public void parse(PhpPsiBuilder builder)
 	{
 		final PsiBuilder.Marker tag = builder.mark();
 		builder.match(DOC_TAG_NAME);

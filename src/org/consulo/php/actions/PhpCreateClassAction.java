@@ -10,7 +10,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
-import org.consulo.php.PHPIcons2;
+import org.consulo.php.PhpIcons2;
 import org.consulo.php.module.extension.PhpModuleExtension;
 
 /**
@@ -19,7 +19,7 @@ import org.consulo.php.module.extension.PhpModuleExtension;
  */
 public class PhpCreateClassAction extends CreateFileFromTemplateAction {
 	public PhpCreateClassAction() {
-		super("Php Class", "Create new Php Class", PHPIcons2.Php);
+		super("Php Class", "Create new Php Class", PhpIcons2.Php);
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction {
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder) {
 		builder.setTitle("Create New Class")
-				.addKind("Class", PHPIcons2.Class, "PHP Class")
-				.addKind("Interface", PHPIcons2.Interface, "PHP Interface");
+				.addKind("Class", PhpIcons2.Class, "PHP Class")
+				.addKind("Interface", PhpIcons2.Interface, "PHP Interface");
 
 	}
 

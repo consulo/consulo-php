@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.expressions.bit;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.comparition.EqualityExpression;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -18,26 +18,26 @@ import com.intellij.psi.tree.IElementType;
 public class BitAndExpression implements PHPTokenTypes
 {
 
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		IElementType result = EqualityExpression.parse(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT)
+		if(result != PhpElementTypes.EMPTY_INPUT)
 		{
 			if(builder.compareAndEat(opBIT_AND))
 			{
 				result = AssignmentExpression.parseWithoutPriority(builder);
-				if(result == PHPElementTypes.EMPTY_INPUT)
+				if(result == PhpElementTypes.EMPTY_INPUT)
 				{
 					result = EqualityExpression.parse(builder);
 				}
-				if(result == PHPElementTypes.EMPTY_INPUT)
+				if(result == PhpElementTypes.EMPTY_INPUT)
 				{
-					builder.error(PHPParserErrors.expected("expression"));
+					builder.error(PhpParserErrors.expected("expression"));
 				}
 				PsiBuilder.Marker newMarker = marker.precede();
-				marker.done(PHPElementTypes.BIT_EXPRESSION);
-				result = PHPElementTypes.BIT_EXPRESSION;
+				marker.done(PhpElementTypes.BIT_EXPRESSION);
+				result = PhpElementTypes.BIT_EXPRESSION;
 				if(builder.compareAndEat(opBIT_AND))
 				{
 					subParse(builder, newMarker);
@@ -59,19 +59,19 @@ public class BitAndExpression implements PHPTokenTypes
 		return result;
 	}
 
-	private static IElementType subParse(PHPPsiBuilder builder, PsiBuilder.Marker marker)
+	private static IElementType subParse(PhpPsiBuilder builder, PsiBuilder.Marker marker)
 	{
 		IElementType result = AssignmentExpression.parseWithoutPriority(builder);
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			result = EqualityExpression.parse(builder);
 		}
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
-			builder.error(PHPParserErrors.expected("expression"));
+			builder.error(PhpParserErrors.expected("expression"));
 		}
 		PsiBuilder.Marker newMarker = marker.precede();
-		marker.done(PHPElementTypes.BIT_EXPRESSION);
+		marker.done(PhpElementTypes.BIT_EXPRESSION);
 		if(builder.compareAndEat(opBIT_AND))
 		{
 			subParse(builder, newMarker);
@@ -80,6 +80,6 @@ public class BitAndExpression implements PHPTokenTypes
 		{
 			newMarker.drop();
 		}
-		return PHPElementTypes.BIT_EXPRESSION;
+		return PhpElementTypes.BIT_EXPRESSION;
 	}
 }

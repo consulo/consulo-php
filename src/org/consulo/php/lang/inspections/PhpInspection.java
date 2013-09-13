@@ -1,6 +1,6 @@
 package org.consulo.php.lang.inspections;
 
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
@@ -20,7 +20,7 @@ abstract public class PhpInspection extends LocalInspectionTool
 	@NotNull
 	public String getGroupDisplayName()
 	{
-		return PHPBundle.message("php.inspections.group");
+		return PhpBundle.message("php.inspections.group");
 	}
 
 	@NonNls

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiPolyVariantReference;
  * @author jay
  * @date Apr 3, 2008 9:55:25 PM
  */
-public interface PhpVariableReference extends PHPPsiElement, PhpNamedElement, PsiPolyVariantReference, PhpTypedElement
+public interface PhpVariableReference extends PhpElement, PhpNamedElement, PsiPolyVariantReference, PhpTypedElement
 {
 	public boolean canReadName();
 

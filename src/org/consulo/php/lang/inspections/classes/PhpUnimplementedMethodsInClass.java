@@ -9,7 +9,7 @@ import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.inspections.PhpInspection;
 import org.consulo.php.lang.psi.elements.ExtendsList;
 import org.consulo.php.lang.psi.elements.ImplementsList;
@@ -33,7 +33,7 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 	@NotNull
 	public String getDisplayName()
 	{
-		return PHPBundle.message("php.inspections.unimplemented_methods_in_class");
+		return PhpBundle.message("php.inspections.unimplemented_methods_in_class");
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					}
 
 					//noinspection ConstantConditions
-					ProblemDescriptor descriptor = new ProblemDescriptorImpl(clazz.getFirstChild(), endNode, PHPBundle.message("php.inspections.unimplemented_methods_in_class.descr", methodList.toString()), new LocalQuickFix[0], ProblemHighlightType.GENERIC_ERROR_OR_WARNING, false, null, false);
+					ProblemDescriptor descriptor = new ProblemDescriptorImpl(clazz.getFirstChild(), endNode, PhpBundle.message("php.inspections.unimplemented_methods_in_class.descr", methodList.toString()), new LocalQuickFix[0], ProblemHighlightType.GENERIC_ERROR_OR_WARNING, false, null, false);
 					holder.registerProblem(descriptor);
 				}
 			}

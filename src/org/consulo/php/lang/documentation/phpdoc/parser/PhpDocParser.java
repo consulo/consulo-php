@@ -3,7 +3,7 @@ package org.consulo.php.lang.documentation.phpdoc.parser;
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocDefaultTagParser;
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocReturnTagParser;
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocVarTagParser;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -29,7 +29,7 @@ public class PhpDocParser implements PsiParser
 	@NotNull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{
-		PHPPsiBuilder phpBuilder = new PHPPsiBuilder(builder);
+		PhpPsiBuilder phpBuilder = new PhpPsiBuilder(builder);
 		PsiBuilder.Marker rootMarker = phpBuilder.mark();
 		new PhpDocParsing().parse(phpBuilder);
 		rootMarker.done(root);

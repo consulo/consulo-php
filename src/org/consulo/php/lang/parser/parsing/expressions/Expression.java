@@ -2,7 +2,7 @@ package org.consulo.php.lang.parser.parsing.expressions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpression;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.psi.tree.IElementType;
 
@@ -18,7 +18,7 @@ public class Expression implements PHPTokenTypes
 	//		variable //read
 	//		| expr_without_variable
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		return parseExpressionWithoutVariable(builder);
 	}
@@ -108,7 +108,7 @@ public class Expression implements PHPTokenTypes
 	 *   — new or
 	 *   — clone
 	 */
-	private static IElementType parseExpressionWithoutVariable(PHPPsiBuilder builder)
+	private static IElementType parseExpressionWithoutVariable(PhpPsiBuilder builder)
 	{
 		return LiteralOrExpression.parse(builder);
 	}

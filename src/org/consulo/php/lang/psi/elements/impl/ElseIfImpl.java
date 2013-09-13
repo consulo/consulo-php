@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.ElseIf;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,12 +23,12 @@ public class ElseIfImpl extends PHPPsiElementImpl implements ElseIf
 		super(node);
 	}
 
-	public PHPPsiElement getCondition()
+	public PhpElement getCondition()
 	{
 		return getFirstPsiChild();
 	}
 
-	public PHPPsiElement getStatement()
+	public PhpElement getStatement()
 	{
 		if(getCondition() != null)
 			return getCondition().getNextPsiSibling();

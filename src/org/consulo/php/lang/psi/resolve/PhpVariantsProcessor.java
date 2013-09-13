@@ -2,7 +2,7 @@ package org.consulo.php.lang.psi.resolve;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.List;
 public class PhpVariantsProcessor extends PhpScopeProcessor
 {
 
-	private List<PHPPsiElement> variants = new ArrayList<PHPPsiElement>();
+	private List<PhpElement> variants = new ArrayList<PhpElement>();
 
-	public PhpVariantsProcessor(PHPPsiElement element)
+	public PhpVariantsProcessor(PhpElement element)
 	{
 		super(element);
 	}
 
-	public List<PHPPsiElement> getVariants()
+	public List<PhpElement> getVariants()
 	{
 		return variants;
 	}
@@ -32,7 +32,7 @@ public class PhpVariantsProcessor extends PhpScopeProcessor
 		{
 			if(isAppropriateDeclarationType(element))
 			{
-				variants.add((PHPPsiElement) element);
+				variants.add((PhpElement) element);
 			}
 		}
 		return true;

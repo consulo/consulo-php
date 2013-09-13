@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
-import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ public class PhpPsiElementFactory
 		final PsiFile psiFile = createFile(project, constantName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
-		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof ConstantReference;
 		return (ConstantReference) psiElement;
 	}
@@ -31,7 +31,7 @@ public class PhpPsiElementFactory
 		final PsiFile psiFile = createFile(project, "$" + variableName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
-		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpVariableReference;
 		return (PhpVariableReference) psiElement;
 	}
@@ -41,7 +41,7 @@ public class PhpPsiElementFactory
 		final PsiFile psiFile = createFile(project, text);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
-		final PHPPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpClass;
 		return (PhpClass) psiElement;
 	}
@@ -51,14 +51,14 @@ public class PhpPsiElementFactory
 		return createFile(project, fileText, false);
 	}
 
-	public static PHPFile createFile(Project project, String fileText, boolean isPhysical)
+	public static PhpFile createFile(Project project, String fileText, boolean isPhysical)
 	{
 		return createDummyFile(project, fileText, isPhysical);
 	}
 
-	private static PHPFile createDummyFile(Project project, String fileText, boolean isPhysical)
+	private static PhpFile createDummyFile(Project project, String fileText, boolean isPhysical)
 	{
-		return (PHPFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PHPFileType.INSTANCE.getDefaultExtension(), PHPFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
+		return (PhpFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PhpFileType.INSTANCE.getDefaultExtension(), PhpFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
 				System.currentTimeMillis(), isPhysical);
 	}
 }

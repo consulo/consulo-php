@@ -1,7 +1,7 @@
 package org.consulo.php.lang.documentation.params;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.psi.PHPFile;
+import org.consulo.php.lang.psi.PhpFile;
 import org.consulo.php.lang.psi.elements.PhpMethod;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
 import org.consulo.php.lang.psi.elements.PhpParameter;
@@ -48,7 +48,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	public Object findElementForParameterInfo(CreateParameterInfoContext context)
 	{
 		final PsiFile psiFile = context.getFile();
-		if(psiFile instanceof PHPFile)
+		if(psiFile instanceof PhpFile)
 		{
 			final PhpMethodReference phpMethodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
 			if(phpMethodReference != null)
@@ -72,7 +72,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	public Object findElementForUpdatingParameterInfo(UpdateParameterInfoContext context)
 	{
 		final PsiFile psiFile = context.getFile();
-		if(psiFile instanceof PHPFile)
+		if(psiFile instanceof PhpFile)
 		{
 			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
 		}

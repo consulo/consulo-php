@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public class DoubleQuotedStringManager extends SubstitutionsAwareStringManager
 {
 
 
-	public DoubleQuotedStringManager(@NotNull final PHPFlexLexer lexer)
+	public DoubleQuotedStringManager(@NotNull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 		DELIMITER = '"';

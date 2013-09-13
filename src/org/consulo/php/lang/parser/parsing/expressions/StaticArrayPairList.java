@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -33,28 +33,28 @@ public class StaticArrayPairList
 	//		| static_scalar opHASH_ARRAY static_scalar
 	//		| static_scalar
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		ParserPart parser = new ParserPart()
 		{
 
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				PsiBuilder.Marker staticArrayPair = builder.mark();
 				IElementType result = StaticScalar.parse(builder);
-				if(result != PHPElementTypes.EMPTY_INPUT)
+				if(result != PhpElementTypes.EMPTY_INPUT)
 				{
 					if(builder.compare(PHPTokenTypes.opHASH_ARRAY))
 					{
-						staticArrayPair.done(PHPElementTypes.ARRAY_KEY);
+						staticArrayPair.done(PhpElementTypes.ARRAY_KEY);
 						builder.advanceLexer();
 						staticArrayPair = builder.mark();
-						if(StaticScalar.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+						if(StaticScalar.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 						{
-							builder.error(PHPParserErrors.expected("static value"));
+							builder.error(PhpParserErrors.expected("static value"));
 						}
 					}
-					staticArrayPair.done(PHPElementTypes.ARRAY_VALUE);
+					staticArrayPair.done(PhpElementTypes.ARRAY_VALUE);
 				}
 				else
 				{
@@ -65,7 +65,7 @@ public class StaticArrayPairList
 		};
 
 		IElementType result = parser.parse(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT)
+		if(result != PhpElementTypes.EMPTY_INPUT)
 		{
 			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, result, parser, true);
 		}

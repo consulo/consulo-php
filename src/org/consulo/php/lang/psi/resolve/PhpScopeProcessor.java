@@ -4,7 +4,7 @@ import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpParameter;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PhpScopeProcessor implements PsiScopeProcessor
 {
-	protected PHPPsiElement element;
+	protected PhpElement element;
 
-	public PhpScopeProcessor(PHPPsiElement element)
+	public PhpScopeProcessor(PhpElement element)
 	{
 		this.element = element;
 	}

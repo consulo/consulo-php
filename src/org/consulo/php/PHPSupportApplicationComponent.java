@@ -1,21 +1,17 @@
 package org.consulo.php;
 
 import org.consulo.php.completion.PhpCompletionData;
-import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall;
 import org.consulo.php.lang.inspections.PhpUndefinedMethodCall;
 import org.consulo.php.lang.inspections.PhpUndefinedVariable;
 import org.consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.completion.CompletionUtil;
 import com.intellij.codeInspection.InspectionToolProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlFileNSInfoProvider;
-import com.intellij.xml.util.XmlUtil;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,7 +33,7 @@ public class PHPSupportApplicationComponent implements ApplicationComponent, Ins
 		{
 			public void run()
 			{
-				CompletionUtil.registerCompletionData(PHPFileType.INSTANCE, new PhpCompletionData());
+				CompletionUtil.registerCompletionData(PhpFileType.INSTANCE, new PhpCompletionData());
 			}
 		});
 	}

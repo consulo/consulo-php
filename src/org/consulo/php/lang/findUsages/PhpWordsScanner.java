@@ -1,6 +1,6 @@
 package org.consulo.php.lang.findUsages;
 
-import org.consulo.php.lang.lexer.PHPFlexAdapter;
+import org.consulo.php.lang.lexer.PhpFlexAdapter;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 
 import com.intellij.lang.cacheBuilder.WordOccurrence;
@@ -21,7 +21,7 @@ public class PhpWordsScanner implements WordsScanner
 
 	public PhpWordsScanner()
 	{
-		lexer = new PHPFlexAdapter(PhpLanguageLevel.HIGHEST);
+		lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
 	}
 
 	public void processWords(CharSequence fileText, final Processor<WordOccurrence> processor)

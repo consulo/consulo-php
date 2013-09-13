@@ -6,7 +6,7 @@ import java.util.List;
 import org.consulo.php.lang.psi.elements.Else;
 import org.consulo.php.lang.psi.elements.ElseIf;
 import org.consulo.php.lang.psi.elements.If;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class IfImpl extends PHPPsiElementImpl implements If
 		super(node);
 	}
 
-	public PHPPsiElement getCondition()
+	public PhpElement getCondition()
 	{
 		return getFirstPsiChild();
 	}
@@ -53,7 +53,7 @@ public class IfImpl extends PHPPsiElementImpl implements If
 	}
 
 	@SuppressWarnings({"ConstantConditions"})
-	public PHPPsiElement getStatement()
+	public PhpElement getStatement()
 	{
 		if(getCondition() != null)
 			return getCondition().getNextPsiSibling();
@@ -97,9 +97,9 @@ public class IfImpl extends PHPPsiElementImpl implements If
 				return false;
 			}
 		}
-		else if(lastParent instanceof PHPPsiElement)
+		else if(lastParent instanceof PhpElement)
 		{
-			PHPPsiElement statement = ((PHPPsiElement) lastParent).getPrevPsiSibling();
+			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))

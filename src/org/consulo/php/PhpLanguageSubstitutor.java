@@ -6,7 +6,7 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.LanguageSubstitutor;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.module.extension.PhpModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +28,6 @@ public class PhpLanguageSubstitutor extends LanguageSubstitutor {
 			return null;
 		}
 
-		return PHPLanguage.INSTANCE;
+		return PhpLanguage.INSTANCE;
 	}
 }

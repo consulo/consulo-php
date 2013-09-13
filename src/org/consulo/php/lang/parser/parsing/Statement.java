@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.parsing.statements.*;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -54,14 +54,14 @@ public class Statement implements PHPTokenTypes
 	//			non_empty_catch_clauses
 	//		| kwTHROW expr ';'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		//		'{' statement_list '}'
 		if(builder.compareAndEat(chLBRACE))
 		{
 			StatementList.parse(builder, chRBRACE);
 			builder.match(chRBRACE);
-			return PHPElementTypes.GROUP_STATEMENT;
+			return PhpElementTypes.GROUP_STATEMENT;
 		}
 		//		HTML
 		if(builder.compare(TokenSet.create(HTML, PHP_CLOSING_TAG)))
@@ -70,29 +70,29 @@ public class Statement implements PHPTokenTypes
 			PsiBuilder.Marker html = builder.mark();
 			if(builder.compareAndEat(HTML))
 			{
-				html.done(PHPElementTypes.HTML);
+				html.done(PhpElementTypes.HTML);
 			}
 			else
 			{
 				html.drop();
 			}
 			builder.compareAndEat(TokenSet.create(PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG));
-			return PHPElementTypes.HTML;
+			return PhpElementTypes.HTML;
 		}
 		//		';' /* empty statement */
 		if(builder.compare(opSEMICOLON))
 		{
 			PsiBuilder.Marker statement = builder.mark();
 			builder.advanceLexer();
-			statement.done(PHPElementTypes.STATEMENT);
-			return PHPElementTypes.STATEMENT;
+			statement.done(PhpElementTypes.STATEMENT);
+			return PhpElementTypes.STATEMENT;
 		}
 		IElementType result = parseStatementByKeyword(builder);
 		//		expr ';'
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			result = Expression.parse(builder);
-			if(result != PHPElementTypes.EMPTY_INPUT && builder.getTokenType() != PHPTokenTypes.PHP_CLOSING_TAG)
+			if(result != PhpElementTypes.EMPTY_INPUT && builder.getTokenType() != PHPTokenTypes.PHP_CLOSING_TAG)
 			{
 				builder.match(opSEMICOLON);
 			}
@@ -131,11 +131,11 @@ public class Statement implements PHPTokenTypes
 	//			non_empty_catch_clauses
 	//		| kwTHROW expr ';'
 	//	;
-	private static IElementType parseStatementByKeyword(PHPPsiBuilder builder)
+	private static IElementType parseStatementByKeyword(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(tsSTATEMENT_FIRST_TOKENS))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		if(builder.compare(kwIF))
 			return IfStatement.parse(builder);
@@ -169,6 +169,6 @@ public class Statement implements PHPTokenTypes
 			return TryStatement.parse(builder);
 		if(builder.compare(kwTHROW))
 			return ThrowStatement.parse(builder);
-		return PHPElementTypes.EMPTY_INPUT;
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 }

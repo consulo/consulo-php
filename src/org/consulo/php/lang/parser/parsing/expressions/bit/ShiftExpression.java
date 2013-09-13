@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.expressions.bit;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.math.AdditiveExpression;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -21,24 +21,24 @@ public class ShiftExpression implements PHPTokenTypes
 
 	private static TokenSet SHIFT_OPERATORS = TokenSet.create(opSHIFT_LEFT, opSHIFT_RIGHT);
 
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		IElementType result = AdditiveExpression.parse(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT && builder.compareAndEat(SHIFT_OPERATORS))
+		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(SHIFT_OPERATORS))
 		{
 			result = AssignmentExpression.parseWithoutPriority(builder);
-			if(result == PHPElementTypes.EMPTY_INPUT)
+			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
 				result = AdditiveExpression.parse(builder);
 			}
-			if(result == PHPElementTypes.EMPTY_INPUT)
+			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
-				builder.error(PHPParserErrors.expected("expression"));
+				builder.error(PhpParserErrors.expected("expression"));
 			}
 			PsiBuilder.Marker newMarker = marker.precede();
-			marker.done(PHPElementTypes.SHIFT_EXPRESSION);
-			result = PHPElementTypes.SHIFT_EXPRESSION;
+			marker.done(PhpElementTypes.SHIFT_EXPRESSION);
+			result = PhpElementTypes.SHIFT_EXPRESSION;
 			if(builder.compareAndEat(SHIFT_OPERATORS))
 			{
 				subParse(builder, newMarker);
@@ -55,19 +55,19 @@ public class ShiftExpression implements PHPTokenTypes
 		return result;
 	}
 
-	private static IElementType subParse(PHPPsiBuilder builder, PsiBuilder.Marker marker)
+	private static IElementType subParse(PhpPsiBuilder builder, PsiBuilder.Marker marker)
 	{
 		IElementType result = AssignmentExpression.parseWithoutPriority(builder);
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			result = AdditiveExpression.parse(builder);
 		}
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
-			builder.error(PHPParserErrors.expected("expression"));
+			builder.error(PhpParserErrors.expected("expression"));
 		}
 		PsiBuilder.Marker newMarker = marker.precede();
-		marker.done(PHPElementTypes.SHIFT_EXPRESSION);
+		marker.done(PhpElementTypes.SHIFT_EXPRESSION);
 		if(builder.compareAndEat(SHIFT_OPERATORS))
 		{
 			subParse(builder, newMarker);
@@ -76,6 +76,6 @@ public class ShiftExpression implements PHPTokenTypes
 		{
 			newMarker.drop();
 		}
-		return PHPElementTypes.SHIFT_EXPRESSION;
+		return PhpElementTypes.SHIFT_EXPRESSION;
 	}
 }

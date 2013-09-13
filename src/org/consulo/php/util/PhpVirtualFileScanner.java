@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.PhpFileType;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,7 +66,7 @@ public class PhpVirtualFileScanner
 	public static boolean isPhpFile(@NotNull final String fileName)
 	{
 		final FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(fileName);
-		return fileType instanceof PHPFileType;
+		return fileType instanceof PhpFileType;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.inspections;
 
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
@@ -21,7 +21,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 	@NotNull
 	public String getDisplayName()
 	{
-		return PHPBundle.message("php.inspections.undefined_method_call");
+		return PhpBundle.message("php.inspections.undefined_method_call");
 	}
 
 	@NotNull
@@ -37,7 +37,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 					final ResolveResult[] results = ((PsiPolyVariantReference) reference.getReference()).multiResolve(false);
 					if(results.length == 0)
 					{
-						holder.registerProblem(reference, PHPBundle.message("php.inspections.undefined_method_call"));
+						holder.registerProblem(reference, PhpBundle.message("php.inspections.undefined_method_call"));
 					}
 				}
 			}

@@ -4,7 +4,7 @@ package org.consulo.php.lang.psi.elements;
  * @author jay
  * @date Apr 8, 2008 1:53:42 PM
  */
-public interface PhpClass extends PHPPsiElement, PhpNamedElement
+public interface PhpClass extends PhpElement, PhpNamedElement
 {
 	static String CONSTRUCTOR = "__construct";
 

@@ -3,7 +3,7 @@ package org.consulo.php;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageVersion;
 import org.consulo.annotations.Immutable;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.consulo.util.pointers.Named;
 import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +46,7 @@ public enum PhpLanguageLevel implements LanguageVersion, Named, NamedPointer<Php
 
 	@Override
 	public Language getLanguage() {
-		return PHPLanguage.INSTANCE;
+		return PhpLanguage.INSTANCE;
 	}
 
 	@NotNull

@@ -1,12 +1,12 @@
 package org.consulo.php.lang.parser.parsing.calls;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -27,15 +27,15 @@ public class Function implements PHPTokenTypes
 	//			function_call_parameter_list ')'
 	//		| variable_without_objects '(' function_call_parameter_list ')'
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker variable = builder.mark();
 		IElementType result = Variable.parseVariableWithoutObjects(builder);
-		if(result != PHPElementTypes.EMPTY_INPUT)
+		if(result != PhpElementTypes.EMPTY_INPUT)
 		{
 			variable.done(result);
 			parseFunctionCallParameterList(builder);
-			return PHPElementTypes.FUNCTION_CALL;
+			return PhpElementTypes.FUNCTION_CALL;
 		}
 		variable.drop();
 		if(builder.compare(IDENTIFIER))
@@ -57,12 +57,12 @@ public class Function implements PHPTokenTypes
 					if(builder.compare(chLPAREN))
 					{
 						parseFunctionCallParameterList(builder);
-						return PHPElementTypes.METHOD_REFERENCE;
+						return PhpElementTypes.METHOD_REFERENCE;
 					}
 					else
 					{
 						rollback.rollbackTo();
-						return PHPElementTypes.EMPTY_INPUT;
+						return PhpElementTypes.EMPTY_INPUT;
 					}
 				}
 				else
@@ -71,17 +71,17 @@ public class Function implements PHPTokenTypes
 					result = Variable.parseVariableWithoutObjects(builder);
 					variable.done(result);
 					parseFunctionCallParameterList(builder);
-					return PHPElementTypes.METHOD_REFERENCE;
+					return PhpElementTypes.METHOD_REFERENCE;
 				}
 			}
 			else
 			{
 				rollback.rollbackTo();
-				return PHPElementTypes.EMPTY_INPUT;
+				return PhpElementTypes.EMPTY_INPUT;
 			}
-			return PHPElementTypes.FUNCTION_CALL;
+			return PhpElementTypes.FUNCTION_CALL;
 		}
-		return PHPElementTypes.EMPTY_INPUT;
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 
 	//	function_call_parameter_list:
@@ -97,13 +97,13 @@ public class Function implements PHPTokenTypes
 	//		| non_empty_function_call_parameter_list ',' variable
 	//		| non_empty_function_call_parameter_list ',' '&' variable //write
 	//	;
-	public static void parseFunctionCallParameterList(PHPPsiBuilder builder)
+	public static void parseFunctionCallParameterList(PhpPsiBuilder builder)
 	{
 		builder.match(chLPAREN);
 
 		ParserPart functionParameter = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(builder.compareAndEat(opBIT_AND))
 				{
@@ -117,9 +117,9 @@ public class Function implements PHPTokenTypes
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, functionParameter.parse(builder), functionParameter, false);
 		if(builder.compareAndEat(opCOMMA))
 		{
-			builder.error(PHPParserErrors.expected("expression"));
+			builder.error(PhpParserErrors.expected("expression"));
 		}
-		paramList.done(PHPElementTypes.PARAMETER_LIST);
+		paramList.done(PhpElementTypes.PARAMETER_LIST);
 
 		builder.match(chRPAREN);
 	}

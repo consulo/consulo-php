@@ -5,8 +5,8 @@ import com.intellij.lexer.LayeredLexer;
 import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import org.consulo.php.lang.lexer.PHPFlexLexer;
-import org.consulo.php.lang.lexer.PHPStringLiteralLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
+import org.consulo.php.lang.lexer.PhpStringLiteralLexer;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.PhpLanguageLevel;
 
@@ -21,14 +21,14 @@ public class PHPHighlightingLexer extends LayeredLexer
 {
 	public PHPHighlightingLexer(PhpLanguageLevel languageLevel)
 	{
-		super(new FlexAdapter(new PHPFlexLexer(true, languageLevel)));
+		super(new FlexAdapter(new PhpFlexLexer(true, languageLevel)));
 		LayeredLexer docLexer = new LayeredLexer(new PhpDocLexer());
 		registerSelfStoppingLayer(docLexer, new IElementType[]{PHPTokenTypes.DOC_COMMENT}, new IElementType[]{PhpDocTokenTypes.DOC_COMMENT_END});
 
 		//Lexer lexer = getHtmlHighlightingLexer();
 		//docLexer.registerLayer(lexer, PHPTokenTypes.DOC_COMMENT);
 		// @todo do it!
-		registerLayer(new PHPStringLiteralLexer(PHPStringLiteralLexer.NO_QUOTE_CHAR, PHPTokenTypes.STRING_LITERAL, PHPStringLiteralLexer.TYPE_DOUBLE_QUOTE), new IElementType[]{PHPTokenTypes.STRING_LITERAL});
-		registerLayer(new PHPStringLiteralLexer(PHPStringLiteralLexer.NO_QUOTE_CHAR, PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE, PHPStringLiteralLexer.TYPE_SINGLE_QUOTE), new IElementType[]{PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE});
+		registerLayer(new PhpStringLiteralLexer(PhpStringLiteralLexer.NO_QUOTE_CHAR, PHPTokenTypes.STRING_LITERAL, PhpStringLiteralLexer.TYPE_DOUBLE_QUOTE), new IElementType[]{PHPTokenTypes.STRING_LITERAL});
+		registerLayer(new PhpStringLiteralLexer(PhpStringLiteralLexer.NO_QUOTE_CHAR, PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE, PhpStringLiteralLexer.TYPE_SINGLE_QUOTE), new IElementType[]{PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE});
 	}
 }

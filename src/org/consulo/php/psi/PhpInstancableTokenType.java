@@ -3,8 +3,8 @@ package org.consulo.php.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ReflectionUtil;
-import org.consulo.php.lang.PHPLanguage;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.PhpLanguage;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,10 +15,10 @@ import java.lang.reflect.Constructor;
  * @since 18.07.13.
  */
 public class PhpInstancableTokenType extends IElementType {
-	private final Constructor<? extends PHPPsiElement> myConstructor;
+	private final Constructor<? extends PhpElement> myConstructor;
 
-	public PhpInstancableTokenType(@NotNull @NonNls String debugName, @NotNull Class<? extends PHPPsiElement> clazz) {
-		super(debugName, PHPLanguage.INSTANCE);
+	public PhpInstancableTokenType(@NotNull @NonNls String debugName, @NotNull Class<? extends PhpElement> clazz) {
+		super(debugName, PhpLanguage.INSTANCE);
 		try {
 			myConstructor = clazz.getConstructor(ASTNode.class);
 		} catch (NoSuchMethodException e) {
@@ -26,7 +26,7 @@ public class PhpInstancableTokenType extends IElementType {
 		}
 	}
 
-	public PHPPsiElement createPsi(ASTNode astNode) {
+	public PhpElement createPsi(ASTNode astNode) {
 		return ReflectionUtil.createInstance(myConstructor, astNode);
 	}
 }

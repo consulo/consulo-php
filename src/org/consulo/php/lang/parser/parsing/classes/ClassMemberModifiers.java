@@ -1,9 +1,9 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -20,36 +20,36 @@ public class ClassMemberModifiers implements PHPTokenTypes
 	//		non_empty_member_modifiers
 	//		| kwVAR
 	//	;
-	public static IElementType parseVariableModifiers(PHPPsiBuilder builder)
+	public static IElementType parseVariableModifiers(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(tsVARIABLE_MODIFIERS))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker modifiers = builder.mark();
 		if(builder.compareAndEat(kwVAR))
 		{
-			modifiers.done(PHPElementTypes.MODIFIER_LIST);
-			return PHPElementTypes.MODIFIER_LIST;
+			modifiers.done(PhpElementTypes.MODIFIER_LIST);
+			return PhpElementTypes.MODIFIER_LIST;
 		}
 		parseModifiers(builder);
-		modifiers.done(PHPElementTypes.MODIFIER_LIST);
-		return PHPElementTypes.MODIFIER_LIST;
+		modifiers.done(PhpElementTypes.MODIFIER_LIST);
+		return PhpElementTypes.MODIFIER_LIST;
 	}
 
 	//	method_modifiers:
 	//		/* empty */
 	//		| non_empty_member_modifiers
 	//	;
-	public static IElementType parseMethodModifiers(PHPPsiBuilder builder)
+	public static IElementType parseMethodModifiers(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker modifiers = builder.mark();
 		if(builder.compare(tsMODIFIERS))
 		{
 			parseModifiers(builder);
 		}
-		modifiers.done(PHPElementTypes.MODIFIER_LIST);
-		return PHPElementTypes.MODIFIER_LIST;
+		modifiers.done(PhpElementTypes.MODIFIER_LIST);
+		return PhpElementTypes.MODIFIER_LIST;
 	}
 
 	//	non_empty_member_modifiers:
@@ -65,11 +65,11 @@ public class ClassMemberModifiers implements PHPTokenTypes
 	//		| kwABSTRACT
 	//		| kwFINAL
 	//	;
-	private static void parseModifiers(PHPPsiBuilder builder)
+	private static void parseModifiers(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(tsMODIFIERS))
 		{
-			builder.error(PHPParserErrors.expected("modifier"));
+			builder.error(PhpParserErrors.expected("modifier"));
 		}
 		while(builder.compare(tsMODIFIERS))
 		{

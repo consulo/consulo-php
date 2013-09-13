@@ -1,30 +1,29 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
-import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
-import org.consulo.php.lang.parser.parsing.StatementList;
-import org.consulo.php.lang.parser.parsing.classes.ClassReference;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.parsing.StatementList;
+import org.consulo.php.lang.parser.parsing.classes.ClassReference;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
  * User: markov
  * Date: 08.11.2007
  */
-public class TryStatement implements PHPTokenTypes
+public class TryStatement implements PhpTokenTypes
 {
 
 	//	kwTRY '{' statement_list '}'
 	//		non_empty_catch_clauses
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwTRY))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
@@ -34,8 +33,8 @@ public class TryStatement implements PHPTokenTypes
 		builder.match(chRBRACE);
 		parseCatchClauses(builder);
 
-		statement.done(PHPElementTypes.TRY);
-		return PHPElementTypes.TRY;
+		statement.done(PhpElementTypes.TRY);
+		return PhpElementTypes.TRY;
 	}
 
 	//	catch_clause:
@@ -46,39 +45,39 @@ public class TryStatement implements PHPTokenTypes
 	//		catch_clause
 	//		| non_empty_catch_clauses catch_clause
 	//	;
-	private static void parseCatchClauses(PHPPsiBuilder builder)
+	private static void parseCatchClauses(PhpPsiBuilder builder)
 	{
-		if(parseCatchClause(builder) == PHPElementTypes.EMPTY_INPUT)
+		if(parseCatchClause(builder) == PhpElementTypes.EMPTY_INPUT)
 		{
-			builder.error(PHPParserErrors.expected("catch clause"));
+			builder.error(PhpParserErrors.expected("catch clause"));
 		}
 		//noinspection StatementWithEmptyBody
-		while(parseCatchClause(builder) != PHPElementTypes.EMPTY_INPUT)
+		while(parseCatchClause(builder) != PhpElementTypes.EMPTY_INPUT)
 			;
 	}
 
-	private static IElementType parseCatchClause(PHPPsiBuilder builder)
+	private static IElementType parseCatchClause(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwCATCH))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker catchClause = builder.mark();
 		builder.advanceLexer();
 		builder.match(chLPAREN);
-		if(ClassReference.parse(builder) == PHPElementTypes.EMPTY_INPUT)
+		if(ClassReference.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 		{
-			builder.error(PHPParserErrors.expected("exception class"));
+			builder.error(PhpParserErrors.expected("exception class"));
 		}
 		PsiBuilder.Marker variable = builder.mark();
 		builder.match(VARIABLE);
-		variable.done(PHPElementTypes.VARIABLE_REFERENCE);
+		variable.done(PhpElementTypes.VARIABLE_REFERENCE);
 
 		builder.match(chRPAREN);
 		builder.match(chLBRACE);
 		StatementList.parse(builder, chRBRACE);
 		builder.match(chRBRACE);
-		catchClause.done(PHPElementTypes.CATCH);
-		return PHPElementTypes.CATCH;
+		catchClause.done(PhpElementTypes.CATCH);
+		return PhpElementTypes.CATCH;
 	}
 }

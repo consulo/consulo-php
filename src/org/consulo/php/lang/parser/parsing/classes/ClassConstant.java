@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -22,31 +22,31 @@ public class ClassConstant implements PHPTokenTypes
 	//		class_constant_declaration ',' IDENTIFIER '=' static_scalar
 	//		| kwCONST IDENTIFIER '=' static_scalar
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compareAndEat(kwCONST))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 
 		ParserPart constantParser = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(IDENTIFIER))
 				{
-					return PHPElementTypes.EMPTY_INPUT;
+					return PhpElementTypes.EMPTY_INPUT;
 				}
 				PsiBuilder.Marker classConstant = builder.mark();
 				builder.match(IDENTIFIER);
 				builder.match(opASGN);
 				StaticScalar.parse(builder);
-				classConstant.done(PHPElementTypes.CLASS_CONSTANT);
-				return PHPElementTypes.CLASS_CONSTANT;
+				classConstant.done(PhpElementTypes.CLASS_CONSTANT);
+				return PhpElementTypes.CLASS_CONSTANT;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, constantParser.parse(builder), constantParser, false);
-		return PHPElementTypes.CLASS_CONSTANT;
+		return PhpElementTypes.CLASS_CONSTANT;
 	}
 
 }

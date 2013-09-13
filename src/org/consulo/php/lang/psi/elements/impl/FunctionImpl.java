@@ -7,7 +7,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.psi.elements.Function;
 import org.consulo.php.lang.psi.elements.PhpParameter;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
@@ -76,6 +76,6 @@ public class FunctionImpl extends PhpNamedElementImpl implements Function
 	@Override
 	public Icon getIcon()
 	{
-		return PHPIcons.FIELD;
+		return PhpIcons.FIELD;
 	}
 }

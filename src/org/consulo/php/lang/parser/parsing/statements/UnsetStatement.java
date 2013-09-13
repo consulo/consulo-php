@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -19,11 +19,11 @@ public class UnsetStatement implements PHPTokenTypes
 {
 
 	//	kwUNSET '(' unset_variables ')' ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwUNSET))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker unset = builder.mark();
 		builder.advanceLexer();
@@ -34,19 +34,19 @@ public class UnsetStatement implements PHPTokenTypes
 		{
 			builder.match(opSEMICOLON);
 		}
-		unset.done(PHPElementTypes.UNSET);
-		return PHPElementTypes.UNSET;
+		unset.done(PhpElementTypes.UNSET);
+		return PhpElementTypes.UNSET;
 	}
 
 	//	unset_variables:
 	//		variable
 	//		| unset_variables ',' variable
 	//	;
-	private static void parseUnsetVariables(PHPPsiBuilder builder)
+	private static void parseUnsetVariables(PhpPsiBuilder builder)
 	{
 		ParserPart variable = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return Variable.parse(builder);
 			}

@@ -1,9 +1,9 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -17,11 +17,11 @@ public class ThrowStatement implements PHPTokenTypes
 {
 
 	//	kwTHROW expr ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwTHROW))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
@@ -30,7 +30,7 @@ public class ThrowStatement implements PHPTokenTypes
 		{
 			builder.match(opSEMICOLON);
 		}
-		statement.done(PHPElementTypes.THROW);
-		return PHPElementTypes.THROW;
+		statement.done(PhpElementTypes.THROW);
+		return PhpElementTypes.THROW;
 	}
 }

@@ -1,6 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
-import org.consulo.php.lang.lexer.PHPFlexLexer;
+import org.consulo.php.lang.lexer.PhpFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +14,7 @@ public class LineCommentManager extends ReadingManager
 	public static int END_SEEN = 0;
 	public static int CLOSING_TAG_SEEN = -1;
 
-	public LineCommentManager(PHPFlexLexer lexer)
+	public LineCommentManager(PhpFlexLexer lexer)
 	{
 		super(lexer);
 	}

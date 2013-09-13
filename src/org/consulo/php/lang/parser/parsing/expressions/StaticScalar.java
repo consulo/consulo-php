@@ -1,9 +1,9 @@
 package org.consulo.php.lang.parser.parsing.expressions;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.StaticClassConstant;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -24,35 +24,35 @@ public class StaticScalar implements PHPTokenTypes
 	//		| kwARRAY '(' static_array_pair_list ')'
 	//		| static_class_constant
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker staticScalar = builder.mark();
 		IElementType result = StaticClassConstant.parse(builder);
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			if(builder.compareAndEat(opPLUS) || builder.compareAndEat(opMINUS))
 			{
 				parse(builder);
-				staticScalar.done(PHPElementTypes.STATIC_SCALAR);
-				result = PHPElementTypes.STATIC_SCALAR;
+				staticScalar.done(PhpElementTypes.STATIC_SCALAR);
+				result = PhpElementTypes.STATIC_SCALAR;
 			}
 			else if(builder.compareAndEat(kwARRAY))
 			{
 				builder.match(chLPAREN);
 				StaticArrayPairList.parse(builder);
 				builder.match(chRPAREN);
-				staticScalar.done(PHPElementTypes.ARRAY);
-				result = PHPElementTypes.ARRAY;
+				staticScalar.done(PhpElementTypes.ARRAY);
+				result = PhpElementTypes.ARRAY;
 			}
 			else if(builder.compareAndEat(IDENTIFIER))
 			{
-				staticScalar.done(PHPElementTypes.CONSTANT);
-				result = PHPElementTypes.CONSTANT;
+				staticScalar.done(PhpElementTypes.CONSTANT);
+				result = PhpElementTypes.CONSTANT;
 			}
 			else
 			{
 				result = parseCommonScalar(builder);
-				if(result != PHPElementTypes.EMPTY_INPUT)
+				if(result != PhpElementTypes.EMPTY_INPUT)
 				{
 					staticScalar.drop();
 				}
@@ -62,7 +62,7 @@ public class StaticScalar implements PHPTokenTypes
 		{
 			staticScalar.drop();
 		}
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			staticScalar.rollbackTo();
 		}
@@ -87,7 +87,7 @@ public class StaticScalar implements PHPTokenTypes
 	 * @param builder current PsiBuilder wrapper
 	 * @return EMPTY_INPUT on empty input, COMMON_SCALAR on success
 	 */
-	public static IElementType parseCommonScalar(PHPPsiBuilder builder)
+	public static IElementType parseCommonScalar(PhpPsiBuilder builder)
 	{
 		if(builder.compare(tsCOMMON_SCALARS))
 		{
@@ -96,19 +96,19 @@ public class StaticScalar implements PHPTokenTypes
 			builder.advanceLexer();
 			if(TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL).contains(type))
 			{
-				scalar.done(PHPElementTypes.NUMBER);
+				scalar.done(PhpElementTypes.NUMBER);
 			}
 			else if(TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE).contains(type))
 			{
-				scalar.done(PHPElementTypes.STRING);
+				scalar.done(PhpElementTypes.STRING);
 			}
 			else
 			{
-				scalar.done(PHPElementTypes.CONSTANT);
+				scalar.done(PhpElementTypes.CONSTANT);
 			}
-			return PHPElementTypes.COMMON_SCALAR;
+			return PhpElementTypes.COMMON_SCALAR;
 		}
-		return PHPElementTypes.EMPTY_INPUT;
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 
 }

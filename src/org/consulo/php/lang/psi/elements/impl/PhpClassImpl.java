@@ -8,7 +8,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
@@ -90,12 +90,12 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@NotNull
 	public Icon getIcon() {
 		if (isAbstract()) {
-			return PHPIcons.ABSTRACT_CLASS;
+			return PhpIcons.ABSTRACT_CLASS;
 		}
 		if (isFinal()) {
-			return PHPIcons.FINAL_CLASS;
+			return PhpIcons.FINAL_CLASS;
 		}
-		return PHPIcons.CLASS;
+		return PhpIcons.CLASS;
 	}
 
 	@Override
@@ -131,17 +131,17 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	public PHPPsiElement getFirstPsiChild() {
+	public PhpElement getFirstPsiChild() {
 		return null;
 	}
 
 	@Override
-	public PHPPsiElement getNextPsiSibling() {
+	public PhpElement getNextPsiSibling() {
 		return null;
 	}
 
 	@Override
-	public PHPPsiElement getPrevPsiSibling() {
+	public PhpElement getPrevPsiSibling() {
 		return null;
 	}
 

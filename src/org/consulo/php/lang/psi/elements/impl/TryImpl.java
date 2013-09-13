@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi.elements.impl;
 
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.Try;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
@@ -23,7 +23,7 @@ public class TryImpl extends PHPPsiElementImpl implements Try
 		super(node);
 	}
 
-	public PHPPsiElement getStatement()
+	public PhpElement getStatement()
 	{
 		return getFirstPsiChild();
 	}

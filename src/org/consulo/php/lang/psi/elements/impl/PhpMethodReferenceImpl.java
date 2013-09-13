@@ -71,7 +71,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements PhpMe
 	@Nullable
 	public PhpClassReference getClassReference()
 	{
-		PHPPsiElement reference = getFirstPsiChild();
+		PhpElement reference = getFirstPsiChild();
 		if(reference instanceof PhpClassReference)
 		{
 			return (PhpClassReference) reference;

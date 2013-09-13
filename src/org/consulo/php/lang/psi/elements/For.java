@@ -4,15 +4,15 @@ package org.consulo.php.lang.psi.elements;
  * @author jay
  * @date Jul 2, 2008 3:21:58 AM
  */
-public interface For extends PHPPsiElement
+public interface For extends PhpElement
 {
 
-	public PHPPsiElement getInitialExpression();
+	public PhpElement getInitialExpression();
 
-	public PHPPsiElement getConditionalExpression();
+	public PhpElement getConditionalExpression();
 
-	public PHPPsiElement getRepeatedExpression();
+	public PhpElement getRepeatedExpression();
 
-	public PHPPsiElement getStatement();
+	public PhpElement getStatement();
 
 }

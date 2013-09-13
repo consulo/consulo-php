@@ -7,7 +7,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @date Apr 3, 2008 11:12:27 PM
  */
-public interface BinaryExpression extends PHPPsiElement
+public interface BinaryExpression extends PhpElement
 {
 
 	public PsiElement getLeftOperand();

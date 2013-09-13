@@ -1,13 +1,13 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.parsing.functions.IsReference;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -28,11 +28,11 @@ public class ForeachStatement implements PHPTokenTypes
 	//		/* empty */
 	//		| opHASH_ARRAY foreach_variable
 	//	;
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		if(!builder.compare(kwFOREACH))
 		{
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker foreach = builder.mark();
 		builder.advanceLexer();
@@ -48,15 +48,15 @@ public class ForeachStatement implements PHPTokenTypes
 		builder.match(chRPAREN);
 		parseForeachStatement(builder);
 
-		foreach.done(PHPElementTypes.FOREACH);
-		return PHPElementTypes.FOREACH;
+		foreach.done(PhpElementTypes.FOREACH);
+		return PhpElementTypes.FOREACH;
 	}
 
 	//	foreach_statement:
 	//		statement
 	//		| ':' statement_list kwENDFOREACH ';'
 	//	;
-	private static void parseForeachStatement(PHPPsiBuilder builder)
+	private static void parseForeachStatement(PhpPsiBuilder builder)
 	{
 		if(builder.compareAndEat(opCOLON))
 		{
@@ -77,7 +77,7 @@ public class ForeachStatement implements PHPTokenTypes
 	//		variable
 	//		| '&' variable
 	//	;
-	private static void parseForeachVariable(PHPPsiBuilder builder)
+	private static void parseForeachVariable(PhpPsiBuilder builder)
 	{
 		IsReference.parse(builder);
 		PsiBuilder.Marker variable = builder.mark();

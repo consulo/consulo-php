@@ -7,7 +7,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PHPIcons;
+import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
@@ -50,9 +50,9 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 	{
 		if(isStatic())
 		{
-			return PHPIcons.STATIC_METHOD;
+			return PhpIcons.STATIC_METHOD;
 		}
-		return PHPIcons.METHOD;
+		return PhpIcons.METHOD;
 	}
 
 	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
@@ -90,7 +90,7 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 
 	public boolean isFinal()
 	{
-		final PHPPsiElement modifierList = getFirstPsiChild();
+		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
 		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)
@@ -105,7 +105,7 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 
 	public boolean isAbstract()
 	{
-		final PHPPsiElement modifierList = getFirstPsiChild();
+		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
 		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)
@@ -126,7 +126,7 @@ public class PhpMethodImpl extends FunctionImpl implements PhpMethod
 
 	public boolean isStatic()
 	{
-		final PHPPsiElement modifierList = getFirstPsiChild();
+		final PhpElement modifierList = getFirstPsiChild();
 		//noinspection ConstantConditions
 		final ASTNode[] nodes = modifierList.getNode().getChildren(PHPTokenTypes.tsMODIFIERS);
 		for(ASTNode node : nodes)

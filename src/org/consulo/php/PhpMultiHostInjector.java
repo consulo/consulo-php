@@ -8,7 +8,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagValue;
 import com.intellij.psi.xml.XmlText;
-import org.consulo.php.lang.PHPLanguage;
+import org.consulo.php.lang.PhpLanguage;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,7 +40,7 @@ public class PhpMultiHostInjector implements MultiHostInjector {
 		XmlText textElement = textElements[0];
 
 		multiHostRegistrar
-				.startInjecting(PHPLanguage.INSTANCE)
+				.startInjecting(PhpLanguage.INSTANCE)
 				.addPlace("<?php", "?>", (PsiLanguageInjectionHost) textElement, new TextRange(0, textElement.getTextLength()))
 				.doneInjecting();
 	}

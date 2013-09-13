@@ -1,6 +1,6 @@
 package org.consulo.php.lang.inspections;
 
-import org.consulo.php.PHPBundle;
+import org.consulo.php.PhpBundle;
 import org.consulo.php.completion.PhpCompletionData;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
@@ -24,7 +24,7 @@ public class PhpUndefinedVariable extends PhpInspection
 	@NotNull
 	public String getDisplayName()
 	{
-		return PHPBundle.message("php.inspections.undefined_variable");
+		return PhpBundle.message("php.inspections.undefined_variable");
 	}
 
 	@NotNull
@@ -44,7 +44,7 @@ public class PhpUndefinedVariable extends PhpInspection
 					ResolveResult[] results = ((PsiPolyVariantReference) variable.getReference()).multiResolve(false);
 					if(results.length == 0)
 					{
-						holder.registerProblem(variable, PHPBundle.message("php.inspections.undefined_variable"));
+						holder.registerProblem(variable, PhpBundle.message("php.inspections.undefined_variable"));
 					}
 				}
 			}

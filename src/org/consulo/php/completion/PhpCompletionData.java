@@ -15,9 +15,8 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
-import org.consulo.php.lang.PHPFileType;
+import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NonNls;
 
 import java.io.InputStream;
@@ -128,7 +127,7 @@ public class PhpCompletionData extends CompletionData
 		{
 			public Object[] get(PsiElement psiElement, CompletionContext completionContext)
 			{
-				if(psiElement.getLanguage() != PHPFileType.INSTANCE.getLanguage())
+				if(psiElement.getLanguage() != PhpFileType.INSTANCE.getLanguage())
 				{
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}

@@ -3,7 +3,7 @@ package org.consulo.php.lang.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.managers.*;
-import org.consulo.php.lang.lexer.PHPTokenTypes;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import gnu.trove.THashSet;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import org.consulo.php.PhpLanguageLevel;
   private boolean myHighlightingMode;
   private PhpLanguageLevel myLanguageLevel;
 
-	public PHPFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
+	public PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
 		this((java.io.Reader)null);
 		myHighlightingMode = highlightingMode;
 		myLanguageLevel = languageLevel;
@@ -49,7 +49,7 @@ import org.consulo.php.PhpLanguageLevel;
 
 %}
 
-%class PHPFlexLexer
+%class PhpFlexLexer
 %implements FlexLexer
 %public
 %unicode
@@ -177,177 +177,177 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 <ST_IN_SCRIPTING>{
 //=========================KEYWORDS==================================
 //   oop
-	"class"                            { return PHPTokenTypes.kwCLASS; }
-	"interface"                        { return PHPTokenTypes.kwINTERFACE; }
-	"extends"                          { return PHPTokenTypes.kwEXTENDS; }
-	"implements"                       { return PHPTokenTypes.kwIMPLEMENTS; }
-	"var"                              { return PHPTokenTypes.kwVAR; }
-	"const"                            { return PHPTokenTypes.kwCONST; }
-	"public"                           { return PHPTokenTypes.kwPUBLIC; }
-	"protected"                        { return PHPTokenTypes.kwPROTECTED; }
-	"private"                          { return PHPTokenTypes.kwPRIVATE; }
-	"static"                           { return PHPTokenTypes.kwSTATIC; }
-	"final"                            { return PHPTokenTypes.kwFINAL; }
-	"abstract"                         { return PHPTokenTypes.kwABSTACT; }
-	"clone"                            { return PHPTokenTypes.kwCLONE; }
-	"new"                              { return PHPTokenTypes.kwNEW; }
-	"instanceof"                       { return PHPTokenTypes.kwINSTANCEOF; }
+	"class"                            { return PhpTokenTypes.kwCLASS; }
+	"interface"                        { return PhpTokenTypes.kwINTERFACE; }
+	"extends"                          { return PhpTokenTypes.kwEXTENDS; }
+	"implements"                       { return PhpTokenTypes.kwIMPLEMENTS; }
+	"var"                              { return PhpTokenTypes.kwVAR; }
+	"const"                            { return PhpTokenTypes.kwCONST; }
+	"public"                           { return PhpTokenTypes.kwPUBLIC; }
+	"protected"                        { return PhpTokenTypes.kwPROTECTED; }
+	"private"                          { return PhpTokenTypes.kwPRIVATE; }
+	"static"                           { return PhpTokenTypes.kwSTATIC; }
+	"final"                            { return PhpTokenTypes.kwFINAL; }
+	"abstract"                         { return PhpTokenTypes.kwABSTACT; }
+	"clone"                            { return PhpTokenTypes.kwCLONE; }
+	"new"                              { return PhpTokenTypes.kwNEW; }
+	"instanceof"                       { return PhpTokenTypes.kwINSTANCEOF; }
 
-	"namespace"                        { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PHPTokenTypes.NAMESPACE_KEYWORD : PHPTokenTypes.IDENTIFIER;}
-	"use"                              { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PHPTokenTypes.USE_KEYWORD : PHPTokenTypes.IDENTIFIER;}
+	"namespace"                        { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.NAMESPACE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
+	"use"                              { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.USE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
 
 	//   flow control
-	"if"                               { return opManager.process(PHPTokenTypes.kwIF); }
-	"elseif"                           { return opManager.process(PHPTokenTypes.kwELSEIF); }
-	"else"                             { return opManager.process(PHPTokenTypes.kwELSE); }
-	"do"                               { return opManager.process(PHPTokenTypes.kwDO); }
-	"while"                            { return opManager.process(PHPTokenTypes.kwWHILE); }
-	"break"                            { return opManager.process(PHPTokenTypes.kwBREAK); }
-	"switch"                           { return opManager.process(PHPTokenTypes.kwSWITCH); }
-	"case"                             { return opManager.process(PHPTokenTypes.kwCASE); }
-	"default"                          { return PHPTokenTypes.kwDEFAULT; }
-	"for"                              { return opManager.process(PHPTokenTypes.kwFOR); }
-	"foreach"                          { return PHPTokenTypes.kwFOREACH; }
-	"as"                               { return opManager.process(PHPTokenTypes.kwAS); }
-	"continue"                         { return opManager.process(PHPTokenTypes.kwCONTINUE); }
-	"declare"                          { return PHPTokenTypes.kwDECLARE; }
+	"if"                               { return opManager.process(PhpTokenTypes.kwIF); }
+	"elseif"                           { return opManager.process(PhpTokenTypes.kwELSEIF); }
+	"else"                             { return opManager.process(PhpTokenTypes.kwELSE); }
+	"do"                               { return opManager.process(PhpTokenTypes.kwDO); }
+	"while"                            { return opManager.process(PhpTokenTypes.kwWHILE); }
+	"break"                            { return opManager.process(PhpTokenTypes.kwBREAK); }
+	"switch"                           { return opManager.process(PhpTokenTypes.kwSWITCH); }
+	"case"                             { return opManager.process(PhpTokenTypes.kwCASE); }
+	"default"                          { return PhpTokenTypes.kwDEFAULT; }
+	"for"                              { return opManager.process(PhpTokenTypes.kwFOR); }
+	"foreach"                          { return PhpTokenTypes.kwFOREACH; }
+	"as"                               { return opManager.process(PhpTokenTypes.kwAS); }
+	"continue"                         { return opManager.process(PhpTokenTypes.kwCONTINUE); }
+	"declare"                          { return PhpTokenTypes.kwDECLARE; }
 
 	//   terminating flow
-	"endif"                            { return PHPTokenTypes.kwENDIF; }
-	"endwhile"                         { return PHPTokenTypes.kwENDWHILE; }
-	"endfor"                           { return PHPTokenTypes.kwENDFOR; }
-	"endforeach"                       { return PHPTokenTypes.kwENDFOREACH; }
-	"endswitch"                        { return PHPTokenTypes.kwENDSWITCH; }
-	"enddeclare"                       { return PHPTokenTypes.kwENDDECLARE; }
+	"endif"                            { return PhpTokenTypes.kwENDIF; }
+	"endwhile"                         { return PhpTokenTypes.kwENDWHILE; }
+	"endfor"                           { return PhpTokenTypes.kwENDFOR; }
+	"endforeach"                       { return PhpTokenTypes.kwENDFOREACH; }
+	"endswitch"                        { return PhpTokenTypes.kwENDSWITCH; }
+	"enddeclare"                       { return PhpTokenTypes.kwENDDECLARE; }
 
 	//   functions
-	"function"                         { return PHPTokenTypes.kwFUNCTION; }
-	"global"                           { return PHPTokenTypes.kwGLOBAL; }
-	"return"                           { return opManager.process(PHPTokenTypes.kwRETURN); }
-	"array"                            { return opManager.process(PHPTokenTypes.kwARRAY); }
-	"list"                             { return opManager.process(PHPTokenTypes.kwLIST); }
-	"print"                            { return opManager.process(PHPTokenTypes.kwPRINT); }
-	"echo"                             { return opManager.process(PHPTokenTypes.kwECHO); }
-	"empty"                            { return opManager.process(PHPTokenTypes.kwEMPTY); }
-	"eval"                             { return opManager.process(PHPTokenTypes.kwEVAL); }
-	"die"                              { return opManager.process(PHPTokenTypes.kwEXIT); }
-	"exit"                             { return opManager.process(PHPTokenTypes.kwEXIT); }
-	"isset"                            { return opManager.process(PHPTokenTypes.kwISSET); }
-	"unset"                            { return opManager.process(PHPTokenTypes.kwUNSET); }
+	"function"                         { return PhpTokenTypes.kwFUNCTION; }
+	"global"                           { return PhpTokenTypes.kwGLOBAL; }
+	"return"                           { return opManager.process(PhpTokenTypes.kwRETURN); }
+	"array"                            { return opManager.process(PhpTokenTypes.kwARRAY); }
+	"list"                             { return opManager.process(PhpTokenTypes.kwLIST); }
+	"print"                            { return opManager.process(PhpTokenTypes.kwPRINT); }
+	"echo"                             { return opManager.process(PhpTokenTypes.kwECHO); }
+	"empty"                            { return opManager.process(PhpTokenTypes.kwEMPTY); }
+	"eval"                             { return opManager.process(PhpTokenTypes.kwEVAL); }
+	"die"                              { return opManager.process(PhpTokenTypes.kwEXIT); }
+	"exit"                             { return opManager.process(PhpTokenTypes.kwEXIT); }
+	"isset"                            { return opManager.process(PhpTokenTypes.kwISSET); }
+	"unset"                            { return opManager.process(PhpTokenTypes.kwUNSET); }
 
 	//   includes
-	"include"                          { return opManager.process(PHPTokenTypes.kwINCLUDE); }
-	"include_once"                     { return opManager.process(PHPTokenTypes.kwINCLUDE_ONCE); }
-	"require"                          { return opManager.process(PHPTokenTypes.kwREQUIRE); }
-	"require_once"                     { return opManager.process(PHPTokenTypes.kwREQUIRE_ONCE); }
+	"include"                          { return opManager.process(PhpTokenTypes.kwINCLUDE); }
+	"include_once"                     { return opManager.process(PhpTokenTypes.kwINCLUDE_ONCE); }
+	"require"                          { return opManager.process(PhpTokenTypes.kwREQUIRE); }
+	"require_once"                     { return opManager.process(PhpTokenTypes.kwREQUIRE_ONCE); }
 
 	//   exception handling
-	"try"                              { return PHPTokenTypes.kwTRY; }
-	"catch"                            { return PHPTokenTypes.kwCATCH; }
-	"throw"                            { return PHPTokenTypes.kwTHROW; }
+	"try"                              { return PhpTokenTypes.kwTRY; }
+	"catch"                            { return PhpTokenTypes.kwCATCH; }
+	"throw"                            { return PhpTokenTypes.kwTHROW; }
 
 	//   magic constants
-	"__LINE__"                         { return opManager.process(PHPTokenTypes.CONST_LINE); }
-	"__FILE__"                         { return opManager.process(PHPTokenTypes.CONST_FILE); }
-	"__FUNCTION__"                     { return opManager.process(PHPTokenTypes.CONST_FUNCTION); }
-	"__CLASS__"                        { return opManager.process(PHPTokenTypes.CONST_CLASS); }
-	"__METHOD__"                       { return opManager.process(PHPTokenTypes.CONST_METHOD); }
+	"__LINE__"                         { return opManager.process(PhpTokenTypes.CONST_LINE); }
+	"__FILE__"                         { return opManager.process(PhpTokenTypes.CONST_FILE); }
+	"__FUNCTION__"                     { return opManager.process(PhpTokenTypes.CONST_FUNCTION); }
+	"__CLASS__"                        { return opManager.process(PhpTokenTypes.CONST_CLASS); }
+	"__METHOD__"                       { return opManager.process(PhpTokenTypes.CONST_METHOD); }
 }
 
 <ST_IN_SCRIPTING>{
 //   operators
-	[aA][nN][dD]                       { return opManager.process(PHPTokenTypes.opLIT_AND); }
-	[oO][rR]                           { return opManager.process(PHPTokenTypes.opLIT_OR); }
-	[xX][oO][rR]                       { return opManager.process(PHPTokenTypes.opLIT_XOR); }
+	[aA][nN][dD]                       { return opManager.process(PhpTokenTypes.opLIT_AND); }
+	[oO][rR]                           { return opManager.process(PhpTokenTypes.opLIT_OR); }
+	[xX][oO][rR]                       { return opManager.process(PhpTokenTypes.opLIT_XOR); }
 }
 
 <ST_IN_SCRIPTING>{
-	{INTEGER_LITERAL}                  { return opManager.process(PHPTokenTypes.INTEGER_LITERAL); }
-	{FLOAT_LITERAL}                    { return opManager.process(PHPTokenTypes.FLOAT_LITERAL); }
+	{INTEGER_LITERAL}                  { return opManager.process(PhpTokenTypes.INTEGER_LITERAL); }
+	{FLOAT_LITERAL}                    { return opManager.process(PhpTokenTypes.FLOAT_LITERAL); }
 }
 
 <ST_VAR_OFFSET>{
-	{INTEGER_LITERAL}                  { return PHPTokenTypes.VARIABLE_OFFSET_NUMBER; }
+	{INTEGER_LITERAL}                  { return PhpTokenTypes.VARIABLE_OFFSET_NUMBER; }
 }
 
 
 //========================OPERATORS===================================
 
 <ST_IN_SCRIPTING>{
-	{INTEGER_CAST}                     { return opManager.process(PHPTokenTypes.opINTEGER_CAST); }
-	{FLOAT_CAST}                       { return opManager.process(PHPTokenTypes.opFLOAT_CAST); }
-	{BOOLEAN_CAST}                     { return opManager.process(PHPTokenTypes.opBOOLEAN_CAST); }
-	{STRING_CAST}                      { return opManager.process(PHPTokenTypes.opSTRING_CAST); }
-	{ARRAY_CAST}                       { return opManager.process(PHPTokenTypes.opARRAY_CAST); }
-	{OBJECT_CAST}                      { return opManager.process(PHPTokenTypes.opOBJECT_CAST); }
-	{UNSET_CAST}                       { return opManager.process(PHPTokenTypes.opUNSET_CAST); }
+	{INTEGER_CAST}                     { return opManager.process(PhpTokenTypes.opINTEGER_CAST); }
+	{FLOAT_CAST}                       { return opManager.process(PhpTokenTypes.opFLOAT_CAST); }
+	{BOOLEAN_CAST}                     { return opManager.process(PhpTokenTypes.opBOOLEAN_CAST); }
+	{STRING_CAST}                      { return opManager.process(PhpTokenTypes.opSTRING_CAST); }
+	{ARRAY_CAST}                       { return opManager.process(PhpTokenTypes.opARRAY_CAST); }
+	{OBJECT_CAST}                      { return opManager.process(PhpTokenTypes.opOBJECT_CAST); }
+	{UNSET_CAST}                       { return opManager.process(PhpTokenTypes.opUNSET_CAST); }
 
-	"++"                               { return opManager.process(PHPTokenTypes.opINCREMENT); }
-	"--"                               { return opManager.process(PHPTokenTypes.opDECREMENT); }
-	"~"                                { return PHPTokenTypes.UNKNOWN_SYMBOL; }
-	"-"                                { return opManager.process(PHPTokenTypes.opMINUS); }
-	"+"                                { return opManager.process(PHPTokenTypes.opPLUS); }
-	"==="                              { return opManager.process(PHPTokenTypes.opIDENTICAL); }
-	"!=="                              { return opManager.process(PHPTokenTypes.opNOT_IDENTICAL); }
-	"=="                               { return opManager.process(PHPTokenTypes.opEQUAL); }
-	"!="                               { return opManager.process(PHPTokenTypes.opNOT_EQUAL); }
-	"<>"                               { return opManager.process(PHPTokenTypes.opNOT_EQUAL); }
-	"<<"                               { return opManager.process(PHPTokenTypes.opSHIFT_LEFT); }
-	">>"                               { return opManager.process(PHPTokenTypes.opSHIFT_RIGHT); }
-	"<="                               { return opManager.process(PHPTokenTypes.opLESS_OR_EQUAL); }
-	">="                               { return opManager.process(PHPTokenTypes.opGREATER_OR_EQUAL); }
-	">"                                { return opManager.process(PHPTokenTypes.opGREATER); }
-	"<"                                { return opManager.process(PHPTokenTypes.opLESS); }
-	">>="                              { return opManager.process(PHPTokenTypes.opSHIFT_RIGHT_ASGN); }
-	"<<="                              { return opManager.process(PHPTokenTypes.opSHIFT_LEFT_ASGN); }
-	"+="                               { return opManager.process(PHPTokenTypes.opPLUS_ASGN); }
-	"-="                               { return opManager.process(PHPTokenTypes.opMINUS_ASGN); }
-	"*="                               { return opManager.process(PHPTokenTypes.opMUL_ASGN); }
-	"/="                               { return opManager.process(PHPTokenTypes.opDIV_ASGN); }
-	"%="                               { return opManager.process(PHPTokenTypes.opREM_ASGN); }
-	".="                               { return opManager.process(PHPTokenTypes.opCONCAT_ASGN); }
-	"&="                               { return opManager.process(PHPTokenTypes.opBIT_AND_ASGN); }
-	"|="                               { return opManager.process(PHPTokenTypes.opBIT_OR_ASGN); }
-	"^="                               { return opManager.process(PHPTokenTypes.opBIT_XOR_ASGN); }
-	"="                                { return opManager.process(PHPTokenTypes.opASGN); }
-	"@"                                { return opManager.process(PHPTokenTypes.opSILENCE); }
-	"&"                                { return opManager.process(PHPTokenTypes.opBIT_AND); }
-	"|"                                { return opManager.process(PHPTokenTypes.opBIT_OR); }
-	"^"                                { return opManager.process(PHPTokenTypes.opBIT_XOR); }
-	"."                                { return opManager.process(PHPTokenTypes.opCONCAT); }
-	"&&"                               { return opManager.process(PHPTokenTypes.opAND); }
-	"||"                               { return opManager.process(PHPTokenTypes.opOR); }
-	","                                { return opManager.process(PHPTokenTypes.opCOMMA); }
-	"?"                                { return opManager.process(PHPTokenTypes.opQUEST); }
-	"%"                                { return opManager.process(PHPTokenTypes.opREM); }
-	"!"                                { return opManager.process(PHPTokenTypes.opNOT); }
-	":"                                { return opManager.process(PHPTokenTypes.opCOLON); }
-	";"                                { return opManager.process(PHPTokenTypes.opSEMICOLON); }
-	"*"                                { return opManager.process(PHPTokenTypes.opMUL); }
-	"/"                                { return opManager.process(PHPTokenTypes.opDIV); }
-	"=>"                               { return opManager.process(PHPTokenTypes.opHASH_ARRAY); }
+	"++"                               { return opManager.process(PhpTokenTypes.opINCREMENT); }
+	"--"                               { return opManager.process(PhpTokenTypes.opDECREMENT); }
+	"~"                                { return PhpTokenTypes.UNKNOWN_SYMBOL; }
+	"-"                                { return opManager.process(PhpTokenTypes.opMINUS); }
+	"+"                                { return opManager.process(PhpTokenTypes.opPLUS); }
+	"==="                              { return opManager.process(PhpTokenTypes.opIDENTICAL); }
+	"!=="                              { return opManager.process(PhpTokenTypes.opNOT_IDENTICAL); }
+	"=="                               { return opManager.process(PhpTokenTypes.opEQUAL); }
+	"!="                               { return opManager.process(PhpTokenTypes.opNOT_EQUAL); }
+	"<>"                               { return opManager.process(PhpTokenTypes.opNOT_EQUAL); }
+	"<<"                               { return opManager.process(PhpTokenTypes.opSHIFT_LEFT); }
+	">>"                               { return opManager.process(PhpTokenTypes.opSHIFT_RIGHT); }
+	"<="                               { return opManager.process(PhpTokenTypes.opLESS_OR_EQUAL); }
+	">="                               { return opManager.process(PhpTokenTypes.opGREATER_OR_EQUAL); }
+	">"                                { return opManager.process(PhpTokenTypes.opGREATER); }
+	"<"                                { return opManager.process(PhpTokenTypes.opLESS); }
+	">>="                              { return opManager.process(PhpTokenTypes.opSHIFT_RIGHT_ASGN); }
+	"<<="                              { return opManager.process(PhpTokenTypes.opSHIFT_LEFT_ASGN); }
+	"+="                               { return opManager.process(PhpTokenTypes.opPLUS_ASGN); }
+	"-="                               { return opManager.process(PhpTokenTypes.opMINUS_ASGN); }
+	"*="                               { return opManager.process(PhpTokenTypes.opMUL_ASGN); }
+	"/="                               { return opManager.process(PhpTokenTypes.opDIV_ASGN); }
+	"%="                               { return opManager.process(PhpTokenTypes.opREM_ASGN); }
+	".="                               { return opManager.process(PhpTokenTypes.opCONCAT_ASGN); }
+	"&="                               { return opManager.process(PhpTokenTypes.opBIT_AND_ASGN); }
+	"|="                               { return opManager.process(PhpTokenTypes.opBIT_OR_ASGN); }
+	"^="                               { return opManager.process(PhpTokenTypes.opBIT_XOR_ASGN); }
+	"="                                { return opManager.process(PhpTokenTypes.opASGN); }
+	"@"                                { return opManager.process(PhpTokenTypes.opSILENCE); }
+	"&"                                { return opManager.process(PhpTokenTypes.opBIT_AND); }
+	"|"                                { return opManager.process(PhpTokenTypes.opBIT_OR); }
+	"^"                                { return opManager.process(PhpTokenTypes.opBIT_XOR); }
+	"."                                { return opManager.process(PhpTokenTypes.opCONCAT); }
+	"&&"                               { return opManager.process(PhpTokenTypes.opAND); }
+	"||"                               { return opManager.process(PhpTokenTypes.opOR); }
+	","                                { return opManager.process(PhpTokenTypes.opCOMMA); }
+	"?"                                { return opManager.process(PhpTokenTypes.opQUEST); }
+	"%"                                { return opManager.process(PhpTokenTypes.opREM); }
+	"!"                                { return opManager.process(PhpTokenTypes.opNOT); }
+	":"                                { return opManager.process(PhpTokenTypes.opCOLON); }
+	";"                                { return opManager.process(PhpTokenTypes.opSEMICOLON); }
+	"*"                                { return opManager.process(PhpTokenTypes.opMUL); }
+	"/"                                { return opManager.process(PhpTokenTypes.opDIV); }
+	"=>"                               { return opManager.process(PhpTokenTypes.opHASH_ARRAY); }
 
 
-	"["                                { return opManager.process(PHPTokenTypes.chLBRACKET); }
-	"]"                                { return opManager.process(PHPTokenTypes.chRBRACKET); }
-	"("                                { return opManager.process(PHPTokenTypes.chLPAREN); }
-	")"                                { return opManager.process(PHPTokenTypes.chRPAREN); }
+	"["                                { return opManager.process(PhpTokenTypes.chLBRACKET); }
+	"]"                                { return opManager.process(PhpTokenTypes.chRBRACKET); }
+	"("                                { return opManager.process(PhpTokenTypes.chLPAREN); }
+	")"                                { return opManager.process(PhpTokenTypes.chRPAREN); }
 
-	"{"                                { sManager.toState(ST_IN_SCRIPTING); return opManager.process(PHPTokenTypes.chLBRACE); }
-	"}"                                { if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PHPTokenTypes.chRBRACE); }
-	"$"                                { return PHPTokenTypes.DOLLAR; }
-	"::"                               { return PHPTokenTypes.SCOPE_RESOLUTION; }
+	"{"                                { sManager.toState(ST_IN_SCRIPTING); return opManager.process(PhpTokenTypes.chLBRACE); }
+	"}"                                { if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PhpTokenTypes.chRBRACE); }
+	"$"                                { return PhpTokenTypes.DOLLAR; }
+	"::"                               { return PhpTokenTypes.SCOPE_RESOLUTION; }
 }
 
 <ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC>"${" {
 	sManager.toState(ST_LOOKING_FOR_VARNAME);
-	return PHPTokenTypes.DOLLAR_LBRACE;
+	return PhpTokenTypes.DOLLAR_LBRACE;
 }
 
 <ST_LOOKING_FOR_VARNAME>{LABEL} {
 	sManager.toPreviousState();
 	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.VARIABLE_NAME;
+	return PhpTokenTypes.VARIABLE_NAME;
 }
 
 <ST_LOOKING_FOR_VARNAME>{ANY_CHAR} {
@@ -358,16 +358,16 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 <ST_IN_SCRIPTING>"->" {
 	sManager.toState(ST_LOOKING_FOR_PROPERTY);
-	return PHPTokenTypes.ARROW;
+	return PhpTokenTypes.ARROW;
 }
 
 <ST_LOOKING_FOR_PROPERTY>"->" {
-	return PHPTokenTypes.ARROW;
+	return PhpTokenTypes.ARROW;
 }
 
 <ST_LOOKING_FOR_PROPERTY>{LABEL} {
 	sManager.toPreviousState();
-	return PHPTokenTypes.IDENTIFIER;
+	return PhpTokenTypes.IDENTIFIER;
 }
 
 <ST_LOOKING_FOR_PROPERTY>{ANY_CHAR} {
@@ -377,108 +377,108 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 // structure
 <YYINITIAL>(([^<]|"<"[^?%s<]){1,400})|"<s"|"<" {
-	return PHPTokenTypes.HTML;
+	return PhpTokenTypes.HTML;
 }
 <YYINITIAL>"<?php" | "<?" {
 	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.PHP_OPENING_TAG;
+	return PhpTokenTypes.PHP_OPENING_TAG;
 }
 
 <YYINITIAL>"<%=" |"<?="  {
 	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.PHP_ECHO_OPENING_TAG;
+	return PhpTokenTypes.PHP_ECHO_OPENING_TAG;
 }
 
 <ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE,ST_VAR_OFFSET>"$"{LABEL} {
-	return PHPTokenTypes.VARIABLE;
+	return PhpTokenTypes.VARIABLE;
 }
 
 <ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE>"$"{LABEL}"->"[a-zA-Z_\x7f-\xff] {
 	yypushback(3);
 	sManager.toState(ST_LOOKING_FOR_PROPERTY);
-	return PHPTokenTypes.VARIABLE;
+	return PhpTokenTypes.VARIABLE;
 }
 
 <ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE>"$"{LABEL}"[" {
 	yypushback(1);
 	sManager.toState(ST_VAR_OFFSET);
-	return PHPTokenTypes.VARIABLE;
+	return PhpTokenTypes.VARIABLE;
 }
 
 <ST_VAR_OFFSET>"[" {
-	return PHPTokenTypes.chLBRACKET;
+	return PhpTokenTypes.chLBRACKET;
 }
 
 <ST_VAR_OFFSET>"]" {
 	sManager.toPreviousState();
-	return PHPTokenTypes.chRBRACKET;
+	return PhpTokenTypes.chRBRACKET;
 }
 
 <ST_IN_SCRIPTING,ST_VAR_OFFSET>{LABEL} {
-	return PHPTokenTypes.IDENTIFIER;
+	return PhpTokenTypes.IDENTIFIER;
 }
 
 <ST_IN_SCRIPTING>{WHITESPACE} {
-	return PHPTokenTypes.WHITE_SPACE;
+	return PhpTokenTypes.WHITE_SPACE;
 }
 
 <ST_IN_SCRIPTING>{
-	{C_STYLE_COMMENT}                  { return PHPTokenTypes.C_STYLE_COMMENT; }
-	{DOC_COMMENT}                      { return PHPTokenTypes.DOC_COMMENT; }
+	{C_STYLE_COMMENT}                  { return PhpTokenTypes.C_STYLE_COMMENT; }
+	{DOC_COMMENT}                      { return PhpTokenTypes.DOC_COMMENT; }
 }
 
 <ST_IN_SCRIPTING>"#" {
 	int eatResult = lcManager.eat();
 	if (eatResult == LineCommentManager.END_SEEN) {
-		return PHPTokenTypes.LINE_COMMENT;
+		return PhpTokenTypes.LINE_COMMENT;
 	}
 	if (eatResult == LineCommentManager.CLOSING_TAG_SEEN) {
-		return PHPTokenTypes.LINE_COMMENT;
+		return PhpTokenTypes.LINE_COMMENT;
 	}
 	assert(eatResult > 0);
 	zzMarkedPos += eatResult;
-	return PHPTokenTypes.LINE_COMMENT;
+	return PhpTokenTypes.LINE_COMMENT;
 }
 
 <ST_IN_SCRIPTING>"//" {
 	int eatResult = lcManager.eat();
 	if (eatResult == LineCommentManager.END_SEEN) {
-		return PHPTokenTypes.LINE_COMMENT;
+		return PhpTokenTypes.LINE_COMMENT;
 	}
 	if (eatResult == LineCommentManager.CLOSING_TAG_SEEN) {
-		return PHPTokenTypes.LINE_COMMENT;
+		return PhpTokenTypes.LINE_COMMENT;
 	}
 	assert(eatResult > 0);
 	zzMarkedPos += eatResult - 1;
-	return PHPTokenTypes.LINE_COMMENT;
+	return PhpTokenTypes.LINE_COMMENT;
 }
 
 <ST_IN_SCRIPTING>"%>" | "?>"  {
 	yybegin(YYINITIAL);
-	return PHPTokenTypes.PHP_CLOSING_TAG;
+	return PhpTokenTypes.PHP_CLOSING_TAG;
 }
 
 <ST_IN_SCRIPTING>("\"" {DOUBLE_QUOTES_CHARS}* ("{"* | "$"*) "\"") {
-	return PHPTokenTypes.STRING_LITERAL;
+	return PhpTokenTypes.STRING_LITERAL;
 }
 
 <ST_IN_SCRIPTING>("'" ([^'\\]|("\\"{ANY_CHAR}))* "'") {
-	return PHPTokenTypes.STRING_LITERAL_SINGLE_QUOTE;
+	return PhpTokenTypes.STRING_LITERAL_SINGLE_QUOTE;
 }
 
 <ST_IN_SCRIPTING>"\"" {
 	sManager.toState(ST_DOUBLE_QUOTES);
-	return PHPTokenTypes.chDOUBLE_QUOTE;
+	return PhpTokenTypes.chDOUBLE_QUOTE;
 }
 
 <ST_IN_SCRIPTING>"`" {
 	sManager.toState(ST_BACKQUOTE);
-	return PHPTokenTypes.chBACKTRICK;
+	return PhpTokenTypes.chBACKTRICK;
 }
 
 <ST_IN_SCRIPTING>{HEREDOC_START} {
 	hdManager.startHeredoc();
-	return opManager.process(PHPTokenTypes.HEREDOC_START);
+	return opManager.process(PhpTokenTypes.HEREDOC_START);
 }
 
 <ST_START_HEREDOC>{ANY_CHAR} {
@@ -499,7 +499,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	String label = text.substring(0, labelEnd);
 	if (label.equals(hdManager.getHeredocID())) {
 		sManager.toPreviousState();
-		return PHPTokenTypes.HEREDOC_END;
+		return PhpTokenTypes.HEREDOC_END;
 	}
 	return advance();
 
@@ -510,51 +510,51 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	if (eatResult == HeredocManager.END_SEEN) {
 		sManager.toPreviousState();
 		zzMarkedPos += hdManager.getHeredocEndLength();
-		return PHPTokenTypes.HEREDOC_END;
+		return PhpTokenTypes.HEREDOC_END;
 	}
 	if (eatResult == HeredocManager.SIMPLE_ESCAPE_SEEN) {
 		zzMarkedPos += 1;
-		return PHPTokenTypes.ESCAPE_SEQUENCE;
+		return PhpTokenTypes.ESCAPE_SEQUENCE;
 	}
 	assert(eatResult > 0);
 	zzMarkedPos += eatResult - 1;
-	return PHPTokenTypes.HEREDOC_CONTENTS;
+	return PhpTokenTypes.HEREDOC_CONTENTS;
 }
 
 <ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC>"{$" {
 	yypushback(1);
 	sManager.toState(ST_IN_SCRIPTING);
-	return PHPTokenTypes.chLBRACE;
+	return PhpTokenTypes.chLBRACE;
 }
 
 <ST_DOUBLE_QUOTES>{DOUBLE_QUOTES_CHARS}+ {
-	return PHPTokenTypes.STRING_LITERAL;
+	return PhpTokenTypes.STRING_LITERAL;
 }
 
 <ST_DOUBLE_QUOTES>{DOUBLE_QUOTES_CHARS}*("{"{2,200}|"$"{2,200}|(("{"+|"$"+)"\"")) {
 	yypushback(1);
-	return PHPTokenTypes.STRING_LITERAL;
+	return PhpTokenTypes.STRING_LITERAL;
 }
 
 <ST_BACKQUOTE>{BACKQUOTE_CHARS}+ {
-	return PHPTokenTypes.EXEC_COMMAND;
+	return PhpTokenTypes.EXEC_COMMAND;
 }
 
 <ST_BACKQUOTE>{BACKQUOTE_CHARS}*("{"{2,5}|"$"{2,5}|(("{"+|"$"+)[`])) {
 	yypushback(1);
-	return PHPTokenTypes.EXEC_COMMAND;
+	return PhpTokenTypes.EXEC_COMMAND;
 }
 
 <ST_DOUBLE_QUOTES>"\"" {
 	sManager.toPreviousState();
-	return PHPTokenTypes.chDOUBLE_QUOTE;
+	return PhpTokenTypes.chDOUBLE_QUOTE;
 }
 
 <ST_BACKQUOTE>"`" {
 	sManager.toPreviousState();
-	return PHPTokenTypes.chBACKTRICK;
+	return PhpTokenTypes.chBACKTRICK;
 }
 
 <ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC,ST_START_HEREDOC,ST_END_HEREDOC,ST_LOOKING_FOR_PROPERTY,ST_LOOKING_FOR_VARNAME,ST_VAR_OFFSET,ST_COMMENT,ST_DOC_COMMENT,ST_ONE_LINE_COMMENT>{ANY_CHAR} {
-	return PHPTokenTypes.UNKNOWN_SYMBOL;
+	return PhpTokenTypes.UNKNOWN_SYMBOL;
 }

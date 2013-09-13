@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import org.consulo.php.lang.PHPLanguage;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.PhpLanguage;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ import javax.swing.*;
  *
  * @author jay
  */
-public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiElement
+public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PhpElement
 {
 
 	public PHPPsiElementImpl(ASTNode node)
@@ -33,7 +33,7 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 	@NotNull
 	public Language getLanguage()
 	{
-		return PHPLanguage.INSTANCE;
+		return PhpLanguage.INSTANCE;
 	}
 
 	@Nullable
@@ -71,31 +71,31 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 		return processor.execute(this, state);
 	}
 
-	public PHPPsiElement getFirstPsiChild()
+	public PhpElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PHPPsiElement)
+			if(children[0] instanceof PhpElement)
 			{
-				return (PHPPsiElement) children[0];
+				return (PhpElement) children[0];
 			}
 		}
 		return null;
 	}
 
-	public PHPPsiElement getNextPsiSibling()
+	public PhpElement getNextPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PHPPsiElement nextSibling = null;
+		PhpElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && children.length > i + 1)
 			{
-				if(children[i + 1] instanceof PHPPsiElement)
+				if(children[i + 1] instanceof PhpElement)
 				{
-					nextSibling = (PHPPsiElement) children[i + 1];
+					nextSibling = (PhpElement) children[i + 1];
 				}
 				break;
 			}
@@ -103,18 +103,18 @@ public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PHPPsiEle
 		return nextSibling;
 	}
 
-	public PHPPsiElement getPrevPsiSibling()
+	public PhpElement getPrevPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PHPPsiElement prevSibling = null;
+		PhpElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && i > 0)
 			{
-				if(children[i - 1] instanceof PHPPsiElement)
+				if(children[i - 1] instanceof PhpElement)
 				{
-					prevSibling = (PHPPsiElement) children[i - 1];
+					prevSibling = (PhpElement) children[i - 1];
 				}
 				break;
 			}

@@ -6,7 +6,7 @@ import com.intellij.psi.PsiElement;
  * @author jay
  * @date Apr 15, 2008 4:07:54 PM
  */
-public interface Catch extends PHPPsiElement
+public interface Catch extends PhpElement
 {
 
 	public PhpVariableReference getException();

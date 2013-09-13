@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.For;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,30 +23,30 @@ public class ForImpl extends PHPPsiElementImpl implements For
 		super(node);
 	}
 
-	public PHPPsiElement getInitialExpression()
+	public PhpElement getInitialExpression()
 	{
 		return getFirstPsiChild();
 	}
 
-	public PHPPsiElement getConditionalExpression()
+	public PhpElement getConditionalExpression()
 	{
-		final PHPPsiElement expression = getInitialExpression();
+		final PhpElement expression = getInitialExpression();
 		if(expression != null)
 			return getInitialExpression().getNextPsiSibling();
 		return null;
 	}
 
-	public PHPPsiElement getRepeatedExpression()
+	public PhpElement getRepeatedExpression()
 	{
-		final PHPPsiElement expression = getConditionalExpression();
+		final PhpElement expression = getConditionalExpression();
 		if(expression != null)
 			return getConditionalExpression().getNextPsiSibling();
 		return null;
 	}
 
-	public PHPPsiElement getStatement()
+	public PhpElement getStatement()
 	{
-		final PHPPsiElement expression = getRepeatedExpression();
+		final PhpElement expression = getRepeatedExpression();
 		if(expression != null)
 		{
 			return getRepeatedExpression().getNextPsiSibling();
@@ -88,9 +88,9 @@ public class ForImpl extends PHPPsiElementImpl implements For
 				return false;
 			}
 		}
-		else if(lastParent instanceof PHPPsiElement)
+		else if(lastParent instanceof PhpElement)
 		{
-			PHPPsiElement statement = ((PHPPsiElement) lastParent).getPrevPsiSibling();
+			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))

@@ -1,7 +1,7 @@
 package org.consulo.php.lang.parser.util;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -22,13 +22,13 @@ public class ListParsingHelper implements PHPTokenTypes
 	 * @param eatFollowComma If true, the following comma will be eaten
 	 * @return number of expressions in list
 	 */
-	public static int parseCommaDelimitedExpressionWithLeadExpr(final PHPPsiBuilder builder, final IElementType result, final ParserPart parser, final boolean eatFollowComma)
+	public static int parseCommaDelimitedExpressionWithLeadExpr(final PhpPsiBuilder builder, final IElementType result, final ParserPart parser, final boolean eatFollowComma)
 	{
-		if(result == PHPElementTypes.EMPTY_INPUT)
+		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
 			if(builder.compare(opCOMMA))
 			{
-				builder.error(PHPParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+				builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 			}
 			else
 			{
@@ -39,7 +39,7 @@ public class ListParsingHelper implements PHPTokenTypes
 		PsiBuilder.Marker beforeLastCommaMarker = builder.mark();
 		while(builder.compareAndEat(opCOMMA))
 		{
-			if(parser.parse(builder) != PHPElementTypes.EMPTY_INPUT)
+			if(parser.parse(builder) != PhpElementTypes.EMPTY_INPUT)
 			{
 				count++;
 				beforeLastCommaMarker.drop();
@@ -49,13 +49,13 @@ public class ListParsingHelper implements PHPTokenTypes
 			{
 				if(builder.compare(opCOMMA))
 				{
-					builder.error(PHPParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+					builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 				}
 				else
 				{
 					if(!eatFollowComma)
 					{
-						builder.error(PHPParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+						builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 					}
 				}
 			}

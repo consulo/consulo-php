@@ -3,7 +3,7 @@ package org.consulo.php.lang.psi.resolve;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpField;
 import org.consulo.php.lang.psi.elements.PhpMethod;
 import org.consulo.php.lang.psi.elements.PhpParameter;
@@ -27,7 +27,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor {
 	private ResolveKind myKind;
 	private String myName;
 
-	public PhpResolveProcessor(PHPPsiElement element, String name, ResolveKind kind) {
+	public PhpResolveProcessor(PhpElement element, String name, ResolveKind kind) {
 		super(element);
 		myName = name;
 		myKind = kind;

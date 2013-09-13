@@ -1,12 +1,12 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
 
 import com.intellij.lang.PsiBuilder;
@@ -24,13 +24,13 @@ public class ForStatement implements PHPTokenTypes
 	//		for_expr ';'
 	//		for_expr ';'
 	//		for_expr ')' for_statement
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker statement = builder.mark();
 		if(!builder.compareAndEat(kwFOR))
 		{
 			statement.drop();
-			return PHPElementTypes.FOR;
+			return PhpElementTypes.FOR;
 		}
 		builder.match(chLPAREN);
 
@@ -47,15 +47,15 @@ public class ForStatement implements PHPTokenTypes
 
 		builder.match(chRPAREN);
 		parseForStatement(builder);
-		statement.done(PHPElementTypes.FOR);
-		return PHPElementTypes.FOR;
+		statement.done(PhpElementTypes.FOR);
+		return PhpElementTypes.FOR;
 	}
 
 	//	for_statement:
 	//		statement
 	//		| ':' statement_list kwENDFOR ';'
 	//	;
-	private static void parseForStatement(PHPPsiBuilder builder)
+	private static void parseForStatement(PhpPsiBuilder builder)
 	{
 		if(builder.compareAndEat(opCOLON))
 		{
@@ -81,11 +81,11 @@ public class ForStatement implements PHPTokenTypes
 	//		non_empty_for_expr ',' expr
 	//		| expr
 	//	;
-	private static void parseForExpression(PHPPsiBuilder builder)
+	private static void parseForExpression(PhpPsiBuilder builder)
 	{
 		ParserPart parserPart = new ParserPart()
 		{
-			public IElementType parse(PHPPsiBuilder builder)
+			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return Expression.parse(builder);
 			}

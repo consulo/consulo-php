@@ -1,10 +1,10 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -18,13 +18,13 @@ public class DoWhileStatement implements PHPTokenTypes
 {
 
 	//		kwDO statement kwWHILE '(' expr ')' ';'
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker statement = builder.mark();
 		if(!builder.compareAndEat(kwDO))
 		{
 			statement.drop();
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		Statement.parse(builder);
 		builder.match(kwWHILE);
@@ -35,7 +35,7 @@ public class DoWhileStatement implements PHPTokenTypes
 		{
 			builder.match(opSEMICOLON);
 		}
-		statement.done(PHPElementTypes.DO_WHILE);
-		return PHPElementTypes.DO_WHILE;
+		statement.done(PhpElementTypes.DO_WHILE);
+		return PhpElementTypes.DO_WHILE;
 	}
 }

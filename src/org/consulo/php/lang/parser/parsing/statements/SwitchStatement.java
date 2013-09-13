@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.statements;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -20,13 +20,13 @@ public class SwitchStatement implements PHPTokenTypes
 {
 
 	//	kwSWITCH '(' expr ')' switch_case_list
-	public static IElementType parse(PHPPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker statement = builder.mark();
 		if(!builder.compareAndEat(kwSWITCH))
 		{
 			statement.drop();
-			return PHPElementTypes.EMPTY_INPUT;
+			return PhpElementTypes.EMPTY_INPUT;
 		}
 		builder.match(chLPAREN);
 		Expression.parse(builder);
@@ -34,8 +34,8 @@ public class SwitchStatement implements PHPTokenTypes
 
 		parseSwitchCaseList(builder);
 
-		statement.done(PHPElementTypes.SWITCH);
-		return PHPElementTypes.SWITCH;
+		statement.done(PhpElementTypes.SWITCH);
+		return PhpElementTypes.SWITCH;
 	}
 
 	//	switch_case_list:
@@ -44,7 +44,7 @@ public class SwitchStatement implements PHPTokenTypes
 	//		| ':' case_list kwENDSWITCH ';'
 	//		| ':' ';' case_list kwENDSWITCH ';'
 	//	;
-	private static void parseSwitchCaseList(PHPPsiBuilder builder)
+	private static void parseSwitchCaseList(PhpPsiBuilder builder)
 	{
 		if(builder.compareAndEat(opCOLON))
 		{
@@ -76,43 +76,43 @@ public class SwitchStatement implements PHPTokenTypes
 	//		':'
 	//		| ';'
 	//	;
-	private static void parseCaseList(PHPPsiBuilder builder, IElementType whereToStop)
+	private static void parseCaseList(PhpPsiBuilder builder, IElementType whereToStop)
 	{
 		while(!builder.eof() && !builder.compare(whereToStop))
 		{
 			IElementType result = parseCase(builder, whereToStop);
-			if(result == PHPElementTypes.EMPTY_INPUT)
+			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
-				builder.error(PHPParserErrors.unexpected(builder.getTokenType()));
+				builder.error(PhpParserErrors.unexpected(builder.getTokenType()));
 				builder.advanceLexer();
 			}
 		}
 	}
 
-	private static IElementType parseCase(PHPPsiBuilder builder, IElementType whereToStop)
+	private static IElementType parseCase(PhpPsiBuilder builder, IElementType whereToStop)
 	{
 		PsiBuilder.Marker caseMarker = builder.mark();
 		if(builder.compareAndEat(kwDEFAULT))
 		{
 			builder.match(TokenSet.create(opCOLON, opSEMICOLON));
 			StatementList.parse(builder, whereToStop, kwCASE, kwDEFAULT);
-			caseMarker.done(PHPElementTypes.CASE_DEFAULT);
-			return PHPElementTypes.CASE_DEFAULT;
+			caseMarker.done(PhpElementTypes.CASE_DEFAULT);
+			return PhpElementTypes.CASE_DEFAULT;
 		}
 		if(builder.compareAndEat(kwCASE))
 		{
 			IElementType result = Expression.parse(builder);
-			if(result == PHPElementTypes.EMPTY_INPUT)
+			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
-				builder.error(PHPParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+				builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 			}
 			builder.match(TokenSet.create(opCOLON, opSEMICOLON));
 			StatementList.parse(builder, whereToStop, kwCASE, kwDEFAULT);
-			caseMarker.done(PHPElementTypes.CASE);
-			return PHPElementTypes.CASE;
+			caseMarker.done(PhpElementTypes.CASE);
+			return PhpElementTypes.CASE;
 		}
 		caseMarker.drop();
-		return PHPElementTypes.EMPTY_INPUT;
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 
 }

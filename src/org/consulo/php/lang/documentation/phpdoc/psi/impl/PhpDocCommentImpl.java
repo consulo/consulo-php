@@ -8,7 +8,7 @@ import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
-import org.consulo.php.lang.psi.elements.PHPPsiElement;
+import org.consulo.php.lang.psi.elements.PhpElement;
 import org.jetbrains.annotations.NonNls;
 
 /**
@@ -28,31 +28,31 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		return getElementType();
 	}
 
-	public PHPPsiElement getFirstPsiChild()
+	public PhpElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PHPPsiElement)
+			if(children[0] instanceof PhpElement)
 			{
-				return (PHPPsiElement) children[0];
+				return (PhpElement) children[0];
 			}
 		}
 		return null;
 	}
 
-	public PHPPsiElement getNextPsiSibling()
+	public PhpElement getNextPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PHPPsiElement nextSibling = null;
+		PhpElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && children.length > i + 1)
 			{
-				if(children[i + 1] instanceof PHPPsiElement)
+				if(children[i + 1] instanceof PhpElement)
 				{
-					nextSibling = (PHPPsiElement) children[i + 1];
+					nextSibling = (PhpElement) children[i + 1];
 				}
 				break;
 			}
@@ -60,18 +60,18 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		return nextSibling;
 	}
 
-	public PHPPsiElement getPrevPsiSibling()
+	public PhpElement getPrevPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PHPPsiElement prevSibling = null;
+		PhpElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && i > 0)
 			{
-				if(children[i - 1] instanceof PHPPsiElement)
+				if(children[i - 1] instanceof PhpElement)
 				{
-					prevSibling = (PHPPsiElement) children[i - 1];
+					prevSibling = (PhpElement) children[i - 1];
 				}
 				break;
 			}

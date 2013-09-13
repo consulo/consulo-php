@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
-import org.consulo.php.lang.parser.PHPElementTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassDeclaration;
 import org.consulo.php.lang.parser.parsing.functions.Function;
-import org.consulo.php.lang.parser.util.PHPParserErrors;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpParserErrors;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -30,12 +30,12 @@ public class StatementList
 	//		| function_declaration_statement
 	//		| class_declaration_statement
 	//	;
-	public static void parse(PHPPsiBuilder builder, IElementType... endDelimeters)
+	public static void parse(PhpPsiBuilder builder, IElementType... endDelimeters)
 	{
 		parse(builder, TokenSet.create(endDelimeters));
 	}
 
-	private static void parse(PHPPsiBuilder builder, TokenSet whereToStop)
+	private static void parse(PhpPsiBuilder builder, TokenSet whereToStop)
 	{
 		PsiBuilder.Marker statementList = builder.mark();
 
@@ -61,16 +61,16 @@ public class StatementList
 				}
 				if(previous == builder.getCurrentOffset())
 				{
-					builder.error(PHPParserErrors.unexpected(builder.getTokenType()));
+					builder.error(PhpParserErrors.unexpected(builder.getTokenType()));
 					builder.advanceLexer();
 				}
 			}
 		}
 
-		statementList.done(PHPElementTypes.GROUP_STATEMENT);
+		statementList.done(PhpElementTypes.GROUP_STATEMENT);
 	}
 
-	private static boolean parseTopStatement(PHPPsiBuilder builder)
+	private static boolean parseTopStatement(PhpPsiBuilder builder)
 	{
 		if(builder.compare(PHPTokenTypes.PHP_OPENING_TAG))
 		{
@@ -82,11 +82,11 @@ public class StatementList
 		}
 
 		IElementType parsed = Function.parse(builder);
-		if(parsed == PHPElementTypes.EMPTY_INPUT)
+		if(parsed == PhpElementTypes.EMPTY_INPUT)
 		{
 			parsed = ClassDeclaration.parse(builder);
 		}
-		if(parsed == PHPElementTypes.EMPTY_INPUT)
+		if(parsed == PhpElementTypes.EMPTY_INPUT)
 		{
 			parsed = Statement.parse(builder);
 		}
@@ -95,7 +95,7 @@ public class StatementList
 		{
 			builder.advanceLexer();
 		}
-		return parsed != PHPElementTypes.EMPTY_INPUT;
+		return parsed != PhpElementTypes.EMPTY_INPUT;
 	}
 
 }

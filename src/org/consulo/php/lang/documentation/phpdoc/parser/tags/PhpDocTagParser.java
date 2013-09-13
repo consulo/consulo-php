@@ -1,7 +1,7 @@
 package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import org.consulo.php.lang.parser.util.PHPPsiBuilder;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * @author jay
@@ -20,6 +20,6 @@ abstract public class PhpDocTagParser implements PhpDocElementTypes
 
 	abstract public String getName();
 
-	abstract public void parse(PHPPsiBuilder builder);
+	abstract public void parse(PhpPsiBuilder builder);
 
 }

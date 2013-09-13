@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 15, 2008 12:35:16 PM
  */
-public interface PhpMethodReference extends PHPPsiElement, PsiPolyVariantReference, PhpTypedElement
+public interface PhpMethodReference extends PhpElement, PsiPolyVariantReference, PhpTypedElement
 {
 	boolean canReadName();
 
