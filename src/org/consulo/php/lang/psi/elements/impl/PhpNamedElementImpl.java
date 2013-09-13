@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date Jun 4, 2008 11:38:51 AM
  */
-abstract public class PhpNamedElementImpl extends PHPPsiElementImpl implements PhpNamedElement
+abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpNamedElement
 {
 
 	public PhpNamedElementImpl(ASTNode node)

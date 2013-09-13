@@ -13,7 +13,6 @@ import org.consulo.php.completion.PhpVariantsUtil;
 import org.consulo.php.completion.UsageContext;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.consulo.php.lang.psi.elements.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +24,7 @@ import java.util.List;
  * @author jay
  * @date Jun 18, 2008 1:51:48 PM
  */
-public class ClassConstantReferenceImpl extends PHPPsiElementImpl implements ClassConstantReference
+public class ClassConstantReferenceImpl extends PhpElementImpl implements ClassConstantReference
 {
 
 	public ClassConstantReferenceImpl(ASTNode node)

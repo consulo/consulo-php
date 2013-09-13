@@ -9,7 +9,6 @@ import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import org.consulo.php.lang.psi.resolve.ResolveUtil;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

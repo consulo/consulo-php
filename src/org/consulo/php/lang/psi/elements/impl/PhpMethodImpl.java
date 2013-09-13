@@ -13,7 +13,6 @@ import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -7,14 +7,13 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
 import org.consulo.php.lang.psi.elements.PhpParameter;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
  * @date Apr 15, 2008 2:01:07 PM
  */
-public class PhpParameterListImpl extends PHPPsiElementImpl implements PhpParameterList
+public class PhpParameterListImpl extends PhpElementImpl implements PhpParameterList
 {
 	public PhpParameterListImpl(ASTNode node)
 	{

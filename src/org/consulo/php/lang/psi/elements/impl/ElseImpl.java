@@ -2,7 +2,6 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.Else;
 import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -15,7 +14,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Jul 2, 2008 3:12:20 AM
  */
-public class ElseImpl extends PHPPsiElementImpl implements Else
+public class ElseImpl extends PhpElementImpl implements Else
 {
 
 	public ElseImpl(ASTNode node)

@@ -7,7 +7,6 @@ import org.consulo.php.lang.psi.elements.Else;
 import org.consulo.php.lang.psi.elements.ElseIf;
 import org.consulo.php.lang.psi.elements.If;
 import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -21,7 +20,7 @@ import com.intellij.psi.util.PsiTreeUtil;
  * @author jay
  * @date May 9, 2008 3:48:51 PM
  */
-public class IfImpl extends PHPPsiElementImpl implements If
+public class IfImpl extends PhpElementImpl implements If
 {
 
 	public IfImpl(ASTNode node)

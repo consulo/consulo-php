@@ -14,7 +14,7 @@ import java.util.List;
  * @author jay
  * @date Jun 24, 2008 9:21:14 PM
  */
-public class ImplementsListImpl extends PHPPsiElementImpl implements ImplementsList
+public class ImplementsListImpl extends PhpElementImpl implements ImplementsList
 {
 	public ImplementsListImpl(ASTNode node)
 	{

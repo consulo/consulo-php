@@ -7,7 +7,7 @@ import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
-import org.consulo.php.lang.psi.elements.impl.PHPPsiElementImpl;
+import org.consulo.php.lang.psi.elements.impl.PhpElementImpl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -56,7 +56,7 @@ public class PhpDocPsiCreator implements PhpDocElementTypes
 			return new PhpDocTypeImpl(node);
 		}
 
-		return new PHPPsiElementImpl(node);
+		return new PhpElementImpl(node);
 	}
 
 }

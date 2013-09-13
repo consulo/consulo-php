@@ -5,7 +5,6 @@ import org.consulo.php.lang.highlighter.PHPHighlightingData;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.ConstantReference;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;

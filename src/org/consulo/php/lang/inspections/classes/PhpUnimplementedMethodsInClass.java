@@ -15,7 +15,6 @@ import org.consulo.php.lang.psi.elements.ExtendsList;
 import org.consulo.php.lang.psi.elements.ImplementsList;
 import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpMethod;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 

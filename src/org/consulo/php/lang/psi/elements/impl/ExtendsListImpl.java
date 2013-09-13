@@ -12,7 +12,7 @@ import com.intellij.psi.PsiElement;
  * @author jay
  * @date Jun 7, 2008 7:07:36 PM
  */
-public class ExtendsListImpl extends PHPPsiElementImpl implements ExtendsList
+public class ExtendsListImpl extends PhpElementImpl implements ExtendsList
 {
 	public ExtendsListImpl(ASTNode node)
 	{

@@ -16,7 +16,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date May 5, 2008 8:06:55 AM
  */
-public class GlobalImpl extends PHPPsiElementImpl implements Global
+public class GlobalImpl extends PhpElementImpl implements Global
 {
 	public GlobalImpl(ASTNode node)
 	{

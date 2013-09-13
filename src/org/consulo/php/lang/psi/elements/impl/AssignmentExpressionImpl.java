@@ -1,7 +1,6 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.AssignmentExpression;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;

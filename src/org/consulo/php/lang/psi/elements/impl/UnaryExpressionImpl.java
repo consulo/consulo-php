@@ -1,7 +1,6 @@
 package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.UnaryExpression;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -14,7 +13,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Apr 15, 2008 9:10:04 PM
  */
-public class UnaryExpressionImpl extends PHPPsiElementImpl implements UnaryExpression
+public class UnaryExpressionImpl extends PhpElementImpl implements UnaryExpression
 {
 	public UnaryExpressionImpl(ASTNode node)
 	{

@@ -145,6 +145,6 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new TryImpl(node);
 		}
-		return new PHPPsiElementImpl(node);
+		return new PhpElementImpl(node);
 	}
 }

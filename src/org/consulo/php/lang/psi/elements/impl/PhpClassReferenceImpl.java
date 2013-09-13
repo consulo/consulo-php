@@ -16,7 +16,6 @@ import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.PhpClass;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.PhpMethod;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 11, 2008 9:56:57 PM
  */
-public class PhpClassReferenceImpl extends PHPPsiElementImpl implements PhpClassReference
+public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassReference
 {
 
 	public PhpClassReferenceImpl(ASTNode node)

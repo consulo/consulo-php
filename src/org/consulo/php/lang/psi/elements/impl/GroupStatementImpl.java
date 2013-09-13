@@ -13,7 +13,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date May 9, 2008 5:12:53 PM
  */
-public class GroupStatementImpl extends PHPPsiElementImpl implements GroupStatement
+public class GroupStatementImpl extends PhpElementImpl implements GroupStatement
 {
 	public GroupStatementImpl(ASTNode node)
 	{

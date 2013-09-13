@@ -2,7 +2,6 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.elements.BinaryExpression;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -16,7 +15,7 @@ import com.intellij.psi.tree.IElementType;
  * @author jay
  * @date Apr 4, 2008 10:55:12 AM
  */
-public class BinaryExpressionImpl extends PHPPsiElementImpl implements BinaryExpression
+public class BinaryExpressionImpl extends PhpElementImpl implements BinaryExpression
 {
 	public BinaryExpressionImpl(ASTNode node)
 	{

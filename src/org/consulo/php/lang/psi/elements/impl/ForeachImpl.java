@@ -2,7 +2,6 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.Foreach;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -15,7 +14,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Apr 15, 2008 3:36:30 PM
  */
-public class ForeachImpl extends PHPPsiElementImpl implements Foreach
+public class ForeachImpl extends PhpElementImpl implements Foreach
 {
 	public ForeachImpl(ASTNode node)
 	{

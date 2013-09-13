@@ -11,7 +11,7 @@ import com.intellij.lang.ASTNode;
  * @author jay
  * @date Jun 18, 2008 12:32:13 PM
  */
-public class PhpTypedElementImpl extends PHPPsiElementImpl implements PhpTypedElement
+public class PhpTypedElementImpl extends PhpElementImpl implements PhpTypedElement
 {
 
 	public PhpTypedElementImpl(ASTNode node)

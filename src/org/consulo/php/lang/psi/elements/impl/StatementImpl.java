@@ -11,7 +11,7 @@ import com.intellij.lang.ASTNode;
  *
  * @author jay
  */
-public class StatementImpl extends PHPPsiElementImpl implements Statement
+public class StatementImpl extends PhpElementImpl implements Statement
 {
 
 	public StatementImpl(ASTNode node)

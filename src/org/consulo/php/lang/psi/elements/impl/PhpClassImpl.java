@@ -11,7 +11,6 @@ import lombok.val;
 import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.consulo.php.util.PhpPresentationUtil;
 import org.consulo.php.psi.PhpStubElements;
 import org.consulo.php.psi.impl.PhpStubbedNamedElementImpl;

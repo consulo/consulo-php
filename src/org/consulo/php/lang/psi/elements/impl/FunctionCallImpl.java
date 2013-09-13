@@ -9,7 +9,6 @@ import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.elements.FunctionCall;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 15, 2008 12:36:39 PM
  */
-public class FunctionCallImpl extends PHPPsiElementImpl implements FunctionCall {
+public class FunctionCallImpl extends PhpElementImpl implements FunctionCall {
 
 	public FunctionCallImpl(ASTNode node) {
 		super(node);

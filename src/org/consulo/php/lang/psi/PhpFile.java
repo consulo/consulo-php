@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 

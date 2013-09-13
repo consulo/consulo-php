@@ -11,7 +11,6 @@ import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.psi.elements.Function;
 import org.consulo.php.lang.psi.elements.PhpParameter;
 import org.consulo.php.lang.psi.elements.PhpParameterList;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

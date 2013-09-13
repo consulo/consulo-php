@@ -14,7 +14,6 @@ import org.consulo.php.lang.psi.elements.PhpElement;
 import org.consulo.php.lang.psi.elements.PhpField;
 import org.consulo.php.lang.psi.elements.PhpModifier;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

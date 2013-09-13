@@ -2,7 +2,6 @@ package org.consulo.php.lang.psi.elements.impl;
 
 import org.consulo.php.lang.psi.elements.ElseIf;
 import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -15,7 +14,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Jul 2, 2008 3:06:57 AM
  */
-public class ElseIfImpl extends PHPPsiElementImpl implements ElseIf
+public class ElseIfImpl extends PhpElementImpl implements ElseIf
 {
 
 	public ElseIfImpl(ASTNode node)

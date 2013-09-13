@@ -3,7 +3,6 @@ package org.consulo.php.lang.psi.elements.impl;
 import org.consulo.php.lang.psi.elements.Catch;
 import org.consulo.php.lang.psi.elements.PhpClassReference;
 import org.consulo.php.lang.psi.elements.PhpVariableReference;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -17,7 +16,7 @@ import com.intellij.psi.util.PsiTreeUtil;
  * @author jay
  * @date Apr 15, 2008 4:08:31 PM
  */
-public class CatchImpl extends PHPPsiElementImpl implements Catch
+public class CatchImpl extends PhpElementImpl implements Catch
 {
 
 	public CatchImpl(ASTNode node)

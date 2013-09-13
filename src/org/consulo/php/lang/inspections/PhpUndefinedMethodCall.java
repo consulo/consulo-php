@@ -2,7 +2,6 @@ package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.elements.PhpMethodReference;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;

@@ -9,7 +9,6 @@ import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.lexer.PHPTokenTypes;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

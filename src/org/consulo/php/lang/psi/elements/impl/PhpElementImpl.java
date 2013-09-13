@@ -9,7 +9,6 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.visitors.PHPElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,10 +21,10 @@ import javax.swing.*;
  *
  * @author jay
  */
-public class PHPPsiElementImpl extends ASTWrapperPsiElement implements PhpElement
+public class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
 {
 
-	public PHPPsiElementImpl(ASTNode node)
+	public PhpElementImpl(ASTNode node)
 	{
 		super(node);
 	}
