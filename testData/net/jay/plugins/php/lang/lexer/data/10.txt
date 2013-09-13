@@ -3,6 +3,6 @@
 
 ?>
 ------------------
-php opening tag('<?php\n')
+php opening tag('<?php')
 line comment('//')
 php closing tag('?>')

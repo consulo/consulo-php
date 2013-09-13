@@ -3,7 +3,7 @@ echo "?>";
 ?>
 ----------------------------
 html('abc ')
-php opening tag('<?php\n')
+php opening tag('<?php')
 echo('echo')
 string('"?>"')
 semicolon(';')

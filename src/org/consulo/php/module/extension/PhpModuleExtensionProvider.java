@@ -1,7 +1,7 @@
 package org.consulo.php.module.extension;
 
 import com.intellij.openapi.module.Module;
-import net.jay.plugins.php.PHPIcons2;
+import org.consulo.php.PHPIcons2;
 import org.consulo.module.extension.ModuleExtensionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

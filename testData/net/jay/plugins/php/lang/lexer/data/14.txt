@@ -3,7 +3,7 @@
 `get -v $abc`
 ?>
 ----------------------------
-php opening tag('<?php\n')
+php opening tag('<?php')
 backtrick('`')
 exec command('rm -rf')
 backtrick('`')

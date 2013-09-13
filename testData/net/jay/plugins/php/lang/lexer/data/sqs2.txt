@@ -1,6 +1,6 @@
 <?php $v = '\''; ?>
 -----------------
-php opening tag('<?php ')
+php opening tag('<?php')
 variable('$v')
 assign('=')
 single quoted string(''\''')

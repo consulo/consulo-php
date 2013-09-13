@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType;
 import junit.framework.Test;
 import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
 import net.jay.plugins.php.utils.PathUtils;
+import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NonNls;
 
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class LexerTest extends BasePHPFileSetTestCase {
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();
         List<String> typeTexts = new ArrayList<String>();
-        Lexer lexer = new PHPFlexAdapter();
-        lexer.start(text);
+        Lexer lexer = new PHPFlexAdapter(PhpLanguageLevel.HIGHEST);
+        lexer.start(fileText);
         IElementType type = lexer.getTokenType();
         while (type != null) {
             typeTexts.add(getTypeText(text, lexer.getTokenStart(), lexer.getTokenEnd()));

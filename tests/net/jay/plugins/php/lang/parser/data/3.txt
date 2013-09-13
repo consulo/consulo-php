@@ -1,6 +1,0 @@
-<div></div>
------------------
-PHP file
-	Group statement
-		HTML
-			PsiElement(html)('<div></div>')

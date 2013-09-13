@@ -1,8 +1,0 @@
-<?php
-// echo "?>";
-?>
-------------------
-php opening tag('<?php\n')
-line comment('// echo "')
-php closing tag('?>')
-html('";\n?>')

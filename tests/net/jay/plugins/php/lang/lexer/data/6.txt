@@ -1,9 +1,0 @@
-<?php
-$$a;
-?>
-------------------
-php opening tag('<?php\n')
-dollar('$')
-variable('$a')
-semicolon(';')
-php closing tag('?>')

@@ -1,7 +1,0 @@
-<?php echo -$b ?>
-----------------------------
-php opening tag('<?php ')
-echo('echo')
-minus('-')
-variable('$b')
-php closing tag('?>')

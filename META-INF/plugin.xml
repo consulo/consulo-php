@@ -10,7 +10,7 @@
 	<depends>org.consulo.java.platform</depends>
 	<application-components>
 		<component>
-			<implementation-class>net.jay.plugins.php.PHPSupportApplicationComponent</implementation-class>
+			<implementation-class>org.consulo.php.PHPSupportApplicationComponent</implementation-class>
 		</component>
 		<component>
 			<implementation-class>org.consulo.php.vfs.PharFileSystem</implementation-class>
@@ -22,14 +22,14 @@
 		</component>
 	</project-components>
 	<actions>
-		<action id="PhpNewFile" class="net.jay.plugins.php.actions.PhpCreateFileAction">
+		<action id="PhpNewFile" class="org.consulo.php.actions.PhpCreateFileAction">
 			<add-to-group group-id="NewGroup1" anchor="first"/>
 		</action>
-		<action id="PhpNewClass" class="net.jay.plugins.php.actions.PhpCreateClassAction">
+		<action id="PhpNewClass" class="org.consulo.php.actions.PhpCreateClassAction">
 			<add-to-group group-id="NewGroup1" anchor="after" relative-to-action="PhpNewFile"/>
 		</action>
 
-		<action id="PhpGenerateGetterAction" class="net.jay.plugins.php.actions.generate.PhpGenerateGetterAction" text="Getter" description="Generates getter">
+		<action id="PhpGenerateGetterAction" class="org.consulo.php.actions.generate.PhpGenerateGetterAction" text="Getter" description="Generates getter">
 			<add-to-group group-id="GenerateGroup" anchor="first"/>
 		</action>
 	</actions>
@@ -38,7 +38,7 @@
 		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider"/>
 		<fileTypeFactory implementation="net.jay.plugins.php.lang.PHPFileTypeFactory"/>
 		<fileTypeDetector implementation="net.jay.plugins.php.lang.PhpFileDetector"/>
-		<xml.fileNSInfoProvider implementation="net.jay.plugins.php.PhpXmlFileNSInfoProvider"/>
+		<xml.fileNSInfoProvider implementation="org.consulo.php.PhpXmlFileNSInfoProvider"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
 
 		<internalFileTemplate name="PHP Class"/>

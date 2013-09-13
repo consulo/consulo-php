@@ -1,8 +1,0 @@
-<?php $v = ""; ?>
------------------
-php opening tag('<?php ')
-variable('$v')
-assign('=')
-string('""')
-semicolon(';')
-php closing tag('?>')

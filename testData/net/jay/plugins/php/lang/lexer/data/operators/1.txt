@@ -1,6 +1,6 @@
 <?php $a + $b ?>
 ----------------------------
-php opening tag('<?php ')
+php opening tag('<?php')
 variable('$a')
 plus('+')
 variable('$b')

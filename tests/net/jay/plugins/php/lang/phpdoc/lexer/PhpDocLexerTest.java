@@ -33,7 +33,7 @@ public class PhpDocLexerTest extends LexerTest {
         List<IElementType> types = new ArrayList<IElementType>();
         List<String> typeTexts = new ArrayList<String>();
         Lexer lexer = new PhpDocLexer();
-        lexer.start(text);
+        lexer.start(fileText);
         IElementType type = lexer.getTokenType();
         while (type != null) {
             typeTexts.add(getTypeText(text, lexer.getTokenStart(), lexer.getTokenEnd()));

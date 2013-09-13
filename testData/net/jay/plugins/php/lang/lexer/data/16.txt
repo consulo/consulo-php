@@ -1,6 +1,6 @@
 <?php $v = "a${a}"; ?>
 -----------------
-php opening tag('<?php ')
+php opening tag('<?php')
 variable('$v')
 assign('=')
 double quote('"')

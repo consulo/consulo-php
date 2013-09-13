@@ -1,8 +1,0 @@
-<?php $a + !$b ?>
-----------------------------
-php opening tag('<?php ')
-variable('$a')
-plus('+')
-not('!')
-variable('$b')
-php closing tag('?>')

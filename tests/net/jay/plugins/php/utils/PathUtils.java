@@ -22,8 +22,10 @@ public class PathUtils {
 
 	@Nullable
 	public static String getDataPath(@NotNull Class s) {
-		final String path = getClassDir(s);
-		return path != null ? path + "/data" : null;
+		String n = s.getName();
+		int index = n.lastIndexOf(".");
+		String path = "testData/" + n.substring(0, index).replace(".", "/");
+		return path;
 	}
 
 	@Nullable

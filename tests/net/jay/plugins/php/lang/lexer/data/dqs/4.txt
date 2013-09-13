@@ -1,8 +1,0 @@
-<?php $v = "\n\u"; ?>
------------------
-php opening tag('<?php ')
-variable('$v')
-assign('=')
-string('"\n\u"')
-semicolon(';')
-php closing tag('?>')

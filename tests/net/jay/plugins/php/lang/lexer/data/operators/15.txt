@@ -1,8 +1,0 @@
-<?php
-(  int	) "a"
-?>
-----------------------------
-php opening tag('<?php\n')
-integer cast('(  int\t)')
-string('"a"')
-php closing tag('?>')

@@ -1,9 +1,0 @@
-<?php
-echo "?>";
-?>
-----------------------------
-php opening tag('<?php\n')
-echo('echo')
-string('"?>"')
-semicolon(';')
-php closing tag('?>')
