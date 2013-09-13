@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public interface PHPIcons2
 {
-	Icon Php = IconLoader.findIcon("/net/jay/plugins/php/php.png");
+	Icon Php = IconLoader.findIcon("/icons/fileTypes/php.png");
 
 	Icon Class = AllIcons.Nodes.Class;
 	Icon Interface = AllIcons.Nodes.Interface;
