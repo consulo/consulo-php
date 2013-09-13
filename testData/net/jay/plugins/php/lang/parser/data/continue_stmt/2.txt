@@ -1,0 +1,79 @@
+<?php
+  for ($i = 0; $i < 5; ++$i) {
+      if ($i == 2)
+          continue
+      print "$i\n";
+  }
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		PsiWhiteSpace('  ')
+		Statement
+			For
+				PsiElement(for)('for')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Assignment expression
+					Variable
+						PsiElement(variable)('$i')
+					PsiWhiteSpace(' ')
+					PsiElement(assign)('=')
+					PsiWhiteSpace(' ')
+					Number
+						PsiElement(integer)('0')
+				PsiElement(semicolon)(';')
+				PsiWhiteSpace(' ')
+				Relational expression
+					Variable
+						PsiElement(variable)('$i')
+					PsiWhiteSpace(' ')
+					PsiElement(less than)('<')
+					PsiWhiteSpace(' ')
+					Number
+						PsiElement(integer)('5')
+				PsiElement(semicolon)(';')
+				PsiWhiteSpace(' ')
+				Unary expression
+					PsiElement(increment)('++')
+					Variable
+						PsiElement(variable)('$i')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				PsiWhiteSpace('\n      ')
+				Group statement
+					Statement
+						If
+							PsiElement(if)('if')
+							PsiWhiteSpace(' ')
+							PsiElement(()('(')
+							Equality expression
+								Variable
+									PsiElement(variable)('$i')
+								PsiWhiteSpace(' ')
+								PsiElement(equals)('==')
+								PsiWhiteSpace(' ')
+								Number
+									PsiElement(integer)('2')
+							PsiElement())(')')
+							PsiWhiteSpace('\n          ')
+							Statement
+								Continue
+									PsiElement(continue)('continue')
+									PsiWhiteSpace('\n      ')
+									Print expression
+										PsiElement(print)('print')
+										PsiWhiteSpace(' ')
+										String
+											PsiElement(double quote)('"')
+											Variable
+												PsiElement(variable)('$i')
+											PsiElement(string)('\n')
+											PsiElement(double quote)('"')
+									PsiElement(semicolon)(';')
+				PsiWhiteSpace('\n  ')
+				PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

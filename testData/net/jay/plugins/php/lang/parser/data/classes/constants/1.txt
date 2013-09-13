@@ -1,0 +1,34 @@
+<?php
+class A {
+	const B = "C";
+}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Class
+			PsiElement(class)('class')
+			PsiWhiteSpace(' ')
+			PsiElement(identifier)('A')
+			PsiWhiteSpace(' ')
+			Extends list
+				<empty list>
+			Implements list
+				<empty list>
+			PsiElement({)('{')
+			PsiWhiteSpace('\n\t')
+			PsiElement(const)('const')
+			PsiWhiteSpace(' ')
+			Class constant
+				PsiElement(identifier)('B')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				String
+					PsiElement(string)('"C"')
+			PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

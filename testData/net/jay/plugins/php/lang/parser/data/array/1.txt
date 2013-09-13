@@ -1,0 +1,44 @@
+<?php
+array(((la() && 1) + 22) => "foor");
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Array
+				PsiElement(array)('array')
+				PsiElement(()('(')
+				Array key
+					PsiElement(()('(')
+					Additive expression
+						PsiElement(()('(')
+						Logical expression
+							Function call
+								PsiElement(identifier)('la')
+								PsiElement(()('(')
+								Parameter list
+									<empty list>
+								PsiElement())(')')
+							PsiWhiteSpace(' ')
+							PsiElement(and)('&&')
+							PsiWhiteSpace(' ')
+							Number
+								PsiElement(integer)('1')
+						PsiElement())(')')
+						PsiWhiteSpace(' ')
+						PsiElement(plus)('+')
+						PsiWhiteSpace(' ')
+						Number
+							PsiElement(integer)('22')
+					PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement(hash)('=>')
+				PsiWhiteSpace(' ')
+				Array value
+					String
+						PsiElement(string)('"foor"')
+				PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

@@ -1,0 +1,12 @@
+<?php $v = "$a->b"; ?>
+-----------------
+php opening tag('<?php ')
+variable('$v')
+assign('=')
+double quote('"')
+variable('$a')
+arrow('->')
+identifier('b')
+double quote('"')
+semicolon(';')
+php closing tag('?>')

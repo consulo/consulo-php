@@ -1,0 +1,16 @@
+<?php
+(string) $a;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Cast expression
+				PsiElement(string cast)('(string)')
+				PsiWhiteSpace(' ')
+				Variable
+					PsiElement(variable)('$a')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

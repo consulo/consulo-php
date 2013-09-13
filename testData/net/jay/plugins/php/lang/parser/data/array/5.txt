@@ -1,0 +1,28 @@
+<?php
+array('bar', => 'baz');
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Array
+			PsiElement(array)('array')
+			PsiElement(()('(')
+			Array value
+				String
+					PsiElement(single quoted string)(''bar'')
+			PsiElement(comma)(',')
+			PsiErrorElement:Expected: )
+				<empty list>
+		PsiWhiteSpace(' ')
+		PsiElement(hash)('=>')
+		PsiWhiteSpace(' ')
+		String
+			PsiElement(single quoted string)(''baz'')
+		PsiErrorElement:Expected: semicolon
+			<empty list>
+		PsiElement())(')')
+		Statement
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')  //maybe make errors prettier?

@@ -1,0 +1,129 @@
+<?php
+$i = 0;
+while ($i++ < 5) {
+    echo "Outer<br />\n";
+    while (1) {
+        echo "&nbsp;&nbsp;Middle<br />\n";
+        while (1) {
+            echo "&nbsp;&nbsp;Inner<br />\n";
+            continue 3;
+        }
+        echo "This never gets output.<br />\n";
+    }
+    echo "Neither does this.<br />\n";
+}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Variable
+					PsiElement(variable)('$i')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				Number
+					PsiElement(integer)('0')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		Statement
+			While
+				PsiElement(while)('while')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Relational expression
+					Postfix expression
+						Variable
+							PsiElement(variable)('$i')
+						PsiElement(increment)('++')
+					PsiWhiteSpace(' ')
+					PsiElement(less than)('<')
+					PsiWhiteSpace(' ')
+					Number
+						PsiElement(integer)('5')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				PsiWhiteSpace('\n    ')
+				Group statement
+					Statement
+						Echo
+							PsiElement(echo)('echo')
+							PsiWhiteSpace(' ')
+							String
+								PsiElement(string)('"Outer<br />\n"')
+							PsiElement(semicolon)(';')
+					PsiWhiteSpace('\n    ')
+					Statement
+						While
+							PsiElement(while)('while')
+							PsiWhiteSpace(' ')
+							PsiElement(()('(')
+							Number
+								PsiElement(integer)('1')
+							PsiElement())(')')
+							PsiWhiteSpace(' ')
+							PsiElement({)('{')
+							PsiWhiteSpace('\n        ')
+							Group statement
+								Statement
+									Echo
+										PsiElement(echo)('echo')
+										PsiWhiteSpace(' ')
+										String
+											PsiElement(string)('"&nbsp;&nbsp;Middle<br />\n"')
+										PsiElement(semicolon)(';')
+								PsiWhiteSpace('\n        ')
+								Statement
+									While
+										PsiElement(while)('while')
+										PsiWhiteSpace(' ')
+										PsiElement(()('(')
+										Number
+											PsiElement(integer)('1')
+										PsiElement())(')')
+										PsiWhiteSpace(' ')
+										PsiElement({)('{')
+										PsiWhiteSpace('\n            ')
+										Group statement
+											Statement
+												Echo
+													PsiElement(echo)('echo')
+													PsiWhiteSpace(' ')
+													String
+														PsiElement(string)('"&nbsp;&nbsp;Inner<br />\n"')
+													PsiElement(semicolon)(';')
+											PsiWhiteSpace('\n            ')
+											Statement
+												Continue
+													PsiElement(continue)('continue')
+													PsiWhiteSpace(' ')
+													Number
+														PsiElement(integer)('3')
+													PsiElement(semicolon)(';')
+										PsiWhiteSpace('\n        ')
+										PsiElement(})('}')
+								PsiWhiteSpace('\n        ')
+								Statement
+									Echo
+										PsiElement(echo)('echo')
+										PsiWhiteSpace(' ')
+										String
+											PsiElement(string)('"This never gets output.<br />\n"')
+										PsiElement(semicolon)(';')
+							PsiWhiteSpace('\n    ')
+							PsiElement(})('}')
+					PsiWhiteSpace('\n    ')
+					Statement
+						Echo
+							PsiElement(echo)('echo')
+							PsiWhiteSpace(' ')
+							String
+								PsiElement(string)('"Neither does this.<br />\n"')
+							PsiElement(semicolon)(';')
+				PsiWhiteSpace('\n')
+				PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

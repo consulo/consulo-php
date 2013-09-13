@@ -1,0 +1,7 @@
+<?php
+?>
+-------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		PsiElement(php closing tag)('?>')

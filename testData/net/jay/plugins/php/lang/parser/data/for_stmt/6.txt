@@ -1,0 +1,31 @@
+<?php
+for (; ):
+    $d;
+endfor;
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			For
+				PsiElement(for)('for')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				PsiElement(semicolon)(';')
+				PsiErrorElement:Expected: semicolon
+					<empty list>
+				PsiWhiteSpace(' ')
+				PsiElement())(')')
+				PsiElement(colon)(':')
+				PsiWhiteSpace('\n    ')
+				Group statement
+					Statement
+						Variable
+							PsiElement(variable)('$d')
+						PsiElement(semicolon)(';')
+				PsiWhiteSpace('\n')
+				PsiElement(endfor)('endfor')
+				PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

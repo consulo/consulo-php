@@ -1,0 +1,143 @@
+<?php
+$fruits = array (
+    "fruits"  => array("a" => "orange", "b" => "banana", "c" => "apple"),
+    "numbers" => array(1, 2, 3, 4, 5, 6),
+    "holes"   => array("first", 5 => "second", "third")
+);
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Variable
+					PsiElement(variable)('$fruits')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				Array
+					PsiElement(array)('array')
+					PsiWhiteSpace(' ')
+					PsiElement(()('(')
+					PsiWhiteSpace('\n    ')
+					Array key
+						String
+							PsiElement(string)('"fruits"')
+					PsiWhiteSpace('  ')
+					PsiElement(hash)('=>')
+					PsiWhiteSpace(' ')
+					Array value
+						Array
+							PsiElement(array)('array')
+							PsiElement(()('(')
+							Array key
+								String
+									PsiElement(string)('"a"')
+							PsiWhiteSpace(' ')
+							PsiElement(hash)('=>')
+							PsiWhiteSpace(' ')
+							Array value
+								String
+									PsiElement(string)('"orange"')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array key
+								String
+									PsiElement(string)('"b"')
+							PsiWhiteSpace(' ')
+							PsiElement(hash)('=>')
+							PsiWhiteSpace(' ')
+							Array value
+								String
+									PsiElement(string)('"banana"')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array key
+								String
+									PsiElement(string)('"c"')
+							PsiWhiteSpace(' ')
+							PsiElement(hash)('=>')
+							PsiWhiteSpace(' ')
+							Array value
+								String
+									PsiElement(string)('"apple"')
+							PsiElement())(')')
+					PsiElement(comma)(',')
+					PsiWhiteSpace('\n    ')
+					Array key
+						String
+							PsiElement(string)('"numbers"')
+					PsiWhiteSpace(' ')
+					PsiElement(hash)('=>')
+					PsiWhiteSpace(' ')
+					Array value
+						Array
+							PsiElement(array)('array')
+							PsiElement(()('(')
+							Array value
+								Number
+									PsiElement(integer)('1')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								Number
+									PsiElement(integer)('2')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								Number
+									PsiElement(integer)('3')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								Number
+									PsiElement(integer)('4')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								Number
+									PsiElement(integer)('5')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								Number
+									PsiElement(integer)('6')
+							PsiElement())(')')
+					PsiElement(comma)(',')
+					PsiWhiteSpace('\n    ')
+					Array key
+						String
+							PsiElement(string)('"holes"')
+					PsiWhiteSpace('   ')
+					PsiElement(hash)('=>')
+					PsiWhiteSpace(' ')
+					Array value
+						Array
+							PsiElement(array)('array')
+							PsiElement(()('(')
+							Array value
+								String
+									PsiElement(string)('"first"')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array key
+								Number
+									PsiElement(integer)('5')
+							PsiWhiteSpace(' ')
+							PsiElement(hash)('=>')
+							PsiWhiteSpace(' ')
+							Array value
+								String
+									PsiElement(string)('"second"')
+							PsiElement(comma)(',')
+							PsiWhiteSpace(' ')
+							Array value
+								String
+									PsiElement(string)('"third"')
+							PsiElement())(')')
+					PsiWhiteSpace('\n')
+					PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

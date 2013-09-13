@@ -1,0 +1,59 @@
+<?php
+class A {
+  static public $b = array(
+    C::d => array('hello dude'),
+  );
+}
+------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Class
+			PsiElement(class)('class')
+			PsiWhiteSpace(' ')
+			PsiElement(identifier)('A')
+			PsiWhiteSpace(' ')
+			Extends list
+				<empty list>
+			Implements list
+				<empty list>
+			PsiElement({)('{')
+			PsiWhiteSpace('\n  ')
+			Class fields
+				Modifier list
+					PsiElement(static keyword)('static')
+					PsiWhiteSpace(' ')
+					PsiElement(public keyword)('public')
+				PsiWhiteSpace(' ')
+				Class field
+					PsiElement(variable)('$b')
+					PsiWhiteSpace(' ')
+					PsiElement(assign)('=')
+					PsiWhiteSpace(' ')
+					Array
+						PsiElement(array)('array')
+						PsiElement(()('(')
+						PsiWhiteSpace('\n    ')
+						Array key
+							Class constant reference
+								Class reference
+									PsiElement(identifier)('C')
+								PsiElement(scope resolution)('::')
+								PsiElement(identifier)('d')
+						PsiWhiteSpace(' ')
+						PsiElement(hash)('=>')
+						PsiWhiteSpace(' ')
+						Array value
+							Array
+								PsiElement(array)('array')
+								PsiElement(()('(')
+								Array value
+									String
+										PsiElement(single quoted string)(''hello dude'')
+								PsiElement())(')')
+						PsiElement(comma)(',')
+						PsiWhiteSpace('\n  ')
+						PsiElement())(')')
+			PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')

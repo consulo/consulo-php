@@ -1,0 +1,32 @@
+<?php function a($a $b) {}?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Function
+			PsiElement(function)('function')
+			PsiWhiteSpace(' ')
+			Is reference
+				<empty list>
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				Parameter
+					PsiElement(variable)('$a')
+			PsiErrorElement:Expected: )
+				<empty list>
+			PsiWhiteSpace(' ')
+			Group statement
+				Variable
+					PsiElement(variable)('$b')
+				PsiErrorElement:Expected: semicolon
+					<empty list>
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+				PsiElement(php closing tag)('?>')
+			PsiErrorElement:Expected: }
+				<empty list>

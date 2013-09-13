@@ -1,0 +1,22 @@
+<?php
+isset (A::b);
+?>
+---------------------------
+PHP file
+	Code
+		PsiElement(php opening tag)('<?php')
+		PsiWhiteSpace('\n')
+		Statement
+			Isset
+				PsiElement(isset keyword)('isset')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Class constant reference
+					Class reference
+						PsiElement(identifier)('A')
+					PsiElement(scope resolution)('::')
+					PsiElement(identifier)('b')
+				PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

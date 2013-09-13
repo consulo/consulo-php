@@ -1,0 +1,37 @@
+<?php function a($a->b) {}?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Function
+			PsiElement(function)('function')
+			PsiWhiteSpace(' ')
+			Is reference
+				<empty list>
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				Parameter
+					PsiElement(variable)('$a')
+			PsiErrorElement:Expected: )
+				<empty list>
+			Group statement
+				Statement
+					Field reference
+						Unrecognised input
+							<empty list>
+						PsiElement(arrow)('->')
+						PsiElement(identifier)('b')
+					PsiErrorElement:Expected: semicolon
+						<empty list>
+				Statement
+					<empty list>
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+				PsiElement(php closing tag)('?>')
+			PsiErrorElement:Expected: }
+				<empty list> //bad

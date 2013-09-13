@@ -1,0 +1,27 @@
+<?php function a() {
+	?><h1></h1><?php
+}?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Function
+			PsiElement(function)('function')
+			PsiWhiteSpace(' ')
+			Is reference
+				<empty list>
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				<empty list>
+			PsiElement())(')')
+			PsiWhiteSpace(' ')
+			PsiElement({)('{')
+			PsiWhiteSpace('\n\t')
+			Group statement
+				PsiElement(php closing tag)('?>')
+				HTML
+					PsiElement(html)('<h1></h1>')
+				PsiElement(php opening tag)('<?php\n')
+			PsiElement(})('}')
+		PsiElement(php closing tag)('?>')

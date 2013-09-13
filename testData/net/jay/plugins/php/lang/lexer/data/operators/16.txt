@@ -1,0 +1,11 @@
+<?php
+(int/* */) "a"
+?>
+----------------------------
+php opening tag('<?php\n')
+(('(')
+identifier('int')
+C style comment('/* */')
+)(')')
+string('"a"')
+php closing tag('?>')

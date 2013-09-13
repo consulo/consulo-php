@@ -1,0 +1,19 @@
+<?php
+$a instanceof A;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Instanceof expression
+				Variable
+					PsiElement(variable)('$a')
+				PsiWhiteSpace(' ')
+				PsiElement(instanceof)('instanceof')
+				PsiWhiteSpace(' ')
+				Class reference
+					PsiElement(identifier)('A')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

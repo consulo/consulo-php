@@ -1,0 +1,36 @@
+<?php
+while ($i <= 10) {
+    break $lala;
+}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		While
+			PsiElement(while)('while')
+			PsiWhiteSpace(' ')
+			PsiElement(()('(')
+			Relational expression
+				Variable
+					PsiElement(variable)('$i')
+				PsiWhiteSpace(' ')
+				PsiElement(less than or equal)('<=')
+				PsiWhiteSpace(' ')
+				Number
+					PsiElement(integer)('10')
+			PsiElement())(')')
+			PsiWhiteSpace(' ')
+			PsiElement({)('{')
+			PsiWhiteSpace('\n    ')
+			Group statement
+				Break
+					PsiElement(break)('break')
+					PsiWhiteSpace(' ')
+					Variable
+						PsiElement(variable)('$lala')
+					PsiElement(semicolon)(';')
+			PsiWhiteSpace('\n')
+			PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

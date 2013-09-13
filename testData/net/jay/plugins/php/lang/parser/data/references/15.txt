@@ -1,0 +1,20 @@
+<?php
+$$a[0];
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Variable
+			PsiElement(dollar)('$')
+			Array
+				Variable
+					PsiElement(variable)('$a')
+				PsiElement([)('[')
+				Array index
+					Number
+						PsiElement(integer)('0')
+				PsiElement(])(']')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

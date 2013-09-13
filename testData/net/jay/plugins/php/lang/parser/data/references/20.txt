@@ -1,0 +1,18 @@
+<?php
+$a->[];
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Variable
+			PsiElement(variable)('$a')
+		PsiElement(arrow)('->')
+		PsiErrorElement:Unexpected token: [
+			<empty list>
+		PsiElement([)('[')
+		PsiElement(])(']')
+		Statement
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

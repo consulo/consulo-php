@@ -1,0 +1,10 @@
+<?php
+$a instanceof A;
+?>
+------------------
+php opening tag('<?php\n')
+variable('$a')
+instanceof('instanceof')
+identifier('A')
+semicolon(';')
+php closing tag('?>')

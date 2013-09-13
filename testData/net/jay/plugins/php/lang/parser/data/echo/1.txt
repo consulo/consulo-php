@@ -1,0 +1,16 @@
+<?php
+echo 1;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Echo
+				PsiElement(echo)('echo')
+				PsiWhiteSpace(' ')
+				Number
+					PsiElement(integer)('1')
+				PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

@@ -1,0 +1,9 @@
+<?php $a + - -$b ?>
+----------------------------
+php opening tag('<?php ')
+variable('$a')
+plus('+')
+minus('-')
+minus('-')
+variable('$b')
+php closing tag('?>')

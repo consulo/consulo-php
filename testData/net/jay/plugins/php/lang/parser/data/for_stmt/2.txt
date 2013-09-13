@@ -1,0 +1,38 @@
+<?php
+for ($i = 1; ; $i++) {
+}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			For
+				PsiElement(for)('for')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Assignment expression
+					Variable
+						PsiElement(variable)('$i')
+					PsiWhiteSpace(' ')
+					PsiElement(assign)('=')
+					PsiWhiteSpace(' ')
+					Number
+						PsiElement(integer)('1')
+				PsiElement(semicolon)(';')
+				PsiWhiteSpace(' ')
+				PsiElement(semicolon)(';')
+				PsiWhiteSpace(' ')
+				Postfix expression
+					Variable
+						PsiElement(variable)('$i')
+					PsiElement(increment)('++')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				PsiWhiteSpace('\n')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

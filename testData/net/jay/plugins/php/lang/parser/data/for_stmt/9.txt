@@ -1,0 +1,36 @@
+<?php
+function a() {
+	for (
+}
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Function
+			PsiElement(function)('function')
+			PsiWhiteSpace(' ')
+			Is reference
+				<empty list>
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				<empty list>
+			PsiElement())(')')
+			PsiWhiteSpace(' ')
+			PsiElement({)('{')
+			PsiWhiteSpace('\n\t')
+			Group statement
+				Statement
+					For
+						PsiElement(for)('for')
+						PsiWhiteSpace(' ')
+						PsiElement(()('(')
+						PsiErrorElement:Expected: semicolon
+							<empty list>
+						PsiWhiteSpace('\n')
+						Statement
+							<empty list>
+			PsiElement(})('}')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

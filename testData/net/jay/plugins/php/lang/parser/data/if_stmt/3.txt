@@ -1,0 +1,20 @@
+<?php if (1) {} ?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php ')
+		Statement
+			If
+				PsiElement(if)('if')
+				PsiWhiteSpace(' ')
+				PsiElement(()('(')
+				Number
+					PsiElement(integer)('1')
+				PsiElement())(')')
+				PsiWhiteSpace(' ')
+				PsiElement({)('{')
+				Group statement
+					<empty list>
+				PsiElement(})('}')
+		PsiWhiteSpace(' ')
+		PsiElement(php closing tag)('?>')

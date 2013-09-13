@@ -1,0 +1,9 @@
+<?php?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?')
+		Statement
+			Constant
+				PsiElement(identifier)('php')
+		PsiElement(php closing tag)('?>')

@@ -1,0 +1,15 @@
+<?php
+`rm -rf`;
+`get -v $abc`
+?>
+----------------------------
+php opening tag('<?php\n')
+backtrick('`')
+exec command('rm -rf')
+backtrick('`')
+semicolon(';')
+backtrick('`')
+exec command('get -v ')
+variable('$abc')
+backtrick('`')
+php closing tag('?>')

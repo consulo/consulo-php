@@ -1,0 +1,18 @@
+<?php
+die $a;
+?>
+---------------------------
+PHP file
+	Code
+		PsiElement(php opening tag)('<?php')
+		PsiWhiteSpace('\n')
+		Statement
+			Exit
+				PsiElement(exit)('die')
+			PsiErrorElement:Unterminated statement. ';' expected
+				<empty list>
+			PsiWhiteSpace(' ')
+			PsiElement(variable)('$a')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

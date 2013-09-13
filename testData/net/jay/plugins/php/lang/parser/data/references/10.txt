@@ -1,0 +1,16 @@
+<?php
+${"foo"};
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Variable
+			PsiElement(dollar)('$')
+			PsiElement({)('{')
+			String
+				PsiElement(string)('"foo"')
+			PsiElement(})('}')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

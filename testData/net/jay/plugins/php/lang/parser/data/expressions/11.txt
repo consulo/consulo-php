@@ -1,0 +1,19 @@
+<?php
+++$a++;
+?>
+---------------------------
+PHP file
+	Code
+		PsiElement(php opening tag)('<?php')
+		PsiWhiteSpace('\n')
+		Statement
+			Unary operation
+				PsiElement(increment)('++')
+				Variable reference
+					PsiElement(variable)('$a')
+				PsiErrorElement:This operator is not allowed here
+					<empty list>
+				PsiElement(increment)('++')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

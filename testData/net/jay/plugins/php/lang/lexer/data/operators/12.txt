@@ -1,0 +1,11 @@
+<?php
+!$a = 20;
+?>
+----------------------------
+php opening tag('<?php\n')
+not('!')
+variable('$a')
+assign('=')
+integer('20')
+semicolon(';')
+php closing tag('?>')

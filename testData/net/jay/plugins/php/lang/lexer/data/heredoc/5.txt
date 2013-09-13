@@ -1,0 +1,17 @@
+<?php
+$a = <<<ID	
+some text
+ID;
+?>
+--------------------
+php opening tag('<?php\n')
+variable('$a')
+assign('=')
+shift left('<<')
+less than('<')
+identifier('ID')
+identifier('some')
+identifier('text')
+identifier('ID')
+semicolon(';')
+php closing tag('?>')

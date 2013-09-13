@@ -1,0 +1,14 @@
+<?php
+$a = <<< ID
+some text
+ID;
+?>
+--------------------
+php opening tag('<?php\n')
+variable('$a')
+assign('=')
+heredoc start('<<< ID\n')
+heredoc('some text')
+heredoc end('\nID')
+semicolon(';')
+php closing tag('?>')

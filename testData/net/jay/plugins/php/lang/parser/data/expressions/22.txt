@@ -1,0 +1,30 @@
+<?php
+1 + $a ? $b : $c;
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Ternary expression
+				Additive expression
+					Number
+						PsiElement(integer)('1')
+					PsiWhiteSpace(' ')
+					PsiElement(plus)('+')
+					PsiWhiteSpace(' ')
+					Variable
+						PsiElement(variable)('$a')
+				PsiWhiteSpace(' ')
+				PsiElement(ternary)('?')
+				PsiWhiteSpace(' ')
+				Variable
+					PsiElement(variable)('$b')
+				PsiWhiteSpace(' ')
+				PsiElement(colon)(':')
+				PsiWhiteSpace(' ')
+				Variable
+					PsiElement(variable)('$c')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

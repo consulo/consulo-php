@@ -1,0 +1,10 @@
+abc <?php
+echo "?>";
+?>
+----------------------------
+html('abc ')
+php opening tag('<?php\n')
+echo('echo')
+string('"?>"')
+semicolon(';')
+php closing tag('?>')

@@ -1,0 +1,26 @@
+<?php
+$a = new B();
+?>
+---------------------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Variable
+					PsiElement(variable)('$a')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				New expression
+					PsiElement(new)('new')
+					PsiWhiteSpace(' ')
+					Class reference
+						PsiElement(identifier)('B')
+					PsiElement(()('(')
+					Parameter list
+						<empty list>
+					PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

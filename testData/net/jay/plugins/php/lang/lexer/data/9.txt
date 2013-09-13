@@ -1,0 +1,7 @@
+<?php
+//just a comment
+?>
+------------------
+php opening tag('<?php\n')
+line comment('//just a comment')
+php closing tag('?>')

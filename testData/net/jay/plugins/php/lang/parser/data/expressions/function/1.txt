@@ -1,0 +1,38 @@
+<?php
+$wRegs = preg_split("/\"(.*)\"/U", $whereClause, -1, PREG_SPLIT_DELIM_CAPTURE);
+?>
+---------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Statement
+			Assignment expression
+				Variable
+					PsiElement(variable)('$wRegs')
+				PsiWhiteSpace(' ')
+				PsiElement(assign)('=')
+				PsiWhiteSpace(' ')
+				Function call
+					PsiElement(identifier)('preg_split')
+					PsiElement(()('(')
+					Parameter list
+						String
+							PsiElement(string)('"/\"(.*)\"/U"')
+						PsiElement(comma)(',')
+						PsiWhiteSpace(' ')
+						Variable
+							PsiElement(variable)('$whereClause')
+						PsiElement(comma)(',')
+						PsiWhiteSpace(' ')
+						Unary expression
+							PsiElement(minus)('-')
+							Number
+								PsiElement(integer)('1')
+						PsiElement(comma)(',')
+						PsiWhiteSpace(' ')
+						Constant
+							PsiElement(identifier)('PREG_SPLIT_DELIM_CAPTURE')
+					PsiElement())(')')
+			PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

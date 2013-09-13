@@ -1,0 +1,25 @@
+<?php
+$a = <<<ID
+some text $var ${var} {$var->la}
+ID;
+?>
+--------------------
+php opening tag('<?php\n')
+variable('$a')
+assign('=')
+heredoc start('<<<ID\n')
+heredoc('some text ')
+variable('$var')
+heredoc(' ')
+${('${')
+variable name('var')
+}('}')
+heredoc(' ')
+{('{')
+variable('$var')
+arrow('->')
+identifier('la')
+}('}')
+heredoc end('\nID')
+semicolon(';')
+php closing tag('?>')

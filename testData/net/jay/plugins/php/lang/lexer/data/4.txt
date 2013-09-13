@@ -1,0 +1,13 @@
+<?=1?>
+<?=1.23894?>
+<?=10369E+10?>
+----------------
+php echo opening tag('<?=')
+integer('1')
+php closing tag('?>\n')
+php echo opening tag('<?=')
+float('1.23894')
+php closing tag('?>\n')
+php echo opening tag('<?=')
+float('10369E+10')
+php closing tag('?>')

@@ -1,0 +1,19 @@
+<?php
+A::a();
+?>
+-----------------
+PHP file
+	Group statement
+		PsiElement(php opening tag)('<?php\n')
+		Method reference
+			Class reference
+				PsiElement(identifier)('A')
+			PsiElement(scope resolution)('::')
+			PsiElement(identifier)('a')
+			PsiElement(()('(')
+			Parameter list
+				<empty list>
+			PsiElement())(')')
+		PsiElement(semicolon)(';')
+		PsiWhiteSpace('\n')
+		PsiElement(php closing tag)('?>')

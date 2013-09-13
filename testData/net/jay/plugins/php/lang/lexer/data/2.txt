@@ -1,0 +1,17 @@
+<?php
+echo "?>";
+?>
+<!-- <? echo "<h1>la</h1>"; ?> -->
+----------------------
+php opening tag('<?php\n')
+echo('echo')
+string('"?>"')
+semicolon(';')
+php closing tag('?>\n')
+html('<!-- ')
+php opening tag('<?')
+echo('echo')
+string('"<h1>la</h1>"')
+semicolon(';')
+php closing tag('?>')
+html(' -->')
