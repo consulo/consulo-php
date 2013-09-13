@@ -13,7 +13,6 @@ import org.consulo.php.PhpLanguageLevel;
 %%
 
 %{
-  private static Set<String> ourPredefinedSymbols = new THashSet<String>(Arrays.asList(PhpCompletionData.predefinedFuncs));
   private boolean myHighlightingMode;
   private PhpLanguageLevel myLanguageLevel;
 
@@ -412,7 +411,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 }
 
 <ST_IN_SCRIPTING,ST_VAR_OFFSET>{LABEL} {
-  if (myHighlightingMode && ourPredefinedSymbols.contains(yytext().toString())) return PHPTokenTypes.PREDEFINED_IDENTIFIER;
 	return PHPTokenTypes.IDENTIFIER;
 }
 
