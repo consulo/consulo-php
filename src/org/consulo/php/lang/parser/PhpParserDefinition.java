@@ -10,14 +10,14 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IElementTypeAsPsiFactory;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.lang.lexer.PhpFlexAdapter;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.impl.PhpFileImpl;
-import org.consulo.php.PhpLanguageLevel;
-import org.consulo.php.lang.psi.PhpInstancableTokenType;
 import org.consulo.php.lang.psi.PhpStubElements;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.consulo.php.lang.psi.impl.stub.elements.PhpStubElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -81,8 +81,8 @@ public class PhpParserDefinition implements ParserDefinition
 		if(elementType instanceof PhpStubElement) {
 			return ((PhpStubElement) elementType).createPsi(node);
 		}
-		else if(elementType instanceof PhpInstancableTokenType) {
-			return ((PhpInstancableTokenType) elementType).createPsi(node);
+		else if(elementType instanceof IElementTypeAsPsiFactory) {
+			return ((IElementTypeAsPsiFactory) elementType).createElement(node);
 		}
 		return PhpPsiCreator.create(node);
 	}

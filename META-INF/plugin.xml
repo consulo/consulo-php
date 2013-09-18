@@ -45,7 +45,7 @@
 
 		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
-		<sdkType implementation="org.consulo.php.lang.projectConfiguration.PhpSdkType"/>
+		<sdkType implementation="org.consulo.php.sdk.PhpSdkType"/>
 		<psi.packageResolver implementation="org.consulo.php.module.packageSupport.PhpPsiPackageResolver" />
 		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.lang.psi.impl.PhpLanguageVersionResolver" />
 		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PhpParserDefinition"/>
@@ -65,5 +65,7 @@
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
 
 		<stubElementTypeHolder class="org.consulo.php.lang.psi.PhpStubElements" />
+
+		<inspectionToolProvider implementation="org.consulo.php.codeInsight.PhpInspectionToolProvider" />
 	</extensions>
 </idea-plugin>

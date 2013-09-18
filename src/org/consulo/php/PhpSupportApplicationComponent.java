@@ -1,17 +1,11 @@
 package org.consulo.php;
 
-import org.consulo.php.completion.PhpCompletionData;
-import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall;
-import org.consulo.php.lang.inspections.PhpUndefinedMethodCall;
-import org.consulo.php.lang.inspections.PhpUndefinedVariable;
-import org.consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.CompletionUtil;
-import com.intellij.codeInspection.InspectionToolProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
+import org.consulo.php.completion.PhpCompletionData;
+import org.consulo.php.lang.PhpFileType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +14,7 @@ import com.intellij.openapi.components.ApplicationComponent;
  *
  * @author jay
  */
-public class PhpSupportApplicationComponent implements ApplicationComponent, InspectionToolProvider
+public class PhpSupportApplicationComponent implements ApplicationComponent
 {
 
 	public PhpSupportApplicationComponent()
@@ -50,16 +44,5 @@ public class PhpSupportApplicationComponent implements ApplicationComponent, Ins
 	public String getComponentName()
 	{
 		return "PhpSupportApplicationComponent";
-	}
-
-	@Override
-	public Class[] getInspectionClasses()
-	{
-		return new Class[]{
-				PhpUndefinedVariable.class,
-				PhpUndefinedMethodCall.class,
-				PhpDynamicAsStaticMethodCall.class,
-				PhpUnimplementedMethodsInClass.class,
-		};
 	}
 }

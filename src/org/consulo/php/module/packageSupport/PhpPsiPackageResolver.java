@@ -6,8 +6,8 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiManager;
 import org.consulo.module.extension.ModuleExtension;
-import org.consulo.php.module.PhpModuleExtensionUtil;
 import org.consulo.php.lang.psi.impl.PhpPackageImpl;
+import org.consulo.php.module.PhpModuleExtensionUtil;
 import org.consulo.psi.PsiPackage;
 import org.consulo.psi.PsiPackageManager;
 import org.consulo.psi.PsiPackageResolver;
@@ -23,8 +23,8 @@ public class PhpPsiPackageResolver implements PsiPackageResolver {
 	@Nullable
 	@Override
 	public PsiPackage resolvePackage(@NotNull PsiPackageManager packageManager, @NotNull VirtualFile virtualFile,
-													 @NotNull Class<? extends ModuleExtension> extensionClass,
-													 String qualifiedName) {
+									 @NotNull Class<? extends ModuleExtension> extensionClass,
+									 String qualifiedName) {
 
 		final Module moduleForFile = ModuleUtil.findModuleForFile(virtualFile, packageManager.getProject());
 		if (moduleForFile == null) {
