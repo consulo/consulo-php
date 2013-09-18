@@ -85,6 +85,7 @@ public class ForStatement implements PhpTokenTypes
 	{
 		ParserPart parserPart = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return Expression.parse(builder);

@@ -6,8 +6,8 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
 import org.consulo.php.completion.PhpLookupElement;
 import org.consulo.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
-import org.consulo.php.lang.psi.elements.Function;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
 
 /**
  * @author jay
@@ -35,12 +35,13 @@ public class PhpMethodInsertHandler implements InsertHandler
 	/**
 	 * Invoked inside atomic action.
 	 */
+	@Override
 	public void handleInsert(InsertionContext context, LookupElement lookupElement)
 	{
 		Editor editor = context.getEditor();
 		if(lookupElement.getObject() instanceof PhpLookupElement)
 		{
-			final Function method = getMethod(editor, lookupElement);
+			final PhpFunction method = getMethod(editor, lookupElement);
 			if(!PhpInsertHandlerUtil.isStringAtCaret(editor, "("))
 			{
 				PhpInsertHandlerUtil.insertStringAtCaret(editor, "()");
@@ -68,12 +69,12 @@ public class PhpMethodInsertHandler implements InsertHandler
 		}
 	}
 
-	protected Function getMethod(Editor editor, LookupElement element)
+	protected PhpFunction getMethod(Editor editor, LookupElement element)
 	{
 		final PhpNamedElement psiElement = ((PhpLookupElement) element).element;
-		if(psiElement instanceof Function)
+		if(psiElement instanceof PhpFunction)
 		{
-			return (Function) psiElement;
+			return (PhpFunction) psiElement;
 		}
 		return null;
 	}

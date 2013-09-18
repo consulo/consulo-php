@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
-import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.index.PhpIndexUtil;
 
@@ -20,6 +20,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 
 	public static final Key<PhpType> TYPE_KEY = new Key<PhpType>("PhpTypeKey");
 
+	@Override
 	@SuppressWarnings({"ConstantConditions"})
 	public void visitVariableReference(PhpVariableReference variable)
 	{
@@ -48,24 +49,25 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		else
 		{
 			val parent = variable.getParent();
-			if(parent instanceof AssignmentExpression)
+			if(parent instanceof PhpAssignmentExpression)
 			{
-				val value = ((AssignmentExpression) parent).getValue();
+				val value = ((PhpAssignmentExpression) parent).getValue();
 				if(value instanceof PhpTypedElement)
 				{
 					type.addClasses(((PhpTypedElement) value).getType().getTypes());
 				}
 			}
-			else if(parent instanceof Catch)
+			else if(parent instanceof PhpCatchStatement)
 			{
-				val classReference = ((Catch) parent).getExceptionType();
+				val classReference = ((PhpCatchStatement) parent).getExceptionType();
 				type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
 			}
 		}
 		variable.putUserData(TYPE_KEY, type);
 	}
 
-	public void visitPhpAssignmentExpression(AssignmentExpression expr)
+	@Override
+	public void visitPhpAssignmentExpression(PhpAssignmentExpression expr)
 	{
 		PhpType type = new PhpType();
 		val value = expr.getValue();
@@ -76,6 +78,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		expr.putUserData(TYPE_KEY, type);
 	}
 
+	@Override
 	public void visitPhpMethodReference(PhpMethodReference reference)
 	{
 		PhpType type = new PhpType();
@@ -87,6 +90,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		reference.putUserData(TYPE_KEY, type);
 	}
 
+	@Override
 	public void visitPhpMethod(PhpMethod phpMethod)
 	{
 		PhpType type = new PhpType();
@@ -105,7 +109,8 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		phpMethod.putUserData(TYPE_KEY, type);
 	}
 
-	public void visitPhpFieldReference(FieldReference fieldReference)
+	@Override
+	public void visitPhpFieldReference(PhpFieldReference fieldReference)
 	{
 		PhpType type = new PhpType();
 		val element = fieldReference.resolve();
@@ -116,6 +121,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		fieldReference.putUserData(TYPE_KEY, type);
 	}
 
+	@Override
 	public void visitPhpField(PhpField phpField)
 	{
 		PhpType type = new PhpType();
@@ -131,8 +137,9 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		phpField.putUserData(TYPE_KEY, type);
 	}
 
+	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public void visitPhpNewExpression(NewExpression expression)
+	public void visitPhpNewExpression(PhpNewExpression expression)
 	{
 		PhpType type = new PhpType();
 		val classReference = expression.getFirstPsiChild();
@@ -151,6 +158,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		expression.putUserData(TYPE_KEY, type);
 	}
 
+	@Override
 	public void visitPhpParameter(PhpParameter parameter)
 	{
 		PhpType type = new PhpType();

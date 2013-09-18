@@ -34,7 +34,8 @@ public class ParserTest extends BasePHPFileSetTestCase {
     }
 
 
-    public String transform(String testName, String[] data) throws Exception {
+    @Override
+	public String transform(String testName, String[] data) throws Exception {
         final String fileText = data[0];
 
         final PsiFile psiFile = TestUtils.createPseudoPhysicalFile(myProject, fileText);
@@ -48,7 +49,8 @@ public class ParserTest extends BasePHPFileSetTestCase {
     private String gatherTextFromPsiFile(PsiFile psiFile) {
         final StringBuffer result = new StringBuffer();
         PsiElementVisitor myVisitor = new PhpElementVisitor() {
-            public void visitElement(PsiElement element) {
+            @Override
+			public void visitElement(PsiElement element) {
 // if child is leaf
                 if (element.getFirstChild() == null) {
                     result.append(element.getText());

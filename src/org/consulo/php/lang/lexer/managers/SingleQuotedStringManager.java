@@ -20,6 +20,7 @@ public class SingleQuotedStringManager extends StringManager
 		DELIMITER = '\'';
 	}
 
+	@Override
 	public int eat()
 	{
 		int pos = 0;

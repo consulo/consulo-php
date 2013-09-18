@@ -71,36 +71,42 @@ public class PhpColorsPage implements ColorSettingsPage
 			new AttributesDescriptor(PhpBundle.message("color.settings.docmarkup"), PhpHighlightingData.DOC_MARKUP)
 	};
 
+	@Override
 	@NotNull
 	public String getDisplayName()
 	{
 		return PhpBundle.message("color.settings.name");
 	}
 
+	@Override
 	@Nullable
 	public Icon getIcon()
 	{
 		return PhpIcons2.Php;
 	}
 
+	@Override
 	@NotNull
 	public AttributesDescriptor[] getAttributeDescriptors()
 	{
 		return ATTRS;
 	}
 
+	@Override
 	@NotNull
 	public ColorDescriptor[] getColorDescriptors()
 	{
 		return new ColorDescriptor[0];
 	}
 
+	@Override
 	@NotNull
 	public SyntaxHighlighter getHighlighter()
 	{
 		return new PhpFileSyntaxHighlighter(PhpLanguageLevel.HIGHEST);
 	}
 
+	@Override
 	@NonNls
 	@NotNull
 	public String getDemoText()
@@ -108,6 +114,7 @@ public class PhpColorsPage implements ColorSettingsPage
 		return DEMO_TEXT;
 	}
 
+	@Override
 	@Nullable
 	public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap()
 	{

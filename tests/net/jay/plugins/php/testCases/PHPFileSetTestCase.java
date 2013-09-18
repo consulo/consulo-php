@@ -26,6 +26,7 @@ public abstract class PHPFileSetTestCase extends FileSetTestCase {
 		super(dataPath, aClass);
 	}
 
+	@Override
 	public void setUp() {
 		super.setUp();
 
@@ -41,6 +42,7 @@ public abstract class PHPFileSetTestCase extends FileSetTestCase {
 		myProject = myFixture.getProject();
 	}
 
+	@Override
 	public void tearDown() {
 		try {
 			myFixture.tearDown();

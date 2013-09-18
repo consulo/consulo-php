@@ -26,6 +26,7 @@ public abstract class StringManager extends ReadingManager
 		super(lexer);
 	}
 
+	@Override
 	public void reset()
 	{
 		super.reset();

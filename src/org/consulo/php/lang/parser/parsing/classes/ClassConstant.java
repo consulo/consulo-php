@@ -31,6 +31,7 @@ public class ClassConstant implements PhpTokenTypes
 
 		ParserPart constantParser = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(IDENTIFIER))

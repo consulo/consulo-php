@@ -25,12 +25,14 @@ public class PhpFormattingModelBuilder implements FormattingModelBuilder
 	 * @param settings the code style settings used for formatting.
 	 * @return the formatting model for the file.
 	 */
+	@Override
 	@NotNull
 	public FormattingModel createModel(PsiElement element, CodeStyleSettings settings)
 	{
 		return FormattingModelProvider.createFormattingModelForPsiFile(element.getContainingFile(), null, settings);
 	}
 
+	@Override
 	public TextRange getRangeAffectingIndent(PsiFile file, int offset, ASTNode elementAtOffset)
 	{
 		return null;

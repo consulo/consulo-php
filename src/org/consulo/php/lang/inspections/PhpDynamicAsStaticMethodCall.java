@@ -1,9 +1,9 @@
 package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
-import org.consulo.php.lang.psi.elements.PhpMethod;
-import org.consulo.php.lang.psi.elements.PhpMethodReference;
-import org.consulo.php.lang.psi.elements.PhpModifier;
+import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpModifier;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.Nls;
@@ -18,6 +18,7 @@ import com.intellij.psi.PsiElementVisitor;
  */
 public class PhpDynamicAsStaticMethodCall extends PhpInspection
 {
+	@Override
 	@Nls
 	@NotNull
 	public String getDisplayName()
@@ -25,11 +26,13 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 		return PhpBundle.message("php.inspections.dynamic_as_static_method_call");
 	}
 
+	@Override
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
 		return new PhpElementVisitor()
 		{
+			@Override
 			@SuppressWarnings({"ConstantConditions"})
 			public void visitPhpMethodReference(PhpMethodReference reference)
 			{

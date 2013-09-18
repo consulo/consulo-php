@@ -1,6 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.psi;
 
-import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.PhpElement;
 
 /**
  * @author jay

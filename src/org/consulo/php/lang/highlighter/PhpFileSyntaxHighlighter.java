@@ -34,6 +34,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 		return new PhpHighlightingLexer((PhpLanguageLevel) languageVersion);
 	}
 
+	@Override
 	@NotNull
 	public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
 		return pack(ATTRIBUTES.get(tokenType), DOC_ATTRIBUTES.get(tokenType));
@@ -84,6 +85,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_TAG);
 
 		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate() {
+			@Override
 			public boolean matches(IElementType type) {
 				return type instanceof PhpDocElementType;
 			}

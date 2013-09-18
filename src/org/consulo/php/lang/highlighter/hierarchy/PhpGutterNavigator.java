@@ -8,9 +8,9 @@ import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.awt.RelativePoint;
-import org.consulo.php.lang.psi.elements.PhpClass;
-import org.consulo.php.lang.psi.elements.PhpMethod;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -70,6 +70,7 @@ public class PhpGutterNavigator
 		list.setCellRenderer(listRenderer);
 		new PopupChooserBuilder(list).setTitle(title).setMovable(true).setItemChoosenCallback(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				int[] ids = list.getSelectedIndices();

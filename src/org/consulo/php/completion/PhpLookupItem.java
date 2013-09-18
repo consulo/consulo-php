@@ -4,7 +4,7 @@ import com.intellij.codeInsight.lookup.LookupValueWithPriority;
 import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpNamedElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +27,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		this.element = element;
 	}
 
+	@Override
 	public String getPresentation()
 	{
 		return name;
@@ -37,6 +38,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		this.name = name;
 	}
 
+	@Override
 	public String getTypeHint()
 	{
 		return type;
@@ -47,11 +49,13 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		type = typeHint;
 	}
 
+	@Override
 	public Color getColorHint()
 	{
 		return null;
 	}
 
+	@Override
 	public boolean isBold()
 	{
 		return bold;
@@ -62,6 +66,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		this.bold = bold;
 	}
 
+	@Override
 	public Icon getIcon(int flags)
 	{
 		return icon;
@@ -77,6 +82,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 		return element;
 	}
 
+	@Override
 	public int getPriority()
 	{
 		return HIGHER;

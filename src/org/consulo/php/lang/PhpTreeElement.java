@@ -7,10 +7,9 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.RowIcon;
-import org.consulo.php.lang.psi.PhpFile;
-import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.consulo.php.util.PhpPresentationUtil;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +26,18 @@ class PhpTreeElement implements StructureViewTreeElement
 		this.myElement = psiElement;
 	}
 
+	@Override
 	public Object getValue()
 	{
 		return myElement.isValid() ? myElement : null;
 	}
 
+	@Override
 	public ItemPresentation getPresentation()
 	{
-		if(myElement instanceof PhpFile)
+		if(myElement instanceof PhpFileImpl)
 		{
-			PhpFile e = (PhpFile) myElement;
+			PhpFileImpl e = (PhpFileImpl) myElement;
 			return e.getPresentation();
 		}
 		if(myElement instanceof PhpClass)
@@ -54,9 +55,9 @@ class PhpTreeElement implements StructureViewTreeElement
 			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(e.getModifier()), 1);
 			return new PresentationData(b.toString(), null, rowIcon, null);
 		}
-		if(myElement instanceof Function)
+		if(myElement instanceof PhpFunction)
 		{
-			Function e = (Function) myElement;
+			PhpFunction e = (PhpFunction) myElement;
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
 			RowIcon rowIcon = new RowIcon(2);
@@ -88,6 +89,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		b.append(')');
 	}
 
+	@Override
 	public TreeElement[] getChildren()
 	{
 		List<StructureViewTreeElement> children = new ArrayList<StructureViewTreeElement>();
@@ -104,7 +106,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		{
 			if(element instanceof PhpNamedElement)
 			{
-				if(!(element instanceof PhpParameter) && (!(element instanceof PhpVariableReference) || ((PhpVariableReference) element).isDeclaration()) && !(element instanceof ConstantReference))
+				if(!(element instanceof PhpParameter) && (!(element instanceof PhpVariableReference) || ((PhpVariableReference) element).isDeclaration()) && !(element instanceof PhpConstantReference))
 					children.add(new PhpTreeElement(element));
 			}
 			else
@@ -112,16 +114,19 @@ class PhpTreeElement implements StructureViewTreeElement
 		}
 	}
 
+	@Override
 	public void navigate(boolean requestFocus)
 	{
 		((Navigatable) myElement).navigate(requestFocus);
 	}
 
+	@Override
 	public boolean canNavigate()
 	{
 		return ((Navigatable) myElement).canNavigate();
 	}
 
+	@Override
 	public boolean canNavigateToSource()
 	{
 		return ((Navigatable) myElement).canNavigateToSource();

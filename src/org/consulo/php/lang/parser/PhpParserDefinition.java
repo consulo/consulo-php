@@ -14,11 +14,11 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.consulo.php.lang.lexer.PhpFlexAdapter;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpFile;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.consulo.php.PhpLanguageLevel;
-import org.consulo.php.psi.PhpInstancableTokenType;
-import org.consulo.php.psi.PhpStubElements;
-import org.consulo.php.psi.impl.stub.elements.PhpStubElement;
+import org.consulo.php.lang.psi.PhpInstancableTokenType;
+import org.consulo.php.lang.psi.PhpStubElements;
+import org.consulo.php.lang.psi.impl.stub.elements.PhpStubElement;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -31,42 +31,49 @@ import org.jetbrains.annotations.NotNull;
 public class PhpParserDefinition implements ParserDefinition
 {
 
+	@Override
 	@NotNull
 	public Lexer createLexer(Project project, @NotNull LanguageVersion languageVersion)
 	{
 		return new PhpFlexAdapter((PhpLanguageLevel) languageVersion);
 	}
 
+	@Override
 	@NotNull
 	public PsiParser createParser(Project project, @NotNull LanguageVersion languageVersion)
 	{
 		return new PhpPsiParser();
 	}
 
+	@Override
 	@NotNull
 	public IFileElementType getFileNodeType()
 	{
 		return PhpStubElements.FILE;
 	}
 
+	@Override
 	@NotNull
 	public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion)
 	{
 		return TokenSet.create(PhpTokenTypes.WHITE_SPACE, PhpTokenTypes.DOC_WHITESPACE);
 	}
 
+	@Override
 	@NotNull
 	public TokenSet getCommentTokens(@NotNull LanguageVersion languageVersion)
 	{
 		return PhpTokenTypes.tsCOMMENTS;
 	}
 
+	@Override
 	@NotNull
 	public TokenSet getStringLiteralElements(@NotNull LanguageVersion languageVersion)
 	{
 		return PhpTokenTypes.tsSTRINGS;
 	}
 
+	@Override
 	@NotNull
 	public PsiElement createElement(ASTNode node)
 	{
@@ -80,11 +87,13 @@ public class PhpParserDefinition implements ParserDefinition
 		return PhpPsiCreator.create(node);
 	}
 
+	@Override
 	public PsiFile createFile(FileViewProvider viewProvider)
 	{
-		return new PhpFile(viewProvider);
+		return new PhpFileImpl(viewProvider);
 	}
 
+	@Override
 	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right)
 	{
 		return null;

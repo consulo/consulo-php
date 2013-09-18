@@ -27,10 +27,12 @@ public class PhpSupportApplicationComponent implements ApplicationComponent, Ins
 	{
 	}
 
+	@Override
 	public void initComponent()
 	{
 		ApplicationManager.getApplication().runWriteAction(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				CompletionUtil.registerCompletionData(PhpFileType.INSTANCE, new PhpCompletionData());
@@ -38,16 +40,19 @@ public class PhpSupportApplicationComponent implements ApplicationComponent, Ins
 		});
 	}
 
+	@Override
 	public void disposeComponent()
 	{
 	}
 
+	@Override
 	@NotNull
 	public String getComponentName()
 	{
 		return "PhpSupportApplicationComponent";
 	}
 
+	@Override
 	public Class[] getInspectionClasses()
 	{
 		return new Class[]{

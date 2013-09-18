@@ -38,6 +38,7 @@ public class StaticArrayPairList
 		ParserPart parser = new ParserPart()
 		{
 
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				PsiBuilder.Marker staticArrayPair = builder.mark();

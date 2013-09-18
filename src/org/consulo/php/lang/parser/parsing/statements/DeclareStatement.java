@@ -66,6 +66,7 @@ public class DeclareStatement implements PhpTokenTypes
 	{
 		ParserPart listParser = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(IDENTIFIER))

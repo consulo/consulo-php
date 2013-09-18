@@ -2,7 +2,7 @@ package org.consulo.php.lang.psi.resolve;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.PhpElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,7 @@ public class PhpVariantsProcessor extends PhpScopeProcessor
 		return variants;
 	}
 
+	@Override
 	public boolean execute(PsiElement element)
 	{
 		if(element instanceof PsiNamedElement)

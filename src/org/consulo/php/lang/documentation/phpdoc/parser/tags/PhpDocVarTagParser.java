@@ -16,11 +16,13 @@ public class PhpDocVarTagParser extends PhpDocTagParser
 		PhpDocTagParserRegistry.register(new PhpDocVarTagParser());
 	}
 
+	@Override
 	public String getName()
 	{
 		return "@var";
 	}
 
+	@Override
 	public void parse(PhpPsiBuilder builder)
 	{
 		final PsiBuilder.Marker tag = builder.mark();

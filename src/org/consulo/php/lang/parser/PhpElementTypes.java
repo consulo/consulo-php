@@ -6,12 +6,12 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpElementType;
-import org.consulo.php.lang.psi.elements.impl.PhpClassReferenceImpl;
-import org.consulo.php.lang.psi.elements.impl.PhpFieldImpl;
-import org.consulo.php.lang.psi.elements.impl.PhpMethodReferenceImpl;
-import org.consulo.php.lang.psi.elements.impl.PhpVariableReferenceImpl;
-import org.consulo.php.psi.PhpInstancableTokenType;
-import org.consulo.php.psi.PhpStubElements;
+import org.consulo.php.lang.psi.impl.PhpClassReferenceImpl;
+import org.consulo.php.lang.psi.impl.PhpFieldImpl;
+import org.consulo.php.lang.psi.impl.PhpMethodReferenceImpl;
+import org.consulo.php.lang.psi.impl.PhpVariableReferenceImpl;
+import org.consulo.php.lang.psi.PhpInstancableTokenType;
+import org.consulo.php.lang.psi.PhpStubElements;
 
 /**
  * Created by IntelliJ IDEA.

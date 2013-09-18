@@ -162,6 +162,7 @@ public class AssignmentExpression implements PhpTokenTypes
 	{
 		ParserPart assignmentElement = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(builder.compareAndEat(kwLIST))

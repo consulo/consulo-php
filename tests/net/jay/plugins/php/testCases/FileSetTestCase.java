@@ -62,6 +62,7 @@ public abstract class FileSetTestCase extends TestSuite {
 		addAllTests();
 	}
 
+	@Override
 	public String getName() {
 		return getClass().getName();
 	}

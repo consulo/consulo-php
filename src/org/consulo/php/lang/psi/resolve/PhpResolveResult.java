@@ -23,6 +23,7 @@ public class PhpResolveResult implements ResolveResult
 	 *
 	 * @return an element the reference is resolved to.
 	 */
+	@Override
 	@Nullable
 	public PsiElement getElement()
 	{
@@ -34,6 +35,7 @@ public class PhpResolveResult implements ResolveResult
 	 *
 	 * @return true if the resolve encountered no problems
 	 */
+	@Override
 	public boolean isValidResult()
 	{
 		return element != null && element.isValid();

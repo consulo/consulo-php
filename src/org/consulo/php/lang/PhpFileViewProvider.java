@@ -33,6 +33,7 @@ public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 		super(manager, file, physical);
 	}
 
+	@Override
 	@NotNull
 	public Set<Language> getLanguages()
 	{
@@ -46,6 +47,7 @@ public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 		return PhpLanguage.INSTANCE;
 	}
 
+	@Override
 	@NotNull
 	public Language getTemplateDataLanguage()
 	{

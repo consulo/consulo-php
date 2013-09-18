@@ -17,6 +17,8 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.PhpNewExpression;
 import org.jetbrains.annotations.NonNls;
 
 import java.io.InputStream;
@@ -83,6 +85,7 @@ public class PhpCompletionData extends CompletionData
 	{
 		CompletionVariant variant = new CompletionVariant(new ElementFilter()
 		{
+			@Override
 			@SuppressWarnings({"RedundantIfStatement"})
 			public boolean isAcceptable(Object o, PsiElement psiElement)
 			{
@@ -93,29 +96,30 @@ public class PhpCompletionData extends CompletionData
 				//        System.out.println(psiElement.getParent().getParent().getText());
 				//        System.out.println("--------");
 				final PsiElement parent = psiElement.getParent();
-				if(parent instanceof org.consulo.php.lang.psi.elements.PhpVariableReference)
+				if(parent instanceof PhpVariableReference)
 				{
 					return false;
 				}
-				if(parent instanceof org.consulo.php.lang.psi.elements.PhpClassReference)
+				if(parent instanceof PhpClassReference)
 				{
 					return false;
 				}
-				if(parent instanceof org.consulo.php.lang.psi.elements.PhpMethodReference)
+				if(parent instanceof PhpMethodReference)
 				{
 					return false;
 				}
-				if(parent instanceof org.consulo.php.lang.psi.elements.ClassConstantReference)
+				if(parent instanceof PhpClassConstantReference)
 				{
 					return false;
 				}
-				if(parent instanceof org.consulo.php.lang.psi.elements.FieldReference)
+				if(parent instanceof PhpFieldReference)
 				{
 					return false;
 				}
 				return true;
 			}
 
+			@Override
 			public boolean isClassAcceptable(Class aClass)
 			{
 				return true;
@@ -125,6 +129,7 @@ public class PhpCompletionData extends CompletionData
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.addCompletion(new ContextGetter()
 		{
+			@Override
 			public Object[] get(PsiElement psiElement, CompletionContext completionContext)
 			{
 				if(psiElement.getLanguage() != PhpFileType.INSTANCE.getLanguage())
@@ -132,7 +137,7 @@ public class PhpCompletionData extends CompletionData
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}
 				//noinspection ConstantConditions
-				if(psiElement.getNode().getElementType() == PhpTokenTypes.IDENTIFIER && psiElement.getParent() instanceof org.consulo.php.lang.psi.elements.PhpMethod && ((org.consulo.php.lang.psi.elements.PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
+				if(psiElement.getNode().getElementType() == PhpTokenTypes.IDENTIFIER && psiElement.getParent() instanceof PhpMethod && ((PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
 				{
 					return new Object[]{
 							"__construct",
@@ -148,29 +153,31 @@ public class PhpCompletionData extends CompletionData
 		registerVariant(variant);
 
 		variant = new CompletionVariant(TrueFilter.INSTANCE);
-		variant.includeScopeClass(org.consulo.php.lang.psi.elements.PhpVariableReference.class);
+		variant.includeScopeClass(PhpVariableReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.addCompletion(superGlobals);
 		registerVariant(variant);
 
 		variant = new CompletionVariant(new ElementFilter()
 		{
+			@Override
 			@SuppressWarnings({"RedundantIfStatement"})
 			public boolean isAcceptable(Object element, PsiElement context)
 			{
-				if(context.getParent() instanceof org.consulo.php.lang.psi.elements.NewExpression)
+				if(context.getParent() instanceof PhpNewExpression)
 				{
 					return true;
 				}
 				return false;
 			}
 
+			@Override
 			public boolean isClassAcceptable(Class hintClass)
 			{
 				return true;
 			}
 		});
-		variant.includeScopeClass(org.consulo.php.lang.psi.elements.PhpClassReference.class);
+		variant.includeScopeClass(PhpClassReference.class);
 		variant.addCompletionFilter(TrueFilter.INSTANCE);
 		variant.setInsertHandler(new BasicInsertHandler()
 		{
@@ -181,8 +188,8 @@ public class PhpCompletionData extends CompletionData
 				Editor editor = context.getEditor();
 				EditorModificationUtil.insertStringAtCaret(editor, "()");
 				PsiDocumentManager.getInstance(editor.getProject()).commitDocument(editor.getDocument());
-				org.consulo.php.lang.psi.elements.PhpClass klass = (org.consulo.php.lang.psi.elements.PhpClass) element.getObject();
-				org.consulo.php.lang.psi.elements.PhpMethod phpMethod = klass.getConstructor();
+				PhpClass klass = (PhpClass) element.getObject();
+				PhpMethod phpMethod = klass.getConstructor();
 				if(phpMethod != null && phpMethod.getParameters().length > 0)
 				{
 					editor.getCaretModel().moveCaretRelatively(-1, 0, false, false, true);
@@ -204,11 +211,12 @@ public class PhpCompletionData extends CompletionData
 			"GLOBALS"
 	};
 
+	@Override
 	public String findPrefix(PsiElement psiElement, int i)
 	{
 		PsiReference reference = psiElement.getContainingFile().findReferenceAt(i);
 		String prefix = super.findPrefix(psiElement, i);
-		if(reference instanceof org.consulo.php.lang.psi.elements.PhpVariableReference && prefix.startsWith("$"))
+		if(reference instanceof PhpVariableReference && prefix.startsWith("$"))
 		{
 			prefix = prefix.substring(1);
 		}

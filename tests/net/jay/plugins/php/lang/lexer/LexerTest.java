@@ -41,7 +41,8 @@ public class LexerTest extends BasePHPFileSetTestCase {
     }
 
 
-    public String transform(String testName, String[] data) throws Exception {
+    @Override
+	public String transform(String testName, String[] data) throws Exception {
         final String fileText = data[0];
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();

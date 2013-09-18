@@ -1,18 +1,13 @@
 package org.consulo.php.lang.parser;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
-import org.consulo.php.lang.psi.elements.impl.*;
-
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import org.consulo.php.lang.psi.elements.impl.IfImpl;
-import org.consulo.php.lang.psi.elements.impl.ImplementsListImpl;
-import org.consulo.php.lang.psi.elements.impl.PhpParameterImpl;
-import org.consulo.php.lang.psi.elements.impl.StatementImpl;
+import org.consulo.php.lang.psi.impl.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,15 +36,15 @@ public class PhpPsiCreator implements PhpElementTypes
 
 		if(type == STATEMENT)
 		{
-			return new StatementImpl(node);
+			return new PhpStatementImpl(node);
 		}
 		if(type == GROUP_STATEMENT)
 		{
-			return new GroupStatementImpl(node);
+			return new PhpGroupStatementImpl(node);
 		}
 		if(type == FUNCTION)
 		{
-			return new FunctionImpl(node);
+			return new PhpFunctionImpl(node);
 		}
 		if(type == PARAMETER_LIST)
 		{
@@ -61,23 +56,23 @@ public class PhpPsiCreator implements PhpElementTypes
 		}
 		if(type == NEW_EXPRESSION)
 		{
-			return new NewExpressionImpl(node);
+			return new PhpNewExpressionImpl(node);
 		}
 		if(BINARY_EXPRESSIONS.contains(type))
 		{
-			return new BinaryExpressionImpl(node);
+			return new PhpBinaryExpressionImpl(node);
 		}
 		if(type == UNARY_EXPRESSION)
 		{
-			return new UnaryExpressionImpl(node);
+			return new PhpUnaryExpressionImpl(node);
 		}
 		if(type == ASSIGNMENT_EXPRESSION)
 		{
-			return new AssignmentExpressionImpl(node);
+			return new PhpAssignmentExpressionImpl(node);
 		}
 		if(type == SELF_ASSIGNMENT_EXPRESSION)
 		{
-			return new SelfAssignmentExpressionImpl(node);
+			return new PhpSelfAssignmentExpressionImpl(node);
 		}
 		if(type == CLASS_METHOD)
 		{
@@ -85,15 +80,15 @@ public class PhpPsiCreator implements PhpElementTypes
 		}
 		if(type == CATCH)
 		{
-			return new CatchImpl(node);
+			return new PhpCatchStatementImpl(node);
 		}
 		if(type == FOREACH)
 		{
-			return new ForeachImpl(node);
+			return new PhpForeachStatementImpl(node);
 		}
 		if(type == GLOBAL)
 		{
-			return new GlobalImpl(node);
+			return new PhpGlobalImpl(node);
 		}
 		if(type == CLASS_FIELD)
 		{
@@ -101,49 +96,53 @@ public class PhpPsiCreator implements PhpElementTypes
 		}
 		if(type == IF)
 		{
-			return new IfImpl(node);
+			return new PhpIfStatementImpl(node);
 		}
 		if(type == ELSE_IF)
 		{
-			return new ElseIfImpl(node);
+			return new PhpElseIfStatementImpl(node);
 		}
 		if(type == ELSE)
 		{
-			return new ElseImpl(node);
+			return new PhpElseStatementImpl(node);
+		}
+		if(type == WHILE)
+		{
+			return new PhpWhileStatementImpl(node);
 		}
 		if(type == FOR)
 		{
-			return new ForImpl(node);
+			return new PhpForStatementImpl(node);
 		}
 
 		if(type == FIELD_REFERENCE)
 		{
-			return new FieldReferenceImpl(node);
+			return new PhpFieldReferenceImpl(node);
 		}
 		if(type == FUNCTION_CALL)
 		{
-			return new FunctionCallImpl(node);
+			return new PhpFunctionCallImpl(node);
 		}
 
 		if(type == EXTENDS_LIST)
 		{
-			return new ExtendsListImpl(node);
+			return new PhpExtendsListImpl(node);
 		}
 		if(type == IMPLEMENTS_LIST)
 		{
-			return new ImplementsListImpl(node);
+			return new PhpImplementsListImpl(node);
 		}
 		if(type == CLASS_CONSTANT_REFERENCE)
 		{
-			return new ClassConstantReferenceImpl(node);
+			return new PhpClassConstantReferenceImpl(node);
 		}
 		if(type == CONSTANT)
 		{
-			return new ConstantReferenceImpl(node);
+			return new PhpConstantReferenceImpl(node);
 		}
 		if(type == TRY)
 		{
-			return new TryImpl(node);
+			return new PhpTryStatementImpl(node);
 		}
 		return new PhpElementImpl(node);
 	}

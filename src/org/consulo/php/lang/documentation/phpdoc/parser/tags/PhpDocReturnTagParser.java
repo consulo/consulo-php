@@ -16,11 +16,13 @@ public class PhpDocReturnTagParser extends PhpDocTagParser
 		PhpDocTagParserRegistry.register(new PhpDocReturnTagParser());
 	}
 
+	@Override
 	public String getName()
 	{
 		return "@return";
 	}
 
+	@Override
 	public void parse(PhpPsiBuilder builder)
 	{
 		final PsiBuilder.Marker tag = builder.mark();

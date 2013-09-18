@@ -8,7 +8,7 @@ import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
-import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.PhpElement;
 import org.jetbrains.annotations.NonNls;
 
 /**
@@ -23,11 +23,13 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		super(PhpDocElementTypes.DOC_COMMENT);
 	}
 
+	@Override
 	public IElementType getTokenType()
 	{
 		return getElementType();
 	}
 
+	@Override
 	public PhpElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
@@ -41,6 +43,7 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		return null;
 	}
 
+	@Override
 	public PhpElement getNextPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
@@ -60,6 +63,7 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		return nextSibling;
 	}
 
+	@Override
 	public PhpElement getPrevPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
@@ -85,11 +89,13 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 		return "PhpDocComment";
 	}
 
+	@Override
 	public PhpDocVarTag getVarTag()
 	{
 		return PsiTreeUtil.getChildOfType(this, PhpDocVarTag.class);
 	}
 
+	@Override
 	public PhpDocReturnTag getReturnTag()
 	{
 		return PsiTreeUtil.getChildOfType(this, PhpDocReturnTag.class);

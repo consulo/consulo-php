@@ -4,7 +4,7 @@ import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
-import org.consulo.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.index.PhpClassIndex;
 
 import java.util.Collection;
@@ -42,6 +42,7 @@ public class PhpClassContributor implements ChooseByNameContributor
 	 * @param includeNonProjectItems if true, the navigation items for non-project items (for example,
 	 *                               library classes) should be included in the returned array. @return the array of navigation items.
 	 */
+	@Override
 	public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems)
 	{
 		Collection<PhpClass> phpClasses = PhpClassIndex.INSTANCE.get(name, project, GlobalSearchScope.allScope(project));

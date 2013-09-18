@@ -19,6 +19,7 @@ public class PhpDocVarTagImpl extends PhpDocPsiElementImpl implements PhpDocVarT
 		super(node);
 	}
 
+	@Override
 	public String getType()
 	{
 		final PhpDocType type = PsiTreeUtil.getChildOfType(this, PhpDocType.class);

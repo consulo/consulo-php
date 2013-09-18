@@ -46,6 +46,7 @@ public class StaticStatement implements PhpTokenTypes
 	{
 		ParserPart staticVariable = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(VARIABLE))

@@ -24,6 +24,7 @@ public class PhpWordsScanner implements WordsScanner
 		lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
 	}
 
+	@Override
 	public void processWords(CharSequence fileText, final Processor<WordOccurrence> processor)
 	{
 		lexer.start(fileText, 0, fileText.length(), 0);

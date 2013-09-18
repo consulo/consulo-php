@@ -19,12 +19,14 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 
 	final public ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment")
 	{
+		@Override
 		@NotNull
 		public Language getLanguage()
 		{
 			return PhpFileType.INSTANCE.getLanguage();
 		}
 
+		@Override
 		public ASTNode parseContents(ASTNode chameleon)
 		{
 			PsiBuilderFactory factory = PsiBuilderFactory.getInstance();

@@ -46,6 +46,7 @@ public class UnsetStatement implements PhpTokenTypes
 	{
 		ParserPart variable = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return Variable.parse(builder);

@@ -50,6 +50,7 @@ public class PharEntry implements ArchiveEntry {
 		this.content = content;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -66,6 +67,7 @@ public class PharEntry implements ArchiveEntry {
 		this.csize = csize;
 	}
 
+	@Override
 	public long getSize() {
 		return size;
 	}
@@ -82,6 +84,7 @@ public class PharEntry implements ArchiveEntry {
 		this.crc = PharUtil.getCopy(crc);
 	}
 
+	@Override
 	public long getTime() {
 		return time;
 	}
@@ -106,6 +109,7 @@ public class PharEntry implements ArchiveEntry {
 		this.metadata = metadata;
 	}
 
+	@Override
 	public boolean isDirectory() {
 
 		return name.endsWith("/");

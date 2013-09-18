@@ -29,6 +29,7 @@ public class DoubleQuotedStringManager extends SubstitutionsAwareStringManager
 		DELIMITER = '"';
 	}
 
+	@Override
 	public int eat()
 	{
 		int pos = 0;

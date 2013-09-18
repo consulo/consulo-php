@@ -13,6 +13,7 @@ import com.intellij.psi.PsiManager;
  */
 public class PhpFileViewProviderFactory implements FileViewProviderFactory
 {
+	@Override
 	public FileViewProvider createFileViewProvider(final VirtualFile file, final Language language, final PsiManager manager, final boolean physical)
 	{
 		return new PhpFileViewProvider(manager, file, physical);

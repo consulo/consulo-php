@@ -8,8 +8,8 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.consulo.php.lang.psi.PhpFile;
-import org.consulo.php.lang.psi.elements.PhpClass;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
+import org.consulo.php.lang.psi.PhpClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +41,7 @@ public abstract class PhpBaseGenerateAction extends CodeInsightAction {
 
 	@Override
 	protected boolean isValidForFile(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
-		if (!(file instanceof PhpFile)) return false;
+		if (!(file instanceof PhpFileImpl)) return false;
 
 		PsiDocumentManager.getInstance(project).commitAllDocuments();
 

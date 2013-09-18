@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.resolve.types;
 
-import org.consulo.php.lang.psi.elements.PhpClass;
-import org.consulo.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpMethod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

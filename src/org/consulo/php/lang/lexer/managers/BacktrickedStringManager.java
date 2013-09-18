@@ -20,6 +20,7 @@ public class BacktrickedStringManager extends SubstitutionsAwareStringManager
 		DELIMITER = '`';
 	}
 
+	@Override
 	public int eat()
 	{
 		int pos = 0;

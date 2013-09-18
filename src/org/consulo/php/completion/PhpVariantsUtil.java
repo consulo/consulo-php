@@ -7,9 +7,8 @@ import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.RowIcon;
 import org.consulo.php.completion.insert.PhpMethodInsertHandler;
-import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.*;
 import org.consulo.php.util.PhpPresentationUtil;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +22,7 @@ public class PhpVariantsUtil
 {
 
 	@SuppressWarnings({"unchecked"})
-	public static List<LookupElement> getLookupItemsForClasses(Collection<? extends org.consulo.php.lang.psi.elements.PhpClass> classes, ClassUsageContext context)
+	public static List<LookupElement> getLookupItemsForClasses(Collection<? extends PhpClass> classes, ClassUsageContext context)
 	{
 		/*List<PhpClass> filtered = new ArrayList<PhpClass>();
 		for(PhpClass element : classes)
@@ -139,19 +138,19 @@ public class PhpVariantsUtil
 		item.icon = PhpPresentationUtil.getIcon(element);
 		if(context != null)
 		{
-			final org.consulo.php.lang.psi.elements.PhpClass objectClass = context.getCallingObjectClass();
-			if(PsiTreeUtil.getParentOfType(element, org.consulo.php.lang.psi.elements.PhpClass.class) == objectClass)
+			final PhpClass objectClass = context.getCallingObjectClass();
+			if(PsiTreeUtil.getParentOfType(element, PhpClass.class) == objectClass)
 			{
 				item.bold = true;
 			}
 		}
-		if(element instanceof org.consulo.php.lang.psi.elements.PhpField)
+		if(element instanceof PhpField)
 		{
-			item.typeText = ((org.consulo.php.lang.psi.elements.PhpField) element).getType().toString();
+			item.typeText = ((PhpField) element).getType().toString();
 		}
-		else if(element instanceof org.consulo.php.lang.psi.elements.PhpMethod)
+		else if(element instanceof PhpMethod)
 		{
-			item.typeText = ((org.consulo.php.lang.psi.elements.PhpMethod) element).getType().toString();
+			item.typeText = ((PhpMethod) element).getType().toString();
 			item.tailText = "()";
 		}
 		/*else if(element instanceof LightPhpFunction)
@@ -175,27 +174,27 @@ public class PhpVariantsUtil
 	public static LookupItem getLookupItemForVariable(PhpElement element)
 	{
 		final PhpLookupItem item = new PhpLookupItem(null);
-		if(element instanceof org.consulo.php.lang.psi.elements.PhpVariableReference)
+		if(element instanceof PhpVariableReference)
 		{
-			org.consulo.php.lang.psi.elements.PhpVariableReference variable = (org.consulo.php.lang.psi.elements.PhpVariableReference) element;
+			PhpVariableReference variable = (PhpVariableReference) element;
 			item.setName(variable.getName());
 			final RowIcon icon = new RowIcon(2);
 			icon.setIcon(variable.getIcon(), 0);
 			item.setIcon(icon);
-			final org.consulo.php.lang.psi.elements.PhpClass variableType = variable.getType().getType();
+			final PhpClass variableType = variable.getType().getType();
 			if(variableType != null)
 			{
 				item.setTypeHint(variableType.getName());
 			}
 		}
-		else if(element instanceof org.consulo.php.lang.psi.elements.PhpParameter)
+		else if(element instanceof PhpParameter)
 		{
-			org.consulo.php.lang.psi.elements.PhpParameter parameter = (org.consulo.php.lang.psi.elements.PhpParameter) element;
+			PhpParameter parameter = (PhpParameter) element;
 			item.setName(parameter.getName());
 			final RowIcon icon = new RowIcon(2);
 			icon.setIcon(parameter.getIcon(), 0);
 			item.setIcon(icon);
-			final org.consulo.php.lang.psi.elements.PhpClass variableType = parameter.getType().getType();
+			final PhpClass variableType = parameter.getType().getType();
 			if(variableType != null)
 			{
 				item.setTypeHint(variableType.getName());
@@ -206,7 +205,7 @@ public class PhpVariantsUtil
 
 	public static InsertHandler getInsertHandler(PhpNamedElement element)
 	{
-		if(element instanceof org.consulo.php.lang.psi.elements.PhpMethod)
+		if(element instanceof PhpMethod)
 		{
 			return PhpMethodInsertHandler.getInstance();
 		}

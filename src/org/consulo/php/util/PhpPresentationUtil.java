@@ -14,9 +14,8 @@ import com.intellij.ui.RowIcon;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ui.EmptyIcon;
 import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.psi.PhpFile;
-import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -78,7 +77,7 @@ public class PhpPresentationUtil
 		return new PresentationData(klass.getName(), location, klass.getIcon(), klass.getIcon(), null);
 	}
 
-	public static ItemPresentation getFilePresentation(PhpFile phpFile)
+	public static ItemPresentation getFilePresentation(PhpFileImpl phpFile)
 	{
 		final VirtualFile virtualFile = phpFile.getVirtualFile();
 		assert virtualFile != null;

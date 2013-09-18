@@ -53,6 +53,7 @@ public class PhpFileType extends LanguageFileType
 		});
 	}
 
+	@Override
 	@NotNull
 	@NonNls
 	public String getName()
@@ -60,12 +61,14 @@ public class PhpFileType extends LanguageFileType
 		return NAME;
 	}
 
+	@Override
 	@NotNull
 	public String getDescription()
 	{
 		return DESCRIPTION;
 	}
 
+	@Override
 	@NotNull
 	@NonNls
 	public String getDefaultExtension()
@@ -73,6 +76,7 @@ public class PhpFileType extends LanguageFileType
 		return DEFAULT_EXTENSION;
 	}
 
+	@Override
 	@Nullable
 	public Icon getIcon()
 	{

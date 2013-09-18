@@ -6,7 +6,7 @@ import java.util.List;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
-import org.consulo.php.lang.psi.elements.PhpElement;
+import org.consulo.php.lang.psi.PhpElement;
 
 import com.intellij.lang.ASTNode;
 
@@ -22,6 +22,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 		super(node);
 	}
 
+	@Override
 	public String[] getTypes()
 	{
 		List<String> types = new ArrayList<String>();
@@ -38,6 +39,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 		return types.toArray(new String[types.size()]);
 	}
 
+	@Override
 	public String getTypeString()
 	{
 		StringBuffer types = new StringBuffer();

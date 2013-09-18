@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.psi.elements.*;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,15 +14,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PhpPsiElementFactory
 {
-	public static ConstantReference createConstantReference(Project project, @NotNull String constantName)
+	public static PhpConstantReference createConstantReference(Project project, @NotNull String constantName)
 	{
 		assert constantName.length() > 0;
 		final PsiFile psiFile = createFile(project, constantName);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof GroupStatement;
-		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
-		assert psiElement instanceof ConstantReference;
-		return (ConstantReference) psiElement;
+		assert child instanceof PhpGroupStatement;
+		final PhpElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
+		assert psiElement instanceof PhpConstantReference;
+		return (PhpConstantReference) psiElement;
 	}
 
 	public static PhpVariableReference createVariable(Project project, @NotNull String variableName)
@@ -30,8 +30,8 @@ public class PhpPsiElementFactory
 		assert variableName.length() > 0;
 		final PsiFile psiFile = createFile(project, "$" + variableName);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof GroupStatement;
-		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		assert child instanceof PhpGroupStatement;
+		final PhpElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpVariableReference;
 		return (PhpVariableReference) psiElement;
 	}
@@ -40,8 +40,8 @@ public class PhpPsiElementFactory
 	{
 		final PsiFile psiFile = createFile(project, text);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof GroupStatement;
-		final PhpElement psiElement = ((GroupStatement) child).getFirstPsiChild();
+		assert child instanceof PhpGroupStatement;
+		final PhpElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpClass;
 		return (PhpClass) psiElement;
 	}
@@ -51,14 +51,14 @@ public class PhpPsiElementFactory
 		return createFile(project, fileText, false);
 	}
 
-	public static PhpFile createFile(Project project, String fileText, boolean isPhysical)
+	public static PhpFileImpl createFile(Project project, String fileText, boolean isPhysical)
 	{
 		return createDummyFile(project, fileText, isPhysical);
 	}
 
-	private static PhpFile createDummyFile(Project project, String fileText, boolean isPhysical)
+	private static PhpFileImpl createDummyFile(Project project, String fileText, boolean isPhysical)
 	{
-		return (PhpFile) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PhpFileType.INSTANCE.getDefaultExtension(), PhpFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
+		return (PhpFileImpl) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PhpFileType.INSTANCE.getDefaultExtension(), PhpFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
 				System.currentTimeMillis(), isPhysical);
 	}
 }

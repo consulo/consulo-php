@@ -12,18 +12,21 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PhpCommenter implements CodeDocumentationAwareCommenter
 {
+	@Override
 	@Nullable
 	public String getLineCommentPrefix()
 	{
 		return "//";
 	}
 
+	@Override
 	@Nullable
 	public String getBlockCommentPrefix()
 	{
 		return "/*";
 	}
 
+	@Override
 	@Nullable
 	public String getBlockCommentSuffix()
 	{
@@ -44,42 +47,49 @@ public class PhpCommenter implements CodeDocumentationAwareCommenter
 		return null;
 	}
 
+	@Override
 	@Nullable
 	public IElementType getLineCommentTokenType()
 	{
 		return PhpTokenTypes.LINE_COMMENT;
 	}
 
+	@Override
 	@Nullable
 	public IElementType getBlockCommentTokenType()
 	{
 		return PhpTokenTypes.C_STYLE_COMMENT;
 	}
 
+	@Override
 	@Nullable
 	public IElementType getDocumentationCommentTokenType()
 	{
 		return PhpTokenTypes.DOC_COMMENT;
 	}
 
+	@Override
 	@Nullable
 	public String getDocumentationCommentPrefix()
 	{
 		return "/**";
 	}
 
+	@Override
 	@Nullable
 	public String getDocumentationCommentLinePrefix()
 	{
 		return "*";
 	}
 
+	@Override
 	@Nullable
 	public String getDocumentationCommentSuffix()
 	{
 		return " */";
 	}
 
+	@Override
 	public boolean isDocumentationComment(PsiComment element)
 	{
 		return element.getText().startsWith(getDocumentationCommentPrefix());

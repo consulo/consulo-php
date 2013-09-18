@@ -4,9 +4,9 @@ import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import org.consulo.php.lang.psi.elements.PhpElement;
-import org.consulo.php.lang.psi.elements.PhpParameter;
-import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +28,7 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 		return false;
 	}
 
+	@Override
 	public boolean execute(PsiElement element, ResolveState state)
 	{
 		return execute(element);
@@ -40,6 +41,7 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 		return null;
 	}
 
+	@Override
 	public void handleEvent(Event event, Object o)
 	{
 	}

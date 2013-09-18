@@ -1,7 +1,7 @@
 package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
-import org.consulo.php.lang.psi.elements.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpMethodReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import org.jetbrains.annotations.Nls;
@@ -17,6 +17,7 @@ import com.intellij.psi.ResolveResult;
  */
 public class PhpUndefinedMethodCall extends PhpInspection
 {
+	@Override
 	@Nls
 	@NotNull
 	public String getDisplayName()
@@ -24,11 +25,13 @@ public class PhpUndefinedMethodCall extends PhpInspection
 		return PhpBundle.message("php.inspections.undefined_method_call");
 	}
 
+	@Override
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
 		return new PhpElementVisitor()
 		{
+			@Override
 			public void visitPhpMethodReference(PhpMethodReference reference)
 			{
 				if(reference.canReadName())

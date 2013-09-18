@@ -73,6 +73,7 @@ public class PharArchiveFile implements ArchiveFile {
 			pharFile.close();
 	}
 
+	@Override
 	@NotNull
 	public Iterator<? extends PharEntry> entries() {
 		init();
@@ -87,12 +88,14 @@ public class PharArchiveFile implements ArchiveFile {
 		return pharFile.getPharEntryList().size();
 	}
 
+	@Override
 	@Nullable
 	public PharEntry getEntry(String name) {
 		init();
 		return pharFile.getEntry(name);
 	}
 
+	@Override
 	public InputStream getInputStream(ArchiveEntry entry) throws IOException {
 		init();
 		if (entry instanceof PharEntry) {

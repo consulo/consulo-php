@@ -47,7 +47,7 @@
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
 		<sdkType implementation="org.consulo.php.lang.projectConfiguration.PhpSdkType"/>
 		<psi.packageResolver implementation="org.consulo.php.module.packageSupport.PhpPsiPackageResolver" />
-		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.psi.impl.PhpLanguageVersionResolver" />
+		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.lang.psi.impl.PhpLanguageVersionResolver" />
 		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PhpParserDefinition"/>
 		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PhpCommenter"/>
 		<lang.findUsagesProvider language="PHP" implementationClass="org.consulo.php.lang.findUsages.PhpFindUsagesProvider"/>
@@ -64,6 +64,6 @@
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
 
-		<stubElementTypeHolder class="org.consulo.php.psi.PhpStubElements" />
+		<stubElementTypeHolder class="org.consulo.php.lang.psi.PhpStubElements" />
 	</extensions>
 </idea-plugin>

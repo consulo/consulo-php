@@ -16,6 +16,7 @@ import com.intellij.psi.PsiElementVisitor;
  */
 abstract public class PhpInspection extends LocalInspectionTool
 {
+	@Override
 	@Nls
 	@NotNull
 	public String getGroupDisplayName()
@@ -23,6 +24,7 @@ abstract public class PhpInspection extends LocalInspectionTool
 		return PhpBundle.message("php.inspections.group");
 	}
 
+	@Override
 	@NonNls
 	@NotNull
 	public String getShortName()
@@ -30,6 +32,7 @@ abstract public class PhpInspection extends LocalInspectionTool
 		return getClass().getSimpleName();
 	}
 
+	@Override
 	public boolean isEnabledByDefault()
 	{
 		return true;
@@ -38,12 +41,14 @@ abstract public class PhpInspection extends LocalInspectionTool
 	/**
 	 * @return highlighting level for this inspection tool that is used in default settings
 	 */
+	@Override
 	@NotNull
 	public HighlightDisplayLevel getDefaultLevel()
 	{
 		return HighlightDisplayLevel.WARNING;
 	}
 
+	@Override
 	@NotNull
 	abstract public PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly);
 

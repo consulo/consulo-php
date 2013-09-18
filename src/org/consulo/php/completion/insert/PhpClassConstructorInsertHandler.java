@@ -3,9 +3,9 @@ package org.consulo.php.completion.insert;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
 import org.consulo.php.completion.PhpLookupItem;
-import org.consulo.php.lang.psi.elements.Function;
-import org.consulo.php.lang.psi.elements.PhpClass;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpNamedElement;
 
 /**
  * @author jay
@@ -25,13 +25,14 @@ public class PhpClassConstructorInsertHandler extends PhpMethodInsertHandler
 		return instance;
 	}
 
-	protected Function getMethod(Editor editor, LookupElement element)
+	@Override
+	protected PhpFunction getMethod(Editor editor, LookupElement element)
 	{
 		PhpLookupItem item = (PhpLookupItem) element.getObject();
 		final PhpNamedElement psiElement = item.getLightElement();
 		if(psiElement instanceof PhpClass)
 		{
-			return (Function) ((PhpClass) psiElement).getConstructor();
+			return (PhpFunction) ((PhpClass) psiElement).getConstructor();
 		}
 		return null;
 	}

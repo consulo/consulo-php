@@ -43,6 +43,7 @@ public class Array implements PhpTokenTypes
 			builder.match(chLPAREN);
 			ParserPart arrayItem = new ParserPart()
 			{
+				@Override
 				public IElementType parse(PhpPsiBuilder builder)
 				{
 					PsiBuilder.Marker item = builder.mark();

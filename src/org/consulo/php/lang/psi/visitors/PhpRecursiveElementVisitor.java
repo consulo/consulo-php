@@ -23,6 +23,7 @@ public abstract class PhpRecursiveElementVisitor extends PhpElementVisitor
 		myVisitAllFileRoots = visitAllFileRoots;
 	}
 
+	@Override
 	public void visitElement(final PsiElement element)
 	{
 		element.acceptChildren(this);

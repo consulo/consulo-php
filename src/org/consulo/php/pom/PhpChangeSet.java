@@ -1,6 +1,6 @@
 package org.consulo.php.pom;
 
-import org.consulo.php.lang.psi.PhpFile;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 
 import com.intellij.pom.PomModel;
 import com.intellij.pom.PomModelAspect;
@@ -14,24 +14,26 @@ public class PhpChangeSet implements PomChangeSet
 {
 
 	private PomModel model;
-	private PhpFile changedFile;
+	private PhpFileImpl changedFile;
 
-	public PhpChangeSet(PomModel model, PhpFile file)
+	public PhpChangeSet(PomModel model, PhpFileImpl file)
 	{
 		this.model = model;
 		changedFile = file;
 	}
 
-	public PhpFile getChangedFile()
+	public PhpFileImpl getChangedFile()
 	{
 		return changedFile;
 	}
 
+	@Override
 	public PomModelAspect getAspect()
 	{
 		return model.getModelAspect(PhpPomAspect.class);
 	}
 
+	@Override
 	public void merge(PomChangeSet blocked)
 	{
 	}

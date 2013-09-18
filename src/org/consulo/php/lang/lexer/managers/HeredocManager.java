@@ -137,6 +137,7 @@ public class HeredocManager extends ReadingManager
 		}
 	}
 
+	@Override
 	public void reset()
 	{
 		super.reset();

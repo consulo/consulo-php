@@ -13,6 +13,7 @@ import com.intellij.psi.PsiElement;
 public class PhpAnnotator implements Annotator
 {
 
+	@Override
 	public void annotate(PsiElement element, AnnotationHolder annotationHolder)
 	{
 		PhpAnnotatorVisitor visitor = new PhpAnnotatorVisitor(annotationHolder);

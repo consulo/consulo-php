@@ -27,6 +27,7 @@ public abstract class BasePHPFileSetTestCase extends PHPFileSetTestCase {
 
 	protected abstract String transform(String testName, String[] data) throws Exception;
 
+	@Override
 	public void runTest(final File myTestFile) throws Throwable {
 		String content = new String(FileUtil.loadFileText(myTestFile));
 		Assert.assertNotNull(content);

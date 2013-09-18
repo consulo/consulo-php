@@ -89,6 +89,7 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 * @throws IOException               if an I/O error has occurred or the compressed input data
 	 *                                   is corrupt
 	 */
+	@Override
 	public int read(byte[] buf, int off, int len) throws IOException {
 		ensureOpen();
 		if (eos) {
@@ -118,6 +119,7 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 *
 	 * @throws IOException if an I/O error has occurred
 	 */
+	@Override
 	public void close() throws IOException {
 		if (!closed) {
 			inf.end();

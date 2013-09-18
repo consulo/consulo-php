@@ -27,7 +27,8 @@ public class PhpDocLexerTest extends LexerTest {
     }
 //	private static final String DATA_PATH = PathUtils.getDataPath(PhpDocLexerTest.class) + "/live_cases";
 
-    public String transform(String testName, String[] data) throws Exception {
+    @Override
+	public String transform(String testName, String[] data) throws Exception {
         final String fileText = data[0];
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();

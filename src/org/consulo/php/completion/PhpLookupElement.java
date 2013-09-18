@@ -5,7 +5,7 @@ import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpNamedElement;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +49,7 @@ public class PhpLookupElement extends LookupElement
 		this(lookupString, new BasicInsertHandler(), typeText, tailText, bold, icon);
 	}
 
+	@Override
 	@NotNull
 	public String getLookupString()
 	{

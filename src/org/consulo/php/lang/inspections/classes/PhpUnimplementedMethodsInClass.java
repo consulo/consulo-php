@@ -11,10 +11,10 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.inspections.PhpInspection;
-import org.consulo.php.lang.psi.elements.ExtendsList;
-import org.consulo.php.lang.psi.elements.ImplementsList;
-import org.consulo.php.lang.psi.elements.PhpClass;
-import org.consulo.php.lang.psi.elements.PhpMethod;
+import org.consulo.php.lang.psi.PhpExtendsList;
+import org.consulo.php.lang.psi.PhpImplementsList;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpMethod;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class PhpUnimplementedMethodsInClass extends PhpInspection
 {
+	@Override
 	@Nls
 	@NotNull
 	public String getDisplayName()
@@ -39,17 +40,20 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 	/**
 	 * @return highlighting level for this inspection tool that is used in default settings
 	 */
+	@Override
 	@NotNull
 	public HighlightDisplayLevel getDefaultLevel()
 	{
 		return HighlightDisplayLevel.ERROR;
 	}
 
+	@Override
 	@NotNull
 	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
 	{
 		return new PhpElementVisitor()
 		{
+			@Override
 			public void visitPhpClass(PhpClass clazz)
 			{
 				if(clazz.isAbstract())
@@ -91,11 +95,11 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					PsiElement endNode;
 					if(clazz.getImplementedInterfaces().length > 0)
 					{
-						endNode = PsiTreeUtil.getChildOfType(clazz, ImplementsList.class);
+						endNode = PsiTreeUtil.getChildOfType(clazz, PhpImplementsList.class);
 					}
 					else if(clazz.getSuperClass() != null)
 					{
-						endNode = PsiTreeUtil.getChildOfType(clazz, ExtendsList.class);
+						endNode = PsiTreeUtil.getChildOfType(clazz, PhpExtendsList.class);
 					}
 					else if(clazz.getNameIdentifier() != null)
 					{

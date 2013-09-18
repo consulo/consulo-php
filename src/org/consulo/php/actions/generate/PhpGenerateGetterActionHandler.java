@@ -142,10 +142,12 @@ public class PhpGenerateGetterActionHandler implements CodeInsightActionHandler
 	  public boolean startInWriteAction() {
 		return true;
 	  }*/
+	@Override
 	public void invoke(Project project, Editor editor, PsiFile file)
 	{
 	}
 
+	@Override
 	public boolean startInWriteAction()
 	{
 		return false;

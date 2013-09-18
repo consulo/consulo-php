@@ -51,6 +51,7 @@ public class GlobalStatement implements PhpTokenTypes
 	{
 		ParserPart globalVariable = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(TokenSet.create(VARIABLE, DOLLAR)))

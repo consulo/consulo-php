@@ -63,6 +63,7 @@ public class ParameterList implements PhpTokenTypes
 	private static class Parameter implements ParserPart
 	{
 
+		@Override
 		public IElementType parse(PhpPsiBuilder builder)
 		{
 			PsiBuilder.Marker parameter = builder.mark();

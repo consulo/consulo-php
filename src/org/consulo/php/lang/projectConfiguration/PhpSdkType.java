@@ -28,6 +28,7 @@ public class PhpSdkType extends SdkType
 		super("PHP SDK");
 	}
 
+	@Override
 	@Nullable
 	public String suggestHomePath()
 	{
@@ -38,6 +39,7 @@ public class PhpSdkType extends SdkType
 		return null;
 	}
 
+	@Override
 	public boolean isValidSdkHome(String path)
 	{
 		final VirtualFile file = VfsUtil.findRelativeFile(path, null);
@@ -68,11 +70,13 @@ public class PhpSdkType extends SdkType
 		return null;
 	}
 
+	@Override
 	public String suggestSdkName(String currentSdkName, String sdkHome)
 	{
 		return PhpBundle.message("default.php.sdk.name");
 	}
 
+	@Override
 	public AdditionalDataConfigurable createAdditionalDataConfigurable(SdkModel sdkModel, SdkModificator sdkModificator)
 	{
 		return null;
@@ -84,10 +88,12 @@ public class PhpSdkType extends SdkType
 		return sdk.getHomePath() + "php" + (SystemInfo.isWindows ? ".exe" : "");
 	}
 
+	@Override
 	public void saveAdditionalData(SdkAdditionalData additionalData, Element additional)
 	{
 	}
 
+	@Override
 	@NotNull
 	public String getPresentableName()
 	{

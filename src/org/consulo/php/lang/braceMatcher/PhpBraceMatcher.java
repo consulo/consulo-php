@@ -21,14 +21,17 @@ public class PhpBraceMatcher implements PairedBraceMatcher, PhpTokenTypes {
 			new BracePair(chLPAREN, chRPAREN, false)
 	};
 
+	@Override
 	public BracePair[] getPairs() {
 		return ourPairs;
 	}
 
+	@Override
 	public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType lbraceType, @Nullable IElementType contextType) {
 		return true;
 	}
 
+	@Override
 	public int getCodeConstructStart(PsiFile file, int openingBraceOffset) {
 		return 0;
 	}

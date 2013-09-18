@@ -26,6 +26,7 @@ public class PhpDocParser implements PsiParser
 		PhpDocReturnTagParser.register();
 	}
 
+	@Override
 	@NotNull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{

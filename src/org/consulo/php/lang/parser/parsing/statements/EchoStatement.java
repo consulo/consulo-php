@@ -44,6 +44,7 @@ public class EchoStatement implements PhpTokenTypes
 	{
 		ParserPart expression = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return Expression.parse(builder);

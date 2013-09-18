@@ -174,6 +174,7 @@ public class PrimaryExpression implements PhpTokenTypes
 			builder.match(chLPAREN);
 			ParserPart issetVariable = new ParserPart()
 			{
+				@Override
 				public IElementType parse(PhpPsiBuilder builder)
 				{
 					return Variable.parse(builder);

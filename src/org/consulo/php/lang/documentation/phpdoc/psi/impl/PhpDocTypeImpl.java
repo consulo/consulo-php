@@ -16,6 +16,7 @@ public class PhpDocTypeImpl extends PhpDocPsiElementImpl implements PhpDocType
 		super(node);
 	}
 
+	@Override
 	public String getType()
 	{
 		return getText();

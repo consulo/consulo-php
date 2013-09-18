@@ -1,11 +1,8 @@
 package org.consulo.php.lang.documentation.params;
 
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpFile;
-import org.consulo.php.lang.psi.elements.PhpMethod;
-import org.consulo.php.lang.psi.elements.PhpMethodReference;
-import org.consulo.php.lang.psi.elements.PhpParameter;
-import org.consulo.php.lang.psi.elements.PhpParameterList;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
@@ -30,25 +27,29 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	private static final Logger LOG = Logger.getInstance(PhpParameterInfoHandler.class.getName());
 	public static final String DEFAULT_PARAMETER_CLOSE_CHARS = ",)";
 
+	@Override
 	public boolean couldShowInLookup()
 	{
 		return true;
 	}
 
+	@Override
 	public Object[] getParametersForLookup(LookupElement item, ParameterInfoContext context)
 	{
 		return null;
 	}
 
+	@Override
 	public Object[] getParametersForDocumentation(Object p, ParameterInfoContext context)
 	{
 		return null;
 	}
 
+	@Override
 	public Object findElementForParameterInfo(CreateParameterInfoContext context)
 	{
 		final PsiFile psiFile = context.getFile();
-		if(psiFile instanceof PhpFile)
+		if(psiFile instanceof PhpFileImpl)
 		{
 			final PhpMethodReference phpMethodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
 			if(phpMethodReference != null)
@@ -64,21 +65,24 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		return null;
 	}
 
+	@Override
 	public void showParameterInfo(@NotNull Object element, CreateParameterInfoContext context)
 	{
 		context.showHint((PsiElement) element, ((PsiElement) element).getTextOffset(), this);
 	}
 
+	@Override
 	public Object findElementForUpdatingParameterInfo(UpdateParameterInfoContext context)
 	{
 		final PsiFile psiFile = context.getFile();
-		if(psiFile instanceof PhpFile)
+		if(psiFile instanceof PhpFileImpl)
 		{
 			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
 		}
 		return null;
 	}
 
+	@Override
 	public void updateParameterInfo(@NotNull Object element, UpdateParameterInfoContext context)
 	{
 		int index = -1;
@@ -104,16 +108,19 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		context.setCurrentParameter(index);
 	}
 
+	@Override
 	public String getParameterCloseChars()
 	{
 		return DEFAULT_PARAMETER_CLOSE_CHARS;
 	}
 
+	@Override
 	public boolean tracksParameterIndex()
 	{
 		return true;
 	}
 
+	@Override
 	public void updateUI(Object element, ParameterInfoUIContext context)
 	{
 		LOG.assertTrue(element instanceof PhpMethod);

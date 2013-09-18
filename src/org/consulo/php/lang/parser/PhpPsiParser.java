@@ -20,6 +20,7 @@ import com.intellij.psi.tree.IElementType;
 public class PhpPsiParser implements PsiParser
 {
 
+	@Override
 	@NotNull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{

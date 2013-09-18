@@ -160,6 +160,7 @@ public class ClassDeclaration implements PhpTokenTypes
 	{
 		ParserPart interfaceParser = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				return ClassReference.parse(builder);

@@ -34,6 +34,7 @@ public class ClassField implements PhpTokenTypes
 		}
 		ParserPart fieldParser = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(!builder.compare(VARIABLE))

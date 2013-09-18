@@ -59,6 +59,7 @@ public class LineCommentManager extends ReadingManager
 		return false;
 	}
 
+	@Override
 	public void reset()
 	{
 		super.reset();

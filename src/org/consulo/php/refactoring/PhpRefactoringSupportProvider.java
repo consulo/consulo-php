@@ -12,28 +12,33 @@ import org.jetbrains.annotations.Nullable;
 public class PhpRefactoringSupportProvider extends RefactoringSupportProvider
 {
 
+	@Override
 	public boolean isSafeDeleteAvailable(PsiElement element)
 	{
 		return false;
 	}
 
+	@Override
 	@Nullable
 	public RefactoringActionHandler getIntroduceVariableHandler()
 	{
 		return null;
 	}
 
+	@Override
 	@Nullable
 	public RefactoringActionHandler getExtractMethodHandler()
 	{
 		return null;
 	}
 
+	@Override
 	public RefactoringActionHandler getIntroduceConstantHandler()
 	{
 		return null;
 	}
 
+	@Override
 	public RefactoringActionHandler getIntroduceFieldHandler()
 	{
 		return null;

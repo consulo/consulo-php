@@ -1,7 +1,7 @@
 package org.consulo.php.lang.highlighter.hierarchy;
 
 import com.intellij.openapi.project.Project;
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

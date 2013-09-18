@@ -1,9 +1,9 @@
 package org.consulo.php.lang.psi.visitors;
 
-import org.consulo.php.lang.psi.PhpFile;
-import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.elements.impl.ClassConstantReferenceImpl;
-import org.consulo.php.lang.psi.elements.impl.TryImpl;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
+import org.consulo.php.lang.psi.impl.PhpTryStatementImpl;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
@@ -33,37 +33,37 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpMethod);
 	}
 
-	public void visitPhpFunction(Function function)
+	public void visitPhpFunction(PhpFunction phpFunction)
 	{
-		visitPhpElement(function);
+		visitPhpElement(phpFunction);
 	}
 
-	public void visitPhpNewExpression(NewExpression expression)
+	public void visitPhpNewExpression(PhpNewExpression expression)
 	{
 		visitPhpElement(expression);
 	}
 
-	public void visitPhpAssignmentExpression(AssignmentExpression expr)
+	public void visitPhpAssignmentExpression(PhpAssignmentExpression expr)
 	{
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpBinaryExpression(BinaryExpression expr)
+	public void visitPhpBinaryExpression(PhpBinaryExpression expr)
 	{
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpUnaryExpression(UnaryExpression expr)
+	public void visitPhpUnaryExpression(PhpUnaryExpression expr)
 	{
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpForeach(Foreach foreach)
+	public void visitPhpForeach(PhpForeachStatement foreach)
 	{
 		visitPhpElement(foreach);
 	}
 
-	public void visitPhpCatch(Catch phpCatch)
+	public void visitPhpCatch(PhpCatchStatement phpCatch)
 	{
 		visitPhpElement(phpCatch);
 	}
@@ -83,16 +83,17 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(variable);
 	}
 
+	@Override
 	public void visitElement(PsiElement element)
 	{
 	}
 
-	public void visitPhpFile(PhpFile phpFile)
+	public void visitPhpFile(PhpFileImpl phpFile)
 	{
 		visitFile(phpFile);
 	}
 
-	public void visitPhpIf(If ifStatement)
+	public void visitPhpIf(PhpIfStatement ifStatement)
 	{
 		visitPhpElement(ifStatement);
 	}
@@ -107,12 +108,12 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(reference);
 	}
 
-	public void visitPhpClassConstantReference(ClassConstantReferenceImpl constantReference)
+	public void visitPhpClassConstantReference(PhpClassConstantReferenceImpl constantReference)
 	{
 		visitPhpElement(constantReference);
 	}
 
-	public void visitPhpFieldReference(FieldReference fieldReference)
+	public void visitPhpFieldReference(PhpFieldReference fieldReference)
 	{
 		visitPhpElement(fieldReference);
 	}
@@ -122,32 +123,32 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpField);
 	}
 
-	public void visitPhpConstant(ConstantReference constant)
+	public void visitPhpConstant(PhpConstantReference constant)
 	{
 		visitPhpElement(constant);
 	}
 
-	public void visitPhpFunctionCall(FunctionCall call)
+	public void visitPhpFunctionCall(PhpFunctionCall call)
 	{
 		visitPhpElement(call);
 	}
 
-	public void visitPhpTry(TryImpl tryStatement)
+	public void visitPhpTry(PhpTryStatementImpl tryStatement)
 	{
 		visitPhpElement(tryStatement);
 	}
 
-	public void visitPhpElseIf(ElseIf elseIf)
+	public void visitPhpElseIf(PhpElseIfStatement elseIf)
 	{
 		visitPhpElement(elseIf);
 	}
 
-	public void visitPhpElse(Else elseStatement)
+	public void visitPhpElse(PhpElseStatement elseStatement)
 	{
 		visitPhpElement(elseStatement);
 	}
 
-	public void visitPhpFor(For forStatement)
+	public void visitPhpFor(PhpForStatement forStatement)
 	{
 		visitPhpElement(forStatement);
 	}

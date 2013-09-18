@@ -2,9 +2,9 @@ package org.consulo.php.lang.annotator;
 
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.highlighter.PhpHighlightingData;
-import org.consulo.php.lang.psi.elements.PhpClassReference;
-import org.consulo.php.lang.psi.elements.ConstantReference;
-import org.consulo.php.lang.psi.elements.PhpVariableReference;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpConstantReference;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import com.intellij.lang.annotation.Annotation;
@@ -25,6 +25,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 		this.holder = holder;
 	}
 
+	@Override
 	@SuppressWarnings({"ConstantConditions"})
 	public void visitVariableReference(PhpVariableReference variable)
 	{
@@ -45,6 +46,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 		}
 	}
 
+	@Override
 	public void visitPhpClassReference(PhpClassReference classReference)
 	{
 		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
@@ -55,7 +57,8 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 		}
 	}
 
-	public void visitPhpConstant(ConstantReference constant)
+	@Override
+	public void visitPhpConstant(PhpConstantReference constant)
 	{
 		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
 		{

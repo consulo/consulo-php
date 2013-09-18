@@ -7,8 +7,8 @@
         <extension id="lombok" />
         <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" />
         <content url="file://$MODULE_DIR$">
-          <content-folder type="RESOURCE" url="file://$MODULE_DIR$/resources" />
-          <content-folder type="SOURCE" url="file://$MODULE_DIR$/src" />
+          <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
+          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           <content-folder type="TEST" url="file://$MODULE_DIR$/tests" />
         </content>
         <orderEntry type="module-extension-sdk" extension-id="java" />

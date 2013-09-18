@@ -102,6 +102,7 @@ public class Function implements PhpTokenTypes
 
 		ParserPart functionParameter = new ParserPart()
 		{
+			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
 				if(builder.compareAndEat(opBIT_AND))

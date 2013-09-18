@@ -43,6 +43,7 @@ public class PhpStringLiteralLexer extends LexerBase
 		myStringType = stringType;
 	}
 
+	@Override
 	public void start(CharSequence buffer, int startOffset, int endOffset, int initialState)
 	{
 		myBuffer = buffer;
@@ -60,6 +61,7 @@ public class PhpStringLiteralLexer extends LexerBase
 		myEnd = locateToken(myStart);
 	}
 
+	@Override
 	public int getState()
 	{
 		return myLastState;
@@ -123,6 +125,7 @@ public class PhpStringLiteralLexer extends LexerBase
 		return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
 	}
 
+	@Override
 	public IElementType getTokenType()
 	{
 		if(myStart >= myEnd)
@@ -146,11 +149,13 @@ public class PhpStringLiteralLexer extends LexerBase
 		return null;
 	}
 
+	@Override
 	public int getTokenStart()
 	{
 		return myStart;
 	}
 
+	@Override
 	public int getTokenEnd()
 	{
 		return myEnd;
@@ -236,6 +241,7 @@ public class PhpStringLiteralLexer extends LexerBase
 		return i;
 	}
 
+	@Override
 	public void advance()
 	{
 		myLastState = myState;
@@ -250,6 +256,7 @@ public class PhpStringLiteralLexer extends LexerBase
 	}
 
 
+	@Override
 	public int getBufferEnd()
 	{
 		return myBufferEnd;

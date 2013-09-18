@@ -110,6 +110,7 @@ public class PhpVirtualFileScanner
 		}
 		moduleFileIndex.iterateContent(new ContentIterator()
 		{
+			@Override
 			public boolean processFile(VirtualFile fileOrDir)
 			{
 				if(isPhpFile(fileOrDir))

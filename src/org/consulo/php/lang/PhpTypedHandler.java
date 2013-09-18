@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.consulo.php.completion.PhpCompletionUtil;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpFile;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
  * @author Maxim.Mossienko
@@ -19,7 +19,7 @@ public class PhpTypedHandler extends TypedHandlerDelegate
 	@Override
 	public Result checkAutoPopup(char c, Project project, Editor editor, PsiFile psiFile)
 	{
-		if(!(psiFile instanceof PhpFile))
+		if(!(psiFile instanceof PhpFileImpl))
 			return Result.CONTINUE;
 		if(c == '$')
 		{

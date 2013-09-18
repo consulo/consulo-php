@@ -1,9 +1,7 @@
 package org.consulo.php.lang.findUsages;
 
-import org.consulo.php.lang.psi.elements.*;
-import org.consulo.php.lang.psi.elements.PhpField;
+import org.consulo.php.lang.psi.*;
 
-import org.consulo.php.lang.psi.elements.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -18,6 +16,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 {
 	private PhpWordsScanner wordsScanner;
 
+	@Override
 	@Nullable
 	public WordsScanner getWordsScanner()
 	{
@@ -26,17 +25,20 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 		return wordsScanner;
 	}
 
+	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement)
 	{
-		return psiElement instanceof PhpClass || psiElement instanceof PhpMethod || psiElement instanceof Function || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
+		return psiElement instanceof PhpClass || psiElement instanceof PhpMethod || psiElement instanceof PhpFunction || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
 	}
 
+	@Override
 	@Nullable
 	public String getHelpId(@NotNull PsiElement psiElement)
 	{
 		return null;
 	}
 
+	@Override
 	@NotNull
 	public String getType(@NotNull PsiElement element)
 	{
@@ -57,7 +59,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 		{
 			return "PhpMethod";
 		}
-		if(element instanceof Function)
+		if(element instanceof PhpFunction)
 		{
 			return "Function";
 		}
@@ -76,6 +78,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	 * @param element the element for which the name is requested.
 	 * @return the user-visible name.
 	 */
+	@Override
 	@NotNull
 	public String getDescriptiveName(@NotNull PsiElement element)
 	{
@@ -94,6 +97,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	 * @param useFullName if true, the returned text should use fully qualified names
 	 * @return the text representing the element.
 	 */
+	@Override
 	@NotNull
 	public String getNodeText(@NotNull PsiElement element, boolean useFullName)
 	{
