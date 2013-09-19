@@ -3,6 +3,7 @@ package org.consulo.php.lang.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -11,11 +12,11 @@ import lombok.val;
 import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpClassReference;
-import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.consulo.php.module.extension.PhpModuleExtension;
+import org.consulo.psi.PsiPackage;
+import org.consulo.psi.PsiPackageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +40,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public String getReferenceName()
 	{
-		return getText();
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier != null ? nameIdentifier.getText() : "";
 	}
 
 	@Override
@@ -58,6 +60,39 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@NotNull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
+		PsiElement parent = getParent();
+
+		if(parent instanceof PhpParameter) {
+
+		}
+		else if(PsiTreeUtil.getParentOfType(this, PhpNamespaceStatement.class) != null) {
+			String name = getReferenceName();
+
+			StringBuilder builder = new StringBuilder();
+
+			if(parent instanceof PhpClassReference) {
+				PsiElement resolve = ((PhpClassReference) parent).resolve();
+				if(!(resolve instanceof PsiPackage)) {
+					return ResolveResult.EMPTY_ARRAY;
+				}
+
+				builder.append(((PsiPackage) resolve).getQualifiedName());
+				builder.append(".");
+			}
+
+			builder.append(name);
+
+			String packageName = builder.toString().replace(" ", "");
+
+			PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
+			if(aPackage != null) {
+				return new ResolveResult[] {new PsiElementResolveResult(aPackage, true)};
+			}
+			else {
+				return ResolveResult.EMPTY_ARRAY;
+			}
+		}
+
 		/*boolean instantiation = getParent() instanceof NewExpression;
 
 		if(getReferenceName().equals("self"))
@@ -123,13 +158,14 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public PsiElement getElement()
 	{
-		return this;
+		return getNameIdentifier();
 	}
 
 	@Override
 	public TextRange getRangeInElement()
 	{
-		return new TextRange(0, getTextLength());
+		PsiElement nameIdentifier = getNameIdentifier();
+		return new TextRange(0, nameIdentifier.getTextLength());
 	}
 
 	@Override
@@ -147,7 +183,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		return getText();
 	}
 
 	@Override
@@ -172,17 +208,17 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
+		PsiElement resolve = resolve();
+		if(resolve == element)
+		{
+			return true;
+		}
+
 		if(element instanceof PhpClass || element instanceof PhpFunction)
 		{
-			val resolveResult = resolve();
-			val isReference = element == resolveResult;
-			if(isReference)
+			if(element instanceof PhpClass && resolve instanceof PhpFunction)
 			{
-				return isReference;
-			}
-			if(element instanceof PhpClass && resolveResult instanceof PhpFunction)
-			{
-				return PsiTreeUtil.getParentOfType(resolveResult, PhpClass.class) == element;
+				return PsiTreeUtil.getParentOfType(resolve, PhpClass.class) == element;
 			}
 		}
 		return false;

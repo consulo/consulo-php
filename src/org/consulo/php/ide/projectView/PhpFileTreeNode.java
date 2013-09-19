@@ -35,6 +35,11 @@ public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile> {
 		super(phpFile.getProject(), phpFile, viewSettings);
 	}
 
+	@Override
+	public int getWeight() {
+		return 0;
+	}
+
 	@Nullable
 	@Override
 	protected com.intellij.psi.PsiElement extractPsiFromValue() {

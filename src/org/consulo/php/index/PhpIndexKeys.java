@@ -9,4 +9,5 @@ import org.consulo.php.lang.psi.PhpClass;
  */
 public interface PhpIndexKeys {
 	StubIndexKey<String, PhpClass> CLASSES = StubIndexKey.createIndexKey("php.classes");
+	StubIndexKey<String, PhpClass> FULL_FQ_CLASSES = StubIndexKey.createIndexKey("php.full.fq.classes");
 }

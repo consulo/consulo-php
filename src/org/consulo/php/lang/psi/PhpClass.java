@@ -10,6 +10,8 @@ public interface PhpClass extends PhpModifierListOwner, PhpMemberHolder
 
 	static String CONSTRUCTOR = "__construct";
 
+	String getNamespace();
+
 	PhpClass getSuperClass();
 
 	PhpClass[] getImplementedInterfaces();

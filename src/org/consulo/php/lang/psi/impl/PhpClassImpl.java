@@ -49,6 +49,24 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
+	public String getNamespace() {
+		PhpClassStub stub = getStub();
+		if(stub != null) {
+			return stub.getNamespace();
+		}
+
+		PsiElement parent = getParent();
+		if(parent instanceof PhpGroup) {
+			for (PsiElement psiElement : ((PhpGroup) parent).getStatements()) {
+				if(psiElement instanceof PhpNamespaceStatement) {
+					return ((PhpNamespaceStatement) psiElement).getNamespace();
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public PhpClass getSuperClass() {
 		val list = PsiTreeUtil.getChildOfType(this, PhpExtendsList.class);
 		assert list != null;

@@ -42,8 +42,6 @@ public class ClassReference implements PhpTokenTypes
 
 		if(builder.compareAndEat(IDENTIFIER))
 		{
-			marker.done(PhpElementTypes.CLASS_REFERENCE);
-
 			if(builder.getTokenType() == SLASH) {
 				parseClassNameReference(builder, allowStatic, dynamic, false);
 			}
@@ -57,6 +55,8 @@ public class ClassReference implements PhpTokenTypes
 
 				marker.done(PhpElementTypes.CLASS_REFERENCE);
 			}
+
+			marker.done(PhpElementTypes.CLASS_REFERENCE);
 			return marker;
 		}
 		else

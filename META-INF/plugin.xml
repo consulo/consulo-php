@@ -65,6 +65,7 @@
 		<typedHandler implementation="org.consulo.php.lang.PhpTypedHandler"/>
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
+		<stubIndex implementation="org.consulo.php.index.PhpFullFqClassIndex"/>
 
 		<stubElementTypeHolder class="org.consulo.php.lang.psi.PhpStubElements" />
 

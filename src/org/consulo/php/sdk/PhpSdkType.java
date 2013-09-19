@@ -1,9 +1,13 @@
 package org.consulo.php.sdk;
 
 import com.intellij.openapi.projectRoots.*;
+import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
+import com.intellij.util.PathUtil;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.PhpIcons2;
 import org.jdom.Element;
@@ -39,6 +43,7 @@ public class PhpSdkType extends SdkType
 		final VirtualFile file = VfsUtil.findRelativeFile(path, null);
 		return isValidPhpSdkHomeDirectory(file);
 	}
+
 	public static boolean isValidPhpSdkHomeDirectory(VirtualFile file)
 	{
 		boolean correctHome = false;
@@ -61,7 +66,7 @@ public class PhpSdkType extends SdkType
 	@Override
 	public String getVersionString(String s)
 	{
-		return null;
+		return "5.3";
 	}
 
 	@Override
@@ -103,11 +108,21 @@ public class PhpSdkType extends SdkType
 	@Override
 	public boolean setupSdkPaths(Sdk sdk, SdkModel sdkModel)
 	{
-		final boolean b = super.setupSdkPaths(sdk, sdkModel);
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
-		sdkModificator.setVersionString(PhpBundle.message("default.php.sdk.version"));
+
+		String jarPathForClass = PathUtil.getJarPathForClass(PhpSdkType.class);
+
+		VirtualFile fileByPath = LocalFileSystem.getInstance().findFileByPath(jarPathForClass);
+
+		VirtualFile jarRootForLocalFile = ArchiveVfsUtil.getJarRootForLocalFile(fileByPath);
+
+		VirtualFile apiFile = jarRootForLocalFile.findFileByRelativePath("/sdk/php-api5.3.php");
+
+		sdkModificator.addRoot(apiFile, OrderRootType.CLASSES);
+		sdkModificator.addRoot(apiFile, OrderRootType.SOURCES);
+
 		sdkModificator.commitChanges();
-		return b;
+		return true;
 	}
 
 	@Override

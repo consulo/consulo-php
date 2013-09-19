@@ -85,7 +85,7 @@ public class StatementList implements PhpTokenTypes
 			parseNamespaceStatement(builder);
 		}
 
-		if(builder.getTokenType() == USE_KEYWORD) {
+		while (builder.getTokenType() == USE_KEYWORD) {
 			parseUseStatement(builder);
 		}
 

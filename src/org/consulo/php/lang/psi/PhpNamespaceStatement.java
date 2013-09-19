@@ -5,5 +5,7 @@ package org.consulo.php.lang.psi;
  * @since 07.07.13.
  */
 public interface PhpNamespaceStatement extends PhpElement {
+	String getNamespace();
+
 	PhpClassReference getPackageReference();
 }

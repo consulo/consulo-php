@@ -4,8 +4,8 @@ import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.consulo.php.index.PhpFullFqClassIndex;
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.index.PhpClassIndex;
 
 import java.util.Collection;
 
@@ -28,7 +28,7 @@ public class PhpClassContributor implements ChooseByNameContributor
 	@Override
 	public String[] getNames(Project project, boolean includeNonProjectItems)
 	{
-		Collection<String> allKeys = PhpClassIndex.INSTANCE.getAllKeys(project);
+		Collection<String> allKeys = PhpFullFqClassIndex.INSTANCE.getAllKeys(project);
 
 		return allKeys.toArray(new String[allKeys.size()]);
 	}
@@ -45,7 +45,7 @@ public class PhpClassContributor implements ChooseByNameContributor
 	@Override
 	public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems)
 	{
-		Collection<PhpClass> phpClasses = PhpClassIndex.INSTANCE.get(name, project, GlobalSearchScope.allScope(project));
+		Collection<PhpClass> phpClasses = PhpFullFqClassIndex.INSTANCE.get(name, project, GlobalSearchScope.allScope(project));
 		return phpClasses.toArray(new NavigationItem[phpClasses.size()]);
 	}
 }

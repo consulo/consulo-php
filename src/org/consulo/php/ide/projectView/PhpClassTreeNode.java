@@ -20,6 +20,11 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass> {
 		super(phpClass.getProject(), phpClass, viewSettings);
 	}
 
+	@Override
+	public int getWeight() {
+		return 100;
+	}
+
 	@Nullable
 	@Override
 	protected PsiElement extractPsiFromValue() {

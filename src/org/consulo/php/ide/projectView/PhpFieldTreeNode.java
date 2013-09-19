@@ -19,6 +19,11 @@ public class PhpFieldTreeNode extends AbstractPsiBasedNode<PhpField> {
 		super(phpField.getProject(), phpField, viewSettings);
 	}
 
+	@Override
+	public int getWeight() {
+		return 200;
+	}
+
 	@Nullable
 	@Override
 	protected com.intellij.psi.PsiElement extractPsiFromValue() {

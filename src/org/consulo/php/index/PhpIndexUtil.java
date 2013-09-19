@@ -20,7 +20,7 @@ public class PhpIndexUtil {
 	}
 
 	public static Collection<PhpClass> getClassesForName(PhpElement element, String name) {
-		return PhpClassIndex.INSTANCE.get(name, element.getProject(), GlobalSearchScope.allScope(element.getProject()));
+		return PhpFullFqClassIndex.INSTANCE.get(name, element.getProject(), GlobalSearchScope.allScope(element.getProject()));
 		//return Collections.emptyList();
 	}
 

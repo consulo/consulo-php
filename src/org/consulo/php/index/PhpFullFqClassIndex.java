@@ -7,14 +7,14 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
- * @since 16.07.13.
+ * @since 19.09.13.
  */
-public class PhpClassIndex extends StringStubIndexExtension<PhpClass> {
+public class PhpFullFqClassIndex extends StringStubIndexExtension<PhpClass> {
 	public static PhpFullFqClassIndex INSTANCE = new PhpFullFqClassIndex();
 
 	@NotNull
 	@Override
 	public StubIndexKey<String, PhpClass> getKey() {
-		return PhpIndexKeys.CLASSES;
+		return PhpIndexKeys.FULL_FQ_CLASSES;
 	}
 }

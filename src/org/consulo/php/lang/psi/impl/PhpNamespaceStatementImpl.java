@@ -21,6 +21,11 @@ public class PhpNamespaceStatementImpl extends PhpElementImpl implements PhpName
 	}
 
 	@Override
+	public String getNamespace() {
+		return null;
+	}
+
+	@Override
 	public PhpClassReference getPackageReference() {
 		return findNotNullChildByClass(PhpClassReference.class);
 	}

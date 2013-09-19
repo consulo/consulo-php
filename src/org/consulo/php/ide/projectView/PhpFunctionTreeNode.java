@@ -19,6 +19,11 @@ public class PhpFunctionTreeNode extends AbstractPsiBasedNode<PhpFunction> {
 		super(phpFunction.getProject(), phpFunction, viewSettings);
 	}
 
+	@Override
+	public int getWeight() {
+		return 300;
+	}
+
 	@Nullable
 	@Override
 	protected com.intellij.psi.PsiElement extractPsiFromValue() {
