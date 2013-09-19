@@ -13,6 +13,56 @@ import com.intellij.psi.tree.IElementType;
 public class ListParsingHelper implements PhpTokenTypes
 {
 
+	public static int parseCommaDelimitedExpressionWithLeadExpr(final PhpPsiBuilder builder, final PsiBuilder.Marker result, final ParserPart2 parser, final boolean eatFollowComma)
+	{
+		if(result == null)
+		{
+			if(builder.compare(opCOMMA))
+			{
+				builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		int count = 1;
+		PsiBuilder.Marker beforeLastCommaMarker = builder.mark();
+		while(builder.compareAndEat(opCOMMA))
+		{
+			if(parser.parse(builder) != null)
+			{
+				count++;
+				beforeLastCommaMarker.drop();
+				beforeLastCommaMarker = builder.mark();
+			}
+			else
+			{
+				if(builder.compare(opCOMMA))
+				{
+					builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+				}
+				else
+				{
+					if(!eatFollowComma)
+					{
+						builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
+					}
+				}
+			}
+		}
+		if(!eatFollowComma)
+		{
+			beforeLastCommaMarker.rollbackTo();
+		}
+		else
+		{
+			beforeLastCommaMarker.drop();
+		}
+		return count;
+
+	}
+
 	/**
 	 * Parses comma delimited list of expressions
 	 *

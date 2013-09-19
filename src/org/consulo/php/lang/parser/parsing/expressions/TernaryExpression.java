@@ -41,10 +41,14 @@ public class TernaryExpression implements PhpTokenTypes
 			}
 			PsiBuilder.Marker newMarker = marker.precede();
 			marker.done(PhpElementTypes.TERNARY_EXPRESSION);
-			result = PhpElementTypes.TERNARY_EXPRESSION;
 			if(builder.compareAndEat(opQUEST))
 			{
-				subParse(builder, newMarker);
+				if(builder.getTokenType() == opCOLON) {
+					result = subParseElvis(builder, newMarker);
+				}
+				else {
+					result = subParseTernary(builder, newMarker);
+				}
 			}
 			else
 			{
@@ -58,7 +62,22 @@ public class TernaryExpression implements PhpTokenTypes
 		return result;
 	}
 
-	private static IElementType subParse(PhpPsiBuilder builder, PsiBuilder.Marker marker)
+	private static IElementType subParseElvis(PhpPsiBuilder builder, PsiBuilder.Marker newMarker)
+	{
+		newMarker = newMarker.precede();
+
+		builder.advanceLexer();
+		IElementType result = LiteralOrExpression.parse(builder);
+		if(result == PhpElementTypes.EMPTY_INPUT)
+		{
+			builder.error(PhpParserErrors.expected("expression"));
+		}
+
+		newMarker.done(result);
+		return PhpElementTypes.ELVIS_EXPRESSION;
+	}
+
+	private static IElementType subParseTernary(PhpPsiBuilder builder, PsiBuilder.Marker marker)
 	{
 		IElementType result = LiteralOrExpression.parse(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
@@ -75,11 +94,12 @@ public class TernaryExpression implements PhpTokenTypes
 		{
 			builder.error(PhpParserErrors.expected("expression"));
 		}
+
 		PsiBuilder.Marker newMarker = marker.precede();
 		marker.done(PhpElementTypes.TERNARY_EXPRESSION);
 		if(builder.compareAndEat(opQUEST))
 		{
-			subParse(builder, newMarker);
+			subParseTernary(builder, newMarker);
 		}
 		else
 		{

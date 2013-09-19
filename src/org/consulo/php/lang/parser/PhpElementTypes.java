@@ -37,7 +37,8 @@ public interface PhpElementTypes extends PhpStubElements
 	IElementType UNARY_EXPRESSION = new IElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
 	IElementType ASSIGNMENT_EXPRESSION = new IElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);
 	IElementType SELF_ASSIGNMENT_EXPRESSION = new IElementTypeAsPsiFactory("SELF_ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpSelfAssignmentExpressionImpl.class);
-	IElementType TERNARY_EXPRESSION = new PhpElementType("TERNARY_EXPRESSION");
+	IElementType TERNARY_EXPRESSION = new IElementTypeAsPsiFactory("TERNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpTernaryExpressionImpl.class);
+	IElementType ELVIS_EXPRESSION = new IElementTypeAsPsiFactory("ELVIS_EXPRESSION", PhpLanguage.INSTANCE, PhpElvisExpressionImpl.class);
 	IElementType INSTANCEOF_EXPRESSION = new PhpElementType("Instanceof expression");
 	IElementType PRINT_EXPRESSION = new PhpElementType("Print expression");
 	IElementType EXIT_EXPRESSION = new PhpElementType("Exit expression");

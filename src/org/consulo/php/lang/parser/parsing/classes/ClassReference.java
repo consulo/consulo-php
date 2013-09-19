@@ -16,25 +16,25 @@ import com.intellij.psi.tree.IElementType;
 public class ClassReference implements PhpTokenTypes
 {
 	@Deprecated
-	public static IElementType parse(PhpPsiBuilder builder)
+	public static PsiBuilder.Marker parse(PhpPsiBuilder builder)
 	{
-		return parseClassNameReference(builder, false, false);
+		return parseClassNameReference(builder, false, false, false);
 	}
 
-	public static IElementType parseClassNameReference(PhpPsiBuilder builder, boolean allowStatic, boolean dynamic)
+	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, boolean allowStatic, boolean dynamic, boolean allowAs)
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD) {
 			builder.advanceLexer();
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
-			return PhpElementTypes.CLASS_REFERENCE;
+			return marker;
 		}
 
 		if(dynamic) {
 			IElementType result = parseDynamicClassNameReference(builder);
 			if(result != PhpElementTypes.EMPTY_INPUT) {
 				marker.done(PhpElementTypes.CLASS_REFERENCE);
-				return PhpElementTypes.CLASS_REFERENCE;
+				return marker;
 			}
 		}
 
@@ -45,16 +45,26 @@ public class ClassReference implements PhpTokenTypes
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
 
 			if(builder.getTokenType() == SLASH) {
-				parseClassNameReference(builder, allowStatic, dynamic);
+				parseClassNameReference(builder, allowStatic, dynamic, false);
 			}
-			return PhpElementTypes.CLASS_REFERENCE;
+
+			if(allowAs && builder.getTokenType() == kwAS) {
+				marker = marker.precede();
+
+				builder.advanceLexer();
+
+				builder.match(IDENTIFIER);
+
+				marker.done(PhpElementTypes.CLASS_REFERENCE);
+			}
+			return marker;
 		}
 		else
 		{
 			marker.drop();
 		}
 
-		return PhpElementTypes.EMPTY_INPUT;
+		return null;
 	}
 
 	//	dynamic_class_name_reference:

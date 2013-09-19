@@ -5,7 +5,7 @@ import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.ParserPart;
+import org.consulo.php.lang.parser.util.ParserPart2;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.psi.PhpModifierList;
@@ -149,12 +149,12 @@ public class ClassDeclaration implements PhpTokenTypes
 
 	private static void parseInterfaceList(PhpPsiBuilder builder)
 	{
-		ParserPart interfaceParser = new ParserPart()
+		ParserPart2 interfaceParser = new ParserPart2()
 		{
 			@Override
-			public IElementType parse(PhpPsiBuilder builder)
+			public PsiBuilder.Marker parse(PhpPsiBuilder builder)
 			{
-				return ClassReference.parseClassNameReference(builder, false, false);
+				return ClassReference.parseClassNameReference(builder, false, false, false);
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);

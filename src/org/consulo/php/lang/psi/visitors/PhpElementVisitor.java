@@ -139,4 +139,12 @@ public abstract class PhpElementVisitor extends PsiElementVisitor {
 	public void visitUseStatement(PhpUseStatement phpUseStatement) {
 		visitPhpElement(phpUseStatement);
 	}
+
+	public void visitTernaryExpression(PhpTernaryExpression phpTernaryExpression) {
+		visitPhpElement(phpTernaryExpression);
+	}
+
+	public void visitElvisExpression(PhpElvisExpression phpElvisExpression) {
+		visitPhpElement(phpElvisExpression);
+	}
 }

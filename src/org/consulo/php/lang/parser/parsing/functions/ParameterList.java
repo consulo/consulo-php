@@ -67,10 +67,11 @@ public class ParameterList implements PhpTokenTypes
 		public IElementType parse(PhpPsiBuilder builder)
 		{
 			PsiBuilder.Marker parameter = builder.mark();
-			if(ClassReference.parse(builder) == PhpElementTypes.EMPTY_INPUT)
-			{
-				builder.compareAndEat(kwARRAY);
+
+			if(!builder.compareAndEat(kwARRAY)) {
+				ClassReference.parse(builder);
 			}
+
 			builder.compareAndEat(opBIT_AND);
 			if(!builder.compareAndEat(VARIABLE))
 			{
