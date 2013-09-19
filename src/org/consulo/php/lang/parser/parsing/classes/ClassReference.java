@@ -18,12 +18,12 @@ public class ClassReference implements PhpTokenTypes
 	@Deprecated
 	public static PsiBuilder.Marker parse(PhpPsiBuilder builder)
 	{
-		return parseClassNameReference(builder, false, false, false);
+		return parseClassNameReference(builder, null, false, false, false);
 	}
 
-	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, boolean allowStatic, boolean dynamic, boolean allowAs)
+	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, boolean allowStatic, boolean dynamic, boolean allowAs)
 	{
-		PsiBuilder.Marker marker = builder.mark();
+		PsiBuilder.Marker marker = m != null ? m.precede() : builder.mark();
 		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD) {
 			builder.advanceLexer();
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
@@ -42,8 +42,10 @@ public class ClassReference implements PhpTokenTypes
 
 		if(builder.compareAndEat(IDENTIFIER))
 		{
+			marker.done(PhpElementTypes.CLASS_REFERENCE);
+
 			if(builder.getTokenType() == SLASH) {
-				parseClassNameReference(builder, allowStatic, dynamic, false);
+				parseClassNameReference(builder, marker, allowStatic, dynamic, false);
 			}
 
 			if(allowAs && builder.getTokenType() == kwAS) {
@@ -56,7 +58,6 @@ public class ClassReference implements PhpTokenTypes
 				marker.done(PhpElementTypes.CLASS_REFERENCE);
 			}
 
-			marker.done(PhpElementTypes.CLASS_REFERENCE);
 			return marker;
 		}
 		else

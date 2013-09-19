@@ -8,8 +8,10 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.SmartList;
 import lombok.val;
 import org.consulo.php.completion.ClassUsageContext;
+import org.consulo.php.index.PhpFullFqClassIndex;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.*;
@@ -20,27 +22,43 @@ import org.consulo.psi.PsiPackageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @author jay
  * @date May 11, 2008 9:56:57 PM
  */
 public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassReference
 {
+	public enum ResolveKind {
+		TO_NAMESPACE,
+		TO_CLASS,
+
+		TO_UNKNOWN
+	}
 
 	public PhpClassReferenceImpl(ASTNode node)
 	{
 		super(node);
 	}
 
-	public PsiElement getNameIdentifier()
+	@Override
+	public PsiElement getReferenceElement()
 	{
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
+	}
+
+	@Nullable
+	@Override
+	public PhpClassReference getQualifier() {
+		return findChildByClass(PhpClassReference.class);
 	}
 
 	@Override
 	public String getReferenceName()
 	{
-		PsiElement nameIdentifier = getNameIdentifier();
+		PsiElement nameIdentifier = getReferenceElement();
 		return nameIdentifier != null ? nameIdentifier.getText() : "";
 	}
 
@@ -61,37 +79,63 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		PsiElement parent = getParent();
+		ResolveKind resolveKind = findResolveKind();
+		String name = getReferenceName();
+		PhpClassReference qualifier = getQualifier();
+		StringBuilder builder = null;
 
-		if(parent instanceof PhpParameter) {
+		switch (resolveKind) {
 
-		}
-		else if(PsiTreeUtil.getParentOfType(this, PhpNamespaceStatement.class) != null) {
-			String name = getReferenceName();
+			case TO_NAMESPACE:
+				builder = new StringBuilder();
 
-			StringBuilder builder = new StringBuilder();
+				if(qualifier != null) {
+					PsiElement resolve = qualifier.resolve();
+					if(!(resolve instanceof PhpPackage)) {
+						return ResolveResult.EMPTY_ARRAY;
+					}
 
-			if(parent instanceof PhpClassReference) {
-				PsiElement resolve = ((PhpClassReference) parent).resolve();
-				if(!(resolve instanceof PsiPackage)) {
-					return ResolveResult.EMPTY_ARRAY;
+					builder.append(((PhpPackage) resolve).getQualifiedName());
+					builder.append(".");
 				}
 
-				builder.append(((PsiPackage) resolve).getQualifiedName());
-				builder.append(".");
-			}
+				builder.append(name);
 
-			builder.append(name);
+				String packageName = builder.toString().replace(" ", "");
 
-			String packageName = builder.toString().replace(" ", "");
+				PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
+				if(aPackage != null) {
+					return new ResolveResult[] {new PsiElementResolveResult(aPackage, true)};
+				}
+				else {
+					return ResolveResult.EMPTY_ARRAY;
+				}
+			case TO_CLASS:
+				builder = new StringBuilder();
 
-			PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
-			if(aPackage != null) {
-				return new ResolveResult[] {new PsiElementResolveResult(aPackage, true)};
-			}
-			else {
+				if(qualifier != null) {
+					PsiElement resolve = qualifier.resolve();
+					if(!(resolve instanceof PhpPackage)) {
+						return ResolveResult.EMPTY_ARRAY;
+					}
+
+					builder.append(((PhpPackage) resolve).getQualifiedName());
+					builder.append(".");
+				}
+
+				builder.append(name);
+
+				String fullyClassName = builder.toString().replace(" ", "");
+				Collection<PhpClass> phpClasses = PhpFullFqClassIndex.INSTANCE.get(fullyClassName, getProject(), getResolveScope());
+				List<ResolveResult> resultList = new SmartList<ResolveResult>() ;
+				for (PhpClass phpClass : phpClasses) {
+					resultList.add(new PsiElementResolveResult(phpClass, true));
+				}
+				return resultList.isEmpty() ? ResolveResult.EMPTY_ARRAY : resultList.toArray(new ResolveResult[resultList.size()]);
+			default:
 				return ResolveResult.EMPTY_ARRAY;
-			}
 		}
+
 
 		/*boolean instantiation = getParent() instanceof NewExpression;
 
@@ -152,20 +196,38 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 			result[i + classes.size()] = new PhpResolveResult(anInterface);
 		}
 		return result; */
-		return new ResolveResult[0];
+	}
+
+	public ResolveKind findResolveKind() {
+		PsiElement parent = getParent();
+		if(parent instanceof PhpClassReferenceImpl) {
+			ResolveKind resolveKind = ((PhpClassReferenceImpl) parent).findResolveKind();
+			if(resolveKind == ResolveKind.TO_CLASS) {
+				return ResolveKind.TO_NAMESPACE;
+			}
+
+			return resolveKind;
+		}
+		else if(parent instanceof PhpNamespaceStatement) {
+			return ResolveKind.TO_NAMESPACE;
+		}
+		else if(parent instanceof PhpUseStatement) {
+			return ResolveKind.TO_CLASS;
+		}
+		return ResolveKind.TO_UNKNOWN;
 	}
 
 	@Override
 	public PsiElement getElement()
 	{
-		return getNameIdentifier();
+		return this;
 	}
 
 	@Override
 	public TextRange getRangeInElement()
 	{
-		PsiElement nameIdentifier = getNameIdentifier();
-		return new TextRange(0, nameIdentifier.getTextLength());
+		PsiElement referenceElement = getReferenceElement();
+		return new TextRange(referenceElement.getStartOffsetInParent(), referenceElement.getStartOffsetInParent() + referenceElement.getTextLength());
 	}
 
 	@Override
@@ -189,7 +251,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
-		PsiElement nameIdentifier = getNameIdentifier();
+		PsiElement nameIdentifier = getReferenceElement();
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getReferenceName().equals(name))
 		{

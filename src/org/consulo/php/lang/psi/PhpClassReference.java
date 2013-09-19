@@ -1,6 +1,8 @@
 package org.consulo.php.lang.psi;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -8,5 +10,12 @@ import com.intellij.psi.PsiPolyVariantReference;
  */
 public interface PhpClassReference extends PhpElement, PsiPolyVariantReference
 {
+	@Nullable
+	PhpClassReference getQualifier();
+
+	@Nullable
 	String getReferenceName();
+
+	@Nullable
+	PsiElement getReferenceElement();
 }

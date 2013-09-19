@@ -111,7 +111,7 @@ public class StatementList implements PhpTokenTypes
 
 		builder.match(NAMESPACE_KEYWORD);
 
-		if(ClassReference.parseClassNameReference(builder, false, false, false) == null) {
+		if(ClassReference.parseClassNameReference(builder, null, false, false, false) == null) {
 			builder.error("Namespace expected");
 		}
 
@@ -124,14 +124,14 @@ public class StatementList implements PhpTokenTypes
 
 		builder.match(USE_KEYWORD);
 
-		if(ClassReference.parseClassNameReference(builder, false, false, true) == null) {
+		if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null) {
 			builder.error("Reference expected");
 		}
 		else {
 			while (builder.getTokenType() == opCOMMA) {
 				builder.advanceLexer();
 
-				if(ClassReference.parseClassNameReference(builder, false, false, true) == null) {
+				if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null) {
 					builder.error("Reference expected");
 					break;
 				}

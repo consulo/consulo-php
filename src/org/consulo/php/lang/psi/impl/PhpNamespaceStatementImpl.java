@@ -1,8 +1,10 @@
 package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import org.consulo.php.lang.psi.PhpClassReference;
 import org.consulo.php.lang.psi.PhpNamespaceStatement;
+import org.consulo.php.lang.psi.PhpPackage;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +24,14 @@ public class PhpNamespaceStatementImpl extends PhpElementImpl implements PhpName
 
 	@Override
 	public String getNamespace() {
+		PhpClassReference packageReference = getPackageReference();
+		if(packageReference == null) {
+			return null;
+		}
+		PsiElement resolve = packageReference.resolve();
+		if(resolve instanceof PhpPackage) {
+			return ((PhpPackage) resolve).getNamespaceName();
+		}
 		return null;
 	}
 

@@ -22,7 +22,7 @@ public class InstanceofExpression implements PhpTokenTypes
 		IElementType result = UnaryExpression.parse(builder);
 		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(kwINSTANCEOF))
 		{
-			if(ClassReference.parseClassNameReference(builder, false, false, false) == null)
+			if(ClassReference.parseClassNameReference(builder, null, false, false, false) == null)
 			{
 				builder.error(PhpParserErrors.expected("class reference"));
 			}

@@ -19,7 +19,7 @@ public class StaticClassConstant implements PhpTokenTypes
 	{
 		PsiBuilder.Marker mainMarker = builder.mark();
 
-		PsiBuilder.Marker marker = ClassReference.parseClassNameReference(builder, false, false, false);
+		PsiBuilder.Marker marker = ClassReference.parseClassNameReference(builder, null, false, false, false);
 
 		if(marker == null)
 		{

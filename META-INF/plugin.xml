@@ -44,6 +44,7 @@
 		<internalFileTemplate name="PHP Interface"/>
 		<internalFileTemplate name="Php Trait"/>
 
+		<highlightVisitor implementation="org.consulo.php.codeInsight.highlight.PhpHighlightVisitor" />
 		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" />
 		<treeStructureProvider implementation="org.consulo.php.ide.projectView.PhpTreeStructureProvider" />
 		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>

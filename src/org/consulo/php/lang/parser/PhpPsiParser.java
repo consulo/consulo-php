@@ -24,7 +24,7 @@ public class PhpPsiParser implements PsiParser
 	@NotNull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{
-		//		builder.setDebugMode(true);
+		builder.setDebugMode(true);
 		PhpPsiBuilder psiBuilder = new PhpPsiBuilder(builder);
 
 		PsiBuilder.Marker marker = psiBuilder.mark();
