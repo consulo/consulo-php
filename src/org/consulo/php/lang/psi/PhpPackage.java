@@ -18,4 +18,7 @@ public interface PhpPackage extends PsiPackage {
 			return i == 0 ? EMPTY_ARRAY : new PhpPackage[i];
 		}
 	} ;
+
+	@NotNull
+	String getNamespaceName();
 }

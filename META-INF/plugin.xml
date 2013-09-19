@@ -42,6 +42,7 @@
 		<internalFileTemplate name="PHP Class"/>
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
+		<internalFileTemplate name="Php Trait"/>
 
 		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" />
 		<treeStructureProvider implementation="org.consulo.php.ide.projectView.PhpTreeStructureProvider" />

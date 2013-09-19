@@ -2,6 +2,7 @@ package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.Language;
 import com.intellij.openapi.roots.impl.DirectoryIndex;
+import com.intellij.openapi.util.NotNullLazyValue;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
@@ -24,6 +25,15 @@ import java.util.List;
  * @since 07.07.13.
  */
 public class PhpPackageImpl extends PsiPackageBase implements PhpPackage {
+	private NotNullLazyValue<String> myNamespaceName = new NotNullLazyValue<String>() {
+		@NotNull
+		@Override
+		protected String compute() {
+			String qualifiedName = getQualifiedName();
+			return qualifiedName.replace(".", "\\");
+		}
+	};
+
 	public PhpPackageImpl(PsiManager manager, PsiPackageManager packageManager, Class<? extends ModuleExtension> extensionClass, String qualifiedName) {
 		super(manager, packageManager, extensionClass, qualifiedName);
 	}
@@ -52,5 +62,11 @@ public class PhpPackageImpl extends PsiPackageBase implements PhpPackage {
 	@Override
 	public Language getLanguage() {
 		return PhpLanguage.INSTANCE;
+	}
+
+	@NotNull
+	@Override
+	public String getNamespaceName() {
+		return myNamespaceName.getValue();
 	}
 }

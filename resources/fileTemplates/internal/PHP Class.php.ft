@@ -1,4 +1,6 @@
 <?php
+#if (${NAMESPACE} && ${NAMESPACE} != "")namespace ${NAMESPACE};#end
+
 #parse("PHP File Header.php")
 class ${NAME} {
 
