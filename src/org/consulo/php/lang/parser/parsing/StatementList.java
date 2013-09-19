@@ -6,6 +6,7 @@ import com.intellij.psi.tree.TokenSet;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.classes.ClassDeclaration;
+import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.functions.Function;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
@@ -16,7 +17,7 @@ import org.consulo.php.lang.parser.util.PhpPsiBuilder;
  * Date: 12.10.2007
  * Time: 10:31:27
  */
-public class StatementList
+public class StatementList implements PhpTokenTypes
 {
 
 	//	statement_list:
@@ -80,6 +81,14 @@ public class StatementList
 			builder.advanceLexer();
 		}
 
+		if(builder.getTokenType() == NAMESPACE_KEYWORD) {
+			parseNamespaceStatement(builder);
+		}
+
+		if(builder.getTokenType() == USE_KEYWORD) {
+			parseUseStatement(builder);
+		}
+
 		IElementType parsed = Function.parse(builder);
 		if(parsed == PhpElementTypes.EMPTY_INPUT)
 		{
@@ -97,4 +106,40 @@ public class StatementList
 		return parsed != PhpElementTypes.EMPTY_INPUT;
 	}
 
+	private static void parseNamespaceStatement(PhpPsiBuilder builder) {
+		PsiBuilder.Marker marker = builder.mark();
+
+		builder.match(NAMESPACE_KEYWORD);
+
+		IElementType elementType = ClassReference.parseClassNameReference(builder, false, false);
+		if(elementType == PhpElementTypes.EMPTY_INPUT) {
+			builder.error("Namespace expected");
+		}
+
+		marker.done(PhpElementTypes.NAMESPACE_STATEMENT);
+	}
+
+	private static void parseUseStatement(PhpPsiBuilder builder) {
+		PsiBuilder.Marker marker = builder.mark();
+
+		builder.match(USE_KEYWORD);
+
+		IElementType elementType = ClassReference.parseClassNameReference(builder, false, false);
+		if(elementType == PhpElementTypes.EMPTY_INPUT) {
+			builder.error("Reference expected");
+		}
+		else {
+			while (builder.getTokenType() == opCOMMA) {
+				builder.advanceLexer();
+
+				elementType = ClassReference.parseClassNameReference(builder, false, false);
+				if(elementType == PhpElementTypes.EMPTY_INPUT) {
+					builder.error("Reference expected");
+					break;
+				}
+			}
+		}
+
+		marker.done(PhpElementTypes.NAMESPACE_STATEMENT);
+	}
 }

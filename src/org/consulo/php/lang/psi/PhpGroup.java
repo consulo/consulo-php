@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * @author jay
  * @date May 9, 2008 5:12:18 PM
  */
-public interface PhpGroupStatement extends PhpElement
+public interface PhpGroup extends PhpElement
 {
 	@NotNull
 	PsiElement[] getStatements();

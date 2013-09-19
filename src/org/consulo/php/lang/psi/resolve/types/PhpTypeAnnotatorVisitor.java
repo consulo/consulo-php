@@ -40,9 +40,9 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 			{
 				ResolveResult result = results[results.length - 1];
 				val element = result.getElement();
-				if(element instanceof PhpTypedElement)
+				if(element instanceof PhpTypeOwner)
 				{
-					type.addClasses(((PhpTypedElement) element).getType().getTypes());
+					type.addClasses(((PhpTypeOwner) element).getType().getTypes());
 				}
 			}
 		}
@@ -52,46 +52,48 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 			if(parent instanceof PhpAssignmentExpression)
 			{
 				val value = ((PhpAssignmentExpression) parent).getValue();
-				if(value instanceof PhpTypedElement)
+				if(value instanceof PhpTypeOwner)
 				{
-					type.addClasses(((PhpTypedElement) value).getType().getTypes());
+					type.addClasses(((PhpTypeOwner) value).getType().getTypes());
 				}
 			}
 			else if(parent instanceof PhpCatchStatement)
 			{
 				val classReference = ((PhpCatchStatement) parent).getExceptionType();
-				type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
+				if(classReference != null) {
+					type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
+				}
 			}
 		}
 		variable.putUserData(TYPE_KEY, type);
 	}
 
 	@Override
-	public void visitPhpAssignmentExpression(PhpAssignmentExpression expr)
+	public void visitAssignmentExpression(PhpAssignmentExpression expr)
 	{
 		PhpType type = new PhpType();
 		val value = expr.getValue();
-		if(value instanceof PhpTypedElement)
+		if(value instanceof PhpTypeOwner)
 		{
-			type.addClasses(((PhpTypedElement) value).getType().getTypes());
+			type.addClasses(((PhpTypeOwner) value).getType().getTypes());
 		}
 		expr.putUserData(TYPE_KEY, type);
 	}
 
 	@Override
-	public void visitPhpMethodReference(PhpMethodReference reference)
+	public void visitMethodReference(PhpMethodReference reference)
 	{
 		PhpType type = new PhpType();
 		val element = reference.resolve();
-		if(element instanceof PhpMethod)
+		if(element instanceof PhpFunction)
 		{
-			type.addClasses(((PhpMethod) element).getType().getTypes());
+			type.addClasses(((PhpFunction) element).getType().getTypes());
 		}
 		reference.putUserData(TYPE_KEY, type);
 	}
 
 	@Override
-	public void visitPhpMethod(PhpMethod phpMethod)
+	public void visitFunction(PhpFunction phpMethod)
 	{
 		PhpType type = new PhpType();
 		val docComment = phpMethod.getDocComment();
@@ -110,7 +112,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitPhpFieldReference(PhpFieldReference fieldReference)
+	public void visitFieldReference(PhpFieldReference fieldReference)
 	{
 		PhpType type = new PhpType();
 		val element = fieldReference.resolve();
@@ -122,7 +124,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitPhpField(PhpField phpField)
+	public void visitField(PhpField phpField)
 	{
 		PhpType type = new PhpType();
 		val docComment = phpField.getDocComment();
@@ -139,7 +141,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public void visitPhpNewExpression(PhpNewExpression expression)
+	public void visitNewExpression(PhpNewExpression expression)
 	{
 		PhpType type = new PhpType();
 		val classReference = expression.getFirstPsiChild();
@@ -159,7 +161,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitPhpParameter(PhpParameter parameter)
+	public void visitParameter(PhpParameter parameter)
 	{
 		PhpType type = new PhpType();
 		val classReference = parameter.getFirstPsiChild();

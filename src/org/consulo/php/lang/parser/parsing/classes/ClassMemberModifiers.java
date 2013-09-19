@@ -1,12 +1,10 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.parser.util.PhpParserErrors;
-import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,44 +35,13 @@ public class ClassMemberModifiers implements PhpTokenTypes
 		return PhpElementTypes.MODIFIER_LIST;
 	}
 
-	//	method_modifiers:
-	//		/* empty */
-	//		| non_empty_member_modifiers
-	//	;
-	public static IElementType parseMethodModifiers(PhpPsiBuilder builder)
+	public static void parseModifiers(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker modifiers = builder.mark();
-		if(builder.compare(tsMODIFIERS))
-		{
-			parseModifiers(builder);
-		}
-		modifiers.done(PhpElementTypes.MODIFIER_LIST);
-		return PhpElementTypes.MODIFIER_LIST;
-	}
-
-	//	non_empty_member_modifiers:
-	//		member_modifier
-	//		| non_empty_member_modifiers member_modifier
-	//	;
-	//
-	//	member_modifier:
-	//		kwPUBLIC
-	//		| kwPROTECTED
-	//		| kwPRIVATE
-	//		| kwSTATIC
-	//		| kwABSTRACT
-	//		| kwFINAL
-	//	;
-	private static void parseModifiers(PhpPsiBuilder builder)
-	{
-		if(!builder.compare(tsMODIFIERS))
-		{
-			builder.error(PhpParserErrors.expected("modifier"));
-		}
-		while(builder.compare(tsMODIFIERS))
+		while (builder.compare(tsMODIFIERS))
 		{
 			builder.advanceLexer();
 		}
+		modifiers.done(PhpElementTypes.MODIFIER_LIST);
 	}
-
 }

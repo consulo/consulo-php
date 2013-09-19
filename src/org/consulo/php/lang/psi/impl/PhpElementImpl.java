@@ -22,9 +22,8 @@ import javax.swing.*;
  *
  * @author jay
  */
-public class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
+public abstract class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
 {
-
 	public PhpElementImpl(ASTNode node)
 	{
 		super(node);
@@ -55,17 +54,19 @@ public class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
 	}
 
 	@Override
-	public void accept(@NotNull final PsiElementVisitor visitor)
+	public final void accept(@NotNull final PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)
 		{
-			((PhpElementVisitor) visitor).visitPhpElement(this);
+			accept((PhpElementVisitor) visitor);
 		}
 		else
 		{
 			super.accept(visitor);
 		}
 	}
+
+	public abstract void accept(@NotNull final PhpElementVisitor visitor);
 
 	@Override
 	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)

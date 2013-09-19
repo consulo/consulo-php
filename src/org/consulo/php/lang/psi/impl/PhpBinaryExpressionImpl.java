@@ -2,7 +2,6 @@ package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
@@ -41,16 +40,8 @@ public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinary
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpBinaryExpression(this);
-		}
-		else
-		{
-			visitor.visitElement(this);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitBinaryExpression(this);
 	}
 
 	@Override

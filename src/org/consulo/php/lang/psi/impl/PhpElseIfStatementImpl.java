@@ -1,15 +1,13 @@
 package org.consulo.php.lang.psi.impl;
 
-import org.consulo.php.lang.psi.PhpElseIfStatement;
-import org.consulo.php.lang.psi.PhpElement;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpElseIfStatement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -38,16 +36,8 @@ public class PhpElseIfStatementImpl extends PhpElementImpl implements PhpElseIfS
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpElseIf(this);
-		}
-		else
-		{
-			visitor.visitElement(this);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitElseIfStatement(this);
 	}
 
 	@Override

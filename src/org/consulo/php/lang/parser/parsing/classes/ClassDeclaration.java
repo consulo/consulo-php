@@ -1,14 +1,14 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
+import org.consulo.php.lang.parser.util.ParserPart;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.consulo.php.lang.parser.util.ParserPart;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.psi.PhpModifierList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +23,7 @@ public class ClassDeclaration implements PhpTokenTypes
 	//		class_entry_type IDENTIFIER extends_from
 	//			implements_list
 	//			'{' class_statement_list '}'
-	//		| kwINTERFACE IDENTIFIER
+	//		| INTERFACE_KEYWORD IDENTIFIER
 	//			interface_extends_list
 	//			'{' class_statement_list '}'
 	//	;
@@ -44,27 +44,18 @@ public class ClassDeclaration implements PhpTokenTypes
 	//	class_entry_type:
 	//		kwCLASS
 	//		| kwABSTRACT kwCLASS
-	//		| kwFINAL kwCLASS
+	//		| FINAL_KEYWORD kwCLASS
 	//	;
 	private static IElementType parseClass(PhpPsiBuilder builder)
 	{
-		if(!builder.compare(kwCLASS) && !builder.compare(kwABSTACT) && !builder.compare(kwFINAL))
+		if(!builder.compare(kwCLASS) && !builder.compare(PhpModifierList.MODIFIERS))
 		{
 			return PhpElementTypes.EMPTY_INPUT;
 		}
 		PsiBuilder.Marker classMarker = builder.mark();
-		IElementType currentClass = PhpElementTypes.CLASS;
-		if(builder.compareAndEat(kwABSTACT))
-		{
-			currentClass = PhpElementTypes.CLASS;
-		}
-		else
-		{
-			if(builder.compareAndEat(kwFINAL))
-			{
-				currentClass = PhpElementTypes.CLASS;
-			}
-		}
+
+		ClassMemberModifiers.parseModifiers(builder);
+
 		builder.match(kwCLASS);
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
@@ -73,8 +64,8 @@ public class ClassDeclaration implements PhpTokenTypes
 		parseClassExtends(builder);
 		parseClassImplements(builder);
 		parseClassStatements(builder);
-		classMarker.done(currentClass);
-		return currentClass;
+		classMarker.done(PhpElementTypes.CLASS);
+		return PhpElementTypes.CLASS;
 	}
 
 	//	extends_from:
@@ -108,12 +99,12 @@ public class ClassDeclaration implements PhpTokenTypes
 		return PhpElementTypes.IMPLEMENTS_LIST;
 	}
 
-	//		kwINTERFACE IDENTIFIER
+	//		INTERFACE_KEYWORD IDENTIFIER
 	//		interface_extends_list
 	//		'{' class_statement_list '}'
 	private static IElementType parseInterface(PhpPsiBuilder builder)
 	{
-		if(!builder.compare(kwINTERFACE))
+		if(!builder.compare(INTERFACE_KEYWORD))
 		{
 			return PhpElementTypes.EMPTY_INPUT;
 		}
@@ -125,8 +116,8 @@ public class ClassDeclaration implements PhpTokenTypes
 		}
 		parseInterfaceExtends(builder);
 		parseClassStatements(builder);
-		interfaceMarker.done(PhpElementTypes.INTERFACE);
-		return PhpElementTypes.INTERFACE;
+		interfaceMarker.done(PhpElementTypes.CLASS);
+		return PhpElementTypes.CLASS;
 	}
 
 	private static void parseClassStatements(PhpPsiBuilder builder)
@@ -163,7 +154,7 @@ public class ClassDeclaration implements PhpTokenTypes
 			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
-				return ClassReference.parse(builder);
+				return ClassReference.parseClassNameReference(builder, false, false);
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);

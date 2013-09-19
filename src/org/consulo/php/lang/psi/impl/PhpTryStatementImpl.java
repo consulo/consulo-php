@@ -1,15 +1,13 @@
 package org.consulo.php.lang.psi.impl;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpTryStatement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-
 import org.jetbrains.annotations.NotNull;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 
 /**
  * @author jay
@@ -30,12 +28,8 @@ public class PhpTryStatementImpl extends PhpElementImpl implements PhpTryStateme
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpTry(this);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitTryStatement(this);
 	}
 
 	@Override

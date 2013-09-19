@@ -1,16 +1,15 @@
 package org.consulo.php.lang.inspections;
 
-import org.consulo.php.PhpBundle;
-import org.consulo.php.lang.psi.PhpMethod;
-import org.consulo.php.lang.psi.PhpMethodReference;
-import org.consulo.php.lang.psi.PhpModifier;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import org.consulo.php.PhpBundle;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -34,15 +33,15 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 		{
 			@Override
 			@SuppressWarnings({"ConstantConditions"})
-			public void visitPhpMethodReference(PhpMethodReference reference)
+			public void visitMethodReference(PhpMethodReference reference)
 			{
-				if(reference.canReadName() && reference.getReferenceType().getState() == PhpModifier.State.STATIC)
+				if(reference.canReadName() && reference.isStatic())
 				{
 					final PsiElement element = reference.getReference().resolve();
-					if(element instanceof PhpMethod)
+					if(element instanceof PhpFunction)
 					{
-						final PhpMethod phpMethod = (PhpMethod) element;
-						if(!phpMethod.isStatic())
+						final PhpFunction phpMethod = (PhpFunction) element;
+						if(!phpMethod.hasModifier(PhpTokenTypes.STATIC_KEYWORD))
 						{
 							holder.registerProblem(reference, PhpBundle.message("php.inspections.dynamic_as_static_method_call"));
 						}

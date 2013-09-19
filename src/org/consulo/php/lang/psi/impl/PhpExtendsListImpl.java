@@ -4,6 +4,8 @@ import org.consulo.php.lang.psi.PhpClassReference;
 import org.consulo.php.lang.psi.PhpExtendsList;
 import org.consulo.php.lang.psi.PhpClass;
 
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -17,6 +19,11 @@ public class PhpExtendsListImpl extends PhpElementImpl implements PhpExtendsList
 	public PhpExtendsListImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	@Override
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitPhpElement(this);
 	}
 
 	@Override

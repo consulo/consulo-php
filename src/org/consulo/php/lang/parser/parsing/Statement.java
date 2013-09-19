@@ -36,7 +36,7 @@ public class Statement implements PhpTokenTypes
 	//		| kwRETURN ';'
 	//		| kwRETURN expr ';'
 	//		| kwGLOBAL global_var_list ';'
-	//		| kwSTATIC static_var_list ';'
+	//		| STATIC_KEYWORD static_var_list ';'
 	//		| kwECHO echo_expr_list ';'
 	//		| HTML
 	//		| expr ';'
@@ -116,7 +116,7 @@ public class Statement implements PhpTokenTypes
 	//		| kwRETURN ';'
 	//		| kwRETURN expr ';'
 	//		| kwGLOBAL global_var_list ';'
-	//		| kwSTATIC static_var_list ';'
+	//		| STATIC_KEYWORD static_var_list ';'
 	//		| kwECHO echo_expr_list ';'
 	//		| kwUNSET '(' unset_variables ')' ';'
 	//		| kwFOREACH '(' variable kwAS
@@ -154,7 +154,7 @@ public class Statement implements PhpTokenTypes
 			return ReturnStatement.parse(builder);
 		if(builder.compare(kwGLOBAL))
 			return GlobalStatement.parse(builder);
-		if(builder.compare(kwSTATIC))
+		if(builder.compare(STATIC_KEYWORD))
 			return StaticStatement.parse(builder);
 		if(builder.compare(kwECHO))
 			return EchoStatement.parse(builder);

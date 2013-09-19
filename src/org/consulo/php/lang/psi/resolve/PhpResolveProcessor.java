@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpParameter;
 
 import java.util.Collection;
@@ -54,7 +54,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor {
 				}
 				break;
 			case METHOD:
-				if(!(psiElement instanceof PhpMethod))
+				if(!(psiElement instanceof PhpFunction))
 				{
 					return true;
 				}

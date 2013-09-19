@@ -9,6 +9,8 @@ import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
 import org.consulo.php.lang.psi.impl.PhpElementImpl;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -55,7 +57,12 @@ public class PhpDocPsiCreator implements PhpDocElementTypes
 			return new PhpDocTypeImpl(node);
 		}
 
-		return new PhpElementImpl(node);
+		return new PhpElementImpl(node){
+			@Override
+			public void accept(@NotNull PhpElementVisitor visitor) {
+				visitor.visitPhpElement(this);
+			}
+		};
 	}
 
 }

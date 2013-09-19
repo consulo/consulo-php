@@ -8,6 +8,8 @@ import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
 import org.consulo.php.lang.psi.impl.*;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,12 +42,9 @@ public class PhpPsiCreator implements PhpElementTypes
 		}
 		if(type == GROUP_STATEMENT)
 		{
-			return new PhpGroupStatementImpl(node);
+			return new PhpGroupImpl(node);
 		}
-		if(type == FUNCTION)
-		{
-			return new PhpFunctionImpl(node);
-		}
+
 		if(type == PARAMETER_LIST)
 		{
 			return new PhpParameterListImpl(node);
@@ -74,10 +73,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpSelfAssignmentExpressionImpl(node);
 		}
-		if(type == CLASS_METHOD)
-		{
-			return new PhpMethodImpl(node);
-		}
+
 		if(type == CATCH)
 		{
 			return new PhpCatchStatementImpl(node);
@@ -144,6 +140,11 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpTryStatementImpl(node);
 		}
-		return new PhpElementImpl(node);
+		return new PhpElementImpl(node){
+			@Override
+			public void accept(@NotNull PhpElementVisitor visitor) {
+				visitor.visitPhpElement(this);
+			}
+		};
 	}
 }

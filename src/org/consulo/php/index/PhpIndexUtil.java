@@ -1,9 +1,9 @@
 package org.consulo.php.index;
 
 import com.intellij.psi.search.GlobalSearchScope;
-import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpFunction;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public class PhpIndexUtil {
 		//return Collections.emptyList();
 	}
 
-	public static Collection<PhpMethod> getMethodsFor(PhpElement element) {
+	public static Collection<PhpFunction> getMethodsFor(PhpElement element) {
 		return Collections.emptyList();
 	}
 }

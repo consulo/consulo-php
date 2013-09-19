@@ -18,10 +18,10 @@ import com.intellij.psi.tree.IElementType;
 public class StaticStatement implements PhpTokenTypes
 {
 
-	//	kwSTATIC static_var_list ';'
+	//	STATIC_KEYWORD static_var_list ';'
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		if(!builder.compare(kwSTATIC))
+		if(!builder.compare(STATIC_KEYWORD))
 		{
 			return PhpElementTypes.EMPTY_INPUT;
 		}

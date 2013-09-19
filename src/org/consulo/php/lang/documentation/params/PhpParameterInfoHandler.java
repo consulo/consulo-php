@@ -55,7 +55,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 			if(phpMethodReference != null)
 			{
 				final PsiElement element = phpMethodReference.resolve();
-				if(element != null && element instanceof PhpMethod)
+				if(element != null && element instanceof PhpFunction)
 				{
 					context.setItemsToShow(new Object[]{element});
 				}
@@ -123,8 +123,8 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	@Override
 	public void updateUI(Object element, ParameterInfoUIContext context)
 	{
-		LOG.assertTrue(element instanceof PhpMethod);
-		PhpMethod phpMethod = (PhpMethod) element;
+		LOG.assertTrue(element instanceof PhpFunction);
+		PhpFunction phpMethod = (PhpFunction) element;
 
 		// Index to show
 		final int index = context.getCurrentParameterIndex();

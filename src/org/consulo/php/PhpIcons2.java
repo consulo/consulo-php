@@ -13,6 +13,8 @@ public interface PhpIcons2
 {
 	Icon Php = IconLoader.findIcon("/icons/fileTypes/php.png");
 
+	Icon AbstractClass = AllIcons.Nodes.AbstractClass;
 	Icon Class = AllIcons.Nodes.Class;
+	Icon Trait = AllIcons.Nodes.Interface;
 	Icon Interface = AllIcons.Nodes.Interface;
 }

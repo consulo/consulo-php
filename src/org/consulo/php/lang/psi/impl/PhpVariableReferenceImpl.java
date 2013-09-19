@@ -7,7 +7,6 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
-import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -63,16 +61,8 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull final PsiElementVisitor psiElementVisitor)
-	{
-		if(psiElementVisitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) psiElementVisitor).visitVariableReference(this);
-		}
-		else
-		{
-			super.accept(psiElementVisitor);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitVariableReference(this);
 	}
 
 	@Override
@@ -216,12 +206,4 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	{
 		return false;
 	}
-
-	@Override
-	@Nullable
-	public Icon getIcon()
-	{
-		return PhpIcons.VARIABLE;
-	}
-
 }

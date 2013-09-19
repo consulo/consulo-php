@@ -2,22 +2,16 @@ package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
-import org.consulo.php.lang.psi.PhpElement;
-import org.consulo.php.lang.psi.PhpField;
-import org.consulo.php.lang.psi.PhpModifier;
-import org.consulo.php.lang.psi.PhpVariableReference;
+import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -25,31 +19,14 @@ import javax.swing.*;
  */
 public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 {
-
-	private PhpModifier modifier = null;
-
 	public PhpFieldImpl(ASTNode node)
 	{
 		super(node);
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpField(this);
-		}
-		else
-		{
-			visitor.visitElement(this);
-		}
-	}
-
-	@Override
-	public Icon getIcon()
-	{
-		return PhpIcons.FIELD;
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitField(this);
 	}
 
 	@Override
@@ -81,42 +58,6 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	}
 
 	@Override
-	@SuppressWarnings({"ConstantConditions"})
-	public PhpModifier getModifier()
-	{
-		if(modifier == null)
-		{
-			PhpModifier modifier = new PhpModifier();
-			final PhpElement element = ((PhpElement) getParent()).getFirstPsiChild();
-			if(element.getNode().getElementType() == PhpElementTypes.MODIFIER_LIST)
-			{
-				final ASTNode[] nodes = element.getNode().getChildren(PhpTokenTypes.tsMODIFIERS);
-				for(ASTNode node : nodes)
-				{
-					if(node.getElementType() == PhpTokenTypes.kwPUBLIC)
-					{
-						modifier.setAccess(PhpModifier.Access.PUBLIC);
-					}
-					else if(node.getElementType() == PhpTokenTypes.kwPROTECTED)
-					{
-						modifier.setAccess(PhpModifier.Access.PROTECTED);
-					}
-					else if(node.getElementType() == PhpTokenTypes.kwPRIVATE)
-					{
-						modifier.setAccess(PhpModifier.Access.PRIVATE);
-					}
-					else if(node.getElementType() == PhpTokenTypes.kwSTATIC)
-					{
-						modifier.setState(PhpModifier.State.STATIC);
-					}
-				}
-			}
-			this.modifier = modifier;
-		}
-		return modifier;
-	}
-
-	@Override
 	public PhpDocComment getDocComment()
 	{
 		final PsiElement parent = getParent();
@@ -129,5 +70,23 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 			}
 		}
 		return null;
+	}
+
+	@Nullable
+	@Override
+	public PhpModifierList getModifierList() {
+		return findChildByClass(PhpModifierList.class);
+	}
+
+	@Override
+	public boolean hasModifier(@NotNull IElementType type) {
+		PhpModifierList modifierList = getModifierList();
+		return modifierList != null && modifierList.hasModifier(type);
+	}
+
+	@Override
+	public boolean hasModifier(@NotNull TokenSet tokenSet) {
+		PhpModifierList modifierList = getModifierList();
+		return modifierList != null && modifierList.hasModifier(tokenSet);
 	}
 }

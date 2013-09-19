@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpStubbedNamedElementImpl<T extends StubElement> extends PhpStubElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement{
+public abstract class PhpStubbedNamedElementImpl<T extends StubElement> extends PhpStubElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement{
 	public PhpStubbedNamedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType) {
 		super(stub, nodeType);
 	}

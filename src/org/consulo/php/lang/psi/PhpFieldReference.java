@@ -21,7 +21,4 @@ public interface PhpFieldReference extends PhpElement, PsiReference
 
 	@Nullable
 	public PsiElement getObjectReference();
-
-	public PhpModifier getReferenceType();
-
 }

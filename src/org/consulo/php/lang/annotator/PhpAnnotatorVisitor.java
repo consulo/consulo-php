@@ -47,7 +47,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitPhpClassReference(PhpClassReference classReference)
+	public void visitClassReference(PhpClassReference classReference)
 	{
 		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
 		{
@@ -58,7 +58,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitPhpConstant(PhpConstantReference constant)
+	public void visitConstant(PhpConstantReference constant)
 	{
 		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
 		{

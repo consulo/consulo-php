@@ -15,45 +15,46 @@ import com.intellij.psi.tree.IElementType;
  */
 public class ClassReference implements PhpTokenTypes
 {
-
+	@Deprecated
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		if(builder.compare(IDENTIFIER))
-		{
-			PsiBuilder.Marker marker = builder.mark();
+		return parseClassNameReference(builder, false, false);
+	}
+
+	public static IElementType parseClassNameReference(PhpPsiBuilder builder, boolean allowStatic, boolean dynamic)
+	{
+		PsiBuilder.Marker marker = builder.mark();
+		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD) {
 			builder.advanceLexer();
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
 			return PhpElementTypes.CLASS_REFERENCE;
 		}
-		return PhpElementTypes.EMPTY_INPUT;
-	}
 
-	//	class_name_reference:
-	//		IDENTIFIER
-	//		| dynamic_class_name_reference
-	//	;
-	public static IElementType parseClassNameReference(PhpPsiBuilder builder)
-	{
-		PsiBuilder.Marker marker = builder.mark();
-		IElementType result = parseDynamicClassNameReference(builder);
-		if(result == PhpElementTypes.EMPTY_INPUT)
-		{
-			if(builder.compareAndEat(IDENTIFIER))
-			{
+		if(dynamic) {
+			IElementType result = parseDynamicClassNameReference(builder);
+			if(result != PhpElementTypes.EMPTY_INPUT) {
 				marker.done(PhpElementTypes.CLASS_REFERENCE);
 				return PhpElementTypes.CLASS_REFERENCE;
 			}
-			else
-			{
-				marker.drop();
+		}
+
+		builder.compareAndEat(SLASH);
+
+		if(builder.compareAndEat(IDENTIFIER))
+		{
+			marker.done(PhpElementTypes.CLASS_REFERENCE);
+
+			if(builder.getTokenType() == SLASH) {
+				parseClassNameReference(builder, allowStatic, dynamic);
 			}
+			return PhpElementTypes.CLASS_REFERENCE;
 		}
 		else
 		{
-			marker.done(PhpElementTypes.CLASS_REFERENCE);
-			result = PhpElementTypes.CLASS_REFERENCE;
+			marker.drop();
 		}
-		return result;
+
+		return PhpElementTypes.EMPTY_INPUT;
 	}
 
 	//	dynamic_class_name_reference:

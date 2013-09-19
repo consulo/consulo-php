@@ -3,7 +3,6 @@ package org.consulo.php.lang.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -12,10 +11,10 @@ import lombok.val;
 import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpClassReference;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,16 +43,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpClassReference(this);
-		}
-		else
-		{
-			super.accept(visitor);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitClassReference(this);
 	}
 
 	@Override
@@ -181,7 +172,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof PhpClass || element instanceof PhpMethod)
+		if(element instanceof PhpClass || element instanceof PhpFunction)
 		{
 			val resolveResult = resolve();
 			val isReference = element == resolveResult;
@@ -189,7 +180,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 			{
 				return isReference;
 			}
-			if(element instanceof PhpClass && resolveResult instanceof PhpMethod)
+			if(element instanceof PhpClass && resolveResult instanceof PhpFunction)
 			{
 				return PsiTreeUtil.getParentOfType(resolveResult, PhpClass.class) == element;
 			}

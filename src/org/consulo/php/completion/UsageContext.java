@@ -1,7 +1,6 @@
 package org.consulo.php.completion;
 
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpModifier;
 
 /**
  * @author jay
@@ -9,31 +8,12 @@ import org.consulo.php.lang.psi.PhpModifier;
  */
 public class UsageContext
 {
-
-	private PhpModifier modifier = null;
 	private PhpClass classForAccessFilter = null;
 	private PhpClass callingObjectClass = null;
 
 	public UsageContext()
 	{
-		modifier = null;
 		classForAccessFilter = null;
-	}
-
-	public UsageContext(PhpModifier modifier, PhpClass classForAccessFilter)
-	{
-		this.modifier = modifier;
-		this.classForAccessFilter = classForAccessFilter;
-	}
-
-	public PhpModifier getModifier()
-	{
-		return modifier;
-	}
-
-	public void setModifier(PhpModifier modifier)
-	{
-		this.modifier = modifier;
 	}
 
 	public PhpClass getClassForAccessFilter()

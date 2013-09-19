@@ -47,7 +47,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass> 
 	@Override
 	public PhpClassStub deserialize(@NotNull StubInputStream stubInputStream, StubElement stubElement) throws IOException {
 		StringRef name = stubInputStream.readName();
-		return new PhpClassStub(stubElement, name.getString());
+		return new PhpClassStub(stubElement, name == null ? null : name.getString());
 	}
 
 	@Override

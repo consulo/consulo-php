@@ -24,12 +24,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor) {
-		if (visitor instanceof PhpElementVisitor) {
-			((PhpElementVisitor) visitor).visitPhpFunctionCall(this);
-		} else {
-			visitor.visitElement(this);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitFunctionCall(this);
 	}
 
 	@Override

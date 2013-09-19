@@ -28,7 +28,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement)
 	{
-		return psiElement instanceof PhpClass || psiElement instanceof PhpMethod || psiElement instanceof PhpFunction || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
+		return psiElement instanceof PhpClass || psiElement instanceof PhpFunction || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
 	}
 
 	@Override
@@ -53,11 +53,6 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 		if(element instanceof PhpClass)
 		{
 			return ((PhpClass) element).isInterface() ? "Interface" : "Class";
-		}
-
-		if(element instanceof PhpMethod)
-		{
-			return "PhpMethod";
 		}
 		if(element instanceof PhpFunction)
 		{

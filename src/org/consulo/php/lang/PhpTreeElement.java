@@ -1,15 +1,14 @@
 package org.consulo.php.lang;
 
+import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import com.intellij.ui.RowIcon;
 import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-import org.consulo.php.util.PhpPresentationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,35 +42,21 @@ class PhpTreeElement implements StructureViewTreeElement
 		if(myElement instanceof PhpClass)
 		{
 			PhpClass e = (PhpClass) myElement;
-			return new PresentationData(e.getName(), null, e.getIcon(),  null);
-		}
-		if(myElement instanceof PhpMethod)
-		{
-			PhpMethod e = (PhpMethod) myElement;
-			StringBuilder b = new StringBuilder().append(e.getName());
-			listParameters(b, e.getParameters());
-			RowIcon rowIcon = new RowIcon(2);
-			rowIcon.setIcon(e.getIcon(), 0);
-			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(e.getModifier()), 1);
-			return new PresentationData(b.toString(), null, rowIcon, null);
+			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0),  null);
 		}
 		if(myElement instanceof PhpFunction)
 		{
 			PhpFunction e = (PhpFunction) myElement;
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
-			RowIcon rowIcon = new RowIcon(2);
-			rowIcon.setIcon(e.getIcon(), 0);
-			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(PhpModifier.PUBLIC), 1);
-			return new PresentationData(b.toString(), null, rowIcon, null);
+
+			return new PresentationData(b.toString(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		if(myElement instanceof PhpNamedElement)
 		{
 			PhpNamedElement e = (PhpNamedElement) myElement;
-			RowIcon rowIcon = new RowIcon(2);
-			rowIcon.setIcon(e.getIcon(), 0);
-			rowIcon.setIcon(PhpPresentationUtil.getAccessIcon(PhpModifier.PUBLIC), 1);
-			return new PresentationData(e.getName(), null, rowIcon, null);
+
+			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		return null;
 	}

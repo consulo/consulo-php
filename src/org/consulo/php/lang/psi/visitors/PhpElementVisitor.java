@@ -1,12 +1,11 @@
 package org.consulo.php.lang.psi.visitors;
 
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.consulo.php.lang.psi.impl.PhpTryStatementImpl;
-
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,141 +14,129 @@ import com.intellij.psi.PsiElementVisitor;
  *
  * @author jay
  */
-public abstract class PhpElementVisitor extends PsiElementVisitor
-{
+public abstract class PhpElementVisitor extends PsiElementVisitor {
 
-	public void visitPhpElement(PhpElement element)
-	{
+	public void visitPhpElement(PhpElement element) {
 		visitElement(element);
 	}
 
-	public void visitPhpClass(PhpClass clazz)
-	{
+	public void visitClass(PhpClass clazz) {
 		visitPhpElement(clazz);
 	}
 
-	public void visitPhpMethod(PhpMethod phpMethod)
-	{
-		visitPhpElement(phpMethod);
-	}
-
-	public void visitPhpFunction(PhpFunction phpFunction)
-	{
+	public void visitFunction(PhpFunction phpFunction) {
 		visitPhpElement(phpFunction);
 	}
 
-	public void visitPhpNewExpression(PhpNewExpression expression)
-	{
+	public void visitNewExpression(PhpNewExpression expression) {
 		visitPhpElement(expression);
 	}
 
-	public void visitPhpAssignmentExpression(PhpAssignmentExpression expr)
-	{
+	public void visitAssignmentExpression(PhpAssignmentExpression expr) {
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpBinaryExpression(PhpBinaryExpression expr)
-	{
+	public void visitBinaryExpression(PhpBinaryExpression expr) {
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpUnaryExpression(PhpUnaryExpression expr)
-	{
+	public void visitUnaryExpression(PhpUnaryExpression expr) {
 		visitPhpElement(expr);
 	}
 
-	public void visitPhpForeach(PhpForeachStatement foreach)
-	{
+	public void visitForeachStatement(PhpForeachStatement foreach) {
 		visitPhpElement(foreach);
 	}
 
-	public void visitPhpCatch(PhpCatchStatement phpCatch)
-	{
+	public void visitCatchStatement(PhpCatchStatement phpCatch) {
 		visitPhpElement(phpCatch);
 	}
 
-	public void visitPhpParameterList(PhpParameterList list)
-	{
+	public void visitParameterList(PhpParameterList list) {
 		visitPhpElement(list);
 	}
 
-	public void visitPhpParameter(PhpParameter parameter)
-	{
+	public void visitParameter(PhpParameter parameter) {
 		visitPhpElement(parameter);
 	}
 
-	public void visitVariableReference(PhpVariableReference variable)
-	{
+	public void visitVariableReference(PhpVariableReference variable) {
 		visitPhpElement(variable);
 	}
 
 	@Override
-	public void visitElement(PsiElement element)
-	{
+	public void visitElement(PsiElement element) {
 	}
 
-	public void visitPhpFile(PhpFileImpl phpFile)
-	{
+	public void visitPhpFile(PhpFileImpl phpFile) {
 		visitFile(phpFile);
 	}
 
-	public void visitPhpIf(PhpIfStatement ifStatement)
-	{
+	public void visitIfStatement(PhpIfStatement ifStatement) {
 		visitPhpElement(ifStatement);
 	}
 
-	public void visitPhpClassReference(PhpClassReference classReference)
-	{
+	public void visitClassReference(PhpClassReference classReference) {
 		visitPhpElement(classReference);
 	}
 
-	public void visitPhpMethodReference(PhpMethodReference reference)
-	{
+	public void visitMethodReference(PhpMethodReference reference) {
 		visitPhpElement(reference);
 	}
 
-	public void visitPhpClassConstantReference(PhpClassConstantReferenceImpl constantReference)
-	{
+	public void visitClassConstantReference(PhpClassConstantReferenceImpl constantReference) {
 		visitPhpElement(constantReference);
 	}
 
-	public void visitPhpFieldReference(PhpFieldReference fieldReference)
-	{
+	public void visitFieldReference(PhpFieldReference fieldReference) {
 		visitPhpElement(fieldReference);
 	}
 
-	public void visitPhpField(PhpField phpField)
-	{
+	public void visitField(PhpField phpField) {
 		visitPhpElement(phpField);
 	}
 
-	public void visitPhpConstant(PhpConstantReference constant)
-	{
+	public void visitConstant(PhpConstantReference constant) {
 		visitPhpElement(constant);
 	}
 
-	public void visitPhpFunctionCall(PhpFunctionCall call)
-	{
+	public void visitFunctionCall(PhpFunctionCall call) {
 		visitPhpElement(call);
 	}
 
-	public void visitPhpTry(PhpTryStatementImpl tryStatement)
-	{
+	public void visitTryStatement(PhpTryStatementImpl tryStatement) {
 		visitPhpElement(tryStatement);
 	}
 
-	public void visitPhpElseIf(PhpElseIfStatement elseIf)
-	{
+	public void visitElseIfStatement(PhpElseIfStatement elseIf) {
 		visitPhpElement(elseIf);
 	}
 
-	public void visitPhpElse(PhpElseStatement elseStatement)
-	{
+	public void visitElseStatement(PhpElseStatement elseStatement) {
 		visitPhpElement(elseStatement);
 	}
 
-	public void visitPhpFor(PhpForStatement forStatement)
-	{
+	public void visitForStatement(PhpForStatement forStatement) {
 		visitPhpElement(forStatement);
+	}
+
+	public void visitModifierList(PhpModifierList modifierList) {
+		visitPhpElement(modifierList);
+	}
+
+	public void visitStatement(PhpStatement phpStatement) {
+		visitPhpElement(phpStatement);
+	}
+
+	public void visitWhileStatement(PhpWhileStatement whileStatement) {
+		visitPhpElement(whileStatement);
+	}
+
+	public void visitNamespaceStatement(PhpNamespaceStatement phpNamespaceStatement) {
+		visitPhpElement(phpNamespaceStatement);
+	}
+
+	public void visitUseStatement(PhpUseStatement phpUseStatement) {
+		visitPhpElement(phpUseStatement);
 	}
 }

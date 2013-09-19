@@ -43,6 +43,8 @@
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 
+		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" />
+		<treeStructureProvider implementation="org.consulo.php.ide.projectView.PhpTreeStructureProvider" />
 		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
 		<sdkType implementation="org.consulo.php.sdk.PhpSdkType"/>

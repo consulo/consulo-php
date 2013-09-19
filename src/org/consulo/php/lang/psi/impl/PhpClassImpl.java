@@ -3,20 +3,19 @@ package org.consulo.php.lang.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
-import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.impl.stub.PhpClassStub;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.util.PhpPresentationUtil;
-import org.consulo.php.lang.psi.impl.stub.PhpClassStub;
 import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -31,14 +30,22 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		super(stub, PhpStubElements.CLASS);
 	}
 
+	@NotNull
 	@Override
 	public PhpField[] getFields() {
 		return findChildrenByClass(PhpField.class);
 	}
 
+	@NotNull
 	@Override
-	public PhpMethod[] getMethods() {
-		return findChildrenByClass(PhpMethod.class);
+	public PhpClass[] getClasses() {
+		return findChildrenByClass(PhpClass.class);
+	}
+
+	@Override
+	@NotNull
+	public PhpFunction[] getFunctions() {
+		return findChildrenByClass(PhpFunction.class);
 	}
 
 	@Override
@@ -58,10 +65,10 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public PhpMethod getConstructor() {
-		PhpMethod newOne = null;
-		PhpMethod oldOne = null;
-		for (PhpMethod phpMethod : this.getMethods()) {
+	public PhpFunction getConstructor() {
+		PhpFunction newOne = null;
+		PhpFunction oldOne = null;
+		for (PhpFunction phpMethod : this.getFunctions()) {
 			if (phpMethod.getName().equals(CONSTRUCTOR)) {
 				newOne = phpMethod;
 			}
@@ -76,51 +83,18 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	public void accept(@NotNull final PsiElementVisitor psiElementVisitor) {
-		if (psiElementVisitor instanceof PhpElementVisitor) {
-			((PhpElementVisitor) psiElementVisitor).visitPhpClass(this);
-		} else {
-			super.accept(psiElementVisitor);
-		}
-	}
-
-	@Override
-	@NotNull
-	public Icon getIcon() {
-		if (isAbstract()) {
-			return PhpIcons.ABSTRACT_CLASS;
-		}
-		if (isFinal()) {
-			return PhpIcons.FINAL_CLASS;
-		}
-		return PhpIcons.CLASS;
-	}
-
-	@Override
-	public boolean isAbstract() {
-		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwABSTACT;
-	}
-
-	@Override
-	public boolean isFinal() {
-		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwFINAL;
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitClass(this);
 	}
 
 	@Override
 	public boolean isInterface() {
-		return getNode().getFirstChildNode().getElementType() == PhpTokenTypes.kwINTERFACE;
+		return findChildByType(PhpTokenTypes.INTERFACE_KEYWORD) != null;
 	}
 
 	@Override
-	public PhpModifier getModifier() {
-		PhpModifier modifier = new PhpModifier();
-		if (isAbstract()) {
-			modifier.setAbstractness(PhpModifier.Abstractness.ABSTRACT);
-		}
-		if (isFinal()) {
-			modifier.setAbstractness(PhpModifier.Abstractness.FINAL);
-		}
-		return modifier;
+	public boolean isTrait() {
+		return findChildByType(PhpTokenTypes.TRAIT_KEYWORD) != null;
 	}
 
 	@Override
@@ -145,7 +119,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Override
 	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement place) {
-		for (PhpMethod phpMethod : getMethods()) {
+		for (PhpFunction phpMethod : getFunctions()) {
 			if(!processor.execute(phpMethod, state)) {
 				return false;
 			}
@@ -158,5 +132,23 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		}
 
 		return super.processDeclarations(processor, state, lastParent, place);
+	}
+
+	@Nullable
+	@Override
+	public PhpModifierList getModifierList() {
+		return findChildByClass(PhpModifierList.class);
+	}
+
+	@Override
+	public boolean hasModifier(@NotNull IElementType type) {
+		PhpModifierList modifierList = getModifierList();
+		return modifierList != null && modifierList.hasModifier(type);
+	}
+
+	@Override
+	public boolean hasModifier(@NotNull TokenSet tokenSet) {
+		PhpModifierList modifierList = getModifierList();
+		return modifierList != null && modifierList.hasModifier(tokenSet);
 	}
 }

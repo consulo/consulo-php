@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement;
 import org.consulo.php.lang.psi.PhpClassReference;
 import org.consulo.php.lang.psi.PhpImplementsList;
 import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,6 +20,11 @@ public class PhpImplementsListImpl extends PhpElementImpl implements PhpImplemen
 	public PhpImplementsListImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	@Override
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitPhpElement(this);
 	}
 
 	@Override

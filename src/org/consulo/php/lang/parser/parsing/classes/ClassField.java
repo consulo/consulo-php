@@ -1,14 +1,12 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,10 +26,6 @@ public class ClassField implements PhpTokenTypes
 	//	;
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		if(ClassMemberModifiers.parseVariableModifiers(builder) == PhpElementTypes.EMPTY_INPUT)
-		{
-			return PhpElementTypes.EMPTY_INPUT;
-		}
 		ParserPart fieldParser = new ParserPart()
 		{
 			@Override
@@ -41,13 +35,13 @@ public class ClassField implements PhpTokenTypes
 				{
 					return PhpElementTypes.EMPTY_INPUT;
 				}
-				PsiBuilder.Marker field = builder.mark();
+
 				builder.match(VARIABLE);
 				if(builder.compareAndEat(opASGN))
 				{
 					StaticScalar.parse(builder);
 				}
-				field.done(PhpElementTypes.CLASS_FIELD);
+
 				return PhpElementTypes.CLASS_FIELD;
 			}
 		};
@@ -57,7 +51,8 @@ public class ClassField implements PhpTokenTypes
 			return PhpElementTypes.EMPTY_INPUT;
 		}
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, result, fieldParser, false);
-		return null;
+		builder.match(opSEMICOLON);
+		return result;
 	}
 
 }

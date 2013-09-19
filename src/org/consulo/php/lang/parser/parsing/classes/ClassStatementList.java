@@ -1,5 +1,6 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
@@ -39,24 +40,34 @@ public class ClassStatementList implements PhpTokenTypes
 	//	;
 	private static IElementType parseStatement(PhpPsiBuilder builder)
 	{
-		IElementType result = ClassConstant.parse(builder);
-		if(result != PhpElementTypes.EMPTY_INPUT)
+		PsiBuilder.Marker mark = builder.mark();
+
+		ClassMemberModifiers.parseModifiers(builder);
+
+		IElementType elementType = null;
+		if(builder.getTokenType() == kwCONST)
 		{
-			builder.match(opSEMICOLON);
+			elementType = ClassConstant.parse(builder);
+		}
+		else if(builder.getTokenType() == kwFUNCTION)
+		{
+			elementType = ClassMethod.parseFunction(builder);
 		}
 		else
 		{
-			result = ClassField.parse(builder);
-			if(result != PhpElementTypes.EMPTY_INPUT)
-			{
-				builder.match(opSEMICOLON);
-			}
-			else
-			{
-				result = ClassMethod.parse(builder);
-			}
+			elementType = ClassField.parse(builder);
 		}
-		return result;
+
+		if(elementType != PhpElementTypes.EMPTY_INPUT)
+		{
+			mark.done(elementType);
+		}
+		else
+		{
+			mark.drop();
+			builder.error("'function' expected");
+		}
+		return elementType;
 	}
 
 }

@@ -4,11 +4,10 @@ import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupItem;
+import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.ui.RowIcon;
 import org.consulo.php.completion.insert.PhpMethodInsertHandler;
 import org.consulo.php.lang.psi.*;
-import org.consulo.php.util.PhpPresentationUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -135,7 +134,7 @@ public class PhpVariantsUtil
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
 		PhpLookupElement item = new PhpLookupElement(element);
-		item.icon = PhpPresentationUtil.getIcon(element);
+		item.icon = IconDescriptorUpdaters.getIcon(element, 0);
 		if(context != null)
 		{
 			final PhpClass objectClass = context.getCallingObjectClass();
@@ -148,9 +147,9 @@ public class PhpVariantsUtil
 		{
 			item.typeText = ((PhpField) element).getType().toString();
 		}
-		else if(element instanceof PhpMethod)
+		else if(element instanceof PhpFunction)
 		{
-			item.typeText = ((PhpMethod) element).getType().toString();
+			item.typeText = ((PhpFunction) element).getType().toString();
 			item.tailText = "()";
 		}
 		/*else if(element instanceof LightPhpFunction)
@@ -178,9 +177,8 @@ public class PhpVariantsUtil
 		{
 			PhpVariableReference variable = (PhpVariableReference) element;
 			item.setName(variable.getName());
-			final RowIcon icon = new RowIcon(2);
-			icon.setIcon(variable.getIcon(), 0);
-			item.setIcon(icon);
+
+			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
 			final PhpClass variableType = variable.getType().getType();
 			if(variableType != null)
 			{
@@ -191,9 +189,7 @@ public class PhpVariantsUtil
 		{
 			PhpParameter parameter = (PhpParameter) element;
 			item.setName(parameter.getName());
-			final RowIcon icon = new RowIcon(2);
-			icon.setIcon(parameter.getIcon(), 0);
-			item.setIcon(icon);
+			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
 			final PhpClass variableType = parameter.getType().getType();
 			if(variableType != null)
 			{
@@ -205,7 +201,7 @@ public class PhpVariantsUtil
 
 	public static InsertHandler getInsertHandler(PhpNamedElement element)
 	{
-		if(element instanceof PhpMethod)
+		if(element instanceof PhpFunction)
 		{
 			return PhpMethodInsertHandler.getInstance();
 		}

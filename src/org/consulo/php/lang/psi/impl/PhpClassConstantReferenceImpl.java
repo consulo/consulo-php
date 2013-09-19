@@ -4,7 +4,6 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -33,16 +32,8 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpClassConstantReference(this);
-		}
-		else
-		{
-			super.accept(visitor);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitClassConstantReference(this);
 	}
 
 	private ASTNode getNameNode()
@@ -153,16 +144,11 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 
 					context.setClassForAccessFilter(contextClass);
 
-					final PhpModifier modifier = new PhpModifier();
-					if(!classReference.getText().equals("parent"))
-					{
-						modifier.setState(PhpModifier.State.STATIC);
-					}
-					context.setModifier(modifier);
+
 					context.setCallingObjectClass(contextClass);
 
 					final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
-					for(PhpMethod method : contextClass.getMethods())
+					for(PhpFunction method : contextClass.getFunctions())
 					{
 						toComplete.add(method);
 					}

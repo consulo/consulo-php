@@ -137,7 +137,7 @@ public class PhpCompletionData extends CompletionData
 					return ArrayUtil.EMPTY_OBJECT_ARRAY;
 				}
 				//noinspection ConstantConditions
-				if(psiElement.getNode().getElementType() == PhpTokenTypes.IDENTIFIER && psiElement.getParent() instanceof PhpMethod && ((PhpMethod) psiElement.getParent()).getNameIdentifier() == psiElement)
+				if(psiElement.getNode().getElementType() == PhpTokenTypes.IDENTIFIER && psiElement.getParent() instanceof PhpFunction && ((PhpFunction) psiElement.getParent()).getNameIdentifier() == psiElement)
 				{
 					return new Object[]{
 							"__construct",
@@ -189,7 +189,7 @@ public class PhpCompletionData extends CompletionData
 				EditorModificationUtil.insertStringAtCaret(editor, "()");
 				PsiDocumentManager.getInstance(editor.getProject()).commitDocument(editor.getDocument());
 				PhpClass klass = (PhpClass) element.getObject();
-				PhpMethod phpMethod = klass.getConstructor();
+				PhpFunction phpMethod = klass.getConstructor();
 				if(phpMethod != null && phpMethod.getParameters().length > 0)
 				{
 					editor.getCaretModel().moveCaretRelatively(-1, 0, false, false, true);

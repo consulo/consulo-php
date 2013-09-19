@@ -2,14 +2,14 @@ package org.consulo.php.lang.psi;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
-import org.consulo.php.lang.psi.resolve.types.PhpTypedElement;
+import org.consulo.php.lang.psi.resolve.types.PhpTypeOwner;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
  * @date May 15, 2008 12:35:16 PM
  */
-public interface PhpMethodReference extends PhpElement, PsiPolyVariantReference, PhpTypedElement
+public interface PhpMethodReference extends PhpElement, PsiPolyVariantReference, PhpTypeOwner
 {
 	boolean canReadName();
 
@@ -21,7 +21,7 @@ public interface PhpMethodReference extends PhpElement, PsiPolyVariantReference,
 	@Nullable
 	PsiElement getObjectReference();
 
-	PhpModifier getReferenceType();
+	boolean isStatic();
 
 	PsiElement getNameIdentifier();
 }

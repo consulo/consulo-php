@@ -3,7 +3,6 @@ package org.consulo.php.lang.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 15, 2008 11:24:30 AM
  */
-public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFieldReference
+public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldReference
 {
 
 	public PhpFieldReferenceImpl(ASTNode node)
@@ -25,16 +24,8 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpFieldReference(this);
-		}
-		else
-		{
-			visitor.visitElement(this);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitFieldReference(this);
 	}
 
 	private PsiElement getNameIdentifier()
@@ -94,17 +85,6 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	}
 
 	@Override
-	public PhpModifier getReferenceType()
-	{
-		PhpModifier modifier = new PhpModifier();
-		if(getClassReference() != null)
-		{
-			modifier.setState(PhpModifier.State.STATIC);
-		}
-		return modifier;
-	}
-
-	@Override
 	@Nullable
 	public PsiReference getReference()
 	{
@@ -156,7 +136,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 				context.setCallingObjectClass(lightPhpClass);
 
 				final List<LightPhpElement> toComplete = new ArrayList<LightPhpElement>();
-				toComplete.addAll(lightPhpClass.getMethods());
+				toComplete.addAll(lightPhpClass.getFunctions());
 				toComplete.addAll(lightPhpClass.getFields());
 
 				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);

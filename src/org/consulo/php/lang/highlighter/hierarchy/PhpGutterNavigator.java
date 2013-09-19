@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.awt.RelativePoint;
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ public class PhpGutterNavigator
 
 		for(PhpNamedElement psiElement : info.getElements())
 		{
-			if(psiElement instanceof PhpMethod)
+			if(psiElement instanceof PhpFunction)
 			{
 				views.add(PsiTreeUtil.getParentOfType(psiElement, PhpClass.class));
 			}

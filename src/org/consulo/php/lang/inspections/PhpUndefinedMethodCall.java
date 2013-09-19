@@ -32,7 +32,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 		return new PhpElementVisitor()
 		{
 			@Override
-			public void visitPhpMethodReference(PhpMethodReference reference)
+			public void visitMethodReference(PhpMethodReference reference)
 			{
 				if(reference.canReadName())
 				{

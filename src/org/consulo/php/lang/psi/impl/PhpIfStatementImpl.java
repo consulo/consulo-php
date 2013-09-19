@@ -2,14 +2,13 @@ package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.consulo.php.lang.psi.PhpElseStatement;
-import org.consulo.php.lang.psi.PhpElseIfStatement;
-import org.consulo.php.lang.psi.PhpIfStatement;
 import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpElseIfStatement;
+import org.consulo.php.lang.psi.PhpElseStatement;
+import org.consulo.php.lang.psi.PhpIfStatement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,16 +63,8 @@ public class PhpIfStatementImpl extends PhpElementImpl implements PhpIfStatement
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpIf(this);
-		}
-		else
-		{
-			super.accept(visitor);
-		}
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitIfStatement(this);
 	}
 
 	@Override

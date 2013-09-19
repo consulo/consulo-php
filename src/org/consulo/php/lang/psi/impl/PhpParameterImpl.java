@@ -2,21 +2,16 @@ package org.consulo.php.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.PhpIcons;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author jay
@@ -58,23 +53,8 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
-	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpParameter(this);
-		}
-		else
-		{
-			visitor.visitElement(this);
-		}
-	}
-
-	@Override
-	@Nullable
-	public Icon getIcon()
-	{
-		return PhpIcons.PARAMETER;
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitParameter(this);
 	}
 
 	@Override

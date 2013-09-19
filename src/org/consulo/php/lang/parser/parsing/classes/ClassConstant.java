@@ -1,14 +1,12 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
-
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,15 +36,14 @@ public class ClassConstant implements PhpTokenTypes
 				{
 					return PhpElementTypes.EMPTY_INPUT;
 				}
-				PsiBuilder.Marker classConstant = builder.mark();
 				builder.match(IDENTIFIER);
 				builder.match(opASGN);
 				StaticScalar.parse(builder);
-				classConstant.done(PhpElementTypes.CLASS_CONSTANT);
 				return PhpElementTypes.CLASS_CONSTANT;
 			}
 		};
 		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, constantParser.parse(builder), constantParser, false);
+		builder.match(opSEMICOLON);
 		return PhpElementTypes.CLASS_CONSTANT;
 	}
 

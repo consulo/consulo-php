@@ -6,6 +6,8 @@ import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -17,6 +19,11 @@ public class PhpDocVarTagImpl extends PhpDocPsiElementImpl implements PhpDocVarT
 	public PhpDocVarTagImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	@Override
+	public void accept(@NotNull PhpElementVisitor visitor) {
+		visitor.visitPhpElement(this);
 	}
 
 	@Override

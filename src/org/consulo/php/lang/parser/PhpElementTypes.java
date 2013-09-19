@@ -25,11 +25,14 @@ public interface PhpElementTypes extends PhpStubElements
 
 	IElementType HTML = new PhpElementType("HTML");
 
-	IElementType GROUP_STATEMENT = new IElementTypeAsPsiFactory("GROUP_STATEMENT", PhpLanguage.INSTANCE, PhpGroupStatementImpl.class);
+	IElementType GROUP_STATEMENT = new IElementTypeAsPsiFactory("GROUP_STATEMENT", PhpLanguage.INSTANCE, PhpGroupImpl.class);
 	IElementType STATEMENT = new IElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
 	IElementType FUNCTION = new IElementTypeAsPsiFactory("FUNCTION", PhpLanguage.INSTANCE, PhpFunctionImpl.class);
 	IElementType PARAMETER_LIST = new IElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = new IElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
+	IElementType MODIFIER_LIST = new IElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
+	IElementType NAMESPACE_STATEMENT = new IElementTypeAsPsiFactory("NAMESPACE_STATEMENT", PhpLanguage.INSTANCE, PhpNamespaceStatementImpl.class);
+	IElementType USE_STATEMENT = new IElementTypeAsPsiFactory("USE_STATEMENT", PhpLanguage.INSTANCE, PhpUseStatementImpl.class);
 
 	IElementType UNARY_EXPRESSION = new IElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
 	IElementType ASSIGNMENT_EXPRESSION = new IElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);
@@ -87,12 +90,11 @@ public interface PhpElementTypes extends PhpStubElements
 	IElementType COMMON_SCALAR = new PhpElementType("Common scalar");
 	IElementType STATIC_SCALAR = new PhpElementType("Static scalar");
 	IElementType EXTENDS_LIST = new PhpElementType("Extends list");
-	IElementType INTERFACE = new PhpElementType("Interface");
+
 	IElementType IMPLEMENTS_LIST = new PhpElementType("Implements list");
 	IElementType CLASS_CONSTANT = new PhpElementType("Class constant");
-	IElementType MODIFIER_LIST = new PhpElementType("Modifier list");
+
 	IElementType CLASS_FIELD = new IElementTypeAsPsiFactory("FIELD", PhpLanguage.INSTANCE, PhpFieldImpl.class);
-	IElementType CLASS_METHOD = new PhpElementType("Class method");
 	IElementType SWITCH = new PhpElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PhpElementType("Default case");
 	IElementType CASE = new PhpElementType("Case");

@@ -178,17 +178,17 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 //=========================KEYWORDS==================================
 //   oop
 	"class"                            { return PhpTokenTypes.kwCLASS; }
-	"interface"                        { return PhpTokenTypes.kwINTERFACE; }
+	"interface"                        { return PhpTokenTypes.INTERFACE_KEYWORD; }
 	"extends"                          { return PhpTokenTypes.kwEXTENDS; }
 	"implements"                       { return PhpTokenTypes.kwIMPLEMENTS; }
 	"var"                              { return PhpTokenTypes.kwVAR; }
 	"const"                            { return PhpTokenTypes.kwCONST; }
-	"public"                           { return PhpTokenTypes.kwPUBLIC; }
-	"protected"                        { return PhpTokenTypes.kwPROTECTED; }
-	"private"                          { return PhpTokenTypes.kwPRIVATE; }
-	"static"                           { return PhpTokenTypes.kwSTATIC; }
-	"final"                            { return PhpTokenTypes.kwFINAL; }
-	"abstract"                         { return PhpTokenTypes.kwABSTACT; }
+	"public"                           { return PhpTokenTypes.PUBLIC_KEYWORD; }
+	"protected"                        { return PhpTokenTypes.PROTECTED_KEYWORD; }
+	"private"                          { return PhpTokenTypes.PRIVATE_KEYWORD; }
+	"static"                           { return PhpTokenTypes.STATIC_KEYWORD; }
+	"final"                            { return PhpTokenTypes.FINAL_KEYWORD; }
+	"abstract"                         { return PhpTokenTypes.ABSTRACT_KEYWORD; }
 	"clone"                            { return PhpTokenTypes.kwCLONE; }
 	"new"                              { return PhpTokenTypes.kwNEW; }
 	"instanceof"                       { return PhpTokenTypes.kwINSTANCEOF; }
@@ -325,6 +325,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	";"                                { return opManager.process(PhpTokenTypes.opSEMICOLON); }
 	"*"                                { return opManager.process(PhpTokenTypes.opMUL); }
 	"/"                                { return opManager.process(PhpTokenTypes.opDIV); }
+	"\\"                               { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? opManager.process(PhpTokenTypes.SLASH) : PhpTokenTypes.UNKNOWN_SYMBOL; }
 	"=>"                               { return opManager.process(PhpTokenTypes.opHASH_ARRAY); }
 
 

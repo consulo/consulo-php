@@ -11,10 +11,11 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.inspections.PhpInspection;
-import org.consulo.php.lang.psi.PhpExtendsList;
-import org.consulo.php.lang.psi.PhpImplementsList;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpExtendsList;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpImplementsList;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -54,18 +55,18 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 		return new PhpElementVisitor()
 		{
 			@Override
-			public void visitPhpClass(PhpClass clazz)
+			public void visitClass(PhpClass clazz)
 			{
-				if(clazz.isAbstract())
+				if(clazz.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD))
 				{
 					return;
 				}
 
-				final PhpMethod[] methods = clazz.getMethods();
-				final List<PhpMethod> abstractMethods = new ArrayList<PhpMethod>();
-				for(PhpMethod method : methods)
+				final PhpFunction[] methods = clazz.getFunctions();
+				final List<PhpFunction> abstractMethods = new ArrayList<PhpFunction>();
+				for(PhpFunction method : methods)
 				{
-					if(method.getModifier().isAbstract())
+					if(method.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD))
 					{
 						abstractMethods.add(method);
 					}
@@ -81,9 +82,9 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					else
 					{
 						methodList.append("methods ");
-						for(Iterator<PhpMethod> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
+						for(Iterator<PhpFunction> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
 						{
-							PhpMethod abstractMethod = methodIterator.next();
+							PhpFunction abstractMethod = methodIterator.next();
 							methodList.append("'").append(abstractMethod.getName()).append("'");
 							if(methodIterator.hasNext())
 							{

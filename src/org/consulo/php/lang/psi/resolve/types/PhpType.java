@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi.resolve.types;
 
 import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpMethod;
+import org.consulo.php.lang.psi.PhpFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,12 +48,12 @@ public class PhpType implements Serializable
 		return classes;
 	}
 
-	public Collection<PhpMethod> getMethods()
+	public Collection<PhpFunction> getMethods()
 	{
-		List<PhpMethod> methods = new ArrayList<PhpMethod>();
+		List<PhpFunction> methods = new ArrayList<PhpFunction>();
 		for(PhpClass klass : classes)
 		{
-			Collections.addAll(methods, klass.getMethods());
+			Collections.addAll(methods, klass.getFunctions());
 		}
 		return methods;
 	}

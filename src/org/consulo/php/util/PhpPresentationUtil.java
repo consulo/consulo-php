@@ -1,6 +1,5 @@
 package org.consulo.php.util;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.navigation.ItemPresentation;
@@ -10,15 +9,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.RowIcon;
 import com.intellij.util.ArrayUtil;
-import com.intellij.util.ui.EmptyIcon;
-import org.consulo.php.PhpIcons;
-import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.File;
 
 /**
@@ -74,7 +69,7 @@ public class PhpPresentationUtil
 	public static ItemPresentation getClassPresentation(PhpClass klass)
 	{
 		String location = getPresentablePathForClass(klass);
-		return new PresentationData(klass.getName(), location, klass.getIcon(), klass.getIcon(), null);
+		return new PresentationData(klass.getName(), location, IconDescriptorUpdaters.getIcon(klass, 0), IconDescriptorUpdaters.getIcon(klass, 0), null);
 	}
 
 	public static ItemPresentation getFilePresentation(PhpFileImpl phpFile)
@@ -85,79 +80,4 @@ public class PhpPresentationUtil
 		return new PresentationData(phpFile.getName(), location, IconDescriptorUpdaters.getIcon(phpFile, 0), IconDescriptorUpdaters.getIcon(phpFile, 0), null);
 	}
 
-	public static Icon getIcon(PhpNamedElement element)
-	{
-		RowIcon result = new RowIcon(2);
-		result.setIcon(new EmptyIcon(PhpIcons.CLASS.getIconWidth(), PhpIcons.CLASS.getIconHeight()), 0);
-
-		if(element instanceof PhpClass)
-		{
-			final PhpClass klass = (PhpClass) element;
-			final PhpModifier modifier = klass.getModifier();
-			if(klass.isInterface())
-			{
-				result.setIcon(AllIcons.Nodes.Interface, 0);
-			}
-			else if(modifier.isAbstract())
-			{
-				result.setIcon(PhpIcons.ABSTRACT_CLASS, 0);
-			}
-			else if(modifier.isFinal())
-			{
-				result.setIcon(PhpIcons.FINAL_CLASS, 0);
-			}
-			else
-			{
-				result.setIcon(PhpIcons.CLASS, 0);
-			}
-
-		}
-
-		if(element instanceof PhpField)
-		{
-			final PhpField field = (PhpField) element;
-			final PhpModifier modifier = field.getModifier();
-			if(modifier.isStatic())
-			{
-				result.setIcon(PhpIcons.STATIC_FIELD, 0);
-			}
-			else
-			{
-				result.setIcon(PhpIcons.FIELD, 0);
-			}
-			result.setIcon(getAccessIcon(modifier), 1);
-		}
-
-		if(element instanceof PhpMethod)
-		{
-			final PhpMethod method = (PhpMethod) element;
-			final PhpModifier modifier = method.getModifier();
-			if(modifier.isStatic())
-			{
-				result.setIcon(PhpIcons.STATIC_METHOD, 0);
-			}
-			else
-			{
-				result.setIcon(PhpIcons.METHOD, 0);
-			}
-			result.setIcon(getAccessIcon(modifier), 1);
-		}
-		return result;
-	}
-
-	public static Icon getAccessIcon(PhpModifier modifier)
-	{
-		if(modifier.isPublic())
-		{
-			return PhpIcons.PUBLIC;
-		}
-		else if(modifier.isProtected())
-		{
-			return PhpIcons.PROTECTED;
-		}
-		else
-		{
-			return PhpIcons.PRIVATE;
-		}
-	}
 }
