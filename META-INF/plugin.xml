@@ -56,7 +56,7 @@
 		<lang.braceMatcher language="PHP" implementationClass="org.consulo.php.lang.braceMatcher.PhpBraceMatcher"/>
 		<codeInsight.parameterInfo language="PHP" implementationClass="org.consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
-		<syntaxHighlighter key="PHP" implementationClass="org.consulo.php.lang.highlighter.PhpFileSyntaxHighlighter"/>
+		<lang.syntaxHighlighterFactory key="PHP" implementationClass="org.consulo.php.lang.highlighter.PhpSyntaxHighlighterFactory" />
 		<annotator language="PHP" implementationClass="org.consulo.php.lang.annotator.PhpAnnotator"/>
 		<lang.fileViewProviderFactory language="PHP" implementationClass="org.consulo.php.lang.PhpFileViewProviderFactory"/>
 		<lang.substitutor language="HTML" implementationClass="org.consulo.php.PhpLanguageSubstitutor" />

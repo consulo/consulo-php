@@ -93,7 +93,7 @@ public interface PhpElementTypes extends PhpStubElements
 	IElementType EXTENDS_LIST = new PhpElementType("Extends list");
 
 	IElementType IMPLEMENTS_LIST = new PhpElementType("Implements list");
-	IElementType CLASS_CONSTANT = new PhpElementType("Class constant");
+	IElementType CLASS_CONSTANT = new IElementTypeAsPsiFactory("CLASS_CONSTANT", PhpLanguage.INSTANCE, PhpFieldImpl.class);
 
 	IElementType CLASS_FIELD = new IElementTypeAsPsiFactory("FIELD", PhpLanguage.INSTANCE, PhpFieldImpl.class);
 	IElementType SWITCH = new PhpElementType("Switch statement");

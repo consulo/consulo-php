@@ -17,10 +17,8 @@ import org.jetbrains.annotations.Nullable;
  * @author jay
  * @date May 5, 2008 9:12:10 AM
  */
-public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
-{
-	public PhpFieldImpl(ASTNode node)
-	{
+public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField {
+	public PhpFieldImpl(ASTNode node) {
 		super(node);
 	}
 
@@ -30,27 +28,24 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	}
 
 	@Override
-	public PsiElement getNameIdentifier()
-	{
-		return findChildByType(PhpTokenTypes.VARIABLE);
+	public PsiElement getNameIdentifier() {
+		return isConstant() ? findChildByType(PhpTokenTypes.IDENTIFIER) : findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		PsiElement nameIdentifier = getNameIdentifier();
-		if(nameIdentifier != null)
-			return nameIdentifier.getText().substring(1);
+		if (nameIdentifier != null) {
+			return isConstant() ? nameIdentifier.getText() : nameIdentifier.getText().substring(1);
+		}
 		return null;
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
-	{
+	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException {
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
-		if(nameIdentifier != null && !getName().equals(name))
-		{
+		if (nameIdentifier != null && !getName().equals(name)) {
 			final PhpVariableReference variable = PhpPsiElementFactory.createVariable(getProject(), name);
 			nameIdentifier.replace(variable.getNameIdentifier());
 		}
@@ -58,14 +53,11 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	}
 
 	@Override
-	public PhpDocComment getDocComment()
-	{
+	public PhpDocComment getDocComment() {
 		final PsiElement parent = getParent();
-		if(parent instanceof PhpElement)
-		{
+		if (parent instanceof PhpElement) {
 			final PhpElement element = ((PhpElement) parent).getPrevPsiSibling();
-			if(element instanceof PhpDocComment)
-			{
+			if (element instanceof PhpDocComment) {
 				return (PhpDocComment) element;
 			}
 		}
@@ -88,5 +80,10 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	public boolean hasModifier(@NotNull TokenSet tokenSet) {
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(tokenSet);
+	}
+
+	@Override
+	public boolean isConstant() {
+		return findChildByType(PhpTokenTypes.kwCONST) != null;
 	}
 }

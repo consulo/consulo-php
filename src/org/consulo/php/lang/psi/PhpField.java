@@ -9,4 +9,6 @@ import org.consulo.php.lang.psi.resolve.types.PhpTypeOwner;
 public interface PhpField extends PhpModifierListOwner, PhpTypeOwner
 {
 	PhpField[] EMPTY_ARRAY = new PhpField[0];
+
+	boolean isConstant();
 }
