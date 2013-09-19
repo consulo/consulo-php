@@ -29,11 +29,6 @@ public class PhpPackageImpl extends PsiPackageBase implements PhpPackage {
 	}
 
 	@Override
-	protected Collection<PsiDirectory> getAllDirectories() {
-		throw new IllegalArgumentException();
-	}
-
-	@Override
 	protected Collection<PsiDirectory> getAllDirectories(boolean inLibrarySources) {
 		List<PsiDirectory> directories = new ArrayList<PsiDirectory>();
 		PsiManager manager = PsiManager.getInstance(getProject());
