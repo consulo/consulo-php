@@ -115,6 +115,7 @@ public class StatementList implements PhpTokenTypes
 			builder.error("Namespace expected");
 		}
 
+		builder.match(opSEMICOLON);
 		marker.done(PhpElementTypes.NAMESPACE_STATEMENT);
 	}
 
@@ -137,6 +138,7 @@ public class StatementList implements PhpTokenTypes
 			}
 		}
 
-		marker.done(PhpElementTypes.NAMESPACE_STATEMENT);
+		builder.match(opSEMICOLON);
+		marker.done(PhpElementTypes.USE_STATEMENT);
 	}
 }
