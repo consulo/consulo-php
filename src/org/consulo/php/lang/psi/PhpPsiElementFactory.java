@@ -1,12 +1,12 @@
 package org.consulo.php.lang.psi;
 
+import org.consulo.php.lang.PhpFileType;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
-import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -58,7 +58,6 @@ public class PhpPsiElementFactory
 
 	private static PhpFileImpl createDummyFile(Project project, String fileText, boolean isPhysical)
 	{
-		return (PhpFileImpl) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PhpFileType.INSTANCE.getDefaultExtension(), PhpFileType.INSTANCE, "<?php\n" + fileText + "\n?>",
-				System.currentTimeMillis(), isPhysical);
+		return (PhpFileImpl) PsiFileFactory.getInstance(project).createFileFromText("DUMMY__." + PhpFileType.INSTANCE.getDefaultExtension(), PhpFileType.INSTANCE, "<?php\n" + fileText + "\n?>", System.currentTimeMillis(), isPhysical);
 	}
 }

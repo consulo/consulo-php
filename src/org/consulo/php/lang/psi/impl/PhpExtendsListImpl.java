@@ -1,9 +1,8 @@
 package org.consulo.php.lang.psi.impl;
 
+import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpClassReference;
 import org.consulo.php.lang.psi.PhpExtendsList;
-import org.consulo.php.lang.psi.PhpClass;
-
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,8 @@ public class PhpExtendsListImpl extends PhpElementImpl implements PhpExtendsList
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitPhpElement(this);
 	}
 

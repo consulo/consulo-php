@@ -6,7 +6,6 @@ import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;

@@ -1,14 +1,9 @@
 package org.consulo.php.lang.inspections.classes;
 
-import com.intellij.codeHighlighting.HighlightDisplayLevel;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.inspections.PhpInspection;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
@@ -19,10 +14,15 @@ import org.consulo.php.lang.psi.PhpImplementsList;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.intellij.codeHighlighting.HighlightDisplayLevel;
+import com.intellij.codeInspection.LocalQuickFix;
+import com.intellij.codeInspection.ProblemDescriptor;
+import com.intellij.codeInspection.ProblemHighlightType;
+import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * @author jay

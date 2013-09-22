@@ -1,5 +1,17 @@
 package org.consulo.php.lang.psi.impl;
 
+import java.util.List;
+
+import org.consulo.php.lang.PhpFileType;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpField;
+import org.consulo.php.lang.psi.PhpFile;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpGroup;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.consulo.php.util.PhpPresentationUtil;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.fileTypes.FileType;
@@ -7,13 +19,6 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.SmartList;
-import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.consulo.php.util.PhpPresentationUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -88,15 +93,20 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@NotNull
 	@Override
-	public PhpClass[] getClasses() {
+	public PhpClass[] getClasses()
+	{
 		PhpGroup[] groups = getGroups();
-		if(groups.length == 0) {
+		if(groups.length == 0)
+		{
 			return PhpClass.EMPTY_ARRAY;
 		}
 		List<PhpClass> list = new SmartList<PhpClass>();
-		for (PhpGroup group : groups) {
-			for (PsiElement psiElement : group.getStatements()) {
-				if(psiElement instanceof PhpClass) {
+		for(PhpGroup group : groups)
+		{
+			for(PsiElement psiElement : group.getStatements())
+			{
+				if(psiElement instanceof PhpClass)
+				{
 					list.add((PhpClass) psiElement);
 				}
 			}
@@ -106,15 +116,20 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@NotNull
 	@Override
-	public PhpFunction[] getFunctions() {
+	public PhpFunction[] getFunctions()
+	{
 		PhpGroup[] groups = getGroups();
-		if(groups.length == 0) {
+		if(groups.length == 0)
+		{
 			return PhpFunction.EMPTY_ARRAY;
 		}
 		List<PhpFunction> list = new SmartList<PhpFunction>();
-		for (PhpGroup group : groups) {
-			for (PsiElement psiElement : group.getStatements()) {
-				if(psiElement instanceof PhpFunction) {
+		for(PhpGroup group : groups)
+		{
+			for(PsiElement psiElement : group.getStatements())
+			{
+				if(psiElement instanceof PhpFunction)
+				{
 					list.add((PhpFunction) psiElement);
 				}
 			}
@@ -124,15 +139,20 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@NotNull
 	@Override
-	public PhpField[] getFields() {
+	public PhpField[] getFields()
+	{
 		PhpGroup[] groups = getGroups();
-		if(groups.length == 0) {
+		if(groups.length == 0)
+		{
 			return PhpField.EMPTY_ARRAY;
 		}
 		List<PhpField> list = new SmartList<PhpField>();
-		for (PhpGroup group : groups) {
-			for (PsiElement psiElement : group.getStatements()) {
-				if(psiElement instanceof PhpField) {
+		for(PhpGroup group : groups)
+		{
+			for(PsiElement psiElement : group.getStatements())
+			{
+				if(psiElement instanceof PhpField)
+				{
 					list.add((PhpField) psiElement);
 				}
 			}
@@ -142,7 +162,8 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@NotNull
 	@Override
-	public PhpGroup[] getGroups() {
+	public PhpGroup[] getGroups()
+	{
 		return findChildrenByClass(PhpGroup.class);
 	}
 }

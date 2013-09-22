@@ -10,65 +10,75 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar.streams;
 
-import org.eclipse.php.internal.core.phar.PharEntry;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.eclipse.php.internal.core.phar.PharEntry;
 
 /**
  * Wrapper for phar input tream
  *
  * @author Zhao
- *
  */
-public class PharEntryBufferedRandomInputStream extends InputStream {
+public class PharEntryBufferedRandomInputStream extends InputStream
+{
 
 	private PharEntry pharEntry;
 	protected int currentIndex;
 	private int totalLength;
 	private BufferedRandomInputStream bufferedRandomInputStream;
 
-	public PharEntryBufferedRandomInputStream(File file, PharEntry pharEntry)
-			throws IOException {
+	public PharEntryBufferedRandomInputStream(File file, PharEntry pharEntry) throws IOException
+	{
 		// super(file);
 		bufferedRandomInputStream = new BufferedRandomInputStream(file);
 		this.pharEntry = pharEntry;
 		totalLength = pharEntry.getCsize();
-		if (bufferedRandomInputStream.skip(pharEntry.getPosition()) != pharEntry
-				.getPosition()) {
+		if(bufferedRandomInputStream.skip(pharEntry.getPosition()) != pharEntry.getPosition())
+		{
 			throw new IOException("Phar entry too long");
 		}
 	}
 
 	@Override
-	public int read() throws IOException {
+	public int read() throws IOException
+	{
 		currentIndex++;
-		if (currentIndex == totalLength) {
+		if(currentIndex == totalLength)
+		{
 			return -1;
 		}
 		return bufferedRandomInputStream.read();
 	}
 
 	@Override
-	public long skip(long n) throws IOException {
+	public long skip(long n) throws IOException
+	{
 		return bufferedRandomInputStream.skip(n);
 	}
 
 	@Override
-	public int read(byte[] b) throws IOException {
+	public int read(byte[] b) throws IOException
+	{
 		return super.read(b);
 	}
 
 	@Override
-	public int read(byte[] b, int off, int len) throws IOException {
+	public int read(byte[] b, int off, int len) throws IOException
+	{
 		// if(flag){
 		int readLength = totalLength - currentIndex;
-		if (readLength <= 0)
+		if(readLength <= 0)
+		{
 			return -1;
-		if (readLength < len) {
+		}
+		if(readLength < len)
+		{
 			len = readLength;
-		} else {
+		}
+		else
+		{
 			readLength = len;
 		}
 		currentIndex = currentIndex + readLength;
@@ -77,7 +87,8 @@ public class PharEntryBufferedRandomInputStream extends InputStream {
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() throws IOException
+	{
 		bufferedRandomInputStream.close();
 	}
 
@@ -87,7 +98,8 @@ public class PharEntryBufferedRandomInputStream extends InputStream {
 	 *
 	 * @return
 	 */
-	public boolean isEnd() {
+	public boolean isEnd()
+	{
 		return totalLength == currentIndex;
 	}
 }

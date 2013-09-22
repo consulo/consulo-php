@@ -1,29 +1,35 @@
 package org.consulo.php.module;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.consulo.php.module.extension.PhpModuleExtension;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 
 /**
  * @author VISTALL
  * @since 07.07.13.
  */
-public class PhpModuleExtensionUtil {
+public class PhpModuleExtensionUtil
+{
 	/**
 	 * Return if the module extension is single(not mixin)
+	 *
 	 * @param module
 	 * @return
 	 */
-	public static boolean isSingleModuleExtension(Module module) {
-		for(ModuleExtensionProviderEP ep : ModuleExtensionProviderEP.EP_NAME.getExtensions()) {
-			if(ep.parentKey != null) {
+	public static boolean isSingleModuleExtension(Module module)
+	{
+		for(ModuleExtensionProviderEP ep : ModuleExtensionProviderEP.EP_NAME.getExtensions())
+		{
+			if(ep.parentKey != null)
+			{
 				continue;
 			}
 
 			ModuleExtension extension = ModuleUtilCore.getExtension(module, ep.getInstance().getImmutableClass());
-			if(extension != null && !(extension instanceof PhpModuleExtension)) {
+			if(extension != null && !(extension instanceof PhpModuleExtension))
+			{
 				return false;
 			}
 		}

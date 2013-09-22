@@ -1,14 +1,14 @@
 package org.consulo.php.lang.psi.impl;
 
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpBinaryExpression;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpBinaryExpression;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -40,7 +40,8 @@ public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinary
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitBinaryExpression(this);
 	}
 

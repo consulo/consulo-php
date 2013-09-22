@@ -1,7 +1,6 @@
 package org.consulo.php.lang.annotator;
 
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
-
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;

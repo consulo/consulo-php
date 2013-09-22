@@ -23,7 +23,7 @@ public class PhpGutterUtil
 		ApplicationManager.getApplication().assertIsDispatchThread();
 
 		final List<PhpLineMarkerInfo> array = new ArrayList<PhpLineMarkerInfo>();
-	//	final PhpLineMarkerInfo[] oldMarkers = getLineMarkers(document, project);
+		//	final PhpLineMarkerInfo[] oldMarkers = getLineMarkers(document, project);
 
 	/*	final MarkupModel markupModel = document.getMarkupModel(project);
 		if(oldMarkers != null)

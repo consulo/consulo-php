@@ -1,5 +1,16 @@
 package org.consulo.php.lang.highlighter.hierarchy;
 
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.util.gotoByName.GotoFileCellRenderer;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -8,15 +19,6 @@ import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.awt.RelativePoint;
-import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpNamedElement;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jay
@@ -75,7 +77,9 @@ public class PhpGutterNavigator
 			{
 				int[] ids = list.getSelectedIndices();
 				if(ids == null || ids.length == 0)
+				{
 					return;
+				}
 				List<Navigatable> selectedElements = new ArrayList<Navigatable>();
 				for(int id : ids)
 				{

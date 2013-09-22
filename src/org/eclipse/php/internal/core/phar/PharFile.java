@@ -10,14 +10,23 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.php.internal.core.phar.streams.CBZip2InputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.GZIPInputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.PharEntryBufferedRandomInputStream;
 
-import java.io.*;
-import java.util.*;
-
-public class PharFile {
+public class PharFile
+{
 
 	private File file;
 	private int currentIndex;
@@ -37,13 +46,16 @@ public class PharFile {
 	private PharEntry stubEntry;
 	private PharEntry signatureEntry;
 
-	public PharFile(PharFile oldPharFile, File file) throws IOException,
-			PharException {
+	public PharFile(PharFile oldPharFile, File file) throws IOException, PharException
+	{
 		this.file = file;
 
-		if (oldPharFile != null && oldPharFile.file.equals(file)) {
+		if(oldPharFile != null && oldPharFile.file.equals(file))
+		{
 			copyProperties(oldPharFile);
-		} else {
+		}
+		else
+		{
 			init();
 		}
 
@@ -51,11 +63,13 @@ public class PharFile {
 
 	}
 
-	public PharFile(File file) throws IOException, PharException {
+	public PharFile(File file) throws IOException, PharException
+	{
 		this(null, file);
 	}
 
-	private void copyProperties(PharFile oldPharFile) {
+	private void copyProperties(PharFile oldPharFile)
+	{
 		this.currentIndex = oldPharFile.currentIndex;
 		this.manifestLength = oldPharFile.manifestLength;
 		this.fileNumber = oldPharFile.fileNumber;
@@ -74,22 +88,28 @@ public class PharFile {
 		this.signatureEntry = oldPharFile.signatureEntry;
 	}
 
-	protected void init() throws IOException, PharException {
+	protected void init() throws IOException, PharException
+	{
 		bis = new BufferedInputStream(new FileInputStream(file));
-		try {
+		try
+		{
 			getStub();
 			getManifest();
 			getEntries();
-		} finally {
+		}
+		finally
+		{
 			bis.close();
 		}
 
 	}
 
-	protected void getEntries() throws IOException, PharException {
+	protected void getEntries() throws IOException, PharException
+	{
 		byte[] buffer;
 
-		for (int j = 0; j < fileNumber; j++) {
+		for(int j = 0; j < fileNumber; j++)
+		{
 			buffer = new byte[4];
 			PharEntry pharEntry = new PharEntry();
 			read(bis, buffer);
@@ -97,7 +117,8 @@ public class PharFile {
 
 			// file Name
 			String fileName = null;
-			if (fileNameLength > 0) {
+			if(fileNameLength > 0)
+			{
 				buffer = new byte[fileNameLength];
 				read(bis, buffer);
 				fileName = getString(buffer);
@@ -127,7 +148,8 @@ public class PharFile {
 
 			// file Name
 			String metaFileData = null;
-			if (metaFileLength > 0) {
+			if(metaFileLength > 0)
+			{
 				buffer = new byte[metaFileLength];
 				read(bis, buffer);
 				metaFileData = getString(buffer);
@@ -138,12 +160,16 @@ public class PharFile {
 			pharEntryList.add(pharEntry);
 			pharEntryMap.put(pharEntry.getName(), pharEntry);
 		}
-		for (int j = 0; j < pharEntryList.size(); j++) {
+		for(int j = 0; j < pharEntryList.size(); j++)
+		{
 
 			PharEntry pharEntry = pharEntryList.get(j);
-			if (j == 0) {
+			if(j == 0)
+			{
 				pharEntry.setPosition(currentIndex);
-			} else {
+			}
+			else
+			{
 				pharEntry.setPosition(pharEntryList.get(j - 1).getEnd());
 			}
 
@@ -160,57 +186,67 @@ public class PharFile {
 		pharEntryList.add(stubEntry);
 		pharEntryMap.put(stubEntry.getName(), stubEntry);
 
-		if (hasSignature) {
+		if(hasSignature)
+		{
 			signatureEntry = new PharEntry();
 			signatureEntry.setName(PharConstants.SIGNATURE_PATH);
 			signatureEntry.setBitMappedFlag(PharConstants.Default_Entry_Bitmap);
 
 			int signatureLength = bis.available();
-			if (fileNumber == 0) {// no file,so the manifest's end is the
+			if(fileNumber == 0)
+			{// no file,so the manifest's end is the
 				// signature's begin
 				signatureEntry.setPosition(currentIndex);
 
-			} else {
-				signatureEntry.setPosition(pharEntryList.get(fileNumber - 1)
-						.getEnd());
-				PharUtil.skip(bis, pharEntryList.get(fileNumber - 1).getEnd()
-						- currentIndex);
+			}
+			else
+			{
+				signatureEntry.setPosition(pharEntryList.get(fileNumber - 1).getEnd());
+				PharUtil.skip(bis, pharEntryList.get(fileNumber - 1).getEnd() - currentIndex);
 				signatureLength = bis.available();
 			}
-			if (signatureLength <= 4) {
+			if(signatureLength <= 4)
+			{
 				signatureEntry = null;
 				return;
 			}
 			signatureEntry.setSize(signatureLength);
 			signatureEntry.setCsize(signatureLength);
-			if (signatureLength < 24) {
+			if(signatureLength < 24)
+			{
 				throw new PharException("Phar Signature Corrupted");
-			} else {
+			}
+			else
+			{
 
 				bis.skip(signatureLength - 8);
 				buffer = new byte[4];
 				read(bis, buffer);
 				boolean found = false;
-				for (Iterator<Digest> iterator = Digest.DIGEST_MAP.values()
-						.iterator(); iterator.hasNext();) {
+				for(Iterator<Digest> iterator = Digest.DIGEST_MAP.values().iterator(); iterator.hasNext(); )
+				{
 					Digest digest = iterator.next();
-					if (PharUtil.byteArrayEquals(digest.getBitMap(), buffer)) {
-						if (digest.getDigest().digest().length != signatureLength - 8
-								|| !PharUtil.checkSignature(file, digest,
-								signatureEntry.getPosition())) {
+					if(PharUtil.byteArrayEquals(digest.getBitMap(), buffer))
+					{
+						if(digest.getDigest().digest().length != signatureLength - 8 || !PharUtil.checkSignature(file, digest, signatureEntry.getPosition()))
+						{
 							throw new PharException("Phar Signature Corrupted");
-						} else {
+						}
+						else
+						{
 							found = true;
 							break;
 						}
 
 					}
 				}
-				if (!found) {
+				if(!found)
+				{
 					throw new PharException("Phar Signature unsupported");
 				}
 				read(bis, buffer);
-				if (!PharUtil.byteArrayEquals(PharConstants.GBMB, buffer)) {
+				if(!PharUtil.byteArrayEquals(PharConstants.GBMB, buffer))
+				{
 					throw new PharException("Phar Signature end");
 				}
 			}
@@ -220,32 +256,41 @@ public class PharFile {
 
 	}
 
-	protected void getManifest() throws IOException, PharException {
+	protected void getManifest() throws IOException, PharException
+	{
 		int lineSeparatorLength = 0;
 		bytesAfterStub.add(Integer.valueOf(read(bis)));
 		bytesAfterStub.add(Integer.valueOf(read(bis)));
-		if (bytesAfterStub.get(0).intValue() == PharConstants.R) {
+		if(bytesAfterStub.get(0).intValue() == PharConstants.R)
+		{
 			lineSeparatorLength++;
-			if (bytesAfterStub.get(1).intValue() == PharConstants.N) {
+			if(bytesAfterStub.get(1).intValue() == PharConstants.N)
+			{
 				lineSeparatorLength++;
 			}
 
-		} else if (bytesAfterStub.get(0).intValue() == PharConstants.N) {
+		}
+		else if(bytesAfterStub.get(0).intValue() == PharConstants.N)
+		{
 			lineSeparatorLength++;
-			if (bytesAfterStub.get(1).intValue() == PharConstants.R) {
+			if(bytesAfterStub.get(1).intValue() == PharConstants.R)
+			{
 				lineSeparatorLength++;
 			}
 		}
-		bytesAfterStub = bytesAfterStub.subList(lineSeparatorLength,
-				bytesAfterStub.size());
+		bytesAfterStub = bytesAfterStub.subList(lineSeparatorLength, bytesAfterStub.size());
 		stubLength = currentIndex - bytesAfterStub.size();
 		// read(bis);
 		// read(bis);
 		byte[] buffer = new byte[4];
-		for (int i = 0; i < buffer.length; i++) {
-			if (i < bytesAfterStub.size()) {
+		for(int i = 0; i < buffer.length; i++)
+		{
+			if(i < bytesAfterStub.size())
+			{
 				buffer[i] = ((Integer) bytesAfterStub.get(i)).byteValue();
-			} else {
+			}
+			else
+			{
 				buffer[i] = (byte) read(bis);
 				check(buffer[i]);
 			}
@@ -262,19 +307,23 @@ public class PharFile {
 
 		buffer = new byte[4];
 		read(bis, buffer);
-		if ((buffer[2] & 1) != 0) {
+		if((buffer[2] & 1) != 0)
+		{
 			hasSignature = true;
 		}
-		if ((buffer[1] & 16) != 0) {
+		if((buffer[1] & 16) != 0)
+		{
 			hasZlibcompression = true;
 		}
-		if ((buffer[1] & 32) != 0) {
+		if((buffer[1] & 32) != 0)
+		{
 			hasBzipcompression = true;
 		}
 
 		read(bis, buffer);
 		int aliaslength = getInt(buffer);
-		if (aliaslength > 0) {
+		if(aliaslength > 0)
+		{
 			buffer = new byte[aliaslength];
 			read(bis, buffer);
 			alias = getString(buffer);
@@ -283,7 +332,8 @@ public class PharFile {
 
 		read(bis, buffer);
 		int metadatalength = getInt(buffer);
-		if (metadatalength > 0) {
+		if(metadatalength > 0)
+		{
 			buffer = new byte[metadatalength];
 			read(bis, buffer);
 			metadata = getString(buffer);
@@ -292,114 +342,142 @@ public class PharFile {
 
 	}
 
-	protected void getStub() throws IOException, PharException {
+	protected void getStub() throws IOException, PharException
+	{
 		boolean stubHasBeenFound = false;
 		int n = -1;
 		// this is record for whether read a byte from the stream or not
 		int currentByte = -1;
 		bytesAfterStub = new ArrayList<Integer>();
 		// if currentByte is equal to char '_',we will not read the next byte
-		while (!stubHasBeenFound
-				&& (currentByte == PharConstants.Underline || (n = read(bis)) != -1)) {
-			if (n == PharConstants.Underline) {
+		while(!stubHasBeenFound && (currentByte == PharConstants.Underline || (n = read(bis)) != -1))
+		{
+			if(n == PharConstants.Underline)
+			{
 				boolean match = false;
 				int j = 1;
-				for (; j < PharConstants.STUB_ENDS.length && n != -1; j++) {
-					if ((n = read(bis)) == PharConstants.STUB_ENDS[j]) {
-						if (j == PharConstants.STUB_ENDS.length - 1) {
+				for(; j < PharConstants.STUB_ENDS.length && n != -1; j++)
+				{
+					if((n = read(bis)) == PharConstants.STUB_ENDS[j])
+					{
+						if(j == PharConstants.STUB_ENDS.length - 1)
+						{
 							match = true;
 						}
-					} else {
+					}
+					else
+					{
 						break;
 					}
 				}
 				stubHasBeenFound = match;
-				if (match) {
+				if(match)
+				{
 					// i = i + ENDS.length;
 
 					j = 0;
 					match = false;
-					for (; j < PharConstants.STUB_TAIL.length && n != -1; j++) {
+					for(; j < PharConstants.STUB_TAIL.length && n != -1; j++)
+					{
 						n = read(bis);
 						bytesAfterStub.add(Integer.valueOf(n));
-						if (n == PharConstants.STUB_TAIL[j]) {
-							if (j == PharConstants.STUB_TAIL.length - 1) {
+						if(n == PharConstants.STUB_TAIL[j])
+						{
+							if(j == PharConstants.STUB_TAIL.length - 1)
+							{
 								match = true;
 							}
-						} else {
+						}
+						else
+						{
 							break;
 						}
 					}
-					if (match) {
+					if(match)
+					{
 						bytesAfterStub.clear();
 					}
 				}
 			}
 		}
-		if (!stubHasBeenFound) {
+		if(!stubHasBeenFound)
+		{
 			PharUtil.throwPharException("Phar no stub no end");
 		}
 	}
 
-	public static String getString(byte[] subBytes) {
+	public static String getString(byte[] subBytes)
+	{
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < subBytes.length; i++) {
+		for(int i = 0; i < subBytes.length; i++)
+		{
 			sb.append((char) subBytes[i]);
 		}
 		return sb.toString();
 	}
 
-	private int read(BufferedInputStream bis, byte[] buffer)
-			throws IOException, PharException {
+	private int read(BufferedInputStream bis, byte[] buffer) throws IOException, PharException
+	{
 		int result = bis.read(buffer);
-		if (result != buffer.length) {
+		if(result != buffer.length)
+		{
 			PharUtil.throwPharException("Phar corrupted");
 		}
 		currentIndex = currentIndex + result;
 		return result;
 	}
 
-	private void check(byte b) throws IOException, PharException {
-		if (b == -1) {
+	private void check(byte b) throws IOException, PharException
+	{
+		if(b == -1)
+		{
 			PharUtil.throwPharException("Phar corrupted");
 		}
 	}
 
-	public static int getInt(byte[] subBytes) {
+	public static int getInt(byte[] subBytes)
+	{
 		int result = 0;
-		if (subBytes.length > 0) {
+		if(subBytes.length > 0)
+		{
 			result = PharUtil.getPositive(subBytes[subBytes.length - 1]);
-			for (int i = 0; i < subBytes.length - 1; i++) {
-				result = result
-						* 256
-						+ PharUtil
-						.getPositive(subBytes[subBytes.length - 2 - i]);
+			for(int i = 0; i < subBytes.length - 1; i++)
+			{
+				result = result * 256 + PharUtil.getPositive(subBytes[subBytes.length - 2 - i]);
 			}
 		}
 		return result;
 	}
 
-	private int read(BufferedInputStream bis) throws IOException {
+	private int read(BufferedInputStream bis) throws IOException
+	{
 		currentIndex++;
 		int result = bis.read();
 		return result;
 	}
 
-	public void close() throws IOException {
+	public void close() throws IOException
+	{
 	}
 
-	public PharEntry getEntry(String name) {
+	public PharEntry getEntry(String name)
+	{
 		return pharEntryMap.get(name);
 	}
 
-	public InputStream getInputStream(PharEntry pharEntry) throws IOException {
+	public InputStream getInputStream(PharEntry pharEntry) throws IOException
+	{
 		InputStream result = null;
 		InputStream is = new PharEntryBufferedRandomInputStream(file, pharEntry);
-		if (pharEntry.isCompressed()) {
+		if(pharEntry.isCompressed())
+		{
 			int ctype = pharEntry.getCompressedType();
-			if (PharConstants.BZ2_COMPRESSED == ctype) {
+			if(PharConstants.BZ2_COMPRESSED == ctype)
+			{
 				is = new CBZip2InputStreamForPhar(is);
-			} else if (PharConstants.GZ_COMPRESSED == ctype) {
+			}
+			else if(PharConstants.GZ_COMPRESSED == ctype)
+			{
 				is = new GZIPInputStreamForPhar(is);
 			}
 		}
@@ -407,99 +485,123 @@ public class PharFile {
 		return result;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return file.getPath();
 	}
 
-	public List<PharEntry> getPharEntryList() {
+	public List<PharEntry> getPharEntryList()
+	{
 		return pharEntryList;
 	}
 
-	public File getFile() {
+	public File getFile()
+	{
 		return file;
 	}
 
-	public void setFile(File file) {
+	public void setFile(File file)
+	{
 		this.file = file;
 	}
 
-	public int getCurrentIndex() {
+	public int getCurrentIndex()
+	{
 		return currentIndex;
 	}
 
-	public void setCurrentIndex(int currentIndex) {
+	public void setCurrentIndex(int currentIndex)
+	{
 		this.currentIndex = currentIndex;
 	}
 
-	public int getManifestLength() {
+	public int getManifestLength()
+	{
 		return manifestLength;
 	}
 
-	public void setManifestLength(int manifestLength) {
+	public void setManifestLength(int manifestLength)
+	{
 		this.manifestLength = manifestLength;
 	}
 
-	public int getFileNumber() {
+	public int getFileNumber()
+	{
 		return fileNumber;
 	}
 
-	public void setFileNumber(int fileNumber) {
+	public void setFileNumber(int fileNumber)
+	{
 		this.fileNumber = fileNumber;
 	}
 
-	public String getVersion() {
+	public String getVersion()
+	{
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(String version)
+	{
 		this.version = version;
 	}
 
-	public boolean isHasSignature() {
+	public boolean isHasSignature()
+	{
 		return hasSignature;
 	}
 
-	public void setHasSignature(boolean hasSignature) {
+	public void setHasSignature(boolean hasSignature)
+	{
 		this.hasSignature = hasSignature;
 	}
 
-	public boolean isHasZlibcompression() {
+	public boolean isHasZlibcompression()
+	{
 		return hasZlibcompression;
 	}
 
-	public void setHasZlibcompression(boolean hasZlibcompression) {
+	public void setHasZlibcompression(boolean hasZlibcompression)
+	{
 		this.hasZlibcompression = hasZlibcompression;
 	}
 
-	public boolean isHasBzipcompression() {
+	public boolean isHasBzipcompression()
+	{
 		return hasBzipcompression;
 	}
 
-	public void setHasBzipcompression(boolean hasBzipcompression) {
+	public void setHasBzipcompression(boolean hasBzipcompression)
+	{
 		this.hasBzipcompression = hasBzipcompression;
 	}
 
-	public String getAlias() {
+	public String getAlias()
+	{
 		return alias;
 	}
 
-	public void setAlias(String alias) {
+	public void setAlias(String alias)
+	{
 		this.alias = alias;
 	}
 
-	public String getMetadata() {
+	public String getMetadata()
+	{
 		return metadata;
 	}
 
-	public void setMetadata(String metadata) {
+	public void setMetadata(String metadata)
+	{
 		this.metadata = metadata;
 	}
 
-	public Map<String, PharEntry> getPharEntryMap() {
+	public Map<String, PharEntry> getPharEntryMap()
+	{
 		return pharEntryMap;
 	}
 
-	public void setPharEntryMap(Map<String, PharEntry> pharEntryMap) {
+	public void setPharEntryMap(Map<String, PharEntry> pharEntryMap)
+	{
 		this.pharEntryMap = pharEntryMap;
 	}
 }

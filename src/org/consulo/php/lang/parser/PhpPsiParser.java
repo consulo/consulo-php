@@ -2,7 +2,6 @@ package org.consulo.php.lang.parser;
 
 import org.consulo.php.lang.parser.parsing.Program;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageVersion;

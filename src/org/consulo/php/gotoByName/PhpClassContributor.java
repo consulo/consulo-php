@@ -1,13 +1,13 @@
 package org.consulo.php.gotoByName;
 
+import java.util.Collection;
+
+import org.consulo.php.index.PhpFullFqClassIndex;
+import org.consulo.php.lang.psi.PhpClass;
 import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
-import org.consulo.php.index.PhpFullFqClassIndex;
-import org.consulo.php.lang.psi.PhpClass;
-
-import java.util.Collection;
 
 /**
  * @author jay

@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi;
 
+import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay

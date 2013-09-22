@@ -4,7 +4,6 @@ import org.consulo.php.PhpBundle;
 import org.consulo.php.completion.PhpCompletionData;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.ProblemsHolder;

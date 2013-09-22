@@ -1,23 +1,25 @@
 package org.consulo.php.lang.psi.resolve;
 
-import com.intellij.openapi.util.Comparing;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpParameter;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.intellij.openapi.util.Comparing;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
 
 /**
  * @author jay
  * @date Apr 15, 2008 10:10:23 AM
  */
-public class PhpResolveProcessor extends PhpScopeProcessor {
-	public static enum ResolveKind {
+public class PhpResolveProcessor extends PhpScopeProcessor
+{
+	public static enum ResolveKind
+	{
 		METHOD,
 		FIELD,
 		FIELD_OR_PARAMETER
@@ -27,19 +29,22 @@ public class PhpResolveProcessor extends PhpScopeProcessor {
 	private ResolveKind myKind;
 	private String myName;
 
-	public PhpResolveProcessor(PhpElement element, String name, ResolveKind kind) {
+	public PhpResolveProcessor(PhpElement element, String name, ResolveKind kind)
+	{
 		super(element);
 		myName = name;
 		myKind = kind;
 	}
 
-	public Collection<PsiElement> getResult() {
+	public Collection<PsiElement> getResult()
+	{
 		return result;
 	}
 
 	@Override
-	public boolean execute(PsiElement psiElement) {
-		switch (myKind)
+	public boolean execute(PsiElement psiElement)
+	{
+		switch(myKind)
 		{
 			case FIELD:
 				if(!(psiElement instanceof PhpField))

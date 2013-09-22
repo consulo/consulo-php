@@ -1,7 +1,7 @@
 package org.consulo.php.lang.psi;
 
-import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.PsiElement;
 
 /**
  * @author jay

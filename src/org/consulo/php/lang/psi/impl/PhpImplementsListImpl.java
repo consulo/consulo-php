@@ -1,15 +1,15 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import org.consulo.php.lang.psi.PhpClassReference;
-import org.consulo.php.lang.psi.PhpImplementsList;
-import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpImplementsList;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 
 /**
  * @author jay
@@ -23,7 +23,8 @@ public class PhpImplementsListImpl extends PhpElementImpl implements PhpImplemen
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitPhpElement(this);
 	}
 

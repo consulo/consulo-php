@@ -1,15 +1,15 @@
 package org.consulo.php.lang.psi.resolve.types;
 
+import java.util.Collection;
+
+import org.consulo.php.index.PhpIndexUtil;
+import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import lombok.val;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.consulo.php.index.PhpIndexUtil;
-
-import java.util.Collection;
 
 /**
  * @author jay
@@ -60,7 +60,8 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 			else if(parent instanceof PhpCatchStatement)
 			{
 				val classReference = ((PhpCatchStatement) parent).getExceptionType();
-				if(classReference != null) {
+				if(classReference != null)
+				{
 					type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
 				}
 			}

@@ -1,9 +1,9 @@
 package org.consulo.php;
 
+import javax.swing.Icon;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
 
 /**
  * @author VISTALL
@@ -15,6 +15,6 @@ public interface PhpIcons2
 
 	Icon AbstractClass = AllIcons.Nodes.AbstractClass;
 	Icon Class = AllIcons.Nodes.Class;
-	Icon Trait = AllIcons.Nodes.Interface;
+	Icon Trait = AllIcons.Nodes.Trait;
 	Icon Interface = AllIcons.Nodes.Interface;
 }

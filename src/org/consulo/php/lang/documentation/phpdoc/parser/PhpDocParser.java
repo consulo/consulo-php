@@ -4,7 +4,6 @@ import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocDefaultTagPar
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocReturnTagParser;
 import org.consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocVarTagParser;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageVersion;

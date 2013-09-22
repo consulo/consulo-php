@@ -2,7 +2,6 @@ package org.consulo.php.lang;
 
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.structureView.StructureView;

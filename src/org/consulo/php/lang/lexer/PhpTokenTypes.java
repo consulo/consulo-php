@@ -1,10 +1,9 @@
 package org.consulo.php.lang.lexer;
 
-import com.intellij.psi.TokenType;
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpElementType;
-
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -201,10 +200,7 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 
 	);
 
-	TokenSet KEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(ABSTRACT_KEYWORD, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO,
-			kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, FINAL_KEYWORD, kwFUNCTION, kwGLOBAL, kwIMPLEMENTS,
-			kwINCLUDE, kwINCLUDE_ONCE, INTERFACE_KEYWORD, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, PRIVATE_KEYWORD, PROTECTED_KEYWORD, PUBLIC_KEYWORD, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET,
-			kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD));
+	TokenSet KEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(ABSTRACT_KEYWORD, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, kwCLONE, kwCONST, kwCONTINUE, kwDEFAULT, kwDIE, kwECHO, kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, FINAL_KEYWORD, kwFUNCTION, kwGLOBAL, kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, INTERFACE_KEYWORD, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, PRIVATE_KEYWORD, PROTECTED_KEYWORD, PUBLIC_KEYWORD, kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD));
 
 	TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM);
 

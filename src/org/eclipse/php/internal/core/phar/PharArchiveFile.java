@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar;
 
-import com.intellij.openapi.vfs.ArchiveEntry;
-import com.intellij.openapi.vfs.ArchiveFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,11 +19,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.vfs.ArchiveEntry;
+import com.intellij.openapi.vfs.ArchiveFile;
+
 
 /**
  * Holds the Phar Archive
  */
-public class PharArchiveFile implements ArchiveFile {
+public class PharArchiveFile implements ArchiveFile
+{
 
 	private PharFile pharFile;
 	private File file;
@@ -38,14 +39,17 @@ public class PharArchiveFile implements ArchiveFile {
 	 */
 	private static final Map<String, WeakReference<PharFile>> pharFiles = new HashMap<String, WeakReference<PharFile>>();
 
-	public PharArchiveFile(String fileName) throws IOException, PharException {
+	public PharArchiveFile(String fileName) throws IOException, PharException
+	{
 		this(new File(fileName));
 	}
 
-	public PharArchiveFile(File file) throws IOException, PharException {
+	public PharArchiveFile(File file) throws IOException, PharException
+	{
 		this.file = file;
 		String key = getFileKey(file);
-		if (!pharFiles.containsKey(key)) {
+		if(!pharFiles.containsKey(key))
+		{
 			pharFiles.put(key, new WeakReference<PharFile>(new PharFile(file)));
 		}
 		final WeakReference<PharFile> weakReference = pharFiles.get(key);
@@ -54,8 +58,10 @@ public class PharArchiveFile implements ArchiveFile {
 		makeSureInit(file);
 	}
 
-	private void makeSureInit(File file) throws IOException, PharException {
-		if (pharFile == null) {
+	private void makeSureInit(File file) throws IOException, PharException
+	{
+		if(pharFile == null)
+		{
 			String key = getFileKey(file);
 			pharFiles.put(key, new WeakReference<PharFile>(new PharFile(file)));
 			final WeakReference<PharFile> weakReference = pharFiles.get(key);
@@ -63,19 +69,24 @@ public class PharArchiveFile implements ArchiveFile {
 		}
 	}
 
-	private String getFileKey(File file) {
+	private String getFileKey(File file)
+	{
 		String key = file.getAbsolutePath() + file.lastModified();
 		return key;
 	}
 
-	public void close() throws IOException {
-		if (pharFile != null)
+	public void close() throws IOException
+	{
+		if(pharFile != null)
+		{
 			pharFile.close();
+		}
 	}
 
 	@Override
 	@NotNull
-	public Iterator<? extends PharEntry> entries() {
+	public Iterator<? extends PharEntry> entries()
+	{
 		init();
 		List<PharEntry> pharEntryList = pharFile.getPharEntryList();
 
@@ -83,40 +94,52 @@ public class PharArchiveFile implements ArchiveFile {
 	}
 
 	@Override
-	public int getSize() {
+	public int getSize()
+	{
 		init();
 		return pharFile.getPharEntryList().size();
 	}
 
 	@Override
 	@Nullable
-	public PharEntry getEntry(String name) {
+	public PharEntry getEntry(String name)
+	{
 		init();
 		return pharFile.getEntry(name);
 	}
 
 	@Override
-	public InputStream getInputStream(ArchiveEntry entry) throws IOException {
+	public InputStream getInputStream(ArchiveEntry entry) throws IOException
+	{
 		init();
-		if (entry instanceof PharEntry) {
+		if(entry instanceof PharEntry)
+		{
 			return pharFile.getInputStream((PharEntry) entry);
 		}
 		return null;
 	}
 
-	private void init() {
-		try {
+	private void init()
+	{
+		try
+		{
 			makeSureInit(file);
-		} catch (IOException e) {
-		} catch (PharException e) {
+		}
+		catch(IOException e)
+		{
+		}
+		catch(PharException e)
+		{
 		}
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return pharFile.getName();
 	}
 
-	public int fileSize() {
+	public int fileSize()
+	{
 		return pharFile.getFileNumber();
 	}
 

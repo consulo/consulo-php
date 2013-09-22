@@ -3,7 +3,6 @@ package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 import java.util.Map;
 
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.util.containers.HashMap;
 
 /**

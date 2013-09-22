@@ -1,10 +1,10 @@
 package org.consulo.php.lang;
 
+import org.consulo.php.PhpLanguageLevel;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageVersion;
 import com.intellij.psi.templateLanguages.TemplateLanguage;
-import org.consulo.php.PhpLanguageLevel;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,21 +13,25 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author jay
  */
-public class PhpLanguage extends Language implements TemplateLanguage {
+public class PhpLanguage extends Language implements TemplateLanguage
+{
 	public static final PhpLanguage INSTANCE = new PhpLanguage();
 
-	public PhpLanguage() {
+	public PhpLanguage()
+	{
 		super("PHP");
 	}
 
 	@Override
-	public boolean isCaseSensitive() {
+	public boolean isCaseSensitive()
+	{
 		return true;
 	}
 
 	@NotNull
 	@Override
-	public LanguageVersion[] findVersions() {
+	public LanguageVersion[] findVersions()
+	{
 		return PhpLanguageLevel.VALUES;
 	}
 }

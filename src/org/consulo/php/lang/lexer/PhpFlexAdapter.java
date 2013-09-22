@@ -1,7 +1,7 @@
 package org.consulo.php.lang.lexer;
 
-import com.intellij.lexer.FlexAdapter;
 import org.consulo.php.PhpLanguageLevel;
+import com.intellij.lexer.FlexAdapter;
 
 /**
  * Created by IntelliJ IDEA.

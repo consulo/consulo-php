@@ -1,14 +1,13 @@
 package org.consulo.php.lang.findUsages;
 
+import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.lang.lexer.PhpFlexAdapter;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-
 import com.intellij.lang.cacheBuilder.WordOccurrence;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.Processor;
-import org.consulo.php.PhpLanguageLevel;
 
 /**
  * @author jay
@@ -66,12 +65,16 @@ public class PhpWordsScanner implements WordsScanner
 			else if(PhpTokenTypes.tsCOMMENTS.contains(type))
 			{
 				if(!stripWords(processor, fileText, lexer.getTokenStart(), lexer.getTokenEnd(), WordOccurrence.Kind.COMMENTS, occurrence))
+				{
 					return;
+				}
 			}
 			else if(PhpTokenTypes.tsSTRINGS.contains(type))
 			{
 				if(!stripWords(processor, fileText, lexer.getTokenStart(), lexer.getTokenEnd(), WordOccurrence.Kind.LITERALS, occurrence))
+				{
 					return;
+				}
 			}
 
 			lexer.advance();
@@ -89,7 +92,9 @@ public class PhpWordsScanner implements WordsScanner
 			while(true)
 			{
 				if(index == to)
+				{
 					break ScanWordsLoop;
+				}
 				char c = tokenText.charAt(index);
 				if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') ||
 						(Character.isJavaIdentifierStart(c) && c != '$'))
@@ -103,20 +108,32 @@ public class PhpWordsScanner implements WordsScanner
 			{
 				index++;
 				if(index == to)
+				{
 					break;
+				}
 				char c = tokenText.charAt(index);
 				if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+				{
 					continue;
+				}
 				if(!Character.isJavaIdentifierPart(c) || c == '$')
+				{
 					break;
+				}
 			}
 
 			if(occurrence == null)
+			{
 				occurrence = new WordOccurrence(tokenText, index1, index, kind);
+			}
 			else
+			{
 				occurrence.init(tokenText, index1, index, kind);
+			}
 			if(!processor.process(occurrence))
+			{
 				return false;
+			}
 		}
 		return true;
 	}

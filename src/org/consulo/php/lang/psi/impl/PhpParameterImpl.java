@@ -1,8 +1,5 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpParameter;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
@@ -12,6 +9,9 @@ import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
 
 /**
  * @author jay
@@ -35,7 +35,9 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	{
 		PsiElement nameNode = getNameIdentifier();
 		if(nameNode != null)
+		{
 			return nameNode.getText().substring(1);
+		}
 		return null;
 	}
 
@@ -53,7 +55,8 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitParameter(this);
 	}
 

@@ -6,7 +6,8 @@ import org.jetbrains.annotations.NotNull;
  * @author VISTALL
  * @since 19.09.13.
  */
-public interface PhpMemberHolder extends PhpElement{
+public interface PhpMemberHolder extends PhpElement
+{
 	@NotNull
 	PhpClass[] getClasses();
 

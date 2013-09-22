@@ -1,19 +1,19 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.PhpConstantReference;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
 
 /**
  * @author jay
@@ -32,7 +32,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
-		if(nameIdentifier!= null && !getName().equals(name))
+		if(nameIdentifier != null && !getName().equals(name))
 		{
 			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
@@ -42,7 +42,8 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 
 	@Nullable
 	@Override
-	public PsiElement getNameIdentifier() {
+	public PsiElement getNameIdentifier()
+	{
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
@@ -51,7 +52,9 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	{
 		PsiElement nameNode = getNameIdentifier();
 		if(nameNode != null)
+		{
 			return nameNode.getText();
+		}
 		return null;
 	}
 
@@ -60,7 +63,9 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	{
 		PsiElement nameNode = getNameIdentifier();
 		if(nameNode != null)
+		{
 			return nameNode.getNode().getStartOffset();
+		}
 		return super.getTextOffset();
 	}
 

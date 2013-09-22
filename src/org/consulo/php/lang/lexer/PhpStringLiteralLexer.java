@@ -93,9 +93,13 @@ public class PhpStringLiteralLexer extends LexerBase
 			for(int i = myStart + 2; i < myStart + 4; i++)
 			{
 				if(i >= myEnd || (i == myStart + 2 && !isHexDigit(myBuffer.charAt(i))))
+				{
 					return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
+				}
 				else if(i > myStart + 2 && !isHexDigit(myBuffer.charAt(i)))
+				{
 					break;
+				}
 			}
 			return StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN;
 		}
@@ -105,9 +109,13 @@ public class PhpStringLiteralLexer extends LexerBase
 			for(int i = myStart + 1; i < myStart + 4; i++)
 			{
 				if(i >= myEnd || (i == myStart + 1 && !isOctalDigit(myBuffer.charAt(i))))
+				{
 					return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
+				}
 				else if(i > myStart + 1 && !isOctalDigit(myBuffer.charAt(i)))
+				{
 					break;
+				}
 			}
 			return StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN;
 		}
@@ -129,13 +137,19 @@ public class PhpStringLiteralLexer extends LexerBase
 	public IElementType getTokenType()
 	{
 		if(myStart >= myEnd)
+		{
 			return null;
+		}
 
 		if(myBuffer.charAt(myStart) != '\\')
+		{
 			return myOriginalLiteralToken;
+		}
 
 		if(myStart + 1 >= myEnd)
+		{
 			return StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN;
+		}
 		final char nextChar = myBuffer.charAt(myStart + 1);
 
 		if(myStringType == TYPE_SINGLE_QUOTE)
@@ -168,7 +182,9 @@ public class PhpStringLiteralLexer extends LexerBase
 			myState = AFTER_LAST_QUOTE;
 		}
 		if(myState == AFTER_LAST_QUOTE)
+		{
 			return start;
+		}
 
 		int i = start;
 		if(myBuffer.charAt(i) == '\\')

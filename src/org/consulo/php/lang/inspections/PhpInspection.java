@@ -1,7 +1,6 @@
 package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
-
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;

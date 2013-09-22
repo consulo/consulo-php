@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi;
 
-import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.PhpLanguage;
 import org.jetbrains.annotations.NonNls;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.

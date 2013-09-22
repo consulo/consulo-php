@@ -1,14 +1,14 @@
 package org.consulo.php.lang.psi.resolve;
 
-import com.intellij.openapi.util.Key;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpParameter;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.util.Key;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
 
 /**
  * @author jay

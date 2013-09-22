@@ -1,10 +1,9 @@
 package org.consulo.php.lang.psi.impl;
 
 import org.consulo.php.lang.psi.PhpStatement;
-
-import com.intellij.lang.ASTNode;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +21,8 @@ public class PhpStatementImpl extends PhpElementImpl implements PhpStatement
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitStatement(this);
 	}
 }

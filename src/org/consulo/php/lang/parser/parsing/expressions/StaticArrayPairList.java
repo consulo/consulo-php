@@ -3,10 +3,9 @@ package org.consulo.php.lang.parser.parsing.expressions;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
+import org.consulo.php.lang.parser.util.ParserPart;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.consulo.php.lang.parser.util.ParserPart;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 

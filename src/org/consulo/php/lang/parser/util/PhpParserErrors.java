@@ -1,13 +1,13 @@
 package org.consulo.php.lang.parser.util;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import org.consulo.php.PhpBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.HashSet;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 
 /**
  * @author markov

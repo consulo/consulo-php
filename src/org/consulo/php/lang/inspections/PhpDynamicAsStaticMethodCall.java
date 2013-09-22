@@ -1,8 +1,5 @@
 package org.consulo.php.lang.inspections;
 
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpFunction;
@@ -10,6 +7,9 @@ import org.consulo.php.lang.psi.PhpMethodReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 
 /**
  * @author jay

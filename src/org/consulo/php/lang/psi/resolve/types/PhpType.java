@@ -1,12 +1,16 @@
 package org.consulo.php.lang.psi.resolve.types;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * @author jay
@@ -14,7 +18,6 @@ import java.util.*;
  */
 public class PhpType implements Serializable
 {
-
 	Collection<PhpClass> classes = new ArrayList<PhpClass>();
 
 	public PhpType(PhpClass... classes)

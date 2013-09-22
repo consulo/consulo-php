@@ -1,7 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
 import org.consulo.php.lang.lexer.PhpFlexLexer;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -85,7 +84,8 @@ public class ReadingManager
 		return result;
 	}
 
-	public CharSequence getBuffer() {
+	public CharSequence getBuffer()
+	{
 		return lexer.getBuffer();
 	}
 }

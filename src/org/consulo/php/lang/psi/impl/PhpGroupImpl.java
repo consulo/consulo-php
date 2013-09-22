@@ -1,8 +1,7 @@
 package org.consulo.php.lang.psi.impl;
 
-import org.consulo.php.lang.psi.PhpGroup;
 import org.consulo.php.lang.psi.PhpElement;
-
+import org.consulo.php.lang.psi.PhpGroup;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -22,7 +21,8 @@ public class PhpGroupImpl extends PhpElementImpl implements PhpGroup
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitPhpElement(this);
 	}
 

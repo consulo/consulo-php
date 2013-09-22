@@ -1,14 +1,19 @@
 package org.consulo.php.lang.documentation.phpdoc.parser;
 
-import com.intellij.lang.*;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.ILazyParseableElementType;
-import com.intellij.util.LanguageVersionUtil;
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.Language;
+import com.intellij.lang.LanguageVersion;
+import com.intellij.lang.PsiBuilder;
+import com.intellij.lang.PsiBuilderFactory;
+import com.intellij.lang.PsiParser;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.ILazyParseableElementType;
+import com.intellij.util.LanguageVersionUtil;
 
 /**
  * @author jay
@@ -33,8 +38,7 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 			final PsiElement parentElement = chameleon.getTreeParent().getPsi();
 
 			LanguageVersion<Language> defaultVersion = LanguageVersionUtil.findDefaultVersion(getLanguage());
-			final PsiBuilder builder = factory.createBuilder(parentElement.getProject(), chameleon, new PhpDocLexer(), getLanguage(), defaultVersion,
-					chameleon.getText());
+			final PsiBuilder builder = factory.createBuilder(parentElement.getProject(), chameleon, new PhpDocLexer(), getLanguage(), defaultVersion, chameleon.getText());
 			final PsiParser parser = new PhpDocParser();
 			return parser.parse(this, builder, defaultVersion).getFirstChildNode();
 		}

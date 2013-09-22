@@ -1,46 +1,51 @@
 package org.consulo.php.lang.highlighter;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
+import org.consulo.php.PhpLanguageLevel;
+import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.LanguageVersion;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
-import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
-import org.consulo.php.PhpLanguageLevel;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Maxim.Mossienko
  *         Date: 29.01.2009
  *         Time: 22:30:17
  */
-public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlighter {
+public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlighter
+{
 	private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 	private static final Map<IElementType, TextAttributesKey> DOC_ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 
-	public PhpFileSyntaxHighlighter(LanguageVersion languageVersion) {
+	public PhpFileSyntaxHighlighter(LanguageVersion languageVersion)
+	{
 		super(languageVersion);
 	}
 
 	@Override
-	public Lexer getHighlightingLexer(LanguageVersion languageVersion) {
+	public Lexer getHighlightingLexer(LanguageVersion languageVersion)
+	{
 		return new PhpHighlightingLexer((PhpLanguageLevel) languageVersion);
 	}
 
 	@Override
 	@NotNull
-	public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
+	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
+	{
 		return pack(ATTRIBUTES.get(tokenType), DOC_ATTRIBUTES.get(tokenType));
 	}
 
-	static {
+	static
+	{
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsCOMMENTS, PhpHighlightingData.COMMENT);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsNUMBERS, PhpHighlightingData.NUMBER);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsCONSTANTS, PhpHighlightingData.CONSTANT);
@@ -69,29 +74,36 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 		registerPHPDoc();
 	}
 
-	private static void registerHtmlMarkup(IElementType[] htmlTokens, IElementType[] htmlTokens2) {
-		for (IElementType idx : htmlTokens) {
+	private static void registerHtmlMarkup(IElementType[] htmlTokens, IElementType[] htmlTokens2)
+	{
+		for(IElementType idx : htmlTokens)
+		{
 			ATTRIBUTES.put(idx, PhpHighlightingData.DOC_COMMENT);
 			DOC_ATTRIBUTES.put(idx, PhpHighlightingData.DOC_MARKUP);
 		}
 
-		for (IElementType idx : htmlTokens2) {
+		for(IElementType idx : htmlTokens2)
+		{
 			ATTRIBUTES.put(idx, PhpHighlightingData.DOC_COMMENT);
 		}
 	}
 
-	private static void registerPHPDoc() {
+	private static void registerPHPDoc()
+	{
 		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_COMMENT);
 		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_TAG);
 
-		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate() {
+		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate()
+		{
 			@Override
-			public boolean matches(IElementType type) {
+			public boolean matches(IElementType type)
+			{
 				return type instanceof PhpDocElementType;
 			}
 		});
 
-		for (IElementType type : javadoc) {
+		for(IElementType type : javadoc)
+		{
 			ATTRIBUTES.put(type, PhpHighlightingData.DOC_COMMENT);
 		}
 

@@ -1,15 +1,15 @@
 package org.consulo.php.lang.documentation.phpdoc.psi.impl.tags;
 
-import com.intellij.lang.ASTNode;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.intellij.lang.ASTNode;
 
 /**
  * @author jay
@@ -24,7 +24,8 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitPhpElement(this);
 	}
 

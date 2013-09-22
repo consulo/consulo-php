@@ -1,13 +1,14 @@
 package org.consulo.php.completion;
 
+import java.awt.Color;
+
+import javax.swing.Icon;
+
+import org.consulo.php.lang.psi.PhpNamedElement;
 import com.intellij.codeInsight.lookup.LookupValueWithPriority;
 import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
-import org.consulo.php.lang.psi.PhpNamedElement;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author jay

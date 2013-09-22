@@ -1,8 +1,8 @@
 package org.consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay

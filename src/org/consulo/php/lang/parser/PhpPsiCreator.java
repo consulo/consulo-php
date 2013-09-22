@@ -1,8 +1,5 @@
 package org.consulo.php.lang.parser;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
@@ -10,6 +7,9 @@ import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
 import org.consulo.php.lang.psi.impl.*;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -140,9 +140,11 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpTryStatementImpl(node);
 		}
-		return new PhpElementImpl(node){
+		return new PhpElementImpl(node)
+		{
 			@Override
-			public void accept(@NotNull PhpElementVisitor visitor) {
+			public void accept(@NotNull PhpElementVisitor visitor)
+			{
 				visitor.visitPhpElement(this);
 			}
 		};

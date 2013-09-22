@@ -16,7 +16,9 @@ public class PhpInsertHandlerUtil
 		final int startOffset = editor.getCaretModel().getOffset();
 		final String fileText = editor.getDocument().getText();
 		if(fileText.length() < startOffset + string.length())
+		{
 			return false;
+		}
 		return fileText.substring(startOffset, startOffset + string.length()).equals(string);
 	}
 

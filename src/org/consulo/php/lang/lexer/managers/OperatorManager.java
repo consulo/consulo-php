@@ -2,7 +2,6 @@ package org.consulo.php.lang.lexer.managers;
 
 import org.consulo.php.lang.lexer.PhpFlexLexer;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.tree.IElementType;
 

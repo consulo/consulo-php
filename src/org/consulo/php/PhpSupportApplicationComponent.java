@@ -1,11 +1,11 @@
 package org.consulo.php;
 
-import com.intellij.codeInsight.completion.CompletionUtil;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
 import org.consulo.php.completion.PhpCompletionData;
 import org.consulo.php.lang.PhpFileType;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.codeInsight.completion.CompletionUtil;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.ApplicationComponent;
 
 /**
  * Created by IntelliJ IDEA.

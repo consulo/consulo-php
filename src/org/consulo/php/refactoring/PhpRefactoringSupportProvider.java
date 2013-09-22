@@ -1,9 +1,9 @@
 package org.consulo.php.refactoring;
 
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.refactoring.RefactoringSupportProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.RefactoringActionHandler;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay

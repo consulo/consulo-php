@@ -3,7 +3,6 @@ package org.consulo.php.lang.psi.impl;
 import org.consulo.php.lang.psi.resolve.types.PhpType;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeOwner;
-
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -21,7 +20,8 @@ public class PhpTypeOwnerImpl extends PhpElementImpl implements PhpTypeOwner
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitPhpElement(this);
 	}
 

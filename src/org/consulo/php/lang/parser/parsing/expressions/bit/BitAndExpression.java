@@ -6,7 +6,6 @@ import org.consulo.php.lang.parser.parsing.expressions.AssignmentExpression;
 import org.consulo.php.lang.parser.parsing.expressions.comparition.EqualityExpression;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 

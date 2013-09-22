@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar.streams;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 
 /**
  * Provides buffered read from a java.io.RandomAccessFile.
  */
-public class BufferedRandomInputStream extends InputStream {
+public class BufferedRandomInputStream extends InputStream
+{
 
 	private RandomAccessFile inputFile;
 	private String filePath; // Canonical path to the underlying file used for logging
@@ -33,11 +37,13 @@ public class BufferedRandomInputStream extends InputStream {
 
 	private byte buffer[];
 
-	public BufferedRandomInputStream(File file) throws IOException {
+	public BufferedRandomInputStream(File file) throws IOException
+	{
 		this(file, 2048); // default buffer size
 	}
 
-	public BufferedRandomInputStream(File file, int bufferSize) throws IOException {
+	public BufferedRandomInputStream(File file, int bufferSize) throws IOException
+	{
 		filePath = file.getCanonicalPath();
 		inputFile = new RandomAccessFile(file, "r"); //$NON-NLS-1$
 		buffer = new byte[bufferSize];
@@ -45,13 +51,15 @@ public class BufferedRandomInputStream extends InputStream {
 		resetBuffer();
 	}
 
-	private void resetBuffer() {
+	private void resetBuffer()
+	{
 		buffer_pos = 0;
 		buffer_size = 0;
 		buffer_start = 0;
 	}
 
-	private int fillBuffer() throws IOException {
+	private int fillBuffer() throws IOException
+	{
 		buffer_pos = 0;
 		buffer_start = file_pointer;
 		buffer_size = inputFile.read(buffer, 0, buffer.length);
@@ -60,40 +68,54 @@ public class BufferedRandomInputStream extends InputStream {
 	}
 
 	@Override
-	public int read() throws IOException {
-		if (buffer_pos >= buffer_size) {
-			if (fillBuffer() <= 0)
+	public int read() throws IOException
+	{
+		if(buffer_pos >= buffer_size)
+		{
+			if(fillBuffer() <= 0)
+			{
 				return -1;
+			}
 		}
 		return buffer[buffer_pos++] & 0xFF;
 	}
 
 	@Override
-	public int read(byte b[], int off, int len) throws IOException {
+	public int read(byte b[], int off, int len) throws IOException
+	{
 		int available = buffer_size - buffer_pos;
-		if (available < 0)
+		if(available < 0)
+		{
 			return -1;
+		}
 		//the buffer contains all the bytes we need, so copy over and return
-		if (len <= available) {
+		if(len <= available)
+		{
 			System.arraycopy(buffer, buffer_pos, b, off, len);
 			buffer_pos += len;
 			return len;
 		}
 		// Use portion remaining in the buffer
 		System.arraycopy(buffer, buffer_pos, b, off, available);
-		if (fillBuffer() <= 0)
+		if(fillBuffer() <= 0)
+		{
 			return available;
+		}
 		//recursive call to read again until we have the bytes we need
 		return available + read(b, off + available, len - available);
 	}
 
 	@Override
-	public long skip(long n) throws IOException {
-		if (n <= 0)
+	public long skip(long n) throws IOException
+	{
+		if(n <= 0)
+		{
 			return 0;
+		}
 
 		int available = buffer_size - buffer_pos;
-		if (n <= available) {
+		if(n <= available)
+		{
 			buffer_pos += n;
 			return n;
 		}
@@ -104,18 +126,21 @@ public class BufferedRandomInputStream extends InputStream {
 	}
 
 	@Override
-	public int available() throws IOException {
+	public int available() throws IOException
+	{
 		return (buffer_size - buffer_pos);
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() throws IOException
+	{
 		inputFile.close();
 		inputFile = null;
 		buffer = null;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return filePath;
 	}
 
@@ -126,11 +151,15 @@ public class BufferedRandomInputStream extends InputStream {
 	 * @param pos offset
 	 * @throws IOException
 	 */
-	public void seek(long pos) throws IOException {
-		if (pos >= buffer_start && pos < buffer_start + buffer_size) {
+	public void seek(long pos) throws IOException
+	{
+		if(pos >= buffer_start && pos < buffer_start + buffer_size)
+		{
 			//seeking within the current buffer
 			buffer_pos = (int) (pos - buffer_start);
-		} else {
+		}
+		else
+		{
 			//seeking outside the buffer - just discard the buffer
 			inputFile.seek(pos);
 			file_pointer = pos;
@@ -140,10 +169,12 @@ public class BufferedRandomInputStream extends InputStream {
 
 	/**
 	 * Supplies functionality of the {@link java.io.RandomAccessFile#length()}.
+	 *
 	 * @return file length
 	 * @throws IOException
 	 */
-	public long length() throws IOException {
+	public long length() throws IOException
+	{
 		return inputFile.length();
 	}
 

@@ -1,12 +1,12 @@
 package org.consulo.php.lang.psi.impl.stub.elements;
 
+import org.consulo.php.lang.PhpLanguage;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
-import org.consulo.php.lang.PhpLanguage;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL

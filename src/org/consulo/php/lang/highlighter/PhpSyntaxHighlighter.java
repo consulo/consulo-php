@@ -1,5 +1,9 @@
 package org.consulo.php.lang.highlighter;
 
+import org.consulo.php.lang.PhpLanguage;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.LanguageVersionResolvers;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.ex.util.LayerDescriptor;
@@ -8,10 +12,6 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.consulo.php.lang.PhpLanguage;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by IntelliJ IDEA.

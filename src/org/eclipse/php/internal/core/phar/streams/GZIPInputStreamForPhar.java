@@ -25,7 +25,8 @@ import java.util.zip.InflaterInputStream;
  * @version 1.33, 04/07/06
  * @see InflaterInputStream
  */
-public class GZIPInputStreamForPhar extends InflaterInputStream {
+public class GZIPInputStreamForPhar extends InflaterInputStream
+{
 	/**
 	 * CRC-32 for uncompressed data.
 	 */
@@ -41,8 +42,10 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	/**
 	 * Check to make sure that this stream has not been closed
 	 */
-	private void ensureOpen() throws IOException {
-		if (closed) {
+	private void ensureOpen() throws IOException
+	{
+		if(closed)
+		{
 			throw new IOException("Stream closed"); //$NON-NLS-1$
 		}
 	}
@@ -55,7 +58,8 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 * @throws IOException              if an I/O error has occurred
 	 * @throws IllegalArgumentException if size is <= 0
 	 */
-	public GZIPInputStreamForPhar(InputStream in, int size) throws IOException {
+	public GZIPInputStreamForPhar(InputStream in, int size) throws IOException
+	{
 		super(in, new Inflater(true), size);
 		// usesDefaultInflater = true;
 		// readHeader();
@@ -68,7 +72,8 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 * @param in the input stream
 	 * @throws IOException if an I/O error has occurred
 	 */
-	public GZIPInputStreamForPhar(InputStream in) throws IOException {
+	public GZIPInputStreamForPhar(InputStream in) throws IOException
+	{
 		this(in, 512);
 	}
 
@@ -90,24 +95,31 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 *                                   is corrupt
 	 */
 	@Override
-	public int read(byte[] buf, int off, int len) throws IOException {
+	public int read(byte[] buf, int off, int len) throws IOException
+	{
 		ensureOpen();
-		if (eos) {
+		if(eos)
+		{
 			return -1;
 		}
 		//if reach the end and still read here will throw an exception
 		//nomally this will not happen,but it happens when run unit tests
 		//so add an isEnd method to class PharEntryBufferedRandomInputStream
-		if (in instanceof PharEntryBufferedRandomInputStream
-				&& ((PharEntryBufferedRandomInputStream) in).isEnd()) {
+		if(in instanceof PharEntryBufferedRandomInputStream && ((PharEntryBufferedRandomInputStream) in).isEnd())
+		{
 			len = -1;
-		} else {
+		}
+		else
+		{
 			len = super.read(buf, off, len);
 		}
-		if (len == -1) {
+		if(len == -1)
+		{
 			// readTrailer();
 			eos = true;
-		} else {
+		}
+		else
+		{
 			crc.update(buf, off, len);
 		}
 		return len;
@@ -120,8 +132,10 @@ public class GZIPInputStreamForPhar extends InflaterInputStream {
 	 * @throws IOException if an I/O error has occurred
 	 */
 	@Override
-	public void close() throws IOException {
-		if (!closed) {
+	public void close() throws IOException
+	{
+		if(!closed)
+		{
 			inf.end();
 			super.close();
 			eos = true;

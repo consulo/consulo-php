@@ -15,20 +15,29 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Digest {
+public class Digest
+{
 	public static final String MD5_TYPE = "MD5";
 	public static final String SHA1_TYPE = "SHA1";
-	public static final Digest MD5 = new Digest(MD5_TYPE,
-			new byte[]{1, 0, 0, 0});
-	public static final Digest SHA1 = new Digest(SHA1_TYPE, new byte[]{2, 0, 0,
-			0});
+	public static final Digest MD5 = new Digest(MD5_TYPE, new byte[]{
+			1,
+			0,
+			0,
+			0
+	});
+	public static final Digest SHA1 = new Digest(SHA1_TYPE, new byte[]{
+			2,
+			0,
+			0,
+			0
+	});
 	// public static final Digest SHA256 = new Digest("SHA256","0004");
 	// public static final Digest SHA512 = new Digest("SHA512 ","0008");
-	public static final NullMessageDigest NULL_DIGEST = new NullMessageDigest(
-			"NULL");
+	public static final NullMessageDigest NULL_DIGEST = new NullMessageDigest("NULL");
 	public static final Map<String, Digest> DIGEST_MAP = new HashMap<String, Digest>();
 
-	static {
+	static
+	{
 		DIGEST_MAP.put(MD5.name, MD5);
 		DIGEST_MAP.put(SHA1.name, SHA1);
 		// DIGEST_MAP.put(SHA256.name, SHA256);
@@ -39,54 +48,68 @@ public class Digest {
 	String name;
 	private MessageDigest digest;
 
-	public Digest(String name, byte[] bitMap) {
+	public Digest(String name, byte[] bitMap)
+	{
 		this.name = name;
 		this.bitMap = bitMap;
 	}
 
-	public MessageDigest getDigest() {
-		if (digest == null) {
-			try {
+	public MessageDigest getDigest()
+	{
+		if(digest == null)
+		{
+			try
+			{
 				digest = MessageDigest.getInstance(name);
-			} catch (NoSuchAlgorithmException e) {
+			}
+			catch(NoSuchAlgorithmException e)
+			{
 				digest = NULL_DIGEST;
 			}
 		}
 		return digest;
 	}
 
-	public byte[] getBitMap() {
+	public byte[] getBitMap()
+	{
 		return bitMap;
 	}
 
-	public static class NullMessageDigest extends MessageDigest {
+	public static class NullMessageDigest extends MessageDigest
+	{
 
-		public NullMessageDigest(String algorithm) {
+		public NullMessageDigest(String algorithm)
+		{
 			super(algorithm);
 		}
 
 		@Override
-		protected byte[] engineDigest() {
+		protected byte[] engineDigest()
+		{
 			return null;
 		}
 
 		@Override
-		protected void engineReset() {
+		protected void engineReset()
+		{
 
 		}
 
 		@Override
-		protected void engineUpdate(byte input) {
+		protected void engineUpdate(byte input)
+		{
 
 		}
 
 		@Override
-		protected void engineUpdate(byte[] input, int offset, int len) {
+		protected void engineUpdate(byte[] input, int offset, int len)
+		{
 
 		}
 
 		@Override
-		public byte[] digest() {
+		public byte[] digest()
+		{
 			return null;
 		}
 	}

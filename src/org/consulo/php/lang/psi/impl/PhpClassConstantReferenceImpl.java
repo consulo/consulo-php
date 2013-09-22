@@ -1,5 +1,20 @@
 package org.consulo.php.lang.psi.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.consulo.php.completion.PhpVariantsUtil;
+import org.consulo.php.completion.UsageContext;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpClassConstantReference;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -8,16 +23,6 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.completion.PhpVariantsUtil;
-import org.consulo.php.completion.UsageContext;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jay
@@ -32,7 +37,8 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitClassConstantReference(this);
 	}
 
@@ -59,7 +65,9 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	public PsiReference getReference()
 	{
 		if(canReadName())
+		{
 			return this;
+		}
 		return null;
 	}
 
@@ -139,25 +147,25 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 			final PsiElement psiElement = classReference.resolve();
 			if(psiElement instanceof PhpClass)
 			{
-					final UsageContext context = new UsageContext();
-					final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+				final UsageContext context = new UsageContext();
+				final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
 
-					context.setClassForAccessFilter(contextClass);
+				context.setClassForAccessFilter(contextClass);
 
 
-					context.setCallingObjectClass(contextClass);
+				context.setCallingObjectClass(contextClass);
 
-					final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
-					for(PhpFunction method : contextClass.getFunctions())
-					{
-						toComplete.add(method);
-					}
+				final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
+				for(PhpFunction method : contextClass.getFunctions())
+				{
+					toComplete.add(method);
+				}
 		  /*for (LightPhpField field : lightPhpClass.getFields()) {
-            toComplete.add(field);
+			toComplete.add(field);
           }*/
 
-					final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
-					return list.toArray(new LookupElement[list.size()]);
+				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
+				return list.toArray(new LookupElement[list.size()]);
 			}
 		}
 		return new Object[0];

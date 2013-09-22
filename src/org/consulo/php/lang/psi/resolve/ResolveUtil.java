@@ -1,7 +1,6 @@
 package org.consulo.php.lang.psi.resolve;
 
 import org.consulo.php.lang.psi.PhpFunction;
-
 import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -16,12 +15,13 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  */
 public class ResolveUtil
 {
-
 	@Nullable
 	public static PsiElement treeWalkUp(PsiScopeProcessor processor, PsiElement elt, PsiElement lastParent, PsiElement place)
 	{
 		if(elt == null)
+		{
 			return null;
+		}
 
 		PsiElement cur = elt;
 		do
@@ -35,9 +35,13 @@ public class ResolveUtil
 			}
 			// stop walkup at function level
 			if(cur instanceof PhpFunction)
+			{
 				return null;
+			}
 			if(cur instanceof PsiFile)
+			{
 				break;
+			}
 
 			cur = cur.getPrevSibling();
 		}

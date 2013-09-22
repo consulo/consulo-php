@@ -1,14 +1,18 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
-import lombok.val;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.PhpAssignmentExpression;
+import org.consulo.php.lang.psi.PhpCatchStatement;
+import org.consulo.php.lang.psi.PhpForeachStatement;
+import org.consulo.php.lang.psi.PhpGlobal;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.PhpSelfAssignmentExpression;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import org.consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import org.consulo.php.lang.psi.resolve.ResolveUtil;
@@ -16,10 +20,17 @@ import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementResolveResult;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.util.ArrayUtil;
+import com.intellij.util.IncorrectOperationException;
+import lombok.val;
 
 /**
  * @author jay
@@ -37,7 +48,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	public String getName()
 	{
 		if(canReadName())
+		{
 			return getNode().getText().substring(1);
+		}
 		return null;
 	}
 
@@ -61,7 +74,8 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitVariableReference(this);
 	}
 
@@ -69,7 +83,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState resolveState, PsiElement psiElement, @NotNull PsiElement psiElement1)
 	{
 		if(!isDeclaration())
+		{
 			return true;
+		}
 
 		return super.processDeclarations(processor, resolveState, psiElement, psiElement1);
 	}
@@ -113,7 +129,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	public PsiReference getReference()
 	{
 		if(canReadName())
+		{
 			return this;
+		}
 		return null;
 	}
 

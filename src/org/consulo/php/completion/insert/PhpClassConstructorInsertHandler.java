@@ -1,11 +1,11 @@
 package org.consulo.php.completion.insert;
 
+import org.consulo.php.completion.PhpLookupItem;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
-import org.consulo.php.completion.PhpLookupItem;
-import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpNamedElement;
 
 /**
  * @author jay

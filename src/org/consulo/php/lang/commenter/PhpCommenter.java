@@ -1,10 +1,10 @@
 package org.consulo.php.lang.commenter;
 
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.CodeDocumentationAwareCommenter;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.tree.IElementType;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay

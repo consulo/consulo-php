@@ -5,7 +5,6 @@ import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 
@@ -24,15 +23,18 @@ public class ClassReference implements PhpTokenTypes
 	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, boolean allowStatic, boolean dynamic, boolean allowAs)
 	{
 		PsiBuilder.Marker marker = m != null ? m.precede() : builder.mark();
-		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD) {
+		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD)
+		{
 			builder.advanceLexer();
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
 			return marker;
 		}
 
-		if(dynamic) {
+		if(dynamic)
+		{
 			IElementType result = parseDynamicClassNameReference(builder);
-			if(result != PhpElementTypes.EMPTY_INPUT) {
+			if(result != PhpElementTypes.EMPTY_INPUT)
+			{
 				marker.done(PhpElementTypes.CLASS_REFERENCE);
 				return marker;
 			}
@@ -44,11 +46,13 @@ public class ClassReference implements PhpTokenTypes
 		{
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
 
-			if(builder.getTokenType() == SLASH) {
+			if(builder.getTokenType() == SLASH)
+			{
 				parseClassNameReference(builder, marker, allowStatic, dynamic, false);
 			}
 
-			if(allowAs && builder.getTokenType() == kwAS) {
+			if(allowAs && builder.getTokenType() == kwAS)
+			{
 				marker = marker.precede();
 
 				builder.advanceLexer();

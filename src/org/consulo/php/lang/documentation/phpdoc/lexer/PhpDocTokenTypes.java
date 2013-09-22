@@ -1,7 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.lexer;
 
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 

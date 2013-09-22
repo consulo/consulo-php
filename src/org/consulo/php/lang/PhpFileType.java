@@ -1,5 +1,13 @@
 package org.consulo.php.lang;
 
+import javax.swing.Icon;
+
+import org.consulo.php.PhpBundle;
+import org.consulo.php.PhpIcons2;
+import org.consulo.php.lang.highlighter.PhpSyntaxHighlighter;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.fileTypes.EditorHighlighterProvider;
@@ -8,14 +16,6 @@ import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.consulo.php.PhpBundle;
-import org.consulo.php.PhpIcons2;
-import org.consulo.php.lang.highlighter.PhpSyntaxHighlighter;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.

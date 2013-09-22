@@ -6,7 +6,6 @@ import org.consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpressi
 import org.consulo.php.lang.parser.parsing.expressions.logical.OrExpression;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 
@@ -43,10 +42,12 @@ public class TernaryExpression implements PhpTokenTypes
 			marker.done(PhpElementTypes.TERNARY_EXPRESSION);
 			if(builder.compareAndEat(opQUEST))
 			{
-				if(builder.getTokenType() == opCOLON) {
+				if(builder.getTokenType() == opCOLON)
+				{
 					result = subParseElvis(builder, newMarker);
 				}
-				else {
+				else
+				{
 					result = subParseTernary(builder, newMarker);
 				}
 			}

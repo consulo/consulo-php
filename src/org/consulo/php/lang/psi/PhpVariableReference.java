@@ -1,7 +1,6 @@
 package org.consulo.php.lang.psi;
 
 import org.consulo.php.lang.psi.resolve.types.PhpTypeOwner;
-
 import com.intellij.psi.PsiPolyVariantReference;
 
 /**

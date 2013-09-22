@@ -1,5 +1,14 @@
 package org.consulo.php.lang;
 
+import gnu.trove.THashSet;
+
+import java.util.Arrays;
+import java.util.Set;
+
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageParserDefinitions;
 import com.intellij.lang.html.HTMLLanguage;
@@ -10,14 +19,6 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.psi.templateLanguages.TemplateDataElementType;
 import com.intellij.psi.templateLanguages.TemplateLanguageFileViewProvider;
-import gnu.trove.THashSet;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.parser.PhpElementTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Set;
 
 /**
  * @author Maxim.Mossienko

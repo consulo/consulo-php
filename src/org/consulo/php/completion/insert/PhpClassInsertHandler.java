@@ -2,7 +2,6 @@ package org.consulo.php.completion.insert;
 
 import org.consulo.php.completion.PhpCompletionUtil;
 import org.consulo.php.completion.PhpLookupItem;
-
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.completion.TemplateInsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;

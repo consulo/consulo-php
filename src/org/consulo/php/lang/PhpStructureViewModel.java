@@ -1,7 +1,6 @@
 package org.consulo.php.lang;
 
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.TextEditorBasedStructureViewModel;

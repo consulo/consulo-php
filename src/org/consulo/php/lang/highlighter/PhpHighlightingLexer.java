@@ -1,14 +1,14 @@
 package org.consulo.php.lang.highlighter;
 
-import com.intellij.lexer.FlexAdapter;
-import com.intellij.lexer.LayeredLexer;
-import com.intellij.psi.tree.IElementType;
+import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.consulo.php.lang.lexer.PhpFlexLexer;
 import org.consulo.php.lang.lexer.PhpStringLiteralLexer;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.PhpLanguageLevel;
+import com.intellij.lexer.FlexAdapter;
+import com.intellij.lexer.LayeredLexer;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.

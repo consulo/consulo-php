@@ -1,12 +1,12 @@
 package org.consulo.php;
 
-import com.intellij.CommonBundle;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.PropertyKey;
-
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.PropertyKey;
+import com.intellij.CommonBundle;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +32,9 @@ public class PhpBundle
 	{
 		ResourceBundle bundle = null;
 		if(ourBundle != null)
+		{
 			bundle = ourBundle.get();
+		}
 		if(bundle == null)
 		{
 			bundle = ResourceBundle.getBundle(BUNDLE);

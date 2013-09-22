@@ -1,9 +1,5 @@
 package org.consulo.php.lang.annotator;
 
-import com.intellij.lang.annotation.Annotation;
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.psi.PsiElement;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.lang.highlighter.PhpHighlightingData;
 import org.consulo.php.lang.psi.PhpClassReference;
@@ -11,6 +7,10 @@ import org.consulo.php.lang.psi.PhpConstantReference;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import com.intellij.lang.annotation.Annotation;
+import com.intellij.lang.annotation.AnnotationHolder;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.psi.PsiElement;
 
 /**
  * @author jay
@@ -27,10 +27,13 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitField(PhpField phpField) {
-		if(phpField.isConstant()) {
+	public void visitField(PhpField phpField)
+	{
+		if(phpField.isConstant())
+		{
 			PsiElement nameIdentifier = phpField.getNameIdentifier();
-			if(nameIdentifier != null) {
+			if(nameIdentifier != null)
+			{
 				holder.createInfoAnnotation(nameIdentifier, "").setTextAttributes(PhpHighlightingData.CONSTANT);
 			}
 		}

@@ -1,7 +1,25 @@
 package org.consulo.php.completion;
 
+import java.io.InputStream;
+import java.util.List;
+
+import org.consulo.php.lang.PhpFileType;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpClassConstantReference;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpFieldReference;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpNewExpression;
+import org.consulo.php.lang.psi.PhpVariableReference;
+import org.jetbrains.annotations.NonNls;
 import com.intellij.codeInsight.TailType;
-import com.intellij.codeInsight.completion.*;
+import com.intellij.codeInsight.completion.BasicInsertHandler;
+import com.intellij.codeInsight.completion.CompletionContext;
+import com.intellij.codeInsight.completion.CompletionData;
+import com.intellij.codeInsight.completion.CompletionVariant;
+import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorModificationUtil;
@@ -15,14 +33,6 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.LineReader;
-import org.consulo.php.lang.PhpFileType;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.PhpNewExpression;
-import org.jetbrains.annotations.NonNls;
-
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * @author Maxim
@@ -76,7 +86,9 @@ public class PhpCompletionData extends CompletionData
 		{
 			String s = type.toString();
 			if(s.endsWith(keywordMarker))
+			{
 				s = s.substring(0, s.length() - keywordMarker.length());
+			}
 			keywords[i++] = s;
 		}
 	}

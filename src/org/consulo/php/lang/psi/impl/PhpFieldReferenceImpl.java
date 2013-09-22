@@ -1,15 +1,22 @@
 package org.consulo.php.lang.psi.impl;
 
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpConstantReference;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpField;
+import org.consulo.php.lang.psi.PhpFieldReference;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.PhpVariableReference;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -24,7 +31,8 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitFieldReference(this);
 	}
 
@@ -89,7 +97,9 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	public PsiReference getReference()
 	{
 		if(canReadName())
+		{
 			return this;
+		}
 		return null;
 	}
 

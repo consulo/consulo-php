@@ -1,9 +1,11 @@
 package org.consulo.php.lang.documentation.params;
 
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpParameterList;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.lookup.LookupElement;

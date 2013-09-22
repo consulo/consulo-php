@@ -12,7 +12,8 @@ package org.eclipse.php.internal.core.phar;
 
 import com.intellij.openapi.vfs.ArchiveEntry;
 
-public class PharEntry implements ArchiveEntry {
+public class PharEntry implements ArchiveEntry
+{
 
 	private String name;
 	private int csize;
@@ -25,139 +26,173 @@ public class PharEntry implements ArchiveEntry {
 	private String content;
 	private String metadata;
 
-	public int getPosition() {
+	public int getPosition()
+	{
 		return position;
 	}
 
-	public void setPosition(int position) {
+	public void setPosition(int position)
+	{
 		this.position = position;
 	}
 
-	public byte[] getSizeByte() {
+	public byte[] getSizeByte()
+	{
 		return sizeByte;
 	}
 
-	public void setSizeByte(byte[] sizeByte) {
+	public void setSizeByte(byte[] sizeByte)
+	{
 		this.sizeByte = PharUtil.getCopy(sizeByte);
 
 	}
 
-	public String getContent() {
+	public String getContent()
+	{
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(String content)
+	{
 		this.content = content;
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public int getCsize() {
+	public int getCsize()
+	{
 		return csize;
 	}
 
-	public void setCsize(int csize) {
+	public void setCsize(int csize)
+	{
 		this.csize = csize;
 	}
 
 	@Override
-	public long getSize() {
+	public long getSize()
+	{
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(int size)
+	{
 		this.size = size;
 	}
 
-	public byte[] getCrcByte() {
+	public byte[] getCrcByte()
+	{
 		return crc;
 	}
 
-	public void setCrcByte(byte[] crc) {
+	public void setCrcByte(byte[] crc)
+	{
 		this.crc = PharUtil.getCopy(crc);
 	}
 
 	@Override
-	public long getTime() {
+	public long getTime()
+	{
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(long time)
+	{
 		this.time = time;
 	}
 
-	public byte[] getBitMappedFlag() {
+	public byte[] getBitMappedFlag()
+	{
 		return bitMappedFlag;
 	}
 
-	public void setBitMappedFlag(byte[] bitMappedFlag) {
+	public void setBitMappedFlag(byte[] bitMappedFlag)
+	{
 		this.bitMappedFlag = PharUtil.getCopy(bitMappedFlag);
 	}
 
-	public String getMetadata() {
+	public String getMetadata()
+	{
 		return metadata;
 	}
 
-	public void setMetadata(String metadata) {
+	public void setMetadata(String metadata)
+	{
 		this.metadata = metadata;
 	}
 
 	@Override
-	public boolean isDirectory() {
+	public boolean isDirectory()
+	{
 
 		return name.endsWith("/");
 	}
 
-	public boolean isCompressed() {
+	public boolean isCompressed()
+	{
 		return getCompressedType() != PharConstants.NONE_COMPRESSED;
 	}
 
-	public int getCompressedType() {
+	public int getCompressedType()
+	{
 		int result = PharConstants.NONE_COMPRESSED;
-		if ((bitMappedFlag[1] & 16) != 0) {
+		if((bitMappedFlag[1] & 16) != 0)
+		{
 			result = PharConstants.GZ_COMPRESSED;
-		} else if ((bitMappedFlag[1] & 32) != 0) {
+		}
+		else if((bitMappedFlag[1] & 32) != 0)
+		{
 			result = PharConstants.BZ2_COMPRESSED;
 		}
 		return result;
 	}
 
-	public int getEnd() {
+	public int getEnd()
+	{
 		return position + csize;
 	}
 
-	public long getCompressedSize() {
+	public long getCompressedSize()
+	{
 		return csize;
 	}
 
-	public long getCrc() {
+	public long getCrc()
+	{
 		return toLong(crc);
 	}
 
-	private long toLong(byte[] crc2) {
+	private long toLong(byte[] crc2)
+	{
 		return PharFile.getInt(crc2);
 	}
 
-	public int getMethod() {
+	public int getMethod()
+	{
 		return getCompressedType();
 	}
 
-	public void setCompressedSize(long csize) {
+	public void setCompressedSize(long csize)
+	{
 		setCsize((int) csize);
 	}
 
-	public void setCrc(long crc) {
+	public void setCrc(long crc)
+	{
 		this.crc = toByte(crc);
 	}
 
-	public static byte[] toByte(long crc2) {
+	public static byte[] toByte(long crc2)
+	{
 		byte[] result = new byte[4];
 		result[0] = (byte) (crc2 & 0x000000ff);
 		result[1] = (byte) ((crc2 >> 8) & 0xff);
@@ -166,20 +201,26 @@ public class PharEntry implements ArchiveEntry {
 		return result;
 	}
 
-	public void setMethod(int method) {
-		if (bitMappedFlag == null) {
+	public void setMethod(int method)
+	{
+		if(bitMappedFlag == null)
+		{
 			bitMappedFlag = new byte[4];
 		}
 		bitMappedFlag[1] = (byte) (bitMappedFlag[1] & (255 - 32 - 64));
-		if (PharConstants.BZ2_COMPRESSED == method) {
+		if(PharConstants.BZ2_COMPRESSED == method)
+		{
 			bitMappedFlag[1] = (byte) (bitMappedFlag[1] & 32);
-		} else if (PharConstants.GZ_COMPRESSED == method) {
+		}
+		else if(PharConstants.GZ_COMPRESSED == method)
+		{
 			bitMappedFlag[1] = (byte) (bitMappedFlag[1] & 16);
 		}
 
 	}
 
-	public void setSize(long size) {
+	public void setSize(long size)
+	{
 		setSize((int) size);
 	}
 

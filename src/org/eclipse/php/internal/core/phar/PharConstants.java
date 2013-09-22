@@ -12,7 +12,8 @@ package org.eclipse.php.internal.core.phar;
 
 import com.intellij.openapi.util.SystemInfo;
 
-public class PharConstants {
+public class PharConstants
+{
 	@Deprecated
 	public static final boolean WINDOWS = SystemInfo.isWindows;
 	public static final int PHAR = 0;
@@ -29,8 +30,18 @@ public class PharConstants {
 	public static final byte[] STUB_ENDS = "__HALT_COMPILER();".getBytes();
 	public static final byte[] STUB_TAIL = " ?>".getBytes();
 	public static final byte[] GBMB = "GBMB".getBytes();
-	public static final byte[] Default_Entry_Bitmap = { -74, 1, 0, 0 };
-	public static final byte[] Default_Global_Bitmap = { 0, 0, 0, 0 };
+	public static final byte[] Default_Entry_Bitmap = {
+			-74,
+			1,
+			0,
+			0
+	};
+	public static final byte[] Default_Global_Bitmap = {
+			0,
+			0,
+			0,
+			0
+	};
 	public static final String PHAR_PREFIX = "phar:";
 	public static final String STUB_PATH = ".phar/stub.php";
 	public static final String STUB_NAME = "stub.php";
@@ -38,8 +49,7 @@ public class PharConstants {
 
 	public static final byte R = '\r';
 	public static final byte N = '\n';
-	public static final byte[] Line_Seperator = System.getProperty(
-			"line.separator").getBytes();
+	public static final byte[] Line_Seperator = System.getProperty("line.separator").getBytes();
 	public static final byte Underline = '_';
 
 	public static final String EMPTY_STRING = "";

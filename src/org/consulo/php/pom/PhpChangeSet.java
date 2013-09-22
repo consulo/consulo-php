@@ -1,7 +1,6 @@
 package org.consulo.php.pom;
 
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
 import com.intellij.pom.PomModel;
 import com.intellij.pom.PomModelAspect;
 import com.intellij.pom.event.PomChangeSet;

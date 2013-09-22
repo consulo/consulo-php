@@ -1,5 +1,8 @@
 package org.consulo.php.pom;
 
+import java.util.Collections;
+
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.lang.ASTNode;
 import com.intellij.pom.PomModel;
 import com.intellij.pom.PomModelAspect;
@@ -7,9 +10,6 @@ import com.intellij.pom.event.PomModelEvent;
 import com.intellij.pom.tree.TreeAspect;
 import com.intellij.pom.tree.events.TreeChangeEvent;
 import com.intellij.psi.PsiFile;
-import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
-import java.util.Collections;
 
 /**
  * @author jay

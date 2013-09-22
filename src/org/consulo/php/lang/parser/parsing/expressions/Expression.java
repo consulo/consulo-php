@@ -3,7 +3,6 @@ package org.consulo.php.lang.parser.parsing.expressions;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpression;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.psi.tree.IElementType;
 
 /**

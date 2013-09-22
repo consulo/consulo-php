@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar;
 
-public class PharException extends Exception {
+public class PharException extends Exception
+{
 
 	/**
 	 * Generated serial version UID for this class.
@@ -20,29 +21,29 @@ public class PharException extends Exception {
 	/**
 	 * Constructs a PharException without a detail string.
 	 */
-	public PharException() {
+	public PharException()
+	{
 		super();
 	}
 
 	/**
 	 * Constructs a PharException with the specified detail string.
 	 *
-	 * @param s
-	 *            the detail string
+	 * @param s the detail string
 	 */
-	public PharException(String s) {
+	public PharException(String s)
+	{
 		super(s);
 	}
 
 	/**
 	 * Constructs a PharException with the specified detail string.
 	 *
-	 * @param s
-	 *            the detail string
-	 * @param cause
-	 *            the cause
+	 * @param s     the detail string
+	 * @param cause the cause
 	 */
-	public PharException(String s, Throwable cause) {
+	public PharException(String s, Throwable cause)
+	{
 		super(s, cause);
 	}
 }

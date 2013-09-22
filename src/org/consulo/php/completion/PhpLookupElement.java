@@ -1,15 +1,15 @@
 package org.consulo.php.completion;
 
+import javax.swing.Icon;
+
+import org.apache.commons.lang.StringUtils;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
-import org.consulo.php.lang.psi.PhpNamedElement;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.

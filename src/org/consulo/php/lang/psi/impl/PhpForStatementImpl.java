@@ -1,13 +1,13 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpForStatement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
 
 /**
  * @author jay
@@ -32,7 +32,9 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	{
 		final PhpElement expression = getInitialExpression();
 		if(expression != null)
+		{
 			return getInitialExpression().getNextPsiSibling();
+		}
 		return null;
 	}
 
@@ -41,7 +43,9 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	{
 		final PhpElement expression = getConditionalExpression();
 		if(expression != null)
+		{
 			return getConditionalExpression().getNextPsiSibling();
+		}
 		return null;
 	}
 
@@ -57,7 +61,8 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitForStatement(this);
 	}
 

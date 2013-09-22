@@ -1,18 +1,19 @@
 package org.consulo.php;
 
-import com.intellij.lang.Language;
-import com.intellij.lang.LanguageVersion;
 import org.consulo.annotations.Immutable;
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.util.pointers.Named;
 import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.Language;
+import com.intellij.lang.LanguageVersion;
 
 /**
  * @author VISTALL
  * @since 07.07.13.
  */
-public enum PhpLanguageLevel implements LanguageVersion, Named, NamedPointer<PhpLanguageLevel> {
+public enum PhpLanguageLevel implements LanguageVersion, Named, NamedPointer<PhpLanguageLevel>
+{
 	PHP_5_0("5.0", ""),
 	PHP_5_3("5.3", "namespaces, etc"), // namespace, use
 	PHP_5_4("5.4", "traits, etc"); // trait
@@ -24,38 +25,45 @@ public enum PhpLanguageLevel implements LanguageVersion, Named, NamedPointer<Php
 	private final String myShortName;
 	private final String myDescription;
 
-	PhpLanguageLevel(String shortName, String description) {
+	PhpLanguageLevel(String shortName, String description)
+	{
 		myShortName = shortName;
 		myDescription = description;
 	}
 
-	public boolean isAtLeast(PhpLanguageLevel languageLevel) {
+	public boolean isAtLeast(PhpLanguageLevel languageLevel)
+	{
 		return ordinal() >= languageLevel.ordinal();
 	}
 
 	@Override
-	public PhpLanguageLevel get() {
+	public PhpLanguageLevel get()
+	{
 		return this;
 	}
 
 	@NotNull
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name();
 	}
 
 	@Override
-	public Language getLanguage() {
+	public Language getLanguage()
+	{
 		return PhpLanguage.INSTANCE;
 	}
 
 	@NotNull
-	public String getDescription() {
+	public String getDescription()
+	{
 		return myDescription;
 	}
 
 	@NotNull
-	public String getShortName() {
+	public String getShortName()
+	{
 		return myShortName;
 	}
 }

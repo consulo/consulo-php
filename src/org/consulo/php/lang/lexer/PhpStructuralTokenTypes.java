@@ -1,7 +1,6 @@
 package org.consulo.php.lang.lexer;
 
 import org.consulo.php.lang.psi.PhpElementType;
-
 import com.intellij.psi.tree.IElementType;
 
 /**

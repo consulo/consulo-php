@@ -1,25 +1,26 @@
 package org.consulo.php.module.extension;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
 import org.consulo.module.extension.ModuleExtensionProvider;
 import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
 import org.consulo.php.PhpLanguageLevel;
 import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.project.Project;
 
 /**
  * @author VISTALL
- * @since 07.07.13.
- *
  * @see org.consulo.java.platform.module.extension.LanguageLevelModuleInheritableNamedPointerImpl
+ * @since 07.07.13.
  */
-public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheritableNamedPointerImpl<PhpLanguageLevel> {
+public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheritableNamedPointerImpl<PhpLanguageLevel>
+{
 	private final Class<PhpModuleExtension> myExtensionClass;
 
-	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull Project project, @NotNull String id) {
+	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull Project project, @NotNull String id)
+	{
 		super(project, "language-level");
 		final ModuleExtensionProvider<?, ?> provider = ModuleExtensionProviderEP.findProvider(id);
 		assert provider != null;
@@ -27,18 +28,22 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	}
 
 	@Override
-	public String getItemNameFromModule(@NotNull Module module) {
+	public String getItemNameFromModule(@NotNull Module module)
+	{
 		final PhpModuleExtension extension = ModuleUtilCore.getExtension(module, myExtensionClass);
-		if (extension != null) {
+		if(extension != null)
+		{
 			return extension.getLanguageLevel().getName();
 		}
 		return null;
 	}
 
 	@Override
-	public PhpLanguageLevel getItemFromModule(@NotNull Module module) {
+	public PhpLanguageLevel getItemFromModule(@NotNull Module module)
+	{
 		final PhpModuleExtension extension = ModuleUtilCore.getExtension(module, myExtensionClass);
-		if (extension != null) {
+		if(extension != null)
+		{
 			return extension.getLanguageLevel();
 		}
 		return null;
@@ -46,12 +51,14 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 
 	@NotNull
 	@Override
-	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull Project project, @NotNull String name) {
+	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull Project project, @NotNull String name)
+	{
 		return PhpLanguageLevel.valueOf(name);
 	}
 
 	@Override
-	public PhpLanguageLevel getDefaultValue() {
+	public PhpLanguageLevel getDefaultValue()
+	{
 		return PhpLanguageLevel.HIGHEST;
 	}
 }

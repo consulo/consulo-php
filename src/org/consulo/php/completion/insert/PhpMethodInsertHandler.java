@@ -1,13 +1,13 @@
 package org.consulo.php.completion.insert;
 
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.editor.Editor;
 import org.consulo.php.completion.PhpLookupElement;
 import org.consulo.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
 import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpNamedElement;
+import com.intellij.codeInsight.completion.InsertHandler;
+import com.intellij.codeInsight.completion.InsertionContext;
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.openapi.editor.Editor;
 
 /**
  * @author jay

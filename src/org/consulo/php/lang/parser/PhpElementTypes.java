@@ -1,14 +1,14 @@
 package org.consulo.php.lang.parser;
 
+import org.consulo.php.lang.PhpLanguage;
+import org.consulo.php.lang.psi.PhpElementType;
+import org.consulo.php.lang.psi.PhpStubElements;
+import org.consulo.php.lang.psi.impl.*;
 import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IElementTypeAsPsiFactory;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.consulo.php.lang.PhpLanguage;
-import org.consulo.php.lang.psi.PhpElementType;
-import org.consulo.php.lang.psi.PhpStubElements;
-import org.consulo.php.lang.psi.impl.*;
 
 /**
  * Created by IntelliJ IDEA.

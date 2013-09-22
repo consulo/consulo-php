@@ -1,17 +1,23 @@
 package org.consulo.php.completion;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.consulo.php.completion.insert.PhpMethodInsertHandler;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpField;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.consulo.php.completion.insert.PhpMethodInsertHandler;
-import org.consulo.php.lang.psi.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author jay

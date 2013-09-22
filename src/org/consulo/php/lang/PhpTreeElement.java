@@ -1,5 +1,15 @@
 package org.consulo.php.lang;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpConstantReference;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpVariableReference;
+import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
@@ -7,11 +17,6 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.impl.PhpFileImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author AG
@@ -42,7 +47,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		if(myElement instanceof PhpClass)
 		{
 			PhpClass e = (PhpClass) myElement;
-			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0),  null);
+			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		if(myElement instanceof PhpFunction)
 		{
@@ -69,7 +74,9 @@ class PhpTreeElement implements StructureViewTreeElement
 			PhpParameter parameter = parameters[i];
 			b.append(parameter.getName());
 			if(parameters.length - i > 1)
+			{
 				b.append(", ");
+			}
 		}
 		b.append(')');
 	}
@@ -86,16 +93,22 @@ class PhpTreeElement implements StructureViewTreeElement
 	{
 		final PsiElement[] elements = myElement.getChildren();
 		if(elements.length == 0)
+		{
 			return;
+		}
 		for(PsiElement element : elements)
 		{
 			if(element instanceof PhpNamedElement)
 			{
 				if(!(element instanceof PhpParameter) && (!(element instanceof PhpVariableReference) || ((PhpVariableReference) element).isDeclaration()) && !(element instanceof PhpConstantReference))
+				{
 					children.add(new PhpTreeElement(element));
+				}
 			}
 			else
+			{
 				collectChildren(children, element);
+			}
 		}
 	}
 

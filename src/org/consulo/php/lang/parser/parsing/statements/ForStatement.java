@@ -6,9 +6,8 @@ import org.consulo.php.lang.parser.parsing.Statement;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.util.ListParsingHelper;
-import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.parser.util.ParserPart;
-
+import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 

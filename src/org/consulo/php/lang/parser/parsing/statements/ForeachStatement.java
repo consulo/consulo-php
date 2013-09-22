@@ -8,7 +8,6 @@ import org.consulo.php.lang.parser.parsing.calls.Variable;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.parsing.functions.IsReference;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 

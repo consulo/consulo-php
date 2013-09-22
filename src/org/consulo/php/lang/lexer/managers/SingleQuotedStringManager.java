@@ -1,7 +1,6 @@
 package org.consulo.php.lang.lexer.managers;
 
 import org.consulo.php.lang.lexer.PhpFlexLexer;
-
 import org.jetbrains.annotations.NotNull;
 
 /**

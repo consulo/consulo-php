@@ -1,12 +1,12 @@
 package org.consulo.php.lang.psi.impl;
 
+import org.consulo.php.lang.psi.PhpUnaryExpression;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import org.consulo.php.lang.psi.PhpUnaryExpression;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author jay
@@ -26,7 +26,8 @@ public class PhpUnaryExpressionImpl extends PhpElementImpl implements PhpUnaryEx
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitUnaryExpression(this);
 	}
 

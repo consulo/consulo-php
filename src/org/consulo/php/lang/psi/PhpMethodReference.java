@@ -1,9 +1,9 @@
 package org.consulo.php.lang.psi;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
 import org.consulo.php.lang.psi.resolve.types.PhpTypeOwner;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiPolyVariantReference;
 
 /**
  * @author jay

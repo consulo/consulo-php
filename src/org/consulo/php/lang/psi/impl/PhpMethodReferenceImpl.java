@@ -1,5 +1,23 @@
 package org.consulo.php.lang.psi.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpConstantReference;
+import org.consulo.php.lang.psi.PhpElement;
+import org.consulo.php.lang.psi.PhpFieldReference;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpMethodReference;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.PhpVariableReference;
+import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
+import org.consulo.php.lang.psi.resolve.ResolveUtil;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -7,63 +25,64 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.resolve.PhpResolveProcessor;
-import org.consulo.php.lang.psi.resolve.ResolveUtil;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author jay
  * @date May 15, 2008 12:35:36 PM
  */
-public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMethodReference {
+public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMethodReference
+{
 
-	public PhpMethodReferenceImpl(ASTNode node) {
+	public PhpMethodReferenceImpl(ASTNode node)
+	{
 		super(node);
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitMethodReference(this);
 	}
 
 	@Override
-	public PsiElement getNameIdentifier() {
+	public PsiElement getNameIdentifier()
+	{
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	@Override
-	public boolean canReadName() {
+	public boolean canReadName()
+	{
 		return getNameIdentifier() != null;
 	}
 
 	@Override
-	public String getMethodName() {
-		if (canReadName()) {
+	public String getMethodName()
+	{
+		if(canReadName())
+		{
 			return getNameIdentifier().getText();
 		}
 		return null;
 	}
 
 	@Override
-	public PsiReference getReference() {
-		if (canReadName())
+	public PsiReference getReference()
+	{
+		if(canReadName())
+		{
 			return this;
+		}
 		return null;
 	}
 
 	@Override
 	@Nullable
-	public PhpClassReference getClassReference() {
+	public PhpClassReference getClassReference()
+	{
 		PhpElement reference = getFirstPsiChild();
-		if (reference instanceof PhpClassReference) {
+		if(reference instanceof PhpClassReference)
+		{
 			return (PhpClassReference) reference;
 		}
 		return null;
@@ -71,9 +90,11 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 
 	@Override
 	@Nullable
-	public PsiElement getObjectReference() {
+	public PsiElement getObjectReference()
+	{
 		PsiElement object = getFirstPsiChild();
-		if (object instanceof PhpFieldReference || object instanceof PhpVariableReference || object instanceof PhpMethodReference) {
+		if(object instanceof PhpFieldReference || object instanceof PhpVariableReference || object instanceof PhpMethodReference)
+		{
 			return object;
 		}
 		return null;
@@ -96,8 +117,10 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	}
 
 	@Override
-	public TextRange getRangeInElement() {
-		if (canReadName()) {
+	public TextRange getRangeInElement()
+	{
+		if(canReadName())
+		{
 			PsiElement nameNode = getNameIdentifier();
 			int startOffset = nameNode.getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
@@ -107,9 +130,11 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 
 	@Override
 	@Nullable
-	public PsiElement resolve() {
+	public PsiElement resolve()
+	{
 		ResolveResult[] results = multiResolve(false);
-		if (results.length == 1) {
+		if(results.length == 1)
+		{
 			return results[0].getElement();
 		}
 		return null;
@@ -118,14 +143,17 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	//TODO multiresolve
 	@Override
 	@NotNull
-	public ResolveResult[] multiResolve(boolean incompleteCode) {
+	public ResolveResult[] multiResolve(boolean incompleteCode)
+	{
 		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ResolveKind.METHOD);
 		ResolveUtil.treeWalkUp(this, processor);
 		Collection<PsiElement> declarations = processor.getResult();
 
 		List<ResolveResult> result = new ArrayList<ResolveResult>(declarations.size());
-		for (final PsiElement element : declarations) {
-			if (declarations.size() > 1 && element == this) {
+		for(final PsiElement element : declarations)
+		{
+			if(declarations.size() > 1 && element == this)
+			{
 				continue;
 			}
 			result.add(new PsiElementResolveResult(element, true));
@@ -135,7 +163,8 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	}
 
 	@Override
-	public Object[] getVariants() {
+	public Object[] getVariants()
+	{
 		/*final UsageContext context = new UsageContext();
 		final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
 
@@ -184,15 +213,18 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	}
 
 	@Override
-	public String getCanonicalText() {
+	public String getCanonicalText()
+	{
 		return null;
 	}
 
 	@Override
-	public PsiElement handleElementRename(String name) throws IncorrectOperationException {
+	public PsiElement handleElementRename(String name) throws IncorrectOperationException
+	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
-		if (nameIdentifier != null && !getMethodName().equals(name)) {
+		if(nameIdentifier != null && !getMethodName().equals(name))
+		{
 			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
@@ -210,20 +242,24 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	 *          if the rebind cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	{
 		return null;
 	}
 
 	@Override
-	public boolean isReferenceTo(PsiElement element) {
-		if (element instanceof PhpFunction) {
+	public boolean isReferenceTo(PsiElement element)
+	{
+		if(element instanceof PhpFunction)
+		{
 			return element == resolve();
 		}
 		return false;
 	}
 
 	@Override
-	public boolean isSoft() {
+	public boolean isSoft()
+	{
 		return false;
 	}
 }

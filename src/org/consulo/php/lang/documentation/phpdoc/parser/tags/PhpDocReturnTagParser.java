@@ -1,7 +1,6 @@
 package org.consulo.php.lang.documentation.phpdoc.parser.tags;
 
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-
 import com.intellij.lang.PsiBuilder;
 
 /**

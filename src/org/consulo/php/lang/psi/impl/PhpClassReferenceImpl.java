@@ -1,5 +1,27 @@
 package org.consulo.php.lang.psi.impl;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.consulo.php.PhpConstants;
+import org.consulo.php.completion.ClassUsageContext;
+import org.consulo.php.index.PhpFullFqClassIndex;
+import org.consulo.php.lang.lexer.PhpTokenTypes;
+import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpClassConstantReference;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamespaceStatement;
+import org.consulo.php.lang.psi.PhpPackage;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.PhpUseStatement;
+import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.consulo.php.module.extension.PhpModuleExtension;
+import org.consulo.psi.PsiPackage;
+import org.consulo.psi.PsiPackageManager;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -10,20 +32,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
 import lombok.val;
-import org.consulo.php.completion.ClassUsageContext;
-import org.consulo.php.index.PhpFullFqClassIndex;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.*;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.consulo.php.module.extension.PhpModuleExtension;
-import org.consulo.psi.PsiPackage;
-import org.consulo.psi.PsiPackageManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author jay
@@ -31,13 +39,6 @@ import java.util.List;
  */
 public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassReference
 {
-	public enum ResolveKind {
-		TO_NAMESPACE,
-		TO_CLASS,
-
-		TO_UNKNOWN
-	}
-
 	public PhpClassReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -51,7 +52,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 	@Nullable
 	@Override
-	public PhpClassReference getQualifier() {
+	public PhpClassReference getQualifier()
+	{
 		return findChildByClass(PhpClassReference.class);
 	}
 
@@ -63,7 +65,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitClassReference(this);
 	}
 
@@ -84,14 +87,18 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		PhpClassReference qualifier = getQualifier();
 		StringBuilder builder = null;
 
-		switch (resolveKind) {
+		switch(resolveKind)
+		{
 
 			case TO_NAMESPACE:
 				builder = new StringBuilder();
 
-				if(qualifier != null) {
+
+				if(qualifier != null)
+				{
 					PsiElement resolve = qualifier.resolve();
-					if(!(resolve instanceof PhpPackage)) {
+					if(!(resolve instanceof PhpPackage))
+					{
 						return ResolveResult.EMPTY_ARRAY;
 					}
 
@@ -104,18 +111,58 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 				String packageName = builder.toString().replace(" ", "");
 
 				PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
-				if(aPackage != null) {
-					return new ResolveResult[] {new PsiElementResolveResult(aPackage, true)};
+				if(aPackage != null)
+				{
+					return new ResolveResult[]{new PsiElementResolveResult(aPackage, true)};
 				}
-				else {
+				else
+				{
 					return ResolveResult.EMPTY_ARRAY;
 				}
-			case TO_CLASS:
+			case TO_FQ_CLASS:
+				if(PhpConstants.SELF.equals(name))
+				{
+					PhpClass parentOfType = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+
+					if(parentOfType != null)
+					{
+						return new ResolveResult[]{new PsiElementResolveResult(parentOfType, true)};
+					}
+					else
+					{
+						return ResolveResult.EMPTY_ARRAY;
+					}
+				}
+				else if(PhpConstants.PARENT.equals(name))
+				{
+					PhpClass parentOfType = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+
+					if(parentOfType != null)
+					{
+						PhpClass superClass = parentOfType.getSuperClass();
+
+						if(superClass != null)
+						{
+							return new ResolveResult[]{new PsiElementResolveResult(parentOfType, true)};
+						}
+						else
+						{
+							return ResolveResult.EMPTY_ARRAY;
+						}
+					}
+					else
+					{
+						return ResolveResult.EMPTY_ARRAY;
+					}
+				}
+
 				builder = new StringBuilder();
 
-				if(qualifier != null) {
+				if(qualifier != null)
+				{
 					PsiElement resolve = qualifier.resolve();
-					if(!(resolve instanceof PhpPackage)) {
+					if(!(resolve instanceof PhpPackage))
+					{
 						return ResolveResult.EMPTY_ARRAY;
 					}
 
@@ -127,8 +174,9 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 				String fullyClassName = builder.toString().replace(" ", "");
 				Collection<PhpClass> phpClasses = PhpFullFqClassIndex.INSTANCE.get(fullyClassName, getProject(), getResolveScope());
-				List<ResolveResult> resultList = new SmartList<ResolveResult>() ;
-				for (PhpClass phpClass : phpClasses) {
+				List<ResolveResult> resultList = new SmartList<ResolveResult>();
+				for(PhpClass phpClass : phpClasses)
+				{
 					resultList.add(new PsiElementResolveResult(phpClass, true));
 				}
 				return resultList.isEmpty() ? ResolveResult.EMPTY_ARRAY : resultList.toArray(new ResolveResult[resultList.size()]);
@@ -198,21 +246,26 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		return result; */
 	}
 
-	public ResolveKind findResolveKind() {
+	public ResolveKind findResolveKind()
+	{
 		PsiElement parent = getParent();
-		if(parent instanceof PhpClassReferenceImpl) {
+		if(parent instanceof PhpClassReferenceImpl)
+		{
 			ResolveKind resolveKind = ((PhpClassReferenceImpl) parent).findResolveKind();
-			if(resolveKind == ResolveKind.TO_CLASS) {
+			if(resolveKind == ResolveKind.TO_FQ_CLASS)
+			{
 				return ResolveKind.TO_NAMESPACE;
 			}
 
 			return resolveKind;
 		}
-		else if(parent instanceof PhpNamespaceStatement) {
+		else if(parent instanceof PhpNamespaceStatement)
+		{
 			return ResolveKind.TO_NAMESPACE;
 		}
-		else if(parent instanceof PhpUseStatement) {
-			return ResolveKind.TO_CLASS;
+		else if(parent instanceof PhpUseStatement || parent instanceof PhpClassConstantReference)
+		{
+			return ResolveKind.TO_FQ_CLASS;
 		}
 		return ResolveKind.TO_UNKNOWN;
 	}
@@ -323,5 +376,13 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	public boolean isSoft()
 	{
 		return false;
+	}
+
+	public enum ResolveKind
+	{
+		TO_NAMESPACE,
+		TO_FQ_CLASS,
+
+		TO_UNKNOWN
 	}
 }

@@ -1,37 +1,46 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpFunctionCall;
 import org.consulo.php.lang.psi.PhpParameterList;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.IncorrectOperationException;
 
 /**
  * @author jay
  * @date May 15, 2008 12:36:39 PM
  */
-public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCall {
+public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCall
+{
 
-	public PhpFunctionCallImpl(ASTNode node) {
+	public PhpFunctionCallImpl(ASTNode node)
+	{
 		super(node);
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitFunctionCall(this);
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source) {
-		if (lastParent != getParameterList()) {
-			if (getParameterList() != null && !getParameterList().processDeclarations(processor, state, null, source)) {
+	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	{
+		if(lastParent != getParameterList())
+		{
+			if(getParameterList() != null && !getParameterList().processDeclarations(processor, state, null, source))
+			{
 				return false;
 			}
 		}
@@ -39,42 +48,53 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	}
 
 	@Override
-	public PsiReference getReference() {
-		if (canReadName())
+	public PsiReference getReference()
+	{
+		if(canReadName())
+		{
 			return this;
+		}
 		return null;
 	}
 
 	@Override
-	public PsiElement getElement() {
+	public PsiElement getElement()
+	{
 		return this;
 	}
 
-	private ASTNode getNameNode() {
+	private ASTNode getNameNode()
+	{
 		return getNode().findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
 	@Override
-	public boolean canReadName() {
+	public boolean canReadName()
+	{
 		return getNameNode() != null;
 	}
 
 	@Override
-	public String getFunctionName() {
-		if (canReadName()) {
+	public String getFunctionName()
+	{
+		if(canReadName())
+		{
 			return getNameNode().getText();
 		}
 		return null;
 	}
 
 	@Override
-	public PhpParameterList getParameterList() {
+	public PhpParameterList getParameterList()
+	{
 		return PsiTreeUtil.getChildOfType(this, PhpParameterList.class);
 	}
 
 	@Override
-	public TextRange getRangeInElement() {
-		if (canReadName()) {
+	public TextRange getRangeInElement()
+	{
+		if(canReadName())
+		{
 			ASTNode nameNode = getNameNode();
 			int startOffset = nameNode.getPsi().getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
@@ -89,9 +109,11 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 */
 	@Override
 	@Nullable
-	public PsiElement resolve() {
+	public PsiElement resolve()
+	{
 		ResolveResult[] results = multiResolve(false);
-		if (results.length == 1) {
+		if(results.length == 1)
+		{
 			return results[0].getElement();
 		}
 		return null;
@@ -99,7 +121,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 
 	@Override
 	@NotNull
-	public ResolveResult[] multiResolve(boolean incompleteCode) {
+	public ResolveResult[] multiResolve(boolean incompleteCode)
+	{
 		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
 		List<LightPhpFunction> functions = index.getFunctionsByName(getFunctionName());
 		ResolveResult[] result = new PhpResolveResult[functions.size()];
@@ -120,7 +143,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 * @return the canonical text of the reference.
 	 */
 	@Override
-	public String getCanonicalText() {
+	public String getCanonicalText()
+	{
 		return null;
 	}
 
@@ -134,7 +158,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 *          if the rename cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
+	{
 		return null;
 	}
 
@@ -149,7 +174,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 *          if the rebind cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	{
 		return null;
 	}
 
@@ -160,7 +186,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 * @return true if the reference targets that element, false otherwise.
 	 */
 	@Override
-	public boolean isReferenceTo(PsiElement element) {
+	public boolean isReferenceTo(PsiElement element)
+	{
 		return false;
 	}
 
@@ -174,7 +201,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 * @return the array of available identifiers.
 	 */
 	@Override
-	public Object[] getVariants() {
+	public Object[] getVariants()
+	{
 		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
 		List<LightPhpFunction> variants = new ArrayList<LightPhpFunction>();
 		for(String functionName : index.getAllFunctionNames())
@@ -195,7 +223,8 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 * @return true if the refence is soft, false otherwise.
 	 */
 	@Override
-	public boolean isSoft() {
+	public boolean isSoft()
+	{
 		return false;
 	}
 }

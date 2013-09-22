@@ -1,9 +1,8 @@
 package org.consulo.php.lang.documentation.phpdoc.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.containers.HashMap;
+import java.lang.reflect.Constructor;
+import java.util.Map;
+
 import org.consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
@@ -11,9 +10,10 @@ import org.consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
 import org.consulo.php.lang.psi.impl.PhpElementImpl;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Constructor;
-import java.util.Map;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.util.containers.HashMap;
 
 /**
  * @author jay
@@ -57,9 +57,11 @@ public class PhpDocPsiCreator implements PhpDocElementTypes
 			return new PhpDocTypeImpl(node);
 		}
 
-		return new PhpElementImpl(node){
+		return new PhpElementImpl(node)
+		{
 			@Override
-			public void accept(@NotNull PhpElementVisitor visitor) {
+			public void accept(@NotNull PhpElementVisitor visitor)
+			{
 				visitor.visitPhpElement(this);
 			}
 		};

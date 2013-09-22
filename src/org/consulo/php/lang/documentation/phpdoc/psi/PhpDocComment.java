@@ -2,7 +2,6 @@ package org.consulo.php.lang.documentation.phpdoc.psi;
 
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import org.consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
-
 import com.intellij.psi.PsiComment;
 
 /**

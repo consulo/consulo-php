@@ -1,19 +1,19 @@
 package org.consulo.php.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.util.PsiTreeUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpElseIfStatement;
 import org.consulo.php.lang.psi.PhpElseStatement;
 import org.consulo.php.lang.psi.PhpIfStatement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * @author jay
@@ -58,12 +58,15 @@ public class PhpIfStatementImpl extends PhpElementImpl implements PhpIfStatement
 	public PhpElement getStatement()
 	{
 		if(getCondition() != null)
+		{
 			return getCondition().getNextPsiSibling();
+		}
 		return null;
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor) {
+	public void accept(@NotNull PhpElementVisitor visitor)
+	{
 		visitor.visitIfStatement(this);
 	}
 

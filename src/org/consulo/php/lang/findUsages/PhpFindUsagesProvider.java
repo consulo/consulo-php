@@ -1,7 +1,11 @@
 package org.consulo.php.lang.findUsages;
 
-import org.consulo.php.lang.psi.*;
-
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpField;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamedElement;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -21,7 +25,9 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	public WordsScanner getWordsScanner()
 	{
 		if(wordsScanner == null)
+		{
 			wordsScanner = new PhpWordsScanner();
+		}
 		return wordsScanner;
 	}
 
