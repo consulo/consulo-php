@@ -4,11 +4,11 @@ import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.impl.stub.PhpClassStub;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
@@ -51,7 +51,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@NotNull
 	public PhpFunction[] getFunctions()
 	{
-		return findChildrenByClass(PhpFunction.class);
+		return getStubOrPsiChildren(PhpStubElements.FUNCTION, PhpFunction.ARRAY_FACTORY);
 	}
 
 	@Override
@@ -139,25 +139,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public ItemPresentation getPresentation()
 	{
-		return PhpPresentationUtil.getClassPresentation(this);
-	}
-
-	@Override
-	public PhpElement getFirstPsiChild()
-	{
-		return null;
-	}
-
-	@Override
-	public PhpElement getNextPsiSibling()
-	{
-		return null;
-	}
-
-	@Override
-	public PhpElement getPrevPsiSibling()
-	{
-		return null;
+		return ItemPresentationProviders.getItemPresentation(this);
 	}
 
 	@Override
@@ -201,5 +183,17 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(tokenSet);
+	}
+
+	@Override
+	public PsiElement getLeftBrace()
+	{
+		return findChildByType(PhpTokenTypes.chLBRACE);
+	}
+
+	@Override
+	public PsiElement getRightBrace()
+	{
+		return findChildByType(PhpTokenTypes.chRBRACE);
 	}
 }

@@ -9,6 +9,7 @@ import org.consulo.php.lang.parser.util.PhpPsiBuilder;
 import org.consulo.php.lang.psi.PhpModifierList;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,37 +19,11 @@ import com.intellij.psi.tree.IElementType;
  */
 public class ClassDeclaration implements PhpTokenTypes
 {
+	private static final TokenSet CLASS_START_TYPES = TokenSet.create(kwCLASS, INTERFACE_KEYWORD, TRAIT_KEYWORD);
 
-	//	class_declaration_statement:
-	//		class_entry_type IDENTIFIER extends_from
-	//			implements_list
-	//			'{' class_statement_list '}'
-	//		| INTERFACE_KEYWORD IDENTIFIER
-	//			interface_extends_list
-	//			'{' class_statement_list '}'
-	//	;
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		IElementType result = parseInterface(builder);
-		if(result == PhpElementTypes.EMPTY_INPUT)
-		{
-			result = parseClass(builder);
-		}
-		return result;
-	}
-
-	//		class_entry_type IDENTIFIER extends_from
-	//		implements_list
-	//		'{' class_statement_list '}'
-
-	//	class_entry_type:
-	//		kwCLASS
-	//		| kwABSTRACT kwCLASS
-	//		| FINAL_KEYWORD kwCLASS
-	//	;
-	private static IElementType parseClass(PhpPsiBuilder builder)
-	{
-		if(!builder.compare(kwCLASS) && !builder.compare(PhpModifierList.MODIFIERS))
+		if(!builder.compare(CLASS_START_TYPES) && !builder.compare(PhpModifierList.MODIFIERS))
 		{
 			return PhpElementTypes.EMPTY_INPUT;
 		}
@@ -56,7 +31,7 @@ public class ClassDeclaration implements PhpTokenTypes
 
 		ClassMemberModifiers.parseModifiers(builder);
 
-		builder.match(kwCLASS);
+		builder.match(CLASS_START_TYPES);
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
 			builder.error(PhpParserErrors.expected("class name"));
@@ -99,52 +74,12 @@ public class ClassDeclaration implements PhpTokenTypes
 		return PhpElementTypes.IMPLEMENTS_LIST;
 	}
 
-	//		INTERFACE_KEYWORD IDENTIFIER
-	//		interface_extends_list
-	//		'{' class_statement_list '}'
-	private static IElementType parseInterface(PhpPsiBuilder builder)
-	{
-		if(!builder.compare(INTERFACE_KEYWORD))
-		{
-			return PhpElementTypes.EMPTY_INPUT;
-		}
-		PsiBuilder.Marker interfaceMarker = builder.mark();
-		builder.advanceLexer();
-		if(!builder.compareAndEat(IDENTIFIER))
-		{
-			builder.error(PhpParserErrors.expected("interface name"));
-		}
-		parseInterfaceExtends(builder);
-		parseClassStatements(builder);
-		interfaceMarker.done(PhpElementTypes.CLASS);
-		return PhpElementTypes.CLASS;
-	}
 
 	private static void parseClassStatements(PhpPsiBuilder builder)
 	{
 		builder.match(chLBRACE);
 		ClassStatementList.parse(builder);
 		builder.match(chRBRACE);
-	}
-
-	//	interface_extends_list:
-	//		/* empty */
-	//		| kwEXTENDS interface_list
-	//	;
-
-	//	interface_list:
-	//		fully_qualified_class_name
-	//		| interface_list ',' fully_qualified_class_name
-	//	;
-	private static IElementType parseInterfaceExtends(PhpPsiBuilder builder)
-	{
-		PsiBuilder.Marker extendsList = builder.mark();
-		if(builder.compareAndEat(kwEXTENDS))
-		{
-			parseInterfaceList(builder);
-		}
-		extendsList.done(PhpElementTypes.EXTENDS_LIST);
-		return PhpElementTypes.EXTENDS_LIST;
 	}
 
 	private static void parseInterfaceList(PhpPsiBuilder builder)

@@ -4,10 +4,8 @@ import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpElementType;
 import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.*;
-import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IElementTypeAsPsiFactory;
-import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 
 /**
@@ -19,15 +17,11 @@ import com.intellij.psi.tree.TokenSet;
  */
 public interface PhpElementTypes extends PhpStubElements
 {
-
-	final IFileElementType FILE = new IFileElementType(Language.findInstance(PhpLanguage.class));
 	IElementType EMPTY_INPUT = new PhpElementType("Unrecognised input");
 
 	IElementType HTML = new PhpElementType("HTML");
 
-	IElementType GROUP_STATEMENT = new IElementTypeAsPsiFactory("GROUP_STATEMENT", PhpLanguage.INSTANCE, PhpGroupImpl.class);
 	IElementType STATEMENT = new IElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
-	IElementType FUNCTION = new IElementTypeAsPsiFactory("FUNCTION", PhpLanguage.INSTANCE, PhpFunctionImpl.class);
 	IElementType PARAMETER_LIST = new IElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = new IElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
 	IElementType MODIFIER_LIST = new IElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);

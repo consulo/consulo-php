@@ -193,6 +193,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"new"                              { return PhpTokenTypes.kwNEW; }
 	"instanceof"                       { return PhpTokenTypes.kwINSTANCEOF; }
 
+	"trait"                            { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_4) ? PhpTokenTypes.TRAIT_KEYWORD : PhpTokenTypes.IDENTIFIER;}
 	"namespace"                        { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.NAMESPACE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
 	"use"                              { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.USE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
 

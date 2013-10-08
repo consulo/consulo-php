@@ -3,21 +3,24 @@ package org.consulo.php.lang.psi.impl;
 import java.util.List;
 
 import org.consulo.php.lang.PhpFileType;
+import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpFile;
 import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpGroup;
+import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.SmartList;
 
 /**
@@ -31,7 +34,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 {
 	public PhpFileImpl(FileViewProvider viewProvider)
 	{
-		super(viewProvider, PhpFileType.INSTANCE.getLanguage());
+		super(viewProvider, PhpLanguage.INSTANCE);
 	}
 
 	@Override
@@ -67,11 +70,6 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		return PhpFileType.INSTANCE;
 	}
 
-	public String toString()
-	{
-		return "PHP file";
-	}
-
 	@Override
 	public void accept(@NotNull PsiElementVisitor visitor)
 	{
@@ -88,7 +86,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	@Override
 	public ItemPresentation getPresentation()
 	{
-		return PhpPresentationUtil.getFilePresentation(this);
+		return ItemPresentationProviders.getItemPresentation(this);
 	}
 
 	@NotNull
@@ -164,6 +162,11 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	@Override
 	public PhpGroup[] getGroups()
 	{
+		StubElement<?> stub = getStub();
+		if(stub != null)
+		{
+			return stub.getChildrenByType(PhpStubElements.GROUP, PhpGroup.ARRAY_FACTORY);
+		}
 		return findChildrenByClass(PhpGroup.class);
 	}
 }

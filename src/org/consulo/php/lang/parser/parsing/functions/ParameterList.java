@@ -27,8 +27,10 @@ public class ParameterList implements PhpTokenTypes
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker parameterList = builder.mark();
+		builder.match(chLPAREN);
 		ParserPart parameterParser = new Parameter();
 		int result = ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, parameterParser.parse(builder), parameterParser, false);
+		builder.match(chRPAREN);
 		parameterList.done(PhpElementTypes.PARAMETER_LIST);
 		return (result > 0) ? PhpElementTypes.PARAMETER_LIST : PhpElementTypes.EMPTY_INPUT;
 	}

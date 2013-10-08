@@ -4,6 +4,8 @@ import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpConstantReference;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.resolve.types.PhpType;
+import org.consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +14,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubElement;
+import com.intellij.psi.stubs.NamedStub;
 import com.intellij.util.IncorrectOperationException;
 import lombok.val;
 
@@ -20,7 +22,7 @@ import lombok.val;
  * @author VISTALL
  * @since 16.07.13.
  */
-public abstract class PhpStubbedNamedElementImpl<T extends StubElement> extends PhpStubElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement
+public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends PhpStubbedElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement
 {
 	public PhpStubbedNamedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType)
 	{
@@ -45,8 +47,27 @@ public abstract class PhpStubbedNamedElementImpl<T extends StubElement> extends 
 	@Override
 	public String getName()
 	{
+		T stub = getStub();
+		if(stub != null)
+		{
+			return stub.getName();
+		}
+
 		PsiElement nameIdentifier = getNameIdentifier();
 		return nameIdentifier == null ? null : nameIdentifier.getText();
+	}
+
+	@NotNull
+	public PhpType getType()
+	{
+		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
+		if(type == null)
+		{
+			PhpTypeAnnotatorVisitor.process(this);
+		}
+		type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
+		assert type != null;
+		return type;
 	}
 
 	@Override

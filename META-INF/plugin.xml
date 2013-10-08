@@ -43,9 +43,10 @@
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 		<internalFileTemplate name="Php Trait"/>
+		<lang.elementIcon language="PHP" file="/icons/phpLang.png" />
 
 		<highlightVisitor implementation="org.consulo.php.codeInsight.highlight.PhpHighlightVisitor" />
-		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" />
+		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" order="before default"/>
 		<treeStructureProvider implementation="org.consulo.php.ide.projectView.PhpTreeStructureProvider" />
 		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
@@ -56,6 +57,7 @@
 		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PhpCommenter"/>
 		<lang.findUsagesProvider language="PHP" implementationClass="org.consulo.php.lang.findUsages.PhpFindUsagesProvider"/>
 		<lang.braceMatcher language="PHP" implementationClass="org.consulo.php.lang.braceMatcher.PhpBraceMatcher"/>
+		<lang.foldingBuilder language="PHP" implementationClass="org.consulo.php.ide.folding.PhpFoldingBuilder" />
 		<codeInsight.parameterInfo language="PHP" implementationClass="org.consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
 		<lang.syntaxHighlighterFactory key="PHP" implementationClass="org.consulo.php.lang.highlighter.PhpSyntaxHighlighterFactory" />
@@ -65,6 +67,9 @@
 		<lang.psiStructureViewFactory language="PHP" implementationClass="org.consulo.php.lang.PhpStructureViewBuilderProvider"/>
 		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="org.consulo.php.PhpMultiHostInjector" />
 		<typedHandler implementation="org.consulo.php.lang.PhpTypedHandler"/>
+
+		<itemPresentationProvider forClass="org.consulo.php.lang.psi.PhpClass" implementationClass="org.consulo.php.ide.presentation.PhpClassPresentation" />
+		<itemPresentationProvider forClass="org.consulo.php.lang.psi.PhpFile" implementationClass="org.consulo.php.ide.presentation.PhpFilePresentation" />
 
 		<stubIndex implementation="org.consulo.php.index.PhpClassIndex"/>
 		<stubIndex implementation="org.consulo.php.index.PhpFullFqClassIndex"/>

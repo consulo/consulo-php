@@ -56,7 +56,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 	{
 		StringRef namespace = stubInputStream.readName();
 		StringRef name = stubInputStream.readName();
-		return new PhpClassStub(stubElement, namespace == null ? null : namespace.getString(), name == null ? null : name.getString());
+		return new PhpClassStub(stubElement, namespace, name);
 	}
 
 	@Override
@@ -68,7 +68,14 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 		{
 			indexSink.occurrence(PhpIndexKeys.CLASSES, name);
 
-			indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, namespace + "\\" + name);
+			if(namespace.isEmpty())
+			{
+				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, name);
+			}
+			else
+			{
+				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, namespace + "\\" + name);
+			}
 		}
 	}
 }

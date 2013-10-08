@@ -15,17 +15,10 @@ import com.intellij.util.Processor;
  */
 public class PhpWordsScanner implements WordsScanner
 {
-
-	private Lexer lexer;
-
-	public PhpWordsScanner()
-	{
-		lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
-	}
-
 	@Override
 	public void processWords(CharSequence fileText, final Processor<WordOccurrence> processor)
 	{
+		Lexer lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
 		lexer.start(fileText, 0, fileText.length(), 0);
 		WordOccurrence occurrence = null; // shared occurrence
 

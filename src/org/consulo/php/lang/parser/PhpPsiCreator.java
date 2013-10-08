@@ -40,10 +40,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpStatementImpl(node);
 		}
-		if(type == GROUP_STATEMENT)
-		{
-			return new PhpGroupImpl(node);
-		}
+
 
 		if(type == PARAMETER_LIST)
 		{

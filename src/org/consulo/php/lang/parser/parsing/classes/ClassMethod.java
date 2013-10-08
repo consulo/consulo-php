@@ -1,11 +1,11 @@
 package org.consulo.php.lang.parser.parsing.classes;
 
 import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.StatementList;
 import org.consulo.php.lang.parser.parsing.functions.IsReference;
 import org.consulo.php.lang.parser.parsing.functions.ParameterList;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
+import org.consulo.php.lang.psi.PhpStubElements;
 import com.intellij.psi.tree.IElementType;
 
 /**
@@ -22,14 +22,12 @@ public class ClassMethod implements PhpTokenTypes
 		IsReference.parse(builder);
 		builder.match(IDENTIFIER);
 
-		builder.match(chLPAREN);
 		ParameterList.parse(builder);
-		builder.match(chRPAREN);
 
 		if(builder.getTokenType() == opSEMICOLON)
 		{
 			builder.advanceLexer();
-			return PhpElementTypes.FUNCTION;
+			return PhpStubElements.FUNCTION;
 		}
 		builder.match(chLBRACE);
 		StatementList.parse(builder, chRBRACE);
@@ -37,6 +35,6 @@ public class ClassMethod implements PhpTokenTypes
 
 		builder.compareAndEat(opSEMICOLON);
 
-		return PhpElementTypes.FUNCTION;
+		return PhpStubElements.FUNCTION;
 	}
 }

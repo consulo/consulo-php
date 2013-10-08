@@ -2,6 +2,8 @@ package org.consulo.php.lang.psi.impl;
 
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpGroup;
+import org.consulo.php.lang.psi.PhpStubElements;
+import org.consulo.php.lang.psi.impl.stub.PhpGroupStub;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
@@ -13,11 +15,16 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date May 9, 2008 5:12:53 PM
  */
-public class PhpGroupImpl extends PhpElementImpl implements PhpGroup
+public class PhpGroupImpl extends PhpStubbedElementImpl<PhpGroupStub> implements PhpGroup
 {
 	public PhpGroupImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	public PhpGroupImpl(@NotNull PhpGroupStub stub)
+	{
+		super(stub, PhpStubElements.GROUP);
 	}
 
 	@Override

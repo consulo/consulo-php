@@ -2,32 +2,34 @@ package org.consulo.php.lang.psi.impl.stub;
 
 import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpStubElements;
-import com.intellij.psi.stubs.StubBase;
+import com.intellij.psi.stubs.NamedStubBase;
 import com.intellij.psi.stubs.StubElement;
+import com.intellij.util.io.StringRef;
 
 /**
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpClassStub extends StubBase<PhpClass>
+public class PhpClassStub extends NamedStubBase<PhpClass>
 {
-	private final String myNamespace;
-	private final String myName;
+	private final StringRef myNamespace;
 
 	public PhpClassStub(StubElement parent, String namespace, String name)
 	{
-		super(parent, PhpStubElements.CLASS);
-		myNamespace = namespace;
-		myName = name;
+		super(parent, PhpStubElements.CLASS, name);
+
+		myNamespace = StringRef.fromNullableString(namespace);
 	}
 
-	public String getName()
+	public PhpClassStub(StubElement parent, StringRef namespace, StringRef name)
 	{
-		return myName;
+		super(parent, PhpStubElements.CLASS, name);
+
+		myNamespace = namespace;
 	}
 
 	public String getNamespace()
 	{
-		return myNamespace;
+		return StringRef.toString(myNamespace);
 	}
 }
