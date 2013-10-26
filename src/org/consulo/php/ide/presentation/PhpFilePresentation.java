@@ -48,31 +48,30 @@ public class PhpFilePresentation implements ItemPresentationProvider<PhpFile>
 			{
 				return IconDescriptorUpdaters.getIcon(item, 0);
 			}
-
-			public String getPresentablePathForFile(@NotNull VirtualFile file, Project project)
-			{
-				Module module = ModuleUtil.findModuleForFile(file, project);
-				VirtualFile[] roots;
-				if(module == null)
-				{
-					roots = new VirtualFile[]{project.getBaseDir()};
-				}
-				else
-				{
-					roots = ModuleRootManager.getInstance(module).getContentRoots();
-				}
-				String location = "";
-				for(VirtualFile root : roots)
-				{
-					if(file.getUrl().startsWith(root.getUrl()))
-					{
-						location = VfsUtil.getRelativePath(file, root, File.separatorChar);
-					}
-				}
-				location = ".../" + location;
-				return location;
-			}
-
 		};
+	}
+
+	public static String getPresentablePathForFile(@NotNull VirtualFile file, Project project)
+	{
+		Module module = ModuleUtil.findModuleForFile(file, project);
+		VirtualFile[] roots;
+		if(module == null)
+		{
+			roots = new VirtualFile[]{project.getBaseDir()};
+		}
+		else
+		{
+			roots = ModuleRootManager.getInstance(module).getContentRoots();
+		}
+		String location = "";
+		for(VirtualFile root : roots)
+		{
+			if(file.getUrl().startsWith(root.getUrl()))
+			{
+				location = VfsUtil.getRelativePath(file, root, File.separatorChar);
+			}
+		}
+		location = ".../" + location;
+		return location;
 	}
 }

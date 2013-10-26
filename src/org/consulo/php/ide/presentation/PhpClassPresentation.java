@@ -5,7 +5,6 @@ import javax.swing.Icon;
 import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.module.extension.PhpModuleExtension;
-import org.consulo.php.util.PhpPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.IconDescriptorUpdaters;
@@ -85,7 +84,7 @@ public class PhpClassPresentation implements ItemPresentationProvider<PhpClass>
 						classRoot = classRoot.getParent();
 					}
 				}
-				return PhpPresentationUtil.getPresentablePathForFile(classRoot, klass.getProject());
+				return PhpFilePresentation.getPresentablePathForFile(classRoot, klass.getProject());
 			}
 		};
 	}
