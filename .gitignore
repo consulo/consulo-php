@@ -2,3 +2,5 @@
 /out
 
 /.consulo/workspace.xml
+/dep
+/stubs-generator/gen
