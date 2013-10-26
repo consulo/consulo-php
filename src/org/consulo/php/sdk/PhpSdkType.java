@@ -2,11 +2,13 @@ package org.consulo.php.sdk;
 
 import javax.swing.Icon;
 
+import org.consulo.lombok.annotations.Logger;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.PhpIcons2;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.projectRoots.AdditionalDataConfigurable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkAdditionalData;
@@ -18,12 +20,11 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
-import com.intellij.util.PathUtil;
 
 /**
  * @author Maxim
  */
+@Logger
 public class PhpSdkType extends SdkType
 {
 	public PhpSdkType()
@@ -115,19 +116,32 @@ public class PhpSdkType extends SdkType
 	{
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
 
-		String jarPathForClass = PathUtil.getJarPathForClass(PhpSdkType.class);
+		String path = PathManager.getPreInstalledPluginsPath() + "/php/stubs";
+		VirtualFile stubsDir = LocalFileSystem.getInstance().findFileByPath(path);
+		if(stubsDir == null)
+		{
+			path = PathManager.getPluginsPath() + "/php/stubs";
+			stubsDir = LocalFileSystem.getInstance().findFileByPath(path);
+		}
 
-		VirtualFile fileByPath = LocalFileSystem.getInstance().findFileByPath(jarPathForClass);
-
-		VirtualFile jarRootForLocalFile = ArchiveVfsUtil.getJarRootForLocalFile(fileByPath);
-
-		VirtualFile apiFile = jarRootForLocalFile.findFileByRelativePath("/sdk/php-api5.3.php");
-
-		sdkModificator.addRoot(apiFile, OrderRootType.CLASSES);
-		sdkModificator.addRoot(apiFile, OrderRootType.SOURCES);
+		if(stubsDir == null)
+		{
+			LOGGER.warn("Cant find stubs for path: " + path);
+		}
+		else
+		{
+			sdkModificator.addRoot(stubsDir, OrderRootType.CLASSES);
+			sdkModificator.addRoot(stubsDir, OrderRootType.SOURCES);
+		}
 
 		sdkModificator.commitChanges();
 		return true;
+	}
+
+	@Override
+	public boolean isRootTypeApplicable(OrderRootType type)
+	{
+		return type == OrderRootType.CLASSES || type == OrderRootType.SOURCES;
 	}
 
 	@Override
