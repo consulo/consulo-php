@@ -8,14 +8,7 @@ import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.index.PhpFullFqClassIndex;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.PhpClass;
-import org.consulo.php.lang.psi.PhpClassConstantReference;
-import org.consulo.php.lang.psi.PhpClassReference;
-import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpNamespaceStatement;
-import org.consulo.php.lang.psi.PhpPackage;
-import org.consulo.php.lang.psi.PhpPsiElementFactory;
-import org.consulo.php.lang.psi.PhpUseStatement;
+import org.consulo.php.lang.psi.*;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.module.extension.PhpModuleExtension;
 import org.consulo.psi.PsiPackage;
@@ -262,6 +255,10 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		else if(parent instanceof PhpNamespaceStatement)
 		{
 			return ResolveKind.TO_NAMESPACE;
+		}
+		else if(parent instanceof PhpExtendsList || parent instanceof PhpImplementsList || parent instanceof PhpParameter)
+		{
+			return ResolveKind.TO_FQ_CLASS;
 		}
 		else if(parent instanceof PhpUseStatement || parent instanceof PhpClassConstantReference)
 		{

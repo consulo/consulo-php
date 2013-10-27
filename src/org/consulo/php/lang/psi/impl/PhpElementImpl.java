@@ -1,12 +1,9 @@
 package org.consulo.php.lang.psi.impl;
 
-import javax.swing.Icon;
-
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
@@ -34,23 +31,6 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 	public Language getLanguage()
 	{
 		return PhpLanguage.INSTANCE;
-	}
-
-	@Nullable
-	public Icon getIcon()
-	{
-		return null;
-	}
-
-	@Nullable
-	public Icon getIcon(int i)
-	{
-		Icon icon = getIcon();
-		if(icon != null)
-		{
-			return icon;
-		}
-		return null;
 	}
 
 	@Override

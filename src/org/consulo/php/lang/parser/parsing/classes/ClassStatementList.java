@@ -55,6 +55,11 @@ public class ClassStatementList implements PhpTokenTypes
 		}
 		else
 		{
+			if(builder.getTokenType() == kwVAR)
+			{
+				builder.advanceLexer();
+			}
+
 			elementType = ClassField.parse(builder);
 		}
 

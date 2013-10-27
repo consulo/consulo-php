@@ -36,62 +36,36 @@ public class ClassDeclaration implements PhpTokenTypes
 		{
 			builder.error(PhpParserErrors.expected("class name"));
 		}
-		parseClassExtends(builder);
-		parseClassImplements(builder);
+		parseTypeList(builder, kwEXTENDS, PhpElementTypes.EXTENDS_LIST);
+		parseTypeList(builder, kwIMPLEMENTS, PhpElementTypes.IMPLEMENTS_LIST);
 		parseClassStatements(builder);
 		classMarker.done(PhpElementTypes.CLASS);
 		return PhpElementTypes.CLASS;
 	}
 
-	//	extends_from:
-	//		/* empty */
-	//		| kwEXTENDS fully_qualified_class_name
-	//	;
-	private static IElementType parseClassExtends(PhpPsiBuilder builder)
-	{
-		PsiBuilder.Marker extendsMarker = builder.mark();
-		if(builder.compareAndEat(kwEXTENDS))
-		{
-			ClassReference.parse(builder);
-		}
-		extendsMarker.done(PhpElementTypes.EXTENDS_LIST);
-		return null;
-	}
-
-
-	//	implements_list:
-	//		/* empty */
-	//		| kwIMPLEMENTS interface_list
-	//	;
-	private static IElementType parseClassImplements(PhpPsiBuilder builder)
+	private static IElementType parseTypeList(PhpPsiBuilder builder, IElementType start, IElementType doneTo)
 	{
 		PsiBuilder.Marker implementsList = builder.mark();
-		if(builder.compareAndEat(kwIMPLEMENTS))
+		if(builder.compareAndEat(start))
 		{
-			parseInterfaceList(builder);
+			ParserPart2 interfaceParser = new ParserPart2()
+			{
+				@Override
+				public PsiBuilder.Marker parse(PhpPsiBuilder builder)
+				{
+					return ClassReference.parseClassNameReference(builder, null, false, false, false);
+				}
+			};
+			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);
 		}
-		implementsList.done(PhpElementTypes.IMPLEMENTS_LIST);
-		return PhpElementTypes.IMPLEMENTS_LIST;
+		implementsList.done(doneTo);
+		return doneTo;
 	}
-
 
 	private static void parseClassStatements(PhpPsiBuilder builder)
 	{
 		builder.match(chLBRACE);
 		ClassStatementList.parse(builder);
 		builder.match(chRBRACE);
-	}
-
-	private static void parseInterfaceList(PhpPsiBuilder builder)
-	{
-		ParserPart2 interfaceParser = new ParserPart2()
-		{
-			@Override
-			public PsiBuilder.Marker parse(PhpPsiBuilder builder)
-			{
-				return ClassReference.parseClassNameReference(builder, null, false, false, false);
-			}
-		};
-		ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);
 	}
 }
