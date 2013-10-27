@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.consulo.php.completion.PhpVariantsUtil;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpAssignmentExpression;
 import org.consulo.php.lang.psi.PhpCatchStatement;
@@ -208,15 +209,14 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		return false;
 	}
 
+	@NotNull
 	@Override
 	public Object[] getVariants()
 	{
 		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
 		ResolveUtil.treeWalkUp(this, processor);
 		val variants = processor.getVariants();
-		//      final List<LookupItem> list = PhpVariantsUtil.getLookupItemsForVariables(variants);
-		//      return list.toArray(new LookupItem[list.size()]);
-		return variants.toArray(new Object[variants.size()]);
+		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 
 	@Override

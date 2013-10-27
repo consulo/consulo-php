@@ -5,12 +5,8 @@ package org.consulo.php.lang.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import org.consulo.php.lang.lexer.managers.*;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NotNull;
-import gnu.trove.THashSet;
-import java.util.Arrays;
-import java.util.Set;
-import org.consulo.php.completion.PhpCompletionData;
+
 import org.consulo.php.PhpLanguageLevel;
 
 /**

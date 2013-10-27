@@ -1,7 +1,7 @@
 package org.consulo.php.lang.inspections;
 
 import org.consulo.php.PhpBundle;
-import org.consulo.php.completion.PhpCompletionData;
+import org.consulo.php.PhpConstants;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
@@ -39,7 +39,7 @@ public class PhpUndefinedVariable extends PhpInspection
 			{
 				if(variable.canReadName())
 				{
-					if(ArrayUtil.find(PhpCompletionData.superGlobals, variable.getName()) > -1 || variable.getName().equals("this") || variable.isDeclaration())
+					if(ArrayUtil.find(PhpConstants.SUPER_GLOBALS, variable.getName()) > -1 || variable.getName().equals(PhpConstants.THIS) || variable.isDeclaration())
 					{
 						return;
 					}

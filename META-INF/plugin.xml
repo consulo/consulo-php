@@ -1,15 +1,10 @@
 <idea-plugin version="2">
 	<id>org.consulo.php</id>
 	<name>PHP</name>
-	<description>
-		PHP support with refactoring
-	</description>
+	<description>PHP support with refactoring</description>
 	<vendor>Jay &amp; Consulo.org</vendor>
 	<depends>com.intellij.xml</depends>
 	<application-components>
-		<component>
-			<implementation-class>org.consulo.php.PhpSupportApplicationComponent</implementation-class>
-		</component>
 		<component>
 			<implementation-class>org.consulo.php.vfs.PharFileSystem</implementation-class>
 		</component>

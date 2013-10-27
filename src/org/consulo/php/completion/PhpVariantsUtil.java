@@ -12,6 +12,7 @@ import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpNamedElement;
 import org.consulo.php.lang.psi.PhpParameter;
 import org.consulo.php.lang.psi.PhpVariableReference;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -166,12 +167,13 @@ public class PhpVariantsUtil
 		return item;
 	}
 
-	public static List<LookupItem> getLookupItemsForVariables(List<? extends PhpElement> elements)
+	@NotNull
+	public static LookupItem[] getLookupItemsForVariables(List<? extends PhpElement> elements)
 	{
-		List<LookupItem> result = new ArrayList<LookupItem>();
-		for(PhpElement element : elements)
+		LookupItem[] result = new LookupItem[elements.size()];
+		for(int i = 0; i < result.length; i++)
 		{
-			result.add(getLookupItemForVariable(element));
+			result[i] = getLookupItemForVariable(elements.get(i));
 		}
 		return result;
 	}

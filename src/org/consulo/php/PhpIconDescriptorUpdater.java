@@ -5,6 +5,8 @@ import org.consulo.php.lang.psi.PhpClass;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpFunction;
 import org.consulo.php.lang.psi.PhpModifierListOwner;
+import org.consulo.php.lang.psi.PhpParameter;
+import org.consulo.php.lang.psi.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.IconDescriptor;
@@ -44,6 +46,16 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 			}
 
 			processModifierList(iconDescriptor, flags, (PhpModifierListOwner) element);
+		}
+		else if(element instanceof PhpVariableReference)
+		{
+			iconDescriptor.setMainIcon(AllIcons.Nodes.Variable);
+			iconDescriptor.setRightIcon(AllIcons.Nodes.C_plocal);
+		}
+		else if(element instanceof PhpParameter)
+		{
+			iconDescriptor.setMainIcon(AllIcons.Nodes.Parameter);
+			iconDescriptor.setRightIcon(AllIcons.Nodes.C_plocal);
 		}
 		else if(element instanceof PhpFunction)
 		{

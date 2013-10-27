@@ -21,6 +21,10 @@
     <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Profile " />
-    <method />
+    <method>
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="plugin" />
+      </option>
+    </method>
   </configuration>
 </component>
