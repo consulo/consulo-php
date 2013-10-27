@@ -2,6 +2,7 @@ package org.consulo.php.lang.parser.parsing;
 
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
+import org.consulo.php.lang.parser.parsing.classes.ClassConstant;
 import org.consulo.php.lang.parser.parsing.classes.ClassDeclaration;
 import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.functions.Function;
@@ -93,10 +94,17 @@ public class StatementList implements PhpTokenTypes
 		}
 
 		IElementType parsed = Function.parse(builder);
+
+		if(parsed == PhpElementTypes.EMPTY_INPUT)
+		{
+			parsed = ClassConstant.parse(builder);
+		}
+
 		if(parsed == PhpElementTypes.EMPTY_INPUT)
 		{
 			parsed = ClassDeclaration.parse(builder);
 		}
+
 		if(parsed == PhpElementTypes.EMPTY_INPUT)
 		{
 			parsed = Statement.parse(builder);
