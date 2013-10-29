@@ -1,5 +1,9 @@
 package org.consulo.php.sdk;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.Icon;
 
 import org.consulo.lombok.annotations.Logger;
@@ -8,6 +12,9 @@ import org.consulo.php.PhpIcons2;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.execution.ExecutionException;
+import com.intellij.execution.process.ProcessOutput;
+import com.intellij.execution.util.ExecUtil;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.projectRoots.AdditionalDataConfigurable;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -18,7 +25,6 @@ import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 
 /**
@@ -27,6 +33,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 @Logger
 public class PhpSdkType extends SdkType
 {
+	public static String getExecutableFile(String home)
+	{
+		return home + File.separator + (SystemInfo.isWindows ? "php.exe" : "php");
+	}
+
 	public PhpSdkType()
 	{
 		super("PHP SDK");
@@ -46,33 +57,31 @@ public class PhpSdkType extends SdkType
 	@Override
 	public boolean isValidSdkHome(String path)
 	{
-		final VirtualFile file = VfsUtil.findRelativeFile(path, null);
-		return isValidPhpSdkHomeDirectory(file);
+		return new File(getExecutableFile(path)).exists();
 	}
 
-	public static boolean isValidPhpSdkHomeDirectory(VirtualFile file)
+	public static String getVersion(String home)
 	{
-		boolean correctHome = false;
-
-		for(VirtualFile child : file.getChildren())
+		List<String> args = new ArrayList<String>(2);
+		args.add(getExecutableFile(home));
+		args.add("--version");
+		try
 		{
-			if(child.getNameWithoutExtension().equals("php"))
-			{
-				if((SystemInfo.isWindows && "exe".equals(child.getExtension())) || (!SystemInfo.isWindows && child.getExtension() == null))
-				{
-					correctHome = true;
-					break;
-				}
-			}
+			ProcessOutput processOutput = ExecUtil.execAndGetOutput(args, home);
+			List<String> stdoutLines = processOutput.getStdoutLines();
+			return !stdoutLines.isEmpty() ? stdoutLines.get(0) : null;
 		}
-		return correctHome;
+		catch(ExecutionException e)
+		{
+			return null;
+		}
 	}
 
 	@Nullable
 	@Override
 	public String getVersionString(String s)
 	{
-		return "5.3";
+		return getVersion(s);
 	}
 
 	@Override
@@ -87,12 +96,6 @@ public class PhpSdkType extends SdkType
 		return null;
 	}
 
-	@Nullable
-	public static String getExecutablePath(Sdk sdk)
-	{
-		return sdk.getHomePath() + "php" + (SystemInfo.isWindows ? ".exe" : "");
-	}
-
 	@Override
 	public void saveAdditionalData(SdkAdditionalData additionalData, Element additional)
 	{
@@ -104,7 +107,6 @@ public class PhpSdkType extends SdkType
 	{
 		return PhpBundle.message("php.sdk.type.name");
 	}
-
 
 	public static PhpSdkType getInstance()
 	{
