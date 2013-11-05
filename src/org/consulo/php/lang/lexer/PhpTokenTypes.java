@@ -54,7 +54,7 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType kwFUNCTION = new PhpElementType("function");
 	IElementType kwNEW = new PhpElementType("new");
 	IElementType kwINSTANCEOF = new PhpElementType("instanceof");
-	IElementType kwCONST = new PhpElementType("const");
+	IElementType kwCONST = new PhpElementType("CONST_KEYWORD");
 	IElementType kwLIST = new PhpElementType("list");
 	IElementType kwIMPLEMENTS = new PhpElementType("implements");
 	IElementType kwEVAL = new PhpElementType("eval");

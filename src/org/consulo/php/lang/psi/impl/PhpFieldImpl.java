@@ -6,7 +6,9 @@ import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpModifierList;
 import org.consulo.php.lang.psi.PhpPsiElementFactory;
+import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.PhpVariableReference;
+import org.consulo.php.lang.psi.impl.stub.PhpFieldStub;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +23,16 @@ import com.intellij.util.IncorrectOperationException;
  * @author jay
  * @date May 5, 2008 9:12:10 AM
  */
-public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
+public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> implements PhpField
 {
 	public PhpFieldImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	public PhpFieldImpl(@NotNull PhpFieldStub stub)
+	{
+		super(stub, PhpStubElements.FIELD);
 	}
 
 	@Override
@@ -43,6 +50,11 @@ public class PhpFieldImpl extends PhpNamedElementImpl implements PhpField
 	@Override
 	public String getName()
 	{
+		PhpFieldStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.getName();
+		}
 		PsiElement nameIdentifier = getNameIdentifier();
 		if(nameIdentifier != null)
 		{

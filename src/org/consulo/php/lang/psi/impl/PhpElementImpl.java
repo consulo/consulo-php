@@ -57,7 +57,24 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 	@Override
 	public PhpElement getFirstPsiChild()
 	{
-		PsiElement[] children = getChildren();
+		return getFirstPsiChild(this);
+	}
+
+	@Override
+	public PhpElement getNextPsiSibling()
+	{
+		return getNextPsiSibling(this);
+	}
+
+	@Override
+	public PhpElement getPrevPsiSibling()
+	{
+		return getPrevPsiSibling(this);
+	}
+
+	public static PhpElement getFirstPsiChild(PsiElement element)
+	{
+		PsiElement[] children = element.getChildren();
 		if(children.length > 0)
 		{
 			if(children[0] instanceof PhpElement)
@@ -68,15 +85,14 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 		return null;
 	}
 
-	@Override
-	public PhpElement getNextPsiSibling()
+	public static PhpElement getNextPsiSibling(PsiElement element)
 	{
-		PsiElement[] children = getParent().getChildren();
+		PsiElement[] children = element.getParent().getChildren();
 		PhpElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
-			if(child == this && children.length > i + 1)
+			if(child == element && children.length > i + 1)
 			{
 				if(children[i + 1] instanceof PhpElement)
 				{
@@ -88,15 +104,14 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 		return nextSibling;
 	}
 
-	@Override
-	public PhpElement getPrevPsiSibling()
+	public static PhpElement getPrevPsiSibling(PsiElement element)
 	{
-		PsiElement[] children = getParent().getChildren();
+		PsiElement[] children = element.getParent().getChildren();
 		PhpElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
-			if(child == this && i > 0)
+			if(child == element && i > 0)
 			{
 				if(children[i - 1] instanceof PhpElement)
 				{

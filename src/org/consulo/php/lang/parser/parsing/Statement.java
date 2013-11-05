@@ -5,7 +5,6 @@ import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.parser.parsing.expressions.Expression;
 import org.consulo.php.lang.parser.parsing.statements.*;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.consulo.php.lang.psi.PhpStubElements;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
@@ -61,7 +60,7 @@ public class Statement implements PhpTokenTypes
 		{
 			StatementList.parse(builder, chRBRACE);
 			builder.match(chRBRACE);
-			return PhpStubElements.GROUP;
+			return PhpElementTypes.GROUP_STATEMENT;
 		}
 		//		HTML
 		if(builder.compare(TokenSet.create(HTML, PHP_CLOSING_TAG)))

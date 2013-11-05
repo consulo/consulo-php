@@ -6,6 +6,7 @@ import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IElementTypeAsPsiFactory;
+import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.psi.tree.TokenSet;
 
 /**
@@ -15,12 +16,13 @@ import com.intellij.psi.tree.TokenSet;
  *
  * @author jay
  */
-public interface PhpElementTypes extends PhpStubElements
+public interface PhpElementTypes
 {
 	IElementType EMPTY_INPUT = new PhpElementType("Unrecognised input");
 
 	IElementType HTML = new PhpElementType("HTML");
 
+	IElementType GROUP_STATEMENT = new ILazyParseableElementType("GROUP_STATEMENT", PhpLanguage.INSTANCE);
 	IElementType STATEMENT = new IElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
 	IElementType PARAMETER_LIST = new IElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = new IElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
@@ -87,9 +89,11 @@ public interface PhpElementTypes extends PhpStubElements
 	IElementType EXTENDS_LIST = new PhpElementType("Extends list");
 
 	IElementType IMPLEMENTS_LIST = new PhpElementType("Implements list");
-	IElementType CLASS_CONSTANT = new IElementTypeAsPsiFactory("CLASS_CONSTANT", PhpLanguage.INSTANCE, PhpFieldImpl.class);
+	IElementType CLASS_CONSTANT = PhpStubElements.FIELD;
 
-	IElementType CLASS_FIELD = new IElementTypeAsPsiFactory("FIELD", PhpLanguage.INSTANCE, PhpFieldImpl.class);
+	IElementType CLASS = PhpStubElements.CLASS;
+	IElementType FUNCTION = PhpStubElements.FUNCTION;
+	IElementType CLASS_FIELD = PhpStubElements.FIELD;
 	IElementType SWITCH = new PhpElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PhpElementType("Default case");
 	IElementType CASE = new PhpElementType("Case");

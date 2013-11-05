@@ -24,19 +24,20 @@ public class ClassField implements PhpTokenTypes
 	//		| VARIABLE_REFERENCE
 	//		| VARIABLE_REFERENCE '=' static_scalar
 	//	;
-	public static IElementType parse(PhpPsiBuilder builder)
+	public static IElementType parse(PhpPsiBuilder builder, final boolean constValue)
 	{
 		ParserPart fieldParser = new ParserPart()
 		{
 			@Override
 			public IElementType parse(PhpPsiBuilder builder)
 			{
-				if(!builder.compare(VARIABLE))
+				IElementType type = constValue ? IDENTIFIER : VARIABLE;
+				if(!builder.compare(type))
 				{
 					return PhpElementTypes.EMPTY_INPUT;
 				}
 
-				builder.match(VARIABLE);
+				builder.match(type);
 				if(builder.compareAndEat(opASGN))
 				{
 					StaticScalar.parse(builder);

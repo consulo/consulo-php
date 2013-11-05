@@ -1,5 +1,6 @@
 package org.consulo.php.lang.psi;
 
+import org.consulo.lombok.annotations.ArrayFactoryFields;
 import com.intellij.psi.PsiElement;
 
 /**
@@ -9,6 +10,7 @@ import com.intellij.psi.PsiElement;
  *
  * @author jay
  */
+@ArrayFactoryFields
 public interface PhpElement extends PsiElement
 {
 	PhpElement getFirstPsiChild();

@@ -1,36 +1,38 @@
 package org.consulo.php.lang.psi.impl;
 
+import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.PhpElement;
-import org.consulo.php.lang.psi.PhpGroup;
-import org.consulo.php.lang.psi.PhpStubElements;
-import org.consulo.php.lang.psi.impl.stub.PhpGroupStub;
+import org.consulo.php.lang.psi.PhpGroupStatement;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
+import com.intellij.psi.impl.source.tree.LazyParseablePsiElement;
 import com.intellij.psi.scope.PsiScopeProcessor;
 
 /**
  * @author jay
  * @date May 9, 2008 5:12:53 PM
  */
-public class PhpGroupImpl extends PhpStubbedElementImpl<PhpGroupStub> implements PhpGroup
+public class PhpGroupStatementImpl extends LazyParseablePsiElement implements PhpGroupStatement
 {
-	public PhpGroupImpl(ASTNode node)
+	public PhpGroupStatementImpl(CharSequence buffer)
 	{
-		super(node);
-	}
-
-	public PhpGroupImpl(@NotNull PhpGroupStub stub)
-	{
-		super(stub, PhpStubElements.GROUP);
+		super(PhpElementTypes.GROUP_STATEMENT, buffer);
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public final void accept(@NotNull final PsiElementVisitor visitor)
 	{
-		visitor.visitPhpElement(this);
+		if(visitor instanceof PhpElementVisitor)
+		{
+			((PhpElementVisitor) visitor).visitPhpElement(this);
+		}
+		else
+		{
+			super.accept(visitor);
+		}
 	}
 
 	@Override
@@ -68,4 +70,21 @@ public class PhpGroupImpl extends PhpStubbedElementImpl<PhpGroupStub> implements
 		return super.processDeclarations(processor, state, lastParent, source);
 	}
 
+	@Override
+	public PhpElement getFirstPsiChild()
+	{
+		return PhpElementImpl.getFirstPsiChild(this);
+	}
+
+	@Override
+	public PhpElement getNextPsiSibling()
+	{
+		return PhpElementImpl.getNextPsiSibling(this);
+	}
+
+	@Override
+	public PhpElement getPrevPsiSibling()
+	{
+		return PhpElementImpl.getPrevPsiSibling(this);
+	}
 }

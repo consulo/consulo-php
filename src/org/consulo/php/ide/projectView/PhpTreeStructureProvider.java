@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpFile;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.projectView.SelectableTreeStructureProvider;
@@ -66,14 +67,8 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 			FileType fileType = file.getFileType();
 			if(fileType == PhpFileType.INSTANCE)
 			{
-				boolean b = true;
-				PhpClass[] classes = file.getClasses();
-
-				b &= classes.length == 1;
-				b &= file.getFields().length == 0;
-				b &= file.getFunctions().length == 0;
-
-				return b ? file.getClasses()[0] : null;
+				PhpElement[] topLevelElements = file.getTopLevelElements();
+				return topLevelElements.length == 1 && topLevelElements[0] instanceof PhpClass ? (PhpClass) topLevelElements[0] : null;
 			}
 		}
 		return null;

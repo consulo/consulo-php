@@ -7,8 +7,8 @@ import com.intellij.psi.PsiFile;
  * @author VISTALL
  * @since 19.09.13.
  */
-public interface PhpFile extends PsiFile, PhpElement, PhpMemberHolder
+public interface PhpFile extends PsiFile, PhpElement
 {
 	@NotNull
-	PhpGroup[] getGroups();
+	PhpElement[] getTopLevelElements();
 }

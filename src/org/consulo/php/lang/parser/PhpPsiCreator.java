@@ -83,10 +83,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpGlobalImpl(node);
 		}
-		if(type == CLASS_FIELD)
-		{
-			return new PhpFieldImpl(node);
-		}
+
 		if(type == IF)
 		{
 			return new PhpIfStatementImpl(node);

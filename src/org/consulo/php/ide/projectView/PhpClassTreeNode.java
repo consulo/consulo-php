@@ -1,15 +1,19 @@
 package org.consulo.php.ide.projectView;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpElement;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.util.ArrayUtil;
 
 /**
  * @author VISTALL
@@ -45,7 +49,10 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass>
 		}
 		PhpClass value = getValue();
 
-		return PhpFileTreeNode.fillToTreeNodes(value, getSettings());
+		List<PhpElement> list = new ArrayList<PhpElement>();
+		Collections.addAll(list, value.getFields());
+		Collections.addAll(list, value.getFunctions());
+		return PhpFileTreeNode.fillToTreeNodes(ArrayUtil.toObjectArray(list, PhpElement.class), getSettings());
 	}
 
 	@Override

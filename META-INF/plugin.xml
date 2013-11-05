@@ -40,6 +40,8 @@
 		<internalFileTemplate name="Php Trait"/>
 		<lang.elementIcon language="PHP" file="/icons/phpLang.png" />
 
+		<lang.ast.lazyFactory implementation="org.consulo.php.lang.PhpAstLazyFactory" />
+
 		<highlightVisitor implementation="org.consulo.php.codeInsight.highlight.PhpHighlightVisitor" />
 		<iconDescriptorUpdater implementation="org.consulo.php.PhpIconDescriptorUpdater" order="before default"/>
 		<treeStructureProvider implementation="org.consulo.php.ide.projectView.PhpTreeStructureProvider" />

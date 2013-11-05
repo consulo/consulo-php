@@ -98,10 +98,18 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 					builder.append(((PhpPackage) resolve).getQualifiedName());
 					builder.append(".");
 				}
+				else
+				{
+					String text = getText();
+					if(text.length() > 0 && text.charAt(0) != '\\')
+					{
+
+					}
+				}
 
 				builder.append(name);
 
-				String packageName = builder.toString().replace(" ", "");
+				String packageName = builder.toString();
 
 				PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
 				if(aPackage != null)
@@ -256,15 +264,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		{
 			return ResolveKind.TO_NAMESPACE;
 		}
-		else if(parent instanceof PhpExtendsList || parent instanceof PhpImplementsList || parent instanceof PhpParameter)
-		{
-			return ResolveKind.TO_FQ_CLASS;
-		}
-		else if(parent instanceof PhpUseStatement || parent instanceof PhpClassConstantReference)
-		{
-			return ResolveKind.TO_FQ_CLASS;
-		}
-		return ResolveKind.TO_UNKNOWN;
+
+		return ResolveKind.TO_FQ_CLASS;
 	}
 
 	@Override

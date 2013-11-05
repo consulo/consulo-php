@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpFile;
 import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpMemberHolder;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
@@ -22,20 +22,23 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
  */
 public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 {
-	public static List<AbstractTreeNode> fillToTreeNodes(PhpMemberHolder memberHolder, ViewSettings settings)
+	public static List<AbstractTreeNode> fillToTreeNodes(PhpElement[] elements, ViewSettings settings)
 	{
-		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
-		for(PhpClass phpClass : memberHolder.getClasses())
+		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>(elements.length);
+		for(PhpElement element : elements)
 		{
-			list.add(new PhpClassTreeNode(phpClass, settings));
-		}
-		for(PhpFunction phpMethod : memberHolder.getFunctions())
-		{
-			list.add(new PhpFunctionTreeNode(phpMethod, settings));
-		}
-		for(PhpField phpField : memberHolder.getFields())
-		{
-			list.add(new PhpFieldTreeNode(phpField, settings));
+			if(element instanceof PhpField)
+			{
+				list.add(new PhpFieldTreeNode((PhpField) element, settings));
+			}
+			else if(element instanceof PhpClass)
+			{
+				list.add(new PhpClassTreeNode((PhpClass) element, settings));
+			}
+			else if(element instanceof PhpFunction)
+			{
+				list.add(new PhpFunctionTreeNode((PhpFunction) element, settings));
+			}
 		}
 		return list.isEmpty() ? Collections.<AbstractTreeNode>emptyList() : list;
 	}
@@ -68,7 +71,7 @@ public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 		}
 		PhpFile value = getValue();
 
-		return fillToTreeNodes(value, getSettings());
+		return fillToTreeNodes(value.getTopLevelElements(), getSettings());
 	}
 
 	@Override

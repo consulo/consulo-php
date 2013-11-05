@@ -8,7 +8,6 @@ import org.consulo.php.lang.parser.parsing.classes.ClassReference;
 import org.consulo.php.lang.parser.parsing.functions.Function;
 import org.consulo.php.lang.parser.util.PhpParserErrors;
 import org.consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.consulo.php.lang.psi.PhpStubElements;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
@@ -69,7 +68,7 @@ public class StatementList implements PhpTokenTypes
 			}
 		}
 
-		statementList.done(PhpStubElements.GROUP);
+		statementList.done(PhpElementTypes.GROUP_STATEMENT);
 	}
 
 	private static boolean parseTopStatement(PhpPsiBuilder builder)

@@ -45,22 +45,20 @@ public class ClassStatementList implements PhpTokenTypes
 		ClassMemberModifiers.parseModifiers(builder);
 
 		IElementType elementType = null;
-		if(builder.getTokenType() == kwCONST)
-		{
-			elementType = ClassConstant.parse(builder);
-		}
-		else if(builder.getTokenType() == kwFUNCTION)
+
+		IElementType tokenType = builder.getTokenType();
+		if(tokenType == kwFUNCTION)
 		{
 			elementType = ClassMethod.parseFunction(builder);
 		}
 		else
 		{
-			if(builder.getTokenType() == kwVAR)
+			if(tokenType == kwVAR || tokenType == kwCONST)
 			{
 				builder.advanceLexer();
 			}
 
-			elementType = ClassField.parse(builder);
+			elementType = ClassField.parse(builder, tokenType == kwCONST);
 		}
 
 		if(elementType != PhpElementTypes.EMPTY_INPUT)

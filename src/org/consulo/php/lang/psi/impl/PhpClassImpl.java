@@ -40,13 +40,6 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		return findChildrenByClass(PhpField.class);
 	}
 
-	@NotNull
-	@Override
-	public PhpClass[] getClasses()
-	{
-		return findChildrenByClass(PhpClass.class);
-	}
-
 	@Override
 	@NotNull
 	public PhpFunction[] getFunctions()

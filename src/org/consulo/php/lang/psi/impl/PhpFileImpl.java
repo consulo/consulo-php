@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi.impl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.consulo.php.lang.PhpFileType;
 import org.consulo.php.lang.PhpLanguage;
@@ -9,9 +9,8 @@ import org.consulo.php.lang.psi.PhpElement;
 import org.consulo.php.lang.psi.PhpField;
 import org.consulo.php.lang.psi.PhpFile;
 import org.consulo.php.lang.psi.PhpFunction;
-import org.consulo.php.lang.psi.PhpGroup;
-import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
@@ -20,8 +19,8 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.SmartList;
+import com.intellij.util.ArrayUtil;
+import lombok.val;
 
 /**
  * Created by IntelliJ IDEA.
@@ -91,82 +90,38 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@NotNull
 	@Override
-	public PhpClass[] getClasses()
+	public PhpElement[] getTopLevelElements()
 	{
-		PhpGroup[] groups = getGroups();
-		if(groups.length == 0)
+		val phpElementList = new ArrayList<PhpElement>();
+		accept(new PhpRecursiveElementVisitor()
 		{
-			return PhpClass.EMPTY_ARRAY;
-		}
-		List<PhpClass> list = new SmartList<PhpClass>();
-		for(PhpGroup group : groups)
-		{
-			for(PsiElement psiElement : group.getStatements())
+			@Override
+			public void visitClass(PhpClass phpClass)
 			{
-				if(psiElement instanceof PhpClass)
+				if(phpClass.getParent().getParent() == PhpFileImpl.this)
 				{
-					list.add((PhpClass) psiElement);
+					phpElementList.add(phpClass);
 				}
 			}
-		}
-		return list.isEmpty() ? PhpClass.EMPTY_ARRAY : list.toArray(new PhpClass[list.size()]);
-	}
 
-	@NotNull
-	@Override
-	public PhpFunction[] getFunctions()
-	{
-		PhpGroup[] groups = getGroups();
-		if(groups.length == 0)
-		{
-			return PhpFunction.EMPTY_ARRAY;
-		}
-		List<PhpFunction> list = new SmartList<PhpFunction>();
-		for(PhpGroup group : groups)
-		{
-			for(PsiElement psiElement : group.getStatements())
+			@Override
+			public void visitField(PhpField phpField)
 			{
-				if(psiElement instanceof PhpFunction)
+				if(phpField.getParent().getParent() == PhpFileImpl.this)
 				{
-					list.add((PhpFunction) psiElement);
+					phpElementList.add(phpField);
 				}
 			}
-		}
-		return list.isEmpty() ? PhpFunction.EMPTY_ARRAY : list.toArray(new PhpFunction[list.size()]);
-	}
 
-	@NotNull
-	@Override
-	public PhpField[] getFields()
-	{
-		PhpGroup[] groups = getGroups();
-		if(groups.length == 0)
-		{
-			return PhpField.EMPTY_ARRAY;
-		}
-		List<PhpField> list = new SmartList<PhpField>();
-		for(PhpGroup group : groups)
-		{
-			for(PsiElement psiElement : group.getStatements())
+			@Override
+			public void visitFunction(PhpFunction phpFunction)
 			{
-				if(psiElement instanceof PhpField)
+				if(phpFunction.getParent().getParent() == PhpFileImpl.this)
 				{
-					list.add((PhpField) psiElement);
+					phpElementList.add(phpFunction);
 				}
 			}
-		}
-		return list.isEmpty() ? PhpField.EMPTY_ARRAY : list.toArray(new PhpField[list.size()]);
-	}
-
-	@NotNull
-	@Override
-	public PhpGroup[] getGroups()
-	{
-		StubElement<?> stub = getStub();
-		if(stub != null)
-		{
-			return stub.getChildrenByType(PhpStubElements.GROUP, PhpGroup.ARRAY_FACTORY);
-		}
-		return findChildrenByClass(PhpGroup.class);
+		});
+		return ArrayUtil.toObjectArray(phpElementList, PhpElement.class);
 	}
 }
