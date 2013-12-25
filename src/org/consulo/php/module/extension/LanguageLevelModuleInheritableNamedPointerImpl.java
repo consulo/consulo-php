@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import lombok.val;
 
 /**
  * @author VISTALL
@@ -17,20 +18,18 @@ import com.intellij.openapi.project.Project;
  */
 public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheritableNamedPointerImpl<PhpLanguageLevel>
 {
-	private final Class<PhpModuleExtension> myExtensionClass;
+	private final String myKey;
 
 	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull Project project, @NotNull String id)
 	{
 		super(project, "language-level");
-		final ModuleExtensionProvider<?, ?> provider = ModuleExtensionProviderEP.findProvider(id);
-		assert provider != null;
-		myExtensionClass = (Class<PhpModuleExtension>) provider.getImmutableClass();
+		myKey = id;
 	}
 
 	@Override
 	public String getItemNameFromModule(@NotNull Module module)
 	{
-		final PhpModuleExtension extension = ModuleUtilCore.getExtension(module, myExtensionClass);
+		val extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
 			return extension.getLanguageLevel().getName();
@@ -41,7 +40,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public PhpLanguageLevel getItemFromModule(@NotNull Module module)
 	{
-		final PhpModuleExtension extension = ModuleUtilCore.getExtension(module, myExtensionClass);
+		val extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
 			return extension.getLanguageLevel();

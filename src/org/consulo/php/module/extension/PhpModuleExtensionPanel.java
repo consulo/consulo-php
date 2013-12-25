@@ -8,8 +8,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import org.consulo.module.extension.ModuleExtension;
-import org.consulo.module.extension.ModuleExtensionProvider;
-import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.consulo.module.extension.ModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
 import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
@@ -130,12 +128,6 @@ public class PhpModuleExtensionPanel extends JPanel
 
 	public void insertModuleItems()
 	{
-		final ModuleExtensionProvider provider = ModuleExtensionProviderEP.findProvider(myMutableModuleExtension.getId());
-		if(provider == null)
-		{
-			return;
-		}
-
 		for(Module module : ModuleManager.getInstance(myMutableModuleExtension.getModule().getProject()).getModules())
 		{
 			// dont add self module
@@ -144,7 +136,7 @@ public class PhpModuleExtensionPanel extends JPanel
 				continue;
 			}
 
-			final ModuleExtension extension = ModuleUtilCore.getExtension(module, provider.getImmutableClass());
+			final ModuleExtension extension = ModuleUtilCore.getExtension(module, myMutableModuleExtension.getId());
 			if(extension instanceof ModuleExtensionWithSdk)
 			{
 				final ModuleExtensionWithSdk sdkExtension = (ModuleExtensionWithSdk) extension;

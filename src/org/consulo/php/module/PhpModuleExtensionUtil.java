@@ -27,7 +27,7 @@ public class PhpModuleExtensionUtil
 				continue;
 			}
 
-			ModuleExtension extension = ModuleUtilCore.getExtension(module, ep.getInstance().getImmutableClass());
+			ModuleExtension extension = ModuleUtilCore.getExtension(module, ep.getKey());
 			if(extension != null && !(extension instanceof PhpModuleExtension))
 			{
 				return false;
