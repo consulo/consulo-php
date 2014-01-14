@@ -30,13 +30,6 @@ public class PhpModuleExtensionProvider implements ModuleExtensionProvider<PhpMo
 
 	@NotNull
 	@Override
-	public Class<PhpModuleExtension> getImmutableClass()
-	{
-		return PhpModuleExtension.class;
-	}
-
-	@NotNull
-	@Override
 	public PhpModuleExtension createImmutable(@NotNull String s, @NotNull Module module)
 	{
 		return new PhpModuleExtension(s, module);
