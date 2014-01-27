@@ -17,13 +17,9 @@ import com.intellij.openapi.roots.ModifiableRootModel;
  */
 public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
 {
-	private PhpModuleExtension myOriginalExtension;
-
-	public PhpMutableModuleExtension(@NotNull String id, @NotNull Module module, PhpModuleExtension originalExtension)
+	public PhpMutableModuleExtension(@NotNull String id, @NotNull Module module)
 	{
 		super(id, module);
-		myOriginalExtension = originalExtension;
-		commit(originalExtension);
 	}
 
 	@NotNull
@@ -54,14 +50,8 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	}
 
 	@Override
-	public boolean isModified()
+	public boolean isModified(@NotNull PhpModuleExtension extension)
 	{
-		return isModifiedImpl(myOriginalExtension) || !myOriginalExtension.getInheritableLanguageLevel().equals(getInheritableLanguageLevel());
-	}
-
-	@Override
-	public void commit()
-	{
-		myOriginalExtension.commit(this);
+		return isModifiedImpl(extension) || !extension.getInheritableLanguageLevel().equals(getInheritableLanguageLevel());
 	}
 }

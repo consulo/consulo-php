@@ -37,8 +37,8 @@ public class PhpModuleExtensionProvider implements ModuleExtensionProvider<PhpMo
 
 	@NotNull
 	@Override
-	public PhpMutableModuleExtension createMutable(@NotNull String s, @NotNull Module module, @NotNull PhpModuleExtension phpModuleExtension)
+	public PhpMutableModuleExtension createMutable(@NotNull String s, @NotNull Module module)
 	{
-		return new PhpMutableModuleExtension(s, module, phpModuleExtension);
+		return new PhpMutableModuleExtension(s, module);
 	}
 }
