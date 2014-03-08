@@ -1,7 +1,5 @@
 package org.consulo.php.module.extension;
 
-import org.consulo.module.extension.ModuleExtensionProvider;
-import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
 import org.consulo.php.PhpLanguageLevel;
 import org.consulo.util.pointers.NamedPointer;

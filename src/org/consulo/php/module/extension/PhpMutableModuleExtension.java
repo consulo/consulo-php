@@ -17,7 +17,7 @@ import com.intellij.openapi.roots.ModifiableRootModel;
  */
 public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
 {
-	public PhpMutableModuleExtension(@NotNull String id, @NotNull Module module)
+	public PhpMutableModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
 	{
 		super(id, module);
 	}
@@ -38,7 +38,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 
 	@Nullable
 	@Override
-	public JComponent createConfigurablePanel(@NotNull ModifiableRootModel modifiableRootModel, @Nullable Runnable runnable)
+	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
 	{
 		return new PhpModuleExtensionPanel(this, runnable);
 	}

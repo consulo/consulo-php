@@ -28,7 +28,12 @@
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<moduleExtensionProvider key="php" allow-mixin="true" implementationClass="org.consulo.php.module.extension.PhpModuleExtensionProvider"/>
+		<moduleExtensionProvider key="php"
+								 allowMixin="true"
+								 icon="/icons/fileTypes/php.png"
+								 name="PHP"
+								 immutableClass="org.consulo.php.module.extension.PhpModuleExtension"
+								 mutableClass="org.consulo.php.module.extension.PhpMutableModuleExtension"/>
 		<fileTypeFactory implementation="org.consulo.php.lang.PhpFileTypeFactory"/>
 		<fileTypeDetector implementation="org.consulo.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="org.consulo.php.PhpXmlFileNSInfoProvider"/>
