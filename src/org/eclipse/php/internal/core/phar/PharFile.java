@@ -24,11 +24,14 @@ import java.util.Map;
 import org.eclipse.php.internal.core.phar.streams.CBZip2InputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.GZIPInputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.PharEntryBufferedRandomInputStream;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.vfs.ArchiveEntry;
+import com.intellij.openapi.vfs.ArchiveFile;
 
-public class PharFile
+public class PharFile implements ArchiveFile
 {
-
-	private File file;
+	private final File file;
 	private int currentIndex;
 	private int manifestLength;
 	private int fileNumber;
@@ -43,49 +46,12 @@ public class PharFile
 	private Map<String, PharEntry> pharEntryMap = new HashMap<String, PharEntry>();
 	private List<Integer> bytesAfterStub;
 	private BufferedInputStream bis;
-	private PharEntry stubEntry;
-	private PharEntry signatureEntry;
-
-	public PharFile(PharFile oldPharFile, File file) throws IOException, PharException
-	{
-		this.file = file;
-
-		if(oldPharFile != null && oldPharFile.file.equals(file))
-		{
-			copyProperties(oldPharFile);
-		}
-		else
-		{
-			init();
-		}
-
-		// initManifest();
-
-	}
 
 	public PharFile(File file) throws IOException, PharException
 	{
-		this(null, file);
-	}
+		this.file = file;
 
-	private void copyProperties(PharFile oldPharFile)
-	{
-		this.currentIndex = oldPharFile.currentIndex;
-		this.manifestLength = oldPharFile.manifestLength;
-		this.fileNumber = oldPharFile.fileNumber;
-		this.stubLength = oldPharFile.stubLength;
-		this.version = oldPharFile.version;
-		this.hasSignature = oldPharFile.hasSignature;
-		this.hasZlibcompression = oldPharFile.hasZlibcompression;
-		this.hasBzipcompression = oldPharFile.hasBzipcompression;
-		this.alias = oldPharFile.alias;
-		this.metadata = oldPharFile.metadata;
-
-		this.pharEntryList = oldPharFile.pharEntryList;
-		this.pharEntryMap = oldPharFile.pharEntryMap;
-		// this.bytesAfterStub = oldPharFile.bytesAfterStub;
-		this.stubEntry = oldPharFile.stubEntry;
-		this.signatureEntry = oldPharFile.signatureEntry;
+		init();
 	}
 
 	protected void init() throws IOException, PharException
@@ -101,7 +67,6 @@ public class PharFile
 		{
 			bis.close();
 		}
-
 	}
 
 	protected void getEntries() throws IOException, PharException
@@ -175,7 +140,7 @@ public class PharFile
 
 		}
 
-		stubEntry = new PharEntry();
+		PharEntry stubEntry = new PharEntry();
 		stubEntry.setName(PharConstants.STUB_PATH);
 		// pharEntry.setSizeByte(buffer);
 		stubEntry.setSize(stubLength);
@@ -188,7 +153,7 @@ public class PharFile
 
 		if(hasSignature)
 		{
-			signatureEntry = new PharEntry();
+			PharEntry signatureEntry = new PharEntry();
 			signatureEntry.setName(PharConstants.SIGNATURE_PATH);
 			signatureEntry.setBitMappedFlag(PharConstants.Default_Entry_Bitmap);
 
@@ -460,12 +425,37 @@ public class PharFile
 	{
 	}
 
+	@Override
 	public PharEntry getEntry(String name)
 	{
 		return pharEntryMap.get(name);
 	}
 
-	public InputStream getInputStream(PharEntry pharEntry) throws IOException
+	@NotNull
+	@Override
+	public Iterator<? extends ArchiveEntry> entries()
+	{
+		return pharEntryList.iterator();
+	}
+
+	@Override
+	public int getSize()
+	{
+		return pharEntryList.size();
+	}
+
+	@Nullable
+	@Override
+	public InputStream getInputStream(ArchiveEntry archiveEntry) throws IOException
+	{
+		if(archiveEntry instanceof PharEntry)
+		{
+			return getInputStream0((PharEntry) archiveEntry);
+		}
+		return null;
+	}
+
+	private InputStream getInputStream0(PharEntry pharEntry) throws IOException
 	{
 		InputStream result = null;
 		InputStream is = new PharEntryBufferedRandomInputStream(file, pharEntry);
@@ -498,11 +488,6 @@ public class PharFile
 	public File getFile()
 	{
 		return file;
-	}
-
-	public void setFile(File file)
-	{
-		this.file = file;
 	}
 
 	public int getCurrentIndex()

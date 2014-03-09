@@ -2,7 +2,7 @@
 	<id>org.consulo.php</id>
 	<name>PHP</name>
 	<description>PHP support with refactoring</description>
-	<vendor>Jay &amp; Consulo.org</vendor>
+	<vendor>Jay &amp; must-be.org</vendor>
 	<depends>com.intellij.xml</depends>
 	<application-components>
 		<component>
@@ -38,6 +38,8 @@
 		<fileTypeDetector implementation="org.consulo.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="org.consulo.php.PhpXmlFileNSInfoProvider"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
+
+		<defaultLibraryRootDetector implementation="org.consulo.php.library.PharLibraryRootDetector" />
 
 		<internalFileTemplate name="PHP Class"/>
 		<internalFileTemplate name="PHP File"/>

@@ -3,7 +3,7 @@ package org.consulo.php.vfs;
 import java.io.File;
 
 import org.consulo.lombok.annotations.Logger;
-import org.eclipse.php.internal.core.phar.PharArchiveFile;
+import org.eclipse.php.internal.core.phar.PharFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.vfs.ArchiveFile;
@@ -30,7 +30,7 @@ public class PharHandler extends ArchiveHandlerBase
 		final File originalFile = getOriginalFile();
 		try
 		{
-			return new PharArchiveFile(getMirrorFile(originalFile));
+			return new PharFile(getMirrorFile(originalFile));
 		}
 		catch(Exception e)
 		{

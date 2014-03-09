@@ -25,8 +25,7 @@ public class PharUtil
 
 	public static ByteArrayInputStream getInputStream(byte[] signature) throws IOException
 	{
-		ByteArrayInputStream fileInput = new ByteArrayInputStream(signature);
-		return fileInput;
+		return new ByteArrayInputStream(signature);
 	}
 
 	public static byte[] getStubVersionBytes(String version)
