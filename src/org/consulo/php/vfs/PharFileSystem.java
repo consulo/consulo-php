@@ -26,12 +26,6 @@ public class PharFileSystem extends ArchiveFileSystemBase implements Application
 		return new PharHandler(archiveFileSystem, s);
 	}
 
-	@Override
-	public void setNoCopyJarForPath(String s)
-	{
-
-	}
-
 	@NotNull
 	@Override
 	public String getProtocol()
