@@ -54,6 +54,12 @@ public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 		return 0;
 	}
 
+	@Override
+	public boolean expandOnDoubleClick()
+	{
+		return false;
+	}
+
 	@Nullable
 	@Override
 	protected com.intellij.psi.PsiElement extractPsiFromValue()

@@ -56,6 +56,12 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass>
 	}
 
 	@Override
+	public boolean expandOnDoubleClick()
+	{
+		return false;
+	}
+
+	@Override
 	protected void updateImpl(PresentationData presentationData)
 	{
 		PhpClass value = getValue();
