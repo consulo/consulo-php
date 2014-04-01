@@ -50,8 +50,9 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 		return myLanguageLevel.get();
 	}
 
+	@NotNull
 	@Override
-	protected Class<? extends SdkType> getSdkTypeClass()
+	public Class<? extends SdkType> getSdkTypeClass()
 	{
 		return PhpSdkType.class;
 	}
