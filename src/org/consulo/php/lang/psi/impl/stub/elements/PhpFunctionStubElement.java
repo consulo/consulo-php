@@ -24,8 +24,9 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 		super("PHP_FUNCTION");
 	}
 
+	@NotNull
 	@Override
-	public PhpFunction createPsi(ASTNode node)
+	public PhpFunction createElement(ASTNode node)
 	{
 		return new PhpFunctionImpl(node);
 	}

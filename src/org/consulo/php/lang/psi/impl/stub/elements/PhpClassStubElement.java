@@ -25,8 +25,9 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 		super("PHP_CLASS");
 	}
 
+	@NotNull
 	@Override
-	public PhpClass createPsi(ASTNode node)
+	public PhpClass createElement(ASTNode node)
 	{
 		return new PhpClassImpl(node);
 	}

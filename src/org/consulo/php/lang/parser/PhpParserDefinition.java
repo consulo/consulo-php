@@ -5,7 +5,6 @@ import org.consulo.php.lang.lexer.PhpFlexAdapter;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-import org.consulo.php.lang.psi.impl.stub.elements.PhpStubElement;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageVersion;
@@ -16,8 +15,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IElementTypeAsPsiFactory;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -77,15 +74,6 @@ public class PhpParserDefinition implements ParserDefinition
 	@NotNull
 	public PsiElement createElement(ASTNode node)
 	{
-		IElementType elementType = node.getElementType();
-		if(elementType instanceof PhpStubElement)
-		{
-			return ((PhpStubElement) elementType).createPsi(node);
-		}
-		else if(elementType instanceof IElementTypeAsPsiFactory)
-		{
-			return ((IElementTypeAsPsiFactory) elementType).createElement(node);
-		}
 		return PhpPsiCreator.create(node);
 	}
 
@@ -95,9 +83,10 @@ public class PhpParserDefinition implements ParserDefinition
 		return new PhpFileImpl(viewProvider);
 	}
 
+	@NotNull
 	@Override
 	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right)
 	{
-		return null;
+		return SpaceRequirements.MAY;
 	}
 }

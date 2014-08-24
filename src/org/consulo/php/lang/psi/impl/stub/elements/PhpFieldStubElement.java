@@ -24,8 +24,9 @@ public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, PhpField>
 		super("PHP_FIELD");
 	}
 
+	@NotNull
 	@Override
-	public PhpField createPsi(ASTNode node)
+	public PhpField createElement(ASTNode node)
 	{
 		return new PhpFieldImpl(node);
 	}

@@ -2,51 +2,52 @@
 <project version="4">
   <component name="ModuleManager">
     <modules>
-      <module name="consulo-php" dirurl="file://$PROJECT_DIR$">
-        <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" custom-plugin-dir-url="file://$MODULE_DIR$/dep" />
-        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
-        <extension id="lombok" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-          <content-folder type="TEST" url="file://$MODULE_DIR$/tests" />
-          <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/.consulo/sandbox" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="java" />
-        <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
-        <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES>
-              <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" />
-            </SOURCES>
-            <jarDirectory url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" recursive="false" type="SOURCES" />
-          </library>
-        </orderEntry>
-        <orderEntry type="module-library">
-          <library name="consulo:XML">
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/dep/xml/lib/jsr173_1.0_api.jar!/" />
-              <root url="jar://$MODULE_DIR$/dep/xml/lib/resolver.jar!/" />
-              <root url="jar://$MODULE_DIR$/dep/xml/lib/xerces.jar!/" />
-              <root url="jar://$MODULE_DIR$/dep/xml/lib/xml.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
+      <module name="consulo-php" dirurl="file://$PROJECT_DIR$" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" custom-plugin-dir-url="file://$MODULE_DIR$/dep" />
+          <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
+          <extension id="lombok" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/.consulo/sandbox" />
+            <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+            <content-folder type="TEST" url="file://$MODULE_DIR$/tests" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
+          <orderEntry type="sourceFolder" forTests="false" />
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5.jar!/" />
+              </binaries>
+              <sources>
+                <root url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" />
+              </sources>
+              <jarDirectory url="jar://$MODULE_DIR$/lib/commons-compress-1.5-sources.jar!/" recursive="false" type="sources" />
+            </library>
+          </orderEntry>
+          <orderEntry type="module-library">
+            <library name="consulo:XML">
+              <binaries>
+                <root url="jar://$MODULE_DIR$/dep/xml/lib/jsr173_1.0_api.jar!/" />
+                <root url="jar://$MODULE_DIR$/dep/xml/lib/resolver.jar!/" />
+                <root url="jar://$MODULE_DIR$/dep/xml/lib/xerces.jar!/" />
+                <root url="jar://$MODULE_DIR$/dep/xml/lib/xml.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+        </module-layer>
       </module>
-      <module name="stubs-generator" dirurl="file://$PROJECT_DIR$/stubs-generator">
-        <extension id="php" sdk-module-name="" sdk-name="PHP" language-level-module-name="" language-level-name="PHP_5_4" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="php" />
-        <orderEntry type="sourceFolder" forTests="false" />
+      <module name="stubs-generator" dirurl="file://$PROJECT_DIR$/stubs-generator" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="php" sdk-module-name="" sdk-name="PHP" language-level-module-name="" language-level-name="PHP_5_4" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="php" />
+          <orderEntry type="sourceFolder" forTests="false" />
+        </module-layer>
       </module>
     </modules>
   </component>

@@ -4,8 +4,8 @@ import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpElementType;
 import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.*;
+import com.intellij.psi.tree.ElementTypeAsPsiFactory;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IElementTypeAsPsiFactory;
 import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -23,18 +23,18 @@ public interface PhpElementTypes
 	IElementType HTML = new PhpElementType("HTML");
 
 	IElementType GROUP_STATEMENT = new ILazyParseableElementType("GROUP_STATEMENT", PhpLanguage.INSTANCE);
-	IElementType STATEMENT = new IElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
-	IElementType PARAMETER_LIST = new IElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
-	IElementType PARAMETER = new IElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
-	IElementType MODIFIER_LIST = new IElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
-	IElementType NAMESPACE_STATEMENT = new IElementTypeAsPsiFactory("NAMESPACE_STATEMENT", PhpLanguage.INSTANCE, PhpNamespaceStatementImpl.class);
-	IElementType USE_STATEMENT = new IElementTypeAsPsiFactory("USE_STATEMENT", PhpLanguage.INSTANCE, PhpUseStatementImpl.class);
+	IElementType STATEMENT = new ElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
+	IElementType PARAMETER_LIST = new ElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
+	IElementType PARAMETER = new ElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
+	IElementType MODIFIER_LIST = new ElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
+	IElementType NAMESPACE_STATEMENT = new ElementTypeAsPsiFactory("NAMESPACE_STATEMENT", PhpLanguage.INSTANCE, PhpNamespaceStatementImpl.class);
+	IElementType USE_STATEMENT = new ElementTypeAsPsiFactory("USE_STATEMENT", PhpLanguage.INSTANCE, PhpUseStatementImpl.class);
 
-	IElementType UNARY_EXPRESSION = new IElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
-	IElementType ASSIGNMENT_EXPRESSION = new IElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);
-	IElementType SELF_ASSIGNMENT_EXPRESSION = new IElementTypeAsPsiFactory("SELF_ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpSelfAssignmentExpressionImpl.class);
-	IElementType TERNARY_EXPRESSION = new IElementTypeAsPsiFactory("TERNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpTernaryExpressionImpl.class);
-	IElementType ELVIS_EXPRESSION = new IElementTypeAsPsiFactory("ELVIS_EXPRESSION", PhpLanguage.INSTANCE, PhpElvisExpressionImpl.class);
+	IElementType UNARY_EXPRESSION = new ElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
+	IElementType ASSIGNMENT_EXPRESSION = new ElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);
+	IElementType SELF_ASSIGNMENT_EXPRESSION = new ElementTypeAsPsiFactory("SELF_ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpSelfAssignmentExpressionImpl.class);
+	IElementType TERNARY_EXPRESSION = new ElementTypeAsPsiFactory("TERNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpTernaryExpressionImpl.class);
+	IElementType ELVIS_EXPRESSION = new ElementTypeAsPsiFactory("ELVIS_EXPRESSION", PhpLanguage.INSTANCE, PhpElvisExpressionImpl.class);
 	IElementType INSTANCEOF_EXPRESSION = new PhpElementType("Instanceof expression");
 	IElementType PRINT_EXPRESSION = new PhpElementType("Print expression");
 	IElementType EXIT_EXPRESSION = new PhpElementType("Exit expression");
@@ -62,8 +62,8 @@ public interface PhpElementTypes
 	IElementType IF = new PhpElementType("If");
 	IElementType STRING = new PhpElementType("String");
 	IElementType CONSTANT = new PhpElementType("Constant");
-	IElementType CLASS_REFERENCE = new IElementTypeAsPsiFactory("CLASS_REFERENCE", PhpLanguage.INSTANCE, PhpClassReferenceImpl.class);
-	IElementType VARIABLE_REFERENCE = new IElementTypeAsPsiFactory("VARIABLE_REFERENCE", PhpLanguage.INSTANCE, PhpVariableReferenceImpl.class);
+	IElementType CLASS_REFERENCE = new ElementTypeAsPsiFactory("CLASS_REFERENCE", PhpLanguage.INSTANCE, PhpClassReferenceImpl.class);
+	IElementType VARIABLE_REFERENCE = new ElementTypeAsPsiFactory("VARIABLE_REFERENCE", PhpLanguage.INSTANCE, PhpVariableReferenceImpl.class);
 	IElementType ARRAY_INDEX = new PhpElementType("Array index");
 	IElementType CLASS_CONSTANT_REFERENCE = new PhpElementType("Class constant reference");
 	IElementType ELSE_IF = new PhpElementType("Elseif");
@@ -108,7 +108,7 @@ public interface PhpElementTypes
 	IElementType OBSCURE_VARIABLE = new PhpElementType("Obscure variable");
 	IElementType FUNCTION_CALL = new PhpElementType("Function call");
 	IElementType FIELD_REFERENCE = new PhpElementType("PhpField reference");
-	IElementType METHOD_REFERENCE = new IElementTypeAsPsiFactory("METHOD_REFERENCE", PhpLanguage.INSTANCE, PhpMethodReferenceImpl.class);
+	IElementType METHOD_REFERENCE = new ElementTypeAsPsiFactory("METHOD_REFERENCE", PhpLanguage.INSTANCE, PhpMethodReferenceImpl.class);
 	IElementType HEREDOC = new PhpElementType("Heredoc");
 	IElementType VARIABLE_NAME = new PhpElementType("PhpVariableReference name");
 	IElementType NUMBER = new PhpElementType("Number");
