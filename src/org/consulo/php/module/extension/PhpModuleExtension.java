@@ -10,7 +10,7 @@ import org.mustbe.consulo.roots.ContentFoldersSupport;
 import org.mustbe.consulo.roots.impl.ProductionContentFolderTypeProvider;
 import org.mustbe.consulo.roots.impl.TestContentFolderTypeProvider;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
@@ -24,7 +24,7 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 {
 	protected LanguageLevelModuleInheritableNamedPointerImpl myLanguageLevel;
 
-	public PhpModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	public PhpModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{
 		super(id, module);
 		myLanguageLevel = new LanguageLevelModuleInheritableNamedPointerImpl(module.getProject(), id);
