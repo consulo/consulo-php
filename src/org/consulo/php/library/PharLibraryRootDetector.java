@@ -1,8 +1,8 @@
 package org.consulo.php.library;
 
 import org.consulo.php.vfs.PharFileType;
-import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.libraries.ui.FileTypeBasedRootFilter;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
 
 /**
  * @author VISTALL
@@ -12,6 +12,6 @@ public class PharLibraryRootDetector extends FileTypeBasedRootFilter
 {
 	public PharLibraryRootDetector()
 	{
-		super(OrderRootType.CLASSES, false, PharFileType.INSTANCE, "Phar library");
+		super(BinariesOrderRootType.getInstance(), false, PharFileType.INSTANCE, "Phar library");
 	}
 }
