@@ -6,9 +6,6 @@ import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.sdk.PhpSdkType;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.roots.ContentFoldersSupport;
-import org.mustbe.consulo.roots.impl.ProductionContentFolderTypeProvider;
-import org.mustbe.consulo.roots.impl.TestContentFolderTypeProvider;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.ModuleRootLayer;
 
@@ -16,10 +13,6 @@ import com.intellij.openapi.roots.ModuleRootLayer;
  * @author VISTALL
  * @since 04.07.13.
  */
-@ContentFoldersSupport(value = {
-		ProductionContentFolderTypeProvider.class,
-		TestContentFolderTypeProvider.class
-})
 public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExtension>
 {
 	protected LanguageLevelModuleInheritableNamedPointerImpl myLanguageLevel;
