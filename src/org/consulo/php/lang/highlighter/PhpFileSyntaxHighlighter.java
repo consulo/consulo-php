@@ -15,6 +15,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
+import com.intellij.util.Processor;
 
 /**
  * @author Maxim.Mossienko
@@ -93,10 +94,10 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 		ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_COMMENT);
 		DOC_ATTRIBUTES.put(PhpDocTokenTypes.DOC_TAG_NAME, PhpHighlightingData.DOC_TAG);
 
-		IElementType[] javadoc = IElementType.enumerate(new IElementType.Predicate()
+		IElementType[] javadoc = IElementType.enumerate(new Processor<IElementType>()
 		{
 			@Override
-			public boolean matches(IElementType type)
+			public boolean process(IElementType type)
 			{
 				return type instanceof PhpDocElementType;
 			}
