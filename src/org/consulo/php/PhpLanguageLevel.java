@@ -15,10 +15,13 @@ import com.intellij.lang.LanguageVersion;
 public enum PhpLanguageLevel implements LanguageVersion, Named, NamedPointer<PhpLanguageLevel>
 {
 	PHP_5_0("5.0", ""),
-	PHP_5_3("5.3", "namespaces, etc"), // namespace, use
-	PHP_5_4("5.4", "traits, etc"); // trait
+	PHP_5_3("5.3", ""),
+	PHP_5_4("5.4", ""),
+	PHP_5_5("5.5", ""),
+	PHP_5_6("5.6", ""),
+	PHP_7_0("7.0", "");
 
-	public static final PhpLanguageLevel HIGHEST = PHP_5_0;
+	public static final PhpLanguageLevel HIGHEST = PHP_5_6;
 	@Immutable
 	public static final PhpLanguageLevel[] VALUES = values();
 

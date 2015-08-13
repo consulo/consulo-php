@@ -1,8 +1,8 @@
 package org.consulo.php.module;
 
 import org.consulo.module.extension.ModuleExtension;
-import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.consulo.php.module.extension.PhpModuleExtension;
+import org.mustbe.consulo.module.extension.ModuleExtensionProviderEP;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 

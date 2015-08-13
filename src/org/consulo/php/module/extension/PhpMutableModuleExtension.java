@@ -7,6 +7,7 @@ import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
 import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootLayer;
 
@@ -14,7 +15,8 @@ import com.intellij.openapi.roots.ModuleRootLayer;
  * @author VISTALL
  * @since 04.07.13.
  */
-public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
+public class PhpMutableModuleExtension extends PhpModuleExtension implements
+		MutableModuleExtensionWithSdk<PhpModuleExtension>
 {
 	public PhpMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{
@@ -35,6 +37,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 		return myLanguageLevel;
 	}
 
+	@RequiredDispatchThread
 	@Nullable
 	@Override
 	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
@@ -51,6 +54,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	@Override
 	public boolean isModified(@NotNull PhpModuleExtension extension)
 	{
-		return isModifiedImpl(extension) || !extension.getInheritableLanguageLevel().equals(getInheritableLanguageLevel());
+		return isModifiedImpl(extension) || !extension.getInheritableLanguageLevel().equals
+				(getInheritableLanguageLevel());
 	}
 }

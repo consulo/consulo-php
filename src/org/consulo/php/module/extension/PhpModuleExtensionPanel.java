@@ -10,13 +10,16 @@ import javax.swing.JPanel;
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.module.extension.ModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
-import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
+import org.consulo.module.extension.ui.ModuleExtensionSdkBoxBuilder;
 import org.consulo.php.PhpLanguageLevel;
+import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.ui.ComboBox;
+import com.intellij.openapi.ui.LabeledComponent;
+import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.ColoredListCellRendererWrapper;
 import com.intellij.ui.SimpleTextAttributes;
 
@@ -26,67 +29,15 @@ import com.intellij.ui.SimpleTextAttributes;
  */
 public class PhpModuleExtensionPanel extends JPanel
 {
-	private JPanel myRoot;
-
-	private ModuleExtensionWithSdkPanel myModuleExtensionWithSdkPanel;
-	private JComboBox myVersionBox;
-	private PhpMutableModuleExtension myMutableModuleExtension;
-	private Runnable myRunnable;
-
+	@RequiredDispatchThread
 	public PhpModuleExtensionPanel(PhpMutableModuleExtension mutableModuleExtension, Runnable runnable)
 	{
+		super(new VerticalFlowLayout());
+		add(ModuleExtensionSdkBoxBuilder.createAndDefine(mutableModuleExtension, runnable).build());
 
-		myMutableModuleExtension = mutableModuleExtension;
-		myRunnable = runnable;
-
-		final MutableModuleInheritableNamedPointer<PhpLanguageLevel> inheritableLanguageLevel = myMutableModuleExtension.getInheritableLanguageLevel();
-
-		final String moduleName = inheritableLanguageLevel.getModuleName();
-		if(moduleName != null)
-		{
-			final Module module = inheritableLanguageLevel.getModule();
-			if(module != null)
-			{
-				myVersionBox.setSelectedItem(module);
-			}
-			else
-			{
-				myVersionBox.addItem(moduleName);
-			}
-		}
-		else
-		{
-			myVersionBox.setSelectedItem(inheritableLanguageLevel.get());
-		}
-
-		myVersionBox.addItemListener(new ItemListener()
-		{
-			@Override
-			public void itemStateChanged(ItemEvent e)
-			{
-				final Object selectedItem = myVersionBox.getSelectedItem();
-				if(selectedItem instanceof Module)
-				{
-					inheritableLanguageLevel.set(((Module) selectedItem).getName(), null);
-				}
-				else if(selectedItem instanceof PhpLanguageLevel)
-				{
-					inheritableLanguageLevel.set(null, ((PhpLanguageLevel) selectedItem).getName());
-				}
-				else
-				{
-					inheritableLanguageLevel.set(selectedItem.toString(), null);
-				}
-			}
-		});
-	}
-
-	private void createUIComponents()
-	{
-		myRoot = this;
-		myModuleExtensionWithSdkPanel = new ModuleExtensionWithSdkPanel(myMutableModuleExtension, myRunnable);
-		myVersionBox = new ComboBox();
-		myVersionBox.setRenderer(new ColoredListCellRendererWrapper<Object>()
+		final JComboBox versionComboBox = new ComboBox();
+		add(LabeledComponent.left(versionComboBox, "Version"));
+		versionComboBox.setRenderer(new ColoredListCellRendererWrapper<Object>()
 		{
 			@Override
 			protected void doCustomize(JList list, Object value, int index, boolean selected, boolean hasFocus)
@@ -103,7 +54,8 @@ public class PhpModuleExtensionPanel extends JPanel
 					setIcon(AllIcons.Nodes.Module);
 					append(((Module) value).getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
 
-					final PhpModuleExtension extension = ModuleUtilCore.getExtension((Module) value, PhpModuleExtension.class);
+					final PhpModuleExtension extension = ModuleUtilCore.getExtension((Module) value,
+							PhpModuleExtension.class);
 					if(extension != null)
 					{
 						final PhpLanguageLevel languageLevel = extension.getLanguageLevel();
@@ -120,33 +72,69 @@ public class PhpModuleExtensionPanel extends JPanel
 
 		for(PhpLanguageLevel languageLevel : PhpLanguageLevel.VALUES)
 		{
-			myVersionBox.addItem(languageLevel);
+			versionComboBox.addItem(languageLevel);
 		}
 
-		insertModuleItems();
-	}
-
-	public void insertModuleItems()
-	{
-		for(Module module : ModuleManager.getInstance(myMutableModuleExtension.getModule().getProject()).getModules())
+		for(Module module : ModuleManager.getInstance(mutableModuleExtension.getModule().getProject()).getModules())
 		{
 			// dont add self module
-			if(module == myMutableModuleExtension.getModule())
+			if(module == mutableModuleExtension.getModule())
 			{
 				continue;
 			}
 
-			final ModuleExtension extension = ModuleUtilCore.getExtension(module, myMutableModuleExtension.getId());
+			final ModuleExtension extension = ModuleUtilCore.getExtension(module, mutableModuleExtension.getId());
 			if(extension instanceof ModuleExtensionWithSdk)
 			{
 				final ModuleExtensionWithSdk sdkExtension = (ModuleExtensionWithSdk) extension;
 				// recursive depend
-				if(sdkExtension.getInheritableSdk().getModule() == myMutableModuleExtension.getModule())
+				if(sdkExtension.getInheritableSdk().getModule() == mutableModuleExtension.getModule())
 				{
 					continue;
 				}
-				myVersionBox.addItem(sdkExtension.getModule());
+				versionComboBox.addItem(sdkExtension.getModule());
 			}
 		}
+
+		final MutableModuleInheritableNamedPointer<PhpLanguageLevel> inheritableLanguageLevel = mutableModuleExtension.getInheritableLanguageLevel();
+
+		final String moduleName = inheritableLanguageLevel.getModuleName();
+		if(moduleName != null)
+		{
+			final Module module = inheritableLanguageLevel.getModule();
+			if(module != null)
+			{
+				versionComboBox.setSelectedItem(module);
+			}
+			else
+			{
+				versionComboBox.addItem(moduleName);
+			}
+		}
+		else
+		{
+			versionComboBox.setSelectedItem(inheritableLanguageLevel.get());
+		}
+
+		versionComboBox.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				final Object selectedItem = versionComboBox.getSelectedItem();
+				if(selectedItem instanceof Module)
+				{
+					inheritableLanguageLevel.set(((Module) selectedItem).getName(), null);
+				}
+				else if(selectedItem instanceof PhpLanguageLevel)
+				{
+					inheritableLanguageLevel.set(null, ((PhpLanguageLevel) selectedItem).getName());
+				}
+				else
+				{
+					inheritableLanguageLevel.set(selectedItem.toString(), null);
+				}
+			}
+		});
 	}
 }
