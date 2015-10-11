@@ -55,7 +55,7 @@
 		<colorSettingsPage implementation="org.consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="org.consulo.php.gotoByName.PhpClassContributor"/>
 		<sdkType implementation="org.consulo.php.sdk.PhpSdkType"/>
-		<psi.packageResolver implementation="org.consulo.php.module.packageSupport.PhpPsiPackageResolver" />
+		<psi.packageSupportProvider implementation="org.consulo.php.module.packageSupport.PhpPackageSupportProvider" />
 		<lang.versionResolver language="PHP" implementationClass="org.consulo.php.lang.psi.impl.PhpLanguageVersionResolver" />
 		<lang.parserDefinition language="PHP" implementationClass="org.consulo.php.lang.parser.PhpParserDefinition"/>
 		<lang.commenter language="PHP" implementationClass="org.consulo.php.lang.commenter.PhpCommenter"/>
