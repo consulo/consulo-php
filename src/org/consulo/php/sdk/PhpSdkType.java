@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.consulo.lombok.annotations.Logger;
 import org.consulo.php.PhpBundle;
 import org.consulo.php.PhpIcons2;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +25,7 @@ import com.intellij.openapi.roots.types.SourcesOrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.lombok.annotations.Logger;
 
 /**
  * @author Maxim

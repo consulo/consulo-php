@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi;
 
-import org.consulo.lombok.annotations.ArrayFactoryFields;
+import consulo.lombok.annotations.ArrayFactoryFields;
 import com.intellij.psi.PsiElement;
 
 /**
