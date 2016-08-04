@@ -421,10 +421,6 @@ public class PharFile implements ArchiveFile
 		return result;
 	}
 
-	public void close() throws IOException
-	{
-	}
-
 	@Override
 	public PharEntry getEntry(String name)
 	{
