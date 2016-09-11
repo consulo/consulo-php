@@ -1,1 +1,1 @@
-![Build Status](http://must-be.org/vulcan/statusImage?name=consulo-php)
+[![Build Status](http://must-be.org/jenkins/job/consulo-php/badge/icon)](http://must-be.org/jenkins/job/consulo-php/)
