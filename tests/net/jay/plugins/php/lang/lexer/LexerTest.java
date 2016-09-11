@@ -1,18 +1,19 @@
 package net.jay.plugins.php.lang.lexer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
+import net.jay.plugins.php.utils.PathUtils;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.PhpFlexAdapter;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import junit.framework.Test;
-import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
-import net.jay.plugins.php.utils.PathUtils;
-import org.consulo.php.PhpLanguageLevel;
-import org.consulo.php.lang.lexer.PhpFlexAdapter;
-import org.consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NonNls;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

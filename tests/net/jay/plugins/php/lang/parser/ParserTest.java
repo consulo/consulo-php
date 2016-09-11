@@ -1,16 +1,17 @@
 package net.jay.plugins.php.lang.parser;
 
+import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
+import net.jay.plugins.php.utils.PathUtils;
+import net.jay.plugins.php.utils.TestUtils;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.DebugUtil;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import junit.framework.Assert;
 import junit.framework.Test;
-import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
-import net.jay.plugins.php.utils.PathUtils;
-import net.jay.plugins.php.utils.TestUtils;
-import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NonNls;
 
 /**
  * Created by IntelliJ IDEA.
