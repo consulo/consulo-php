@@ -3,19 +3,19 @@ package org.consulo.php.lang.highlighter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
 import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
 import com.intellij.util.Processor;
+import consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
+import consulo.lang.LanguageVersion;
 
 /**
  * @author Maxim.Mossienko

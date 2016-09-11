@@ -2,11 +2,11 @@ package org.consulo.php.lang.psi.util;
 
 import org.consulo.php.lang.psi.PhpPackage;
 import org.consulo.php.module.extension.PhpModuleExtension;
-import org.consulo.psi.PsiPackageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
+import consulo.psi.PsiPackageManager;
 
 /**
  * @author VISTALL

@@ -7,13 +7,13 @@ import org.consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilderFactory;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.ILazyParseableElementType;
-import com.intellij.util.LanguageVersionUtil;
+import consulo.lang.LanguageVersion;
+import consulo.lang.util.LanguageVersionUtil;
 
 /**
  * @author jay

@@ -4,10 +4,10 @@ import org.consulo.php.lang.parser.PhpElementTypes;
 import org.consulo.php.lang.psi.impl.PhpGroupStatementImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTLazyFactory;
 import com.intellij.psi.impl.source.tree.LazyParseableElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.ILazyParseableElementType;
+import consulo.psi.tree.ASTLazyFactory;
 
 /**
  * @author VISTALL

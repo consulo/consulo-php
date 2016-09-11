@@ -1,11 +1,13 @@
 package org.consulo.php.vfs;
 
-import org.consulo.vfs.ArchiveFileSystemBase;
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.php.internal.core.phar.PharFile;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.vfs.ArchiveFileSystem;
-import com.intellij.openapi.vfs.impl.archive.ArchiveHandler;
-import com.intellij.util.messages.MessageBus;
+import consulo.vfs.impl.archive.ArchiveFile;
+import consulo.vfs.impl.archive.ArchiveFileSystemBase;
 
 /**
  * @author VISTALL
@@ -15,40 +17,15 @@ public class PharFileSystem extends ArchiveFileSystemBase implements Application
 {
 	public static final String PROTOCOL = "phar";
 
-	public PharFileSystem(MessageBus bus)
+	public PharFileSystem()
 	{
-		super(bus);
-	}
-
-	@Override
-	public ArchiveHandler createHandler(ArchiveFileSystem archiveFileSystem, String s)
-	{
-		return new PharHandler(archiveFileSystem, s);
+		super(PROTOCOL);
 	}
 
 	@NotNull
 	@Override
-	public String getProtocol()
+	public ArchiveFile createArchiveFile(@NotNull String path) throws IOException
 	{
-		return PROTOCOL;
-	}
-
-	@Override
-	public void initComponent()
-	{
-
-	}
-
-	@Override
-	public void disposeComponent()
-	{
-
-	}
-
-	@NotNull
-	@Override
-	public String getComponentName()
-	{
-		return getClass().getSimpleName();
+		return new PharFile(new File(path));
 	}
 }

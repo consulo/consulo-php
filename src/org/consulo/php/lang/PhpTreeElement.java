@@ -10,7 +10,7 @@ import org.consulo.php.lang.psi.PhpNamedElement;
 import org.consulo.php.lang.psi.PhpParameter;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
-import com.intellij.ide.IconDescriptorUpdaters;
+import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;

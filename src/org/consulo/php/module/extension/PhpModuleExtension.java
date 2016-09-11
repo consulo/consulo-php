@@ -1,13 +1,13 @@
 package org.consulo.php.module.extension;
 
-import org.consulo.module.extension.ModuleInheritableNamedPointer;
-import org.consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import org.consulo.php.PhpLanguageLevel;
 import org.consulo.php.sdk.PhpSdkType;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModuleRootLayer;
+import consulo.extension.impl.ModuleExtensionWithSdkImpl;
+import consulo.module.extension.ModuleInheritableNamedPointer;
+import consulo.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL

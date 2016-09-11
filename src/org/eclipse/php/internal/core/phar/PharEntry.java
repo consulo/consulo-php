@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar;
 
-import com.intellij.openapi.vfs.ArchiveEntry;
+import consulo.vfs.impl.archive.ArchiveEntry;
 
 public class PharEntry implements ArchiveEntry
 {

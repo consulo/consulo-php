@@ -26,8 +26,8 @@ import org.eclipse.php.internal.core.phar.streams.GZIPInputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.PharEntryBufferedRandomInputStream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.vfs.ArchiveEntry;
-import com.intellij.openapi.vfs.ArchiveFile;
+import consulo.vfs.impl.archive.ArchiveEntry;
+import consulo.vfs.impl.archive.ArchiveFile;
 
 public class PharFile implements ArchiveFile
 {
@@ -47,14 +47,14 @@ public class PharFile implements ArchiveFile
 	private List<Integer> bytesAfterStub;
 	private BufferedInputStream bis;
 
-	public PharFile(File file) throws IOException, PharException
+	public PharFile(File file) throws IOException
 	{
 		this.file = file;
 
 		init();
 	}
 
-	protected void init() throws IOException, PharException
+	protected void init() throws IOException
 	{
 		bis = new BufferedInputStream(new FileInputStream(file));
 		try
@@ -69,7 +69,7 @@ public class PharFile implements ArchiveFile
 		}
 	}
 
-	protected void getEntries() throws IOException, PharException
+	protected void getEntries() throws IOException
 	{
 		byte[] buffer;
 
@@ -179,7 +179,7 @@ public class PharFile implements ArchiveFile
 			signatureEntry.setCsize(signatureLength);
 			if(signatureLength < 24)
 			{
-				throw new PharException("Phar Signature Corrupted");
+				throw new IOException("Phar Signature Corrupted");
 			}
 			else
 			{
@@ -195,7 +195,7 @@ public class PharFile implements ArchiveFile
 					{
 						if(digest.getDigest().digest().length != signatureLength - 8 || !PharUtil.checkSignature(file, digest, signatureEntry.getPosition()))
 						{
-							throw new PharException("Phar Signature Corrupted");
+							throw new IOException("Phar Signature Corrupted");
 						}
 						else
 						{
@@ -207,12 +207,12 @@ public class PharFile implements ArchiveFile
 				}
 				if(!found)
 				{
-					throw new PharException("Phar Signature unsupported");
+					throw new IOException("Phar Signature unsupported");
 				}
 				read(bis, buffer);
 				if(!PharUtil.byteArrayEquals(PharConstants.GBMB, buffer))
 				{
-					throw new PharException("Phar Signature end");
+					throw new IOException("Phar Signature end");
 				}
 			}
 			pharEntryList.add(signatureEntry);
@@ -221,7 +221,7 @@ public class PharFile implements ArchiveFile
 
 	}
 
-	protected void getManifest() throws IOException, PharException
+	protected void getManifest() throws IOException
 	{
 		int lineSeparatorLength = 0;
 		bytesAfterStub.add(Integer.valueOf(read(bis)));
@@ -307,7 +307,7 @@ public class PharFile implements ArchiveFile
 
 	}
 
-	protected void getStub() throws IOException, PharException
+	protected void getStub() throws IOException
 	{
 		boolean stubHasBeenFound = false;
 		int n = -1;
@@ -381,7 +381,7 @@ public class PharFile implements ArchiveFile
 		return sb.toString();
 	}
 
-	private int read(BufferedInputStream bis, byte[] buffer) throws IOException, PharException
+	private int read(BufferedInputStream bis, byte[] buffer) throws IOException
 	{
 		int result = bis.read(buffer);
 		if(result != buffer.length)
@@ -392,7 +392,7 @@ public class PharFile implements ArchiveFile
 		return result;
 	}
 
-	private void check(byte b) throws IOException, PharException
+	private void check(byte b) throws IOException
 	{
 		if(b == -1)
 		{

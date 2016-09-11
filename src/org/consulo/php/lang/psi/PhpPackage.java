@@ -1,6 +1,6 @@
 package org.consulo.php.lang.psi;
 
-import org.consulo.psi.PsiPackage;
+import consulo.psi.PsiPackage;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.util.ArrayFactory;
 

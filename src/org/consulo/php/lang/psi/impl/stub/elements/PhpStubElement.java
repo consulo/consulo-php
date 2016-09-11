@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.tree.IElementTypeAsPsiFactory;
+import consulo.psi.tree.IElementTypeAsPsiFactory;
 
 /**
  * @author VISTALL

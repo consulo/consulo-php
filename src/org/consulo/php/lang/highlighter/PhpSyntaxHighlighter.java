@@ -5,13 +5,13 @@ import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.highlighter.HtmlFileType;
-import com.intellij.lang.LanguageVersionResolvers;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.ex.util.LayerDescriptor;
 import com.intellij.openapi.editor.ex.util.LayeredLexerEditorHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.lang.LanguageVersionResolvers;
 
 /**
  * Created by IntelliJ IDEA.

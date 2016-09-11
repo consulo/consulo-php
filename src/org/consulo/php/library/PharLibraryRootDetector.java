@@ -2,7 +2,7 @@ package org.consulo.php.library;
 
 import org.consulo.php.vfs.PharFileType;
 import com.intellij.openapi.roots.libraries.ui.FileTypeBasedRootFilter;
-import com.intellij.openapi.roots.types.BinariesOrderRootType;
+import consulo.roots.types.BinariesOrderRootType;
 
 /**
  * @author VISTALL

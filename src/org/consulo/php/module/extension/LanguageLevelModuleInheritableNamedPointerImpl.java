@@ -1,17 +1,17 @@
 package org.consulo.php.module.extension;
 
-import org.consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
 import org.consulo.php.PhpLanguageLevel;
-import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
+import consulo.util.pointers.NamedPointer;
 import lombok.val;
 
 /**
  * @author VISTALL
- * @see org.consulo.java.platform.module.extension.LanguageLevelModuleInheritableNamedPointerImpl
+ * @see consulo.java.module.extension.LanguageLevelModuleInheritableNamedPointerImpl
  * @since 07.07.13.
  */
 public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheritableNamedPointerImpl<PhpLanguageLevel>

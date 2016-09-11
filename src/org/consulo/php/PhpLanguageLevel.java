@@ -1,12 +1,12 @@
 package org.consulo.php;
 
-import org.consulo.annotations.Immutable;
 import org.consulo.php.lang.PhpLanguage;
-import org.consulo.util.pointers.Named;
-import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
-import com.intellij.lang.LanguageVersion;
+import consulo.annotations.Immutable;
+import consulo.lang.LanguageVersion;
+import consulo.util.pointers.Named;
+import consulo.util.pointers.NamedPointer;
 
 /**
  * @author VISTALL

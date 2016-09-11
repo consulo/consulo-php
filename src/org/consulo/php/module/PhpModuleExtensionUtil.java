@@ -1,10 +1,10 @@
 package org.consulo.php.module;
 
-import org.consulo.module.extension.ModuleExtension;
 import org.consulo.php.module.extension.PhpModuleExtension;
-import org.mustbe.consulo.module.extension.ModuleExtensionProviderEP;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
+import consulo.module.extension.ModuleExtension;
+import consulo.module.extension.ModuleExtensionProviderEP;
 
 /**
  * @author VISTALL

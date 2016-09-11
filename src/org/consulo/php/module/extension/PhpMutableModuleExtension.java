@@ -2,21 +2,20 @@ package org.consulo.php.module.extension;
 
 import javax.swing.JComponent;
 
-import org.consulo.module.extension.MutableModuleExtensionWithSdk;
-import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
 import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ModuleRootLayer;
+import consulo.annotations.RequiredDispatchThread;
+import consulo.module.extension.MutableModuleExtensionWithSdk;
+import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
  * @since 04.07.13.
  */
-public class PhpMutableModuleExtension extends PhpModuleExtension implements
-		MutableModuleExtensionWithSdk<PhpModuleExtension>
+public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
 {
 	public PhpMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{

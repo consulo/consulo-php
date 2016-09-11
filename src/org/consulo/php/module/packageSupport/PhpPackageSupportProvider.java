@@ -1,14 +1,14 @@
 package org.consulo.php.module.packageSupport;
 
-import org.consulo.module.extension.ModuleExtension;
 import org.consulo.php.lang.psi.impl.PhpPackageImpl;
 import org.consulo.php.module.PhpModuleExtensionUtil;
-import org.consulo.psi.PsiPackage;
-import org.consulo.psi.PsiPackageManager;
-import org.consulo.psi.PsiPackageSupportProvider;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiManager;
+import consulo.module.extension.ModuleExtension;
+import consulo.psi.PsiPackage;
+import consulo.psi.PsiPackageManager;
+import consulo.psi.PsiPackageSupportProvider;
 
 /**
  * @author VISTALL

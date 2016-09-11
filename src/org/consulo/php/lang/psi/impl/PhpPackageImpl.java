@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.consulo.module.extension.ModuleExtension;
 import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpPackage;
-import org.consulo.psi.PsiPackage;
-import org.consulo.psi.PsiPackageManager;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
 import com.intellij.openapi.roots.impl.DirectoryIndex;
@@ -19,6 +16,9 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiPackageBase;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.Query;
+import consulo.module.extension.ModuleExtension;
+import consulo.psi.PsiPackage;
+import consulo.psi.PsiPackageManager;
 
 /**
  * @author VISTALL

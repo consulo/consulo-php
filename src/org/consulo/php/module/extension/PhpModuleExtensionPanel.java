@@ -7,12 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import org.consulo.module.extension.ModuleExtension;
-import org.consulo.module.extension.ModuleExtensionWithSdk;
-import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
-import org.consulo.module.extension.ui.ModuleExtensionSdkBoxBuilder;
 import org.consulo.php.PhpLanguageLevel;
-import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -22,6 +17,11 @@ import com.intellij.openapi.ui.LabeledComponent;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.ColoredListCellRendererWrapper;
 import com.intellij.ui.SimpleTextAttributes;
+import consulo.annotations.RequiredDispatchThread;
+import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
+import consulo.module.extension.ModuleExtension;
+import consulo.module.extension.ModuleExtensionWithSdk;
+import consulo.module.extension.MutableModuleInheritableNamedPointer;
 
 /**
  * @author VISTALL

@@ -4,10 +4,10 @@ import org.consulo.php.lang.PhpLanguage;
 import org.consulo.php.lang.psi.PhpElementType;
 import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.*;
-import com.intellij.psi.tree.ElementTypeAsPsiFactory;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.psi.tree.TokenSet;
+import consulo.psi.tree.ElementTypeAsPsiFactory;
 
 /**
  * Created by IntelliJ IDEA.

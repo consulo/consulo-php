@@ -7,16 +7,15 @@ import org.consulo.php.lang.psi.PhpStubElements;
 import org.consulo.php.lang.psi.impl.PhpFileImpl;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import consulo.lang.LanguageVersion;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,14 +29,14 @@ public class PhpParserDefinition implements ParserDefinition
 
 	@Override
 	@NotNull
-	public Lexer createLexer(Project project, @NotNull LanguageVersion languageVersion)
+	public Lexer createLexer(@NotNull LanguageVersion languageVersion)
 	{
 		return new PhpFlexAdapter((PhpLanguageLevel) languageVersion);
 	}
 
 	@Override
 	@NotNull
-	public PsiParser createParser(Project project, @NotNull LanguageVersion languageVersion)
+	public PsiParser createParser(@NotNull LanguageVersion languageVersion)
 	{
 		return new PhpPsiParser();
 	}

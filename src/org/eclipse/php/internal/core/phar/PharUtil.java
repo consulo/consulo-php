@@ -65,9 +65,9 @@ public class PharUtil
 		return (256 + b) % 256;
 	}
 
-	public static void throwPharException(String string) throws PharException
+	public static void throwPharException(String string) throws IOException
 	{
-		throw new PharException(string);
+		throw new IOException(string);
 	}
 
 	public static String getVersion(byte[] subBytes)

@@ -3,7 +3,7 @@ package org.consulo.php.lang;
 import org.consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
-import com.intellij.lang.LanguageVersion;
+import consulo.lang.LanguageVersion;
 import com.intellij.psi.templateLanguages.TemplateLanguage;
 
 /**

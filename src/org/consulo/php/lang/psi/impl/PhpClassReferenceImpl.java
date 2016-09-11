@@ -8,11 +8,14 @@ import org.consulo.php.completion.ClassUsageContext;
 import org.consulo.php.index.PhpFullFqClassIndex;
 import org.consulo.php.lang.lexer.PhpTokenTypes;
 import org.consulo.php.lang.parser.PhpElementTypes;
-import org.consulo.php.lang.psi.*;
+import org.consulo.php.lang.psi.PhpClass;
+import org.consulo.php.lang.psi.PhpClassReference;
+import org.consulo.php.lang.psi.PhpFunction;
+import org.consulo.php.lang.psi.PhpNamespaceStatement;
+import org.consulo.php.lang.psi.PhpPackage;
+import org.consulo.php.lang.psi.PhpPsiElementFactory;
 import org.consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.consulo.php.module.extension.PhpModuleExtension;
-import org.consulo.psi.PsiPackage;
-import org.consulo.psi.PsiPackageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
@@ -24,6 +27,8 @@ import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
+import consulo.psi.PsiPackage;
+import consulo.psi.PsiPackageManager;
 import lombok.val;
 
 /**

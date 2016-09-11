@@ -9,11 +9,11 @@ import org.consulo.php.lang.psi.PhpParameter;
 import org.consulo.php.lang.psi.PhpVariableReference;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.icons.AllIcons;
-import com.intellij.ide.IconDescriptor;
-import com.intellij.ide.IconDescriptorUpdater;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.BitUtil;
+import consulo.ide.IconDescriptor;
+import consulo.ide.IconDescriptorUpdater;
 
 /**
  * @author VISTALL
