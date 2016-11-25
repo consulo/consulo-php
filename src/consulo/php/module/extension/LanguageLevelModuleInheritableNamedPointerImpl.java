@@ -6,6 +6,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
+import consulo.roots.ModuleRootLayer;
 import consulo.util.pointers.NamedPointer;
 import lombok.val;
 
@@ -18,9 +19,9 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 {
 	private final String myKey;
 
-	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull Project project, @NotNull String id)
+	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull ModuleRootLayer layer, @NotNull String id)
 	{
-		super(project, "language-level");
+		super(layer, "language-level");
 		myKey = id;
 	}
 
@@ -48,7 +49,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 
 	@NotNull
 	@Override
-	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull Project project, @NotNull String name)
+	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull ModuleRootLayer layer, @NotNull String name)
 	{
 		return PhpLanguageLevel.valueOf(name);
 	}

@@ -1,10 +1,11 @@
 package consulo.php.module;
 
-import consulo.php.module.extension.PhpModuleExtension;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import consulo.module.extension.ModuleExtension;
 import consulo.module.extension.ModuleExtensionProviderEP;
+import consulo.module.extension.impl.ModuleExtensionProviders;
+import consulo.php.module.extension.PhpModuleExtension;
 
 /**
  * @author VISTALL
@@ -20,7 +21,7 @@ public class PhpModuleExtensionUtil
 	 */
 	public static boolean isSingleModuleExtension(Module module)
 	{
-		for(ModuleExtensionProviderEP ep : ModuleExtensionProviderEP.EP_NAME.getExtensions())
+		for(ModuleExtensionProviderEP ep : ModuleExtensionProviders.getProviders())
 		{
 			if(ep.parentKey != null)
 			{

@@ -1,12 +1,13 @@
 package consulo.php.module.extension;
 
-import consulo.php.PhpLanguageLevel;
-import consulo.php.sdk.PhpSdkType;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.projectRoots.SdkType;
+import consulo.annotations.RequiredReadAction;
 import consulo.extension.impl.ModuleExtensionWithSdkImpl;
 import consulo.module.extension.ModuleInheritableNamedPointer;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.sdk.PhpSdkType;
 import consulo.roots.ModuleRootLayer;
 
 /**
@@ -17,12 +18,13 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 {
 	protected LanguageLevelModuleInheritableNamedPointerImpl myLanguageLevel;
 
-	public PhpModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
+	public PhpModuleExtension(@NotNull String id, @NotNull ModuleRootLayer layer)
 	{
-		super(id, module);
-		myLanguageLevel = new LanguageLevelModuleInheritableNamedPointerImpl(module.getProject(), id);
+		super(id, layer);
+		myLanguageLevel = new LanguageLevelModuleInheritableNamedPointerImpl(layer, id);
 	}
 
+	@RequiredReadAction
 	@Override
 	public void commit(@NotNull PhpModuleExtension mutableModuleExtension)
 	{
