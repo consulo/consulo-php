@@ -1,19 +1,16 @@
 package consulo.php.module.extension;
 
-import consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
 import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
+import consulo.php.PhpLanguageLevel;
 import consulo.roots.ModuleRootLayer;
 import consulo.util.pointers.NamedPointer;
-import lombok.val;
 
 /**
  * @author VISTALL
- * @see consulo.java.module.extension.LanguageLevelModuleInheritableNamedPointerImpl
- * @since 07.07.13.
+ * @since 07.07.13
  */
 public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheritableNamedPointerImpl<PhpLanguageLevel>
 {
@@ -28,10 +25,10 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public String getItemNameFromModule(@NotNull Module module)
 	{
-		val extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
+		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
-			return extension.getLanguageLevel().getName();
+			return extension.getLanguageLevel().getId();
 		}
 		return null;
 	}
@@ -39,7 +36,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public PhpLanguageLevel getItemFromModule(@NotNull Module module)
 	{
-		val extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
+		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
 			return extension.getLanguageLevel();
@@ -51,7 +48,14 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull ModuleRootLayer layer, @NotNull String name)
 	{
-		return PhpLanguageLevel.valueOf(name);
+		for(PhpLanguageLevel value : PhpLanguageLevel.VALUES)
+		{
+			if(value.getId().equals(name))
+			{
+				return value;
+			}
+		}
+		return PhpLanguageLevel.HIGHEST;
 	}
 
 	@Override
