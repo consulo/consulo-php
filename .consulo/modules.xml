@@ -32,7 +32,7 @@
       </module>
       <module name="stubs-generator" dirurl="file://$PROJECT_DIR$/stubs-generator" current-layer="Default">
         <module-layer name="Default">
-          <extension id="php" sdk-module-name="" sdk-name="PHP" language-level-module-name="" language-level-name="PHP_5_4" />
+          <extension id="php" sdk-name="PHP" language-level-name="7.1" />
           <content url="file://$MODULE_DIR$">
             <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           </content>
