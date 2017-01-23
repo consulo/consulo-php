@@ -8,14 +8,13 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import consulo.php.PhpBundle;
-import consulo.php.PhpIcons2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.execution.util.ExecUtil;
 import com.intellij.openapi.application.PathManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
@@ -23,16 +22,18 @@ import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import consulo.lombok.annotations.Logger;
+import consulo.php.PhpBundle;
+import consulo.php.PhpIcons2;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
 
 /**
  * @author Maxim
  */
-@Logger
 public class PhpSdkType extends SdkType
 {
+	private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
+
 	public static PhpSdkType getInstance()
 	{
 		return EP_NAME.findExtension(PhpSdkType.class);

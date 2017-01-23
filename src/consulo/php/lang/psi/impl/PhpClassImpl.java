@@ -1,9 +1,7 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.*;
-import consulo.php.lang.psi.impl.stub.PhpClassStub;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
@@ -15,7 +13,18 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
-import lombok.val;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpClass;
+import consulo.php.lang.psi.PhpElement;
+import consulo.php.lang.psi.PhpExtendsList;
+import consulo.php.lang.psi.PhpField;
+import consulo.php.lang.psi.PhpFunction;
+import consulo.php.lang.psi.PhpImplementsList;
+import consulo.php.lang.psi.PhpModifierList;
+import consulo.php.lang.psi.PhpNamespaceStatement;
+import consulo.php.lang.psi.PhpStubElements;
+import consulo.php.lang.psi.impl.stub.PhpClassStub;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -71,7 +80,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public PhpClass getSuperClass()
 	{
-		val list = PsiTreeUtil.getChildOfType(this, PhpExtendsList.class);
+		PhpExtendsList list = PsiTreeUtil.getChildOfType(this, PhpExtendsList.class);
 		assert list != null;
 		return list.getExtendsClass();
 	}
@@ -79,9 +88,9 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public PhpClass[] getImplementedInterfaces()
 	{
-		val list = PsiTreeUtil.getChildOfType(this, PhpImplementsList.class);
+		PhpImplementsList list = PsiTreeUtil.getChildOfType(this, PhpImplementsList.class);
 		assert list != null;
-		val interfaceList = list.getInterfaces();
+		List<PhpClass> interfaceList = list.getInterfaces();
 		return interfaceList.toArray(new PhpClass[interfaceList.size()]);
 	}
 

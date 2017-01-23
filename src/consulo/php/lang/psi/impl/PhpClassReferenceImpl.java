@@ -3,19 +3,6 @@ package consulo.php.lang.psi.impl;
 import java.util.Collection;
 import java.util.List;
 
-import consulo.php.PhpConstants;
-import consulo.php.completion.ClassUsageContext;
-import consulo.php.index.PhpFullFqClassIndex;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamespaceStatement;
-import consulo.php.lang.psi.PhpPackage;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import consulo.php.module.extension.PhpModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
@@ -24,12 +11,26 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
+import consulo.php.PhpConstants;
+import consulo.php.completion.ClassUsageContext;
+import consulo.php.index.PhpFullFqClassIndex;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.PhpElementTypes;
+import consulo.php.lang.psi.PhpClass;
+import consulo.php.lang.psi.PhpClassReference;
+import consulo.php.lang.psi.PhpConstantReference;
+import consulo.php.lang.psi.PhpFunction;
+import consulo.php.lang.psi.PhpNamespaceStatement;
+import consulo.php.lang.psi.PhpPackage;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import consulo.php.module.extension.PhpModuleExtension;
 import consulo.psi.PsiPackage;
 import consulo.psi.PsiPackageManager;
-import lombok.val;
 
 /**
  * @author jay
@@ -311,7 +312,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getReferenceName().equals(name))
 		{
-			val constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;
@@ -346,7 +347,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	{
 		ClassUsageContext context = new ClassUsageContext();
 		//noinspection ConstantConditions
-		val parent = getParent().getNode().getElementType();
+		IElementType parent = getParent().getNode().getElementType();
 		if(parent == PhpElementTypes.INSTANCEOF_EXPRESSION)
 		{
 			context.setInInstanceof(true);

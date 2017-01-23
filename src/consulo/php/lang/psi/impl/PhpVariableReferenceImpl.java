@@ -4,20 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import consulo.php.completion.PhpVariantsUtil;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpAssignmentExpression;
-import consulo.php.lang.psi.PhpCatchStatement;
-import consulo.php.lang.psi.PhpForeachStatement;
-import consulo.php.lang.psi.PhpGlobal;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.PhpSelfAssignmentExpression;
-import consulo.php.lang.psi.PhpVariableReference;
-import consulo.php.lang.psi.resolve.PhpResolveProcessor;
-import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
-import consulo.php.lang.psi.resolve.ResolveUtil;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +17,21 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
-import lombok.val;
+import consulo.php.completion.PhpVariantsUtil;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpAssignmentExpression;
+import consulo.php.lang.psi.PhpCatchStatement;
+import consulo.php.lang.psi.PhpElement;
+import consulo.php.lang.psi.PhpForeachStatement;
+import consulo.php.lang.psi.PhpGlobal;
+import consulo.php.lang.psi.PhpParameter;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.PhpSelfAssignmentExpression;
+import consulo.php.lang.psi.PhpVariableReference;
+import consulo.php.lang.psi.resolve.PhpResolveProcessor;
+import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
+import consulo.php.lang.psi.resolve.ResolveUtil;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -215,7 +215,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	{
 		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
 		ResolveUtil.treeWalkUp(this, processor);
-		val variants = processor.getVariants();
+		List<PhpElement> variants = processor.getVariants();
 		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 

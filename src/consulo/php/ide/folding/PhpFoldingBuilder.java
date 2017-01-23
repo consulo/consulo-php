@@ -1,12 +1,8 @@
 package consulo.php.ide.folding;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import consulo.php.lang.psi.PhpBraceOwner;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpStubElements;
-import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
@@ -16,7 +12,12 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
-import lombok.val;
+import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.psi.PhpBraceOwner;
+import consulo.php.lang.psi.PhpClass;
+import consulo.php.lang.psi.PhpFunction;
+import consulo.php.lang.psi.PhpStubElements;
+import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 
 /**
  * @author VISTALL
@@ -24,11 +25,12 @@ import lombok.val;
  */
 public class PhpFoldingBuilder implements FoldingBuilder
 {
+	@RequiredReadAction
 	@NotNull
 	@Override
 	public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode node, @NotNull Document document)
 	{
-		val list = new ArrayList<FoldingDescriptor>();
+		List<FoldingDescriptor> list = new ArrayList<FoldingDescriptor>();
 		PsiElement psi = node.getPsi();
 
 		psi.acceptChildren(new PhpRecursiveElementVisitor()

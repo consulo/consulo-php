@@ -2,14 +2,16 @@ package consulo.php.lang.psi.resolve.types;
 
 import java.util.Collection;
 
-import consulo.php.index.PhpIndexUtil;
-import consulo.php.lang.psi.*;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
-import lombok.val;
+import consulo.php.index.PhpIndexUtil;
+import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
+import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
+import consulo.php.lang.psi.*;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -27,7 +29,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		PhpType type = new PhpType();
 		if(variable.getName() != null && variable.getName().equals("this"))
 		{
-			val klass = PsiTreeUtil.getParentOfType(variable, PhpClass.class);
+			PhpClass klass = PsiTreeUtil.getParentOfType(variable, PhpClass.class);
 			if(klass != null && klass.getName() != null)
 			{
 				type.addClasses(PhpIndexUtil.getClassesForName(variable, klass.getName()));
@@ -35,11 +37,11 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		}
 		else if(!variable.isDeclaration())
 		{
-			val results = variable.multiResolve(false);
+			ResolveResult[] results = variable.multiResolve(false);
 			if(results.length > 0)
 			{
 				ResolveResult result = results[results.length - 1];
-				val element = result.getElement();
+				PsiElement element = result.getElement();
 				if(element instanceof PhpTypeOwner)
 				{
 					type.addClasses(((PhpTypeOwner) element).getType().getTypes());
@@ -48,10 +50,10 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 		}
 		else
 		{
-			val parent = variable.getParent();
+			PsiElement parent = variable.getParent();
 			if(parent instanceof PhpAssignmentExpression)
 			{
-				val value = ((PhpAssignmentExpression) parent).getValue();
+				PsiElement value = ((PhpAssignmentExpression) parent).getValue();
 				if(value instanceof PhpTypeOwner)
 				{
 					type.addClasses(((PhpTypeOwner) value).getType().getTypes());
@@ -59,7 +61,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 			}
 			else if(parent instanceof PhpCatchStatement)
 			{
-				val classReference = ((PhpCatchStatement) parent).getExceptionType();
+				PhpClassReference classReference = ((PhpCatchStatement) parent).getExceptionType();
 				if(classReference != null)
 				{
 					type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
@@ -73,7 +75,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitAssignmentExpression(PhpAssignmentExpression expr)
 	{
 		PhpType type = new PhpType();
-		val value = expr.getValue();
+		PsiElement value = expr.getValue();
 		if(value instanceof PhpTypeOwner)
 		{
 			type.addClasses(((PhpTypeOwner) value).getType().getTypes());
@@ -85,7 +87,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitMethodReference(PhpMethodReference reference)
 	{
 		PhpType type = new PhpType();
-		val element = reference.resolve();
+		PsiElement element = reference.resolve();
 		if(element instanceof PhpFunction)
 		{
 			type.addClasses(((PhpFunction) element).getType().getTypes());
@@ -97,10 +99,10 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitFunction(PhpFunction phpMethod)
 	{
 		PhpType type = new PhpType();
-		val docComment = phpMethod.getDocComment();
+		PhpDocComment docComment = phpMethod.getDocComment();
 		if(docComment != null)
 		{
-			val returnTag = docComment.getReturnTag();
+			PhpDocReturnTag returnTag = docComment.getReturnTag();
 			if(returnTag != null)
 			{
 				for(String className : returnTag.getTypes())
@@ -116,7 +118,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitFieldReference(PhpFieldReference fieldReference)
 	{
 		PhpType type = new PhpType();
-		val element = fieldReference.resolve();
+		PsiElement element = fieldReference.resolve();
 		if(element instanceof PhpField)
 		{
 			type.addClasses(((PhpField) element).getType().getTypes());
@@ -128,10 +130,10 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitField(PhpField phpField)
 	{
 		PhpType type = new PhpType();
-		val docComment = phpField.getDocComment();
+		PhpDocComment docComment = phpField.getDocComment();
 		if(docComment != null)
 		{
-			val varTag = docComment.getVarTag();
+			PhpDocVarTag varTag = docComment.getVarTag();
 			if(varTag != null && varTag.getType() != null && varTag.getType().length() > 0)
 			{
 				type.addClasses(PhpIndexUtil.getClassesForName(phpField, varTag.getType()));
@@ -145,7 +147,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitNewExpression(PhpNewExpression expression)
 	{
 		PhpType type = new PhpType();
-		val classReference = expression.getFirstPsiChild();
+		PhpElement classReference = expression.getFirstPsiChild();
 		if(classReference instanceof PhpClassReference)
 		{
 			PsiElement klass = ((PhpClassReference) classReference).resolve();
@@ -165,7 +167,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	public void visitParameter(PhpParameter parameter)
 	{
 		PhpType type = new PhpType();
-		val classReference = parameter.getFirstPsiChild();
+		PhpElement classReference = parameter.getFirstPsiChild();
 		if(classReference instanceof PhpClassReference)
 		{
 			Collection<PhpClass> classesFor = PhpIndexUtil.getClassesForName(parameter, ((PhpClassReference) classReference).getReferenceName());

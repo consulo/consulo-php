@@ -1,16 +1,8 @@
 package consulo.php.lang.psi.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import consulo.php.lang.PhpFileType;
-import consulo.php.lang.PhpLanguage;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFile;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
@@ -20,7 +12,15 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.ArrayUtil;
-import lombok.val;
+import consulo.php.lang.PhpFileType;
+import consulo.php.lang.PhpLanguage;
+import consulo.php.lang.psi.PhpClass;
+import consulo.php.lang.psi.PhpElement;
+import consulo.php.lang.psi.PhpField;
+import consulo.php.lang.psi.PhpFile;
+import consulo.php.lang.psi.PhpFunction;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -92,7 +92,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	@Override
 	public PhpElement[] getTopLevelElements()
 	{
-		val phpElementList = new ArrayList<PhpElement>();
+		List<PhpElement> phpElementList = new ArrayList<PhpElement>();
 		accept(new PhpRecursiveElementVisitor()
 		{
 			@Override

@@ -1,11 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.types.PhpType;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +10,12 @@ import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.NamedStub;
 import com.intellij.util.IncorrectOperationException;
-import lombok.val;
+import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpConstantReference;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.resolve.types.PhpType;
+import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
 /**
  * @author VISTALL
@@ -36,7 +35,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends
 
 	public PhpDocComment getDocComment()
 	{
-		val element = getPrevSibling();
+		PsiElement element = getPrevSibling();
 		if(element instanceof PhpDocComment)
 		{
 			return (PhpDocComment) element;
