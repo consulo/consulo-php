@@ -1,8 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.completion.ClassUsageContext;
-import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +8,11 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
+import consulo.php.completion.ClassUsageContext;
+import consulo.php.lang.psi.PhpConstantReference;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -35,12 +37,15 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return this;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@NotNull
+	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
 	{
@@ -50,9 +55,10 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 			int startOffset = nameIdentifier.getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameIdentifier.getTextLength());
 		}
-		return null;
+		return TextRange.EMPTY_RANGE;
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -67,6 +73,8 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return context;
 	}
 
+	@NotNull
+	@RequiredReadAction
 	@Override
 	public Object[] getVariants()
 	{
@@ -94,6 +102,8 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return new Object[0];
 	}
 
+	@NotNull
+	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
 	{
@@ -109,6 +119,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rename cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
 	{
@@ -125,6 +136,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rebind cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
 	{
@@ -137,6 +149,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 * @param element the element to check target for.
 	 * @return true if the reference targets that element, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
@@ -151,6 +164,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 *
 	 * @return true if the refence is soft, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{
@@ -166,6 +180,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the modification is not supported or not possible for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
 	{
