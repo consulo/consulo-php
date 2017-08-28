@@ -2,14 +2,14 @@ package consulo.php.completion;
 
 import javax.swing.Icon;
 
-import org.apache.commons.lang.StringUtils;
-import consulo.php.lang.psi.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
+import com.intellij.openapi.util.text.StringUtil;
+import consulo.php.lang.psi.PhpNamedElement;
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,11 +75,11 @@ public class PhpLookupElement extends LookupElement
 				{
 					presentation.setItemTextBold(true);
 				}
-				if(!StringUtils.isEmpty(tailText))
+				if(!StringUtil.isEmpty(tailText))
 				{
 					presentation.setTailText(tailText);
 				}
-				if(!StringUtils.isEmpty(typeText))
+				if(!StringUtil.isEmpty(typeText))
 				{
 					presentation.setTypeText(typeText);
 				}
