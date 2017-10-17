@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import consulo.php.lang.PhpFileType;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpFile;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.projectView.SelectableTreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.PsiElement;
+import consulo.php.lang.PhpFileType;
+import consulo.php.lang.psi.PhpClass;
+import consulo.php.lang.psi.PhpElement;
+import consulo.php.lang.psi.PhpFile;
 
 /**
  * @author VISTALL
@@ -50,13 +50,6 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 			}
 		}
 		return nodes;
-	}
-
-	@Nullable
-	@Override
-	public Object getData(Collection<AbstractTreeNode> abstractTreeNodes, String s)
-	{
-		return null;
 	}
 
 	public PhpClass findSingleClass(Object o)

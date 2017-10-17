@@ -3,11 +3,6 @@ package consulo.php.actions;
 import java.util.Properties;
 
 import org.apache.velocity.runtime.parser.ParseException;
-import consulo.php.PhpIcons2;
-import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.psi.PhpPackage;
-import consulo.php.lang.psi.util.PhpPsiUtil;
-import consulo.php.module.extension.PhpModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.IdeView;
@@ -31,6 +26,11 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
+import consulo.php.PhpIcons2;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.psi.PhpPackage;
+import consulo.php.lang.psi.util.PhpPsiUtil;
+import consulo.php.module.extension.PhpModuleExtension;
 
 /**
  * @author VISTALL
@@ -100,14 +100,14 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 	@Override
 	protected boolean isAvailable(final DataContext dataContext)
 	{
-		final Project project = PlatformDataKeys.PROJECT.getData(dataContext);
-		final IdeView view = LangDataKeys.IDE_VIEW.getData(dataContext);
+		final Project project = dataContext.getData(PlatformDataKeys.PROJECT);
+		final IdeView view = dataContext.getData(LangDataKeys.IDE_VIEW);
 		if(project == null || view == null || view.getDirectories().length == 0)
 		{
 			return false;
 		}
 
-		final Module module = LangDataKeys.MODULE.getData(dataContext);
+		final Module module = dataContext.getData(LangDataKeys.MODULE);
 		if(module == null)
 		{
 			return false;
