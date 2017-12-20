@@ -42,6 +42,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-
+		<module>php-impl</module>
+		<module>stubs-generator</module>
 	</modules>
 </project>
