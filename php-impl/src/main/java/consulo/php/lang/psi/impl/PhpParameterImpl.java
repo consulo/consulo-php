@@ -8,7 +8,7 @@ import consulo.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
@@ -42,7 +42,7 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
@@ -55,13 +55,13 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements PhpParamete
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitParameter(this);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PhpType getType()
 	{
 		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);

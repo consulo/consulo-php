@@ -7,7 +7,7 @@ import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpModifierListOwner;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.PsiElement;
@@ -22,7 +22,7 @@ import consulo.ide.IconDescriptorUpdater;
 public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 {
 	@Override
-	public void updateIcon(@NotNull IconDescriptor iconDescriptor, @NotNull PsiElement element, int flags)
+	public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags)
 	{
 		if(element instanceof PhpClass)
 		{

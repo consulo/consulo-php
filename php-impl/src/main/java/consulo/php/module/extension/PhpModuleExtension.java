@@ -1,7 +1,8 @@
 package consulo.php.module.extension;
 
+import javax.annotation.Nonnull;
+
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.projectRoots.SdkType;
 import consulo.annotations.RequiredReadAction;
 import consulo.extension.impl.ModuleExtensionWithSdkImpl;
@@ -18,7 +19,7 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 {
 	protected LanguageLevelModuleInheritableNamedPointerImpl myLanguageLevel;
 
-	public PhpModuleExtension(@NotNull String id, @NotNull ModuleRootLayer layer)
+	public PhpModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer layer)
 	{
 		super(id, layer);
 		myLanguageLevel = new LanguageLevelModuleInheritableNamedPointerImpl(layer, id);
@@ -26,26 +27,26 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 
 	@RequiredReadAction
 	@Override
-	public void commit(@NotNull PhpModuleExtension mutableModuleExtension)
+	public void commit(@Nonnull PhpModuleExtension mutableModuleExtension)
 	{
 		super.commit(mutableModuleExtension);
 
 		myLanguageLevel.set(mutableModuleExtension.getInheritableLanguageLevel());
 	}
 
-	@NotNull
+	@Nonnull
 	public ModuleInheritableNamedPointer<PhpLanguageLevel> getInheritableLanguageLevel()
 	{
 		return myLanguageLevel;
 	}
 
-	@NotNull
+	@Nonnull
 	public PhpLanguageLevel getLanguageLevel()
 	{
 		return myLanguageLevel.get();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends SdkType> getSdkTypeClass()
 	{
@@ -53,7 +54,7 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 	}
 
 	@Override
-	protected void getStateImpl(@NotNull Element element)
+	protected void getStateImpl(@Nonnull Element element)
 	{
 		super.getStateImpl(element);
 
@@ -61,7 +62,7 @@ public class PhpModuleExtension extends ModuleExtensionWithSdkImpl<PhpModuleExte
 	}
 
 	@Override
-	protected void loadStateImpl(@NotNull Element element)
+	protected void loadStateImpl(@Nonnull Element element)
 	{
 		super.loadStateImpl(element);
 

@@ -2,7 +2,7 @@ package consulo.php.lang.lexer.managers;
 
 import consulo.php.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.psi.tree.IElementType;
 
 /**
@@ -22,7 +22,7 @@ public class OperatorManager
 	private boolean afterVariable;
 	private boolean afterArrow;
 
-	public OperatorManager(@NotNull final PhpFlexLexer lexer)
+	public OperatorManager(@Nonnull final PhpFlexLexer lexer)
 	{
 		this.lexer = lexer;
 	}

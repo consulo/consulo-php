@@ -1,7 +1,8 @@
 package consulo.php.lang;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.TextEditorBasedStructureViewModel;
 import com.intellij.ide.util.treeView.smartTree.Filter;
@@ -31,35 +32,35 @@ class PhpStructureViewModel extends TextEditorBasedStructureViewModel
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public StructureViewTreeElement getRoot()
 	{
 		return new PhpTreeElement(mainFile);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Grouper[] getGroupers()
 	{
 		return Grouper.EMPTY_ARRAY;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Sorter[] getSorters()
 	{
 		return new Sorter[]{Sorter.ALPHA_SORTER};
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Filter[] getFilters()
 	{
 		return Filter.EMPTY_ARRAY;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	protected Class[] getSuitableClasses()
 	{
 		return myClasses;

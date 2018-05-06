@@ -3,11 +3,12 @@ package consulo.php.lang.psi.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpImplementsList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 
@@ -23,13 +24,13 @@ public class PhpImplementsListImpl extends PhpElementImpl implements PhpImplemen
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public List<PhpClass> getInterfaces()
 	{
 		List<PhpClass> result = new ArrayList<PhpClass>();

@@ -1,9 +1,10 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpParameterList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -20,7 +21,7 @@ public class PhpParameterListImpl extends PhpElementImpl implements PhpParameter
 		super(node);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpParameter[] getParameters()
 	{
@@ -28,13 +29,13 @@ public class PhpParameterListImpl extends PhpElementImpl implements PhpParameter
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitParameterList(this);
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		if(lastParent == null)
 		{

@@ -1,7 +1,8 @@
 package consulo.php.lang.highlighter;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpLanguage;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import consulo.fileTypes.LanguageVersionableSyntaxHighlighterFactory;
 import consulo.lang.LanguageVersion;
@@ -17,9 +18,9 @@ public class PhpSyntaxHighlighterFactory extends LanguageVersionableSyntaxHighli
 		super(PhpLanguage.INSTANCE);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public SyntaxHighlighter getSyntaxHighlighter(@NotNull LanguageVersion languageVersion)
+	public SyntaxHighlighter getSyntaxHighlighter(@Nonnull LanguageVersion languageVersion)
 	{
 		return new PhpFileSyntaxHighlighter(languageVersion);
 	}

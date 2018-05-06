@@ -1,7 +1,7 @@
 package consulo.php.lang.commenter;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.lang.CodeDocumentationAwareCommenter;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.tree.IElementType;

@@ -1,7 +1,7 @@
 package consulo.php.lang;
 
 import consulo.php.vfs.PharFileType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
 
@@ -12,7 +12,7 @@ import com.intellij.openapi.fileTypes.FileTypeFactory;
 public class PhpFileTypeFactory extends FileTypeFactory
 {
 	@Override
-	public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer)
+	public void createFileTypes(@Nonnull FileTypeConsumer fileTypeConsumer)
 	{
 		for(String extention : PhpFileType.EXTENTIONS)
 		{

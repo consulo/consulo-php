@@ -3,8 +3,9 @@ package consulo.php.ide.folding;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilder;
 import com.intellij.lang.folding.FoldingDescriptor;
@@ -26,9 +27,9 @@ import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 public class PhpFoldingBuilder implements FoldingBuilder
 {
 	@RequiredReadAction
-	@NotNull
+	@Nonnull
 	@Override
-	public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode node, @NotNull Document document)
+	public FoldingDescriptor[] buildFoldRegions(@Nonnull ASTNode node, @Nonnull Document document)
 	{
 		List<FoldingDescriptor> list = new ArrayList<FoldingDescriptor>();
 		PsiElement psi = node.getPsi();
@@ -69,7 +70,7 @@ public class PhpFoldingBuilder implements FoldingBuilder
 
 	@Nullable
 	@Override
-	public String getPlaceholderText(@NotNull ASTNode node)
+	public String getPlaceholderText(@Nonnull ASTNode node)
 	{
 		IElementType elementType = node.getElementType();
 		if(elementType == PhpStubElements.CLASS || elementType == PhpStubElements.FUNCTION)
@@ -80,7 +81,7 @@ public class PhpFoldingBuilder implements FoldingBuilder
 	}
 
 	@Override
-	public boolean isCollapsedByDefault(@NotNull ASTNode node)
+	public boolean isCollapsedByDefault(@Nonnull ASTNode node)
 	{
 		return false;
 	}

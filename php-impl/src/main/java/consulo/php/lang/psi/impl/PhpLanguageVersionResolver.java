@@ -1,9 +1,11 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -19,9 +21,9 @@ import consulo.lang.LanguageVersionResolver;
  */
 public class PhpLanguageVersionResolver implements LanguageVersionResolver
 {
-	@NotNull
+	@Nonnull
 	@Override
-	public LanguageVersion getLanguageVersion(@NotNull Language language, @Nullable PsiElement psiElement)
+	public LanguageVersion getLanguageVersion(@Nonnull Language language, @Nullable PsiElement psiElement)
 	{
 		if(psiElement == null)
 		{
@@ -31,7 +33,7 @@ public class PhpLanguageVersionResolver implements LanguageVersionResolver
 	}
 
 	@Override
-	public LanguageVersion getLanguageVersion(@NotNull Language language, @Nullable Project project, @Nullable VirtualFile virtualFile)
+	public LanguageVersion getLanguageVersion(@Nonnull Language language, @Nullable Project project, @Nullable VirtualFile virtualFile)
 	{
 		if(project == null || virtualFile == null)
 		{

@@ -2,10 +2,11 @@ package consulo.php.lang.psi.impl.stub.elements;
 
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpFile;
 import consulo.php.lang.psi.impl.stub.PhpFileStub;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.StubBuilder;
@@ -31,7 +32,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 		return new DefaultStubBuilder()
 		{
 			@Override
-			protected StubElement createStubForFile(@NotNull PsiFile file)
+			protected StubElement createStubForFile(@Nonnull PsiFile file)
 			{
 				if(file instanceof PhpFile)
 				{
@@ -43,9 +44,9 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 		};
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PhpFileStub deserialize(@NotNull final StubInputStream dataStream, final StubElement parentStub) throws IOException
+	public PhpFileStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException
 	{
 		return new PhpFileStub(null);
 	}
@@ -56,7 +57,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 		return 3;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getExternalId()
 	{

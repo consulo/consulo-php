@@ -1,9 +1,10 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpBinaryExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -40,13 +41,13 @@ public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinary
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitBinaryExpression(this);
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		if(lastParent == null || lastParent == getRightOperand())
 		{

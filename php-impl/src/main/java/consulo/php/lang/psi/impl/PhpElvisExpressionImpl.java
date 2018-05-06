@@ -1,8 +1,9 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpElvisExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -17,7 +18,7 @@ public class PhpElvisExpressionImpl extends PhpElementImpl implements PhpElvisEx
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitElvisExpression(this);
 	}

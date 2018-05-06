@@ -8,7 +8,7 @@ import consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -24,7 +24,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}

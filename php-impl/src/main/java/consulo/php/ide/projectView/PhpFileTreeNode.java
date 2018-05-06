@@ -10,7 +10,7 @@ import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.PhpField;
 import consulo.php.lang.psi.PhpFile;
 import consulo.php.lang.psi.PhpFunction;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;

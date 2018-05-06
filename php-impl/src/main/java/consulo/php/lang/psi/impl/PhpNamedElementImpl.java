@@ -1,5 +1,8 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpConstantReference;
@@ -9,8 +12,6 @@ import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
@@ -28,7 +29,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
@@ -80,7 +81,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	public PhpType getType()
 	{
 		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);

@@ -1,11 +1,12 @@
 package consulo.php.lang.parser;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.lexer.PhpFlexAdapter;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -28,49 +29,49 @@ public class PhpParserDefinition implements ParserDefinition
 {
 
 	@Override
-	@NotNull
-	public Lexer createLexer(@NotNull LanguageVersion languageVersion)
+	@Nonnull
+	public Lexer createLexer(@Nonnull LanguageVersion languageVersion)
 	{
 		return new PhpFlexAdapter((PhpLanguageLevel) languageVersion);
 	}
 
 	@Override
-	@NotNull
-	public PsiParser createParser(@NotNull LanguageVersion languageVersion)
+	@Nonnull
+	public PsiParser createParser(@Nonnull LanguageVersion languageVersion)
 	{
 		return new PhpPsiParser();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public IFileElementType getFileNodeType()
 	{
 		return PhpStubElements.FILE;
 	}
 
 	@Override
-	@NotNull
-	public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion)
+	@Nonnull
+	public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion)
 	{
 		return TokenSet.create(PhpTokenTypes.WHITE_SPACE, PhpTokenTypes.DOC_WHITESPACE);
 	}
 
 	@Override
-	@NotNull
-	public TokenSet getCommentTokens(@NotNull LanguageVersion languageVersion)
+	@Nonnull
+	public TokenSet getCommentTokens(@Nonnull LanguageVersion languageVersion)
 	{
 		return PhpTokenTypes.tsCOMMENTS;
 	}
 
 	@Override
-	@NotNull
-	public TokenSet getStringLiteralElements(@NotNull LanguageVersion languageVersion)
+	@Nonnull
+	public TokenSet getStringLiteralElements(@Nonnull LanguageVersion languageVersion)
 	{
 		return PhpTokenTypes.tsSTRINGS;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PsiElement createElement(ASTNode node)
 	{
 		return PhpPsiCreator.create(node);
@@ -82,7 +83,7 @@ public class PhpParserDefinition implements ParserDefinition
 		return new PhpFileImpl(viewProvider);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right)
 	{

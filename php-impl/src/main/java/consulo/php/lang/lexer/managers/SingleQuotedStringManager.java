@@ -1,7 +1,8 @@
 package consulo.php.lang.lexer.managers;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpFlexLexer;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class SingleQuotedStringManager extends StringManager
 {
 
-	public SingleQuotedStringManager(@NotNull final PhpFlexLexer lexer)
+	public SingleQuotedStringManager(@Nonnull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 		DELIMITER = '\'';

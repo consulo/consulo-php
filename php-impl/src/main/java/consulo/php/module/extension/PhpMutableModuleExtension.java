@@ -1,10 +1,11 @@
 package consulo.php.module.extension;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 
 import consulo.php.PhpLanguageLevel;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.openapi.projectRoots.Sdk;
 import consulo.annotations.RequiredDispatchThread;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
@@ -17,12 +18,12 @@ import consulo.roots.ModuleRootLayer;
  */
 public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
 {
-	public PhpMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
+	public PhpMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module)
 	{
 		super(id, module);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk()
 	{
@@ -30,7 +31,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public MutableModuleInheritableNamedPointer<PhpLanguageLevel> getInheritableLanguageLevel()
 	{
 		return myLanguageLevel;
@@ -51,7 +52,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	}
 
 	@Override
-	public boolean isModified(@NotNull PhpModuleExtension extension)
+	public boolean isModified(@Nonnull PhpModuleExtension extension)
 	{
 		return isModifiedImpl(extension) || !extension.getInheritableLanguageLevel().equals
 				(getInheritableLanguageLevel());

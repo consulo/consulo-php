@@ -1,7 +1,8 @@
 package consulo.php.lang.lexer.managers;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpFlexLexer;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +23,7 @@ public class DoubleQuotedStringManager extends SubstitutionsAwareStringManager
 {
 
 
-	public DoubleQuotedStringManager(@NotNull final PhpFlexLexer lexer)
+	public DoubleQuotedStringManager(@Nonnull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 		DELIMITER = '"';

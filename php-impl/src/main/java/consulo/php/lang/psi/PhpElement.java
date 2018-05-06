@@ -1,6 +1,7 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ArrayFactory;
 
@@ -17,7 +18,7 @@ public interface PhpElement extends PsiElement
 
 	public static ArrayFactory<PhpElement> ARRAY_FACTORY = new ArrayFactory<PhpElement>()
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		public PhpElement[] create(int count)
 		{

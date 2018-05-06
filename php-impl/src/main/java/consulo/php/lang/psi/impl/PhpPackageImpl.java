@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpPackage;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
 import com.intellij.openapi.roots.impl.DirectoryIndex;
 import com.intellij.openapi.util.NotNullLazyValue;
@@ -28,7 +29,7 @@ public class PhpPackageImpl extends PsiPackageBase implements PhpPackage
 {
 	private NotNullLazyValue<String> myNamespaceName = new NotNullLazyValue<String>()
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		protected String compute()
 		{
@@ -66,14 +67,14 @@ public class PhpPackageImpl extends PsiPackageBase implements PhpPackage
 		return PhpPackage.ARRAY_FACTORY;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Language getLanguage()
 	{
 		return PhpLanguage.INSTANCE;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getNamespaceName()
 	{

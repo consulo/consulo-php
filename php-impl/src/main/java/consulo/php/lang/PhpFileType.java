@@ -1,13 +1,14 @@
 package consulo.php.lang;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
 import consulo.php.PhpBundle;
 import consulo.php.PhpIcons2;
 import consulo.php.lang.highlighter.PhpSyntaxHighlighter;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.fileTypes.EditorHighlighterProvider;
@@ -46,7 +47,7 @@ public class PhpFileType extends LanguageFileType
 		FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, new EditorHighlighterProvider()
 		{
 			@Override
-			public EditorHighlighter getEditorHighlighter(@Nullable Project project, @NotNull FileType fileType, @Nullable VirtualFile virtualFile, @NotNull EditorColorsScheme editorColorsScheme)
+			public EditorHighlighter getEditorHighlighter(@Nullable Project project, @Nonnull FileType fileType, @Nullable VirtualFile virtualFile, @Nonnull EditorColorsScheme editorColorsScheme)
 			{
 				return new PhpSyntaxHighlighter(project, virtualFile, editorColorsScheme);
 			}
@@ -54,7 +55,7 @@ public class PhpFileType extends LanguageFileType
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	@NonNls
 	public String getName()
 	{
@@ -62,14 +63,14 @@ public class PhpFileType extends LanguageFileType
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDescription()
 	{
 		return DESCRIPTION;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	@NonNls
 	public String getDefaultExtension()
 	{

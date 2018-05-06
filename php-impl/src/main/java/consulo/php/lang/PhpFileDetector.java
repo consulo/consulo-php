@@ -1,7 +1,8 @@
 package consulo.php.lang;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeRegistry;
 import com.intellij.openapi.util.io.ByteSequence;
@@ -16,7 +17,7 @@ public class PhpFileDetector implements FileTypeRegistry.FileTypeDetector
 {
 	@Nullable
 	@Override
-	public FileType detect(@NotNull VirtualFile virtualFile, @NotNull ByteSequence byteSequence, @Nullable CharSequence charSequence)
+	public FileType detect(@Nonnull VirtualFile virtualFile, @Nonnull ByteSequence byteSequence, @Nullable CharSequence charSequence)
 	{
 		if(FileUtil.isHashBangLine(charSequence, "php"))
 		{

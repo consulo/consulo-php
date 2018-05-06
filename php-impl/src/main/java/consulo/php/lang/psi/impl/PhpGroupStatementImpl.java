@@ -1,10 +1,11 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.PhpGroupStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
@@ -23,7 +24,7 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Ph
 	}
 
 	@Override
-	public final void accept(@NotNull final PsiElementVisitor visitor)
+	public final void accept(@Nonnull final PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)
 		{
@@ -36,14 +37,14 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Ph
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PsiElement[] getStatements()
 	{
 		return getChildren();
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		if(lastParent == null)
 		{

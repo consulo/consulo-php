@@ -1,7 +1,7 @@
 package consulo.php.lang;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.psi.impl.source.tree.LazyParseableElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.ILazyParseableElementType;
@@ -15,7 +15,7 @@ import consulo.psi.tree.ASTLazyFactory;
  */
 public class PhpAstLazyFactory implements ASTLazyFactory
 {
-	@NotNull
+	@Nonnull
 	@Override
 	public LazyParseableElement createLazy(ILazyParseableElementType iLazyParseableElementType, CharSequence charSequence)
 	{

@@ -12,7 +12,7 @@ import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpNamedElement;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -167,7 +167,7 @@ public class PhpVariantsUtil
 		return item;
 	}
 
-	@NotNull
+	@Nonnull
 	public static LookupItem[] getLookupItemsForVariables(List<? extends PhpElement> elements)
 	{
 		LookupItem[] result = new LookupItem[elements.size()];

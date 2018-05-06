@@ -1,8 +1,10 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
@@ -23,12 +25,12 @@ import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
  */
 public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends PhpStubbedElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement
 {
-	public PhpStubbedNamedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType)
+	public PhpStubbedNamedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType)
 	{
 		super(stub, nodeType);
 	}
 
-	public PhpStubbedNamedElementImpl(@NotNull ASTNode node)
+	public PhpStubbedNamedElementImpl(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
@@ -56,7 +58,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends
 		return nameIdentifier == null ? null : nameIdentifier.getText();
 	}
 
-	@NotNull
+	@Nonnull
 	public PhpType getType()
 	{
 		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
@@ -70,7 +72,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String s) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String s) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		if(nameIdentifier != null && !getName().equals(s))

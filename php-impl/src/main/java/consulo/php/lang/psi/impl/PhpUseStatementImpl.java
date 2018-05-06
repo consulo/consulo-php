@@ -3,7 +3,7 @@ package consulo.php.lang.psi.impl;
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpUseStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -18,12 +18,12 @@ public class PhpUseStatementImpl extends PhpElementImpl implements PhpUseStateme
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitUseStatement(this);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpClassReference[] getClassReferences()
 	{

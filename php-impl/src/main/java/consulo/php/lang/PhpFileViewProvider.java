@@ -5,10 +5,12 @@ import gnu.trove.THashSet;
 import java.util.Arrays;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageParserDefinitions;
 import com.intellij.lang.html.HTMLLanguage;
@@ -35,21 +37,21 @@ public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Set<Language> getLanguages()
 	{
 		return ourRelevantLanguages;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Language getBaseLanguage()
 	{
 		return PhpLanguage.INSTANCE;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Language getTemplateDataLanguage()
 	{
 		return HTMLLanguage.INSTANCE;

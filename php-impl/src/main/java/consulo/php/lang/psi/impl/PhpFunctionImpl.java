@@ -1,5 +1,8 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpModifierList;
@@ -9,8 +12,6 @@ import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.impl.stub.PhpFunctionStub;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -31,13 +32,13 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 		super(node);
 	}
 
-	public PhpFunctionImpl(@NotNull PhpFunctionStub stub)
+	public PhpFunctionImpl(@Nonnull PhpFunctionStub stub)
 	{
 		super(stub, PhpStubElements.FUNCTION);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PhpParameter[] getParameters()
 	{
 		PhpParameterList parameterList = getParameterList();
@@ -55,19 +56,19 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		return null;
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitFunction(this);
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState resolveState, PsiElement psiElement, @NotNull PsiElement psiElement1)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState resolveState, PsiElement psiElement, @Nonnull PsiElement psiElement1)
 	{
 		for(PhpParameter parameter : getParameters())
 		{
@@ -87,14 +88,14 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull IElementType type)
+	public boolean hasModifier(@Nonnull IElementType type)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(type);
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull TokenSet tokenSet)
+	public boolean hasModifier(@Nonnull TokenSet tokenSet)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(tokenSet);

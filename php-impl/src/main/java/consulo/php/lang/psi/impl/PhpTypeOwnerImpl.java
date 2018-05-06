@@ -1,10 +1,11 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import consulo.php.lang.psi.resolve.types.PhpTypeOwner;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -20,13 +21,13 @@ public class PhpTypeOwnerImpl extends PhpElementImpl implements PhpTypeOwner
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PhpType getType()
 	{
 		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);

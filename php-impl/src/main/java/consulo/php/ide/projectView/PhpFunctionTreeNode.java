@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import consulo.php.lang.psi.PhpFunction;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;

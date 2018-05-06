@@ -1,7 +1,7 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -14,7 +14,7 @@ public interface PhpModifierListOwner extends PhpNamedElement
 	@Nullable
 	PhpModifierList getModifierList();
 
-	boolean hasModifier(@NotNull IElementType type);
+	boolean hasModifier(@Nonnull IElementType type);
 
-	boolean hasModifier(@NotNull TokenSet tokenSet);
+	boolean hasModifier(@Nonnull TokenSet tokenSet);
 }

@@ -1,10 +1,11 @@
 package consulo.php.lang.documentation.phpdoc.psi.impl.tags;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.util.PsiTreeUtil;
 
@@ -21,7 +22,7 @@ public class PhpDocVarTagImpl extends PhpDocPsiElementImpl implements PhpDocVarT
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}

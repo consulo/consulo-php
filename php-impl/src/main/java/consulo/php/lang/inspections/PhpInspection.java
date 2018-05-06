@@ -1,9 +1,10 @@
 package consulo.php.lang.inspections;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpBundle;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;
@@ -17,7 +18,7 @@ abstract public class PhpInspection extends LocalInspectionTool
 {
 	@Override
 	@Nls
-	@NotNull
+	@Nonnull
 	public String getGroupDisplayName()
 	{
 		return PhpBundle.message("php.inspections.group");
@@ -25,7 +26,7 @@ abstract public class PhpInspection extends LocalInspectionTool
 
 	@Override
 	@NonNls
-	@NotNull
+	@Nonnull
 	public String getShortName()
 	{
 		return getClass().getSimpleName();
@@ -41,14 +42,14 @@ abstract public class PhpInspection extends LocalInspectionTool
 	 * @return highlighting level for this inspection tool that is used in default settings
 	 */
 	@Override
-	@NotNull
+	@Nonnull
 	public HighlightDisplayLevel getDefaultLevel()
 	{
 		return HighlightDisplayLevel.WARNING;
 	}
 
 	@Override
-	@NotNull
-	abstract public PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly);
+	@Nonnull
+	abstract public PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly);
 
 }

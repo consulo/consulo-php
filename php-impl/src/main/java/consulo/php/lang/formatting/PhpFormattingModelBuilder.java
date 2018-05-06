@@ -1,6 +1,6 @@
 package consulo.php.lang.formatting;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.formatting.FormattingModel;
 import com.intellij.formatting.FormattingModelBuilder;
 import com.intellij.formatting.FormattingModelProvider;
@@ -26,7 +26,7 @@ public class PhpFormattingModelBuilder implements FormattingModelBuilder
 	 * @return the formatting model for the file.
 	 */
 	@Override
-	@NotNull
+	@Nonnull
 	public FormattingModel createModel(PsiElement element, CodeStyleSettings settings)
 	{
 		return FormattingModelProvider.createFormattingModelForPsiFile(element.getContainingFile(), null, settings);

@@ -1,8 +1,9 @@
 package consulo.php;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.PhpFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlFileNSInfoProvider;
 import com.intellij.xml.util.XmlUtil;
@@ -15,7 +16,7 @@ public class PhpXmlFileNSInfoProvider implements XmlFileNSInfoProvider
 {
 	@Nullable
 	@Override
-	public String[][] getDefaultNamespaces(@NotNull XmlFile xmlFile)
+	public String[][] getDefaultNamespaces(@Nonnull XmlFile xmlFile)
 	{
 		if(xmlFile.getFileType() == PhpFileType.INSTANCE)
 		{
@@ -30,7 +31,7 @@ public class PhpXmlFileNSInfoProvider implements XmlFileNSInfoProvider
 	}
 
 	@Override
-	public boolean overrideNamespaceFromDocType(@NotNull XmlFile xmlFile)
+	public boolean overrideNamespaceFromDocType(@Nonnull XmlFile xmlFile)
 	{
 		return true;
 	}

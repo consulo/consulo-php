@@ -1,6 +1,6 @@
 package consulo.php.lang.parser.util;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
@@ -15,7 +15,7 @@ public class PhpPsiBuilder
 
 	private PsiBuilder psiBuilder;
 
-	public PhpPsiBuilder(@NotNull PsiBuilder builder)
+	public PhpPsiBuilder(@Nonnull PsiBuilder builder)
 	{
 		psiBuilder = builder;
 	}

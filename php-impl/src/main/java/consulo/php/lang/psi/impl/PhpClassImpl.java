@@ -2,8 +2,8 @@ package consulo.php.lang.psi.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
@@ -37,12 +37,12 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		super(node);
 	}
 
-	public PhpClassImpl(@NotNull PhpClassStub stub)
+	public PhpClassImpl(@Nonnull PhpClassStub stub)
 	{
 		super(stub, PhpStubElements.CLASS);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpField[] getFields()
 	{
@@ -50,7 +50,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PhpFunction[] getFunctions()
 	{
 		return getStubOrPsiChildren(PhpStubElements.FUNCTION, PhpFunction.ARRAY_FACTORY);
@@ -119,7 +119,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitClass(this);
 	}
@@ -143,7 +143,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement place)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement place)
 	{
 		for(PhpFunction phpMethod : getFunctions())
 		{
@@ -172,14 +172,14 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull IElementType type)
+	public boolean hasModifier(@Nonnull IElementType type)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(type);
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull TokenSet tokenSet)
+	public boolean hasModifier(@Nonnull TokenSet tokenSet)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(tokenSet);

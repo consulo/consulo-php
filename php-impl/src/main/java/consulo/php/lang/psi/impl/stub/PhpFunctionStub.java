@@ -1,8 +1,9 @@
 package consulo.php.lang.psi.impl.stub;
 
+import javax.annotation.Nullable;
+
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpStubElements;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.stubs.NamedStubBase;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.io.StringRef;

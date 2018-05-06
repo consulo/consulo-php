@@ -7,10 +7,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author jay
@@ -45,7 +46,7 @@ public class PhpType implements Serializable
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	public Collection<PhpClass> getTypes()
 	{
 		return classes;

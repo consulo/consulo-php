@@ -1,6 +1,6 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.navigation.NavigationItem;
 
 /**
@@ -15,10 +15,10 @@ public interface PhpClass extends PhpModifierListOwner, NavigationItem, PhpBrace
 
 	String getNamespace();
 
-	@NotNull
+	@Nonnull
 	PhpFunction[] getFunctions();
 
-	@NotNull
+	@Nonnull
 	PhpField[] getFields();
 
 	PhpClass getSuperClass();

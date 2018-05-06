@@ -2,11 +2,12 @@ package consulo.php.ide.presentation;
 
 import java.io.File;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
 import consulo.php.lang.psi.PhpFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProvider;
@@ -51,7 +52,7 @@ public class PhpFilePresentation implements ItemPresentationProvider<PhpFile>
 		};
 	}
 
-	public static String getPresentablePathForFile(@NotNull VirtualFile file, Project project)
+	public static String getPresentablePathForFile(@Nonnull VirtualFile file, Project project)
 	{
 		Module module = ModuleUtil.findModuleForFile(file, project);
 		VirtualFile[] roots;

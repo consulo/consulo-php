@@ -1,6 +1,6 @@
 package consulo.php.lang.documentation.phpdoc.parser;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
 import com.intellij.lang.PsiBuilder;
@@ -25,7 +25,7 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 	final public ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment")
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public Language getLanguage()
 		{
 			return PhpFileType.INSTANCE.getLanguage();

@@ -2,8 +2,8 @@ package consulo.php.lang.highlighter;
 
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.ide.highlighter.HtmlFileType;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.ex.util.LayerDescriptor;
@@ -22,7 +22,7 @@ import consulo.lang.LanguageVersionResolvers;
  */
 public class PhpSyntaxHighlighter extends LayeredLexerEditorHighlighter
 {
-	public PhpSyntaxHighlighter(@Nullable final Project project, @Nullable final VirtualFile virtualFile, @NotNull final EditorColorsScheme colors)
+	public PhpSyntaxHighlighter(@Nullable final Project project, @Nullable final VirtualFile virtualFile, @Nonnull final EditorColorsScheme colors)
 	{
 		super(new PhpFileSyntaxHighlighter(LanguageVersionResolvers.INSTANCE.forLanguage(PhpLanguage.INSTANCE).getLanguageVersion(PhpLanguage
 				.INSTANCE, project, virtualFile)), colors);

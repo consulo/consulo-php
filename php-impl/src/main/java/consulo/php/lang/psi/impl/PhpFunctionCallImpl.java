@@ -1,11 +1,12 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpFunctionCall;
 import consulo.php.lang.psi.PhpParameterList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -29,13 +30,13 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitFunctionCall(this);
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		if(lastParent != getParameterList())
 		{
@@ -120,7 +121,7 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
@@ -174,7 +175,7 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	 *          if the rebind cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}

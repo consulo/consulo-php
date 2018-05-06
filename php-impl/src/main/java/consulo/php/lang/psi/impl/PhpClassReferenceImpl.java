@@ -3,8 +3,8 @@ package consulo.php.lang.psi.impl;
 import java.util.Collection;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -64,7 +64,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitClassReference(this);
 	}
@@ -77,7 +77,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	@NotNull
+	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		PsiElement parent = getParent();
@@ -319,7 +319,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	}
 
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}

@@ -3,11 +3,12 @@ package consulo.php.lang.highlighter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.StringEscapesTokenTypes;
@@ -39,7 +40,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
 	{
 		return pack(ATTRIBUTES.get(tokenType), DOC_ATTRIBUTES.get(tokenType));

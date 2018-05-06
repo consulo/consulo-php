@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpBundle;
 import consulo.php.lang.inspections.PhpInspection;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -13,7 +15,6 @@ import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpImplementsList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
@@ -32,7 +33,7 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 {
 	@Override
 	@Nls
-	@NotNull
+	@Nonnull
 	public String getDisplayName()
 	{
 		return PhpBundle.message("php.inspections.unimplemented_methods_in_class");
@@ -42,15 +43,15 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 	 * @return highlighting level for this inspection tool that is used in default settings
 	 */
 	@Override
-	@NotNull
+	@Nonnull
 	public HighlightDisplayLevel getDefaultLevel()
 	{
 		return HighlightDisplayLevel.ERROR;
 	}
 
 	@Override
-	@NotNull
-	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
+	@Nonnull
+	public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, boolean isOnTheFly)
 	{
 		return new PhpElementVisitor()
 		{

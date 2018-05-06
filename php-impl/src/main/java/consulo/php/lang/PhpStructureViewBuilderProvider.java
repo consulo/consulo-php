@@ -2,8 +2,8 @@ package consulo.php.lang;
 
 import consulo.php.PhpBundle;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.ide.structureView.StructureView;
 import com.intellij.ide.structureView.StructureViewBuilder;
 import com.intellij.ide.structureView.StructureViewModel;
@@ -34,7 +34,7 @@ public class PhpStructureViewBuilderProvider implements PsiStructureViewFactory
 				StructureView mainView = new TreeBasedStructureViewBuilder()
 				{
 					@Override
-					@NotNull
+					@Nonnull
 					public StructureViewModel createStructureViewModel(Editor editor)
 					{
 						return new PhpStructureViewModel((PhpFileImpl) mainFile);

@@ -1,10 +1,11 @@
 package consulo.php.lang.documentation.phpdoc.parser;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocDefaultTagParser;
 import consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocReturnTagParser;
 import consulo.php.lang.documentation.phpdoc.parser.tags.PhpDocVarTagParser;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import consulo.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
@@ -26,7 +27,7 @@ public class PhpDocParser implements PsiParser
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{
 		PhpPsiBuilder phpBuilder = new PhpPsiBuilder(builder);

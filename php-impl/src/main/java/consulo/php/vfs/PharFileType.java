@@ -1,6 +1,6 @@
 package consulo.php.vfs;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import consulo.fileTypes.ArchiveFileType;
 
 /**
@@ -17,14 +17,14 @@ public class PharFileType extends ArchiveFileType
 		return PharFileSystem.PROTOCOL;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getDefaultExtension()
 	{
 		return "phar";
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getName()
 	{

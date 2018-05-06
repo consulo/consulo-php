@@ -1,8 +1,9 @@
 package net.jay.plugins.php.utils;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.net.URL;
 
@@ -21,7 +22,7 @@ public class PathUtils {
 	private static final String searchString2 = "dist/testClasses";
 
 	@Nullable
-	public static String getDataPath(@NotNull Class s) {
+	public static String getDataPath(@Nonnull Class s) {
 		String n = s.getName();
 		int index = n.lastIndexOf(".");
 		String path = "testData/" + n.substring(0, index).replace(".", "/");
@@ -29,7 +30,7 @@ public class PathUtils {
 	}
 
 	@Nullable
-	public static String getClassDir(@NotNull Class s) {
+	public static String getClassDir(@Nonnull Class s) {
 		String path = getClassPath(s);
 // if tests are run, using ideaProjectRunner
 		String dataPath = getClassDir(path, searchString1);
@@ -44,7 +45,7 @@ public class PathUtils {
 		return path;
 	}
 
-	public static String getClassPath(@NotNull final Class s) {
+	public static String getClassPath(@Nonnull final Class s) {
 		String name = s.getName();
 		name = name.substring(name.lastIndexOf('.') + 1) + ".class";
 		final URL url = s.getResource(name);
@@ -55,7 +56,7 @@ public class PathUtils {
 	}
 
 	@Nullable
-	public static String getModuleDir(@NotNull Class s) {
+	public static String getModuleDir(@Nonnull Class s) {
 		String path = getClassPath(s);
 // if tests are run, using ideaProjectRunner
 		String moduleDir = getModuleDir(path, searchString1);
@@ -71,7 +72,7 @@ public class PathUtils {
 	}
 
 	@Nullable
-	private static String getModuleDir(@NotNull String s, @NotNull final String indicator) {
+	private static String getModuleDir(@Nonnull String s, @Nonnull final String indicator) {
 		int n = s.indexOf(indicator);
 		if (n == -1) {
 			return null;
@@ -80,7 +81,7 @@ public class PathUtils {
 	}
 
 	@Nullable
-	private static String getClassDir(@NotNull String s, @NotNull final String indicator) {
+	private static String getClassDir(@Nonnull String s, @Nonnull final String indicator) {
 		int n = s.indexOf(indicator);
 		if (n == -1) {
 			return null;

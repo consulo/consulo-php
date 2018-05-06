@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.execution.util.ExecUtil;
@@ -49,7 +49,7 @@ public class PhpSdkType extends SdkType
 		super("PHP SDK");
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Collection<String> suggestHomePaths()
 	{
@@ -97,7 +97,7 @@ public class PhpSdkType extends SdkType
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getPresentableName()
 	{
 		return PhpBundle.message("php.sdk.type.name");

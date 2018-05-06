@@ -1,6 +1,6 @@
 package consulo.php.module.extension;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
@@ -16,14 +16,14 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 {
 	private final String myKey;
 
-	public LanguageLevelModuleInheritableNamedPointerImpl(@NotNull ModuleRootLayer layer, @NotNull String id)
+	public LanguageLevelModuleInheritableNamedPointerImpl(@Nonnull ModuleRootLayer layer, @Nonnull String id)
 	{
 		super(layer, "language-level");
 		myKey = id;
 	}
 
 	@Override
-	public String getItemNameFromModule(@NotNull Module module)
+	public String getItemNameFromModule(@Nonnull Module module)
 	{
 		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
@@ -34,7 +34,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	}
 
 	@Override
-	public PhpLanguageLevel getItemFromModule(@NotNull Module module)
+	public PhpLanguageLevel getItemFromModule(@Nonnull Module module)
 	{
 		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
@@ -44,9 +44,9 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public NamedPointer<PhpLanguageLevel> getPointer(@NotNull ModuleRootLayer layer, @NotNull String name)
+	public NamedPointer<PhpLanguageLevel> getPointer(@Nonnull ModuleRootLayer layer, @Nonnull String name)
 	{
 		for(PhpLanguageLevel value : PhpLanguageLevel.VALUES)
 		{

@@ -1,8 +1,9 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpNewExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -17,7 +18,7 @@ public class PhpNewExpressionImpl extends PhpTypeOwnerImpl implements PhpNewExpr
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitNewExpression(this);
 	}

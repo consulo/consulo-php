@@ -1,13 +1,15 @@
 package consulo.php.lang.findUsages;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpField;
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpNamedElement;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
@@ -32,21 +34,21 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	}
 
 	@Override
-	public boolean canFindUsagesFor(@NotNull PsiElement psiElement)
+	public boolean canFindUsagesFor(@Nonnull PsiElement psiElement)
 	{
 		return psiElement instanceof PhpClass || psiElement instanceof PhpFunction || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
 	}
 
 	@Override
 	@Nullable
-	public String getHelpId(@NotNull PsiElement psiElement)
+	public String getHelpId(@Nonnull PsiElement psiElement)
 	{
 		return null;
 	}
 
 	@Override
-	@NotNull
-	public String getType(@NotNull PsiElement element)
+	@Nonnull
+	public String getType(@Nonnull PsiElement element)
 	{
 		if(element instanceof PhpVariableReference)
 		{
@@ -80,8 +82,8 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	 * @return the user-visible name.
 	 */
 	@Override
-	@NotNull
-	public String getDescriptiveName(@NotNull PsiElement element)
+	@Nonnull
+	public String getDescriptiveName(@Nonnull PsiElement element)
 	{
 		if(element instanceof PhpNamedElement)
 		{
@@ -99,8 +101,8 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	 * @return the text representing the element.
 	 */
 	@Override
-	@NotNull
-	public String getNodeText(@NotNull PsiElement element, boolean useFullName)
+	@Nonnull
+	public String getNodeText(@Nonnull PsiElement element, boolean useFullName)
 	{
 		if(element instanceof PhpNamedElement)
 		{

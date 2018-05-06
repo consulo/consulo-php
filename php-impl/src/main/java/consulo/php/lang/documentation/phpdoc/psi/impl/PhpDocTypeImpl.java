@@ -2,7 +2,7 @@ package consulo.php.lang.documentation.phpdoc.psi.impl;
 
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 
 /**
@@ -18,7 +18,7 @@ public class PhpDocTypeImpl extends PhpDocPsiElementImpl implements PhpDocType
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}

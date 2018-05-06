@@ -1,9 +1,10 @@
 package consulo.php.codeInsight.highlight;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpFile;
 import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor;
@@ -20,19 +21,19 @@ public class PhpHighlightVisitor extends PhpRecursiveElementVisitor implements H
 	private HighlightInfoHolder myHolder;
 
 	@Override
-	public boolean suitableForFile(@NotNull PsiFile psiFile)
+	public boolean suitableForFile(@Nonnull PsiFile psiFile)
 	{
 		return psiFile instanceof PhpFile;
 	}
 
 	@Override
-	public void visit(@NotNull PsiElement element)
+	public void visit(@Nonnull PsiElement element)
 	{
 		element.accept(this);
 	}
 
 	@Override
-	public boolean analyze(@NotNull PsiFile psiFile, boolean b, @NotNull HighlightInfoHolder highlightInfoHolder, @NotNull Runnable runnable)
+	public boolean analyze(@Nonnull PsiFile psiFile, boolean b, @Nonnull HighlightInfoHolder highlightInfoHolder, @Nonnull Runnable runnable)
 	{
 		myHolder = highlightInfoHolder;
 		runnable.run();
@@ -64,7 +65,7 @@ public class PhpHighlightVisitor extends PhpRecursiveElementVisitor implements H
 		myHolder.add(builder.create());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public HighlightVisitor clone()
 	{

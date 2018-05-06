@@ -1,7 +1,8 @@
 package consulo.php.index;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpClass;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;
 
@@ -13,7 +14,7 @@ public class PhpClassIndex extends StringStubIndexExtension<PhpClass>
 {
 	public static PhpFullFqClassIndex INSTANCE = new PhpFullFqClassIndex();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public StubIndexKey<String, PhpClass> getKey()
 	{

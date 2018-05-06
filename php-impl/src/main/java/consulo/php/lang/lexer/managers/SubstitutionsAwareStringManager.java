@@ -1,7 +1,7 @@
 package consulo.php.lang.lexer.managers;
 
 import consulo.php.lang.lexer.PhpFlexLexer;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class SubstitutionsAwareStringManager extends StringManager
 {
 
-	public SubstitutionsAwareStringManager(@NotNull final PhpFlexLexer lexer)
+	public SubstitutionsAwareStringManager(@Nonnull final PhpFlexLexer lexer)
 	{
 		super(lexer);
 	}

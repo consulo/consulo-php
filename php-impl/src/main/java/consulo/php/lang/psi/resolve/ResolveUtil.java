@@ -1,7 +1,7 @@
 package consulo.php.lang.psi.resolve;
 
 import consulo.php.lang.psi.PhpFunction;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;

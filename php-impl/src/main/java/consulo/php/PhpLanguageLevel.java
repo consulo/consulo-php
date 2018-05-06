@@ -1,6 +1,6 @@
 package consulo.php;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import consulo.annotations.Immutable;
 import consulo.lang.LanguageVersion;
 import consulo.php.lang.PhpLanguage;
@@ -62,13 +62,13 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 		return this;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getDescription()
 	{
 		return myDescription;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getShortName()
 	{
 		return myShortName;

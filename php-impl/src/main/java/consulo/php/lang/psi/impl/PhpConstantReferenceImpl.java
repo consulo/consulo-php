@@ -1,8 +1,10 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -26,7 +28,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitConstant(this);
 	}
@@ -44,7 +46,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return this;
 	}
 
-	@NotNull
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
@@ -73,7 +75,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return context;
 	}
 
-	@NotNull
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public Object[] getVariants()
@@ -102,7 +104,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 		return new Object[0];
 	}
 
-	@NotNull
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
@@ -138,7 +140,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 */
 	@RequiredWriteAction
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}
@@ -182,7 +184,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	 */
 	@RequiredWriteAction
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		return null;
 	}

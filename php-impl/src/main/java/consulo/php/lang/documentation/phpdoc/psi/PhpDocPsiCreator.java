@@ -9,7 +9,7 @@ import consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
 import consulo.php.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
 import consulo.php.lang.psi.impl.PhpElementImpl;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
@@ -60,7 +60,7 @@ public class PhpDocPsiCreator implements PhpDocElementTypes
 		return new PhpElementImpl(node)
 		{
 			@Override
-			public void accept(@NotNull PhpElementVisitor visitor)
+			public void accept(@Nonnull PhpElementVisitor visitor)
 			{
 				visitor.visitPhpElement(this);
 			}

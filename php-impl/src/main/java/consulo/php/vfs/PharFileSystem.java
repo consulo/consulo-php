@@ -3,8 +3,9 @@ package consulo.php.vfs;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+
 import org.eclipse.php.internal.core.phar.PharFile;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.ApplicationComponent;
 import consulo.vfs.impl.archive.ArchiveFile;
 import consulo.vfs.impl.archive.ArchiveFileSystemBase;
@@ -22,9 +23,9 @@ public class PharFileSystem extends ArchiveFileSystemBase implements Application
 		super(PROTOCOL);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public ArchiveFile createArchiveFile(@NotNull String path) throws IOException
+	public ArchiveFile createArchiveFile(@Nonnull String path) throws IOException
 	{
 		return new PharFile(new File(path));
 	}

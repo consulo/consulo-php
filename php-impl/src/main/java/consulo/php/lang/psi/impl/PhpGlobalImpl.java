@@ -3,10 +3,11 @@ package consulo.php.lang.psi.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpGlobal;
 import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -24,7 +25,7 @@ public class PhpGlobalImpl extends PhpElementImpl implements PhpGlobal
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}
@@ -44,7 +45,7 @@ public class PhpGlobalImpl extends PhpElementImpl implements PhpGlobal
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		for(PhpVariableReference variable : this.getVariables())
 		{

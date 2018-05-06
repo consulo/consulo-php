@@ -1,7 +1,8 @@
 package consulo.php.lang.lexer.managers;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpFlexLexer;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +21,7 @@ public class ReadingManager
 
 	protected PhpFlexLexer lexer;
 
-	public ReadingManager(@NotNull final PhpFlexLexer lexer)
+	public ReadingManager(@Nonnull final PhpFlexLexer lexer)
 	{
 		this.lexer = lexer;
 	}

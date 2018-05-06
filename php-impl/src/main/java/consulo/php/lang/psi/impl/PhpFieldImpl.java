@@ -11,8 +11,8 @@ import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.impl.stub.PhpFieldStub;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
@@ -30,13 +30,13 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		super(node);
 	}
 
-	public PhpFieldImpl(@NotNull PhpFieldStub stub)
+	public PhpFieldImpl(@Nonnull PhpFieldStub stub)
 	{
 		super(stub, PhpStubElements.FIELD);
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitField(this);
 	}
@@ -64,7 +64,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		PsiElement nameIdentifier = getNameIdentifier();
 		//noinspection ConstantConditions
@@ -99,14 +99,14 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull IElementType type)
+	public boolean hasModifier(@Nonnull IElementType type)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(type);
 	}
 
 	@Override
-	public boolean hasModifier(@NotNull TokenSet tokenSet)
+	public boolean hasModifier(@Nonnull TokenSet tokenSet)
 	{
 		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(tokenSet);

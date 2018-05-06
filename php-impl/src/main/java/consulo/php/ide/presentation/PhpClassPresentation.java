@@ -1,12 +1,13 @@
 package consulo.php.ide.presentation;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.module.extension.PhpModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProvider;
@@ -68,7 +69,7 @@ public class PhpClassPresentation implements ItemPresentationProvider<PhpClass>
 				return IconDescriptorUpdaters.getIcon(phpClass, 0);
 			}
 
-			private String getPresentablePathForClass(@NotNull PhpClass klass)
+			private String getPresentablePathForClass(@Nonnull PhpClass klass)
 			{
 				VirtualFile classRoot = klass.getContainingFile().getVirtualFile();
 

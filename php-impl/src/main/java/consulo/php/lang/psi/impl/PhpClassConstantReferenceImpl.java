@@ -3,6 +3,8 @@ package consulo.php.lang.psi.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -13,8 +15,8 @@ import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpNamedElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -37,7 +39,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitClassConstantReference(this);
 	}
@@ -83,7 +85,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		return new ResolveResult[0];
@@ -127,7 +129,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}

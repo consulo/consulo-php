@@ -1,6 +1,7 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiFile;
 
 /**
@@ -9,6 +10,6 @@ import com.intellij.psi.PsiFile;
  */
 public interface PhpFile extends PsiFile, PhpElement
 {
-	@NotNull
+	@Nonnull
 	PhpElement[] getTopLevelElements();
 }

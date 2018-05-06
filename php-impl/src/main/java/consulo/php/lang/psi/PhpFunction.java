@@ -1,7 +1,8 @@
 package consulo.php.lang.psi;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.resolve.types.PhpTypeOwner;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.util.ArrayFactory;
 
 /**
@@ -14,7 +15,7 @@ public interface PhpFunction extends PhpModifierListOwner, PhpTypeOwner, PhpBrac
 
 	ArrayFactory<PhpFunction> ARRAY_FACTORY = new ArrayFactory<PhpFunction>()
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		public PhpFunction[] create(int i)
 		{

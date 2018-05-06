@@ -3,9 +3,10 @@ package consulo.php.lang.parser.util;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.PhpBundle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -22,19 +23,19 @@ public class PhpParserErrors
 
 	private static HashMap<TokenSet, String> errorCache = new HashMap<TokenSet, String>();
 
-	@NotNull
+	@Nonnull
 	public static String expected(String s)
 	{
 		return EXPECTED_MESSAGE + " " + s;
 	}
 
-	@NotNull
+	@Nonnull
 	private static String unexpected(String s)
 	{
 		return UNEXPECTED_MESSAGE + " " + s;
 	}
 
-	@NotNull
+	@Nonnull
 	public static String expected(IElementType type)
 	{
 		return expected(getPresentableName(type));
@@ -46,26 +47,26 @@ public class PhpParserErrors
 		return type.toString();
 	}
 
-	@NotNull
+	@Nonnull
 	public static String unexpected(IElementType type)
 	{
 		return unexpected(getPresentableName(type));
 	}
 
-	@NotNull
+	@Nonnull
 	public static String expected(TokenSet types)
 	{
 		return EXPECTED_MESSAGE + " " + setToString(types);
 	}
 
-	@NotNull
+	@Nonnull
 	public static String unexpected(TokenSet types)
 	{
 		return UNEXPECTED_MESSAGE + " " + setToString(types);
 	}
 
-	@NotNull
-	private static String setToString(@NotNull final TokenSet set)
+	@Nonnull
+	private static String setToString(@Nonnull final TokenSet set)
 	{
 		final String cachedString = errorCache.get(set);
 		if(cachedString != null)

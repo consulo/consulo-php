@@ -1,8 +1,9 @@
 package consulo.php.lang.parser;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.parser.parsing.Program;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import consulo.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
@@ -20,7 +21,7 @@ public class PhpPsiParser implements PsiParser
 {
 
 	@Override
-	@NotNull
+	@Nonnull
 	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
 	{
 		builder.setDebugMode(true);

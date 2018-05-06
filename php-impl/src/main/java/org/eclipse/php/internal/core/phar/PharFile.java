@@ -21,11 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.eclipse.php.internal.core.phar.streams.CBZip2InputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.GZIPInputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.PharEntryBufferedRandomInputStream;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import consulo.vfs.impl.archive.ArchiveEntry;
 import consulo.vfs.impl.archive.ArchiveFile;
 
@@ -427,7 +428,7 @@ public class PharFile implements ArchiveFile
 		return pharEntryMap.get(name);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Iterator<? extends ArchiveEntry> entries()
 	{

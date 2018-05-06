@@ -3,7 +3,7 @@ package consulo.php.lang.psi.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
@@ -63,14 +63,14 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public FileType getFileType()
 	{
 		return PhpFileType.INSTANCE;
 	}
 
 	@Override
-	public void accept(@NotNull PsiElementVisitor visitor)
+	public void accept(@Nonnull PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)
 		{
@@ -88,7 +88,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		return ItemPresentationProviders.getItemPresentation(this);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpElement[] getTopLevelElements()
 	{

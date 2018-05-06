@@ -1,9 +1,11 @@
 package consulo.php.actions.generate;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.CodeInsightActionHandler;
 import com.intellij.codeInsight.actions.CodeInsightAction;
 import com.intellij.openapi.editor.Editor;
@@ -26,7 +28,7 @@ public abstract class PhpBaseGenerateAction extends CodeInsightAction
 		myHandler = handler;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected final CodeInsightActionHandler getHandler()
 	{
@@ -47,7 +49,7 @@ public abstract class PhpBaseGenerateAction extends CodeInsightAction
 	}
 
 	@Override
-	protected boolean isValidForFile(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file)
+	protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file)
 	{
 		if(!(file instanceof PhpFileImpl))
 		{

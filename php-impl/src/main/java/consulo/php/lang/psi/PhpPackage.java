@@ -1,7 +1,8 @@
 package consulo.php.lang.psi;
 
+import javax.annotation.Nonnull;
+
 import consulo.psi.PsiPackage;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.util.ArrayFactory;
 
 /**
@@ -14,7 +15,7 @@ public interface PhpPackage extends PsiPackage
 
 	ArrayFactory<PhpPackage> ARRAY_FACTORY = new ArrayFactory<PhpPackage>()
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		public PhpPackage[] create(int i)
 		{
@@ -22,6 +23,6 @@ public interface PhpPackage extends PsiPackage
 		}
 	};
 
-	@NotNull
+	@Nonnull
 	String getNamespaceName();
 }

@@ -1,11 +1,12 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpExtendsList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 
@@ -21,7 +22,7 @@ public class PhpExtendsListImpl extends PhpElementImpl implements PhpExtendsList
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
 	}

@@ -1,8 +1,9 @@
 package consulo.php.lang.psi;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpFileType;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -14,7 +15,7 @@ import com.intellij.psi.PsiFileFactory;
  */
 public class PhpPsiElementFactory
 {
-	public static PhpConstantReference createConstantReference(Project project, @NotNull String constantName)
+	public static PhpConstantReference createConstantReference(Project project, @Nonnull String constantName)
 	{
 		assert constantName.length() > 0;
 		final PsiFile psiFile = createFile(project, constantName);
@@ -25,7 +26,7 @@ public class PhpPsiElementFactory
 		return (PhpConstantReference) psiElement;
 	}
 
-	public static PhpVariableReference createVariable(Project project, @NotNull String variableName)
+	public static PhpVariableReference createVariable(Project project, @Nonnull String variableName)
 	{
 		assert variableName.length() > 0;
 		final PsiFile psiFile = createFile(project, "$" + variableName);
@@ -36,7 +37,7 @@ public class PhpPsiElementFactory
 		return (PhpVariableReference) psiElement;
 	}
 
-	public static PhpClass createClass(Project project, @NotNull String text)
+	public static PhpClass createClass(Project project, @Nonnull String text)
 	{
 		final PsiFile psiFile = createFile(project, text);
 		final PsiElement child = psiFile.getFirstChild();

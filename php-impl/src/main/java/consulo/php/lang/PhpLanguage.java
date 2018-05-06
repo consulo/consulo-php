@@ -1,7 +1,7 @@
 package consulo.php.lang;
 
 import consulo.php.PhpLanguageLevel;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.Language;
 import consulo.lang.LanguageVersion;
 import com.intellij.psi.templateLanguages.TemplateLanguage;
@@ -28,7 +28,7 @@ public class PhpLanguage extends Language implements TemplateLanguage
 		return true;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public LanguageVersion[] findVersions()
 	{

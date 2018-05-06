@@ -5,7 +5,7 @@ package consulo.php.lang.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.managers.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import consulo.php.PhpLanguageLevel;
 
@@ -2346,7 +2346,7 @@ public class PhpFlexLexer implements FlexLexer {
 	private LineCommentManager lcManager = new LineCommentManager(this);
 
 
-	@NotNull
+	@Nonnull
 	public final CharSequence getBuffer(){
 		return zzBuffer;
 	}

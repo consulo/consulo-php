@@ -1,7 +1,7 @@
 package consulo.php.lang.psi;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 
@@ -16,7 +16,7 @@ public interface PhpModifierList extends PhpElement
 	TokenSet MODIFIERS = TokenSet.create(PhpTokenTypes.PUBLIC_KEYWORD, PhpTokenTypes.PROTECTED_KEYWORD, PhpTokenTypes.PRIVATE_KEYWORD,
 			PhpTokenTypes.STATIC_KEYWORD, PhpTokenTypes.FINAL_KEYWORD, PhpTokenTypes.ABSTRACT_KEYWORD);
 
-	boolean hasModifier(@NotNull IElementType type);
+	boolean hasModifier(@Nonnull IElementType type);
 
-	boolean hasModifier(@NotNull TokenSet tokenSet);
+	boolean hasModifier(@Nonnull TokenSet tokenSet);
 }

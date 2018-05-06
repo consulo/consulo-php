@@ -1,6 +1,6 @@
 package consulo.php.lang.psi.resolve.types;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author jay
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public interface PhpTypeOwner
 {
 
-	@NotNull
+	@Nonnull
 	public PhpType getType();
 
 }

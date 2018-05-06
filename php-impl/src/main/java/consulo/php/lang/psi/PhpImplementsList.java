@@ -2,7 +2,7 @@ package consulo.php.lang.psi;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author jay
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public interface PhpImplementsList extends PhpElement
 {
 
-	@NotNull
+	@Nonnull
 	public List<PhpClass> getInterfaces();
 
 }

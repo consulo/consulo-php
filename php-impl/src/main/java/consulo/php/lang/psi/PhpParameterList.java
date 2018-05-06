@@ -1,6 +1,6 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author jay
@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface PhpParameterList extends PhpElement
 {
-	@NotNull
+	@Nonnull
 	PhpParameter[] getParameters();
 }

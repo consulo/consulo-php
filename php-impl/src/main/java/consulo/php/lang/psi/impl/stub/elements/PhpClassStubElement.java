@@ -2,11 +2,12 @@ package consulo.php.lang.psi.impl.stub.elements;
 
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.index.PhpIndexKeys;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.impl.PhpClassImpl;
 import consulo.php.lang.psi.impl.stub.PhpClassStub;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
@@ -25,7 +26,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 		super("PHP_CLASS");
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpClass createElement(ASTNode node)
 	{
@@ -33,27 +34,27 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 	}
 
 	@Override
-	public PhpClass createPsi(@NotNull PhpClassStub phpClassStub)
+	public PhpClass createPsi(@Nonnull PhpClassStub phpClassStub)
 	{
 		return new PhpClassImpl(phpClassStub);
 	}
 
 	@Override
-	public PhpClassStub createStub(@NotNull PhpClass phpClass, StubElement stubElement)
+	public PhpClassStub createStub(@Nonnull PhpClass phpClass, StubElement stubElement)
 	{
 		return new PhpClassStub(stubElement, phpClass.getNamespace(), phpClass.getName());
 	}
 
 	@Override
-	public void serialize(@NotNull PhpClassStub phpClassStub, @NotNull StubOutputStream stubOutputStream) throws IOException
+	public void serialize(@Nonnull PhpClassStub phpClassStub, @Nonnull StubOutputStream stubOutputStream) throws IOException
 	{
 		stubOutputStream.writeName(phpClassStub.getNamespace());
 		stubOutputStream.writeName(phpClassStub.getName());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PhpClassStub deserialize(@NotNull StubInputStream stubInputStream, StubElement stubElement) throws IOException
+	public PhpClassStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
 	{
 		StringRef namespace = stubInputStream.readName();
 		StringRef name = stubInputStream.readName();
@@ -61,7 +62,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 	}
 
 	@Override
-	public void indexStub(@NotNull PhpClassStub phpClassStub, @NotNull IndexSink indexSink)
+	public void indexStub(@Nonnull PhpClassStub phpClassStub, @Nonnull IndexSink indexSink)
 	{
 		String namespace = phpClassStub.getNamespace();
 		String name = phpClassStub.getName();

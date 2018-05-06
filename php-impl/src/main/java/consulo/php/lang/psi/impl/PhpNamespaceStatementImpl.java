@@ -4,7 +4,7 @@ import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpNamespaceStatement;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 
@@ -20,7 +20,7 @@ public class PhpNamespaceStatementImpl extends PhpElementImpl implements PhpName
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitNamespaceStatement(this);
 	}

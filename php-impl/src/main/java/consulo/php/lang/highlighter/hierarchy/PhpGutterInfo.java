@@ -2,8 +2,9 @@ package consulo.php.lang.highlighter.hierarchy;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpNamedElement;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.project.Project;
 
 /**
@@ -16,7 +17,7 @@ abstract public class PhpGutterInfo extends PhpLineMarkerInfo
 	protected Project project;
 	protected List<? extends PhpNamedElement> elements;
 
-	public PhpGutterInfo(final int startOffset, @NotNull Project project, @NotNull List<? extends PhpNamedElement> elements)
+	public PhpGutterInfo(final int startOffset, @Nonnull Project project, @Nonnull List<? extends PhpNamedElement> elements)
 	{
 		super(startOffset);
 		this.project = project;

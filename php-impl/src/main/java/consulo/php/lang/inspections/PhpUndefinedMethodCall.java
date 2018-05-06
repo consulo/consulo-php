@@ -1,10 +1,11 @@
 package consulo.php.lang.inspections;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.PhpBundle;
 import consulo.php.lang.psi.PhpMethodReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiPolyVariantReference;
@@ -18,15 +19,15 @@ public class PhpUndefinedMethodCall extends PhpInspection
 {
 	@Override
 	@Nls
-	@NotNull
+	@Nonnull
 	public String getDisplayName()
 	{
 		return PhpBundle.message("php.inspections.undefined_method_call");
 	}
 
 	@Override
-	@NotNull
-	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
+	@Nonnull
+	public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, boolean isOnTheFly)
 	{
 		return new PhpElementVisitor()
 		{

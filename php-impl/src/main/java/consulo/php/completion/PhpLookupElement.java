@@ -1,8 +1,8 @@
 package consulo.php.completion;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -50,7 +50,7 @@ public class PhpLookupElement extends LookupElement
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getLookupString()
 	{
 		return lookupString;
@@ -62,7 +62,7 @@ public class PhpLookupElement extends LookupElement
 		return handler;
 	}
 
-	@NotNull
+	@Nonnull
 	protected LookupElementRenderer<? extends LookupElement> getRenderer()
 	{
 		return new LookupElementRenderer<LookupElement>()

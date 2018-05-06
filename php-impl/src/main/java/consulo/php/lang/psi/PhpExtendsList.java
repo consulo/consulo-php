@@ -1,6 +1,6 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * @author jay

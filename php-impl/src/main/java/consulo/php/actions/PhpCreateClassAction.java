@@ -2,9 +2,10 @@ package consulo.php.actions;
 
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.velocity.runtime.parser.ParseException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.IdeView;
 import com.intellij.ide.actions.CreateFileAction;
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
@@ -45,7 +46,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 
 	@SuppressWarnings("DialogTitleCapitalization")
 	@Nullable
-	public static com.intellij.psi.PsiFile createFileFromTemplate(@Nullable String name, @NotNull FileTemplate template, @NotNull PsiDirectory dir, @Nullable String defaultTemplateProperty)
+	public static com.intellij.psi.PsiFile createFileFromTemplate(@Nullable String name, @Nonnull FileTemplate template, @Nonnull PsiDirectory dir, @Nullable String defaultTemplateProperty)
 	{
 		CreateFileAction.MkDirs mkdirs = new CreateFileAction.MkDirs(name, dir);
 		name = mkdirs.newName;

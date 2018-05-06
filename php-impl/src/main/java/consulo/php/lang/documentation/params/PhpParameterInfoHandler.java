@@ -1,12 +1,13 @@
 package consulo.php.lang.documentation.params;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpMethodReference;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpParameterList;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.parameterInfo.CreateParameterInfoContext;
@@ -68,7 +69,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	}
 
 	@Override
-	public void showParameterInfo(@NotNull Object element, CreateParameterInfoContext context)
+	public void showParameterInfo(@Nonnull Object element, CreateParameterInfoContext context)
 	{
 		context.showHint((PsiElement) element, ((PsiElement) element).getTextOffset(), this);
 	}
@@ -85,7 +86,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	}
 
 	@Override
-	public void updateParameterInfo(@NotNull Object element, UpdateParameterInfoContext context)
+	public void updateParameterInfo(@Nonnull Object element, UpdateParameterInfoContext context)
 	{
 		int index = -1;
 		final int caret = context.getOffset();

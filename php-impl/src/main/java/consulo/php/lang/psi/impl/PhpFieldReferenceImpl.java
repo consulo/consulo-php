@@ -10,8 +10,9 @@ import consulo.php.lang.psi.PhpMethodReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -31,7 +32,7 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitFieldReference(this);
 	}
@@ -216,7 +217,7 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	 *          if the rebind cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}

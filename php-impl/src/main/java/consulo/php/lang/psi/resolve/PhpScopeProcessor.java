@@ -1,10 +1,11 @@
 package consulo.php.lang.psi.resolve;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -36,7 +37,7 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 
 	@Nullable
 	@Override
-	public <T> T getHint(@NotNull Key<T> tKey)
+	public <T> T getHint(@Nonnull Key<T> tKey)
 	{
 		return null;
 	}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
@@ -16,8 +18,8 @@ import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -39,7 +41,7 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	}
 
 	@Override
-	public void accept(@NotNull PhpElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitMethodReference(this);
 	}
@@ -142,7 +144,7 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 
 	//TODO multiresolve
 	@Override
-	@NotNull
+	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ResolveKind.METHOD);
@@ -242,7 +244,7 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	 *          if the rebind cannot be handled for some reason.
 	 */
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}

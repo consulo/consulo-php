@@ -1,6 +1,7 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ArrayFactory;
 
@@ -14,7 +15,7 @@ public interface PhpGroupStatement extends PhpElement
 
 	ArrayFactory<PhpGroupStatement> ARRAY_FACTORY = new ArrayFactory<PhpGroupStatement>()
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		public PhpGroupStatement[] create(int i)
 		{
@@ -22,6 +23,6 @@ public interface PhpGroupStatement extends PhpElement
 		}
 	};
 
-	@NotNull
+	@Nonnull
 	PsiElement[] getStatements();
 }

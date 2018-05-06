@@ -1,7 +1,8 @@
 package consulo.php;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpLanguage;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.util.TextRange;
@@ -18,7 +19,7 @@ import com.intellij.psi.xml.XmlText;
 public class PhpMultiHostInjector implements MultiHostInjector
 {
 	@Override
-	public void injectLanguages(@NotNull MultiHostRegistrar multiHostRegistrar, @NotNull PsiElement element)
+	public void injectLanguages(@Nonnull MultiHostRegistrar multiHostRegistrar, @Nonnull PsiElement element)
 	{
 		XmlTag xmlTag = (XmlTag) element;
 		if(!"script".equals(xmlTag.getName()))

@@ -2,10 +2,11 @@ package consulo.php.lang.psi.impl.stub.elements;
 
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.impl.PhpFunctionImpl;
 import consulo.php.lang.psi.impl.stub.PhpFunctionStub;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
@@ -24,7 +25,7 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 		super("PHP_FUNCTION");
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PhpFunction createElement(ASTNode node)
 	{
@@ -32,26 +33,26 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 	}
 
 	@Override
-	public PhpFunction createPsi(@NotNull PhpFunctionStub stub)
+	public PhpFunction createPsi(@Nonnull PhpFunctionStub stub)
 	{
 		return new PhpFunctionImpl(stub);
 	}
 
 	@Override
-	public PhpFunctionStub createStub(@NotNull PhpFunction psi, StubElement parentStub)
+	public PhpFunctionStub createStub(@Nonnull PhpFunction psi, StubElement parentStub)
 	{
 		return new PhpFunctionStub(parentStub, StringRef.fromNullableString(psi.getName()));
 	}
 
 	@Override
-	public void serialize(@NotNull PhpFunctionStub stub, @NotNull StubOutputStream dataStream) throws IOException
+	public void serialize(@Nonnull PhpFunctionStub stub, @Nonnull StubOutputStream dataStream) throws IOException
 	{
 		dataStream.writeName(stub.getName());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PhpFunctionStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException
+	public PhpFunctionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException
 	{
 		StringRef name = dataStream.readName();
 
@@ -59,7 +60,7 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 	}
 
 	@Override
-	public void indexStub(@NotNull PhpFunctionStub stub, @NotNull IndexSink sink)
+	public void indexStub(@Nonnull PhpFunctionStub stub, @Nonnull IndexSink sink)
 	{
 
 	}

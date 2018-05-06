@@ -1,9 +1,10 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
@@ -27,14 +28,14 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Language getLanguage()
 	{
 		return PhpLanguage.INSTANCE;
 	}
 
 	@Override
-	public final void accept(@NotNull final PsiElementVisitor visitor)
+	public final void accept(@Nonnull final PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)
 		{
@@ -46,10 +47,10 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 		}
 	}
 
-	public abstract void accept(@NotNull final PhpElementVisitor visitor);
+	public abstract void accept(@Nonnull final PhpElementVisitor visitor);
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement source)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
 		return processor.execute(this, state);
 	}

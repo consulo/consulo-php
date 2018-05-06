@@ -1,7 +1,7 @@
 package consulo.php.lang.documentation.phpdoc.psi;
 
 import consulo.php.lang.PhpFileType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.psi.tree.IElementType;
 
 /**
@@ -11,7 +11,7 @@ import com.intellij.psi.tree.IElementType;
 public class PhpDocElementType extends IElementType
 {
 
-	public PhpDocElementType(@NotNull String debugName)
+	public PhpDocElementType(@Nonnull String debugName)
 	{
 		super(debugName, PhpFileType.INSTANCE.getLanguage());
 	}

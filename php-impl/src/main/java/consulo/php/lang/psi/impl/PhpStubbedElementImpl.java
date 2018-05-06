@@ -1,8 +1,9 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.StubBasedPsiElementBase;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -17,18 +18,18 @@ import com.intellij.psi.stubs.StubElement;
  */
 public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubBasedPsiElementBase<T> implements StubBasedPsiElement<T>, PhpElement
 {
-	public PhpStubbedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType)
+	public PhpStubbedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType)
 	{
 		super(stub, nodeType);
 	}
 
-	public PhpStubbedElementImpl(@NotNull ASTNode node)
+	public PhpStubbedElementImpl(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
 
 	@Override
-	public final void accept(@NotNull final PsiElementVisitor visitor)
+	public final void accept(@Nonnull final PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)
 		{
@@ -40,7 +41,7 @@ public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubB
 		}
 	}
 
-	public abstract void accept(@NotNull final PhpElementVisitor visitor);
+	public abstract void accept(@Nonnull final PhpElementVisitor visitor);
 
 	@Override
 	public PhpElement getFirstPsiChild()
