@@ -1,5 +1,6 @@
 package consulo.php.actions;
 
+import consulo.awt.TargetAWT;
 import consulo.php.PhpIcons2;
 import consulo.php.module.extension.PhpModuleExtension;
 import com.intellij.ide.IdeView;
@@ -21,7 +22,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 {
 	public PhpCreateFileAction()
 	{
-		super("Php File", "Create new Php File", PhpIcons2.Php);
+		super("Php File", "Create new Php File", TargetAWT.to(PhpIcons2.Php));
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
-		builder.setTitle("Create File").addKind("File", PhpIcons2.Php, "PHP File");
+		builder.setTitle("Create File").addKind("File", TargetAWT.to(PhpIcons2.Php), "PHP File");
 	}
 
 	@Override

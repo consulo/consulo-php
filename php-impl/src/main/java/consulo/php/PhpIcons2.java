@@ -1,9 +1,9 @@
 package consulo.php;
 
-import javax.swing.Icon;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
+import consulo.ui.image.Image;
+import consulo.ui.migration.SwingImageRef;
 
 /**
  * @author VISTALL
@@ -11,10 +11,10 @@ import com.intellij.openapi.util.IconLoader;
  */
 public interface PhpIcons2
 {
-	Icon Php = IconLoader.findIcon("/icons/fileTypes/php.png");
+	Image Php = IconLoader.findIcon("/icons/fileTypes/php.png");
 
-	Icon AbstractClass = AllIcons.Nodes.AbstractClass;
-	Icon Class = AllIcons.Nodes.Class;
-	Icon Trait = AllIcons.Nodes.Trait;
-	Icon Interface = AllIcons.Nodes.Interface;
+	SwingImageRef AbstractClass = AllIcons.Nodes.AbstractClass;
+	SwingImageRef Class = AllIcons.Nodes.Class;
+	SwingImageRef Trait = AllIcons.Nodes.Trait;
+	SwingImageRef Interface = AllIcons.Nodes.Interface;
 }

@@ -26,6 +26,7 @@ import consulo.php.PhpBundle;
 import consulo.php.PhpIcons2;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
+import consulo.ui.image.Image;
 
 /**
  * @author Maxim
@@ -136,14 +137,7 @@ public class PhpSdkType extends SdkType
 	}
 
 	@Override
-	public Icon getIcon()
-	{
-		return PhpIcons2.Php;
-	}
-
-	@Nullable
-	@Override
-	public Icon getGroupIcon()
+	public Image getIcon()
 	{
 		return PhpIcons2.Php;
 	}

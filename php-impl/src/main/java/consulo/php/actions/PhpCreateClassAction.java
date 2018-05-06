@@ -27,6 +27,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
+import consulo.awt.TargetAWT;
 import consulo.php.PhpIcons2;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.psi.PhpPackage;
@@ -41,7 +42,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 {
 	public PhpCreateClassAction()
 	{
-		super("Php Class", "Create new Php Class", PhpIcons2.Php);
+		super("Php Class", "Create new Php Class", TargetAWT.to(PhpIcons2.Php));
 	}
 
 	@SuppressWarnings("DialogTitleCapitalization")
@@ -55,7 +56,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 		Project project = dir.getProject();
 		try
 		{
-			Properties defaultProperties = FileTemplateManager.getInstance().getDefaultProperties(project);
+			Properties defaultProperties = FileTemplateManager.getInstance(project).getDefaultProperties();
 
 			PhpModuleExtension phpModuleExtension = getPhpModuleExtension(dir);
 			if(phpModuleExtension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_3))

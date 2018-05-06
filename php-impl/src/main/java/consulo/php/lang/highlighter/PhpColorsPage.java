@@ -4,17 +4,15 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
-import consulo.php.PhpBundle;
-import consulo.php.PhpIcons2;
-import consulo.php.PhpLanguageLevel;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import consulo.php.PhpBundle;
+import consulo.php.PhpLanguageLevel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -77,13 +75,6 @@ public class PhpColorsPage implements ColorSettingsPage
 	public String getDisplayName()
 	{
 		return PhpBundle.message("color.settings.name");
-	}
-
-	@Override
-	@Nullable
-	public Icon getIcon()
-	{
-		return PhpIcons2.Php;
 	}
 
 	@Override
