@@ -3,6 +3,7 @@ package consulo.php.lang;
 import java.util.ArrayList;
 import java.util.List;
 
+import consulo.awt.TargetAWT;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpConstantReference;
 import consulo.php.lang.psi.PhpFunction;
@@ -47,7 +48,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		if(myElement instanceof PhpClass)
 		{
 			PhpClass e = (PhpClass) myElement;
-			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
+			return new PresentationData(e.getName(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
 		}
 		if(myElement instanceof PhpFunction)
 		{
@@ -55,13 +56,13 @@ class PhpTreeElement implements StructureViewTreeElement
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
 
-			return new PresentationData(b.toString(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
+			return new PresentationData(b.toString(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
 		}
 		if(myElement instanceof PhpNamedElement)
 		{
 			PhpNamedElement e = (PhpNamedElement) myElement;
 
-			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
+			return new PresentationData(e.getName(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
 		}
 		return null;
 	}

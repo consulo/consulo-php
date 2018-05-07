@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import com.intellij.codeInsight.completion.BasicInsertHandler;
+import com.intellij.codeInsight.completion.InsertHandler;
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupItem;
+import com.intellij.psi.util.PsiTreeUtil;
+import consulo.awt.TargetAWT;
+import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.completion.insert.PhpMethodInsertHandler;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpElement;
@@ -12,13 +21,6 @@ import consulo.php.lang.psi.PhpFunction;
 import consulo.php.lang.psi.PhpNamedElement;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
-import javax.annotation.Nonnull;
-import com.intellij.codeInsight.completion.BasicInsertHandler;
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupItem;
-import consulo.ide.IconDescriptorUpdaters;
-import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * @author jay
@@ -141,7 +143,7 @@ public class PhpVariantsUtil
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
 		PhpLookupElement item = new PhpLookupElement(element);
-		item.icon = IconDescriptorUpdaters.getIcon(element, 0);
+		item.icon = TargetAWT.to(IconDescriptorUpdaters.getIcon(element, 0));
 		if(context != null)
 		{
 			final PhpClass objectClass = context.getCallingObjectClass();
@@ -186,7 +188,7 @@ public class PhpVariantsUtil
 			PhpVariableReference variable = (PhpVariableReference) element;
 			item.setName(variable.getName());
 
-			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
+			item.setIcon(TargetAWT.to(IconDescriptorUpdaters.getIcon(element, 0)));
 			final PhpClass variableType = variable.getType().getType();
 			if(variableType != null)
 			{
@@ -197,7 +199,7 @@ public class PhpVariantsUtil
 		{
 			PhpParameter parameter = (PhpParameter) element;
 			item.setName(parameter.getName());
-			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
+			item.setIcon(TargetAWT.to(IconDescriptorUpdaters.getIcon(element, 0)));
 			final PhpClass variableType = parameter.getType().getType();
 			if(variableType != null)
 			{
