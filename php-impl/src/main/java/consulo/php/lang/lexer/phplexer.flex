@@ -1,5 +1,7 @@
 package consulo.php.lang.lexer;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lexer.LexerBase;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.PhpLanguageLevel;
