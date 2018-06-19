@@ -11,7 +11,7 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.lexer.PhpFlexAdapter;
+import consulo.php.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import junit.framework.Test;
 
@@ -48,7 +48,7 @@ public class LexerTest extends BasePHPFileSetTestCase {
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();
         List<String> typeTexts = new ArrayList<String>();
-        Lexer lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
+        Lexer lexer = new PhpFlexLexer(false, PhpLanguageLevel.HIGHEST);
         lexer.start(fileText);
         IElementType type = lexer.getTokenType();
         while (type != null) {

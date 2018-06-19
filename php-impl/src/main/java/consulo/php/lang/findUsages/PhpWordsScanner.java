@@ -1,13 +1,13 @@
 package consulo.php.lang.findUsages;
 
-import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.lexer.PhpFlexAdapter;
-import consulo.php.lang.lexer.PhpTokenTypes;
 import com.intellij.lang.cacheBuilder.WordOccurrence;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.Processor;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer.PhpTokenTypes;
 
 /**
  * @author jay
@@ -18,7 +18,7 @@ public class PhpWordsScanner implements WordsScanner
 	@Override
 	public void processWords(CharSequence fileText, final Processor<WordOccurrence> processor)
 	{
-		Lexer lexer = new PhpFlexAdapter(PhpLanguageLevel.HIGHEST);
+		Lexer lexer = new PhpFlexLexer(false, PhpLanguageLevel.HIGHEST);
 		lexer.start(fileText, 0, fileText.length(), 0);
 		WordOccurrence occurrence = null; // shared occurrence
 

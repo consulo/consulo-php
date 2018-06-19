@@ -1,15 +1,13 @@
 package consulo.php.lang.lexer;
 
-import com.intellij.lexer.FlexLexer;
+import com.intellij.lexer.LexerBase;
 import com.intellij.psi.tree.IElementType;
-import consulo.php.lang.lexer.managers.*;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import gnu.trove.THashSet;
-import java.util.Arrays;
-import java.util.Set;
-import consulo.php.completion.PhpCompletionData;
 import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.managers.BraceManager;
+import consulo.php.lang.lexer.managers.HeredocManager;
+import consulo.php.lang.lexer.managers.LineCommentManager;
+import consulo.php.lang.lexer.managers.OperatorManager;
+import consulo.php.lang.lexer.managers.StatesManager;
 %%
 
 %{
@@ -17,7 +15,6 @@ import consulo.php.PhpLanguageLevel;
   private PhpLanguageLevel myLanguageLevel;
 
 	public PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
-		this((java.io.Reader)null);
 		myHighlightingMode = highlightingMode;
 		myLanguageLevel = languageLevel;
 	}
@@ -32,7 +29,7 @@ import consulo.php.PhpLanguageLevel;
 	private LineCommentManager lcManager = new LineCommentManager(this);
 
 
-	@NotNull
+	@Nonnull
 	public final CharSequence getBuffer(){
 		return zzBuffer;
 	}
@@ -50,10 +47,10 @@ import consulo.php.PhpLanguageLevel;
 %}
 
 %class PhpFlexLexer
-%implements FlexLexer
+%extends LexerBase
 %public
 %unicode
-%function advance
+%function advanceImpl
 %type IElementType
 %eof{  return;
 %eof}
@@ -503,7 +500,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 		sManager.toPreviousState();
 		return PhpTokenTypes.HEREDOC_END;
 	}
-	return advance();
+	return advanceImpl();
 
 }
 

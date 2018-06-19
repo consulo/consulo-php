@@ -2,11 +2,6 @@ package consulo.php.lang.parser;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.lexer.PhpFlexAdapter;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpStubElements;
-import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -17,6 +12,11 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.lang.LanguageVersion;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpStubElements;
+import consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +32,7 @@ public class PhpParserDefinition implements ParserDefinition
 	@Nonnull
 	public Lexer createLexer(@Nonnull LanguageVersion languageVersion)
 	{
-		return new PhpFlexAdapter((PhpLanguageLevel) languageVersion);
+		return new PhpFlexLexer(false, (PhpLanguageLevel) languageVersion);
 	}
 
 	@Override
