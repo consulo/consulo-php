@@ -2,6 +2,8 @@ package consulo.php.pom;
 
 import java.util.Collections;
 
+import javax.inject.Singleton;
+
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.lang.ASTNode;
 import com.intellij.pom.PomModel;
@@ -15,6 +17,7 @@ import com.intellij.psi.PsiFile;
  * @author jay
  * @date Jun 1, 2008 3:15:16 PM
  */
+@Singleton
 public class PhpPomAspect implements PomModelAspect
 {
 	private final PomModel model;

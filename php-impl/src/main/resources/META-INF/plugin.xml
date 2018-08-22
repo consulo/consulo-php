@@ -4,11 +4,7 @@
 	<description>PHP support with refactoring</description>
 	<vendor>Jay &amp; consulo.io</vendor>
 	<depends>com.intellij.xml</depends>
-	<project-components>
-		<component>
-			<implementation-class>consulo.php.pom.PhpPomAspect</implementation-class>
-		</component>
-	</project-components>
+
 	<actions>
 		<action id="PhpNewFile" class="consulo.php.actions.PhpCreateFileAction">
 			<add-to-group group-id="NewGroup1" anchor="first"/>
@@ -78,6 +74,9 @@
 		<inspectionToolProvider implementation="consulo.php.codeInsight.PhpInspectionToolProvider" />
 
 		<pathMacroExpendableProtocol protocol="phar" />
+
 		<virtualFileSystem implementation="consulo.php.vfs.PharFileSystem" />
+
+		<projectService serviceImplementation="consulo.php.pom.PhpPomAspect" lazy="false" />
 	</extensions>
 </idea-plugin>
