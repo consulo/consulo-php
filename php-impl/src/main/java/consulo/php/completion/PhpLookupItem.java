@@ -2,13 +2,12 @@ package consulo.php.completion;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
-
-import consulo.php.lang.psi.PhpNamedElement;
 import com.intellij.codeInsight.lookup.LookupValueWithPriority;
 import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
+import consulo.php.lang.psi.PhpNamedElement;
+import consulo.ui.image.Image;
 
 /**
  * @author jay
@@ -19,7 +18,7 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 
 	private PhpNamedElement element;
 	private String name = "";
-	private Icon icon = null;
+	private Image icon = null;
 	private boolean bold = false;
 	private String type = "";
 
@@ -68,12 +67,12 @@ public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIH
 	}
 
 	@Override
-	public Icon getIcon(int flags)
+	public Image getIcon(int flags)
 	{
 		return icon;
 	}
 
-	public void setIcon(Icon icon)
+	public void setIcon(Image icon)
 	{
 		this.icon = icon;
 	}
