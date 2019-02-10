@@ -2,7 +2,6 @@ package consulo.php.ide.presentation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProvider;
@@ -11,11 +10,11 @@ import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
-import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.module.extension.PhpModuleExtension;
+import consulo.ui.image.Image;
 
 /**
  * @author VISTALL
@@ -64,9 +63,9 @@ public class PhpClassPresentation implements ItemPresentationProvider<PhpClass>
 
 			@Nullable
 			@Override
-			public Icon getIcon(boolean unused)
+			public Image getIcon()
 			{
-				return TargetAWT.to(IconDescriptorUpdaters.getIcon(phpClass, 0));
+				return IconDescriptorUpdaters.getIcon(phpClass, 0);
 			}
 
 			private String getPresentablePathForClass(@Nonnull PhpClass klass)

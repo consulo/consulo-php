@@ -11,7 +11,6 @@ import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.psi.util.PsiTreeUtil;
-import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.completion.insert.PhpMethodInsertHandler;
 import consulo.php.lang.psi.PhpClass;
@@ -143,7 +142,7 @@ public class PhpVariantsUtil
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
 		PhpLookupElement item = new PhpLookupElement(element);
-		item.icon = TargetAWT.to(IconDescriptorUpdaters.getIcon(element, 0));
+		item.icon = IconDescriptorUpdaters.getIcon(element, 0);
 		if(context != null)
 		{
 			final PhpClass objectClass = context.getCallingObjectClass();

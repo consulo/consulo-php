@@ -3,7 +3,13 @@ package consulo.php.lang;
 import java.util.ArrayList;
 import java.util.List;
 
-import consulo.awt.TargetAWT;
+import com.intellij.ide.projectView.PresentationData;
+import com.intellij.ide.structureView.StructureViewTreeElement;
+import com.intellij.ide.util.treeView.smartTree.TreeElement;
+import com.intellij.navigation.ItemPresentation;
+import com.intellij.pom.Navigatable;
+import com.intellij.psi.PsiElement;
+import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.lang.psi.PhpClass;
 import consulo.php.lang.psi.PhpConstantReference;
 import consulo.php.lang.psi.PhpFunction;
@@ -11,13 +17,6 @@ import consulo.php.lang.psi.PhpNamedElement;
 import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.impl.PhpFileImpl;
-import consulo.ide.IconDescriptorUpdaters;
-import com.intellij.ide.projectView.PresentationData;
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.pom.Navigatable;
-import com.intellij.psi.PsiElement;
 
 /**
  * @author AG
@@ -48,7 +47,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		if(myElement instanceof PhpClass)
 		{
 			PhpClass e = (PhpClass) myElement;
-			return new PresentationData(e.getName(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
+			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		if(myElement instanceof PhpFunction)
 		{
@@ -56,13 +55,13 @@ class PhpTreeElement implements StructureViewTreeElement
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
 
-			return new PresentationData(b.toString(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
+			return new PresentationData(b.toString(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		if(myElement instanceof PhpNamedElement)
 		{
 			PhpNamedElement e = (PhpNamedElement) myElement;
 
-			return new PresentationData(e.getName(), null, TargetAWT.to(IconDescriptorUpdaters.getIcon(myElement, 0)), null);
+			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
 		return null;
 	}

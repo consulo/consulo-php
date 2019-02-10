@@ -1,7 +1,6 @@
 package consulo.php.completion;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
 
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
@@ -9,7 +8,9 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
 import com.intellij.openapi.util.text.StringUtil;
+import consulo.awt.TargetAWT;
 import consulo.php.lang.psi.PhpNamedElement;
+import consulo.ui.image.Image;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +26,7 @@ public class PhpLookupElement extends LookupElement
 	public String typeText = "";
 	public String tailText = "";
 	public boolean bold = false;
-	public Icon icon;
+	public Image icon;
 	public PhpNamedElement element;
 
 	public PhpLookupElement(PhpNamedElement element)
@@ -34,7 +35,7 @@ public class PhpLookupElement extends LookupElement
 		lookupString = element.getName();
 	}
 
-	public PhpLookupElement(String lookupString, InsertHandler handler, String typeText, String tailText, boolean bold, Icon icon)
+	public PhpLookupElement(String lookupString, InsertHandler handler, String typeText, String tailText, boolean bold, Image icon)
 	{
 		this.handler = handler;
 		this.lookupString = lookupString;
@@ -44,7 +45,7 @@ public class PhpLookupElement extends LookupElement
 		this.icon = icon;
 	}
 
-	public PhpLookupElement(String lookupString, String typeText, String tailText, boolean bold, Icon icon)
+	public PhpLookupElement(String lookupString, String typeText, String tailText, boolean bold, Image icon)
 	{
 		this(lookupString, new BasicInsertHandler(), typeText, tailText, bold, icon);
 	}
@@ -83,7 +84,7 @@ public class PhpLookupElement extends LookupElement
 				{
 					presentation.setTypeText(typeText);
 				}
-				presentation.setIcon(icon);
+				presentation.setIcon(TargetAWT.to(icon));
 			}
 		};
 	}

@@ -13,7 +13,6 @@ import com.intellij.lang.PsiStructureViewFactory;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.psi.PsiFile;
-import consulo.awt.TargetAWT;
 import consulo.php.PhpBundle;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
@@ -42,7 +41,7 @@ public class PhpStructureViewBuilderProvider implements PsiStructureViewFactory
 						return new PhpStructureViewModel((PhpFileImpl) mainFile);
 					}
 				}.createStructureView(fileEditor, mainFile.getProject());
-				return new StructureViewComposite.StructureViewDescriptor(PhpBundle.message("tab.structureview.view"), mainView, TargetAWT.to(mainFile.getFileType().getIcon()));
+				return new StructureViewComposite.StructureViewDescriptor(PhpBundle.message("tab.structureview.view"), mainView, mainFile.getFileType().getIcon());
 			}
 		};
 	}

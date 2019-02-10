@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProvider;
@@ -14,9 +13,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.lang.psi.PhpFile;
+import consulo.ui.image.Image;
 
 /**
  * @author VISTALL
@@ -45,9 +44,9 @@ public class PhpFilePresentation implements ItemPresentationProvider<PhpFile>
 
 			@Nullable
 			@Override
-			public Icon getIcon(boolean unused)
+			public Image getIcon()
 			{
-				return TargetAWT.to(IconDescriptorUpdaters.getIcon(item, 0));
+				return IconDescriptorUpdaters.getIcon(item, 0);
 			}
 		};
 	}
