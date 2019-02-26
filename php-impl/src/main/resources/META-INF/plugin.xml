@@ -30,53 +30,54 @@
 		<xml.fileNSInfoProvider implementation="consulo.php.PhpXmlFileNSInfoProvider"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/Default.xml"/>
 
-		<defaultLibraryRootDetector implementation="consulo.php.library.PharLibraryRootDetector" />
+		<defaultLibraryRootDetector implementation="consulo.php.library.PharLibraryRootDetector"/>
 
 		<internalFileTemplate name="PHP Class"/>
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 		<internalFileTemplate name="Php Trait"/>
-		<lang.elementIcon language="PHP" file="/icons/phpLang.png" />
+		<lang.elementIcon language="PHP" file="/icons/phpLang.png"/>
 
-		<lang.ast.lazyFactory implementation="consulo.php.lang.PhpAstLazyFactory" />
+		<lang.ast.lazyFactory implementation="consulo.php.lang.PhpAstLazyFactory"/>
 
-		<highlightVisitor implementation="consulo.php.codeInsight.highlight.PhpHighlightVisitor" />
+		<highlightVisitor implementation="consulo.php.codeInsight.highlight.PhpHighlightVisitor"/>
 		<iconDescriptorUpdater implementation="consulo.php.PhpIconDescriptorUpdater" order="before default"/>
-		<treeStructureProvider implementation="consulo.php.ide.projectView.PhpTreeStructureProvider" />
+		<treeStructureProvider implementation="consulo.php.ide.projectView.PhpTreeStructureProvider"/>
 		<colorSettingsPage implementation="consulo.php.lang.highlighter.PhpColorsPage"/>
 		<gotoClassContributor implementation="consulo.php.gotoByName.PhpClassContributor"/>
 		<sdkType implementation="consulo.php.sdk.PhpSdkType"/>
-		<psi.packageSupportProvider implementation="consulo.php.module.packageSupport.PhpPackageSupportProvider" />
-		<lang.versionResolver language="PHP" implementationClass="consulo.php.lang.psi.impl.PhpLanguageVersionResolver" />
+		<psi.packageSupportProvider implementation="consulo.php.module.packageSupport.PhpPackageSupportProvider"/>
+		<lang.versionResolver language="PHP" implementationClass="consulo.php.lang.psi.impl.PhpLanguageVersionResolver"/>
 		<lang.parserDefinition language="PHP" implementationClass="consulo.php.lang.parser.PhpParserDefinition"/>
 		<lang.commenter language="PHP" implementationClass="consulo.php.lang.commenter.PhpCommenter"/>
 		<lang.findUsagesProvider language="PHP" implementationClass="consulo.php.lang.findUsages.PhpFindUsagesProvider"/>
 		<lang.braceMatcher language="PHP" implementationClass="consulo.php.lang.braceMatcher.PhpBraceMatcher"/>
-		<lang.foldingBuilder language="PHP" implementationClass="consulo.php.ide.folding.PhpFoldingBuilder" />
+		<lang.foldingBuilder language="PHP" implementationClass="consulo.php.ide.folding.PhpFoldingBuilder"/>
 		<codeInsight.parameterInfo language="PHP" implementationClass="consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
-		<lang.syntaxHighlighterFactory key="PHP" implementationClass="consulo.php.lang.highlighter.PhpSyntaxHighlighterFactory" />
+		<lang.syntaxHighlighterFactory language="PHP" implementationClass="consulo.php.lang.highlighter.PhpSyntaxHighlighterFactory"/>
 		<annotator language="PHP" implementationClass="consulo.php.lang.annotator.PhpAnnotator"/>
 		<lang.fileViewProviderFactory language="PHP" implementationClass="consulo.php.lang.PhpFileViewProviderFactory"/>
-		<lang.substitutor language="HTML" implementationClass="consulo.php.PhpLanguageSubstitutor" />
+		<lang.substitutor language="HTML" implementationClass="consulo.php.PhpLanguageSubstitutor"/>
 		<lang.psiStructureViewFactory language="PHP" implementationClass="consulo.php.lang.PhpStructureViewBuilderProvider"/>
-		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="consulo.php.PhpMultiHostInjector" />
+		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="consulo.php.PhpMultiHostInjector"/>
 		<typedHandler implementation="consulo.php.lang.PhpTypedHandler"/>
 
-		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpClass" implementationClass="consulo.php.ide.presentation.PhpClassPresentation" />
-		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpFile" implementationClass="consulo.php.ide.presentation.PhpFilePresentation" />
+		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpClass" implementationClass="consulo.php.ide.presentation.PhpClassPresentation"/>
+		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpFile" implementationClass="consulo.php.ide.presentation.PhpFilePresentation"/>
 
+		<editorHighlighterProvider filetype="PHP" implementationClass="consulo.php.lang.PhpEditorHighlighterProvider"/>
 		<stubIndex implementation="consulo.php.index.PhpClassIndex"/>
 		<stubIndex implementation="consulo.php.index.PhpFullFqClassIndex"/>
 
-		<stubElementTypeHolder class="consulo.php.lang.psi.PhpStubElements" />
+		<stubElementTypeHolder class="consulo.php.lang.psi.PhpStubElements"/>
 
-		<inspectionToolProvider implementation="consulo.php.codeInsight.PhpInspectionToolProvider" />
+		<inspectionToolProvider implementation="consulo.php.codeInsight.PhpInspectionToolProvider"/>
 
-		<pathMacroExpendableProtocol protocol="phar" />
+		<pathMacroExpendableProtocol protocol="phar"/>
 
-		<virtualFileSystem implementation="consulo.php.vfs.PharFileSystem" />
+		<virtualFileSystem implementation="consulo.php.vfs.PharFileSystem"/>
 
-		<projectService serviceImplementation="consulo.php.pom.PhpPomAspect" lazy="false" />
+		<projectService serviceImplementation="consulo.php.pom.PhpPomAspect" lazy="false"/>
 	</extensions>
 </idea-plugin>

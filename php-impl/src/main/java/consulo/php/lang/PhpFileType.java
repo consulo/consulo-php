@@ -4,17 +4,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.highlighter.EditorHighlighter;
-import com.intellij.openapi.fileTypes.EditorHighlighterProvider;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import consulo.php.PhpBundle;
 import consulo.php.PhpIcons2;
-import consulo.php.lang.highlighter.PhpSyntaxHighlighter;
 import consulo.ui.image.Image;
 
 /**
@@ -40,17 +32,9 @@ public class PhpFileType extends LanguageFileType
 			"php3"
 	};
 
-	protected PhpFileType()
+	private PhpFileType()
 	{
 		super(PhpLanguage.INSTANCE);
-		FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, new EditorHighlighterProvider()
-		{
-			@Override
-			public EditorHighlighter getEditorHighlighter(@Nullable Project project, @Nonnull FileType fileType, @Nullable VirtualFile virtualFile, @Nonnull EditorColorsScheme editorColorsScheme)
-			{
-				return new PhpSyntaxHighlighter(project, virtualFile, editorColorsScheme);
-			}
-		});
 	}
 
 	@Override
