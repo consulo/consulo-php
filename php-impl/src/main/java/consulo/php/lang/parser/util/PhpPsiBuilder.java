@@ -12,7 +12,6 @@ import com.intellij.psi.tree.TokenSet;
  */
 public class PhpPsiBuilder
 {
-
 	private PsiBuilder psiBuilder;
 
 	public PhpPsiBuilder(@Nonnull PsiBuilder builder)
@@ -76,6 +75,23 @@ public class PhpPsiBuilder
 		}
 	}
 
+	public void eatAsErrorUntil(IElementType elementType)
+	{
+		while(!eof())
+		{
+			IElementType tokenType = getTokenType();
+			if(tokenType  == elementType)
+			{
+				break;
+			}
+			else
+			{
+				PsiBuilder.Marker mark = psiBuilder.mark();
+				advanceLexer();
+				mark.error("Unexpected token");
+			}
+		}
+	}
 
 	// CORE PsiBuilder FEATURES
 	public void advanceLexer()

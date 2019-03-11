@@ -1,12 +1,12 @@
 package consulo.php.lang.parser;
 
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.ILazyParseableElementType;
+import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpElementType;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.impl.*;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.ILazyParseableElementType;
-import com.intellij.psi.tree.TokenSet;
 import consulo.psi.tree.ElementTypeAsPsiFactory;
 
 /**
@@ -28,7 +28,8 @@ public interface PhpElementTypes
 	IElementType PARAMETER = new ElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
 	IElementType MODIFIER_LIST = new ElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
 	IElementType NAMESPACE_STATEMENT = new ElementTypeAsPsiFactory("NAMESPACE_STATEMENT", PhpLanguage.INSTANCE, PhpNamespaceStatementImpl.class);
-	IElementType USE_STATEMENT = new ElementTypeAsPsiFactory("USE_STATEMENT", PhpLanguage.INSTANCE, PhpUseStatementImpl.class);
+	IElementType USE_LIST = new ElementTypeAsPsiFactory("USE_LIST_STATEMENT", PhpLanguage.INSTANCE, PhpUseListStatementImpl.class);
+	IElementType USE = new ElementTypeAsPsiFactory("USE", PhpLanguage.INSTANCE, PhpUseImpl.class);
 
 	IElementType UNARY_EXPRESSION = new ElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
 	IElementType ASSIGNMENT_EXPRESSION = new ElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);

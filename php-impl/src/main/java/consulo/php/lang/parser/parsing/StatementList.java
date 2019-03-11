@@ -1,5 +1,10 @@
 package consulo.php.lang.parser.parsing;
 
+import javax.annotation.Nullable;
+
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.classes.ClassConstant;
@@ -8,9 +13,6 @@ import consulo.php.lang.parser.parsing.classes.ClassReference;
 import consulo.php.lang.parser.parsing.functions.Function;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -137,25 +139,41 @@ public class StatementList implements PhpTokenTypes
 
 		builder.match(USE_KEYWORD);
 
-		if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null)
+		while(parseUse(builder) != null)
 		{
-			builder.error("Reference expected");
-		}
-		else
-		{
-			while(builder.getTokenType() == opCOMMA)
+			if(builder.getTokenType() == opCOMMA)
 			{
 				builder.advanceLexer();
-
-				if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null)
-				{
-					builder.error("Reference expected");
-					break;
-				}
+			}
+			else
+			{
+				break;
 			}
 		}
 
 		builder.match(opSEMICOLON);
-		marker.done(PhpElementTypes.USE_STATEMENT);
+		marker.done(PhpElementTypes.USE_LIST);
+	}
+
+	@Nullable
+	private static PsiBuilder.Marker parseUse(PhpPsiBuilder builder)
+	{
+		PsiBuilder.Marker mark = builder.mark();
+
+		if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null)
+		{
+			mark.error("Reference expected");
+			return null;
+		}
+		else
+		{
+			if(builder.getTokenType() == kwAS)
+			{
+				builder.advanceLexer();
+			}
+
+			mark.done(PhpElementTypes.USE);
+			return mark;
+		}
 	}
 }

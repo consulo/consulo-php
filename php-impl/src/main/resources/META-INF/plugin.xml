@@ -36,7 +36,6 @@
 		<internalFileTemplate name="PHP File"/>
 		<internalFileTemplate name="PHP Interface"/>
 		<internalFileTemplate name="Php Trait"/>
-		<lang.elementIcon language="PHP" file="/icons/phpLang.png"/>
 
 		<lang.ast.lazyFactory implementation="consulo.php.lang.PhpAstLazyFactory"/>
 

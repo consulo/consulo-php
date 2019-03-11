@@ -48,7 +48,12 @@ public class ClassReference implements PhpTokenTypes
 
 			if(builder.getTokenType() == SLASH)
 			{
-				parseClassNameReference(builder, marker, allowStatic, dynamic, false);
+				marker = parseClassNameReference(builder, marker, allowStatic, dynamic, false);
+			}
+
+			if(marker == null)
+			{
+				return null;
 			}
 
 			if(allowAs && builder.getTokenType() == kwAS)

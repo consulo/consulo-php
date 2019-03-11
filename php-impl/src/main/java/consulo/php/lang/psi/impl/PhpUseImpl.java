@@ -1,18 +1,19 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpUseStatement;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
+import consulo.php.lang.psi.PhpClassReference;
+import consulo.php.lang.psi.PhpUse;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author VISTALL
  * @since 19.09.13.
  */
-public class PhpUseStatementImpl extends PhpElementImpl implements PhpUseStatement
+public class PhpUseImpl extends PhpElementImpl implements PhpUse
 {
-	public PhpUseStatementImpl(ASTNode node)
+	public PhpUseImpl(ASTNode node)
 	{
 		super(node);
 	}
@@ -20,7 +21,7 @@ public class PhpUseStatementImpl extends PhpElementImpl implements PhpUseStateme
 	@Override
 	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
-		visitor.visitUseStatement(this);
+		visitor.visitUse(this);
 	}
 
 	@Nonnull

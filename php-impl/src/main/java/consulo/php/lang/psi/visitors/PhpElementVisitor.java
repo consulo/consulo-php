@@ -1,11 +1,11 @@
 package consulo.php.lang.psi.visitors;
 
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import consulo.php.lang.psi.*;
 import consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import consulo.php.lang.psi.impl.PhpTryStatementImpl;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -167,9 +167,9 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpNamespaceStatement);
 	}
 
-	public void visitUseStatement(PhpUseStatement phpUseStatement)
+	public void visitUse(PhpUse phpUse)
 	{
-		visitPhpElement(phpUseStatement);
+		visitPhpElement(phpUse);
 	}
 
 	public void visitTernaryExpression(PhpTernaryExpression phpTernaryExpression)
@@ -180,5 +180,10 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 	public void visitElvisExpression(PhpElvisExpression phpElvisExpression)
 	{
 		visitPhpElement(phpElvisExpression);
+	}
+
+	public void visitUseList(PhpUseListStatement list)
+	{
+		visitPhpElement(list);
 	}
 }
