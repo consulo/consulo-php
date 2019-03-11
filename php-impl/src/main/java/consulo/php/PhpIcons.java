@@ -8,7 +8,7 @@ import consulo.ui.image.Image;
  * @author VISTALL
  * @since 15:29/04.07.13
  */
-public interface PhpIcons2
+public interface PhpIcons
 {
 	Image Php = IconLoader.findIcon("/icons/fileTypes/php.png");
 

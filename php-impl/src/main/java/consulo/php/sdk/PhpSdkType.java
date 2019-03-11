@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Icon;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import com.intellij.execution.ExecutionException;
@@ -23,7 +21,7 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import consulo.php.PhpBundle;
-import consulo.php.PhpIcons2;
+import consulo.php.PhpIcons;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
 import consulo.ui.image.Image;
@@ -139,6 +137,6 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Image getIcon()
 	{
-		return PhpIcons2.Php;
+		return PhpIcons.Php;
 	}
 }

@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import consulo.php.PhpBundle;
-import consulo.php.PhpIcons2;
+import consulo.php.PhpIcons;
 import consulo.ui.image.Image;
 
 /**
@@ -64,6 +64,6 @@ public class PhpFileType extends LanguageFileType
 	@Nullable
 	public Image getIcon()
 	{
-		return PhpIcons2.Php;
+		return PhpIcons.Php;
 	}
 }
