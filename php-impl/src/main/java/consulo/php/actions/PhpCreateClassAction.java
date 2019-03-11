@@ -126,13 +126,13 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
-		builder.setTitle("Create New Class").addKind("Class", PhpIcons2.Class, "PHP Class").addKind("Interface", PhpIcons2.Interface, "PHP Interface");
+		builder.setTitle("Create New Class").addKind("Class", TargetAWT.to(PhpIcons2.Class), "PHP Class").addKind("Interface", TargetAWT.to(PhpIcons2.Interface), "PHP Interface");
 
 		PhpModuleExtension extension = getPhpModuleExtension(psiDirectory);
 
 		if(extension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_4))
 		{
-			builder.addKind("Trait", PhpIcons2.Trait, "Php Trait");
+			builder.addKind("Trait", TargetAWT.to(PhpIcons2.Trait), "Php Trait");
 		}
 	}
 

@@ -67,6 +67,10 @@ public class HeredocManager extends ReadingManager
 		if(safeReadAt(pos) == '$')
 		{
 			char nextChar = safeReadAt(pos + 1);
+			if(nextChar == '~')
+			{
+				return false;
+			}
 			return (nextChar >= 'a' && nextChar <= 255) || nextChar == '_';
 		}
 		return false;

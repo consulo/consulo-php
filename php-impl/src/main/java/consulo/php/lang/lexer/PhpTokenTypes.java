@@ -16,14 +16,12 @@ import com.intellij.psi.tree.TokenSet;
  */
 public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 {
-
 	IElementType PHP_OPENING_TAG = new PhpElementType("php opening tag"); // <?php or <?
 	IElementType PHP_ECHO_OPENING_TAG = new PhpElementType("php echo opening tag"); // <?=
 	IElementType PHP_CLOSING_TAG = new PhpElementType("php closing tag"); // ?>
 	IElementType UNKNOWN_SYMBOL = new PhpElementType("dunno what's that");
 	IElementType SYNTAX_ERROR = new PhpElementType("syntax error");
 
-	IElementType WHITE_SPACE = new PhpElementType("some whitespace");
 	IElementType HTML = new PhpElementType("html");
 
 	IElementType kwIF = new PhpElementType("if");
@@ -50,8 +48,8 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType kwEXIT = new PhpElementType("exit");
 	IElementType NAMESPACE_KEYWORD = new PhpElementType("NAMESPACE_KEYWORD");
 	IElementType USE_KEYWORD = new PhpElementType("USE_KEYWORD");
-	IElementType PRIVATE_KEYWORD = new PhpElementType("private");
-	IElementType kwFUNCTION = new PhpElementType("function");
+	IElementType PRIVATE_KEYWORD = new PhpElementType("PRIVATE_KEYWORD");
+	IElementType kwFUNCTION = new PhpElementType("FUNCTION_KEYWORD");
 	IElementType kwNEW = new PhpElementType("new");
 	IElementType kwINSTANCEOF = new PhpElementType("instanceof");
 	IElementType kwCONST = new PhpElementType("CONST_KEYWORD");
@@ -111,9 +109,9 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType STRING_LITERAL_SINGLE_QUOTE = new PhpElementType("single quoted string");
 	IElementType EXEC_COMMAND = new PhpElementType("exec command");
 	IElementType ESCAPE_SEQUENCE = new PhpElementType("escape sequence");
-	IElementType HEREDOC_START = new PhpElementType("heredoc start");
-	IElementType HEREDOC_CONTENTS = new PhpElementType("heredoc");
-	IElementType HEREDOC_END = new PhpElementType("heredoc end");
+	IElementType HEREDOC_START = new PhpElementType("HEREDOC_START");
+	IElementType HEREDOC_CONTENTS = new PhpElementType("HEREDOC_CONTENTS");
+	IElementType HEREDOC_END = new PhpElementType("HEREDOC_END");
 
 
 	IElementType chDOUBLE_QUOTE = new PhpElementType("double quote");

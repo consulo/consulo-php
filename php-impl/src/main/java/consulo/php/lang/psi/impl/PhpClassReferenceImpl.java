@@ -284,6 +284,10 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 	public TextRange getRangeInElement()
 	{
 		PsiElement referenceElement = getReferenceElement();
+		if(referenceElement == null)
+		{
+			return getElement().getTextRange();
+		}
 		return new TextRange(referenceElement.getStartOffsetInParent(), referenceElement.getStartOffsetInParent() + referenceElement.getTextLength());
 	}
 

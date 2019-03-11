@@ -16,7 +16,6 @@ import consulo.php.PhpLanguageLevel;
   private PhpLanguageLevel myLanguageLevel;
 
 	public _PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
-		this((java.io.Reader)null);
 		myHighlightingMode = highlightingMode;
 		myLanguageLevel = languageLevel;
 	}
