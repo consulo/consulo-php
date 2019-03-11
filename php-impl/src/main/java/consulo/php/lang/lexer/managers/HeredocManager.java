@@ -1,6 +1,6 @@
 package consulo.php.lang.lexer.managers;
 
-import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer._PhpFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,9 +19,9 @@ public class HeredocManager extends ReadingManager
 
 	private StatesManager stManager;
 	private String heredocID;
-	private static int myID = PhpFlexLexer.ST_START_HEREDOC;
+	private static int myID = _PhpFlexLexer.ST_START_HEREDOC;
 
-	public HeredocManager(PhpFlexLexer lexer, StatesManager manager)
+	public HeredocManager(_PhpFlexLexer lexer, StatesManager manager)
 	{
 		super(lexer);
 		stManager = manager;

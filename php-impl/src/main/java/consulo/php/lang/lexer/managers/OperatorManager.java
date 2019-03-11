@@ -1,9 +1,10 @@
 package consulo.php.lang.lexer.managers;
 
-import consulo.php.lang.lexer.PhpFlexLexer;
-import consulo.php.lang.lexer.PhpTokenTypes;
 import javax.annotation.Nonnull;
+
 import com.intellij.psi.tree.IElementType;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.lexer._PhpFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,17 +15,14 @@ import com.intellij.psi.tree.IElementType;
  */
 public class OperatorManager
 {
-
-	private PhpFlexLexer lexer;
 	private boolean afterOperator;
 	private boolean afterKeyword;
 	private boolean inStatementStart;
 	private boolean afterVariable;
 	private boolean afterArrow;
 
-	public OperatorManager(@Nonnull final PhpFlexLexer lexer)
+	public OperatorManager(@Nonnull final _PhpFlexLexer lexer)
 	{
-		this.lexer = lexer;
 	}
 
 	public void reset()

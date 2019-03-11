@@ -2,7 +2,7 @@ package consulo.php.lang.lexer.managers;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer._PhpFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +14,7 @@ import consulo.php.lang.lexer.PhpFlexLexer;
 public class BacktrickedStringManager extends SubstitutionsAwareStringManager
 {
 
-	public BacktrickedStringManager(@Nonnull final PhpFlexLexer lexer)
+	public BacktrickedStringManager(@Nonnull final _PhpFlexLexer lexer)
 	{
 		super(lexer);
 		DELIMITER = '`';

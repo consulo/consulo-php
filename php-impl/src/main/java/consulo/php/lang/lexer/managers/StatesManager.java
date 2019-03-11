@@ -2,7 +2,7 @@ package consulo.php.lang.lexer.managers;
 
 import java.util.Stack;
 
-import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer._PhpFlexLexer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,9 +15,9 @@ public class StatesManager
 {
 
 	private Stack<Integer> statesStack;
-	private PhpFlexLexer lexer;
+	private _PhpFlexLexer lexer;
 
-	public StatesManager(PhpFlexLexer lexer)
+	public StatesManager(_PhpFlexLexer lexer)
 	{
 		this.lexer = lexer;
 		statesStack = new Stack<Integer>();

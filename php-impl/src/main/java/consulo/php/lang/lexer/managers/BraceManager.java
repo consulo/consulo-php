@@ -13,7 +13,6 @@ import com.intellij.openapi.diagnostic.Logger;
  */
 public class BraceManager
 {
-
 	private static final Logger LOG = Logger.getInstance(BraceManager.class.getName());
 
 	private enum BRACE

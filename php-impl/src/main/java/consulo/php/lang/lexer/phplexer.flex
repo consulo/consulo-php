@@ -1,22 +1,22 @@
 package consulo.php.lang.lexer;
 
 import javax.annotation.Nonnull;
-
-import com.intellij.lexer.LexerBase;
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
+import consulo.php.lang.lexer.managers.*;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import gnu.trove.THashSet;
+import java.util.Arrays;
+import java.util.Set;
 import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.lexer.managers.BraceManager;
-import consulo.php.lang.lexer.managers.HeredocManager;
-import consulo.php.lang.lexer.managers.LineCommentManager;
-import consulo.php.lang.lexer.managers.OperatorManager;
-import consulo.php.lang.lexer.managers.StatesManager;
 %%
 
 %{
   private boolean myHighlightingMode;
   private PhpLanguageLevel myLanguageLevel;
 
-	public PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
+	public _PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
+		this((java.io.Reader)null);
 		myHighlightingMode = highlightingMode;
 		myLanguageLevel = languageLevel;
 	}
@@ -48,11 +48,11 @@ import consulo.php.lang.lexer.managers.StatesManager;
 
 %}
 
-%class PhpFlexLexer
-%extends LexerBase
+%class _PhpFlexLexer
+%implements FlexLexer
 %public
 %unicode
-%function advanceImpl
+%function advance
 %type IElementType
 %eof{  return;
 %eof}
@@ -502,7 +502,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 		sManager.toPreviousState();
 		return PhpTokenTypes.HEREDOC_END;
 	}
-	return advanceImpl();
+	return advance();
 
 }
 

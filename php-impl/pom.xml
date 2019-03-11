@@ -53,6 +53,9 @@
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>
 					</packaging>
+					<dependencies>
+						<dependency>com.intellij.xml</dependency>
+					</dependencies>
 				</configuration>
 				<executions>
 					<execution>
