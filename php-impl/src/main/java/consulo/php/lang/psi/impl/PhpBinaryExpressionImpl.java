@@ -1,15 +1,17 @@
 package consulo.php.lang.psi.impl;
 
-import javax.annotation.Nonnull;
-
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpBinaryExpression;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpBinaryExpression;
+import consulo.php.lang.psi.PhpElement;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author jay
@@ -17,6 +19,8 @@ import com.intellij.psi.tree.IElementType;
  */
 public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinaryExpression
 {
+	private static final Logger LOGGER = Logger.getInstance(PhpBinaryExpressionImpl.class);
+
 	public PhpBinaryExpressionImpl(ASTNode node)
 	{
 		super(node);
@@ -31,7 +35,13 @@ public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinary
 	@Override
 	public PsiElement getRightOperand()
 	{
-		return getFirstPsiChild().getNextPsiSibling();
+		PhpElement firstPsiChild = getFirstPsiChild();
+		if(firstPsiChild == null)
+		{
+			LOGGER.error("Expression: " + getText() + " is not have right operand");
+			return null;
+		}
+		return firstPsiChild.getNextPsiSibling();
 	}
 
 	@Override
