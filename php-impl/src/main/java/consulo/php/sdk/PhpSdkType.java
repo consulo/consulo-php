@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.execution.ExecutionException;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.process.CapturingProcessHandler;
 import com.intellij.execution.process.ProcessOutput;
-import com.intellij.execution.util.ExecUtil;
-import com.intellij.openapi.application.PathManager;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -67,12 +69,12 @@ public class PhpSdkType extends SdkType
 
 	public static String getVersion(String home)
 	{
-		List<String> args = new ArrayList<String>(2);
+		List<String> args = new ArrayList<>(2);
 		args.add(getExecutableFile(home));
 		args.add("--version");
 		try
 		{
-			ProcessOutput processOutput = ExecUtil.execAndGetOutput(args, home);
+			ProcessOutput processOutput = new CapturingProcessHandler(new GeneralCommandLine(args).withWorkDirectory(home)).runProcess();
 			List<String> stdoutLines = processOutput.getStdoutLines();
 			return !stdoutLines.isEmpty() ? stdoutLines.get(0) : null;
 		}
@@ -107,17 +109,14 @@ public class PhpSdkType extends SdkType
 	{
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
 
-		String path = PathManager.getPreInstalledPluginsPath() + "/php/stubs";
-		VirtualFile stubsDir = LocalFileSystem.getInstance().findFileByPath(path);
-		if(stubsDir == null)
-		{
-			path = PathManager.getPluginsPath() + "/php/stubs";
-			stubsDir = LocalFileSystem.getInstance().findFileByPath(path);
-		}
+		File pluginPath = PluginManager.getPluginPath(PhpSdkType.class);
+
+		File stubDirectory = new File(pluginPath, "stubs");
+		VirtualFile stubsDir = LocalFileSystem.getInstance().findFileByIoFile(stubDirectory);
 
 		if(stubsDir == null)
 		{
-			PhpSdkType.LOGGER.warn("Cant find stubs for path: " + path);
+			LOGGER.warn("Cant find stubs for path: " + stubDirectory);
 		}
 		else
 		{
