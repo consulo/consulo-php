@@ -31,6 +31,12 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 	@Override
 	public Collection<AbstractTreeNode> modify(AbstractTreeNode abstractTreeNode, Collection<AbstractTreeNode> list, ViewSettings viewSettings)
 	{
+		// without stubs it's very laggy
+		if(Boolean.TRUE)
+		{
+			return list;
+		}
+
 		List<AbstractTreeNode> nodes = new ArrayList<AbstractTreeNode>(list.size());
 		for(AbstractTreeNode treeNode : list)
 		{
