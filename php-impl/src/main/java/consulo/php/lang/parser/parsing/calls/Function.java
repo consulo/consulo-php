@@ -1,5 +1,7 @@
 package consulo.php.lang.parser.parsing.calls;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.classes.ClassReference;
@@ -8,8 +10,6 @@ import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,15 +38,35 @@ public class Function implements PhpTokenTypes
 		}
 		variable.drop();
 
-		if(builder.getTokenType() == SLASH)
+		if(builder.getTokenType() == IDENTIFIER || builder.getTokenType() == SLASH)
 		{
-			builder.advanceLexer();
-		}
+			boolean slash = builder.getTokenType() == SLASH;
 
-		if(builder.compare(IDENTIFIER))
-		{
 			PsiBuilder.Marker rollback = builder.mark();
-			builder.advanceLexer();
+
+			PsiBuilder.Marker referenceMark = builder.mark();
+			if(slash)
+			{
+				builder.advanceLexer();
+
+				if(builder.getTokenType() != IDENTIFIER)
+				{
+					referenceMark.drop();
+					rollback.rollbackTo();
+
+					return PhpElementTypes.EMPTY_INPUT;
+				}
+				else
+				{
+					builder.advanceLexer();
+				}
+			}
+			else
+			{
+				builder.advanceLexer();
+			}
+			referenceMark.done(PhpElementTypes.METHOD_REFERENCE);
+
 			if(builder.compare(chLPAREN))
 			{
 				rollback.drop();

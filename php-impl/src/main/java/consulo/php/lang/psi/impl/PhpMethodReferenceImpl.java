@@ -5,7 +5,15 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementResolveResult;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
+import com.intellij.util.IncorrectOperationException;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
@@ -18,15 +26,6 @@ import consulo.php.lang.psi.PhpVariableReference;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-
-import javax.annotation.Nullable;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
-import com.intellij.util.IncorrectOperationException;
 
 /**
  * @author jay
@@ -167,50 +166,6 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	@Override
 	public Object[] getVariants()
 	{
-		/*final UsageContext context = new UsageContext();
-		final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-
-		if(contextClass != null)
-		{
-			context.setClassForAccessFilter(contextClass);
-		}
-		context.setModifier(getReferenceType());
-
-		final PhpClassReference classReference = getClassReference();
-		if(classReference != null)
-		{
-			final PsiElement element = classReference.resolve();
-			if(element instanceof PhpClass && ((PhpClass) element).getName() != null)
-			{
-				DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-				if(index != null)
-				{
-					//noinspection ConstantConditions
-					final List<LightPhpClass> classes = index.getClassesByName(((PhpClass) element).getName());
-					if(classes.size() == 1)
-					{
-						final LightPhpClass klass = classes.get(0);
-						context.setCallingObjectClass(klass);
-
-						final List<LookupElement> list = PhpVariantsUtil.getLookupItems(klass.getFunctions(), context);
-						return list.toArray(new LookupElement[list.size()]);
-					}
-				}
-			}
-		}
-		final PsiElement objectReference = getObjectReference();
-		if(objectReference instanceof PhpTypedElement)
-		{
-			final PhpType type = ((PhpTypedElement) objectReference).getType();
-			final LightPhpClass lightPhpClass = type.getType();
-			if(lightPhpClass != null)
-			{
-				context.setCallingObjectClass(lightPhpClass);
-
-				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(lightPhpClass.getFunctions(), context);
-				return list.toArray(new LookupElement[list.size()]);
-			}
-		}          */
 		return new Object[0];
 	}
 
