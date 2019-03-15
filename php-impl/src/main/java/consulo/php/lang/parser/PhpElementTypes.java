@@ -108,7 +108,7 @@ public interface PhpElementTypes
 	IElementType THROW = new PhpElementType("Throw statement");
 	IElementType EXPRESSION = new PhpElementType("Expression");
 	IElementType OBSCURE_VARIABLE = new PhpElementType("Obscure variable");
-	IElementType FUNCTION_CALL = new PhpElementType("Function call");
+	IElementType FUNCTION_CALL = new ElementTypeAsPsiFactory("FUNCTION_CALL", PhpLanguage.INSTANCE, PhpFunctionCallImpl.class);
 	IElementType FIELD_REFERENCE = new PhpElementType("PhpField reference");
 	IElementType METHOD_REFERENCE = new ElementTypeAsPsiFactory("METHOD_REFERENCE", PhpLanguage.INSTANCE, PhpMethodReferenceImpl.class);
 	IElementType HEREDOC = new PhpElementType("Heredoc");

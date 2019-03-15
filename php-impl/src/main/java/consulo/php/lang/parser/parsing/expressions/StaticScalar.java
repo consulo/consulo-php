@@ -1,12 +1,12 @@
 package consulo.php.lang.parser.parsing.expressions;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.classes.StaticClassConstant;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * @author markov
@@ -49,6 +49,13 @@ public class StaticScalar implements PhpTokenTypes
 			}
 			else if(builder.compareAndEat(IDENTIFIER))
 			{
+				staticScalar.done(PhpElementTypes.CONSTANT);
+				result = PhpElementTypes.CONSTANT;
+			}
+			else if(builder.compareAndEat(SLASH))
+			{
+				builder.compareAndEat(IDENTIFIER);
+
 				staticScalar.done(PhpElementTypes.CONSTANT);
 				result = PhpElementTypes.CONSTANT;
 			}

@@ -1,13 +1,13 @@
 package consulo.php.lang.parser.parsing.expressions;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.expressions.logical.LiteralOrExpression;
 import consulo.php.lang.parser.parsing.expressions.logical.OrExpression;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +21,14 @@ public class TernaryExpression implements PhpTokenTypes
 	{
 		PsiBuilder.Marker marker = builder.mark();
 		IElementType result = OrExpression.parse(builder);
-		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(opQUEST))
+		if(result == PhpElementTypes.EMPTY_INPUT)
+		{
+			marker.drop();
+
+			return result;
+		}
+
+		if(builder.compareAndEat(opQUEST))
 		{
 			IElementType expr = LiteralOrExpression.parse(builder);
 			if(expr == PhpElementTypes.EMPTY_INPUT)
@@ -42,19 +49,21 @@ public class TernaryExpression implements PhpTokenTypes
 			marker.done(PhpElementTypes.TERNARY_EXPRESSION);
 			if(builder.compareAndEat(opQUEST))
 			{
-				if(builder.getTokenType() == opCOLON)
+				result = subParseTernary(builder, newMarker);
+
+				if(result == PhpElementTypes.EMPTY_INPUT)
 				{
-					result = subParseElvis(builder, newMarker);
-				}
-				else
-				{
-					result = subParseTernary(builder, newMarker);
+					newMarker.drop();
 				}
 			}
 			else
 			{
 				newMarker.drop();
 			}
+		}
+		else if(builder.getTokenType() == ELVIS)
+		{
+			result = parseElvis(builder, marker);
 		}
 		else
 		{
@@ -63,10 +72,8 @@ public class TernaryExpression implements PhpTokenTypes
 		return result;
 	}
 
-	private static IElementType subParseElvis(PhpPsiBuilder builder, PsiBuilder.Marker newMarker)
+	private static IElementType parseElvis(PhpPsiBuilder builder, PsiBuilder.Marker marker)
 	{
-		newMarker = newMarker.precede();
-
 		builder.advanceLexer();
 		IElementType result = LiteralOrExpression.parse(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
@@ -74,7 +81,7 @@ public class TernaryExpression implements PhpTokenTypes
 			builder.error(PhpParserErrors.expected("expression"));
 		}
 
-		newMarker.done(result);
+		marker.done(PhpElementTypes.ELVIS_EXPRESSION);
 		return PhpElementTypes.ELVIS_EXPRESSION;
 	}
 

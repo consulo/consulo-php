@@ -123,6 +123,7 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType chRPAREN = new PhpElementType(")");
 	IElementType LBRACKET = new PhpElementType("[");
 	IElementType RBRACKET = new PhpElementType("]");
+	IElementType ELVIS = new PhpElementType("ELVIS");
 
 
 	IElementType opPLUS = new PhpElementType("plus"); //+

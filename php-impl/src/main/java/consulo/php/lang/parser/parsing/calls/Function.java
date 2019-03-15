@@ -37,6 +37,12 @@ public class Function implements PhpTokenTypes
 			return PhpElementTypes.FUNCTION_CALL;
 		}
 		variable.drop();
+
+		if(builder.getTokenType() == SLASH)
+		{
+			builder.advanceLexer();
+		}
+
 		if(builder.compare(IDENTIFIER))
 		{
 			PsiBuilder.Marker rollback = builder.mark();

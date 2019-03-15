@@ -318,6 +318,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"||"                               { return opManager.process(PhpTokenTypes.opOR); }
 	","                                { return opManager.process(PhpTokenTypes.opCOMMA); }
 	"?"                                { return opManager.process(PhpTokenTypes.opQUEST); }
+	"?:"                               { return opManager.process(PhpTokenTypes.ELVIS); }
 	"%"                                { return opManager.process(PhpTokenTypes.opREM); }
 	"!"                                { return opManager.process(PhpTokenTypes.opNOT); }
 	":"                                { return opManager.process(PhpTokenTypes.opCOLON); }

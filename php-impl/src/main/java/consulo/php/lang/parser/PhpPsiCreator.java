@@ -109,10 +109,6 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpFieldReferenceImpl(node);
 		}
-		if(type == FUNCTION_CALL)
-		{
-			return new PhpFunctionCallImpl(node);
-		}
 
 		if(type == EXTENDS_LIST)
 		{
