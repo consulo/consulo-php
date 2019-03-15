@@ -328,8 +328,8 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"=>"                               { return opManager.process(PhpTokenTypes.opHASH_ARRAY); }
 
 
-	"["                                { return opManager.process(PhpTokenTypes.chLBRACKET); }
-	"]"                                { return opManager.process(PhpTokenTypes.chRBRACKET); }
+	"["                                { return opManager.process(PhpTokenTypes.LBRACKET); }
+	"]"                                { return opManager.process(PhpTokenTypes.RBRACKET); }
 	"("                                { return opManager.process(PhpTokenTypes.chLPAREN); }
 	")"                                { return opManager.process(PhpTokenTypes.chRPAREN); }
 
@@ -406,12 +406,12 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 }
 
 <ST_VAR_OFFSET>"[" {
-	return PhpTokenTypes.chLBRACKET;
+	return PhpTokenTypes.LBRACKET;
 }
 
 <ST_VAR_OFFSET>"]" {
 	sManager.toPreviousState();
-	return PhpTokenTypes.chRBRACKET;
+	return PhpTokenTypes.RBRACKET;
 }
 
 <ST_IN_SCRIPTING,ST_VAR_OFFSET>{LABEL} {

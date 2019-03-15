@@ -19,7 +19,7 @@ public class PhpBraceMatcher implements PairedBraceMatcher, PhpTokenTypes
 			new BracePair(chLBRACE, chRBRACE, true),
 			new BracePair(PHP_OPENING_TAG, PHP_CLOSING_TAG, true),
 			new BracePair(PHP_ECHO_OPENING_TAG, PHP_CLOSING_TAG, true),
-			new BracePair(chLBRACKET, chRBRACKET, false),
+			new BracePair(LBRACKET, RBRACKET, false),
 			new BracePair(chLPAREN, chRPAREN, false)
 	};
 

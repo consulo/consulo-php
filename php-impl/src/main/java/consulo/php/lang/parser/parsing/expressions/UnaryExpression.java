@@ -29,8 +29,8 @@ public class UnaryExpression implements PhpTokenTypes
 			{
 				builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 			}
-			marker.done(PhpElementTypes.CAST_EXPRESSION);
-			return PhpElementTypes.CAST_EXPRESSION;
+			marker.done(PhpElementTypes.TYPE_CAST_EXPRESSION);
+			return PhpElementTypes.TYPE_CAST_EXPRESSION;
 		}
 		else if(builder.compareAndEat(opBIT_NOT))
 		{

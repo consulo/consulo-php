@@ -54,9 +54,10 @@ public interface PhpElementTypes
 	IElementType SHIFT_EXPRESSION = new PhpElementType("Shift expression");
 	IElementType ADDITIVE_EXPRESSION = new PhpElementType("Additive expression");
 	IElementType MULTIPLICATIVE_EXPRESSION = new PhpElementType("Multiplicative expression");
-	IElementType CAST_EXPRESSION = new PhpElementType("Cast expression");
+	IElementType TYPE_CAST_EXPRESSION = new PhpElementType("TYPE_CAST_EXPRESSION");
 	IElementType SILENCE_EXPRESSION = new PhpElementType("Silence expression");
 	IElementType POSTFIX_EXPRESSION = new PhpElementType("Postfix expression");
+	IElementType ARRAY_EXPRESSION = new ElementTypeAsPsiFactory("ARRAY_EXPRESSION", PhpLanguage.INSTANCE, PhpArrayExpressionImpl.class);
 
 	TokenSet BINARY_EXPRESSIONS = TokenSet.create(ADDITIVE_EXPRESSION, MULTIPLICATIVE_EXPRESSION, SHIFT_EXPRESSION, RELATIONAL_EXPRESSION, EQUALITY_EXPRESSION, BIT_EXPRESSION, LOGICAL_EXPRESSION, LITERAL_LOGICAL_EXPRESSION, INSTANCEOF_EXPRESSION);
 

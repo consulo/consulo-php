@@ -35,6 +35,10 @@ public class StaticScalar implements PhpTokenTypes
 				staticScalar.done(PhpElementTypes.STATIC_SCALAR);
 				result = PhpElementTypes.STATIC_SCALAR;
 			}
+			else if(builder.compare(LBRACKET))
+			{
+				result = PrimaryExpression.parseArrayExpression(builder, staticScalar);
+			}
 			else if(builder.compareAndEat(kwARRAY))
 			{
 				builder.match(chLPAREN);

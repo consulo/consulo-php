@@ -1,5 +1,10 @@
 package consulo.php.lang.parser.parsing.expressions;
 
+import javax.annotation.Nullable;
+
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.calls.Variable;
@@ -10,9 +15,6 @@ import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * @author jay
@@ -58,6 +60,10 @@ public class PrimaryExpression implements PhpTokenTypes
 		{
 			return Array.parse(builder);
 		}
+		if(builder.compare(LBRACKET))
+		{
+			return parseArrayExpression(builder, null);
+		}
 		if(builder.compareAndEat(chLPAREN))
 		{
 			result = Expression.parse(builder);
@@ -94,6 +100,43 @@ public class PrimaryExpression implements PhpTokenTypes
 		}
 		result = parseInternalFunctions(builder);
 		return result;
+	}
+
+	public static IElementType parseArrayExpression(PhpPsiBuilder builder, @Nullable PsiBuilder.Marker otherMarker)
+	{
+		PsiBuilder.Marker mark = otherMarker == null ? builder.mark() : otherMarker;
+		builder.advanceLexer();
+
+		if(builder.getTokenType() != RBRACKET)
+		{
+			while(!builder.eof())
+			{
+				IElementType r = UnaryExpression.parse(builder);
+				if(r == PhpElementTypes.EMPTY_INPUT)
+				{
+					builder.error("Expression expected");
+					break;
+				}
+
+				if(builder.getTokenType() == opCOMMA)
+				{
+					builder.advanceLexer();
+				}
+				else if(builder.getTokenType() == RBRACKET)
+				{
+					break;
+				}
+				else
+				{
+					builder.error("Comma expected");
+					break;
+				}
+			}
+		}
+
+		builder.compareAndEat(RBRACKET);
+		mark.done(PhpElementTypes.ARRAY_EXPRESSION);
+		return PhpElementTypes.ARRAY_EXPRESSION;
 	}
 
 	//	exit_expr:

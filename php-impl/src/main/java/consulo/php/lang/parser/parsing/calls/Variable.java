@@ -114,7 +114,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseObjectDimList(PhpPsiBuilder builder)
 	{
-		TokenSet tokens = TokenSet.create(chLBRACE, chLBRACKET);
+		TokenSet tokens = TokenSet.create(chLBRACE, LBRACKET);
 		PsiBuilder.Marker preceder = builder.mark();
 		IElementType result = parseVariableName(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
@@ -133,12 +133,12 @@ public class Variable implements PhpTokenTypes
 				builder.match(chRBRACE);
 				result = PhpElementTypes.ARRAY;
 			}
-			else if(builder.compareAndEat(chLBRACKET))
+			else if(builder.compareAndEat(LBRACKET))
 			{
 				PsiBuilder.Marker arrayIndex = builder.mark();
 				parseDimOffset(builder);
 				arrayIndex.done(PhpElementTypes.ARRAY_INDEX);
-				builder.match(chRBRACKET);
+				builder.match(RBRACKET);
 				result = PhpElementTypes.ARRAY;
 			}
 			else
@@ -305,7 +305,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseReferenceVariable(PhpPsiBuilder builder, PsiBuilder.Marker preceder, IElementType outerElement)
 	{
-		TokenSet tokens = TokenSet.create(chLBRACE, chLBRACKET);
+		TokenSet tokens = TokenSet.create(chLBRACE, LBRACKET);
 		if(preceder == null)
 		{
 			preceder = builder.mark();
@@ -331,12 +331,12 @@ public class Variable implements PhpTokenTypes
 				builder.match(chRBRACE);
 				result = PhpElementTypes.ARRAY;
 			}
-			else if(builder.compareAndEat(chLBRACKET))
+			else if(builder.compareAndEat(LBRACKET))
 			{
 				PsiBuilder.Marker arrayIndex = builder.mark();
 				parseDimOffset(builder);
 				arrayIndex.done(PhpElementTypes.ARRAY_INDEX);
-				builder.match(chRBRACKET);
+				builder.match(RBRACKET);
 				result = PhpElementTypes.ARRAY;
 			}
 			else

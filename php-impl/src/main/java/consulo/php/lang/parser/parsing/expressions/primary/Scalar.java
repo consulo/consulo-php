@@ -110,14 +110,14 @@ public class Scalar implements PhpTokenTypes
 		PsiBuilder.Marker marker = builder.mark();
 		if(builder.compareAndEat(VARIABLE))
 		{
-			if(builder.compareAndEat(chLBRACKET))
+			if(builder.compareAndEat(LBRACKET))
 			{
 				IElementType result = parseEncapsVarOffset(builder);
 				if(result == PhpElementTypes.EMPTY_INPUT)
 				{
 					builder.error(PhpParserErrors.expected("array index"));
 				}
-				builder.match(chRBRACKET);
+				builder.match(RBRACKET);
 				marker.done(PhpElementTypes.ARRAY);
 				return PhpElementTypes.ARRAY;
 			}
@@ -141,10 +141,10 @@ public class Scalar implements PhpTokenTypes
 		if(builder.compareAndEat(DOLLAR_LBRACE))
 		{
 			PsiBuilder.Marker rollback = builder.mark();
-			if(builder.compareAndEat(VARIABLE_NAME) && builder.compare(chLBRACKET))
+			if(builder.compareAndEat(VARIABLE_NAME) && builder.compare(LBRACKET))
 			{
 				rollback.drop();
-				builder.match(chLBRACKET);
+				builder.match(LBRACKET);
 				PsiBuilder.Marker index = builder.mark();
 				IElementType result = Expression.parse(builder);
 				if(result == PhpElementTypes.EMPTY_INPUT)
@@ -152,7 +152,7 @@ public class Scalar implements PhpTokenTypes
 					builder.error(PhpParserErrors.expected("expression"));
 				}
 				index.done(PhpElementTypes.ARRAY_INDEX);
-				builder.match(chRBRACKET);
+				builder.match(RBRACKET);
 				marker.done(PhpElementTypes.ARRAY);
 				builder.match(chRBRACE);
 				return PhpElementTypes.ARRAY;

@@ -3,6 +3,7 @@ package consulo.php.lang.psi.visitors;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import consulo.php.lang.psi.*;
+import consulo.php.lang.psi.impl.PhpArrayExpressionImpl;
 import consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import consulo.php.lang.psi.impl.PhpTryStatementImpl;
@@ -185,5 +186,10 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 	public void visitUseList(PhpUseListStatement list)
 	{
 		visitPhpElement(list);
+	}
+
+	public void visitArrayExpression(PhpArrayExpression phpArrayExpression)
+	{
+		visitPhpElement(phpArrayExpression);
 	}
 }

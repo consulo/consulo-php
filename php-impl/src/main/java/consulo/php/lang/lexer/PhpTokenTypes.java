@@ -121,8 +121,8 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType chRBRACE = new PhpElementType("}");
 	IElementType chLPAREN = new PhpElementType("(");
 	IElementType chRPAREN = new PhpElementType(")");
-	IElementType chLBRACKET = new PhpElementType("[");
-	IElementType chRBRACKET = new PhpElementType("]");
+	IElementType LBRACKET = new PhpElementType("[");
+	IElementType RBRACKET = new PhpElementType("]");
 
 
 	IElementType opPLUS = new PhpElementType("plus"); //+
@@ -238,9 +238,9 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 
 	TokenSet tsEXPR_SUBST_MARKS = TokenSet.create(EXPR_SUBST_BEGIN, EXPR_SUBST_END);
 
-	TokenSet tsOPENING_BRACKETS = TokenSet.create(chLBRACE, chLBRACKET, chLPAREN);
+	TokenSet tsOPENING_BRACKETS = TokenSet.create(chLBRACE, LBRACKET, chLPAREN);
 
-	TokenSet tsCLOSING_BRACKETS = TokenSet.create(chRBRACE, chRBRACKET, chRPAREN);
+	TokenSet tsCLOSING_BRACKETS = TokenSet.create(chRBRACE, RBRACKET, chRPAREN);
 
 	TokenSet tsBRACKETS = TokenSet.orSet(tsOPENING_BRACKETS, tsCLOSING_BRACKETS);
 
