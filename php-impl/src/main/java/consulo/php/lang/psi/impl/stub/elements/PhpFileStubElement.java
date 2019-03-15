@@ -31,6 +31,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 	{
 		return new DefaultStubBuilder()
 		{
+			@Nonnull
 			@Override
 			protected StubElement createStubForFile(@Nonnull PsiFile file)
 			{
@@ -54,7 +55,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 	@Override
 	public int getStubVersion()
 	{
-		return 4;
+		return 5;
 	}
 
 	@Nonnull
@@ -67,6 +68,6 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 	@Override
 	public boolean shouldBuildStubFor(VirtualFile file)
 	{
-		return false;
+		return true;
 	}
 }
