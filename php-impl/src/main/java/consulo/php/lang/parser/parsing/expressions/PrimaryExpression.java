@@ -64,14 +64,14 @@ public class PrimaryExpression implements PhpTokenTypes
 		{
 			return parseArrayExpression(builder, null);
 		}
-		if(builder.compareAndEat(chLPAREN))
+		if(builder.compareAndEat(LPAREN))
 		{
 			result = Expression.parse(builder);
 			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
 				builder.error(PhpParserErrors.expected("expression"));
 			}
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			return PhpElementTypes.EXPRESSION;
 		}
 		if(builder.compare(kwNEW))
@@ -146,16 +146,16 @@ public class PrimaryExpression implements PhpTokenTypes
 	//	;
 	private static void parseExitExpression(PhpPsiBuilder builder)
 	{
-		if(builder.compareAndEat(chLPAREN))
+		if(builder.compareAndEat(LPAREN))
 		{
-			if(!builder.compareAndEat(chRPAREN))
+			if(!builder.compareAndEat(RPAREN))
 			{
 				IElementType result = Expression.parse(builder);
 				if(result == PhpElementTypes.EMPTY_INPUT)
 				{
 					builder.error(PhpParserErrors.EXPRESSION_EXPECTED_MESSAGE);
 				}
-				builder.match(chRPAREN);
+				builder.match(RPAREN);
 			}
 		}
 	}
@@ -189,31 +189,31 @@ public class PrimaryExpression implements PhpTokenTypes
 		}
 		if(builder.compareAndEat(kwEMPTY))
 		{
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			IElementType result = Variable.parse(builder);
 			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
 				builder.error(PhpParserErrors.expected("variable"));
 			}
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			function.done(PhpElementTypes.EMPTY_EXPRESSION);
 			return PhpElementTypes.EMPTY_EXPRESSION;
 		}
 		if(builder.compareAndEat(kwEVAL))
 		{
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			IElementType result = Expression.parse(builder);
 			if(result == PhpElementTypes.EMPTY_INPUT)
 			{
 				builder.error(PhpParserErrors.expected("expression"));
 			}
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			function.done(PhpElementTypes.EVAL_EXPRESSION);
 			return PhpElementTypes.EVAL_EXPRESSION;
 		}
 		if(builder.compareAndEat(kwISSET))
 		{
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			ParserPart issetVariable = new ParserPart()
 			{
 				@Override
@@ -231,7 +231,7 @@ public class PrimaryExpression implements PhpTokenTypes
 			{
 				ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, result, issetVariable, false);
 			}
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			function.done(PhpElementTypes.ISSET_EXPRESSION);
 			return PhpElementTypes.ISSET_EXPRESSION;
 		}

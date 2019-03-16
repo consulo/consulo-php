@@ -27,9 +27,9 @@ public class IfStatement implements PhpTokenTypes
 			statement.drop();
 			return PhpElementTypes.EMPTY_INPUT;
 		}
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		Expression.parse(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		if(builder.compareAndEat(opCOLON))
 		{
 			parseNewStyleIf(builder);
@@ -65,9 +65,9 @@ public class IfStatement implements PhpTokenTypes
 		{
 			PsiBuilder.Marker elseifClause = builder.mark();
 			builder.advanceLexer();
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			Expression.parse(builder);
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			builder.match(opCOLON);
 			StatementList.parse(builder, kwELSEIF, kwELSE, kwENDIF);
 			elseifClause.done(PhpElementTypes.ELSE_IF);
@@ -100,9 +100,9 @@ public class IfStatement implements PhpTokenTypes
 		{
 			PsiBuilder.Marker elseifClause = builder.mark();
 			builder.advanceLexer();
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			Expression.parse(builder);
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			Statement.parse(builder);
 			elseifClause.done(PhpElementTypes.ELSE_IF);
 		}

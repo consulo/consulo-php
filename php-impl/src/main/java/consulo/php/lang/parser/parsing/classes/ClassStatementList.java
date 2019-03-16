@@ -21,7 +21,7 @@ public class ClassStatementList implements PhpTokenTypes
 	//	;
 	public static void parse(PhpPsiBuilder builder)
 	{
-		while(!builder.eof() && !builder.compare(chRBRACE))
+		while(!builder.eof() && !builder.compare(RBRACE))
 		{
 			IElementType result = parseStatement(builder);
 			if(result == PhpElementTypes.EMPTY_INPUT)

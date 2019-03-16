@@ -64,8 +64,8 @@ public class ClassDeclaration implements PhpTokenTypes
 
 	private static void parseClassStatements(PhpPsiBuilder builder)
 	{
-		builder.match(chLBRACE);
+		builder.match(LBRACE);
 		ClassStatementList.parse(builder);
-		builder.match(chRBRACE);
+		builder.match(RBRACE);
 	}
 }

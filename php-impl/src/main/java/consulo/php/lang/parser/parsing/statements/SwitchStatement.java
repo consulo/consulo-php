@@ -27,9 +27,9 @@ public class SwitchStatement implements PhpTokenTypes
 			statement.drop();
 			return PhpElementTypes.EMPTY_INPUT;
 		}
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		Expression.parse(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 
 		parseSwitchCaseList(builder);
 
@@ -57,10 +57,10 @@ public class SwitchStatement implements PhpTokenTypes
 		}
 		else
 		{
-			builder.match(chLBRACE);
+			builder.match(LBRACE);
 			builder.compareAndEat(opSEMICOLON);
-			parseCaseList(builder, chRBRACE);
-			builder.match(chRBRACE);
+			parseCaseList(builder, RBRACE);
+			builder.match(RBRACE);
 		}
 
 	}

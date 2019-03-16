@@ -117,10 +117,10 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 	IElementType chDOUBLE_QUOTE = new PhpElementType("double quote");
 	IElementType chSINGLE_QUOTE = new PhpElementType("single quote");
 	IElementType chBACKTRICK = new PhpElementType("backtrick");
-	IElementType chLBRACE = new PhpElementType("{");
-	IElementType chRBRACE = new PhpElementType("}");
-	IElementType chLPAREN = new PhpElementType("(");
-	IElementType chRPAREN = new PhpElementType(")");
+	IElementType LBRACE = new PhpElementType("{");
+	IElementType RBRACE = new PhpElementType("}");
+	IElementType LPAREN = new PhpElementType("(");
+	IElementType RPAREN = new PhpElementType(")");
 	IElementType LBRACKET = new PhpElementType("[");
 	IElementType RBRACKET = new PhpElementType("]");
 	IElementType ELVIS = new PhpElementType("ELVIS");
@@ -239,9 +239,9 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 
 	TokenSet tsEXPR_SUBST_MARKS = TokenSet.create(EXPR_SUBST_BEGIN, EXPR_SUBST_END);
 
-	TokenSet tsOPENING_BRACKETS = TokenSet.create(chLBRACE, LBRACKET, chLPAREN);
+	TokenSet tsOPENING_BRACKETS = TokenSet.create(LBRACE, LBRACKET, LPAREN);
 
-	TokenSet tsCLOSING_BRACKETS = TokenSet.create(chRBRACE, RBRACKET, chRPAREN);
+	TokenSet tsCLOSING_BRACKETS = TokenSet.create(RBRACE, RBRACKET, RPAREN);
 
 	TokenSet tsBRACKETS = TokenSet.orSet(tsOPENING_BRACKETS, tsCLOSING_BRACKETS);
 
@@ -251,7 +251,7 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 
 	TokenSet tsOPERAND_FIRST_TOKENS = TokenSet.orSet(tsREFERENCE_FIRST_TOKENS, tsCONSTANTS, tsNUMBERS, tsSTRING_EDGE, TokenSet.create(kwARRAY, kwEMPTY, kwEXIT, kwISSET));
 
-	TokenSet tsPRIMARY_TOKENS = TokenSet.orSet(tsOPERAND_FIRST_TOKENS, tsUNARY_OPS, TokenSet.create(chLPAREN));
+	TokenSet tsPRIMARY_TOKENS = TokenSet.orSet(tsOPERAND_FIRST_TOKENS, tsUNARY_OPS, TokenSet.create(LPAREN));
 
 	TokenSet tsTERMINATOR = TokenSet.create(opSEMICOLON, PHP_CLOSING_TAG);
 
@@ -265,7 +265,7 @@ public interface PhpTokenTypes extends PhpDocElementTypes, TokenType
 
 	TokenSet tsVARIABLE_MODIFIERS = TokenSet.orSet(tsMODIFIERS, TokenSet.create(kwVAR));
 
-	TokenSet tsEXPRESSION_FIRST_TOKENS = TokenSet.orSet(tsCOMMON_SCALARS, tsCAST_OPS, TokenSet.create(kwPRINT, kwARRAY, kwEXIT, kwREQUIRE, kwREQUIRE_ONCE, kwINCLUDE, kwINCLUDE_ONCE, kwEVAL, kwEMPTY, kwISSET, kwNEW, kwCLONE, kwLIST), TokenSet.create(VARIABLE, VARIABLE_NAME, DOLLAR, IDENTIFIER, opINCREMENT, opDECREMENT, opPLUS, opMINUS, opNOT, opBIT_NOT, opSILENCE, chLPAREN, chDOUBLE_QUOTE, chBACKTRICK, HEREDOC_START));
+	TokenSet tsEXPRESSION_FIRST_TOKENS = TokenSet.orSet(tsCOMMON_SCALARS, tsCAST_OPS, TokenSet.create(kwPRINT, kwARRAY, kwEXIT, kwREQUIRE, kwREQUIRE_ONCE, kwINCLUDE, kwINCLUDE_ONCE, kwEVAL, kwEMPTY, kwISSET, kwNEW, kwCLONE, kwLIST), TokenSet.create(VARIABLE, VARIABLE_NAME, DOLLAR, IDENTIFIER, opINCREMENT, opDECREMENT, opPLUS, opMINUS, opNOT, opBIT_NOT, opSILENCE, LPAREN, chDOUBLE_QUOTE, chBACKTRICK, HEREDOC_START));
 
 	TokenSet tsSTATEMENT_FIRST_TOKENS = TokenSet.create(kwIF, kwWHILE, kwDO, kwFOR, kwSWITCH, kwBREAK, kwCONTINUE, kwRETURN, kwGLOBAL, STATIC_KEYWORD, kwECHO, kwUNSET, kwFOREACH, kwDECLARE, kwTRY, kwTHROW);
 

@@ -64,10 +64,10 @@ public class GlobalStatement implements PhpTokenTypes
 					return PhpElementTypes.VARIABLE_REFERENCE;
 				}
 				builder.match(DOLLAR);
-				if(builder.compareAndEat(chLBRACE))
+				if(builder.compareAndEat(LBRACE))
 				{
 					Expression.parse(builder);
-					builder.match(chRBRACE);
+					builder.match(RBRACE);
 					variable.done(PhpElementTypes.VARIABLE_REFERENCE);
 					return PhpElementTypes.VARIABLE_REFERENCE;
 				}

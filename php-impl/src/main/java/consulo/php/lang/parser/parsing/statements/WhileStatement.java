@@ -31,9 +31,9 @@ public class WhileStatement implements PhpTokenTypes
 			statement.drop();
 			return PhpElementTypes.EMPTY_INPUT;
 		}
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		Expression.parse(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		if(builder.compareAndEat(opCOLON))
 		{
 			StatementList.parse(builder, kwENDWHILE);

@@ -27,9 +27,9 @@ public class DoWhileStatement implements PhpTokenTypes
 		}
 		Statement.parse(builder);
 		builder.match(kwWHILE);
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		Expression.parse(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		if(!builder.compare(PHP_CLOSING_TAG))
 		{
 			builder.match(opSEMICOLON);

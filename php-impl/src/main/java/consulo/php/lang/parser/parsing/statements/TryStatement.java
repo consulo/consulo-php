@@ -28,9 +28,9 @@ public class TryStatement implements PhpTokenTypes
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
 
-		builder.match(chLBRACE);
-		StatementList.parse(builder, chRBRACE);
-		builder.match(chRBRACE);
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
 		parseCatchClauses(builder);
 
 		statement.done(PhpElementTypes.TRY);
@@ -66,7 +66,7 @@ public class TryStatement implements PhpTokenTypes
 		}
 		PsiBuilder.Marker catchClause = builder.mark();
 		builder.advanceLexer();
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		if(ClassReference.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 		{
 			builder.error(PhpParserErrors.expected("exception class"));
@@ -75,10 +75,10 @@ public class TryStatement implements PhpTokenTypes
 		builder.match(VARIABLE);
 		variable.done(PhpElementTypes.VARIABLE_REFERENCE);
 
-		builder.match(chRPAREN);
-		builder.match(chLBRACE);
-		StatementList.parse(builder, chRBRACE);
-		builder.match(chRBRACE);
+		builder.match(RPAREN);
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
 		catchClause.done(PhpElementTypes.CATCH);
 		return PhpElementTypes.CATCH;
 	}

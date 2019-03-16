@@ -104,13 +104,13 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Override
 	public PsiElement getLeftBrace()
 	{
-		return findChildByType(PhpTokenTypes.chLBRACE);
+		return findChildByType(PhpTokenTypes.LBRACE);
 	}
 
 	@Override
 	public PsiElement getRightBrace()
 	{
-		return findChildByType(PhpTokenTypes.chRBRACE);
+		return findChildByType(PhpTokenTypes.RBRACE);
 	}
 
 }

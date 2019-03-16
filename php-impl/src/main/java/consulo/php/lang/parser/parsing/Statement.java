@@ -57,10 +57,10 @@ public class Statement implements PhpTokenTypes
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		//		'{' statement_list '}'
-		if(builder.compareAndEat(chLBRACE))
+		if(builder.compareAndEat(LBRACE))
 		{
-			StatementList.parse(builder, chRBRACE);
-			builder.match(chRBRACE);
+			StatementList.parse(builder, RBRACE);
+			builder.match(RBRACE);
 			return PhpElementTypes.GROUP_STATEMENT;
 		}
 		//		HTML

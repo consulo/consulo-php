@@ -70,9 +70,9 @@ public class AssignmentExpression implements PhpTokenTypes
 		PsiBuilder.Marker marker = builder.mark();
 		if(builder.compareAndEat(kwLIST))
 		{ //kwLIST '(' assignment_list ')' '=' expr
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			parseAssignmentList(builder);
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			builder.match(opASGN);
 			IElementType result = TernaryExpression.parse(builder);
 			if(result == PhpElementTypes.EMPTY_INPUT)
@@ -166,9 +166,9 @@ public class AssignmentExpression implements PhpTokenTypes
 			{
 				if(builder.compareAndEat(kwLIST))
 				{
-					builder.match(chLPAREN);
+					builder.match(LPAREN);
 					parseAssignmentList(builder);
-					builder.match(chRPAREN);
+					builder.match(RPAREN);
 					return PhpElementTypes.VARIABLE_REFERENCE;
 				}
 				IElementType result = Variable.parse(builder);

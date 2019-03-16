@@ -29,9 +29,9 @@ public class DeclareStatement implements PhpTokenTypes
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
 
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		parseDeclareList(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		parseDeclareStatement(builder);
 
 		statement.done(PhpElementTypes.DECLARE);

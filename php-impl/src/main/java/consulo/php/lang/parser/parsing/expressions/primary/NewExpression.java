@@ -26,7 +26,7 @@ public class NewExpression implements PhpTokenTypes
 			{
 				builder.error(PhpParserErrors.expected("class name"));
 			}
-			if(builder.compare(chLPAREN))
+			if(builder.compare(LPAREN))
 			{
 				Function.parseFunctionCallParameterList(builder);
 			}

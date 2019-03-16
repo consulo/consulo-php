@@ -331,11 +331,11 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 	"["                                { return opManager.process(PhpTokenTypes.LBRACKET); }
 	"]"                                { return opManager.process(PhpTokenTypes.RBRACKET); }
-	"("                                { return opManager.process(PhpTokenTypes.chLPAREN); }
-	")"                                { return opManager.process(PhpTokenTypes.chRPAREN); }
+	"("                                { return opManager.process(PhpTokenTypes.LPAREN); }
+	")"                                { return opManager.process(PhpTokenTypes.RPAREN); }
 
-	"{"                                { sManager.toState(ST_IN_SCRIPTING); return opManager.process(PhpTokenTypes.chLBRACE); }
-	"}"                                { if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PhpTokenTypes.chRBRACE); }
+	"{"                                { sManager.toState(ST_IN_SCRIPTING); return opManager.process(PhpTokenTypes.LBRACE); }
+	"}"                                { if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PhpTokenTypes.RBRACE); }
 	"$"                                { return PhpTokenTypes.DOLLAR; }
 	"::"                               { return PhpTokenTypes.SCOPE_RESOLUTION; }
 }
@@ -525,7 +525,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 <ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC>"{$" {
 	yypushback(1);
 	sManager.toState(ST_IN_SCRIPTING);
-	return PhpTokenTypes.chLBRACE;
+	return PhpTokenTypes.LBRACE;
 }
 
 <ST_DOUBLE_QUOTES>{DOUBLE_QUOTES_CHARS}+ {

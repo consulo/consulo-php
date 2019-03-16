@@ -35,7 +35,7 @@ public class ForeachStatement implements PhpTokenTypes
 		}
 		PsiBuilder.Marker foreach = builder.mark();
 		builder.advanceLexer();
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 
 		Expression.parse(builder);
 		builder.match(kwAS);
@@ -44,7 +44,7 @@ public class ForeachStatement implements PhpTokenTypes
 		{
 			parseForeachVariable(builder);
 		}
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		parseForeachStatement(builder);
 
 		foreach.done(PhpElementTypes.FOREACH);

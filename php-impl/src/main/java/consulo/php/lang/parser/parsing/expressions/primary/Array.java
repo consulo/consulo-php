@@ -39,7 +39,7 @@ public class Array implements PhpTokenTypes
 		PsiBuilder.Marker marker = builder.mark();
 		if(builder.compareAndEat(kwARRAY))
 		{
-			builder.match(chLPAREN);
+			builder.match(LPAREN);
 			ParserPart arrayItem = new ParserPart()
 			{
 				@Override
@@ -102,7 +102,7 @@ public class Array implements PhpTokenTypes
 				}
 			};
 			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, arrayItem.parse(builder), arrayItem, true);
-			builder.match(chRPAREN);
+			builder.match(RPAREN);
 			marker.done(PhpElementTypes.ARRAY);
 			return PhpElementTypes.ARRAY;
 		}

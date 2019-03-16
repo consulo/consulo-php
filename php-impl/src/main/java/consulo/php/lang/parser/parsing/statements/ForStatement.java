@@ -31,7 +31,7 @@ public class ForStatement implements PhpTokenTypes
 			statement.drop();
 			return PhpElementTypes.FOR;
 		}
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 
 		// initial expression
 		parseForExpression(builder);
@@ -44,7 +44,7 @@ public class ForStatement implements PhpTokenTypes
 		// repeated expression
 		parseForExpression(builder);
 
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		parseForStatement(builder);
 		statement.done(PhpElementTypes.FOR);
 		return PhpElementTypes.FOR;

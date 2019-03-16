@@ -67,7 +67,7 @@ public class Function implements PhpTokenTypes
 			}
 			referenceMark.done(PhpElementTypes.METHOD_REFERENCE);
 
-			if(builder.compare(chLPAREN))
+			if(builder.compare(LPAREN))
 			{
 				rollback.drop();
 				parseFunctionCallParameterList(builder);
@@ -79,7 +79,7 @@ public class Function implements PhpTokenTypes
 				builder.match(SCOPE_RESOLUTION);
 				if(builder.compareAndEat(IDENTIFIER))
 				{
-					if(builder.compare(chLPAREN))
+					if(builder.compare(LPAREN))
 					{
 						parseFunctionCallParameterList(builder);
 						return PhpElementTypes.METHOD_REFERENCE;
@@ -124,7 +124,7 @@ public class Function implements PhpTokenTypes
 	//	;
 	public static void parseFunctionCallParameterList(PhpPsiBuilder builder)
 	{
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 
 		ParserPart functionParameter = new ParserPart()
 		{
@@ -147,7 +147,7 @@ public class Function implements PhpTokenTypes
 		}
 		paramList.done(PhpElementTypes.PARAMETER_LIST);
 
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 	}
 
 

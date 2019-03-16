@@ -36,9 +36,9 @@ public class Function implements PhpTokenTypes
 			builder.error(PhpParserErrors.expected("function name"));
 		}
 		ParameterList.parse(builder);
-		builder.match(chLBRACE);
-		StatementList.parse(builder, chRBRACE);
-		builder.match(chRBRACE);
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
 		function.done(PhpStubElements.FUNCTION);
 		return PhpStubElements.FUNCTION;
 	}

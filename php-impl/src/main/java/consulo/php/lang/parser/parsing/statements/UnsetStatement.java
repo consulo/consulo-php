@@ -26,9 +26,9 @@ public class UnsetStatement implements PhpTokenTypes
 		}
 		PsiBuilder.Marker unset = builder.mark();
 		builder.advanceLexer();
-		builder.match(chLPAREN);
+		builder.match(LPAREN);
 		parseUnsetVariables(builder);
-		builder.match(chRPAREN);
+		builder.match(RPAREN);
 		if(!builder.compare(PHP_CLOSING_TAG))
 		{
 			builder.match(opSEMICOLON);

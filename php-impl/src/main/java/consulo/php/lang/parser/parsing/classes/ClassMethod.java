@@ -29,9 +29,9 @@ public class ClassMethod implements PhpTokenTypes
 			builder.advanceLexer();
 			return PhpStubElements.FUNCTION;
 		}
-		builder.match(chLBRACE);
-		StatementList.parse(builder, chRBRACE);
-		builder.match(chRBRACE);
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
 
 		builder.compareAndEat(opSEMICOLON);
 

@@ -41,9 +41,9 @@ public class StaticScalar implements PhpTokenTypes
 			}
 			else if(builder.compareAndEat(kwARRAY))
 			{
-				builder.match(chLPAREN);
+				builder.match(LPAREN);
 				StaticArrayPairList.parse(builder);
-				builder.match(chRPAREN);
+				builder.match(RPAREN);
 				staticScalar.done(PhpElementTypes.ARRAY);
 				result = PhpElementTypes.ARRAY;
 			}

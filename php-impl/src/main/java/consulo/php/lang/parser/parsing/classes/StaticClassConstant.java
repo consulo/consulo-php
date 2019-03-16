@@ -35,7 +35,7 @@ public class StaticClassConstant implements PhpTokenTypes
 
 		builder.match(IDENTIFIER);
 
-		if(builder.getTokenType() == chLPAREN)
+		if(builder.getTokenType() == LPAREN)
 		{
 			Function.parseFunctionCallParameterList(builder);
 

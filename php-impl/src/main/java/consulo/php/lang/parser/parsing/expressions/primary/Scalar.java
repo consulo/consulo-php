@@ -131,11 +131,11 @@ public class Scalar implements PhpTokenTypes
 			}
 			return PhpElementTypes.VARIABLE_REFERENCE;
 		}
-		if(builder.compareAndEat(chLBRACE))
+		if(builder.compareAndEat(LBRACE))
 		{
 			marker.drop();
 			IElementType result = Variable.parse(builder);
-			builder.match(chRBRACE);
+			builder.match(RBRACE);
 			return result;
 		}
 		if(builder.compareAndEat(DOLLAR_LBRACE))
@@ -154,7 +154,7 @@ public class Scalar implements PhpTokenTypes
 				index.done(PhpElementTypes.ARRAY_INDEX);
 				builder.match(RBRACKET);
 				marker.done(PhpElementTypes.ARRAY);
-				builder.match(chRBRACE);
+				builder.match(RBRACE);
 				return PhpElementTypes.ARRAY;
 			}
 			rollback.rollbackTo();
@@ -169,7 +169,7 @@ public class Scalar implements PhpTokenTypes
 			}
 			varname.done(PhpElementTypes.VARIABLE_NAME);
 			marker.done(PhpElementTypes.VARIABLE_REFERENCE);
-			builder.match(chRBRACE);
+			builder.match(RBRACE);
 			return PhpElementTypes.VARIABLE_REFERENCE;
 		}
 		marker.drop();

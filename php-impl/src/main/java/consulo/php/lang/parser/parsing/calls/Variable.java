@@ -74,7 +74,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseMethodOrNot(PhpPsiBuilder builder)
 	{
-		if(builder.compare(chLPAREN))
+		if(builder.compare(LPAREN))
 		{
 			Function.parseFunctionCallParameterList(builder);
 			return PhpElementTypes.METHOD_REFERENCE;
@@ -114,7 +114,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseObjectDimList(PhpPsiBuilder builder)
 	{
-		TokenSet tokens = TokenSet.create(chLBRACE, LBRACKET);
+		TokenSet tokens = TokenSet.create(LBRACE, LBRACKET);
 		PsiBuilder.Marker preceder = builder.mark();
 		IElementType result = parseVariableName(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
@@ -127,10 +127,10 @@ public class Variable implements PhpTokenTypes
 		{
 			preceder.done(result);
 			preceder = preceder.precede();
-			if(builder.compareAndEat(chLBRACE))
+			if(builder.compareAndEat(LBRACE))
 			{
 				Expression.parse(builder);
-				builder.match(chRBRACE);
+				builder.match(RBRACE);
 				result = PhpElementTypes.ARRAY;
 			}
 			else if(builder.compareAndEat(LBRACKET))
@@ -161,10 +161,10 @@ public class Variable implements PhpTokenTypes
 		{
 			return PhpElementTypes.FIELD_REFERENCE;
 		}
-		if(builder.compareAndEat(chLBRACE))
+		if(builder.compareAndEat(LBRACE))
 		{
 			Expression.parse(builder);
-			builder.match(chRBRACE);
+			builder.match(RBRACE);
 			return PhpElementTypes.FIELD_REFERENCE;
 		}
 		return PhpElementTypes.EMPTY_INPUT;
@@ -183,7 +183,7 @@ public class Variable implements PhpTokenTypes
 			rollback.drop();
 			result = Function.parse(builder);
 		}
-		else if(builder.compare(chLPAREN))
+		else if(builder.compare(LPAREN))
 		{
 			rollback.rollbackTo();
 			result = Function.parse(builder);
@@ -281,7 +281,7 @@ public class Variable implements PhpTokenTypes
 		{
 			PsiBuilder.Marker rollback = builder.mark();
 			builder.advanceLexer();
-			if(builder.compare(chLBRACE))
+			if(builder.compare(LBRACE))
 			{
 				rollback.rollbackTo();
 				break;
@@ -305,7 +305,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseReferenceVariable(PhpPsiBuilder builder, PsiBuilder.Marker preceder, IElementType outerElement)
 	{
-		TokenSet tokens = TokenSet.create(chLBRACE, LBRACKET);
+		TokenSet tokens = TokenSet.create(LBRACE, LBRACKET);
 		if(preceder == null)
 		{
 			preceder = builder.mark();
@@ -325,10 +325,10 @@ public class Variable implements PhpTokenTypes
 				outerElement = null;
 			}
 			preceder = preceder.precede();
-			if(builder.compareAndEat(chLBRACE))
+			if(builder.compareAndEat(LBRACE))
 			{
 				Expression.parse(builder);
-				builder.match(chRBRACE);
+				builder.match(RBRACE);
 				result = PhpElementTypes.ARRAY;
 			}
 			else if(builder.compareAndEat(LBRACKET))
@@ -362,11 +362,11 @@ public class Variable implements PhpTokenTypes
 		PsiBuilder.Marker rollback = builder.mark();
 		if(builder.compareAndEat(DOLLAR))
 		{
-			if(builder.compareAndEat(chLBRACE))
+			if(builder.compareAndEat(LBRACE))
 			{
 				rollback.drop();
 				Expression.parse(builder);
-				builder.match(chRBRACE);
+				builder.match(RBRACE);
 				return PhpElementTypes.VARIABLE_REFERENCE;
 			}
 		}
