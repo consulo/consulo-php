@@ -20,6 +20,8 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 	public static final PhpLanguageLevel PHP_5_6 = new PhpLanguageLevel(4, "PHP_5_6", "5.6", "");
 	public static final PhpLanguageLevel PHP_7_0 = new PhpLanguageLevel(5, "PHP_7_0", "7.0", "");
 	public static final PhpLanguageLevel PHP_7_1 = new PhpLanguageLevel(6, "PHP_7_1", "7.1", "");
+	public static final PhpLanguageLevel PHP_7_2 = new PhpLanguageLevel(7, "PHP_7_2", "7.2", "");
+	public static final PhpLanguageLevel PHP_7_3 = new PhpLanguageLevel(8, "PHP_7_3", "7.3", "");
 
 	public static final PhpLanguageLevel HIGHEST = PHP_7_1;
 
@@ -32,6 +34,8 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 			PHP_5_6,
 			PHP_7_0,
 			PHP_7_1,
+			PHP_7_2,
+			PHP_7_3
 	};
 
 	private final int myIndex;
