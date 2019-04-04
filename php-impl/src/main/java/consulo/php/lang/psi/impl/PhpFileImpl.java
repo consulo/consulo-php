@@ -16,8 +16,11 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.containers.MultiMap;
 import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.php.lang.PhpFileType;
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -92,14 +95,37 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	@Override
 	public MultiMap<String, PhpNamedElement> getTopLevelDefs()
 	{
-		// TODO [VISTALL] impl it!
-		StubElement stub = getStub();
+		StubElement<?> stub = getStub();
 		if(stub != null)
 		{
-			List childrenStubs = stub.getChildrenStubs();
-			return new MultiMap<>();
+			List<StubElement> childrenStubs = stub.getChildrenStubs();
+			MultiMap<String, PhpNamedElement> map = new MultiMap<>();
+			for(StubElement childrenStub : childrenStubs)
+			{
+				if(childrenStub instanceof PhpClassStub)
+				{
+					map.putValue(((PhpClassStub) childrenStub).getName(), ((PhpClassStub) childrenStub).getPsi());
+				}
+			}
+			return map;
 		}
-		return new MultiMap<>();
+
+		GroupStatement statement = findChildByClass(GroupStatement.class);
+		if(statement == null)
+		{
+			return MultiMap.empty();
+		}
+
+		PsiElement[] statements = statement.getStatements();
+		MultiMap<String, PhpNamedElement> map = new MultiMap<>();
+		for(PsiElement psiElement : statements)
+		{
+			if(psiElement instanceof PhpClass)
+			{
+				map.putValue(((PhpClass) psiElement).getName(), (PhpNamedElement) psiElement);
+			}
+		}
+		return map;
 	}
 
 	@Override

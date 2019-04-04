@@ -148,19 +148,34 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public boolean isInterface()
 	{
+		PhpClassStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isInterface();
+		}
 		return findChildByType(PhpTokenTypes.INTERFACE_KEYWORD) != null;
 	}
 
 	@Override
 	public boolean isAbstract()
 	{
-		return false;
+		PhpClassStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isAbstract();
+		}
+		return false;  // TODO [VISTALL] impl it!
 	}
 
 	@Override
 	public boolean isFinal()
 	{
-		return false;
+		PhpClassStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isFinal();
+		}
+		return false; // TODO [VISTALL] impl it!
 	}
 
 	@Nonnull
@@ -180,6 +195,11 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public boolean isTrait()
 	{
+		PhpClassStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isTrait();
+		}
 		return findChildByType(PhpTokenTypes.TRAIT_KEYWORD) != null;
 	}
 
