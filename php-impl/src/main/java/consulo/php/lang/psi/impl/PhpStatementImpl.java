@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpStatement;
+import com.jetbrains.php.lang.psi.elements.Statement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 
@@ -13,7 +13,7 @@ import com.intellij.lang.ASTNode;
  *
  * @author jay
  */
-public class PhpStatementImpl extends PhpElementImpl implements PhpStatement
+public class PhpStatementImpl extends PhpElementImpl implements Statement
 {
 
 	public PhpStatementImpl(ASTNode node)

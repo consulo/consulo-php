@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import consulo.php.lang.parser.PhpElementTypes;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import consulo.php.lang.psi.PhpGroupStatement;
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
@@ -16,7 +16,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date May 9, 2008 5:12:53 PM
  */
-public class PhpGroupStatementImpl extends LazyParseablePsiElement implements PhpGroupStatement
+public class PhpGroupStatementImpl extends LazyParseablePsiElement implements GroupStatement
 {
 	public PhpGroupStatementImpl(CharSequence buffer)
 	{
@@ -34,13 +34,6 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Ph
 		{
 			super.accept(visitor);
 		}
-	}
-
-	@Override
-	@Nonnull
-	public PsiElement[] getStatements()
-	{
-		return getChildren();
 	}
 
 	@Override

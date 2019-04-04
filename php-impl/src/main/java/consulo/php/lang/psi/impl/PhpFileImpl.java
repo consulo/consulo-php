@@ -1,6 +1,7 @@
 package consulo.php.lang.psi.impl;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -95,6 +96,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		StubElement stub = getStub();
 		if(stub != null)
 		{
+			List childrenStubs = stub.getChildrenStubs();
 			return new MultiMap<>();
 		}
 		return new MultiMap<>();

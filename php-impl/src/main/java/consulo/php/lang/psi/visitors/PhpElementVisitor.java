@@ -159,9 +159,9 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(modifierList);
 	}
 
-	public void visitStatement(PhpStatement phpStatement)
+	public void visitStatement(Statement statement)
 	{
-		visitPhpElement(phpStatement);
+		visitPhpElement(statement);
 	}
 
 	public void visitWhileStatement(PhpWhileStatement whileStatement)

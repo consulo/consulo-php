@@ -2,6 +2,7 @@ package consulo.php.lang.psi;
 
 import javax.annotation.Nonnull;
 
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
@@ -23,8 +24,8 @@ public class PhpPsiElementFactory
 		assert constantName.length() > 0;
 		final PsiFile psiFile = createFile(project, constantName);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof PhpGroupStatement;
-		final PhpPsiElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
+		assert child instanceof GroupStatement;
+		final PhpPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpConstantReference;
 		return (PhpConstantReference) psiElement;
 	}
@@ -34,8 +35,8 @@ public class PhpPsiElementFactory
 		assert variableName.length() > 0;
 		final PsiFile psiFile = createFile(project, "$" + variableName);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof PhpGroupStatement;
-		final PhpPsiElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
+		assert child instanceof GroupStatement;
+		final PhpPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof Variable;
 		return (Variable) psiElement;
 	}
@@ -44,8 +45,8 @@ public class PhpPsiElementFactory
 	{
 		final PsiFile psiFile = createFile(project, text);
 		final PsiElement child = psiFile.getFirstChild();
-		assert child instanceof PhpGroupStatement;
-		final PhpPsiElement psiElement = ((PhpGroupStatement) child).getFirstPsiChild();
+		assert child instanceof GroupStatement;
+		final PhpPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
 		assert psiElement instanceof PhpClass;
 		return (PhpClass) psiElement;
 	}
