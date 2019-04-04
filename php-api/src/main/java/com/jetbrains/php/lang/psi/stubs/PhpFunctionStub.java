@@ -15,11 +15,12 @@ package com.jetbrains.php.lang.psi.stubs;
 
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.jetbrains.php.lang.psi.elements.Function;
 
 public interface PhpFunctionStub extends PhpNamedStub<Function>
 {
-	@NotNull
+	@Nonnull
 	Collection<String> getDocExceptions();
 }

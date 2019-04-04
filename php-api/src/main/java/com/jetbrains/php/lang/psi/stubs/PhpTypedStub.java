@@ -13,8 +13,9 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.stubs.StubElement;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -22,11 +23,11 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 public interface PhpTypedStub<T extends PhpTypedElement> extends StubElement<T>
 {
 	@NonNls
-	@NotNull
+	@Nonnull
 	PhpType getType();
 
 	@NonNls
-	@NotNull
+	@Nonnull
 	default PhpType getDeclaredType()
 	{
 		return getType();

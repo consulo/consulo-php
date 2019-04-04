@@ -2,16 +2,14 @@ package consulo.php.lang.inspections;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpBundle;
-import consulo.php.PhpConstants;
-import com.jetbrains.php.lang.psi.elements.Variable;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiPolyVariantReference;
 import com.intellij.psi.ResolveResult;
-import com.intellij.util.ArrayUtil;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.php.PhpBundle;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -40,7 +38,7 @@ public class PhpUndefinedVariable extends PhpInspection
 			{
 				if(variable.canReadName())
 				{
-					if(ArrayUtil.find(PhpConstants.SUPER_GLOBALS, variable.getName()) > -1 || variable.getName().equals(PhpConstants.THIS) || variable.isDeclaration())
+					if(Variable.SUPERGLOBALS.contains(variable.getName()) || variable.getName().equals(Variable.THIS) || variable.isDeclaration())
 					{
 						return;
 					}

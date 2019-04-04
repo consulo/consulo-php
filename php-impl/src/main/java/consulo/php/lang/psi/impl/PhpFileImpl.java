@@ -1,9 +1,10 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
+
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
@@ -11,16 +12,14 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.util.ArrayUtil;
+import com.intellij.psi.stubs.StubElement;
+import com.intellij.util.containers.MultiMap;
+import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.PhpFileType;
 import consulo.php.lang.PhpLanguage;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.PhpFile;
-import com.jetbrains.php.lang.psi.elements.Function;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -90,38 +89,27 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@Nonnull
 	@Override
-	public PhpPsiElement[] getTopLevelElements()
+	public MultiMap<String, PhpNamedElement> getTopLevelDefs()
 	{
-		List<PhpPsiElement> phpElementList = new ArrayList<PhpPsiElement>();
-		accept(new PhpRecursiveElementVisitor()
+		// TODO [VISTALL] impl it!
+		StubElement stub = getStub();
+		if(stub != null)
 		{
-			@Override
-			public void visitClass(PhpClass phpClass)
-			{
-				if(phpClass.getParent().getParent() == PhpFileImpl.this)
-				{
-					phpElementList.add(phpClass);
-				}
-			}
+			return new MultiMap<>();
+		}
+		return new MultiMap<>();
+	}
 
-			@Override
-			public void visitField(Field phpField)
-			{
-				if(phpField.getParent().getParent() == PhpFileImpl.this)
-				{
-					phpElementList.add(phpField);
-				}
-			}
+	@Override
+	public String getMainNamespaceName()
+	{
+		return null;
+	}
 
-			@Override
-			public void visitFunction(Function phpFunction)
-			{
-				if(phpFunction.getParent().getParent() == PhpFileImpl.this)
-				{
-					phpElementList.add(phpFunction);
-				}
-			}
-		});
-		return ArrayUtil.toObjectArray(phpElementList, PhpPsiElement.class);
+	@Nonnull
+	@Override
+	public Set<CharSequence> getPredefinedVariables()
+	{
+		return Collections.emptySet();
 	}
 }

@@ -9,6 +9,7 @@ import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.Function;
 
 /**
@@ -30,7 +31,7 @@ public class PhpFunctionTreeNode extends AbstractPsiBasedNode<Function>
 
 	@Nullable
 	@Override
-	protected com.intellij.psi.PsiElement extractPsiFromValue()
+	protected PsiElement extractPsiFromValue()
 	{
 		return getValue();
 	}

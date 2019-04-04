@@ -11,18 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.jetbrains.php.lang.psi.stubs;
+package com.jetbrains.php.codeInsight;
 
-import java.util.Collection;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
-import com.jetbrains.php.lang.psi.elements.Method;
 
-public interface PhpMethodStub extends PhpMemberStub<Method>
+import com.intellij.openapi.util.Condition;
+import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+
+public interface PhpScopeHolder extends PhpPsiElement
 {
+	Condition<PsiElement> INSTANCE_OF = e -> e instanceof PhpScopeHolder;
+
+	//@Nonnull
+	//PhpControlFlow getControlFlow();
+
 	@Nonnull
-	Collection<String> getDocExceptions();
+	Set<CharSequence> getPredefinedVariables();
 
-	boolean isReturningByReference();
-
+	//@NotNull
+	//PhpScope getScope();
 }

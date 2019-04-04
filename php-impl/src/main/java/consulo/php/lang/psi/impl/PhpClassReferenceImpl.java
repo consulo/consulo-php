@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -15,16 +16,15 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
-import consulo.php.PhpConstants;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.php.completion.ClassUsageContext;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -127,7 +127,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 					return ResolveResult.EMPTY_ARRAY;
 				}
 			case TO_FQ_CLASS:
-				if(PhpConstants.SELF.equals(name))
+				if(PhpClass.SELF.equals(name))
 				{
 					PhpClass parentOfType = PsiTreeUtil.getParentOfType(this, PhpClass.class);
 
@@ -140,7 +140,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 						return ResolveResult.EMPTY_ARRAY;
 					}
 				}
-				else if(PhpConstants.PARENT.equals(name))
+				else if(PhpClass.PARENT.equals(name))
 				{
 					PhpClass parentOfType = PsiTreeUtil.getParentOfType(this, PhpClass.class);
 

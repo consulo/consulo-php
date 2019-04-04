@@ -5,16 +5,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.PhpFile;
-import com.jetbrains.php.lang.psi.elements.Function;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 
 /**
  * @author VISTALL
@@ -22,25 +25,38 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
  */
 public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 {
-	public static List<AbstractTreeNode> fillToTreeNodes(PhpPsiElement[] elements, ViewSettings settings)
+	@Nonnull
+	public static List<AbstractTreeNode> fillToTreeNodes(Collection<? extends PhpPsiElement> elements, ViewSettings settings)
 	{
-		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>(elements.length);
+		List<AbstractTreeNode> list = new ArrayList<>(elements.size());
 		for(PhpPsiElement element : elements)
 		{
-			if(element instanceof Field)
+			AbstractTreeNode<?> node = mapNode(element, settings);
+			if(node != null)
 			{
-				list.add(new PhpFieldTreeNode((Field) element, settings));
-			}
-			else if(element instanceof PhpClass)
-			{
-				list.add(new PhpClassTreeNode((PhpClass) element, settings));
-			}
-			else if(element instanceof Function)
-			{
-				list.add(new PhpFunctionTreeNode((Function) element, settings));
+				list.add(node);
 			}
 		}
-		return list.isEmpty() ? Collections.<AbstractTreeNode>emptyList() : list;
+		return list.isEmpty() ? Collections.emptyList() : list;
+	}
+
+	@Nullable
+	private static AbstractTreeNode<?> mapNode(Object element, ViewSettings settings)
+	{
+		if(element instanceof Field)
+		{
+			return new PhpFieldTreeNode((Field) element, settings);
+		}
+		else if(element instanceof PhpClass)
+		{
+			return new PhpClassTreeNode((PhpClass) element, settings);
+		}
+		else if(element instanceof Function)
+		{
+			return new PhpFunctionTreeNode((Function) element, settings);
+		}
+
+		return null;
 	}
 
 	public PhpFileTreeNode(PhpFile phpFile, ViewSettings viewSettings)
@@ -62,7 +78,7 @@ public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 
 	@Nullable
 	@Override
-	protected com.intellij.psi.PsiElement extractPsiFromValue()
+	protected PsiElement extractPsiFromValue()
 	{
 		return getValue();
 	}
@@ -77,7 +93,7 @@ public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 		}
 		PhpFile value = getValue();
 
-		return fillToTreeNodes(value.getTopLevelElements(), getSettings());
+		return fillToTreeNodes(value.getTopLevelDefs().values(), getSettings());
 	}
 
 	@Override

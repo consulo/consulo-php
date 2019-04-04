@@ -7,14 +7,13 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.util.ArrayUtil;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 
 /**
  * @author VISTALL
@@ -53,7 +52,7 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass>
 		List<PhpPsiElement> list = new ArrayList<>();
 		Collections.addAll(list, value.getOwnFields());
 		Collections.addAll(list, value.getOwnMethods());
-		return PhpFileTreeNode.fillToTreeNodes(ArrayUtil.toObjectArray(list, PhpPsiElement.class), getSettings());
+		return PhpFileTreeNode.fillToTreeNodes(list, getSettings());
 	}
 
 	@Override

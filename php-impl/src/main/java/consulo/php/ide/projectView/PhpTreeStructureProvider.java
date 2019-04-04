@@ -3,17 +3,21 @@ package consulo.php.ide.projectView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
+
 import com.intellij.ide.projectView.SelectableTreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.PsiElement;
-import consulo.php.lang.PhpFileType;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.intellij.util.containers.ContainerUtil;
+import com.intellij.util.containers.MultiMap;
 import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.php.lang.PhpFileType;
 
 /**
  * @author VISTALL
@@ -31,13 +35,7 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 	@Override
 	public Collection<AbstractTreeNode> modify(AbstractTreeNode abstractTreeNode, Collection<AbstractTreeNode> list, ViewSettings viewSettings)
 	{
-		// without stubs it's very laggy
-		if(Boolean.TRUE)
-		{
-			return list;
-		}
-
-		List<AbstractTreeNode> nodes = new ArrayList<AbstractTreeNode>(list.size());
+		List<AbstractTreeNode> nodes = new ArrayList<>(list.size());
 		for(AbstractTreeNode treeNode : list)
 		{
 			Object value = treeNode.getValue();
@@ -58,6 +56,7 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 		return nodes;
 	}
 
+	@Nullable
 	public PhpClass findSingleClass(Object o)
 	{
 		if(o instanceof PhpFile)
@@ -66,8 +65,21 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 			FileType fileType = file.getFileType();
 			if(fileType == PhpFileType.INSTANCE)
 			{
-				PhpPsiElement[] topLevelElements = file.getTopLevelElements();
-				return topLevelElements.length == 1 && topLevelElements[0] instanceof PhpClass ? (PhpClass) topLevelElements[0] : null;
+				MultiMap<String, PhpNamedElement> topLevelDefs = file.getTopLevelDefs();
+				if(topLevelDefs.size() != 1)
+				{
+					return null;
+				}
+
+				Map.Entry<String, Collection<PhpNamedElement>> item = ContainerUtil.getFirstItem(topLevelDefs.entrySet());
+				assert item != null;
+				Collection<PhpNamedElement> value = item.getValue();
+				if(value.size() != 1)
+				{
+					return null;
+				}
+				PhpNamedElement element = ContainerUtil.getFirstItem(value);
+				return element instanceof PhpClass ? (PhpClass) element : null;
 			}
 		}
 		return null;
