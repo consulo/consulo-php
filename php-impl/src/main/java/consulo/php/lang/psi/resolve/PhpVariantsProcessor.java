@@ -3,7 +3,7 @@ package consulo.php.lang.psi.resolve;
 import java.util.ArrayList;
 import java.util.List;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 
@@ -14,14 +14,14 @@ import com.intellij.psi.PsiNamedElement;
 public class PhpVariantsProcessor extends PhpScopeProcessor
 {
 
-	private List<PhpElement> variants = new ArrayList<PhpElement>();
+	private List<PhpPsiElement> variants = new ArrayList<PhpPsiElement>();
 
-	public PhpVariantsProcessor(PhpElement element)
+	public PhpVariantsProcessor(PhpPsiElement element)
 	{
 		super(element);
 	}
 
-	public List<PhpElement> getVariants()
+	public List<PhpPsiElement> getVariants()
 	{
 		return variants;
 	}
@@ -33,7 +33,7 @@ public class PhpVariantsProcessor extends PhpScopeProcessor
 		{
 			if(isAppropriateDeclarationType(element))
 			{
-				variants.add((PhpElement) element);
+				variants.add((PhpPsiElement) element);
 			}
 		}
 		return true;

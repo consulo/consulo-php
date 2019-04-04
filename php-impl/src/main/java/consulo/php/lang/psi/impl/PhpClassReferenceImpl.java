@@ -20,11 +20,11 @@ import consulo.php.completion.ClassUsageContext;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpClassReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamespaceStatement;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -36,7 +36,7 @@ import consulo.psi.PsiPackageManager;
  * @author jay
  * @date May 11, 2008 9:56:57 PM
  */
-public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassReference
+public class PhpClassReferenceImpl extends PhpElementImpl implements ClassReference
 {
 	public PhpClassReferenceImpl(ASTNode node)
 	{
@@ -51,9 +51,9 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 	@Nullable
 	@Override
-	public PhpClassReference getQualifier()
+	public ClassReference getQualifier()
 	{
-		return findChildByClass(PhpClassReference.class);
+		return findChildByClass(ClassReference.class);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 		PsiElement parent = getParent();
 		ResolveKind resolveKind = findResolveKind();
 		String name = getReferenceName();
-		PhpClassReference qualifier = getQualifier();
+		ClassReference qualifier = getQualifier();
 		StringBuilder builder = null;
 
 		switch(resolveKind)
@@ -266,7 +266,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 
 			return resolveKind;
 		}
-		else if(parent instanceof PhpNamespaceStatement)
+		else if(parent instanceof PhpNamespace)
 		{
 			return ResolveKind.TO_NAMESPACE;
 		}
@@ -337,9 +337,9 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements PhpClassRef
 			return true;
 		}
 
-		if(element instanceof PhpClass || element instanceof PhpFunction)
+		if(element instanceof PhpClass || element instanceof Function)
 		{
-			if(element instanceof PhpClass && resolve instanceof PhpFunction)
+			if(element instanceof PhpClass && resolve instanceof Function)
 			{
 				return PsiTreeUtil.getParentOfType(resolve, PhpClass.class) == element;
 			}

@@ -1,31 +1,27 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpModifierList;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpParameterList;
-import consulo.php.lang.psi.PhpStubElements;
-import consulo.php.lang.psi.impl.stub.PhpFunctionStub;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
+import consulo.php.lang.psi.PhpStubElements;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date Apr 3, 2008 10:16:23 PM
  */
-public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub> implements PhpFunction
+public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub> implements Function
 {
 	public PhpFunctionImpl(ASTNode node)
 	{
@@ -39,20 +35,20 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 
 	@Override
 	@Nonnull
-	public PhpParameter[] getParameters()
+	public Parameter[] getParameters()
 	{
-		PhpParameterList parameterList = getParameterList();
+		ParameterList parameterList = getParameterList();
 		if(parameterList == null)
 		{
-			return PhpParameter.EMPTY_ARRAY;
+			return Parameter.EMPTY_ARRAY;
 		}
 		return parameterList.getParameters();
 	}
 
 	@Override
-	public PhpParameterList getParameterList()
+	public ParameterList getParameterList()
 	{
-		return PsiTreeUtil.getChildOfType(this, PhpParameterList.class);
+		return PsiTreeUtil.getChildOfType(this, ParameterList.class);
 	}
 
 	@Override
@@ -70,7 +66,7 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState resolveState, PsiElement psiElement, @Nonnull PsiElement psiElement1)
 	{
-		for(PhpParameter parameter : getParameters())
+		for(Parameter parameter : getParameters())
 		{
 			if(!processor.execute(parameter, resolveState))
 			{
@@ -80,37 +76,17 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 		return super.processDeclarations(processor, resolveState, psiElement, psiElement1);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
-	public PhpModifierList getModifierList()
+	public PhpModifier getModifier()
 	{
-		return findChildByClass(PhpModifierList.class);
+		return null;
 	}
 
+	@Nonnull
 	@Override
-	public boolean hasModifier(@Nonnull IElementType type)
+	public String getNamespaceName()
 	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(type);
+		return null;
 	}
-
-	@Override
-	public boolean hasModifier(@Nonnull TokenSet tokenSet)
-	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(tokenSet);
-	}
-
-	@Override
-	public PsiElement getLeftBrace()
-	{
-		return findChildByType(PhpTokenTypes.LBRACE);
-	}
-
-	@Override
-	public PsiElement getRightBrace()
-	{
-		return findChildByType(PhpTokenTypes.RBRACE);
-	}
-
 }

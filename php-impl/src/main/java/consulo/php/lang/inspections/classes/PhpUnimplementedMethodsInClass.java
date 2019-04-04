@@ -6,14 +6,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpBundle;
-import consulo.php.lang.inspections.PhpInspection;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpExtendsList;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpImplementsList;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -24,6 +16,13 @@ import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import consulo.php.PhpBundle;
+import consulo.php.lang.inspections.PhpInspection;
+import com.jetbrains.php.lang.psi.elements.ExtendsList;
+import com.jetbrains.php.lang.psi.elements.ImplementsList;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -58,16 +57,16 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 			@Override
 			public void visitClass(PhpClass clazz)
 			{
-				if(clazz.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD))
+				if(clazz.getModifier().isAbstract())
 				{
 					return;
 				}
 
-				final PhpFunction[] methods = clazz.getFunctions();
-				final List<PhpFunction> abstractMethods = new ArrayList<PhpFunction>();
-				for(PhpFunction method : methods)
+				final Function[] methods = clazz.getOwnMethods();
+				final List<Function> abstractMethods = new ArrayList<Function>();
+				for(Function method : methods)
 				{
-					if(method.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD))
+					if(method.getModifier().isAbstract())
 					{
 						abstractMethods.add(method);
 					}
@@ -83,9 +82,9 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					else
 					{
 						methodList.append("methods ");
-						for(Iterator<PhpFunction> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
+						for(Iterator<Function> methodIterator = abstractMethods.iterator(); methodIterator.hasNext(); )
 						{
-							PhpFunction abstractMethod = methodIterator.next();
+							Function abstractMethod = methodIterator.next();
 							methodList.append("'").append(abstractMethod.getName()).append("'");
 							if(methodIterator.hasNext())
 							{
@@ -97,11 +96,11 @@ public class PhpUnimplementedMethodsInClass extends PhpInspection
 					PsiElement endNode;
 					if(clazz.getImplementedInterfaces().length > 0)
 					{
-						endNode = PsiTreeUtil.getChildOfType(clazz, PhpImplementsList.class);
+						endNode = PsiTreeUtil.getChildOfType(clazz, ImplementsList.class);
 					}
 					else if(clazz.getSuperClass() != null)
 					{
-						endNode = PsiTreeUtil.getChildOfType(clazz, PhpExtendsList.class);
+						endNode = PsiTreeUtil.getChildOfType(clazz, ExtendsList.class);
 					}
 					else if(clazz.getNameIdentifier() != null)
 					{

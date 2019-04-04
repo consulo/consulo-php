@@ -1,10 +1,12 @@
 package consulo.php.lang.commenter;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
 import javax.annotation.Nullable;
+
 import com.intellij.lang.CodeDocumentationAwareCommenter;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.tree.IElementType;
+import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import consulo.php.lang.lexer.PhpTokenTypes;
 
 /**
  * @author jay
@@ -65,7 +67,7 @@ public class PhpCommenter implements CodeDocumentationAwareCommenter
 	@Nullable
 	public IElementType getDocumentationCommentTokenType()
 	{
-		return PhpTokenTypes.DOC_COMMENT;
+		return PhpDocElementTypes.DOC_COMMENT;
 	}
 
 	@Override

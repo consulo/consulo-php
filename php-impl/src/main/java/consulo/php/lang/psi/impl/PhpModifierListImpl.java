@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpModifierList;
+import com.jetbrains.php.lang.psi.elements.PhpModifierList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;

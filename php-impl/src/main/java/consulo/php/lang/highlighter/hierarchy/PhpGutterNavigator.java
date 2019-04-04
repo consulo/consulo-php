@@ -8,9 +8,9 @@ import javax.annotation.Nonnull;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.intellij.ide.util.gotoByName.GotoFileCellRenderer;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -36,7 +36,7 @@ public class PhpGutterNavigator
 
 		for(PhpNamedElement psiElement : info.getElements())
 		{
-			if(psiElement instanceof PhpFunction)
+			if(psiElement instanceof Function)
 			{
 				views.add(PsiTreeUtil.getParentOfType(psiElement, PhpClass.class));
 			}

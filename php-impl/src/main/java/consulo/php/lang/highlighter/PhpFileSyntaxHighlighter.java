@@ -5,10 +5,6 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpLanguageLevel;
-import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
-import consulo.php.lang.lexer.PhpTokenTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.StringEscapesTokenTypes;
@@ -17,6 +13,11 @@ import com.intellij.psi.xml.XmlTokenType;
 import com.intellij.util.Processor;
 import consulo.fileTypes.LanguageVersionableSyntaxHighlighter;
 import consulo.lang.LanguageVersion;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.PhpTokenSets;
 
 /**
  * @author Maxim.Mossienko
@@ -48,7 +49,7 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 
 	static
 	{
-		safeMap(ATTRIBUTES, PhpTokenTypes.tsCOMMENTS, PhpHighlightingData.COMMENT);
+		safeMap(ATTRIBUTES, PhpTokenSets.tsCOMMENTS, PhpHighlightingData.COMMENT);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsNUMBERS, PhpHighlightingData.NUMBER);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsCONSTANTS, PhpHighlightingData.CONSTANT);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsSTRING_EDGE, PhpHighlightingData.STRING);

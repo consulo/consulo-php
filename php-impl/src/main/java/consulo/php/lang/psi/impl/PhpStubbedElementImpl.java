@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.extapi.psi.StubBasedPsiElementBase;
 import com.intellij.lang.ASTNode;
@@ -16,7 +16,7 @@ import com.intellij.psi.stubs.StubElement;
  * @author VISTALL
  * @since 16.07.13.
  */
-public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubBasedPsiElementBase<T> implements StubBasedPsiElement<T>, PhpElement
+public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubBasedPsiElementBase<T> implements StubBasedPsiElement<T>, PhpPsiElement
 {
 	public PhpStubbedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType)
 	{
@@ -44,32 +44,32 @@ public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubB
 	public abstract void accept(@Nonnull final PhpElementVisitor visitor);
 
 	@Override
-	public PhpElement getFirstPsiChild()
+	public PhpPsiElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PhpElement)
+			if(children[0] instanceof PhpPsiElement)
 			{
-				return (PhpElement) children[0];
+				return (PhpPsiElement) children[0];
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public PhpElement getNextPsiSibling()
+	public PhpPsiElement getNextPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PhpElement nextSibling = null;
+		PhpPsiElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && children.length > i + 1)
 			{
-				if(children[i + 1] instanceof PhpElement)
+				if(children[i + 1] instanceof PhpPsiElement)
 				{
-					nextSibling = (PhpElement) children[i + 1];
+					nextSibling = (PhpPsiElement) children[i + 1];
 				}
 				break;
 			}
@@ -78,18 +78,18 @@ public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubB
 	}
 
 	@Override
-	public PhpElement getPrevPsiSibling()
+	public PhpPsiElement getPrevPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PhpElement prevSibling = null;
+		PhpPsiElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && i > 0)
 			{
-				if(children[i - 1] instanceof PhpElement)
+				if(children[i - 1] instanceof PhpPsiElement)
 				{
-					prevSibling = (PhpElement) children[i - 1];
+					prevSibling = (PhpPsiElement) children[i - 1];
 				}
 				break;
 			}

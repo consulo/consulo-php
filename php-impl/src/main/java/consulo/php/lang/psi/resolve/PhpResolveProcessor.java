@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpParameter;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
@@ -29,7 +29,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 	private ResolveKind myKind;
 	private String myName;
 
-	public PhpResolveProcessor(PhpElement element, String name, ResolveKind kind)
+	public PhpResolveProcessor(PhpPsiElement element, String name, ResolveKind kind)
 	{
 		super(element);
 		myName = name;
@@ -47,19 +47,19 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		switch(myKind)
 		{
 			case FIELD:
-				if(!(psiElement instanceof PhpField))
+				if(!(psiElement instanceof Field))
 				{
 					return true;
 				}
 				break;
 			case FIELD_OR_PARAMETER:
-				if(!(psiElement instanceof PhpField) && !(psiElement instanceof PhpParameter))
+				if(!(psiElement instanceof Field) && !(psiElement instanceof Parameter))
 				{
 					return true;
 				}
 				break;
 			case METHOD:
-				if(!(psiElement instanceof PhpFunction))
+				if(!(psiElement instanceof Function))
 				{
 					return true;
 				}

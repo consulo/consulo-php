@@ -5,8 +5,8 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.PhpLanguage;
-import consulo.php.lang.psi.PhpFile;
-import consulo.php.lang.psi.impl.stub.PhpFileStub;
+import com.jetbrains.php.lang.psi.PhpFile;
+import consulo.php.lang.psi.impl.stub.PhpFileStubImpl;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.StubBuilder;
@@ -19,7 +19,7 @@ import com.intellij.psi.tree.IStubFileElementType;
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
+public class PhpFileStubElement extends IStubFileElementType<PhpFileStubImpl>
 {
 	public PhpFileStubElement()
 	{
@@ -37,7 +37,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 			{
 				if(file instanceof PhpFile)
 				{
-					return new PhpFileStub((PhpFile) file);
+					return new PhpFileStubImpl((PhpFile) file);
 				}
 
 				return super.createStubForFile(file);
@@ -47,15 +47,15 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStub>
 
 	@Nonnull
 	@Override
-	public PhpFileStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException
+	public PhpFileStubImpl deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException
 	{
-		return new PhpFileStub(null);
+		return new PhpFileStubImpl(null);
 	}
 
 	@Override
 	public int getStubVersion()
 	{
-		return 5;
+		return 6;
 	}
 
 	@Nonnull

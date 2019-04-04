@@ -2,8 +2,8 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpParameterList;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -14,7 +14,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Apr 15, 2008 2:01:07 PM
  */
-public class PhpParameterListImpl extends PhpElementImpl implements PhpParameterList
+public class PhpParameterListImpl extends PhpElementImpl implements ParameterList
 {
 	public PhpParameterListImpl(ASTNode node)
 	{
@@ -23,9 +23,9 @@ public class PhpParameterListImpl extends PhpElementImpl implements PhpParameter
 
 	@Nonnull
 	@Override
-	public PhpParameter[] getParameters()
+	public Parameter[] getParameters()
 	{
-		return findChildrenByClass(PhpParameter.class);
+		return findChildrenByClass(Parameter.class);
 	}
 
 	@Override

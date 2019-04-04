@@ -91,11 +91,11 @@ public interface PhpElementTypes
 	IElementType EXTENDS_LIST = new PhpElementType("Extends list");
 
 	IElementType IMPLEMENTS_LIST = new PhpElementType("Implements list");
-	IElementType CLASS_CONSTANT = PhpStubElements.FIELD;
+	IElementType CLASS_CONSTANT = PhpStubElements.CLASS_FIELD;
 
 	IElementType CLASS = PhpStubElements.CLASS;
 	IElementType FUNCTION = PhpStubElements.FUNCTION;
-	IElementType CLASS_FIELD = PhpStubElements.FIELD;
+	IElementType CLASS_FIELD = PhpStubElements.CLASS_FIELD;
 	IElementType SWITCH = new PhpElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PhpElementType("Default case");
 	IElementType CASE = new PhpElementType("Case");

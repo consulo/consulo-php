@@ -5,10 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -19,17 +18,19 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpAssignmentExpression;
 import consulo.php.lang.psi.PhpCatchStatement;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpForeachStatement;
 import consulo.php.lang.psi.PhpGlobal;
-import consulo.php.lang.psi.PhpParameter;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpSelfAssignmentExpression;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
@@ -39,12 +40,18 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  * @author jay
  * @date Apr 3, 2008 9:59:26 PM
  */
-public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements PhpVariableReference
+public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Variable
 {
-
 	public PhpVariableReferenceImpl(ASTNode node)
 	{
 		super(node);
+	}
+
+	@Nullable
+	@Override
+	public ASTNode getNameNode()
+	{
+		return null;
 	}
 
 	@Override
@@ -55,6 +62,45 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 			return getNode().getText().substring(1);
 		}
 		return null;
+	}
+
+	@Nonnull
+	@Override
+	public CharSequence getNameCS()
+	{
+		return null;
+	}
+
+	@Override
+	public void processDocs(Processor<PhpDocComment> processor)
+	{
+
+	}
+
+	@Nonnull
+	@Override
+	public String getFQN()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public String getNamespaceName()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean isDeprecated()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isInternal()
+	{
+		return false;
 	}
 
 	@Override
@@ -70,7 +116,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 		//noinspection ConstantConditions
 		if(canReadName() && !getName().equals(name))
 		{
-			final PhpVariableReference variable = PhpPsiElementFactory.createVariable(getProject(), name);
+			final Variable variable = PhpPsiElementFactory.createVariable(getProject(), name);
 			nameIdentifier.replace(variable.getNameIdentifier());
 		}
 		return this;
@@ -204,7 +250,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	@Override
 	public boolean isReferenceTo(PsiElement psiElement)
 	{
-		if(psiElement instanceof PhpVariableReference || psiElement instanceof PhpParameter)
+		if(psiElement instanceof Variable || psiElement instanceof Parameter)
 		{
 			return psiElement == resolve();
 		}
@@ -217,7 +263,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Php
 	{
 		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
 		ResolveUtil.treeWalkUp(this, processor);
-		List<PhpElement> variants = processor.getVariants();
+		List<PhpPsiElement> variants = processor.getVariants();
 		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 

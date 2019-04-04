@@ -1,23 +1,23 @@
 package consulo.php.lang.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
+import com.jetbrains.php.lang.psi.elements.BinaryExpression;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpBinaryExpression;
-import consulo.php.lang.psi.PhpElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-
-import javax.annotation.Nonnull;
 
 /**
  * @author jay
  * @date Apr 4, 2008 10:55:12 AM
  */
-public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinaryExpression
+public class PhpBinaryExpressionImpl extends PhpElementImpl implements BinaryExpression
 {
 	private static final Logger LOGGER = Logger.getInstance(PhpBinaryExpressionImpl.class);
 
@@ -35,7 +35,7 @@ public class PhpBinaryExpressionImpl extends PhpElementImpl implements PhpBinary
 	@Override
 	public PsiElement getRightOperand()
 	{
-		PhpElement firstPsiChild = getFirstPsiChild();
+		PhpPsiElement firstPsiChild = getFirstPsiChild();
 		if(firstPsiChild == null)
 		{
 			LOGGER.error("Expression: " + getText() + " is not have right operand");

@@ -3,18 +3,18 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpNamedElement;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.types.PhpType;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
 /**
  * @author jay
@@ -73,7 +73,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 	@Override
 	public PhpDocComment getDocComment()
 	{
-		final PhpElement element = getPrevPsiSibling();
+		final PhpPsiElement element = getPrevPsiSibling();
 		if(element instanceof PhpDocComment)
 		{
 			return (PhpDocComment) element;

@@ -14,7 +14,7 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import consulo.ide.IconDescriptorUpdaters;
-import consulo.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.PhpFile;
 import consulo.ui.image.Image;
 
 /**

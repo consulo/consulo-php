@@ -1,6 +1,6 @@
 package consulo.php.lang.psi.resolve;
 
-import consulo.php.lang.psi.PhpFunction;
+import com.jetbrains.php.lang.psi.elements.Function;
 import javax.annotation.Nullable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -34,7 +34,7 @@ public class ResolveUtil
 				}
 			}
 			// stop walkup at function level
-			if(cur instanceof PhpFunction)
+			if(cur instanceof Function)
 			{
 				return null;
 			}

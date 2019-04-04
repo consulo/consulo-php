@@ -3,7 +3,7 @@ package consulo.php.gotoByName;
 import java.util.Collection;
 
 import consulo.php.index.PhpFullFqClassIndex;
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;

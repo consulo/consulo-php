@@ -13,10 +13,10 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.annotations.RequiredReadAction;
-import consulo.php.lang.psi.PhpBraceOwner;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpFunction;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 
@@ -31,7 +31,7 @@ public class PhpFoldingBuilder implements FoldingBuilder
 	@Override
 	public FoldingDescriptor[] buildFoldRegions(@Nonnull ASTNode node, @Nonnull Document document)
 	{
-		List<FoldingDescriptor> list = new ArrayList<FoldingDescriptor>();
+		List<FoldingDescriptor> list = new ArrayList<>();
 		PsiElement psi = node.getPsi();
 
 		psi.acceptChildren(new PhpRecursiveElementVisitor()
@@ -45,17 +45,25 @@ public class PhpFoldingBuilder implements FoldingBuilder
 			}
 
 			@Override
-			public void visitFunction(PhpFunction phpFunction)
+			public void visitFunction(Function phpFunction)
 			{
 				super.visitFunction(phpFunction);
 
 				addFolding(phpFunction);
 			}
 
-			private void addFolding(PhpBraceOwner owner)
+			private void addFolding(PsiElement owner)
 			{
-				PsiElement leftBrace = owner.getLeftBrace();
-				PsiElement rightBrace = owner.getRightBrace();
+				ASTNode lbrace = owner.getNode().findChildByType(PhpTokenTypes.LBRACE);
+				ASTNode rbrace = owner.getNode().findChildByType(PhpTokenTypes.RBRACE);
+
+				if(lbrace == null || rbrace == null)
+				{
+					return;
+				}
+
+				PsiElement leftBrace = lbrace.getPsi();
+				PsiElement rightBrace = rbrace.getPsi();
 				if(leftBrace == null || rightBrace == null)
 				{
 					return;
@@ -68,6 +76,7 @@ public class PhpFoldingBuilder implements FoldingBuilder
 		return list.isEmpty() ? FoldingDescriptor.EMPTY : list.toArray(new FoldingDescriptor[list.size()]);
 	}
 
+	@RequiredReadAction
 	@Nullable
 	@Override
 	public String getPlaceholderText(@Nonnull ASTNode node)
@@ -80,6 +89,7 @@ public class PhpFoldingBuilder implements FoldingBuilder
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isCollapsedByDefault(@Nonnull ASTNode node)
 	{

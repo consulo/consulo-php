@@ -3,8 +3,8 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.psi.PhpCatchStatement;
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -25,21 +25,21 @@ public class PhpCatchStatementImpl extends PhpElementImpl implements PhpCatchSta
 	}
 
 	@Override
-	public PhpClassReference getExceptionType()
+	public ClassReference getExceptionType()
 	{
-		return PsiTreeUtil.getChildOfType(this, PhpClassReference.class);
+		return PsiTreeUtil.getChildOfType(this, ClassReference.class);
 	}
 
 	@Override
-	public PhpVariableReference getException()
+	public Variable getException()
 	{
-		return PsiTreeUtil.getChildOfType(this, PhpVariableReference.class);
+		return PsiTreeUtil.getChildOfType(this, Variable.class);
 	}
 
 	@Override
 	public PsiElement getStatement()
 	{
-		final PhpVariableReference exception = getException();
+		final Variable exception = getException();
 		if(exception != null)
 		{
 			return exception.getNextPsiSibling();

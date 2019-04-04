@@ -13,13 +13,13 @@ import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.psi.util.PsiTreeUtil;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.completion.insert.PhpMethodInsertHandler;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.Variable;
 
 /**
  * @author jay
@@ -151,13 +151,13 @@ public class PhpVariantsUtil
 				item.bold = true;
 			}
 		}
-		if(element instanceof PhpField)
+		if(element instanceof Field)
 		{
-			item.typeText = ((PhpField) element).getType().toString();
+			item.typeText = ((Field) element).getType().toString();
 		}
-		else if(element instanceof PhpFunction)
+		else if(element instanceof Function)
 		{
-			item.typeText = ((PhpFunction) element).getType().toString();
+			item.typeText = ((Function) element).getType().toString();
 			item.tailText = "()";
 		}
 		/*else if(element instanceof LightPhpFunction)
@@ -169,7 +169,7 @@ public class PhpVariantsUtil
 	}
 
 	@Nonnull
-	public static LookupItem[] getLookupItemsForVariables(List<? extends PhpElement> elements)
+	public static LookupItem[] getLookupItemsForVariables(List<? extends PhpPsiElement> elements)
 	{
 		LookupItem[] result = new LookupItem[elements.size()];
 		for(int i = 0; i < result.length; i++)
@@ -179,38 +179,30 @@ public class PhpVariantsUtil
 		return result;
 	}
 
-	public static LookupItem getLookupItemForVariable(PhpElement element)
+	public static LookupItem getLookupItemForVariable(PhpPsiElement element)
 	{
 		final PhpLookupItem item = new PhpLookupItem(null);
-		if(element instanceof PhpVariableReference)
+		if(element instanceof Variable)
 		{
-			PhpVariableReference variable = (PhpVariableReference) element;
+			Variable variable = (Variable) element;
 			item.setName(variable.getName());
 
 			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
-			final PhpClass variableType = variable.getType().getType();
-			if(variableType != null)
-			{
-				item.setTypeHint(variableType.getName());
-			}
+			item.setTypeHint(variable.getType().toString());
 		}
-		else if(element instanceof PhpParameter)
+		else if(element instanceof Parameter)
 		{
-			PhpParameter parameter = (PhpParameter) element;
+			Parameter parameter = (Parameter) element;
 			item.setName(parameter.getName());
 			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
-			final PhpClass variableType = parameter.getType().getType();
-			if(variableType != null)
-			{
-				item.setTypeHint(variableType.getName());
-			}
+			item.setTypeHint(parameter.getType().toString());
 		}
 		return new LookupItem<>(item, item.getPresentation());
 	}
 
 	public static InsertHandler getInsertHandler(PhpNamedElement element)
 	{
-		if(element instanceof PhpFunction)
+		if(element instanceof Function)
 		{
 			return PhpMethodInsertHandler.getInstance();
 		}

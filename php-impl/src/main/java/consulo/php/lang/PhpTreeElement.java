@@ -10,12 +10,12 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import consulo.ide.IconDescriptorUpdaters;
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
@@ -49,9 +49,9 @@ class PhpTreeElement implements StructureViewTreeElement
 			PhpClass e = (PhpClass) myElement;
 			return new PresentationData(e.getName(), null, IconDescriptorUpdaters.getIcon(myElement, 0), null);
 		}
-		if(myElement instanceof PhpFunction)
+		if(myElement instanceof Function)
 		{
-			PhpFunction e = (PhpFunction) myElement;
+			Function e = (Function) myElement;
 			StringBuilder b = new StringBuilder().append(e.getName());
 			listParameters(b, e.getParameters());
 
@@ -66,12 +66,12 @@ class PhpTreeElement implements StructureViewTreeElement
 		return null;
 	}
 
-	private void listParameters(StringBuilder b, PhpParameter[] parameters)
+	private void listParameters(StringBuilder b, Parameter[] parameters)
 	{
 		b.append('(');
 		for(int i = 0; i < parameters.length; i++)
 		{
-			PhpParameter parameter = parameters[i];
+			Parameter parameter = parameters[i];
 			b.append(parameter.getName());
 			if(parameters.length - i > 1)
 			{
@@ -100,7 +100,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		{
 			if(element instanceof PhpNamedElement)
 			{
-				if(!(element instanceof PhpParameter) && (!(element instanceof PhpVariableReference) || ((PhpVariableReference) element).isDeclaration()) && !(element instanceof PhpConstantReference))
+				if(!(element instanceof Parameter) && (!(element instanceof Variable) || ((Variable) element).isDeclaration()) && !(element instanceof PhpConstantReference))
 				{
 					children.add(new PhpTreeElement(element));
 				}

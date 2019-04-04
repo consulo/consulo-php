@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpField;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.impl.PhpFieldImpl;
-import consulo.php.lang.psi.impl.stub.PhpFieldStub;
+import consulo.php.lang.psi.impl.stub.PhpFieldStubImpl;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
@@ -18,7 +20,7 @@ import com.intellij.util.io.StringRef;
  * @author VISTALL
  * @since 29.10.13.
  */
-public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, PhpField>
+public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, Field>
 {
 	public PhpFieldStubElement()
 	{
@@ -27,21 +29,22 @@ public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, PhpField>
 
 	@Nonnull
 	@Override
-	public PhpField createElement(ASTNode node)
+	public Field createElement(ASTNode node)
 	{
 		return new PhpFieldImpl(node);
 	}
 
 	@Override
-	public PhpField createPsi(@Nonnull PhpFieldStub phpFieldStub)
+	public Field createPsi(@Nonnull PhpFieldStub stub)
 	{
-		return new PhpFieldImpl(phpFieldStub);
+		return new PhpFieldImpl(stub);
 	}
 
+	@RequiredReadAction
 	@Override
-	public PhpFieldStub createStub(@Nonnull PhpField phpField, StubElement stubElement)
+	public PhpFieldStubImpl createStub(@Nonnull Field phpField, StubElement stubElement)
 	{
-		return new PhpFieldStub(stubElement, StringRef.fromNullableString(phpField.getName()));
+		return new PhpFieldStubImpl(stubElement, this, phpField.getName());
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, PhpField>
 	public PhpFieldStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
 	{
 		StringRef ref = stubInputStream.readName();
-		return new PhpFieldStub(stubElement, ref);
+		return new PhpFieldStubImpl(stubElement, this, ref);
 	}
 
 	@Override

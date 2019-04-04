@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpElseStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
@@ -23,7 +23,7 @@ public class PhpElseStatementImpl extends PhpElementImpl implements PhpElseState
 	}
 
 	@Override
-	public PhpElement getStatement()
+	public PhpPsiElement getStatement()
 	{
 		return getFirstPsiChild();
 	}

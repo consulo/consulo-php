@@ -3,10 +3,10 @@ package consulo.php.lang.documentation.params;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpMethodReference;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpParameterList;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -54,11 +54,11 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		final PsiFile psiFile = context.getFile();
 		if(psiFile instanceof PhpFileImpl)
 		{
-			final PhpMethodReference phpMethodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
+			final MethodReference phpMethodReference = PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), MethodReference.class, false);
 			if(phpMethodReference != null)
 			{
 				final PsiElement element = phpMethodReference.resolve();
-				if(element != null && element instanceof PhpFunction)
+				if(element != null && element instanceof Function)
 				{
 					context.setItemsToShow(new Object[]{element});
 				}
@@ -80,7 +80,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		final PsiFile psiFile = context.getFile();
 		if(psiFile instanceof PhpFileImpl)
 		{
-			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), PhpMethodReference.class, false);
+			return PsiTreeUtil.findElementOfClassAtOffset(psiFile, context.getOffset(), MethodReference.class, false);
 		}
 		return null;
 	}
@@ -90,9 +90,9 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	{
 		int index = -1;
 		final int caret = context.getOffset();
-		if(element instanceof PhpMethodReference)
+		if(element instanceof MethodReference)
 		{
-			final PhpParameterList callArgs = PsiTreeUtil.getChildOfType((PsiElement) element, PhpParameterList.class);
+			final ParameterList callArgs = PsiTreeUtil.getChildOfType((PsiElement) element, ParameterList.class);
 			LOG.assertTrue(callArgs != null);
 			index = ParameterInfoUtils.getCurrentParameterIndex(callArgs.getNode(), caret, PhpTokenTypes.opCOMMA);
 			// If we are just before the arguments
@@ -103,7 +103,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		}
 		else
 		{
-			if(caret > ((PhpMethodReference) element).getTextRange().getEndOffset())
+			if(caret > ((MethodReference) element).getTextRange().getEndOffset())
 			{
 				index = 0;
 			}
@@ -126,8 +126,8 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 	@Override
 	public void updateUI(Object element, ParameterInfoUIContext context)
 	{
-		LOG.assertTrue(element instanceof PhpFunction);
-		PhpFunction phpMethod = (PhpFunction) element;
+		LOG.assertTrue(element instanceof Function);
+		Function phpMethod = (Function) element;
 
 		// Index to show
 		final int index = context.getCurrentParameterIndex();
@@ -137,7 +137,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		int start = -1;
 		int end = -1;
 
-		final PhpParameter[] parameters = phpMethod.getParameters();
+		final Parameter[] parameters = phpMethod.getParameters();
 		if(parameters.length > 0)
 		{
 			for(int i = 0; i < parameters.length; i++)
@@ -146,7 +146,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 				{
 					buff.append(", ");
 				}
-				final PhpParameter parameter = parameters[i];
+				final Parameter parameter = parameters[i];
 				String paramName = "$" + parameter.getName();
 				if(paramName.equals("$"))
 				{

@@ -6,7 +6,7 @@ import java.util.List;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
@@ -33,7 +33,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 	public String[] getTypes()
 	{
 		List<String> types = new ArrayList<String>();
-		PhpElement child = getFirstPsiChild();
+		PhpPsiElement child = getFirstPsiChild();
 		while(child != null)
 		{
 			if(child instanceof PhpDocType)
@@ -50,7 +50,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 	public String getTypeString()
 	{
 		StringBuffer types = new StringBuffer();
-		PhpElement child = getFirstPsiChild();
+		PhpPsiElement child = getFirstPsiChild();
 		while(child != null)
 		{
 			if(child instanceof PhpDocType)

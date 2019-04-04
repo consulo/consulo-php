@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpFunctionCall;
-import consulo.php.lang.psi.PhpParameterList;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -86,9 +86,9 @@ public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCa
 	}
 
 	@Override
-	public PhpParameterList getParameterList()
+	public ParameterList getParameterList()
 	{
-		return PsiTreeUtil.getChildOfType(this, PhpParameterList.class);
+		return PsiTreeUtil.getChildOfType(this, ParameterList.class);
 	}
 
 	@Override

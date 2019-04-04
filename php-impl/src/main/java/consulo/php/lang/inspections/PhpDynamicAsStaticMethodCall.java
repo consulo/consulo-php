@@ -2,15 +2,14 @@ package consulo.php.lang.inspections;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpBundle;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpMethodReference;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import consulo.php.PhpBundle;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -34,15 +33,15 @@ public class PhpDynamicAsStaticMethodCall extends PhpInspection
 		{
 			@Override
 			@SuppressWarnings({"ConstantConditions"})
-			public void visitMethodReference(PhpMethodReference reference)
+			public void visitMethodReference(MethodReference reference)
 			{
 				if(reference.canReadName() && reference.isStatic())
 				{
 					final PsiElement element = reference.getReference().resolve();
-					if(element instanceof PhpFunction)
+					if(element instanceof Function)
 					{
-						final PhpFunction phpMethod = (PhpFunction) element;
-						if(!phpMethod.hasModifier(PhpTokenTypes.STATIC_KEYWORD))
+						final Function phpMethod = (Function) element;
+						if(!phpMethod.getModifier().isStatic())
 						{
 							holder.registerProblem(reference, PhpBundle.message("php.inspections.dynamic_as_static_method_call"));
 						}

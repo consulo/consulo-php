@@ -1,6 +1,6 @@
 package consulo.php.index;
 
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import javax.annotation.Nonnull;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;

@@ -8,6 +8,7 @@ import com.intellij.util.Processor;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.PhpTokenSets;
 
 /**
  * @author jay
@@ -55,7 +56,7 @@ public class PhpWordsScanner implements WordsScanner
 					return;
 				}
 			}
-			else if(PhpTokenTypes.tsCOMMENTS.contains(type))
+			else if(PhpTokenSets.tsCOMMENTS.contains(type))
 			{
 				if(!stripWords(processor, fileText, lexer.getTokenStart(), lexer.getTokenEnd(), WordOccurrence.Kind.COMMENTS, occurrence))
 				{

@@ -4,10 +4,11 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.php.index.PhpIndexKeys;
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.php.lang.psi.impl.PhpClassImpl;
-import consulo.php.lang.psi.impl.stub.PhpClassStub;
+import consulo.php.lang.psi.impl.stub.PhpClassStubImpl;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
@@ -40,31 +41,31 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 	}
 
 	@Override
-	public PhpClassStub createStub(@Nonnull PhpClass phpClass, StubElement stubElement)
+	public PhpClassStubImpl createStub(@Nonnull PhpClass phpClass, StubElement stubElement)
 	{
-		return new PhpClassStub(stubElement, phpClass.getNamespace(), phpClass.getName());
+		return new PhpClassStubImpl(stubElement, phpClass.getNamespaceName(), phpClass.getName());
 	}
 
 	@Override
 	public void serialize(@Nonnull PhpClassStub phpClassStub, @Nonnull StubOutputStream stubOutputStream) throws IOException
 	{
-		stubOutputStream.writeName(phpClassStub.getNamespace());
+		stubOutputStream.writeName(phpClassStub.getNamespaceName());
 		stubOutputStream.writeName(phpClassStub.getName());
 	}
 
 	@Nonnull
 	@Override
-	public PhpClassStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
+	public PhpClassStubImpl deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
 	{
 		StringRef namespace = stubInputStream.readName();
 		StringRef name = stubInputStream.readName();
-		return new PhpClassStub(stubElement, namespace, name);
+		return new PhpClassStubImpl(stubElement, namespace, name);
 	}
 
 	@Override
 	public void indexStub(@Nonnull PhpClassStub phpClassStub, @Nonnull IndexSink indexSink)
 	{
-		String namespace = phpClassStub.getNamespace();
+		String namespace = phpClassStub.getNamespaceName();
 		String name = phpClassStub.getName();
 		if(name != null)
 		{

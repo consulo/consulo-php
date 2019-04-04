@@ -4,19 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-
-import consulo.php.completion.PhpVariantsUtil;
-import consulo.php.completion.UsageContext;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpClassConstantReference;
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
-
 import javax.annotation.Nullable;
+
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -25,6 +14,16 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.php.completion.PhpVariantsUtil;
+import consulo.php.completion.UsageContext;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpClassConstantReference;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -74,12 +73,12 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	}
 
 	@Nullable
-	public PhpClassReference getClassReference()
+	public ClassReference getClassReference()
 	{
-		PhpElement reference = getFirstPsiChild();
-		if(reference instanceof PhpClassReference)
+		PhpPsiElement reference = getFirstPsiChild();
+		if(reference instanceof ClassReference)
 		{
-			return (PhpClassReference) reference;
+			return (ClassReference) reference;
 		}
 		return null;
 	}
@@ -143,7 +142,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 	@Override
 	public Object[] getVariants()
 	{
-		final PhpClassReference classReference = getClassReference();
+		final ClassReference classReference = getClassReference();
 		if(classReference != null)
 		{
 			final PsiElement psiElement = classReference.resolve();
@@ -158,7 +157,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 				context.setCallingObjectClass(contextClass);
 
 				final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
-				for(PhpFunction method : contextClass.getFunctions())
+				for(Function method : contextClass.getOwnMethods())
 				{
 					toComplete.add(method);
 				}

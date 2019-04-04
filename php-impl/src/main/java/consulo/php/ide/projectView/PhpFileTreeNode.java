@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFile;
-import consulo.php.lang.psi.PhpFunction;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.Function;
 import javax.annotation.Nullable;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
@@ -22,22 +22,22 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
  */
 public class PhpFileTreeNode extends AbstractPsiBasedNode<PhpFile>
 {
-	public static List<AbstractTreeNode> fillToTreeNodes(PhpElement[] elements, ViewSettings settings)
+	public static List<AbstractTreeNode> fillToTreeNodes(PhpPsiElement[] elements, ViewSettings settings)
 	{
 		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>(elements.length);
-		for(PhpElement element : elements)
+		for(PhpPsiElement element : elements)
 		{
-			if(element instanceof PhpField)
+			if(element instanceof Field)
 			{
-				list.add(new PhpFieldTreeNode((PhpField) element, settings));
+				list.add(new PhpFieldTreeNode((Field) element, settings));
 			}
 			else if(element instanceof PhpClass)
 			{
 				list.add(new PhpClassTreeNode((PhpClass) element, settings));
 			}
-			else if(element instanceof PhpFunction)
+			else if(element instanceof Function)
 			{
-				list.add(new PhpFunctionTreeNode((PhpFunction) element, settings));
+				list.add(new PhpFunctionTreeNode((Function) element, settings));
 			}
 		}
 		return list.isEmpty() ? Collections.<AbstractTreeNode>emptyList() : list;

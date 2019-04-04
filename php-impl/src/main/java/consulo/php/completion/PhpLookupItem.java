@@ -6,7 +6,7 @@ import com.intellij.codeInsight.lookup.LookupValueWithPriority;
 import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.ui.image.Image;
 
 /**

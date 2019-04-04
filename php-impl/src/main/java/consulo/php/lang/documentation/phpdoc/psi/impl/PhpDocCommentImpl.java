@@ -1,10 +1,10 @@
 package consulo.php.lang.documentation.phpdoc.psi.impl;
 
 import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.CompositePsiElement;
@@ -30,32 +30,32 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 	}
 
 	@Override
-	public PhpElement getFirstPsiChild()
+	public PhpPsiElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PhpElement)
+			if(children[0] instanceof PhpPsiElement)
 			{
-				return (PhpElement) children[0];
+				return (PhpPsiElement) children[0];
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public PhpElement getNextPsiSibling()
+	public PhpPsiElement getNextPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PhpElement nextSibling = null;
+		PhpPsiElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && children.length > i + 1)
 			{
-				if(children[i + 1] instanceof PhpElement)
+				if(children[i + 1] instanceof PhpPsiElement)
 				{
-					nextSibling = (PhpElement) children[i + 1];
+					nextSibling = (PhpPsiElement) children[i + 1];
 				}
 				break;
 			}
@@ -64,18 +64,18 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 	}
 
 	@Override
-	public PhpElement getPrevPsiSibling()
+	public PhpPsiElement getPrevPsiSibling()
 	{
 		PsiElement[] children = getParent().getChildren();
-		PhpElement prevSibling = null;
+		PhpPsiElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == this && i > 0)
 			{
-				if(children[i - 1] instanceof PhpElement)
+				if(children[i - 1] instanceof PhpPsiElement)
 				{
-					prevSibling = (PhpElement) children[i - 1];
+					prevSibling = (PhpPsiElement) children[i - 1];
 				}
 				break;
 			}

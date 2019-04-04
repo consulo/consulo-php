@@ -35,6 +35,6 @@ public class ClassMethod implements PhpTokenTypes
 
 		builder.compareAndEat(opSEMICOLON);
 
-		return PhpStubElements.FUNCTION;
+		return PhpStubElements.CLASS_METHOD;
 	}
 }

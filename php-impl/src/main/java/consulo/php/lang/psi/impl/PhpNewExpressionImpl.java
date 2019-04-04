@@ -10,7 +10,7 @@ import com.intellij.lang.ASTNode;
  * @author jay
  * @date Jun 18, 2008 1:34:34 AM
  */
-public class PhpNewExpressionImpl extends PhpTypeOwnerImpl implements PhpNewExpression
+public class PhpNewExpressionImpl extends PhpTypedElementImpl implements PhpNewExpression
 {
 	public PhpNewExpressionImpl(ASTNode node)
 	{

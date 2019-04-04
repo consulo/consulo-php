@@ -1,18 +1,20 @@
 package consulo.php.lang.psi;
 
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+
 /**
  * @author jay
  * @date Jul 2, 2008 3:21:58 AM
  */
-public interface PhpForStatement extends PhpElement
+public interface PhpForStatement extends PhpPsiElement
 {
 
-	public PhpElement getInitialExpression();
+	public PhpPsiElement getInitialExpression();
 
-	public PhpElement getConditionalExpression();
+	public PhpPsiElement getConditionalExpression();
 
-	public PhpElement getRepeatedExpression();
+	public PhpPsiElement getRepeatedExpression();
 
-	public PhpElement getStatement();
+	public PhpPsiElement getStatement();
 
 }

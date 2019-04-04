@@ -13,6 +13,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.lang.LanguageVersion;
 import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpStubElements;
@@ -53,14 +54,14 @@ public class PhpParserDefinition implements ParserDefinition
 	@Nonnull
 	public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion)
 	{
-		return TokenSet.create(PhpTokenTypes.WHITE_SPACE, PhpTokenTypes.DOC_WHITESPACE);
+		return TokenSet.create(PhpTokenTypes.WHITE_SPACE, PhpDocTokenTypes.DOC_WHITESPACE);
 	}
 
 	@Override
 	@Nonnull
 	public TokenSet getCommentTokens(@Nonnull LanguageVersion languageVersion)
 	{
-		return PhpTokenTypes.tsCOMMENTS;
+		return PhpTokenSets.tsCOMMENTS;
 	}
 
 	@Override

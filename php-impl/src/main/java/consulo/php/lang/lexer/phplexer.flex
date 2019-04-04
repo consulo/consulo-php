@@ -5,6 +5,7 @@ import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.managers.*;
 import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import gnu.trove.THashSet;
 import java.util.Arrays;
 import java.util.Set;
@@ -425,7 +426,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 <ST_IN_SCRIPTING>{
 	{C_STYLE_COMMENT}                  { return PhpTokenTypes.C_STYLE_COMMENT; }
-	{DOC_COMMENT}                      { return PhpTokenTypes.DOC_COMMENT; }
+	{DOC_COMMENT}                      { return PhpDocElementTypes.DOC_COMMENT; }
 }
 
 <ST_IN_SCRIPTING>"#" {

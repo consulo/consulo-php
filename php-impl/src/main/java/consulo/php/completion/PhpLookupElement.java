@@ -9,7 +9,7 @@ import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
 import com.intellij.openapi.util.text.StringUtil;
 import consulo.awt.TargetAWT;
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.ui.image.Image;
 
 /**

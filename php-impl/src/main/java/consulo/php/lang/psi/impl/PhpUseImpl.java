@@ -3,8 +3,8 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpUse;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.PhpUse;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -26,8 +26,8 @@ public class PhpUseImpl extends PhpElementImpl implements PhpUse
 
 	@Nonnull
 	@Override
-	public PhpClassReference[] getClassReferences()
+	public ClassReference[] getClassReferences()
 	{
-		return findChildrenByClass(PhpClassReference.class);
+		return findChildrenByClass(ClassReference.class);
 	}
 }

@@ -3,9 +3,9 @@ package consulo.php.lang.psi.resolve;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -17,9 +17,9 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  */
 public class PhpScopeProcessor implements PsiScopeProcessor
 {
-	protected PhpElement element;
+	protected PhpPsiElement element;
 
-	public PhpScopeProcessor(PhpElement element)
+	public PhpScopeProcessor(PhpPsiElement element)
 	{
 		this.element = element;
 	}
@@ -49,9 +49,9 @@ public class PhpScopeProcessor implements PsiScopeProcessor
 
 	protected boolean isAppropriateDeclarationType(PsiElement possibleDeclaration)
 	{
-		if(element instanceof PhpVariableReference)
+		if(element instanceof Variable)
 		{
-			return possibleDeclaration instanceof PhpVariableReference || possibleDeclaration instanceof PhpParameter;
+			return possibleDeclaration instanceof Variable || possibleDeclaration instanceof Parameter;
 		}
 		return false;
 	}

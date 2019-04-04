@@ -3,7 +3,7 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpGroupStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.psi.PsiElement;
@@ -56,9 +56,9 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Ph
 				}
 			}
 		}
-		else if(lastParent instanceof PhpElement)
+		else if(lastParent instanceof PhpPsiElement)
 		{
-			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
+			PhpPsiElement statement = ((PhpPsiElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))
@@ -72,19 +72,19 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Ph
 	}
 
 	@Override
-	public PhpElement getFirstPsiChild()
+	public PhpPsiElement getFirstPsiChild()
 	{
 		return PhpElementImpl.getFirstPsiChild(this);
 	}
 
 	@Override
-	public PhpElement getNextPsiSibling()
+	public PhpPsiElement getNextPsiSibling()
 	{
 		return PhpElementImpl.getNextPsiSibling(this);
 	}
 
 	@Override
-	public PhpElement getPrevPsiSibling()
+	public PhpPsiElement getPrevPsiSibling()
 	{
 		return PhpElementImpl.getPrevPsiSibling(this);
 	}

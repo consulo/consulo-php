@@ -1,5 +1,7 @@
 package consulo.php.lang.psi;
 
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+
 /**
  * Created by IntelliJ IDEA.
  * User: jay
@@ -7,7 +9,7 @@ package consulo.php.lang.psi;
  *
  * @author jay
  */
-public interface PhpStatement extends PhpElement
+public interface PhpStatement extends PhpPsiElement
 {
 
 }

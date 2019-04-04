@@ -2,12 +2,12 @@ package consulo.php.lang.findUsages;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.Variable;
 
 import javax.annotation.Nullable;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -36,7 +36,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	@Override
 	public boolean canFindUsagesFor(@Nonnull PsiElement psiElement)
 	{
-		return psiElement instanceof PhpClass || psiElement instanceof PhpFunction || psiElement instanceof PhpField || psiElement instanceof PhpParameter || psiElement instanceof PhpVariableReference;
+		return psiElement instanceof PhpClass || psiElement instanceof Function || psiElement instanceof Field || psiElement instanceof Parameter || psiElement instanceof Variable;
 	}
 
 	@Override
@@ -50,11 +50,11 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	@Nonnull
 	public String getType(@Nonnull PsiElement element)
 	{
-		if(element instanceof PhpVariableReference)
+		if(element instanceof Variable)
 		{
 			return "PhpVariableReference";
 		}
-		if(element instanceof PhpParameter)
+		if(element instanceof Parameter)
 		{
 			return "PhpParameter";
 		}
@@ -62,11 +62,11 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 		{
 			return ((PhpClass) element).isInterface() ? "Interface" : "Class";
 		}
-		if(element instanceof PhpFunction)
+		if(element instanceof Function)
 		{
 			return "Function";
 		}
-		if(element instanceof PhpField)
+		if(element instanceof Field)
 		{
 			return "PhpField";
 		}

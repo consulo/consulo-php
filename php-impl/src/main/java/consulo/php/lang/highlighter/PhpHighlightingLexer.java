@@ -5,6 +5,7 @@ import com.intellij.psi.tree.IElementType;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpStringLiteralLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -22,7 +23,7 @@ public class PhpHighlightingLexer extends LayeredLexer
 	{
 		super(new PhpFlexLexer(true, languageLevel));
 		LayeredLexer docLexer = new LayeredLexer(new PhpDocLexer());
-		registerSelfStoppingLayer(docLexer, new IElementType[]{PhpTokenTypes.DOC_COMMENT}, new IElementType[]{PhpDocTokenTypes.DOC_COMMENT_END});
+		registerSelfStoppingLayer(docLexer, new IElementType[]{PhpDocElementTypes.DOC_COMMENT}, new IElementType[]{PhpDocTokenTypes.DOC_COMMENT_END});
 
 		//Lexer lexer = getHtmlHighlightingLexer();
 		//docLexer.registerLayer(lexer, PhpTokenTypes.DOC_COMMENT);

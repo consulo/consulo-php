@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpForStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
@@ -23,15 +23,15 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	}
 
 	@Override
-	public PhpElement getInitialExpression()
+	public PhpPsiElement getInitialExpression()
 	{
 		return getFirstPsiChild();
 	}
 
 	@Override
-	public PhpElement getConditionalExpression()
+	public PhpPsiElement getConditionalExpression()
 	{
-		final PhpElement expression = getInitialExpression();
+		final PhpPsiElement expression = getInitialExpression();
 		if(expression != null)
 		{
 			return getInitialExpression().getNextPsiSibling();
@@ -40,9 +40,9 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	}
 
 	@Override
-	public PhpElement getRepeatedExpression()
+	public PhpPsiElement getRepeatedExpression()
 	{
-		final PhpElement expression = getConditionalExpression();
+		final PhpPsiElement expression = getConditionalExpression();
 		if(expression != null)
 		{
 			return getConditionalExpression().getNextPsiSibling();
@@ -51,9 +51,9 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 	}
 
 	@Override
-	public PhpElement getStatement()
+	public PhpPsiElement getStatement()
 	{
-		final PhpElement expression = getRepeatedExpression();
+		final PhpPsiElement expression = getRepeatedExpression();
 		if(expression != null)
 		{
 			return getRepeatedExpression().getNextPsiSibling();
@@ -89,9 +89,9 @@ public class PhpForStatementImpl extends PhpElementImpl implements PhpForStateme
 				return false;
 			}
 		}
-		else if(lastParent instanceof PhpElement)
+		else if(lastParent instanceof PhpPsiElement)
 		{
-			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
+			PhpPsiElement statement = ((PhpPsiElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))

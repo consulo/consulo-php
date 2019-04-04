@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.intellij.openapi.project.Project;
 
 /**

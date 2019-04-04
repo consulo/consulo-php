@@ -2,7 +2,7 @@ package consulo.php.actions.generate;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
 import javax.annotation.Nullable;

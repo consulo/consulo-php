@@ -3,7 +3,7 @@ package consulo.php.lang.inspections;
 import javax.annotation.Nonnull;
 
 import consulo.php.PhpBundle;
-import consulo.php.lang.psi.PhpMethodReference;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.ProblemsHolder;
@@ -32,7 +32,7 @@ public class PhpUndefinedMethodCall extends PhpInspection
 		return new PhpElementVisitor()
 		{
 			@Override
-			public void visitMethodReference(PhpMethodReference reference)
+			public void visitMethodReference(MethodReference reference)
 			{
 				if(reference.canReadName())
 				{

@@ -3,6 +3,8 @@ package consulo.php.lang.lexer.managers;
 import javax.annotation.Nonnull;
 
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
+import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.lexer._PhpFlexLexer;
 
@@ -15,6 +17,8 @@ import consulo.php.lang.lexer._PhpFlexLexer;
  */
 public class OperatorManager
 {
+	private static final TokenSet tsWHITE_SPACE_OR_COMMENT = TokenSet.create(PhpDocElementTypes.DOC_COMMENT, PhpTokenTypes.C_STYLE_COMMENT, PhpTokenTypes.LINE_COMMENT, PhpTokenTypes.WHITE_SPACE);
+
 	private boolean afterOperator;
 	private boolean afterKeyword;
 	private boolean inStatementStart;
@@ -32,7 +36,7 @@ public class OperatorManager
 
 	public IElementType process(IElementType type)
 	{
-		if(PhpTokenTypes.tsWHITE_SPACE_OR_COMMENT.contains(type))
+		if(tsWHITE_SPACE_OR_COMMENT.contains(type))
 		{
 			return type;
 		}

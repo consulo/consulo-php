@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpElseIfStatement;
 import consulo.php.lang.psi.PhpElseStatement;
 import consulo.php.lang.psi.PhpIfStatement;
@@ -29,7 +29,7 @@ public class PhpIfStatementImpl extends PhpElementImpl implements PhpIfStatement
 	}
 
 	@Override
-	public PhpElement getCondition()
+	public PhpPsiElement getCondition()
 	{
 		return getFirstPsiChild();
 	}
@@ -56,7 +56,7 @@ public class PhpIfStatementImpl extends PhpElementImpl implements PhpIfStatement
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public PhpElement getStatement()
+	public PhpPsiElement getStatement()
 	{
 		if(getCondition() != null)
 		{
@@ -96,9 +96,9 @@ public class PhpIfStatementImpl extends PhpElementImpl implements PhpIfStatement
 				return false;
 			}
 		}
-		else if(lastParent instanceof PhpElement)
+		else if(lastParent instanceof PhpPsiElement)
 		{
-			PhpElement statement = ((PhpElement) lastParent).getPrevPsiSibling();
+			PhpPsiElement statement = ((PhpPsiElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
 				if(!statement.processDeclarations(processor, state, null, source))

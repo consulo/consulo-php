@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import consulo.php.PhpBundle;
 import consulo.php.PhpConstants;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.ProblemsHolder;
@@ -36,7 +36,7 @@ public class PhpUndefinedVariable extends PhpInspection
 		{
 			@Override
 			@SuppressWarnings({"ConstantConditions"})
-			public void visitVariableReference(PhpVariableReference variable)
+			public void visitVariableReference(Variable variable)
 			{
 				if(variable.canReadName())
 				{

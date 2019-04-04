@@ -1,6 +1,6 @@
 package consulo.php.completion;
 
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 
 /**
  * @author jay

@@ -1,14 +1,14 @@
 package consulo.php.lang.psi.impl;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClassReference;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Field;
 import consulo.php.lang.psi.PhpFieldReference;
-import consulo.php.lang.psi.PhpMethodReference;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,7 +23,7 @@ import com.intellij.util.IncorrectOperationException;
  * @author jay
  * @date May 15, 2008 11:24:30 AM
  */
-public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldReference
+public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFieldReference
 {
 
 	public PhpFieldReferenceImpl(ASTNode node)
@@ -72,12 +72,12 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	}
 
 	@Override
-	public PhpClassReference getClassReference()
+	public ClassReference getClassReference()
 	{
-		PhpElement reference = getFirstPsiChild();
-		if(reference instanceof PhpClassReference)
+		PhpPsiElement reference = getFirstPsiChild();
+		if(reference instanceof ClassReference)
 		{
-			return (PhpClassReference) reference;
+			return (ClassReference) reference;
 		}
 		return null;
 	}
@@ -86,7 +86,7 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	public PsiElement getObjectReference()
 	{
 		PsiElement object = getFirstPsiChild();
-		if(object instanceof PhpFieldReference || object instanceof PhpVariableReference || object instanceof PhpMethodReference)
+		if(object instanceof PhpFieldReference || object instanceof Variable || object instanceof MethodReference)
 		{
 			return object;
 		}
@@ -231,7 +231,7 @@ public class PhpFieldReferenceImpl extends PhpTypeOwnerImpl implements PhpFieldR
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof PhpField)
+		if(element instanceof Field)
 		{
 			return element == resolve();
 		}

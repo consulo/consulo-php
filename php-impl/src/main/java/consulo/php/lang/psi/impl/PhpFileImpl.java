@@ -14,11 +14,11 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.util.ArrayUtil;
 import consulo.php.lang.PhpFileType;
 import consulo.php.lang.PhpLanguage;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFile;
-import consulo.php.lang.psi.PhpFunction;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.Function;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 
@@ -37,27 +37,27 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	}
 
 	@Override
-	public PhpElement getFirstPsiChild()
+	public PhpPsiElement getFirstPsiChild()
 	{
 		PsiElement[] children = getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PhpElement)
+			if(children[0] instanceof PhpPsiElement)
 			{
-				return (PhpElement) children[0];
+				return (PhpPsiElement) children[0];
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public PhpElement getNextPsiSibling()
+	public PhpPsiElement getNextPsiSibling()
 	{
 		return null;
 	}
 
 	@Override
-	public PhpElement getPrevPsiSibling()
+	public PhpPsiElement getPrevPsiSibling()
 	{
 		return null;
 	}
@@ -90,9 +90,9 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 
 	@Nonnull
 	@Override
-	public PhpElement[] getTopLevelElements()
+	public PhpPsiElement[] getTopLevelElements()
 	{
-		List<PhpElement> phpElementList = new ArrayList<PhpElement>();
+		List<PhpPsiElement> phpElementList = new ArrayList<PhpPsiElement>();
 		accept(new PhpRecursiveElementVisitor()
 		{
 			@Override
@@ -105,7 +105,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 			}
 
 			@Override
-			public void visitField(PhpField phpField)
+			public void visitField(Field phpField)
 			{
 				if(phpField.getParent().getParent() == PhpFileImpl.this)
 				{
@@ -114,7 +114,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 			}
 
 			@Override
-			public void visitFunction(PhpFunction phpFunction)
+			public void visitFunction(Function phpFunction)
 			{
 				if(phpFunction.getParent().getParent() == PhpFileImpl.this)
 				{
@@ -122,6 +122,6 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 				}
 			}
 		});
-		return ArrayUtil.toObjectArray(phpElementList, PhpElement.class);
+		return ArrayUtil.toObjectArray(phpElementList, PhpPsiElement.class);
 	}
 }

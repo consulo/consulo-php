@@ -2,8 +2,8 @@ package consulo.php.completion.insert;
 
 import consulo.php.completion.PhpLookupElement;
 import consulo.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -41,7 +41,7 @@ public class PhpMethodInsertHandler implements InsertHandler
 		Editor editor = context.getEditor();
 		if(lookupElement.getObject() instanceof PhpLookupElement)
 		{
-			final PhpFunction method = getMethod(editor, lookupElement);
+			final Function method = getMethod(editor, lookupElement);
 			if(!PhpInsertHandlerUtil.isStringAtCaret(editor, "("))
 			{
 				PhpInsertHandlerUtil.insertStringAtCaret(editor, "()");
@@ -69,12 +69,12 @@ public class PhpMethodInsertHandler implements InsertHandler
 		}
 	}
 
-	protected PhpFunction getMethod(Editor editor, LookupElement element)
+	protected Function getMethod(Editor editor, LookupElement element)
 	{
 		final PhpNamedElement psiElement = ((PhpLookupElement) element).element;
-		if(psiElement instanceof PhpFunction)
+		if(psiElement instanceof Function)
 		{
-			return (PhpFunction) psiElement;
+			return (Function) psiElement;
 		}
 		return null;
 	}

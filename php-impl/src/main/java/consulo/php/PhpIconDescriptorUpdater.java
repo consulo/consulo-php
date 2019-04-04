@@ -1,17 +1,18 @@
 package consulo.php;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpModifierListOwner;
-import consulo.php.lang.psi.PhpParameter;
-import consulo.php.lang.psi.PhpVariableReference;
 import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.BitUtil;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpElementWithModifier;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
 
@@ -36,7 +37,7 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 			{
 				iconDescriptor.setMainIcon(PhpIcons.Trait);
 			}
-			else if(phpClass.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD))
+			else if(phpClass.getModifier().isAbstract())
 			{
 				iconDescriptor.setMainIcon(PhpIcons.AbstractClass);
 			}
@@ -45,39 +46,40 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 				iconDescriptor.setMainIcon(PhpIcons.Class);
 			}
 
-			processModifierList(iconDescriptor, flags, (PhpModifierListOwner) element);
+			processModifierList(iconDescriptor, flags, (PhpElementWithModifier) element);
 		}
-		else if(element instanceof PhpVariableReference)
+		else if(element instanceof Variable)
 		{
 			iconDescriptor.setMainIcon(AllIcons.Nodes.Variable);
 			iconDescriptor.setRightIcon(AllIcons.Nodes.C_plocal);
 		}
-		else if(element instanceof PhpParameter)
+		else if(element instanceof Parameter)
 		{
 			iconDescriptor.setMainIcon(AllIcons.Nodes.Parameter);
 			iconDescriptor.setRightIcon(AllIcons.Nodes.C_plocal);
 		}
-		else if(element instanceof PhpFunction)
+		else if(element instanceof Function)
 		{
-			iconDescriptor.setMainIcon(((PhpFunction) element).hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD) ? AllIcons.Nodes.AbstractMethod : AllIcons.Nodes.Function);
+			iconDescriptor.setMainIcon(((Function) element).getModifier().isAbstract() ? AllIcons.Nodes.AbstractMethod : AllIcons.Nodes.Function);
 
-			processModifierList(iconDescriptor, flags, (PhpModifierListOwner) element);
+			processModifierList(iconDescriptor, flags, (PhpElementWithModifier) element);
 		}
-		else if(element instanceof PhpField)
+		else if(element instanceof Field)
 		{
 			iconDescriptor.setMainIcon(AllIcons.Nodes.Field);
 
-			processModifierList(iconDescriptor, flags, (PhpModifierListOwner) element);
+			processModifierList(iconDescriptor, flags, (PhpElementWithModifier) element);
 		}
 	}
 
-	private void processModifierList(IconDescriptor iconDescriptor, int flags, PhpModifierListOwner phpModifierListOwner)
+	private void processModifierList(IconDescriptor iconDescriptor, int flags, PhpElementWithModifier phpModifierListOwner)
 	{
-		if(phpModifierListOwner.hasModifier(PhpTokenTypes.FINAL_KEYWORD))
+		PhpModifier modifier = phpModifierListOwner.getModifier();
+		if(modifier.isFinal())
 		{
 			iconDescriptor.addLayerIcon(AllIcons.Nodes.FinalMark);
 		}
-		if(phpModifierListOwner.hasModifier(PhpTokenTypes.STATIC_KEYWORD))
+		if(modifier.isStatic())
 		{
 			iconDescriptor.addLayerIcon(AllIcons.Nodes.StaticMark);
 		}
@@ -87,15 +89,15 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 			return;
 		}
 
-		if(phpModifierListOwner.hasModifier(PhpTokenTypes.PUBLIC_KEYWORD))
+		if(modifier.isPublic())
 		{
 			iconDescriptor.setRightIcon(AllIcons.Nodes.C_public);
 		}
-		else if(phpModifierListOwner.hasModifier(PhpTokenTypes.PROTECTED_KEYWORD))
+		else if(modifier.isProtected())
 		{
 			iconDescriptor.setRightIcon(AllIcons.Nodes.C_protected);
 		}
-		else if(phpModifierListOwner.hasModifier(PhpTokenTypes.PROTECTED_KEYWORD))
+		else if(modifier.isProtected())
 		{
 			iconDescriptor.setRightIcon(AllIcons.Nodes.C_private);
 		}

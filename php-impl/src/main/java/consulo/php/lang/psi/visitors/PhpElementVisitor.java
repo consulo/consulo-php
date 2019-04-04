@@ -2,8 +2,9 @@ package consulo.php.lang.psi.visitors;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.jetbrains.php.lang.psi.elements.*;
 import consulo.php.lang.psi.*;
-import consulo.php.lang.psi.impl.PhpArrayExpressionImpl;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import consulo.php.lang.psi.impl.PhpTryStatementImpl;
@@ -18,7 +19,7 @@ import consulo.php.lang.psi.impl.PhpTryStatementImpl;
 public abstract class PhpElementVisitor extends PsiElementVisitor
 {
 
-	public void visitPhpElement(PhpElement element)
+	public void visitPhpElement(PhpPsiElement element)
 	{
 		visitElement(element);
 	}
@@ -28,7 +29,12 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(clazz);
 	}
 
-	public void visitFunction(PhpFunction phpFunction)
+	public void visitMethod(Method method)
+	{
+		visitFunction(method);
+	}
+
+	public void visitFunction(Function phpFunction)
 	{
 		visitPhpElement(phpFunction);
 	}
@@ -43,7 +49,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(expr);
 	}
 
-	public void visitBinaryExpression(PhpBinaryExpression expr)
+	public void visitBinaryExpression(BinaryExpression expr)
 	{
 		visitPhpElement(expr);
 	}
@@ -63,17 +69,17 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpCatch);
 	}
 
-	public void visitParameterList(PhpParameterList list)
+	public void visitParameterList(ParameterList list)
 	{
 		visitPhpElement(list);
 	}
 
-	public void visitParameter(PhpParameter parameter)
+	public void visitParameter(Parameter parameter)
 	{
 		visitPhpElement(parameter);
 	}
 
-	public void visitVariableReference(PhpVariableReference variable)
+	public void visitVariableReference(Variable variable)
 	{
 		visitPhpElement(variable);
 	}
@@ -93,12 +99,12 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(ifStatement);
 	}
 
-	public void visitClassReference(PhpClassReference classReference)
+	public void visitClassReference(ClassReference classReference)
 	{
 		visitPhpElement(classReference);
 	}
 
-	public void visitMethodReference(PhpMethodReference reference)
+	public void visitMethodReference(MethodReference reference)
 	{
 		visitPhpElement(reference);
 	}
@@ -113,7 +119,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(fieldReference);
 	}
 
-	public void visitField(PhpField phpField)
+	public void visitField(Field phpField)
 	{
 		visitPhpElement(phpField);
 	}
@@ -163,7 +169,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(whileStatement);
 	}
 
-	public void visitNamespaceStatement(PhpNamespaceStatement phpNamespaceStatement)
+	public void visitNamespaceStatement(PhpNamespace phpNamespaceStatement)
 	{
 		visitPhpElement(phpNamespaceStatement);
 	}

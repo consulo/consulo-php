@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
@@ -50,10 +50,10 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass>
 		}
 		PhpClass value = getValue();
 
-		List<PhpElement> list = new ArrayList<PhpElement>();
-		Collections.addAll(list, value.getFields());
-		Collections.addAll(list, value.getFunctions());
-		return PhpFileTreeNode.fillToTreeNodes(ArrayUtil.toObjectArray(list, PhpElement.class), getSettings());
+		List<PhpPsiElement> list = new ArrayList<>();
+		Collections.addAll(list, value.getOwnFields());
+		Collections.addAll(list, value.getOwnMethods());
+		return PhpFileTreeNode.fillToTreeNodes(ArrayUtil.toObjectArray(list, PhpPsiElement.class), getSettings());
 	}
 
 	@Override

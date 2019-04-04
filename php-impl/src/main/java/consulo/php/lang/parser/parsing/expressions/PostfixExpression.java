@@ -22,7 +22,7 @@ public class PostfixExpression implements PhpTokenTypes
 		IElementType result = PrimaryExpression.parse(builder);
 		if(result != PhpElementTypes.EMPTY_INPUT && builder.compareAndEat(POSTFIX_OPERATORS))
 		{
-			if(!ASSIGNABLE.contains(result))
+			if(!AssignmentExpression.ASSIGNABLE.contains(result))
 			{
 				builder.error("Expression is not assignable");
 			}

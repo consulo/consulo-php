@@ -62,8 +62,8 @@
 		<multiHostInjector forClass="com.intellij.psi.xml.XmlTag" implementationClass="consulo.php.PhpMultiHostInjector"/>
 		<typedHandler implementation="consulo.php.lang.PhpTypedHandler"/>
 
-		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpClass" implementationClass="consulo.php.ide.presentation.PhpClassPresentation"/>
-		<itemPresentationProvider forClass="consulo.php.lang.psi.PhpFile" implementationClass="consulo.php.ide.presentation.PhpFilePresentation"/>
+		<itemPresentationProvider forClass="com.jetbrains.php.lang.psi.elements.PhpClass" implementationClass="consulo.php.ide.presentation.PhpClassPresentation"/>
+		<itemPresentationProvider forClass="com.jetbrains.php.lang.psi.PhpFile" implementationClass="consulo.php.ide.presentation.PhpFilePresentation"/>
 
 		<editorHighlighterProvider filetype="PHP" implementationClass="consulo.php.lang.PhpEditorHighlighterProvider"/>
 		<stubIndex implementation="consulo.php.index.PhpClassIndex"/>

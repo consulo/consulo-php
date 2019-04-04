@@ -55,7 +55,7 @@ public class UnaryExpression implements PhpTokenTypes
 		else if(builder.compareAndEat(INC_DEC_OPERATORS))
 		{
 			IElementType result = PrimaryExpression.parse(builder);
-			if(!ASSIGNABLE.contains(result))
+			if(!AssignmentExpression.ASSIGNABLE.contains(result))
 			{
 				builder.error("Expression is not assignable");
 			}

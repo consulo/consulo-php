@@ -11,9 +11,9 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.PsiElement;
 import consulo.php.lang.PhpFileType;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.PhpFile;
 
 /**
  * @author VISTALL
@@ -66,7 +66,7 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 			FileType fileType = file.getFileType();
 			if(fileType == PhpFileType.INSTANCE)
 			{
-				PhpElement[] topLevelElements = file.getTopLevelElements();
+				PhpPsiElement[] topLevelElements = file.getTopLevelElements();
 				return topLevelElements.length == 1 && topLevelElements[0] instanceof PhpClass ? (PhpClass) topLevelElements[0] : null;
 			}
 		}

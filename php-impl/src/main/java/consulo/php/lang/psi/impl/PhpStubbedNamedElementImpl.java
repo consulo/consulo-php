@@ -1,29 +1,30 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.NamedStub;
 import com.intellij.util.IncorrectOperationException;
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.intellij.util.Processor;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import com.jetbrains.php.lang.psi.stubs.PhpNamedStub;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpConstantReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
 /**
  * @author VISTALL
  * @since 16.07.13.
  */
-public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends PhpStubbedElementImpl<T> implements PsiNameIdentifierOwner, PsiNamedElement
+public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> extends PhpStubbedElementImpl<T> implements PsiNameIdentifierOwner, PhpNamedElement
 {
 	public PhpStubbedNamedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType)
 	{
@@ -46,6 +47,45 @@ public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends
 	}
 
 	@Override
+	public void processDocs(Processor<PhpDocComment> processor)
+	{
+
+	}
+
+	@Override
+	public String getFQN()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean isDeprecated()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isInternal()
+	{
+		T stub = getStub();
+		if(stub != null)
+		{
+			return stub.isInternal();
+		}
+
+		// TODO [VISTALL] is internal impl
+		return false;
+	}
+
+	@Nullable
+	@Override
+	public ASTNode getNameNode()
+	{
+		return null;
+	}
+
+	@RequiredReadAction
+	@Override
 	public String getName()
 	{
 		T stub = getStub();
@@ -56,6 +96,12 @@ public abstract class PhpStubbedNamedElementImpl<T extends NamedStub<?>> extends
 
 		PsiElement nameIdentifier = getNameIdentifier();
 		return nameIdentifier == null ? null : nameIdentifier.getText();
+	}
+
+	@Override
+	public CharSequence getNameCS()
+	{
+		return null;
 	}
 
 	@Nonnull

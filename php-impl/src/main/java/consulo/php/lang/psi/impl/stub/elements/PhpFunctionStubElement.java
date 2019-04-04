@@ -4,21 +4,23 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.impl.PhpFunctionImpl;
-import consulo.php.lang.psi.impl.stub.PhpFunctionStub;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.io.StringRef;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
+import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.psi.impl.PhpFunctionImpl;
+import consulo.php.lang.psi.impl.stub.PhpFunctionStubImpl;
 
 /**
  * @author VISTALL
  * @since 22.09.13.
  */
-public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpFunction>
+public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, Function>
 {
 	public PhpFunctionStubElement()
 	{
@@ -27,21 +29,22 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 
 	@Nonnull
 	@Override
-	public PhpFunction createElement(ASTNode node)
+	public Function createElement(@Nonnull ASTNode node)
 	{
 		return new PhpFunctionImpl(node);
 	}
 
 	@Override
-	public PhpFunction createPsi(@Nonnull PhpFunctionStub stub)
+	public Function createPsi(@Nonnull PhpFunctionStub stub)
 	{
 		return new PhpFunctionImpl(stub);
 	}
 
+	@RequiredReadAction
 	@Override
-	public PhpFunctionStub createStub(@Nonnull PhpFunction psi, StubElement parentStub)
+	public PhpFunctionStubImpl createStub(@Nonnull Function psi, StubElement parentStub)
 	{
-		return new PhpFunctionStub(parentStub, StringRef.fromNullableString(psi.getName()));
+		return new PhpFunctionStubImpl(parentStub, psi.getName());
 	}
 
 	@Override
@@ -52,11 +55,11 @@ public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, PhpF
 
 	@Nonnull
 	@Override
-	public PhpFunctionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException
+	public PhpFunctionStubImpl deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException
 	{
 		StringRef name = dataStream.readName();
 
-		return new PhpFunctionStub(parentStub, name);
+		return new PhpFunctionStubImpl(parentStub, name);
 	}
 
 	@Override

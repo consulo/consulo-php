@@ -6,7 +6,7 @@ import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart2;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import consulo.php.lang.psi.PhpModifierList;
+import com.jetbrains.php.lang.psi.elements.PhpModifierList;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;

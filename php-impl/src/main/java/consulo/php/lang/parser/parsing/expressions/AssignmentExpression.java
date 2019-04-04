@@ -1,5 +1,8 @@
 package consulo.php.lang.parser.parsing.expressions;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.calls.Variable;
@@ -8,8 +11,6 @@ import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,6 +19,7 @@ import com.intellij.psi.tree.IElementType;
  */
 public class AssignmentExpression implements PhpTokenTypes
 {
+	public static final TokenSet ASSIGNABLE = TokenSet.create(PhpElementTypes.VARIABLE_REFERENCE, PhpElementTypes.ARRAY, PhpElementTypes.FIELD_REFERENCE);
 
 	public static IElementType parse(PhpPsiBuilder builder)
 	{

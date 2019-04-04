@@ -15,14 +15,14 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClassReference;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpFieldReference;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpMethodReference;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -31,7 +31,7 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  * @author jay
  * @date May 15, 2008 12:35:36 PM
  */
-public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMethodReference
+public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements MethodReference
 {
 
 	public PhpMethodReferenceImpl(ASTNode node)
@@ -49,6 +49,12 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	public PsiElement getNameIdentifier()
 	{
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
+	}
+
+	@Override
+	public String getNamespaceName()
+	{
+		return null;
 	}
 
 	@Override
@@ -79,12 +85,12 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 
 	@Override
 	@Nullable
-	public PhpClassReference getClassReference()
+	public ClassReference getClassReference()
 	{
-		PhpElement reference = getFirstPsiChild();
-		if(reference instanceof PhpClassReference)
+		PhpPsiElement reference = getFirstPsiChild();
+		if(reference instanceof ClassReference)
 		{
-			return (PhpClassReference) reference;
+			return (ClassReference) reference;
 		}
 		return null;
 	}
@@ -94,7 +100,7 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	public PsiElement getObjectReference()
 	{
 		PsiElement object = getFirstPsiChild();
-		if(object instanceof PhpFieldReference || object instanceof PhpVariableReference || object instanceof PhpMethodReference)
+		if(object instanceof PhpFieldReference || object instanceof Variable || object instanceof MethodReference)
 		{
 			return object;
 		}
@@ -207,7 +213,7 @@ public class PhpMethodReferenceImpl extends PhpTypeOwnerImpl implements PhpMetho
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof PhpFunction)
+		if(element instanceof Function)
 		{
 			return element == resolve();
 		}

@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import javax.annotation.Nullable;
 
-import consulo.php.lang.psi.PhpField;
+import com.jetbrains.php.lang.psi.elements.Field;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
@@ -15,9 +15,9 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
  * @author VISTALL
  * @since 19.09.13.
  */
-public class PhpFieldTreeNode extends AbstractPsiBasedNode<PhpField>
+public class PhpFieldTreeNode extends AbstractPsiBasedNode<Field>
 {
-	public PhpFieldTreeNode(PhpField phpField, ViewSettings viewSettings)
+	public PhpFieldTreeNode(Field phpField, ViewSettings viewSettings)
 	{
 		super(phpField.getProject(), phpField, viewSettings);
 	}
@@ -45,7 +45,7 @@ public class PhpFieldTreeNode extends AbstractPsiBasedNode<PhpField>
 	@Override
 	protected void updateImpl(PresentationData presentationData)
 	{
-		PhpField value = getValue();
+		Field value = getValue();
 
 		presentationData.setPresentableText(value.getName());
 	}

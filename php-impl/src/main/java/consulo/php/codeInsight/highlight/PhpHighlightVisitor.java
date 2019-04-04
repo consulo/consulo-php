@@ -2,8 +2,8 @@ package consulo.php.codeInsight.highlight;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.PhpFile;
 import consulo.php.lang.psi.visitors.PhpRecursiveElementVisitor;
 import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
@@ -41,7 +41,7 @@ public class PhpHighlightVisitor extends PhpRecursiveElementVisitor implements H
 	}
 
 	@Override
-	public void visitClassReference(PhpClassReference classReference)
+	public void visitClassReference(ClassReference classReference)
 	{
 		super.visitPhpElement(classReference);
 

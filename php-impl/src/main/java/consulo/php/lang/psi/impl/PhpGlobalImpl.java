@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.psi.PhpGlobal;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -31,23 +31,23 @@ public class PhpGlobalImpl extends PhpElementImpl implements PhpGlobal
 	}
 
 	@Override
-	public PhpVariableReference[] getVariables()
+	public Variable[] getVariables()
 	{
-		List<PhpVariableReference> variables = new ArrayList<PhpVariableReference>();
+		List<Variable> variables = new ArrayList<Variable>();
 		for(PsiElement element : this.getChildren())
 		{
-			if(element instanceof PhpVariableReference)
+			if(element instanceof Variable)
 			{
-				variables.add((PhpVariableReference) element);
+				variables.add((Variable) element);
 			}
 		}
-		return variables.toArray(new PhpVariableReference[variables.size()]);
+		return variables.toArray(new Variable[variables.size()]);
 	}
 
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
-		for(PhpVariableReference variable : this.getVariables())
+		for(Variable variable : this.getVariables())
 		{
 			if(!processor.execute(variable, state))
 			{

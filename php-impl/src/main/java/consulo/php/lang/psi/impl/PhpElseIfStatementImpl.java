@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.PhpElseIfStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
@@ -23,13 +23,13 @@ public class PhpElseIfStatementImpl extends PhpElementImpl implements PhpElseIfS
 	}
 
 	@Override
-	public PhpElement getCondition()
+	public PhpPsiElement getCondition()
 	{
 		return getFirstPsiChild();
 	}
 
 	@Override
-	public PhpElement getStatement()
+	public PhpPsiElement getStatement()
 	{
 		if(getCondition() != null)
 		{

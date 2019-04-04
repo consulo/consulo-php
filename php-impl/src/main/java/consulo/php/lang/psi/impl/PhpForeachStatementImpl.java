@@ -2,8 +2,8 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpForeachStatement;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -28,19 +28,19 @@ public class PhpForeachStatementImpl extends PhpElementImpl implements PhpForeac
 	}
 
 	@Override
-	public PhpVariableReference getKey()
+	public Variable getKey()
 	{
 		PsiElement[] children = getChildren();
 		int variables = 0;
-		PhpVariableReference firstVariable = null;
+		Variable firstVariable = null;
 		for(int i = 1; i < children.length; i++)
 		{
 			PsiElement child = children[i];
-			if(child instanceof PhpVariableReference)
+			if(child instanceof Variable)
 			{
 				if(++variables == 1)
 				{
-					firstVariable = (PhpVariableReference) child;
+					firstVariable = (Variable) child;
 				}
 			}
 		}
@@ -52,14 +52,14 @@ public class PhpForeachStatementImpl extends PhpElementImpl implements PhpForeac
 	}
 
 	@Override
-	public PhpVariableReference getValue()
+	public Variable getValue()
 	{
 		PsiElement lastChild = getLastChild();
 		while(lastChild != null)
 		{
-			if(lastChild instanceof PhpVariableReference)
+			if(lastChild instanceof Variable)
 			{
-				return (PhpVariableReference) lastChild;
+				return (Variable) lastChild;
 			}
 			lastChild = lastChild.getPrevSibling();
 		}

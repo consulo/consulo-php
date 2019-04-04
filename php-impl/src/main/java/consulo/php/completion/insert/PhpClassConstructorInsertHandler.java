@@ -1,9 +1,9 @@
 package consulo.php.completion.insert;
 
 import consulo.php.completion.PhpLookupItem;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
 
@@ -26,13 +26,13 @@ public class PhpClassConstructorInsertHandler extends PhpMethodInsertHandler
 	}
 
 	@Override
-	protected PhpFunction getMethod(Editor editor, LookupElement element)
+	protected Function getMethod(Editor editor, LookupElement element)
 	{
 		PhpLookupItem item = (PhpLookupItem) element.getObject();
 		final PhpNamedElement psiElement = item.getLightElement();
 		if(psiElement instanceof PhpClass)
 		{
-			return (PhpFunction) ((PhpClass) psiElement).getConstructor();
+			return (Function) ((PhpClass) psiElement).getConstructor();
 		}
 		return null;
 	}

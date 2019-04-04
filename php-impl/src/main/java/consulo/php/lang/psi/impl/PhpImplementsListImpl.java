@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpClassReference;
-import consulo.php.lang.psi.PhpImplementsList;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.ImplementsList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -16,7 +16,7 @@ import com.intellij.psi.PsiElement;
  * @author jay
  * @date Jun 24, 2008 9:21:14 PM
  */
-public class PhpImplementsListImpl extends PhpElementImpl implements PhpImplementsList
+public class PhpImplementsListImpl extends PhpElementImpl implements ImplementsList
 {
 	public PhpImplementsListImpl(ASTNode node)
 	{
@@ -38,7 +38,7 @@ public class PhpImplementsListImpl extends PhpElementImpl implements PhpImplemen
 		final PsiElement[] children = getChildren();
 		for(PsiElement child : children)
 		{
-			if(child instanceof PhpClassReference)
+			if(child instanceof ClassReference)
 			{
 				//noinspection ConstantConditions
 				final PsiElement element = child.getReference().resolve();

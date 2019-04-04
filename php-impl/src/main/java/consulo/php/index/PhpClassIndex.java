@@ -2,7 +2,7 @@ package consulo.php.index;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;
 

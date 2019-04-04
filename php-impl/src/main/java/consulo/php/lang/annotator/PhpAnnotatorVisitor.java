@@ -2,10 +2,10 @@ package consulo.php.lang.annotator;
 
 import consulo.php.PhpBundle;
 import consulo.php.lang.highlighter.PhpHighlightingData;
-import consulo.php.lang.psi.PhpClassReference;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpVariableReference;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -27,7 +27,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitField(PhpField phpField)
+	public void visitField(Field phpField)
 	{
 		if(phpField.isConstant())
 		{
@@ -41,7 +41,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public void visitVariableReference(PhpVariableReference variable)
+	public void visitVariableReference(Variable variable)
 	{
 		if(variable.canReadName())
 		{
@@ -61,7 +61,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitClassReference(PhpClassReference classReference)
+	public void visitClassReference(ClassReference classReference)
 	{
 		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
 		{

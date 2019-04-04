@@ -3,7 +3,7 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
-import consulo.php.lang.psi.PhpUse;
+import com.jetbrains.php.lang.psi.elements.PhpUse;
 import consulo.php.lang.psi.PhpUseListStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 

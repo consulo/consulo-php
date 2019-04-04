@@ -1,29 +1,29 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpModifierList;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.PhpStubElements;
-import consulo.php.lang.psi.PhpVariableReference;
-import consulo.php.lang.psi.impl.stub.PhpFieldStub;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.PhpStubElements;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date May 5, 2008 9:12:10 AM
  */
-public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> implements PhpField
+public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> implements Field
 {
 	public PhpFieldImpl(ASTNode node)
 	{
@@ -32,7 +32,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 
 	public PhpFieldImpl(@Nonnull PhpFieldStub stub)
 	{
-		super(stub, PhpStubElements.FIELD);
+		super(stub, PhpStubElements.CLASS_FIELD);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getName().equals(name))
 		{
-			final PhpVariableReference variable = PhpPsiElementFactory.createVariable(getProject(), name);
+			final Variable variable = PhpPsiElementFactory.createVariable(getProject(), name);
 			nameIdentifier.replace(variable.getNameIdentifier());
 		}
 		return this;
@@ -80,9 +80,9 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	public PhpDocComment getDocComment()
 	{
 		final PsiElement parent = getParent();
-		if(parent instanceof PhpElement)
+		if(parent instanceof PhpPsiElement)
 		{
-			final PhpElement element = ((PhpElement) parent).getPrevPsiSibling();
+			final PhpPsiElement element = ((PhpPsiElement) parent).getPrevPsiSibling();
 			if(element instanceof PhpDocComment)
 			{
 				return (PhpDocComment) element;
@@ -91,30 +91,29 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		return null;
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
-	public PhpModifierList getModifierList()
+	public String getNamespaceName()
 	{
-		return findChildByClass(PhpModifierList.class);
-	}
-
-	@Override
-	public boolean hasModifier(@Nonnull IElementType type)
-	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(type);
-	}
-
-	@Override
-	public boolean hasModifier(@Nonnull TokenSet tokenSet)
-	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(tokenSet);
+		return null;
 	}
 
 	@Override
 	public boolean isConstant()
 	{
 		return findChildByType(PhpTokenTypes.kwCONST) != null;
+	}
+
+	@Nullable
+	@Override
+	public PhpClass getContainingClass()
+	{
+		return null;
+	}
+
+	@Override
+	public PhpModifier getModifier()
+	{
+		return PhpModifier.PUBLIC_FINAL_STATIC;
 	}
 }

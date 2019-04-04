@@ -13,7 +13,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  * @author jay
  * @date Apr 4, 2008 11:28:27 AM
  */
-public class PhpAssignmentExpressionImpl extends PhpTypeOwnerImpl implements PhpAssignmentExpression
+public class PhpAssignmentExpressionImpl extends PhpTypedElementImpl implements PhpAssignmentExpression
 {
 	public PhpAssignmentExpressionImpl(ASTNode node)
 	{

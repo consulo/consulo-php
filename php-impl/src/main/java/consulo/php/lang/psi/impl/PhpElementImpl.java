@@ -3,7 +3,7 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import consulo.php.lang.PhpLanguage;
-import consulo.php.lang.psi.PhpElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
@@ -20,7 +20,7 @@ import com.intellij.psi.scope.PsiScopeProcessor;
  *
  * @author jay
  */
-public abstract class PhpElementImpl extends ASTWrapperPsiElement implements PhpElement
+public abstract class PhpElementImpl extends ASTWrapperPsiElement implements PhpPsiElement
 {
 	public PhpElementImpl(ASTNode node)
 	{
@@ -56,48 +56,48 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 	}
 
 	@Override
-	public PhpElement getFirstPsiChild()
+	public PhpPsiElement getFirstPsiChild()
 	{
 		return getFirstPsiChild(this);
 	}
 
 	@Override
-	public PhpElement getNextPsiSibling()
+	public PhpPsiElement getNextPsiSibling()
 	{
 		return getNextPsiSibling(this);
 	}
 
 	@Override
-	public PhpElement getPrevPsiSibling()
+	public PhpPsiElement getPrevPsiSibling()
 	{
 		return getPrevPsiSibling(this);
 	}
 
-	public static PhpElement getFirstPsiChild(PsiElement element)
+	public static PhpPsiElement getFirstPsiChild(PsiElement element)
 	{
 		PsiElement[] children = element.getChildren();
 		if(children.length > 0)
 		{
-			if(children[0] instanceof PhpElement)
+			if(children[0] instanceof PhpPsiElement)
 			{
-				return (PhpElement) children[0];
+				return (PhpPsiElement) children[0];
 			}
 		}
 		return null;
 	}
 
-	public static PhpElement getNextPsiSibling(PsiElement element)
+	public static PhpPsiElement getNextPsiSibling(PsiElement element)
 	{
 		PsiElement[] children = element.getParent().getChildren();
-		PhpElement nextSibling = null;
+		PhpPsiElement nextSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == element && children.length > i + 1)
 			{
-				if(children[i + 1] instanceof PhpElement)
+				if(children[i + 1] instanceof PhpPsiElement)
 				{
-					nextSibling = (PhpElement) children[i + 1];
+					nextSibling = (PhpPsiElement) children[i + 1];
 				}
 				break;
 			}
@@ -105,18 +105,18 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 		return nextSibling;
 	}
 
-	public static PhpElement getPrevPsiSibling(PsiElement element)
+	public static PhpPsiElement getPrevPsiSibling(PsiElement element)
 	{
 		PsiElement[] children = element.getParent().getChildren();
-		PhpElement prevSibling = null;
+		PhpPsiElement prevSibling = null;
 		for(int i = 0; i < children.length; i++)
 		{
 			PsiElement child = children[i];
 			if(child == element && i > 0)
 			{
-				if(children[i - 1] instanceof PhpElement)
+				if(children[i - 1] instanceof PhpPsiElement)
 				{
-					prevSibling = (PhpElement) children[i - 1];
+					prevSibling = (PhpPsiElement) children[i - 1];
 				}
 				break;
 			}

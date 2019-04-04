@@ -1,29 +1,24 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.containers.MultiMap;
+import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClass;
-import consulo.php.lang.psi.PhpElement;
-import consulo.php.lang.psi.PhpExtendsList;
-import consulo.php.lang.psi.PhpField;
-import consulo.php.lang.psi.PhpFunction;
-import consulo.php.lang.psi.PhpImplementsList;
-import consulo.php.lang.psi.PhpModifierList;
-import consulo.php.lang.psi.PhpNamespaceStatement;
 import consulo.php.lang.psi.PhpStubElements;
-import consulo.php.lang.psi.impl.stub.PhpClassStub;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -44,71 +39,91 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Nonnull
 	@Override
-	public PhpField[] getFields()
+	public List<Field> getFields()
 	{
-		return findChildrenByClass(PhpField.class);
+		return Arrays.asList(getOwnFields());
 	}
 
 	@Override
+	public Field[] getOwnFields()
+	{
+		return getStubOrPsiChildren(PhpStubElements.CLASS_FIELD, Field.ARRAY_FACTORY);
+	}
+
+	@Nullable
+	@Override
+	public String getSuperName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public String getSuperFQN()
+	{
+		return null;
+	}
+
 	@Nonnull
-	public PhpFunction[] getFunctions()
-	{
-		return getStubOrPsiChildren(PhpStubElements.FUNCTION, PhpFunction.ARRAY_FACTORY);
-	}
-
 	@Override
-	public String getNamespace()
+	public String getNamespaceName()
 	{
 		PhpClassStub stub = getStub();
 		if(stub != null)
 		{
-			return stub.getNamespace();
+			return stub.getNamespaceName();
 		}
 
-		PhpElement prevPhpSibling = getPrevPsiSibling();
+		PhpPsiElement prevPhpSibling = getPrevPsiSibling();
 		while(prevPhpSibling != null)
 		{
-			if(prevPhpSibling instanceof PhpNamespaceStatement)
+			if(prevPhpSibling instanceof PhpNamespace)
 			{
-				return ((PhpNamespaceStatement) prevPhpSibling).getNamespace();
+				return ((PhpNamespace) prevPhpSibling).getNamespace();
 			}
 			prevPhpSibling = prevPhpSibling.getPrevPsiSibling();
 		}
-		return null;
+		return "";
 	}
 
 	@Override
 	public PhpClass getSuperClass()
 	{
-		PhpExtendsList list = PsiTreeUtil.getChildOfType(this, PhpExtendsList.class);
+		ExtendsList list = PsiTreeUtil.getChildOfType(this, ExtendsList.class);
 		assert list != null;
 		return list.getExtendsClass();
+	}
+
+	@Nonnull
+	@Override
+	public String[] getInterfaceNames()
+	{
+		return new String[0];
 	}
 
 	@Override
 	public PhpClass[] getImplementedInterfaces()
 	{
-		PhpImplementsList list = PsiTreeUtil.getChildOfType(this, PhpImplementsList.class);
+		ImplementsList list = PsiTreeUtil.getChildOfType(this, ImplementsList.class);
 		assert list != null;
 		List<PhpClass> interfaceList = list.getInterfaces();
 		return interfaceList.toArray(new PhpClass[interfaceList.size()]);
 	}
 
 	@Override
-	@SuppressWarnings({"ConstantConditions"})
-	public PhpFunction getConstructor()
+	public Method getConstructor()
 	{
-		PhpFunction newOne = null;
-		PhpFunction oldOne = null;
-		for(PhpFunction phpMethod : this.getFunctions())
+		Method newOne = null;
+		Method oldOne = null;
+		for(Method method : getOwnMethods())
 		{
-			if(phpMethod.getName().equals(CONSTRUCTOR))
+			if(method.getName().equals(CONSTRUCTOR))
 			{
-				newOne = phpMethod;
+				newOne = method;
 			}
-			if(phpMethod.getName().equals(this.getName()))
+			if(method.getName().equals(this.getName()))
 			{
-				oldOne = phpMethod;
+				oldOne = method;
 			}
 		}
 		if(newOne != null)
@@ -116,6 +131,12 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 			return newOne;
 		}
 		return oldOne;
+	}
+
+	@Override
+	public boolean isAnonymous()
+	{
+		return false;
 	}
 
 	@Override
@@ -131,9 +152,179 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
+	public boolean isAbstract()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFinal()
+	{
+		return false;
+	}
+
+	@Nonnull
+	@Override
+	public ExtendsList getExtendsList()
+	{
+		return findChildByClass(ExtendsList.class);
+	}
+
+	@Nonnull
+	@Override
+	public ImplementsList getImplementsList()
+	{
+		return findChildByClass(ImplementsList.class);
+	}
+
+	@Override
 	public boolean isTrait()
 	{
 		return findChildByType(PhpTokenTypes.TRAIT_KEYWORD) != null;
+	}
+
+	@Nonnull
+	@Override
+	public String[] getTraitNames()
+	{
+		return new String[0];
+	}
+
+	@Override
+	public PhpClass[] getTraits()
+	{
+		return new PhpClass[0];
+	}
+
+	@Override
+	public String[] getMixinNames()
+	{
+		return new String[0];
+	}
+
+	@Override
+	public PhpClass[] getMixins()
+	{
+		return new PhpClass[0];
+	}
+
+	@Override
+	public PhpClass[] getSupers()
+	{
+		return new PhpClass[0];
+	}
+
+	@Override
+	public MultiMap<CharSequence, Field> getOwnFieldMap()
+	{
+		return null;
+	}
+
+	@Override
+	public Collection<Method> getMethods()
+	{
+		return Arrays.asList(getOwnMethods());
+	}
+
+	@Override
+	public Method[] getOwnMethods()
+	{
+		return getStubOrPsiChildren(PhpStubElements.CLASS_METHOD, Method.ARRAY_FACTORY);
+	}
+
+	@Override
+	public MultiMap<CharSequence, Method> getOwnMethodsMap()
+	{
+		MultiMap<CharSequence, Method> map = new MultiMap<>();
+		for(Method childrenByClas : getOwnMethods())
+		{
+			map.putValue(childrenByClas.getName(), childrenByClas);
+		}
+		return map;
+	}
+
+	@Override
+	public boolean hasOwnStaticMembers()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasStaticMembers()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasTraitUses()
+	{
+		return false;
+	}
+
+	@Override
+	public List<PhpTraitUseRule> getTraitUseRules()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public String getPresentableFQN()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Method findMethodByName(@Nullable CharSequence name)
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Method findOwnMethodByName(@Nullable CharSequence name)
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Field findFieldByName(@Nullable CharSequence name, boolean findConstant)
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Field findOwnFieldByName(@Nullable CharSequence name, boolean findConstant)
+	{
+		return null;
+	}
+
+	@Override
+	public boolean hasMethodTags()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasPropertyTags()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasConstructorFields()
+	{
+		return false;
+	}
+
+	@Nullable
+	@Override
+	public Method getOwnConstructor()
+	{
+		return null;
 	}
 
 	@Override
@@ -145,7 +336,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement place)
 	{
-		for(PhpFunction phpMethod : getFunctions())
+		for(Function phpMethod : getOwnMethods())
 		{
 			if(!processor.execute(phpMethod, state))
 			{
@@ -153,7 +344,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 			}
 		}
 
-		for(PhpField phpField : getFields())
+		for(Field phpField : getFields())
 		{
 			if(!processor.execute(phpField, state))
 			{
@@ -164,36 +355,10 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		return super.processDeclarations(processor, state, lastParent, place);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
-	public PhpModifierList getModifierList()
+	public PhpModifier getModifier()
 	{
-		return findChildByClass(PhpModifierList.class);
-	}
-
-	@Override
-	public boolean hasModifier(@Nonnull IElementType type)
-	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(type);
-	}
-
-	@Override
-	public boolean hasModifier(@Nonnull TokenSet tokenSet)
-	{
-		PhpModifierList modifierList = getModifierList();
-		return modifierList != null && modifierList.hasModifier(tokenSet);
-	}
-
-	@Override
-	public PsiElement getLeftBrace()
-	{
-		return findChildByType(PhpTokenTypes.LBRACE);
-	}
-
-	@Override
-	public PsiElement getRightBrace()
-	{
-		return findChildByType(PhpTokenTypes.RBRACE);
+		return PhpModifier.PUBLIC_FINAL_STATIC;
 	}
 }

@@ -1,15 +1,16 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
@@ -187,5 +188,51 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Php
 	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		return null;
+	}
+
+	@Nullable
+	@Override
+	public ASTNode getNameNode()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public CharSequence getNameCS()
+	{
+		return null;
+	}
+
+	@Override
+	public void processDocs(Processor<PhpDocComment> processor)
+	{
+
+	}
+
+	@Nonnull
+	@Override
+	public String getFQN()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public String getNamespaceName()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean isDeprecated()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isInternal()
+	{
+		return false;
 	}
 }
