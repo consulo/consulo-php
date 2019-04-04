@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import com.intellij.openapi.util.text.StringUtil;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.index.PhpIndexKeys;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.php.lang.psi.impl.PhpClassImpl;
@@ -29,7 +31,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 
 	@Nonnull
 	@Override
-	public PhpClass createElement(ASTNode node)
+	public PhpClass createElement(@Nonnull ASTNode node)
 	{
 		return new PhpClassImpl(node);
 	}
@@ -40,10 +42,12 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 		return new PhpClassImpl(phpClassStub);
 	}
 
+	@RequiredReadAction
 	@Override
 	public PhpClassStubImpl createStub(@Nonnull PhpClass phpClass, StubElement stubElement)
 	{
-		return new PhpClassStubImpl(stubElement, phpClass.getNamespaceName(), phpClass.getName());
+		short flags = PhpClassStubImpl.packFlags(phpClass);
+		return new PhpClassStubImpl(stubElement, phpClass.getNamespaceName(), phpClass.getName(), flags);
 	}
 
 	@Override
@@ -51,15 +55,17 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 	{
 		stubOutputStream.writeName(phpClassStub.getNamespaceName());
 		stubOutputStream.writeName(phpClassStub.getName());
+		stubOutputStream.writeShort(phpClassStub.getFlags());
 	}
 
 	@Nonnull
 	@Override
-	public PhpClassStubImpl deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
+	public PhpClassStubImpl deserialize(@Nonnull StubInputStream in, StubElement stubElement) throws IOException
 	{
-		StringRef namespace = stubInputStream.readName();
-		StringRef name = stubInputStream.readName();
-		return new PhpClassStubImpl(stubElement, namespace, name);
+		StringRef namespace = in.readName();
+		StringRef name = in.readName();
+		short flags = in.readShort();
+		return new PhpClassStubImpl(stubElement, namespace, name, flags);
 	}
 
 	@Override
@@ -71,7 +77,7 @@ public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
 		{
 			indexSink.occurrence(PhpIndexKeys.CLASSES, name);
 
-			if(namespace.isEmpty())
+			if(StringUtil.isEmpty(namespace))
 			{
 				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, name);
 			}

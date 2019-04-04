@@ -344,7 +344,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method getOwnConstructor()
 	{
-		return null;
+		return getConstructor();
 	}
 
 	@Override

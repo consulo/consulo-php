@@ -1,5 +1,8 @@
 package consulo.php.lang.psi.impl.stub;
 
+import javax.annotation.Nonnull;
+
+import com.intellij.util.BitUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
@@ -14,20 +17,35 @@ import com.intellij.util.io.StringRef;
  */
 public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClassStub
 {
-	private final String myNamespaceName;
+	public static short packFlags(PhpClass phpClass)
+	{
+		int flags = 0;
+		flags = BitUtil.set(flags, INTERFACE, phpClass.isInterface());
+		flags = BitUtil.set(flags, TRAIT, phpClass.isTrait());
+		flags = BitUtil.set(flags, ABSTRACT, phpClass.isAbstract());
+		flags = BitUtil.set(flags, FINAL, phpClass.isFinal());
+		return (short) flags;
+	}
 
-	public PhpClassStubImpl(StubElement parent, String namespace, String name)
+	public static final int INTERFACE = 1 << 0;
+	public static final int TRAIT = 1 << 1;
+	public static final int ABSTRACT = 1 << 2;
+	public static final int FINAL = 1 << 3;
+
+	private final String myNamespaceName;
+	private final short myFlags;
+
+	public PhpClassStubImpl(StubElement parent, StringRef namespace, StringRef name, short flags)
+	{
+		this(parent, StringRef.toString(namespace), StringRef.toString(name), flags);
+	}
+
+	public PhpClassStubImpl(StubElement parent, String namespace, String name, short flags)
 	{
 		super(parent, PhpStubElements.CLASS, name);
 
 		myNamespaceName = namespace;
-	}
-
-	public PhpClassStubImpl(StubElement parent, StringRef namespace, StringRef name)
-	{
-		super(parent, PhpStubElements.CLASS, name);
-
-		myNamespaceName = StringRef.toString(namespace);
+		myFlags = flags;
 	}
 
 	@Override
@@ -57,25 +75,25 @@ public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClas
 	@Override
 	public boolean isInterface()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, INTERFACE);
 	}
 
 	@Override
 	public boolean isTrait()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, TRAIT);
 	}
 
 	@Override
 	public boolean isAbstract()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, ABSTRACT);
 	}
 
 	@Override
 	public boolean isFinal()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, FINAL);
 	}
 
 	@Override
@@ -111,7 +129,7 @@ public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClas
 	@Override
 	public short getFlags()
 	{
-		return 0;
+		return myFlags;
 	}
 
 	@Override
@@ -138,6 +156,7 @@ public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClas
 		return false;
 	}
 
+	@Nonnull
 	@Override
 	public PhpType getType()
 	{
