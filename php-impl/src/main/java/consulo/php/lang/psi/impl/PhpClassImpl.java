@@ -379,6 +379,10 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public PhpModifier getModifier()
 	{
-		return PhpModifier.PUBLIC_FINAL_STATIC;
+		if(isFinal())
+		{
+			return PhpModifier.PUBLIC_FINAL_STATIC;
+		}
+		return PhpModifier.PUBLIC_IMPLEMENTED_STATIC;
 	}
 }

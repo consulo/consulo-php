@@ -79,7 +79,8 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 		{
 			iconDescriptor.addLayerIcon(AllIcons.Nodes.FinalMark);
 		}
-		if(modifier.isStatic())
+
+		if(modifier.isStatic() && !(phpModifierListOwner instanceof PhpClass))
 		{
 			iconDescriptor.addLayerIcon(AllIcons.Nodes.StaticMark);
 		}
