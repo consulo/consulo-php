@@ -1,15 +1,16 @@
 package consulo.php.lang.parser;
 
+import javax.annotation.Nonnull;
+
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
 import consulo.php.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
 import consulo.php.lang.psi.impl.*;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import javax.annotation.Nonnull;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,12 +36,10 @@ public class PhpPsiCreator implements PhpElementTypes
 			return new PhpDocCommentImpl();
 		}
 
-
 		if(type == STATEMENT)
 		{
 			return new PhpStatementImpl(node);
 		}
-
 
 		if(type == PARAMETER_LIST)
 		{

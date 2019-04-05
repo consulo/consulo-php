@@ -1,7 +1,6 @@
 package consulo.php.lang.parser;
 
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpElementType;
@@ -22,7 +21,7 @@ public interface PhpElementTypes
 
 	IElementType HTML = new PhpElementType("HTML");
 
-	IElementType GROUP_STATEMENT = new ILazyParseableElementType("GROUP_STATEMENT", PhpLanguage.INSTANCE);
+	IElementType GROUP_STATEMENT = new ElementTypeAsPsiFactory("GROUP_STATEMENT", PhpLanguage.INSTANCE, PhpGroupStatementImpl.class);
 	IElementType STATEMENT = new ElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
 	IElementType PARAMETER_LIST = new ElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = new ElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);

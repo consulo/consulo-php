@@ -45,7 +45,7 @@ public class PhpUndefinedVariable extends PhpInspection
 					ResolveResult[] results = ((PsiPolyVariantReference) variable.getReference()).multiResolve(false);
 					if(results.length == 0)
 					{
-						holder.registerProblem(variable, PhpBundle.message("php.inspections.undefined_variable"));
+						holder.registerProblem(variable, PhpBundle.message("php.inspections.undefined_variable.name", variable.getName()));
 					}
 				}
 			}

@@ -1,13 +1,12 @@
 package consulo.php.lang.psi.resolve;
 
-import com.jetbrains.php.lang.psi.elements.Function;
 import javax.annotation.Nullable;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.jetbrains.php.lang.psi.elements.Function;
 
 /**
  * @author jay
@@ -64,10 +63,4 @@ public class ResolveUtil
 			run = run.getContext();
 		}
 	}
-
-	public static ResolveResult[] multiResolve(PsiReference element)
-	{
-		return new ResolveResult[0];
-	}
-
 }

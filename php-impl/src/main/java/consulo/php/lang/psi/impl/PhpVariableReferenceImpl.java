@@ -23,6 +23,8 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpAssignmentExpression;
@@ -54,6 +56,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return null;
 	}
 
+	@Nonnull
 	@Override
 	public String getName()
 	{
@@ -103,12 +106,14 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return false;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getNameIdentifier()
 	{
 		return findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
@@ -184,18 +189,22 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
 	{
 		return new TextRange(1, getTextLength());
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -208,6 +217,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
@@ -216,7 +226,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		ResolveUtil.treeWalkUp(this, processor);
 		Collection<PsiElement> declarations = processor.getResult();
 
-		List<ResolveResult> result = new ArrayList<ResolveResult>(declarations.size());
+		List<ResolveResult> result = new ArrayList<>(declarations.size());
 		for(final PsiElement element : declarations)
 		{
 			if(declarations.size() > 1 && element == this)
@@ -229,24 +239,29 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return result.toArray(new ResolveResult[result.size()]);
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
 	{
 		return getName();
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String s) throws IncorrectOperationException
 	{
 		return setName(s);
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement psiElement) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement psiElement)
 	{
@@ -257,6 +272,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return false;
 	}
 
+	@RequiredReadAction
 	@Nonnull
 	@Override
 	public Object[] getVariants()
@@ -267,6 +283,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{

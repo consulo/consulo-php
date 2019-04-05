@@ -37,8 +37,6 @@
 		<internalFileTemplate name="PHP Interface"/>
 		<internalFileTemplate name="Php Trait"/>
 
-		<lang.ast.lazyFactory implementation="consulo.php.lang.PhpAstLazyFactory"/>
-
 		<highlightVisitor implementation="consulo.php.codeInsight.highlight.PhpHighlightVisitor"/>
 		<iconDescriptorUpdater implementation="consulo.php.PhpIconDescriptorUpdater" order="before default"/>
 		<treeStructureProvider implementation="consulo.php.ide.projectView.PhpTreeStructureProvider"/>

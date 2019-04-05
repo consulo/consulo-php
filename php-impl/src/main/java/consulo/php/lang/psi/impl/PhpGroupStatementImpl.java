@@ -2,38 +2,29 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.parser.PhpElementTypes;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.GroupStatement;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.ResolveState;
-import com.intellij.psi.impl.source.tree.LazyParseablePsiElement;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date May 9, 2008 5:12:53 PM
  */
-public class PhpGroupStatementImpl extends LazyParseablePsiElement implements GroupStatement
+public class PhpGroupStatementImpl extends PhpElementImpl implements GroupStatement
 {
-	public PhpGroupStatementImpl(CharSequence buffer)
+	public PhpGroupStatementImpl(ASTNode node)
 	{
-		super(PhpElementTypes.GROUP_STATEMENT, buffer);
+		super(node);
 	}
 
 	@Override
-	public final void accept(@Nonnull final PsiElementVisitor visitor)
+	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
-		if(visitor instanceof PhpElementVisitor)
-		{
-			((PhpElementVisitor) visitor).visitPhpElement(this);
-		}
-		else
-		{
-			super.accept(visitor);
-		}
+		visitor.visitPhpElement(this);
 	}
 
 	@Override
@@ -62,23 +53,5 @@ public class PhpGroupStatementImpl extends LazyParseablePsiElement implements Gr
 			}
 		}
 		return super.processDeclarations(processor, state, lastParent, source);
-	}
-
-	@Override
-	public PhpPsiElement getFirstPsiChild()
-	{
-		return PhpElementImpl.getFirstPsiChild(this);
-	}
-
-	@Override
-	public PhpPsiElement getNextPsiSibling()
-	{
-		return PhpElementImpl.getNextPsiSibling(this);
-	}
-
-	@Override
-	public PhpPsiElement getPrevPsiSibling()
-	{
-		return PhpElementImpl.getPrevPsiSibling(this);
 	}
 }
