@@ -27,7 +27,7 @@ public class ClassMethod implements PhpTokenTypes
 		if(builder.getTokenType() == opSEMICOLON)
 		{
 			builder.advanceLexer();
-			return PhpStubElements.FUNCTION;
+			return PhpStubElements.CLASS_METHOD;
 		}
 		builder.match(LBRACE);
 		StatementList.parse(builder, RBRACE);
