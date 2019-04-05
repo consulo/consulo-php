@@ -4,7 +4,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.jetbrains.php.lang.psi.elements.*;
 import consulo.php.lang.psi.*;
-import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import consulo.php.lang.psi.impl.PhpTryStatementImpl;
@@ -197,5 +196,10 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 	public void visitArrayExpression(PhpArrayExpression phpArrayExpression)
 	{
 		visitPhpElement(phpArrayExpression);
+	}
+
+	public void visitReturnType(PhpReturnType type)
+	{
+		visitElement(type);
 	}
 }

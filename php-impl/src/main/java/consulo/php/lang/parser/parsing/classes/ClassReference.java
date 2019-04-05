@@ -1,12 +1,15 @@
 package consulo.php.lang.parser.parsing.classes;
 
+import javax.annotation.Nullable;
+
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.util.BitUtil;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.calls.Variable;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * @author jay
@@ -14,23 +17,48 @@ import com.intellij.psi.tree.IElementType;
  */
 public class ClassReference implements PhpTokenTypes
 {
+	public static final int ALLOW_STATIC = 1 << 0;
+	public static final int ALLOW_DYNAMIC = 1 << 1;
+	public static final int ALLOW_AS = 1 << 2;
+	public static final int ALLOW_ARRAY = 1 << 3;
+
 	@Deprecated
+	@Nullable
 	public static PsiBuilder.Marker parse(PhpPsiBuilder builder)
 	{
-		return parseClassNameReference(builder, null, false, false, false);
+		return parseClassNameReference(builder, null, 0);
 	}
 
+	@Nullable
+	@Deprecated
 	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, boolean allowStatic, boolean dynamic, boolean allowAs)
 	{
+		int flags = 0;
+		flags = BitUtil.set(flags, ALLOW_STATIC, allowStatic);
+		flags = BitUtil.set(flags, ALLOW_DYNAMIC, dynamic);
+		flags = BitUtil.set(flags, ALLOW_AS, allowAs);
+		return parseClassNameReference(builder, m, flags);
+	}
+
+	@Nullable
+	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, int flags)
+	{
 		PsiBuilder.Marker marker = m != null ? m.precede() : builder.mark();
-		if(allowStatic && builder.getTokenType() == STATIC_KEYWORD)
+		if(BitUtil.isSet(flags, ALLOW_STATIC) && builder.getTokenType() == STATIC_KEYWORD)
 		{
 			builder.advanceLexer();
 			marker.done(PhpElementTypes.CLASS_REFERENCE);
 			return marker;
 		}
 
-		if(dynamic)
+		if(BitUtil.isSet(flags, ALLOW_ARRAY) && builder.getTokenType() == kwARRAY)
+		{
+			builder.advanceLexer();
+			marker.done(PhpElementTypes.CLASS_REFERENCE);
+			return marker;
+		}
+
+		if(BitUtil.isSet(flags, ALLOW_DYNAMIC))
 		{
 			IElementType result = parseDynamicClassNameReference(builder);
 			if(result != PhpElementTypes.EMPTY_INPUT)
@@ -48,7 +76,7 @@ public class ClassReference implements PhpTokenTypes
 
 			if(builder.getTokenType() == SLASH)
 			{
-				marker = parseClassNameReference(builder, marker, allowStatic, dynamic, false);
+				marker = parseClassNameReference(builder, marker, flags);
 			}
 
 			if(marker == null)
@@ -56,7 +84,7 @@ public class ClassReference implements PhpTokenTypes
 				return null;
 			}
 
-			if(allowAs && builder.getTokenType() == kwAS)
+			if(BitUtil.isSet(flags, ALLOW_AS) && builder.getTokenType() == kwAS)
 			{
 				marker = marker.precede();
 

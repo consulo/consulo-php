@@ -1,6 +1,7 @@
 package consulo.php.lang.parser.parsing.classes;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.parsing.ReturnType;
 import consulo.php.lang.parser.parsing.StatementList;
 import consulo.php.lang.parser.parsing.functions.IsReference;
 import consulo.php.lang.parser.parsing.functions.ParameterList;
@@ -23,6 +24,16 @@ public class ClassMethod implements PhpTokenTypes
 		builder.match(IDENTIFIER);
 
 		ParameterList.parse(builder);
+
+		if(builder.getTokenType() == opCOLON)
+		{
+			builder.advanceLexer();
+
+			if(!ReturnType.parse(builder))
+			{
+				builder.error("Expected return type");
+			}
+		}
 
 		if(builder.getTokenType() == opSEMICOLON)
 		{
