@@ -69,6 +69,11 @@ public class ParameterList implements PhpTokenTypes
 		{
 			PsiBuilder.Marker parameter = builder.mark();
 
+			if(builder.getTokenType() == opQUEST)
+			{
+				builder.advanceLexer();
+			}
+
 			if(!builder.compareAndEat(kwARRAY))
 			{
 				ClassReference.parse(builder);
