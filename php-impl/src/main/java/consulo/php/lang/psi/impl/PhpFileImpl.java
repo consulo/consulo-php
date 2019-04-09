@@ -19,10 +19,13 @@ import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
+import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
 import consulo.php.lang.PhpFileType;
 import consulo.php.lang.PhpLanguage;
+import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -131,7 +134,33 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	@Override
 	public String getMainNamespaceName()
 	{
-		return null;
+		StubElement<?> stub = getStub();
+		if(stub != null)
+		{
+			PhpNamespaceStub stubElement = (PhpNamespaceStub)stub.findChildStubByType(PhpStubElements.NAMESPACE);
+			if(stubElement != null)
+			{
+				return stubElement.getName();
+			}
+			return "";
+		}
+
+		GroupStatement statement = findChildByClass(GroupStatement.class);
+		if(statement == null)
+		{
+			return "";
+		}
+
+		PsiElement[] statements = statement.getStatements();
+		MultiMap<String, PhpNamedElement> map = new MultiMap<>();
+		for(PsiElement psiElement : statements)
+		{
+			if(psiElement instanceof PhpNamespace)
+			{
+				return ((PhpNamespace) psiElement).getName();
+			}
+		}
+		return "";
 	}
 
 	@Nonnull

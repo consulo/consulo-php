@@ -79,7 +79,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		{
 			if(prevPhpSibling instanceof PhpNamespace)
 			{
-				return ((PhpNamespace) prevPhpSibling).getNamespace();
+				return ((PhpNamespace) prevPhpSibling).getName();
 			}
 			prevPhpSibling = prevPhpSibling.getPrevPsiSibling();
 		}
