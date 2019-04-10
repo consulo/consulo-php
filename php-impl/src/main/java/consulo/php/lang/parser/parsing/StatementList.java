@@ -124,9 +124,37 @@ public class StatementList implements PhpTokenTypes
 
 		builder.match(NAMESPACE_KEYWORD);
 
-		if(ClassReference.parseClassNameReference(builder, null, false, false, false) == null)
+		PsiBuilder.Marker identifierNameMarker = builder.mark();
+		if(builder.getTokenType() == IDENTIFIER)
 		{
-			builder.error("Namespace expected");
+			boolean failed = false;
+
+			builder.advanceLexer();
+
+			while(builder.getTokenType() == SLASH)
+			{
+				builder.advanceLexer();
+
+				if(builder.getTokenType() == IDENTIFIER)
+				{
+					builder.advanceLexer();
+				}
+				else
+				{
+					identifierNameMarker.error("Namespace name expected");
+					failed = true;
+					break;
+				}
+			}
+
+			if(!failed)
+			{
+				identifierNameMarker.collapse(IDENTIFIER);
+			}
+		}
+		else
+		{
+			identifierNameMarker.error("Namespace name expected");
 		}
 
 		builder.match(opSEMICOLON);
