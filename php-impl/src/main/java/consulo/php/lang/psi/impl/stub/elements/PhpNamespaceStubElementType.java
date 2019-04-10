@@ -20,9 +20,9 @@ import consulo.php.lang.psi.impl.stub.PhpNamespaceStubImpl;
  * @author VISTALL
  * @since 2019-04-09
  */
-public class PhpNamespaceStubElement extends PhpStubElement<PhpNamespaceStub, PhpNamespace>
+public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespaceStub, PhpNamespace>
 {
-	public PhpNamespaceStubElement()
+	public PhpNamespaceStubElementType()
 	{
 		super("PHP_NAMESPACE");
 	}

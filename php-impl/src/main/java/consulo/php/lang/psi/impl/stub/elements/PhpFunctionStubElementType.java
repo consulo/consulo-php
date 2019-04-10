@@ -20,9 +20,9 @@ import consulo.php.lang.psi.impl.stub.PhpFunctionStubImpl;
  * @author VISTALL
  * @since 22.09.13.
  */
-public class PhpFunctionStubElement extends PhpStubElement<PhpFunctionStub, Function>
+public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionStub, Function>
 {
-	public PhpFunctionStubElement()
+	public PhpFunctionStubElementType()
 	{
 		super("PHP_FUNCTION");
 	}

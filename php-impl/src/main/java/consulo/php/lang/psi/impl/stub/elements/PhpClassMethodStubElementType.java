@@ -19,9 +19,9 @@ import consulo.php.lang.psi.impl.stub.PhpClassMethodStubImpl;
  * @author VISTALL
  * @since 30.03.2019
  */
-public class PhpClassMethodStubElement extends PhpStubElement<PhpClassMethodStubImpl, Method>
+public class PhpClassMethodStubElementType extends PhpStubElementType<PhpClassMethodStubImpl, Method>
 {
-	public PhpClassMethodStubElement()
+	public PhpClassMethodStubElementType()
 	{
 		super("PHP_CLASS_METHOD");
 	}

@@ -22,9 +22,9 @@ import com.intellij.util.io.StringRef;
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpClassStubElement extends PhpStubElement<PhpClassStub, PhpClass>
+public class PhpClassStubElementType extends PhpStubElementType<PhpClassStub, PhpClass>
 {
-	public PhpClassStubElement()
+	public PhpClassStubElementType()
 	{
 		super("PHP_CLASS");
 	}

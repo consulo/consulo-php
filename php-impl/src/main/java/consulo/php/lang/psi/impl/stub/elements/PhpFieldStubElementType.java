@@ -20,9 +20,9 @@ import com.intellij.util.io.StringRef;
  * @author VISTALL
  * @since 29.10.13.
  */
-public class PhpFieldStubElement extends PhpStubElement<PhpFieldStub, Field>
+public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Field>
 {
-	public PhpFieldStubElement()
+	public PhpFieldStubElementType()
 	{
 		super("PHP_FIELD");
 	}

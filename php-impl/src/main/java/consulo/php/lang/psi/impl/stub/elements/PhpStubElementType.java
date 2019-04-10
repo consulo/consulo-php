@@ -14,9 +14,9 @@ import consulo.psi.tree.IElementTypeAsPsiFactory;
  * @author VISTALL
  * @since 16.07.13.
  */
-public abstract class PhpStubElement<StubT extends StubElement, PsiT extends PsiElement> extends IStubElementType<StubT, PsiT> implements IElementTypeAsPsiFactory
+public abstract class PhpStubElementType<StubT extends StubElement, PsiT extends PsiElement> extends IStubElementType<StubT, PsiT> implements IElementTypeAsPsiFactory
 {
-	public PhpStubElement(@Nonnull @NonNls String debugName)
+	public PhpStubElementType(@Nonnull @NonNls String debugName)
 	{
 		super(debugName, PhpLanguage.INSTANCE);
 	}

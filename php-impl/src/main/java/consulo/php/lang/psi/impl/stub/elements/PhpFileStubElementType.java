@@ -19,9 +19,9 @@ import com.intellij.psi.tree.IStubFileElementType;
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpFileStubElement extends IStubFileElementType<PhpFileStubImpl>
+public class PhpFileStubElementType extends IStubFileElementType<PhpFileStubImpl>
 {
-	public PhpFileStubElement()
+	public PhpFileStubElementType()
 	{
 		super("PHP_FILE", PhpLanguage.INSTANCE);
 	}
@@ -55,7 +55,7 @@ public class PhpFileStubElement extends IStubFileElementType<PhpFileStubImpl>
 	@Override
 	public int getStubVersion()
 	{
-		return 16;
+		return 17;
 	}
 
 	@Nonnull

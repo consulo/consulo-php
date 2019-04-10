@@ -1,11 +1,11 @@
 package consulo.php.lang.psi;
 
-import consulo.php.lang.psi.impl.stub.elements.PhpClassMethodStubElement;
-import consulo.php.lang.psi.impl.stub.elements.PhpClassStubElement;
-import consulo.php.lang.psi.impl.stub.elements.PhpFieldStubElement;
+import consulo.php.lang.psi.impl.stub.elements.PhpClassMethodStubElementType;
+import consulo.php.lang.psi.impl.stub.elements.PhpClassStubElementType;
+import consulo.php.lang.psi.impl.stub.elements.PhpFieldStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFileStubElementType;
-import consulo.php.lang.psi.impl.stub.elements.PhpFunctionStubElement;
-import consulo.php.lang.psi.impl.stub.elements.PhpNamespaceStubElement;
+import consulo.php.lang.psi.impl.stub.elements.PhpFunctionStubElementType;
+import consulo.php.lang.psi.impl.stub.elements.PhpNamespaceStubElementType;
 
 /**
  * @author VISTALL
@@ -15,10 +15,10 @@ public interface PhpStubElements
 {
 	PhpFileStubElementType FILE = new PhpFileStubElementType();
 
-	PhpClassStubElement CLASS = new PhpClassStubElement();
-	PhpFieldStubElement CLASS_FIELD = new PhpFieldStubElement();
-	PhpClassMethodStubElement CLASS_METHOD = new PhpClassMethodStubElement();
+	PhpClassStubElementType CLASS = new PhpClassStubElementType();
+	PhpFieldStubElementType CLASS_FIELD = new PhpFieldStubElementType();
+	PhpClassMethodStubElementType CLASS_METHOD = new PhpClassMethodStubElementType();
 
-	PhpFunctionStubElement FUNCTION = new PhpFunctionStubElement();
-	PhpNamespaceStubElement NAMESPACE = new PhpNamespaceStubElement();
+	PhpFunctionStubElementType FUNCTION = new PhpFunctionStubElementType();
+	PhpNamespaceStubElementType NAMESPACE = new PhpNamespaceStubElementType();
 }
