@@ -62,7 +62,7 @@ public interface PhpElementTypes
 	TokenSet BINARY_EXPRESSIONS = TokenSet.create(ADDITIVE_EXPRESSION, MULTIPLICATIVE_EXPRESSION, SHIFT_EXPRESSION, RELATIONAL_EXPRESSION, EQUALITY_EXPRESSION, BIT_EXPRESSION, LOGICAL_EXPRESSION, LITERAL_LOGICAL_EXPRESSION, INSTANCEOF_EXPRESSION);
 
 	IElementType IF = new PhpElementType("If");
-	IElementType STRING = new PhpElementType("String");
+	IElementType STRING = new ElementTypeAsPsiFactory("STRING_EXPRESSION", PhpLanguage.INSTANCE, PhpStringLiteralExpressionImpl.class);
 	IElementType CONSTANT = new PhpElementType("Constant");
 	IElementType CLASS_REFERENCE = new ElementTypeAsPsiFactory("CLASS_REFERENCE", PhpLanguage.INSTANCE, PhpClassReferenceImpl.class);
 	IElementType VARIABLE_REFERENCE = new ElementTypeAsPsiFactory("VARIABLE_REFERENCE", PhpLanguage.INSTANCE, PhpVariableReferenceImpl.class);

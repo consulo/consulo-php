@@ -202,4 +202,9 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 	{
 		visitElement(type);
 	}
+
+	public void visitPhpStringLiteralExpression(StringLiteralExpression expression)
+	{
+		visitPhpElement(expression);
+	}
 }
