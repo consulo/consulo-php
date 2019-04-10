@@ -5,11 +5,12 @@ import java.util.List;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiRecursiveVisitor;
 
 /**
  * @author spLeaner
  */
-public abstract class PhpRecursiveElementVisitor extends PhpElementVisitor
+public abstract class PhpRecursiveElementVisitor extends PhpElementVisitor implements PsiRecursiveVisitor
 {
 	private final boolean myVisitAllFileRoots;
 
