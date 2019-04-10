@@ -15,6 +15,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpStubElements;
@@ -50,6 +51,14 @@ public class PhpFoldingBuilder implements FoldingBuilder
 				super.visitFunction(phpFunction);
 
 				addFolding(phpFunction);
+			}
+
+			@Override
+			public void visitNamespaceStatement(PhpNamespace namespace)
+			{
+				super.visitNamespaceStatement(namespace);
+
+				addFolding(namespace);
 			}
 
 			private void addFolding(PsiElement owner)

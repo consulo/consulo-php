@@ -1,14 +1,16 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
 import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -48,16 +50,30 @@ public class PhpNamespaceStatementImpl extends PhpStubbedNamedElementImpl<PhpNam
 		return nameIdentifier == null ? "" : nameIdentifier.getText();
 	}
 
-	@Override
-	public ClassReference getPackageReference()
-	{
-		return findNotNullChildByClass(ClassReference.class);
-	}
-
 	@Nonnull
 	@Override
 	public String getNamespaceName()
 	{
 		return getName();
+	}
+
+	@Nullable
+	@Override
+	public GroupStatement getStatements()
+	{
+		return findChildByClass(GroupStatement.class);
+	}
+
+	@Nonnull
+	@Override
+	public String getParentNamespaceName()
+	{
+		return "";
+	}
+
+	@Override
+	public boolean isBraced()
+	{
+		return findChildByType(PhpTokenTypes.LBRACE) != null;
 	}
 }

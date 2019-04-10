@@ -87,35 +87,38 @@ public class StatementList implements PhpTokenTypes
 		if(builder.getTokenType() == NAMESPACE_KEYWORD)
 		{
 			parseNamespaceStatement(builder);
+			return true;
 		}
-
-		while(builder.getTokenType() == USE_KEYWORD)
+		else
 		{
-			parseUseStatement(builder);
-		}
+			while(builder.getTokenType() == USE_KEYWORD)
+			{
+				parseUseStatement(builder);
+			}
 
-		IElementType parsed = Function.parse(builder);
+			IElementType parsed = Function.parse(builder);
 
-		if(parsed == PhpElementTypes.EMPTY_INPUT)
-		{
-			parsed = ClassConstant.parse(builder);
-		}
+			if(parsed == PhpElementTypes.EMPTY_INPUT)
+			{
+				parsed = ClassConstant.parse(builder);
+			}
 
-		if(parsed == PhpElementTypes.EMPTY_INPUT)
-		{
-			parsed = ClassDeclaration.parse(builder);
-		}
+			if(parsed == PhpElementTypes.EMPTY_INPUT)
+			{
+				parsed = ClassDeclaration.parse(builder);
+			}
 
-		if(parsed == PhpElementTypes.EMPTY_INPUT)
-		{
-			parsed = Statement.parse(builder);
-		}
+			if(parsed == PhpElementTypes.EMPTY_INPUT)
+			{
+				parsed = Statement.parse(builder);
+			}
 
-		if(builder.compare(PhpTokenTypes.PHP_CLOSING_TAG))
-		{
-			builder.advanceLexer();
+			if(builder.compare(PhpTokenTypes.PHP_CLOSING_TAG))
+			{
+				builder.advanceLexer();
+			}
+			return parsed != PhpElementTypes.EMPTY_INPUT;
 		}
-		return parsed != PhpElementTypes.EMPTY_INPUT;
 	}
 
 	private static void parseNamespaceStatement(PhpPsiBuilder builder)
@@ -157,7 +160,22 @@ public class StatementList implements PhpTokenTypes
 			identifierNameMarker.error("Namespace name expected");
 		}
 
-		builder.match(opSEMICOLON);
+		IElementType tokenType = builder.getTokenType();
+		if(tokenType == LBRACE)
+		{
+			builder.advanceLexer();
+
+			StatementList.parse(builder, PhpTokenTypes.RBRACE);
+
+			builder.match(RBRACE);
+		}
+		else
+		{
+			builder.match(opSEMICOLON);
+
+			StatementList.parse(builder, PhpTokenTypes.PHP_CLOSING_TAG, PhpTokenTypes.NAMESPACE_KEYWORD);
+		}
+
 		marker.done(PhpElementTypes.NAMESPACE);
 	}
 

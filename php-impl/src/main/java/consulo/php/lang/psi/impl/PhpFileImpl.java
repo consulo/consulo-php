@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.navigation.ItemPresentation;
@@ -101,15 +102,8 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		StubElement<?> stub = getStub();
 		if(stub != null)
 		{
-			List<StubElement> childrenStubs = stub.getChildrenStubs();
 			MultiMap<String, PhpNamedElement> map = new MultiMap<>();
-			for(StubElement childrenStub : childrenStubs)
-			{
-				if(childrenStub instanceof PhpClassStub)
-				{
-					map.putValue(((PhpClassStub) childrenStub).getName(), ((PhpClassStub) childrenStub).getPsi());
-				}
-			}
+			collectFromStubs(stub.getChildrenStubs(), map);
 			return map;
 		}
 
@@ -119,16 +113,45 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 			return MultiMap.empty();
 		}
 
-		PsiElement[] statements = statement.getStatements();
 		MultiMap<String, PhpNamedElement> map = new MultiMap<>();
+		collectFromPsi(statement, map);
+		return map;
+	}
+
+	private void collectFromPsi(@Nullable GroupStatement groupStatement, MultiMap<String, PhpNamedElement> map)
+	{
+		if(groupStatement == null)
+		{
+			return;
+		}
+
+		PsiElement[] statements = groupStatement.getStatements();
 		for(PsiElement psiElement : statements)
 		{
 			if(psiElement instanceof PhpClass)
 			{
 				map.putValue(((PhpClass) psiElement).getName(), (PhpNamedElement) psiElement);
 			}
+			else if(psiElement instanceof PhpNamespace)
+			{
+				collectFromPsi(((PhpNamespace) psiElement).getStatements(), map);
+			}
 		}
-		return map;
+	}
+
+	private void collectFromStubs(List<StubElement> childrenStubs, MultiMap<String, PhpNamedElement> map)
+	{
+		for(StubElement<?> childrenStub : childrenStubs)
+		{
+			if(childrenStub instanceof PhpClassStub)
+			{
+				map.putValue(((PhpClassStub) childrenStub).getName(), ((PhpClassStub) childrenStub).getPsi());
+			}
+			else if(childrenStub instanceof PhpNamespaceStub)
+			{
+				collectFromStubs(childrenStub.getChildrenStubs(), map);
+			}
+		}
 	}
 
 	@Override
@@ -137,7 +160,7 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		StubElement<?> stub = getStub();
 		if(stub != null)
 		{
-			PhpNamespaceStub stubElement = (PhpNamespaceStub)stub.findChildStubByType(PhpStubElements.NAMESPACE);
+			PhpNamespaceStub stubElement = (PhpNamespaceStub) stub.findChildStubByType(PhpStubElements.NAMESPACE);
 			if(stubElement != null)
 			{
 				return stubElement.getName();
@@ -152,7 +175,6 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 		}
 
 		PsiElement[] statements = statement.getStatements();
-		MultiMap<String, PhpNamedElement> map = new MultiMap<>();
 		for(PsiElement psiElement : statements)
 		{
 			if(psiElement instanceof PhpNamespace)
