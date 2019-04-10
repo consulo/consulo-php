@@ -158,7 +158,7 @@ public class StatementList implements PhpTokenTypes
 		}
 
 		builder.match(opSEMICOLON);
-		marker.done(PhpElementTypes.NAMESPACE_STATEMENT);
+		marker.done(PhpElementTypes.NAMESPACE);
 	}
 
 	private static void parseUseStatement(PhpPsiBuilder builder)

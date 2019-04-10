@@ -26,7 +26,7 @@ public interface PhpElementTypes
 	IElementType PARAMETER_LIST = new ElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = new ElementTypeAsPsiFactory("PARAMETER", PhpLanguage.INSTANCE, PhpParameterImpl.class);
 	IElementType MODIFIER_LIST = new ElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
-	IElementType NAMESPACE_STATEMENT = PhpStubElements.NAMESPACE;
+	IElementType NAMESPACE = PhpStubElements.NAMESPACE;
 	IElementType USE_LIST = new ElementTypeAsPsiFactory("USE_LIST_STATEMENT", PhpLanguage.INSTANCE, PhpUseListStatementImpl.class);
 	IElementType USE = new ElementTypeAsPsiFactory("USE", PhpLanguage.INSTANCE, PhpUseImpl.class);
 	IElementType RETURN_TYPE = new ElementTypeAsPsiFactory("RETURN_TYPE", PhpLanguage.INSTANCE, PhpReturnTypeImpl.class);
