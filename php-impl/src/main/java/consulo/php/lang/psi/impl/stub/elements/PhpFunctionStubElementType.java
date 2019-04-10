@@ -44,7 +44,7 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 	@Override
 	public PhpFunctionStubImpl createStub(@Nonnull Function psi, StubElement parentStub)
 	{
-		return new PhpFunctionStubImpl(parentStub, psi.getName());
+		return new PhpFunctionStubImpl(parentStub, psi.getName(), (short) 0);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 	{
 		StringRef name = dataStream.readName();
 
-		return new PhpFunctionStubImpl(parentStub, name);
+		return new PhpFunctionStubImpl(parentStub, name, (short) 0);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespace
 	@Override
 	public PhpNamespaceStub createStub(@Nonnull PhpNamespace phpNamespace, StubElement stubElement)
 	{
-		return new PhpNamespaceStubImpl(stubElement, this, phpNamespace.getName());
+		return new PhpNamespaceStubImpl(stubElement, this, phpNamespace.getName(), (short) 0);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespace
 	public PhpNamespaceStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
 	{
 		StringRef ref = stubInputStream.readName();
-		return new PhpNamespaceStubImpl(stubElement, this, ref);
+		return new PhpNamespaceStubImpl(stubElement, this, ref, (short) 0);
 	}
 
 	@Override

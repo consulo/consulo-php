@@ -29,7 +29,7 @@ public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Fi
 
 	@Nonnull
 	@Override
-	public Field createElement(ASTNode node)
+	public Field createElement(@Nonnull ASTNode node)
 	{
 		return new PhpFieldImpl(node);
 	}
@@ -44,7 +44,7 @@ public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Fi
 	@Override
 	public PhpFieldStubImpl createStub(@Nonnull Field phpField, StubElement stubElement)
 	{
-		return new PhpFieldStubImpl(stubElement, this, phpField.getName());
+		return new PhpFieldStubImpl(stubElement, this, phpField.getName(), (short) 0);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Fi
 	public PhpFieldStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
 	{
 		StringRef ref = stubInputStream.readName();
-		return new PhpFieldStubImpl(stubElement, this, ref);
+		return new PhpFieldStubImpl(stubElement, this, ref, (short) 0);
 	}
 
 	@Override

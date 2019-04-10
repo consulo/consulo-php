@@ -9,6 +9,7 @@ import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
+import com.intellij.util.BitUtil;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
@@ -44,13 +45,16 @@ public class PhpParameterStubElementType extends PhpStubElementType<PhpParameter
 	@Override
 	public PhpParameterStub createStub(@Nonnull Parameter psi, StubElement parentStub)
 	{
-		return new PhpParameterStubImpl(parentStub, this, psi.getName());
+		int flags = 0;
+		flags = BitUtil.set(flags, PhpParameterStubImpl.VARIADIC, psi.isVariadic());
+		return new PhpParameterStubImpl(parentStub, this, psi.getName(), (short) flags);
 	}
 
 	@Override
 	public void serialize(@Nonnull PhpParameterStub stub, @Nonnull StubOutputStream dataStream) throws IOException
 	{
 		dataStream.writeName(stub.getName());
+		dataStream.writeShort(stub.getFlags());
 	}
 
 	@Nonnull
@@ -58,8 +62,9 @@ public class PhpParameterStubElementType extends PhpStubElementType<PhpParameter
 	public PhpParameterStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException
 	{
 		StringRef name = dataStream.readName();
+		short flags = dataStream.readShort();
 
-		return new PhpParameterStubImpl(parentStub, this, name);
+		return new PhpParameterStubImpl(parentStub, this, name, flags);
 	}
 
 	@Override

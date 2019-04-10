@@ -12,6 +12,8 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
+import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -37,17 +39,23 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		return false;
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isVariadic()
 	{
-		return false;
+		PhpParameterStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isVariadic();
+		}
+		return findChildByType(PhpTokenTypes.ELLIPSIS) != null;
 	}
 
 	@Nonnull
 	@Override
 	public PhpType getDeclaredType()
 	{
-		return null;
+		return PhpType.VOID;
 	}
 
 	@Nonnull

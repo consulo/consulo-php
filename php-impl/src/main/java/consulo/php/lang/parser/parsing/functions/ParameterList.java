@@ -58,12 +58,11 @@ public class ParameterList implements PhpTokenTypes
 		;
 
 		parameter:
-			optional_class_type [opBIT_AND] VARIABLE_REFERENCE [opASGN static_scalar]
+			optional_class_type [opBIT_AND] [ELLIPSIS] VARIABLE_REFERENCE [opASGN static_scalar]
 		;
 	 */
 	private static class Parameter implements ParserPart
 	{
-
 		@Override
 		public IElementType parse(PhpPsiBuilder builder)
 		{
@@ -80,6 +79,7 @@ public class ParameterList implements PhpTokenTypes
 			}
 
 			builder.compareAndEat(opBIT_AND);
+			builder.compareAndEat(ELLIPSIS);
 			if(!builder.compareAndEat(VARIABLE))
 			{
 				parameter.rollbackTo();

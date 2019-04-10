@@ -1,7 +1,9 @@
 package consulo.php.lang.psi.impl.stub;
 
 import java.util.Collection;
+import java.util.Collections;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.psi.stubs.IStubElementType;
@@ -16,20 +18,21 @@ import com.jetbrains.php.lang.psi.stubs.PhpMethodStub;
  */
 public class PhpClassMethodStubImpl extends PhpMemberStubImpl<Method> implements PhpMethodStub
 {
-	public PhpClassMethodStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name)
+	public PhpClassMethodStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
-	public PhpClassMethodStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name)
+	public PhpClassMethodStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
+	@Nonnull
 	@Override
 	public Collection<String> getDocExceptions()
 	{
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

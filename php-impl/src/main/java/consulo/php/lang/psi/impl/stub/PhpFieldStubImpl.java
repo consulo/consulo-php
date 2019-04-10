@@ -14,14 +14,14 @@ import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
  */
 public class PhpFieldStubImpl extends PhpMemberStubImpl<Field> implements PhpFieldStub
 {
-	public PhpFieldStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name)
+	public PhpFieldStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
-	public PhpFieldStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name)
+	public PhpFieldStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
 	@Override

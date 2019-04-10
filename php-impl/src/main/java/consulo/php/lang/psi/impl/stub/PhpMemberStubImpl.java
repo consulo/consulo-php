@@ -14,14 +14,14 @@ import com.jetbrains.php.lang.psi.stubs.PhpMemberStub;
  */
 public class PhpMemberStubImpl<T extends PhpClassMember> extends PhpNamedStubImpl<T> implements PhpMemberStub<T>
 {
-	public PhpMemberStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name)
+	public PhpMemberStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
-	public PhpMemberStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name)
+	public PhpMemberStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
 	@Override

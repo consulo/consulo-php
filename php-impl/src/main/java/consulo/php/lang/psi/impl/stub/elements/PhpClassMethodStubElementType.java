@@ -43,7 +43,7 @@ public class PhpClassMethodStubElementType extends PhpStubElementType<PhpClassMe
 	@Override
 	public PhpClassMethodStubImpl createStub(@Nonnull Method psi, StubElement parentStub)
 	{
-		return new PhpClassMethodStubImpl(parentStub, this, psi.getName());
+		return new PhpClassMethodStubImpl(parentStub, this, psi.getName(), (short) 0);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class PhpClassMethodStubElementType extends PhpStubElementType<PhpClassMe
 	{
 		StringRef name = dataStream.readName();
 
-		return new PhpClassMethodStubImpl(parentStub, this, name);
+		return new PhpClassMethodStubImpl(parentStub, this, name, (short) 0);
 	}
 
 	@Override

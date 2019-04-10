@@ -22,6 +22,7 @@ import com.intellij.psi.StubBasedPsiElement;
 import com.intellij.util.ArrayFactory;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
+import consulo.annotations.RequiredReadAction;
 
 public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElement<PhpParameterStub>
 {
@@ -35,6 +36,7 @@ public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElemen
 
 	boolean isOptional();
 
+	@RequiredReadAction
 	boolean isVariadic();
 
 	@Override

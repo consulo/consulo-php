@@ -2,20 +2,19 @@ package consulo.php.lang.psi.impl.stub;
 
 import javax.annotation.Nonnull;
 
+import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.BitUtil;
+import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.php.lang.psi.PhpStubElements;
-import com.intellij.psi.stubs.NamedStubBase;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
 
 /**
  * @author VISTALL
  * @since 16.07.13.
  */
-public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClassStub
+public class PhpClassStubImpl extends PhpNamedStubImpl<PhpClass> implements PhpClassStub
 {
 	public static short packFlags(PhpClass phpClass)
 	{
@@ -27,13 +26,12 @@ public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClas
 		return (short) flags;
 	}
 
-	public static final int INTERFACE = 1 << 0;
-	public static final int TRAIT = 1 << 1;
-	public static final int ABSTRACT = 1 << 2;
-	public static final int FINAL = 1 << 3;
+	public static final int INTERFACE = 1 << 2;
+	public static final int TRAIT = 1 << 3;
+	public static final int ABSTRACT = 1 << 4;
+	public static final int FINAL = 1 << 5;
 
 	private final String myNamespaceName;
-	private final short myFlags;
 
 	public PhpClassStubImpl(StubElement parent, StringRef namespace, StringRef name, short flags)
 	{
@@ -42,10 +40,9 @@ public class PhpClassStubImpl extends NamedStubBase<PhpClass> implements PhpClas
 
 	public PhpClassStubImpl(StubElement parent, String namespace, String name, short flags)
 	{
-		super(parent, PhpStubElements.CLASS, name);
+		super(parent, PhpStubElements.CLASS, name, flags);
 
 		myNamespaceName = namespace;
-		myFlags = flags;
 	}
 
 	@Override

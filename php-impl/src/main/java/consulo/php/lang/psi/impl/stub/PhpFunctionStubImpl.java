@@ -1,7 +1,9 @@
 package consulo.php.lang.psi.impl.stub;
 
 import java.util.Collection;
+import java.util.Collections;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.psi.stubs.StubElement;
@@ -16,19 +18,20 @@ import consulo.php.lang.psi.PhpStubElements;
  */
 public class PhpFunctionStubImpl extends PhpNamedStubImpl<Function> implements PhpFunctionStub
 {
-	public PhpFunctionStubImpl(StubElement parent, @Nullable StringRef name)
+	public PhpFunctionStubImpl(StubElement parent, @Nullable StringRef name, short flags)
 	{
-		super(parent, PhpStubElements.FUNCTION, name);
+		super(parent, PhpStubElements.FUNCTION, name, flags);
 	}
 
-	public PhpFunctionStubImpl(StubElement parent, @Nullable String name)
+	public PhpFunctionStubImpl(StubElement parent, @Nullable String name, short flags)
 	{
-		super(parent, PhpStubElements.FUNCTION, name);
+		super(parent, PhpStubElements.FUNCTION, name, flags);
 	}
 
+	@Nonnull
 	@Override
 	public Collection<String> getDocExceptions()
 	{
-		return null;
+		return Collections.emptyList();
 	}
 }

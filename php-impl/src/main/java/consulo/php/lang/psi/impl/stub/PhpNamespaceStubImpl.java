@@ -14,14 +14,14 @@ import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
  */
 public class PhpNamespaceStubImpl extends PhpNamedStubImpl<PhpNamespace> implements PhpNamespaceStub
 {
-	public PhpNamespaceStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name)
+	public PhpNamespaceStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
-	public PhpNamespaceStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name)
+	public PhpNamespaceStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
 	@Override

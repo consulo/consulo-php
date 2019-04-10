@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
+import com.intellij.util.BitUtil;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
@@ -14,32 +15,36 @@ import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
  */
 public class PhpParameterStubImpl extends PhpNamedStubImpl<Parameter> implements PhpParameterStub
 {
-	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name)
+	public static final int VARIADIC = 1 << 2;
+	public static final int OPTIONAL = 1 << 3;
+	public static final int PASS_BY_REF = 1 << 4;
+
+	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
-	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name)
+	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
 	{
-		super(parent, elementType, name);
+		super(parent, elementType, name, flags);
 	}
 
 	@Override
 	public boolean isPassByRef()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, PASS_BY_REF);
 	}
 
 	@Override
 	public boolean isOptional()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, OPTIONAL);
 	}
 
 	@Override
 	public boolean isVariadic()
 	{
-		return false;
+		return BitUtil.isSet(myFlags, VARIADIC);
 	}
 
 	@Nullable
