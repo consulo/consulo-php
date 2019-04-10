@@ -11,20 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.jetbrains.php.lang.psi.elements;
+package com.jetbrains.php.lang.psi.stubs;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.Parameter;
 
-/**
- * Represents both Declaration and Call parameter list.
- */
-public interface ParameterList extends PhpPsiElement
+public interface PhpParameterStub extends PhpNamedStub<Parameter>
 {
-	Condition<PsiElement> INSTANCEOF = use -> use instanceof ParameterList;
+	boolean isPassByRef();
 
-	@Nonnull
-	Parameter[] getParameters();
+	boolean isOptional();
+
+	boolean isVariadic();
+
+	@Nullable
+	String getDefaultValuePresentation();
 }

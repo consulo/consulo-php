@@ -37,6 +37,12 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Nonnull
 	public Parameter[] getParameters()
 	{
+		PhpFunctionStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.getChildrenByType(PhpStubElements.PARAMETER, Parameter.EMPTY_ARRAY);
+		}
+
 		ParameterList parameterList = getParameterList();
 		if(parameterList == null)
 		{
@@ -80,7 +86,7 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Override
 	public PhpModifier getModifier()
 	{
-		return null;
+		return PhpModifier.PUBLIC_IMPLEMENTED_DYNAMIC;
 	}
 
 	@Nonnull

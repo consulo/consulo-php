@@ -6,44 +6,86 @@ import javax.annotation.Nullable;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.Processor;
-import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpPsiElementFactory;
 import com.jetbrains.php.lang.psi.elements.Variable;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
+import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date Apr 3, 2008 10:32:38 PM
  */
-public class PhpParameterImpl extends PhpNamedElementImpl implements Parameter
+public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStub> implements Parameter
 {
 	public PhpParameterImpl(ASTNode node)
 	{
 		super(node);
 	}
 
-	@Override
-	public PsiElement getNameIdentifier()
+	public PhpParameterImpl(@Nonnull PhpParameterStub stub, @Nonnull IStubElementType nodeType)
 	{
-		return findChildByType(PhpTokenTypes.VARIABLE);
+		super(stub, nodeType);
+	}
+
+	@Override
+	public boolean isOptional()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isVariadic()
+	{
+		return false;
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getDeclaredType()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getLocalType()
+	{
+		return PhpType.VOID;
 	}
 
 	@Nullable
 	@Override
-	public ASTNode getNameNode()
+	public PsiElement getDefaultValue()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public String getDefaultValuePresentation()
 	{
 		return null;
 	}
 
 	@Override
+	public boolean isPassByRef()
+	{
+		return false;
+	}
+
+	@Override
 	public String getName()
 	{
+		PhpParameterStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.getName();
+		}
+
 		PsiElement nameNode = getNameIdentifier();
 		if(nameNode != null)
 		{
@@ -54,41 +96,9 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements Parameter
 
 	@Nonnull
 	@Override
-	public CharSequence getNameCS()
-	{
-		return null;
-	}
-
-	@Override
-	public void processDocs(Processor<PhpDocComment> processor)
-	{
-
-	}
-
-	@Nonnull
-	@Override
-	public String getFQN()
-	{
-		return null;
-	}
-
-	@Nonnull
-	@Override
 	public String getNamespaceName()
 	{
-		return null;
-	}
-
-	@Override
-	public boolean isDeprecated()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isInternal()
-	{
-		return false;
+		return "";
 	}
 
 	@Override
@@ -111,16 +121,8 @@ public class PhpParameterImpl extends PhpNamedElementImpl implements Parameter
 	}
 
 	@Override
-	@Nonnull
-	public PhpType getType()
+	public boolean isWriteAccess()
 	{
-		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		if(type == null)
-		{
-			PhpTypeAnnotatorVisitor.process(this);
-		}
-		type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		assert type != null;
-		return type;
+		return false;
 	}
 }

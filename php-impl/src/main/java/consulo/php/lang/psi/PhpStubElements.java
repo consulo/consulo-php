@@ -6,6 +6,7 @@ import consulo.php.lang.psi.impl.stub.elements.PhpFieldStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFileStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFunctionStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpNamespaceStubElementType;
+import consulo.php.lang.psi.impl.stub.elements.PhpParameterStubElementType;
 
 /**
  * @author VISTALL
@@ -21,4 +22,5 @@ public interface PhpStubElements
 
 	PhpFunctionStubElementType FUNCTION = new PhpFunctionStubElementType();
 	PhpNamespaceStubElementType NAMESPACE = new PhpNamespaceStubElementType();
+	PhpParameterStubElementType PARAMETER = new PhpParameterStubElementType();
 }
