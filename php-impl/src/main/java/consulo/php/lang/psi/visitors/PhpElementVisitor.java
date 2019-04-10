@@ -38,7 +38,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpFunction);
 	}
 
-	public void visitNewExpression(PhpNewExpression expression)
+	public void visitNewExpression(NewExpression expression)
 	{
 		visitPhpElement(expression);
 	}

@@ -23,7 +23,7 @@ import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import consulo.php.lang.psi.PhpAssignmentExpression;
 import consulo.php.lang.psi.PhpCatchStatement;
 import consulo.php.lang.psi.PhpFieldReference;
-import consulo.php.lang.psi.PhpNewExpression;
+import com.jetbrains.php.lang.psi.elements.NewExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -157,7 +157,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
-	public void visitNewExpression(PhpNewExpression expression)
+	public void visitNewExpression(NewExpression expression)
 	{
 		PhpType type = new PhpType();
 		PhpPsiElement classReference = expression.getFirstPsiChild();

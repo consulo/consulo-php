@@ -9,13 +9,13 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import consulo.ide.IconDescriptorUpdaters;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import consulo.php.lang.psi.PhpConstantReference;
 import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.ide.IconDescriptorUpdaters;
+import consulo.php.lang.psi.PhpConstantReference;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
@@ -66,13 +66,13 @@ class PhpTreeElement implements StructureViewTreeElement
 		return null;
 	}
 
-	private void listParameters(StringBuilder b, Parameter[] parameters)
+	private void listParameters(StringBuilder b, PsiElement[] parameters)
 	{
 		b.append('(');
 		for(int i = 0; i < parameters.length; i++)
 		{
-			Parameter parameter = parameters[i];
-			b.append(parameter.getName());
+			PsiElement parameter = parameters[i];
+			b.append(((Parameter) parameter).getName());
 			if(parameters.length - i > 1)
 			{
 				b.append(", ");

@@ -2,12 +2,6 @@ package consulo.php.lang.documentation.params;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.parameterInfo.CreateParameterInfoContext;
@@ -20,6 +14,12 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
  * @author jay
@@ -137,7 +137,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		int start = -1;
 		int end = -1;
 
-		final Parameter[] parameters = phpMethod.getParameters();
+		final PsiElement[] parameters = phpMethod.getParameters();
 		if(parameters.length > 0)
 		{
 			for(int i = 0; i < parameters.length; i++)
@@ -146,8 +146,8 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 				{
 					buff.append(", ");
 				}
-				final Parameter parameter = parameters[i];
-				String paramName = "$" + parameter.getName();
+				final PsiElement parameter = parameters[i];
+				String paramName = "$" + ((Parameter)parameter).getName();
 				if(paramName.equals("$"))
 				{
 					paramName = "";
