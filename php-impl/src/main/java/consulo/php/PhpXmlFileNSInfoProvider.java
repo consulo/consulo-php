@@ -3,7 +3,7 @@ package consulo.php;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import consulo.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpFileType;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlFileNSInfoProvider;
 import com.intellij.xml.util.XmlUtil;

@@ -3,7 +3,7 @@ package consulo.php;
 import javax.annotation.Nonnull;
 import consulo.annotations.Immutable;
 import consulo.lang.LanguageVersion;
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.util.pointers.Named;
 import consulo.util.pointers.NamedPointer;
 

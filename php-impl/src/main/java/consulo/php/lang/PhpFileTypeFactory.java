@@ -1,5 +1,6 @@
 package consulo.php.lang;
 
+import com.jetbrains.php.lang.PhpFileType;
 import consulo.php.vfs.PharFileType;
 import javax.annotation.Nonnull;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;

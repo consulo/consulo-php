@@ -1,4 +1,4 @@
-package consulo.php.lang;
+package com.jetbrains.php.lang;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,7 +21,6 @@ public class PhpFileType extends LanguageFileType
 	public static final PhpFileType INSTANCE = new PhpFileType();
 
 	public static final String DEFAULT_EXTENSION = "php";
-	public static final String DESCRIPTION = PhpBundle.message("filetype.description");
 	public static final String NAME = "PHP";
 	public static final
 	@NonNls
@@ -49,7 +48,7 @@ public class PhpFileType extends LanguageFileType
 	@Nonnull
 	public String getDescription()
 	{
-		return DESCRIPTION;
+		return PhpBundle.message("filetype.description");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 

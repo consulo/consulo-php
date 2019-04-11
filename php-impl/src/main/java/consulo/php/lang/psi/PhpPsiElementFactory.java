@@ -6,7 +6,7 @@ import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
-import consulo.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpFileType;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;

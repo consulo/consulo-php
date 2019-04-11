@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.psi.tree.IElementTypeAsPsiFactory;
 
 /**

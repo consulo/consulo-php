@@ -2,7 +2,7 @@ package consulo.php.lang.parser;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpElementType;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.impl.*;

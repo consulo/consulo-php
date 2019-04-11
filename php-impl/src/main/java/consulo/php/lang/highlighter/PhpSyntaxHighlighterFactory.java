@@ -2,7 +2,7 @@ package consulo.php.lang.highlighter;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import consulo.fileTypes.LanguageVersionableSyntaxHighlighterFactory;
 import consulo.lang.LanguageVersion;

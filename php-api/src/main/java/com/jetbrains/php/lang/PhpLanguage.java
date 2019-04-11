@@ -1,10 +1,11 @@
-package consulo.php.lang;
+package com.jetbrains.php.lang;
 
-import consulo.php.PhpLanguageLevel;
 import javax.annotation.Nonnull;
+
 import com.intellij.lang.Language;
-import consulo.lang.LanguageVersion;
 import com.intellij.psi.templateLanguages.TemplateLanguage;
+import consulo.lang.LanguageVersion;
+import consulo.php.PhpLanguageLevel;
 
 /**
  * Created by IntelliJ IDEA.

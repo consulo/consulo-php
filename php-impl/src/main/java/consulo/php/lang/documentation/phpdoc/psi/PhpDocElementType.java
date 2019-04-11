@@ -1,6 +1,6 @@
 package consulo.php.lang.documentation.phpdoc.psi;
 
-import consulo.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpFileType;
 import javax.annotation.Nonnull;
 import com.intellij.psi.tree.IElementType;
 

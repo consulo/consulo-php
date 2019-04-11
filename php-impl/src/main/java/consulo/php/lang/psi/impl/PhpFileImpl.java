@@ -24,8 +24,8 @@ import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
-import consulo.php.lang.PhpFileType;
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 

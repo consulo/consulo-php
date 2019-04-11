@@ -1,6 +1,6 @@
 package consulo.php.lang.highlighter;
 
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

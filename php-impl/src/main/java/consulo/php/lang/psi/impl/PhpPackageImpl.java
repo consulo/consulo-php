@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import consulo.php.lang.psi.PhpPackage;
 import com.intellij.lang.Language;
 import com.intellij.openapi.roots.impl.DirectoryIndex;

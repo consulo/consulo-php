@@ -17,7 +17,7 @@ import com.intellij.util.containers.MultiMap;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import consulo.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpFileType;
 
 /**
  * @author VISTALL

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.PhpLanguage;
 import com.jetbrains.php.lang.psi.PhpFile;
 import consulo.php.lang.psi.impl.stub.PhpFileStubImpl;
 import com.intellij.openapi.vfs.VirtualFile;

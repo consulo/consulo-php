@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.ILazyParseableElementType;
 import consulo.lang.LanguageVersion;
 import consulo.lang.util.LanguageVersionUtil;
-import consulo.php.lang.PhpFileType;
+import com.jetbrains.php.lang.PhpFileType;
 import consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
