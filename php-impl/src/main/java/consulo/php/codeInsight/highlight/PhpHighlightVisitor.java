@@ -110,7 +110,6 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		myHolder.add(builder.createUnconditionally());
 	}
 
-
 	@Nonnull
 	@Override
 	public HighlightVisitor clone()
