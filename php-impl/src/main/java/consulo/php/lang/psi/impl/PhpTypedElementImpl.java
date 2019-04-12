@@ -14,7 +14,6 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  */
 public class PhpTypedElementImpl extends PhpElementImpl implements PhpTypedElement
 {
-
 	public PhpTypedElementImpl(ASTNode node)
 	{
 		super(node);

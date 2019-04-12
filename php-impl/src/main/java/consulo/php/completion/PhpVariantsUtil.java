@@ -10,7 +10,6 @@ import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -173,9 +172,9 @@ public class PhpVariantsUtil
 	}
 
 	@Nonnull
-	public static LookupItem[] getLookupItemsForVariables(List<? extends PhpPsiElement> elements)
+	public static LookupElement[] getLookupItemsForVariables(List<? extends PhpPsiElement> elements)
 	{
-		LookupItem[] result = new LookupItem[elements.size()];
+		LookupElement[] result = new LookupElement[elements.size()];
 		for(int i = 0; i < result.length; i++)
 		{
 			result[i] = getLookupItemForVariable(elements.get(i));
@@ -183,25 +182,22 @@ public class PhpVariantsUtil
 		return result;
 	}
 
-	public static LookupItem getLookupItemForVariable(PhpPsiElement element)
+	@Nonnull
+	public static LookupElement getLookupItemForVariable(PhpPsiElement element)
 	{
-		final PhpLookupItem item = new PhpLookupItem(null);
+		LookupElementBuilder builder = LookupElementBuilder.create(element);
+		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
 		if(element instanceof Variable)
 		{
 			Variable variable = (Variable) element;
-			item.setName(variable.getName());
-
-			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
-			item.setTypeHint(variable.getType().toString());
+			builder = builder.withTypeText(variable.getType().toString());
 		}
 		else if(element instanceof Parameter)
 		{
 			Parameter parameter = (Parameter) element;
-			item.setName(parameter.getName());
-			item.setIcon(IconDescriptorUpdaters.getIcon(element, 0));
-			item.setTypeHint(parameter.getType().toString());
+			builder = builder.withTypeText(parameter.getType().toString());
 		}
-		return new LookupItem<>(item, item.getPresentation());
+		return builder;
 	}
 
 	public static InsertHandler getInsertHandler(PhpNamedElement element)

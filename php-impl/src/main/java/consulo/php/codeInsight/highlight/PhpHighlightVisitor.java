@@ -87,7 +87,7 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 			return;
 		}
 
-		createHighlighing(HighlightInfoType.WRONG_REF, reference, "'" + element.getText() + " is not resolved", null);
+		createHighlighing(HighlightInfoType.WRONG_REF, reference, "'" + element.getText() + "' is not resolved", null);
 	}
 
 	@RequiredReadAction

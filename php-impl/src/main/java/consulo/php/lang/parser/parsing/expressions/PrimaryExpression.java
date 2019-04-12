@@ -161,8 +161,8 @@ public class PrimaryExpression implements PhpTokenTypes
 		}
 
 		builder.compareAndEat(RBRACKET);
-		mark.done(PhpElementTypes.ARRAY_EXPRESSION);
-		return PhpElementTypes.ARRAY_EXPRESSION;
+		mark.done(PhpElementTypes.ARRAY_CREATION_EXPRESSION);
+		return PhpElementTypes.ARRAY_CREATION_EXPRESSION;
 	}
 
 	//	exit_expr:

@@ -85,6 +85,7 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		return false;
 	}
 
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public String getName()
@@ -100,7 +101,15 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		{
 			return nameNode.getText().substring(1);
 		}
-		return null;
+		return "";
+	}
+
+	@RequiredReadAction
+	@Nullable
+	@Override
+	public PsiElement getNameIdentifier()
+	{
+		return findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
 	@Nonnull
