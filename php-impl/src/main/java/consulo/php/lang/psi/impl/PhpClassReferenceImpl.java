@@ -17,14 +17,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.completion.ClassUsageContext;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -47,6 +48,18 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	public PsiElement getReferenceElement()
 	{
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
+	}
+
+	@Nonnull
+	@Override
+	public PhpType resolveLocalType()
+	{
+		PsiElement element = resolve();
+		if(element instanceof PhpClass)
+		{
+			return PhpType.builder().add(element).build();
+		}
+		return PhpType.VOID;
 	}
 
 	@Nullable

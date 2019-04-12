@@ -176,36 +176,41 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	{
 		PhpIndex phpIndex = PhpIndex.getInstance(getProject());
 
-		final PsiElement objectReference = getObjectReference();
-		if(objectReference instanceof PhpTypedElement)
+		PhpType phpType = PhpType.NULL;
+		PsiElement firstChild = getFirstPsiChild();
+		if(firstChild instanceof PhpTypedElement)
 		{
-			final PhpType phpType = ((PhpTypedElement) objectReference).getType();
+			phpType = ((PhpTypedElement) firstChild).getType();
+		}
+		else if(firstChild instanceof ClassReference)
+		{
+			phpType = ((ClassReference) firstChild).resolveLocalType();
+		}
 
-			for(String type : phpType.getTypes())
+		for(String type : phpType.getTypes())
+		{
+			Collection<PhpClass> classes = phpIndex.getClassesByFQN(type);
+
+			for(PhpClass aClass : classes)
 			{
-				Collection<PhpClass> classes = phpIndex.getClassesByFQN(type);
-
-				for(PhpClass aClass : classes)
+				if(fieldName != null)
 				{
-					if(fieldName != null)
+					Field field = aClass.findFieldByName(fieldName, true);
+					if(field != null)
 					{
-						Field field = aClass.findFieldByName(fieldName, true);
-						if(field != null)
+						if(!processor.process(field))
 						{
-							if(!processor.process(field))
-							{
-								return false;
-							}
+							return false;
 						}
 					}
-					else
+				}
+				else
+				{
+					for(Field field : aClass.getFields())
 					{
-						for(Field field : aClass.getFields())
+						if(!processor.process(field))
 						{
-							if(!processor.process(field))
-							{
-								return false;
-							}
+							return false;
 						}
 					}
 				}
