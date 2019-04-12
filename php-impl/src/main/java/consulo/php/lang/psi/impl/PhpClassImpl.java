@@ -10,12 +10,14 @@ import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.MultiMap;
 import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpStubElements;
@@ -35,6 +37,13 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	public PhpClassImpl(@Nonnull PhpClassStub stub)
 	{
 		super(stub, PhpStubElements.CLASS);
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getType()
+	{
+		return PhpType.builder().add(getFQN()).build();
 	}
 
 	@Nonnull
@@ -291,7 +300,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public String getPresentableFQN()
 	{
-		return null;
+		return getFQN();
 	}
 
 	@Nullable
@@ -312,6 +321,14 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Field findFieldByName(@Nullable CharSequence name, boolean findConstant)
 	{
+		List<Field> fields = getFields();
+		for(Field field : fields)
+		{
+			if(StringUtil.equals(field.getName(), name))
+			{
+				return field;
+			}
+		}
 		return null;
 	}
 

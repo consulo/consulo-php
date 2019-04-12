@@ -76,5 +76,7 @@
 		<virtualFileSystem implementation="consulo.php.vfs.PharFileSystem"/>
 
 		<projectService serviceImplementation="consulo.php.pom.PhpPomAspect" lazy="false"/>
+
+		<projectService serviceInterface="com.jetbrains.php.PhpIndex" serviceImplementation="consulo.php.lang.psi.impl.PhpIndexImpl" />
 	</extensions>
 </idea-plugin>

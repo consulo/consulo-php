@@ -9,17 +9,19 @@ import javax.annotation.Nonnull;
 import com.intellij.codeInsight.completion.BasicInsertHandler;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.psi.util.PsiTreeUtil;
-import consulo.ide.IconDescriptorUpdaters;
-import consulo.php.completion.insert.PhpMethodInsertHandler;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.annotations.RequiredReadAction;
+import consulo.ide.IconDescriptorUpdaters;
+import consulo.php.completion.insert.PhpMethodInsertHandler;
 
 /**
  * @author jay
@@ -138,34 +140,32 @@ public class PhpVariantsUtil
 		return items;
 	}
 
-	@SuppressWarnings({"unchecked"})
+	@Nonnull
+	@RequiredReadAction
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
-		PhpLookupElement item = new PhpLookupElement(element);
-		item.icon = IconDescriptorUpdaters.getIcon(element, 0);
+		LookupElementBuilder builder = LookupElementBuilder.create(element);
+		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, 0));
+
 		if(context != null)
 		{
 			final PhpClass objectClass = context.getCallingObjectClass();
 			if(PsiTreeUtil.getParentOfType(element, PhpClass.class) == objectClass)
 			{
-				item.bold = true;
+				builder = builder.withBoldness(true);
 			}
 		}
 		if(element instanceof Field)
 		{
-			item.typeText = ((Field) element).getType().toString();
+			builder = builder.withTypeText(element.getType().toString());
 		}
 		else if(element instanceof Function)
 		{
-			item.typeText = ((Function) element).getType().toString();
-			item.tailText = "()";
+			builder = builder.withTypeText(element.getType().toString());
+			builder = builder.withTailText("()");
 		}
-		/*else if(element instanceof LightPhpFunction)
-		{
-			item.tailText = "()";
-		}         */
-		item.handler = getInsertHandler(element);
-		return item;
+		builder = builder.withInsertHandler(getInsertHandler(element));
+		return builder;
 	}
 
 	@Nonnull

@@ -1,6 +1,6 @@
 package consulo.php.actions;
 
-import java.util.Properties;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,16 +56,17 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 		Project project = dir.getProject();
 		try
 		{
-			Properties defaultProperties = FileTemplateManager.getInstance(project).getDefaultProperties();
+			Map<String, Object> defaultProperties = FileTemplateManager.getInstance(project).getDefaultVariables();
 
 			PhpModuleExtension phpModuleExtension = getPhpModuleExtension(dir);
 			if(phpModuleExtension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_3))
 			{
 				PhpPackage psiPackage = PhpPsiUtil.findPackage(project, dir);
 
-				assert psiPackage != null;
-
-				defaultProperties.put("NAMESPACE", psiPackage.getNamespaceName());
+				if(psiPackage != null)
+				{
+					defaultProperties.put("NAMESPACE", psiPackage.getNamespaceName());
+				}
 			}
 
 			element = FileTemplateUtil.createFromTemplate(template, name, defaultProperties, dir);
@@ -151,7 +152,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 	@Override
 	protected PsiFile createFile(String name, String templateName, PsiDirectory dir)
 	{
-		final FileTemplate template = FileTemplateManager.getInstance().getInternalTemplate(templateName);
+		final FileTemplate template = FileTemplateManager.getInstance(dir.getProject()).getInternalTemplate(templateName);
 		return createFileFromTemplate(name, template, dir);
 	}
 

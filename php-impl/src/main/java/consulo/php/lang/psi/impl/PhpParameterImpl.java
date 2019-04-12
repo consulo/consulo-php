@@ -85,6 +85,7 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		return false;
 	}
 
+	@RequiredReadAction
 	@Override
 	public String getName()
 	{

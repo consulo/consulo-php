@@ -15,14 +15,19 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.ResolveState;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
@@ -32,7 +37,6 @@ import consulo.php.lang.psi.PhpCatchStatement;
 import consulo.php.lang.psi.PhpGlobal;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpSelfAssignmentExpression;
-import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
@@ -44,6 +48,41 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  */
 public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Variable
 {
+	private static class OurResolver implements ResolveCache.PolyVariantResolver<PhpVariableReferenceImpl>
+	{
+		private static final OurResolver INSTANCE = new OurResolver();
+
+		@Nonnull
+		@Override
+		public ResolveResult[] resolve(@Nonnull PhpVariableReferenceImpl reference, boolean b)
+		{
+			if(Variable.$THIS.equals(reference.getNameCS()))
+			{
+				PhpClass phpClass = PsiTreeUtil.getParentOfType(reference, PhpClass.class);
+				if(phpClass != null)
+				{
+					return new ResolveResult[]{new PsiElementResolveResult(phpClass, true)};
+				}
+			}
+
+			PhpResolveProcessor processor = new PhpResolveProcessor(reference, reference.getName(), PhpResolveProcessor.ResolveKind.FIELD_OR_PARAMETER);
+			ResolveUtil.treeWalkUp(reference, processor);
+			Collection<PsiElement> declarations = processor.getResult();
+
+			List<ResolveResult> result = new ArrayList<>(declarations.size());
+			for(final PsiElement element : declarations)
+			{
+				if(declarations.size() > 1 && element == this)
+				{
+					continue;
+				}
+				result.add(new PsiElementResolveResult(element, true));
+			}
+
+			return result.toArray(new ResolveResult[result.size()]);
+		}
+	}
+
 	public PhpVariableReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -71,7 +110,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public CharSequence getNameCS()
 	{
-		return null;
+		return getNode().getText();
 	}
 
 	@Override
@@ -222,21 +261,23 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		PhpResolveProcessor processor = new PhpResolveProcessor(this, getName(), PhpResolveProcessor.ResolveKind.FIELD_OR_PARAMETER);
-		ResolveUtil.treeWalkUp(this, processor);
-		Collection<PsiElement> declarations = processor.getResult();
+		return ResolveCache.getInstance(getProject()).resolveWithCaching(this, OurResolver.INSTANCE, true, incompleteCode);
+	}
 
-		List<ResolveResult> result = new ArrayList<>(declarations.size());
-		for(final PsiElement element : declarations)
+	@Nonnull
+	@Override
+	public PhpType getType()
+	{
+		if(Variable.$THIS.equals(getNameCS()))
 		{
-			if(declarations.size() > 1 && element == this)
+			PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+			if(phpClass != null)
 			{
-				continue;
+				return PhpType.builder().add(phpClass).build();
 			}
-			result.add(new PsiElementResolveResult(element, true));
 		}
 
-		return result.toArray(new ResolveResult[result.size()]);
+		return super.getType();
 	}
 
 	@Nonnull

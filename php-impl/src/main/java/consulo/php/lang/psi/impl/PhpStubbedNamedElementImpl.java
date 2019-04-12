@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.psi.stubs.IStubElementType;
@@ -52,10 +53,25 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 
 	}
 
+	@Nonnull
 	@Override
 	public String getFQN()
 	{
-		return null;
+		String namespaceName = getNamespaceName();
+		if(StringUtil.isEmpty(namespaceName))
+		{
+			return getName();
+		}
+		return namespaceName + "/" + getName();
+	}
+
+
+	@RequiredReadAction
+	@Override
+	public int getTextOffset()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier != null ? nameIdentifier.getTextOffset() : super.getTextOffset();
 	}
 
 	@Override
@@ -84,6 +100,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		return null;
 	}
 
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public String getName()
@@ -98,10 +115,11 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		return nameIdentifier == null ? null : nameIdentifier.getText();
 	}
 
+	@Nonnull
 	@Override
 	public CharSequence getNameCS()
 	{
-		return null;
+		return getName();
 	}
 
 	@Nonnull
@@ -129,6 +147,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		return null;
 	}
 
+	@RequiredReadAction
 	@Nullable
 	@Override
 	public PsiElement getNameIdentifier()

@@ -14,6 +14,7 @@ import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpStubElements;
@@ -47,6 +48,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		return isConstant() ? findChildByType(PhpTokenTypes.IDENTIFIER) : findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
+	@RequiredReadAction
 	@Override
 	public String getName()
 	{

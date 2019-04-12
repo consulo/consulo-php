@@ -1,23 +1,41 @@
 package consulo.php.lang.psi.impl;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import consulo.php.lang.psi.PhpConstantReference;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.Field;
-import consulo.php.lang.psi.PhpFieldReference;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import consulo.php.lang.psi.PhpPsiElementFactory;
-import com.jetbrains.php.lang.psi.elements.Variable;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.ArrayUtil;
+import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
+import consulo.php.completion.PhpVariantsUtil;
+import consulo.php.completion.UsageContext;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.PhpConstantReference;
+import consulo.php.lang.psi.PhpFieldReference;
+import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -25,7 +43,6 @@ import com.intellij.util.IncorrectOperationException;
  */
 public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFieldReference
 {
-
 	public PhpFieldReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -97,19 +114,18 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	@Nullable
 	public PsiReference getReference()
 	{
-		if(canReadName())
-		{
-			return this;
-		}
-		return null;
+		return this;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public TextRange getRangeInElement()
 	{
@@ -119,65 +135,84 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 			int startOffset = nameNode.getStartOffsetInParent();
 			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
 		}
-		return null;
+		return TextRange.EMPTY_RANGE;
 	}
 
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public Object[] getVariants()
 	{
-		/*final PsiElement objectReference = getObjectReference();
-		if(objectReference instanceof PhpTypedElement)
+		UsageContext context = new UsageContext();
+		final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+		if(contextClass != null)
 		{
-			final PhpType type = ((PhpTypedElement) objectReference).getType();
-			final LightPhpClass lightPhpClass = type.getType();
-			if(lightPhpClass != null)
-			{
-				final UsageContext context = new UsageContext();
-				final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-				LightPhpClass lightContextClass = null;
-				if(contextClass != null)
-				{
-					lightContextClass = LightElementUtil.findLightClassByPsi(contextClass);
-				}
-				if(lightContextClass != null)
-				{
-					context.setClassForAccessFilter(lightContextClass);
-				}
-				context.setModifier(getReferenceType());
-				context.setCallingObjectClass(lightPhpClass);
+			context.setClassForAccessFilter(contextClass);
+		}
 
-				final List<LightPhpElement> toComplete = new ArrayList<LightPhpElement>();
-				toComplete.addAll(lightPhpClass.getFunctions());
-				toComplete.addAll(lightPhpClass.getFields());
+		context.setCallingObjectClass(contextClass);
 
-				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
-				return list.toArray(new LookupElement[list.size()]);
-			}
-		}        */
-		return new Object[0];
+		List<Object> elements = new ArrayList<>();
+		processElements(e -> {
+			LookupElement lookupElement = PhpVariantsUtil.getLookupItem(e, context);
+			elements.add(lookupElement);
+			return true;
+		}, null);
+
+		return ArrayUtil.toObjectArray(elements);
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
 	{
-		/*final PsiElement objectReference = getObjectReference();
+		CommonProcessors.FindFirstProcessor<PhpNamedElement> processor = new CommonProcessors.FindFirstProcessor<>();
+		processElements(processor, getFieldName());
+		return processor.getFoundValue();
+	}
+
+	private boolean processElements(Processor<PhpNamedElement> processor, @Nullable String fieldName)
+	{
+		PhpIndex phpIndex = PhpIndex.getInstance(getProject());
+
+		final PsiElement objectReference = getObjectReference();
 		if(objectReference instanceof PhpTypedElement)
 		{
-			final PhpType type = ((PhpTypedElement) objectReference).getType();
-			final LightPhpClass lightPhpClass = type.getType();
-			if(lightPhpClass != null)
+			final PhpType phpType = ((PhpTypedElement) objectReference).getType();
+
+			for(String type : phpType.getTypes())
 			{
-				for(LightPhpField field : lightPhpClass.getFields())
+				Collection<PhpClass> classes = phpIndex.getClassesByFQN(type);
+
+				for(PhpClass aClass : classes)
 				{
-					if(field.getName() != null && field.getName().equals(getFieldName()))
+					if(fieldName != null)
 					{
-						return field.getPsi(getProject());
+						Field field = aClass.findFieldByName(fieldName, true);
+						if(field != null)
+						{
+							if(!processor.process(field))
+							{
+								return false;
+							}
+						}
+					}
+					else
+					{
+						for(Field field : aClass.getFields())
+						{
+							if(!processor.process(field))
+							{
+								return false;
+							}
+						}
 					}
 				}
 			}
-		}   */
-		return null;
+		}
+
+		return true;
 	}
 
 	/**
@@ -187,12 +222,15 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	 *
 	 * @return the canonical text of the reference.
 	 */
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public String getCanonicalText()
 	{
 		return null;
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
@@ -213,9 +251,9 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	 *
 	 * @param element the element which should become the target of the reference.
 	 * @return the new underlying element of the reference.
-	 * @throws com.intellij.util.IncorrectOperationException
-	 *          if the rebind cannot be handled for some reason.
+	 * @throws com.intellij.util.IncorrectOperationException if the rebind cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
@@ -228,6 +266,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	 * @param element the element to check target for.
 	 * @return true if the reference targets that element, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
@@ -246,6 +285,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	 *
 	 * @return true if the refence is soft, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{
