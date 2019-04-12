@@ -11,7 +11,7 @@ import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
@@ -35,7 +35,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getName().equals(name))
 		{
-			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;

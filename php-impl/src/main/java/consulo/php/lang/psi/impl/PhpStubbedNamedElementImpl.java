@@ -17,7 +17,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpNamedStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
@@ -141,7 +141,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		PsiElement nameIdentifier = getNameIdentifier();
 		if(nameIdentifier != null && !getName().equals(s))
 		{
-			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), s);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), s);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return null;

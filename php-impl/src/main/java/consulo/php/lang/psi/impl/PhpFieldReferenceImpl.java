@@ -32,7 +32,7 @@ import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -238,7 +238,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getFieldName().equals(name))
 		{
-			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;

@@ -24,7 +24,7 @@ import consulo.php.completion.ClassUsageContext;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -316,7 +316,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getReferenceName().equals(name))
 		{
-			PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;

@@ -123,7 +123,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(phpField);
 	}
 
-	public void visitConstant(PhpConstantReference constant)
+	public void visitConstant(ConstantReference constant)
 	{
 		visitPhpElement(constant);
 	}

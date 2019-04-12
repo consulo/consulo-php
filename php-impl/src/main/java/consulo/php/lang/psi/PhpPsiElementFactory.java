@@ -2,6 +2,7 @@ package consulo.php.lang.psi;
 
 import javax.annotation.Nonnull;
 
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
@@ -19,15 +20,15 @@ import com.intellij.psi.PsiFileFactory;
  */
 public class PhpPsiElementFactory
 {
-	public static PhpConstantReference createConstantReference(Project project, @Nonnull String constantName)
+	public static ConstantReference createConstantReference(Project project, @Nonnull String constantName)
 	{
 		assert constantName.length() > 0;
 		final PsiFile psiFile = createFile(project, constantName);
 		final PsiElement child = psiFile.getFirstChild();
 		assert child instanceof GroupStatement;
 		final PhpPsiElement psiElement = ((GroupStatement) child).getFirstPsiChild();
-		assert psiElement instanceof PhpConstantReference;
-		return (PhpConstantReference) psiElement;
+		assert psiElement instanceof ConstantReference;
+		return (ConstantReference) psiElement;
 	}
 
 	public static Variable createVariable(Project project, @Nonnull String variableName)

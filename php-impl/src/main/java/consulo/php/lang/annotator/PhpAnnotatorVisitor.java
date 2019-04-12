@@ -3,7 +3,7 @@ package consulo.php.lang.annotator;
 import consulo.php.PhpBundle;
 import consulo.php.lang.highlighter.PhpHighlightingData;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -72,7 +72,7 @@ public class PhpAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitConstant(PhpConstantReference constant)
+	public void visitConstant(ConstantReference constant)
 	{
 		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
 		{

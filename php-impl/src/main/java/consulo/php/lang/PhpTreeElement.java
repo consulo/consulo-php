@@ -15,7 +15,7 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.ide.IconDescriptorUpdaters;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
 /**
@@ -100,7 +100,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		{
 			if(element instanceof PhpNamedElement)
 			{
-				if(!(element instanceof Parameter) && (!(element instanceof Variable) || ((Variable) element).isDeclaration()) && !(element instanceof PhpConstantReference))
+				if(!(element instanceof Parameter) && (!(element instanceof Variable) || ((Variable) element).isDeclaration()) && !(element instanceof ConstantReference))
 				{
 					children.add(new PhpTreeElement(element));
 				}

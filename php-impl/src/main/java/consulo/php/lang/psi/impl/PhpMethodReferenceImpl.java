@@ -16,7 +16,7 @@ import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.Function;
@@ -188,7 +188,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		//noinspection ConstantConditions
 		if(nameIdentifier != null && !getMethodName().equals(name))
 		{
-			final PhpConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
+			final ConstantReference constantReference = PhpPsiElementFactory.createConstantReference(getProject(), name);
 			nameIdentifier.replace(constantReference.getNameIdentifier());
 		}
 		return this;

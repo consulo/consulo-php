@@ -14,14 +14,14 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
-import consulo.php.lang.psi.PhpConstantReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date Jun 30, 2008 1:44:07 AM
  */
-public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements PhpConstantReference
+public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements ConstantReference
 {
 	public PhpConstantReferenceImpl(ASTNode node)
 	{
