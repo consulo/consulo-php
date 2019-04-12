@@ -18,7 +18,7 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import consulo.php.lang.psi.PhpConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import consulo.php.lang.psi.PhpFieldReference;
+import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
@@ -100,7 +100,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	public PsiElement getObjectReference()
 	{
 		PsiElement object = getFirstPsiChild();
-		if(object instanceof PhpFieldReference || object instanceof Variable || object instanceof MethodReference)
+		if(object instanceof FieldReference || object instanceof Variable || object instanceof MethodReference)
 		{
 			return object;
 		}

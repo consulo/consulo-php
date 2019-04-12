@@ -33,7 +33,7 @@ import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpConstantReference;
-import consulo.php.lang.psi.PhpFieldReference;
+import com.jetbrains.php.lang.psi.elements.FieldReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -41,7 +41,7 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  * @author jay
  * @date May 15, 2008 11:24:30 AM
  */
-public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFieldReference
+public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldReference
 {
 	public PhpFieldReferenceImpl(ASTNode node)
 	{
@@ -103,7 +103,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements PhpFie
 	public PsiElement getObjectReference()
 	{
 		PsiElement object = getFirstPsiChild();
-		if(object instanceof PhpFieldReference || object instanceof Variable || object instanceof MethodReference)
+		if(object instanceof FieldReference || object instanceof Variable || object instanceof MethodReference)
 		{
 			return object;
 		}

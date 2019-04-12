@@ -22,7 +22,7 @@ import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import consulo.php.lang.psi.PhpAssignmentExpression;
 import consulo.php.lang.psi.PhpCatchStatement;
-import consulo.php.lang.psi.PhpFieldReference;
+import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.NewExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -128,7 +128,7 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 	}
 
 	@Override
-	public void visitFieldReference(PhpFieldReference fieldReference)
+	public void visitFieldReference(FieldReference fieldReference)
 	{
 		PhpType type = new PhpType();
 		PsiElement element = fieldReference.resolve();

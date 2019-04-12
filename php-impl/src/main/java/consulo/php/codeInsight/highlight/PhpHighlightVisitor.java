@@ -1,15 +1,24 @@
 package consulo.php.codeInsight.highlight;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor;
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder;
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.ReferenceRange;
+import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.FieldReference;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -41,6 +50,7 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	}
 
 	@Override
+	@RequiredReadAction
 	public void visitClassReference(ClassReference classReference)
 	{
 		super.visitPhpElement(classReference);
@@ -48,22 +58,58 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		PsiElement resolve = classReference.resolve();
 		if(resolve == null)
 		{
-			registerWrongRef(classReference.getReferenceElement());
+			registerWrongRef(classReference.getReferenceElement(), classReference);
 		}
 	}
 
-	private void registerWrongRef(PsiElement range)
+	@Override
+	@RequiredReadAction
+	public void visitFieldReference(FieldReference fieldReference)
 	{
-		if(range == null)
+		super.visitFieldReference(fieldReference);
+
+		PsiElement resolvedElement = fieldReference.resolve();
+		if(resolvedElement == null)
+		{
+			registerWrongRef(fieldReference.getElement(), fieldReference);
+		}
+		else
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, fieldReference, null, DefaultLanguageHighlighterColors.INSTANCE_FIELD);
+		}
+	}
+
+	@RequiredReadAction
+	private void registerWrongRef(@Nullable PsiElement element, @Nonnull PsiReference reference)
+	{
+		if(element == null)
 		{
 			return;
 		}
-		HighlightInfo.Builder builder = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF);
-		builder.range(range);
-		builder.descriptionAndTooltip("'" + range.getText() + " is not resolved");
 
-		myHolder.add(builder.create());
+		createHighlighing(HighlightInfoType.WRONG_REF, reference, "'" + element.getText() + " is not resolved", null);
 	}
+
+	@RequiredReadAction
+	private void createHighlighing(@Nonnull HighlightInfoType type, @Nonnull PsiReference reference, @Nullable String description, @Nullable TextAttributesKey key)
+	{
+		TextRange range = ContainerUtil.getFirstItem(ReferenceRange.getAbsoluteRanges(reference));
+		assert range != null;
+
+		HighlightInfo.Builder builder = HighlightInfo.newHighlightInfo(type);
+		builder.range(range);
+		if(description != null)
+		{
+			builder.descriptionAndTooltip(description);
+		}
+
+		if(key != null)
+		{
+			builder.textAttributes(key);
+		}
+		myHolder.add(builder.createUnconditionally());
+	}
+
 
 	@Nonnull
 	@Override

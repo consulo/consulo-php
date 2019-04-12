@@ -113,7 +113,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(constantReference);
 	}
 
-	public void visitFieldReference(PhpFieldReference fieldReference)
+	public void visitFieldReference(FieldReference fieldReference)
 	{
 		visitPhpElement(fieldReference);
 	}
