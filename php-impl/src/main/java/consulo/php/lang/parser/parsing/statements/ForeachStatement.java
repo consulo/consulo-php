@@ -40,7 +40,7 @@ public class ForeachStatement implements PhpTokenTypes
 		Expression.parse(builder);
 		builder.match(kwAS);
 		parseForeachVariable(builder);
-		if(builder.compareAndEat(opHASH_ARRAY))
+		if(builder.compareAndEat(HASH_ARRAY))
 		{
 			parseForeachVariable(builder);
 		}

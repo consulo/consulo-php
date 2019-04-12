@@ -44,7 +44,7 @@ public class StaticArrayPairList
 				IElementType result = StaticScalar.parse(builder);
 				if(result != PhpElementTypes.EMPTY_INPUT)
 				{
-					if(builder.compare(PhpTokenTypes.opHASH_ARRAY))
+					if(builder.compare(PhpTokenTypes.HASH_ARRAY))
 					{
 						staticArrayPair.done(PhpElementTypes.ARRAY_KEY);
 						builder.advanceLexer();

@@ -174,7 +174,7 @@ public interface PhpTokenTypes extends TokenType
 	IElementType SLASH = new PhpElementType("SLASH"); // \
 	IElementType opMUL = new PhpElementType("multiply"); //*
 	IElementType opREM = new PhpElementType("remainder"); //%
-	IElementType opHASH_ARRAY = new PhpElementType("hash"); //=>
+	IElementType HASH_ARRAY = new PhpElementType("HASH_ARRAY"); //=>
 	IElementType ELLIPSIS = new PhpElementType("ELLIPSIS"); //...
 
 	//casting

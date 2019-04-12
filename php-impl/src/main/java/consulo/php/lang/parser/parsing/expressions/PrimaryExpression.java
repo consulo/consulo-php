@@ -111,11 +111,37 @@ public class PrimaryExpression implements PhpTokenTypes
 		{
 			while(!builder.eof())
 			{
+				if(builder.getTokenType() == RBRACKET)
+				{
+					break;
+				}
+
+				PsiBuilder.Marker hashMarker = builder.mark();
 				IElementType r = UnaryExpression.parse(builder);
 				if(r == PhpElementTypes.EMPTY_INPUT)
 				{
+					hashMarker.drop();
 					builder.error("Expression expected");
 					break;
+				}
+
+				if(builder.getTokenType() == HASH_ARRAY)
+				{
+					builder.advanceLexer();
+
+					r = UnaryExpression.parse(builder);
+					if(r == PhpElementTypes.EMPTY_INPUT)
+					{
+						hashMarker.error("Expression expected");
+					}
+					else
+					{
+						hashMarker.done(PhpElementTypes.ARRAY_HASH);
+					}
+				}
+				else
+				{
+					hashMarker.drop();
 				}
 
 				if(builder.getTokenType() == opCOMMA)

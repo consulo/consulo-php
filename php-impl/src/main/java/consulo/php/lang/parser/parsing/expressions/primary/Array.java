@@ -61,7 +61,7 @@ public class Array implements PhpTokenTypes
 						IElementType result = Expression.parse(builder);
 						if(result != PhpElementTypes.EMPTY_INPUT)
 						{
-							if(builder.compare(opHASH_ARRAY))
+							if(builder.compare(HASH_ARRAY))
 							{
 								item.done(PhpElementTypes.ARRAY_KEY);
 								builder.advanceLexer();

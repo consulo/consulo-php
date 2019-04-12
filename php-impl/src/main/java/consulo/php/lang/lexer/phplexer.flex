@@ -327,7 +327,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"*"                                { return opManager.process(PhpTokenTypes.opMUL); }
 	"/"                                { return opManager.process(PhpTokenTypes.opDIV); }
 	"\\"                               { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? opManager.process(PhpTokenTypes.SLASH) : PhpTokenTypes.UNKNOWN_SYMBOL; }
-	"=>"                               { return opManager.process(PhpTokenTypes.opHASH_ARRAY); }
+	"=>"                               { return opManager.process(PhpTokenTypes.HASH_ARRAY); }
 	"..."                              { return opManager.process(PhpTokenTypes.ELLIPSIS); }
 
 	"["                                { return opManager.process(PhpTokenTypes.LBRACKET); }
