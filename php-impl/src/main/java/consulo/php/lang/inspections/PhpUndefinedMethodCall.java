@@ -2,14 +2,15 @@ package consulo.php.lang.inspections;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.PhpBundle;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiPolyVariantReference;
-import com.intellij.psi.ResolveResult;
+import com.intellij.psi.PsiReference;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import consulo.annotations.RequiredReadAction;
+import consulo.php.PhpBundle;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -32,15 +33,25 @@ public class PhpUndefinedMethodCall extends PhpInspection
 		return new PhpElementVisitor()
 		{
 			@Override
+			@RequiredReadAction
 			public void visitMethodReference(MethodReference reference)
 			{
 				if(reference.canReadName())
 				{
-					//noinspection ConstantConditions
-					final ResolveResult[] results = ((PsiPolyVariantReference) reference.getReference()).multiResolve(false);
-					if(results.length == 0)
+					PsiElement firstChild = reference.getFirstPsiChild();
+					if(firstChild instanceof PsiReference)
 					{
-						holder.registerProblem(reference, PhpBundle.message("php.inspections.undefined_method_call"));
+						PsiElement classReferenceResult = ((PsiReference) firstChild).resolve();
+						if(classReferenceResult == null)
+						{
+							return;
+						}
+					}
+
+					final PsiElement element = reference.resolve();
+					if(element == null)
+					{
+						holder.registerProblem(reference.getNameIdentifier(), PhpBundle.message("php.inspections.undefined_method_call"));
 					}
 				}
 			}
