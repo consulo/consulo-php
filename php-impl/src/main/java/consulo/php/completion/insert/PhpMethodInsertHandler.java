@@ -15,7 +15,6 @@ import com.intellij.openapi.editor.Editor;
  */
 public class PhpMethodInsertHandler implements InsertHandler
 {
-
 	private static PhpMethodInsertHandler instance = null;
 
 	public static PhpMethodInsertHandler getInstance()

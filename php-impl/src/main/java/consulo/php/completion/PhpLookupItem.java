@@ -7,15 +7,17 @@ import com.intellij.codeInsight.lookup.LookupValueWithUIHint;
 import com.intellij.codeInsight.lookup.PresentableLookupValue;
 import com.intellij.openapi.util.Iconable;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.annotations.DeprecationInfo;
 import consulo.ui.image.Image;
 
 /**
  * @author jay
  * @date Jun 24, 2008 1:51:06 PM
  */
+@Deprecated
+@DeprecationInfo("Use LookupElementBuilder")
 public class PhpLookupItem implements PresentableLookupValue, LookupValueWithUIHint, LookupValueWithPriority, Iconable
 {
-
 	private PhpNamedElement element;
 	private String name = "";
 	private Image icon = null;

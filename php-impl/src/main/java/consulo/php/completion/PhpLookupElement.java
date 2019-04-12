@@ -8,6 +8,7 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.codeInsight.lookup.LookupElementRenderer;
 import com.intellij.openapi.util.text.StringUtil;
+import consulo.annotations.DeprecationInfo;
 import consulo.awt.TargetAWT;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.ui.image.Image;
@@ -18,9 +19,10 @@ import consulo.ui.image.Image;
  * Date: Jan 21, 2009
  * Time: 1:48:46 AM
  */
+@Deprecated
+@DeprecationInfo("Use LookupElementBuilder")
 public class PhpLookupElement extends LookupElement
 {
-
 	public InsertHandler handler;
 	public String lookupString = "";
 	public String typeText = "";
