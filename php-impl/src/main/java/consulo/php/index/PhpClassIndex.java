@@ -12,7 +12,7 @@ import com.intellij.psi.stubs.StubIndexKey;
  */
 public class PhpClassIndex extends StringStubIndexExtension<PhpClass>
 {
-	public static PhpFullFqClassIndex INSTANCE = new PhpFullFqClassIndex();
+	public static PhpClassIndex INSTANCE = new PhpClassIndex();
 
 	@Nonnull
 	@Override

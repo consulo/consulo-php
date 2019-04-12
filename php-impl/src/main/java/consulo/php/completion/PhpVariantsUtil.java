@@ -11,6 +11,7 @@ import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupItem;
+import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
@@ -21,6 +22,7 @@ import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
+import consulo.php.completion.insert.PhpClassConstructorInsertHandler;
 import consulo.php.completion.insert.PhpMethodInsertHandler;
 
 /**
@@ -33,52 +35,45 @@ public class PhpVariantsUtil
 	@SuppressWarnings({"unchecked"})
 	public static List<LookupElement> getLookupItemsForClasses(Collection<? extends PhpClass> classes, ClassUsageContext context)
 	{
-		/*List<PhpClass> filtered = new ArrayList<PhpClass>();
+		List<PhpClass> filtered = new ArrayList<>();
 		for(PhpClass element : classes)
 		{
-			if(element instanceof PhpClass && !context.isInImplements())
+			if(!context.isInImplements())
 			{
-				PhpClass klass = (PhpClass) element;
+				PhpClass klass = element;
 				if(!klass.isAbstract() || context.isInInstanceof() || context.isInExtends())
 				{
-					if(context.isStatic() && klass.hasStaticMembers())
-					{
-						filtered.add(element);
-					}
-					else if(!context.isStatic())
-					{
-						filtered.add(element);
-					}
+					filtered.add(element);
 				}
 			}
-			else if(element instanceof LightPhpInterface)
+			/*else if(element instanceof LightPhpInterface)
 			{
 				if(context.isInImplements() || context.isInInstanceof())
 				{
 					filtered.add(element);
 				}
-			}
-		}       */
+			}*/
+		}
 
-		final List<LookupElement> items = new ArrayList<LookupElement>();
-		/*final List<String> names = new ArrayList<String>();
+		final List<LookupElement> items = new ArrayList<>();
+		final List<String> names = new ArrayList<>();
 		for(PhpClass element : filtered)
 		{
 			if(!names.contains(element.getName()))
 			{
 				names.add(element.getName());
-				final PhpLookupElement lookupItem = (PhpLookupElement) getLookupItem(element, null);
+				LookupElementBuilder lookupItem = (LookupElementBuilder) getLookupItem(element, null);
 				if(context.isInNew())
 				{
-					lookupItem.handler = PhpClassConstructorInsertHandler.getInstance();
+					lookupItem = lookupItem.withInsertHandler(PhpClassConstructorInsertHandler.getInstance());
 				}
 				if(context.isStatic())
 				{
-					lookupItem.handler = PhpClassInsertHandler.getInstance();
+					//lookupItem.handler = PhpClassInsertHandler.getInstance();
 				}
 				items.add(lookupItem);
 			}
-		}      */
+		}
 		return items;
 	}
 
@@ -145,7 +140,7 @@ public class PhpVariantsUtil
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
 		LookupElementBuilder builder = LookupElementBuilder.create(element);
-		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, 0));
+		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
 
 		if(context != null)
 		{
@@ -158,6 +153,10 @@ public class PhpVariantsUtil
 		if(element instanceof Field)
 		{
 			builder = builder.withTypeText(element.getType().toString());
+		}
+		else if(element instanceof PhpClass)
+		{
+			builder = builder.withTailText(element.getNamespaceName());
 		}
 		else if(element instanceof Function)
 		{

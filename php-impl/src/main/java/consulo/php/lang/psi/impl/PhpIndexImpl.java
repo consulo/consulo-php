@@ -1,6 +1,8 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.PhpUse;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import consulo.php.index.PhpClassIndex;
+import consulo.php.index.PhpFullFqClassIndex;
 
 /**
  * @author VISTALL
@@ -79,7 +81,16 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<String> getAllClassFqns(@Nullable PrefixMatcher prefixMatcher)
 	{
-		return null;
+		Collection<String> allKeys = PhpFullFqClassIndex.INSTANCE.getAllKeys(myProject);
+		List<String> result = new ArrayList<>(allKeys.size());
+		for(String key : allKeys)
+		{
+			if(prefixMatcher == null || prefixMatcher.prefixMatches(key))
+			{
+				result.add(key);
+			}
+		}
+		return result;
 	}
 
 	@Nonnull
@@ -263,7 +274,7 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<PhpClass> getClassesByFQN(String fqn)
 	{
-		return PhpClassIndex.INSTANCE.get(fqn, myProject, GlobalSearchScope.allScope(myProject));
+		return PhpFullFqClassIndex.INSTANCE.get(fqn, myProject, GlobalSearchScope.allScope(myProject));
 	}
 
 	@Nonnull

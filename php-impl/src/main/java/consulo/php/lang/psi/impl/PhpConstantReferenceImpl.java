@@ -1,20 +1,28 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
+import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -81,28 +89,22 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public Object[] getVariants()
 	{
-		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-		if(index == null)
+		PhpIndex index = PhpIndex.getInstance(getProject());
+		List<PhpClass> variants = new ArrayList<>();
+		for(String className : index.getAllClassFqns(null))
 		{
-			return new Object[0];
-		}
-
-		List<LightPhpElement> variants = new ArrayList<LightPhpElement>();
-		for(String className : index.getAllClassNames())
-		{
-			variants.addAll(index.getClassesByName(className));
+			variants.addAll(index.getClassesByFQN(className));
 		}
 
 		final List<LookupElement> list = PhpVariantsUtil.getLookupItemsForClasses(variants, getUsageContext());
 
-		List<LightPhpFunction> functions = new ArrayList<LightPhpFunction>();
-		for(String functionName : index.getAllFunctionNames())
-		{
-			functions.addAll(index.getFunctionsByName(functionName));
-		}
-		list.addAll(PhpVariantsUtil.getLookupItems(functions, null));
-		return list.toArray(new LookupElement[list.size()]);     */
-		return new Object[0];
+//		List<LightPhpFunction> functions = new ArrayList<LightPhpFunction>();
+//		for(String functionName : index.getAllFunctionNames())
+//		{
+//			functions.addAll(index.getFunctionsByName(functionName));
+//		}
+//		list.addAll(PhpVariantsUtil.getLookupItems(functions, null));
+		return ArrayUtil.toObjectArray(list);
 	}
 
 	@Nonnull
