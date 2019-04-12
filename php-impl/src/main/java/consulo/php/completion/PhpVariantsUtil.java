@@ -18,7 +18,6 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
@@ -172,7 +171,7 @@ public class PhpVariantsUtil
 	}
 
 	@Nonnull
-	public static LookupElement[] getLookupItemsForVariables(List<? extends PhpPsiElement> elements)
+	public static LookupElement[] getLookupItemsForVariables(List<? extends PhpNamedElement> elements)
 	{
 		LookupElement[] result = new LookupElement[elements.size()];
 		for(int i = 0; i < result.length; i++)
@@ -183,9 +182,9 @@ public class PhpVariantsUtil
 	}
 
 	@Nonnull
-	public static LookupElement getLookupItemForVariable(PhpPsiElement element)
+	public static LookupElement getLookupItemForVariable(PhpNamedElement element)
 	{
-		LookupElementBuilder builder = LookupElementBuilder.create(element);
+		LookupElementBuilder builder = LookupElementBuilder.create(element, element.getName());
 		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
 		if(element instanceof Variable)
 		{

@@ -25,7 +25,7 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
@@ -320,7 +320,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	{
 		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
 		ResolveUtil.treeWalkUp(this, processor);
-		List<PhpPsiElement> variants = processor.getVariants();
+		List<PhpNamedElement> variants = processor.getVariants();
 		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 

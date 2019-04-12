@@ -3,9 +3,9 @@ package consulo.php.lang.psi.resolve;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 
 /**
  * @author jay
@@ -13,15 +13,14 @@ import com.intellij.psi.PsiNamedElement;
  */
 public class PhpVariantsProcessor extends PhpScopeProcessor
 {
-
-	private List<PhpPsiElement> variants = new ArrayList<PhpPsiElement>();
+	private List<PhpNamedElement> variants = new ArrayList<>();
 
 	public PhpVariantsProcessor(PhpPsiElement element)
 	{
 		super(element);
 	}
 
-	public List<PhpPsiElement> getVariants()
+	public List<PhpNamedElement> getVariants()
 	{
 		return variants;
 	}
@@ -29,11 +28,11 @@ public class PhpVariantsProcessor extends PhpScopeProcessor
 	@Override
 	public boolean execute(PsiElement element)
 	{
-		if(element instanceof PsiNamedElement)
+		if(element instanceof PhpNamedElement)
 		{
 			if(isAppropriateDeclarationType(element))
 			{
-				variants.add((PhpPsiElement) element);
+				variants.add((PhpNamedElement) element);
 			}
 		}
 		return true;
