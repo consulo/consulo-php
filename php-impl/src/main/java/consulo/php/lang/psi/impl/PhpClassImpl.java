@@ -83,14 +83,14 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 			return stub.getNamespaceName();
 		}
 
-		PhpPsiElement prevPhpSibling = getPrevPsiSibling();
-		while(prevPhpSibling != null)
+		PsiElement parent = getParent();
+		if(parent instanceof GroupStatement)
 		{
-			if(prevPhpSibling instanceof PhpNamespace)
+			PsiElement groupParent = parent.getParent();
+			if(groupParent instanceof PhpNamespace)
 			{
-				return ((PhpNamespace) prevPhpSibling).getName();
+				return ((PhpNamespace) groupParent).getName();
 			}
-			prevPhpSibling = prevPhpSibling.getPrevPsiSibling();
 		}
 		return "";
 	}

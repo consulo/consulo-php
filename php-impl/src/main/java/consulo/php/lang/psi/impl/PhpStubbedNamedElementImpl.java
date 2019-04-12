@@ -5,19 +5,18 @@ import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpNamedStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
@@ -52,19 +51,6 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 	{
 
 	}
-
-	@Nonnull
-	@Override
-	public String getFQN()
-	{
-		String namespaceName = getNamespaceName();
-		if(StringUtil.isEmpty(namespaceName))
-		{
-			return getName();
-		}
-		return namespaceName + "/" + getName();
-	}
-
 
 	@RequiredReadAction
 	@Override

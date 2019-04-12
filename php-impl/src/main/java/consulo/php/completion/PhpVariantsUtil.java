@@ -12,6 +12,7 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupItem;
 import com.intellij.openapi.util.Iconable;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
@@ -156,7 +157,11 @@ public class PhpVariantsUtil
 		}
 		else if(element instanceof PhpClass)
 		{
-			builder = builder.withTailText(element.getNamespaceName());
+			String namespaceName = element.getNamespaceName();
+			if(!StringUtil.isEmpty(namespaceName))
+			{
+				builder = builder.withTailText(" (" + namespaceName + ")", true);
+			}
 		}
 		else if(element instanceof Function)
 		{

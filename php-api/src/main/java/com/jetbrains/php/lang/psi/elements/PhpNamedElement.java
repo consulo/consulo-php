@@ -17,12 +17,12 @@ import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.util.Processor;
@@ -59,10 +59,16 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 	 */
 	void processDocs(Processor<PhpDocComment> processor);
 
-	Set<? extends PhpNamedElement> EMPTY_SET = Collections.emptySet();
-
 	@Nonnull
-	String getFQN();
+	default String getFQN()
+	{
+		String namespaceName = getNamespaceName();
+		if(StringUtil.isEmpty(namespaceName))
+		{
+			return getName();
+		}
+		return namespaceName + "\\" + getName();
+	}
 
 	@Nonnull
 	String getNamespaceName();
