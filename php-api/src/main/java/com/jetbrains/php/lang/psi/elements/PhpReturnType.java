@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
 import consulo.annotations.RequiredReadAction;
@@ -22,7 +22,7 @@ public interface PhpReturnType extends PhpPsiElement, PhpTypedElement
 {
 	Condition<PsiElement> INSTANCEOF = e -> e instanceof PhpReturnType;
 
-	@NotNull
+	@Nonnull
 	@RequiredReadAction
 	ClassReference getClassReference();
 
