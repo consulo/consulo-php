@@ -18,6 +18,11 @@
 		</action>
 	</actions>
 
+	<extensionPoints>
+		<extensionPoint name="typeProvider3" interface="com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3" />
+		<extensionPoint name="typeProvider4" interface="com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider4" />
+	</extensionPoints>
+
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="php"
 								 allowMixin="true"
