@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpFunctionCall;
+import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
@@ -21,10 +21,9 @@ import com.intellij.util.IncorrectOperationException;
  * @author jay
  * @date May 15, 2008 12:36:39 PM
  */
-public class PhpFunctionCallImpl extends PhpElementImpl implements PhpFunctionCall
+public class PhpFunctionReferenceImpl extends PhpElementImpl implements FunctionReference
 {
-
-	public PhpFunctionCallImpl(ASTNode node)
+	public PhpFunctionReferenceImpl(ASTNode node)
 	{
 		super(node);
 	}

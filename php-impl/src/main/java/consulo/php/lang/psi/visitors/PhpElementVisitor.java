@@ -129,7 +129,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(constant);
 	}
 
-	public void visitFunctionCall(PhpFunctionCall call)
+	public void visitFunctionCall(FunctionReference call)
 	{
 		visitPhpElement(call);
 	}
