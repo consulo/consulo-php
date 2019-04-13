@@ -101,7 +101,7 @@ public interface PhpElementTypes
 	IElementType SWITCH = new PhpElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PhpElementType("Default case");
 	IElementType CASE = new PhpElementType("Case");
-	IElementType RETURN = new PhpElementType("Return");
+	IElementType RETURN = new ElementTypeAsPsiFactory("RETURN_STATEMENT", PhpLanguage.INSTANCE, PhpReturnStatemetImpl.class);
 	IElementType STATIC = new PhpElementType("Static statement");
 	IElementType DECLARE = new PhpElementType("Declare statement");
 	IElementType DECLARE_DIRECTIVE = new PhpElementType("Declare directive");
