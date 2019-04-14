@@ -8,6 +8,7 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.php.lang.psi.PhpUseListStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -42,6 +43,18 @@ public class PhpGroupStatementImpl extends PhpElementImpl implements GroupStatem
 		}
 		else if(lastParent instanceof PhpPsiElement)
 		{
+			PsiElement[] statements = getStatements();
+			for(PsiElement statement : statements)
+			{
+				if(statement instanceof PhpUseListStatement)
+				{
+					if(!statement.processDeclarations(processor, state, lastParent, source))
+					{
+						return false;
+					}
+				}
+			}
+
 			PhpPsiElement statement = ((PhpPsiElement) lastParent).getPrevPsiSibling();
 			while(statement != null)
 			{
