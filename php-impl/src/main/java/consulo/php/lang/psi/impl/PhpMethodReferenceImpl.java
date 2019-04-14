@@ -14,10 +14,12 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.ObjectUtil;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
@@ -110,7 +112,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public boolean isStatic()
 	{
-		if(getClassReference() != null && !getClassReference().getText().equals("parent"))
+		if(getClassReference() != null && !getClassReference().getText().equals(PhpClass.PARENT))
 		{
 			return true;
 		}
@@ -148,15 +150,28 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	}
 
 	//TODO multiresolve
+	@RequiredReadAction
 	@Override
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
+		PsiElement target = this;
+		ClassReference classReference = getClassReference();
+		if(classReference != null)
+		{
+			target = ObjectUtil.notNull(classReference.resolve(), this);
+		}
+		PsiElement objectReference = getObjectReference();
+		if(objectReference instanceof PsiReference)
+		{
+			target = ObjectUtil.notNull(((PsiReference) objectReference).resolve(), this);
+		}
+
 		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ElementKind.FUNCTION);
-		ResolveUtil.treeWalkUp(this, processor);
+		ResolveUtil.treeWalkUp(target, processor);
 		Collection<PsiElement> declarations = processor.getResult();
 
-		List<ResolveResult> result = new ArrayList<ResolveResult>(declarations.size());
+		List<ResolveResult> result = new ArrayList<>(declarations.size());
 		for(final PsiElement element : declarations)
 		{
 			if(declarations.size() > 1 && element == this)
@@ -167,12 +182,6 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		}
 
 		return result.toArray(new ResolveResult[result.size()]);
-	}
-
-	@Override
-	public Object[] getVariants()
-	{
-		return new Object[0];
 	}
 
 	@Override
@@ -201,8 +210,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	 *
 	 * @param element the element which should become the target of the reference.
 	 * @return the new underlying element of the reference.
-	 * @throws com.intellij.util.IncorrectOperationException
-	 *          if the rebind cannot be handled for some reason.
+	 * @throws com.intellij.util.IncorrectOperationException if the rebind cannot be handled for some reason.
 	 */
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException

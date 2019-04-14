@@ -18,7 +18,6 @@ import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
-import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
@@ -357,20 +356,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		PsiElement resolve = resolve();
-		if(resolve == element)
-		{
-			return true;
-		}
-
-		if(element instanceof PhpClass || element instanceof Function)
-		{
-			if(element instanceof PhpClass && resolve instanceof Function)
-			{
-				return PsiTreeUtil.getParentOfType(resolve, PhpClass.class) == element;
-			}
-		}
-		return false;
+		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
 	private ClassUsageContext getUsageContext()
