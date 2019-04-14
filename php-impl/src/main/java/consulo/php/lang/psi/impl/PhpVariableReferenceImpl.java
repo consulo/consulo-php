@@ -121,16 +121,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 
 	@Nonnull
 	@Override
-	public String getFQN()
-	{
-		return null;
-	}
-
-	@Nonnull
-	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 
 	@Override
@@ -240,7 +233,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public TextRange getRangeInElement()
 	{
-		return new TextRange(1, getTextLength());
+		return new TextRange(0, getTextLength());
 	}
 
 	@RequiredReadAction
