@@ -29,6 +29,7 @@ import com.jetbrains.php.lang.psi.elements.PhpUse;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.index.PhpFullFqClassIndex;
+import consulo.php.index.PhpNamespaceIndex;
 
 /**
  * @author VISTALL
@@ -48,7 +49,8 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<PhpNamespace> getNamespacesByName(String name)
 	{
-		return null;
+		Collection<PhpNamespace> collection = PhpNamespaceIndex.INSTANCE.get(name, myProject, GlobalSearchScope.allScope(myProject));
+		return collection;
 	}
 
 	@Nonnull

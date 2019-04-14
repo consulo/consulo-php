@@ -1,5 +1,6 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.SmartList;
+import com.intellij.util.containers.ContainerUtil;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -25,15 +28,12 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
-import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.PhpPsiElementFactory;
+import consulo.php.lang.psi.resolve.PhpResolveProcessor;
+import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import consulo.php.module.extension.PhpModuleExtension;
-import consulo.psi.PsiPackage;
-import consulo.psi.PsiPackageManager;
 
 /**
  * @author jay
@@ -92,56 +92,31 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 
 	@RequiredReadAction
 	@Override
-	@SuppressWarnings({"ConstantConditions"})
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		PsiElement parent = getParent();
 		ResolveKind resolveKind = findResolveKind();
 		String name = getReferenceName();
 		ClassReference qualifier = getQualifier();
-		StringBuilder builder = null;
 
 		switch(resolveKind)
 		{
-
 			case TO_NAMESPACE:
-				builder = new StringBuilder();
+				String text = getElement().getText();
 
+				Collection<PhpNamespace> namespacesByName = PhpIndex.getInstance(getProject()).getNamespacesByName(text);
 
-				if(qualifier != null)
-				{
-					PsiElement resolve = qualifier.resolve();
-					if(!(resolve instanceof PhpPackage))
-					{
-						return ResolveResult.EMPTY_ARRAY;
-					}
-
-					builder.append(((PhpPackage) resolve).getQualifiedName());
-					builder.append(".");
-				}
-				else
-				{
-					String text = getText();
-					if(text.length() > 0 && text.charAt(0) != '\\')
-					{
-
-					}
-				}
-
-				builder.append(name);
-
-				String packageName = builder.toString();
-
-				PsiPackage aPackage = PsiPackageManager.getInstance(getProject()).findPackage(packageName, PhpModuleExtension.class);
-				if(aPackage != null)
-				{
-					return new ResolveResult[]{new PsiElementResolveResult(aPackage, true)};
-				}
-				else
+				if(namespacesByName.isEmpty())
 				{
 					return ResolveResult.EMPTY_ARRAY;
 				}
+
+				List<ResolveResult> results = new ArrayList<>();
+				for(PhpNamespace namespace : namespacesByName)
+				{
+					results.add(new PsiElementResolveResult(namespace, true));
+				}
+				return ContainerUtil.toArray(results, ResolveResult.ARRAY_FACTORY);
 			case TO_FQ_CLASS:
 				if(PhpClass.SELF.equals(name))
 				{
@@ -179,30 +154,34 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 					}
 				}
 
-				builder = new StringBuilder();
+				StringBuilder builder = new StringBuilder();
 
 				if(qualifier != null)
 				{
-					PsiElement resolve = qualifier.resolve();
-					if(!(resolve instanceof PhpPackage))
+					PsiElement resolved = qualifier.resolve();
+					if(!(resolved instanceof PhpNamespace))
 					{
 						return ResolveResult.EMPTY_ARRAY;
 					}
 
-					builder.append(((PhpPackage) resolve).getQualifiedName());
-					builder.append(".");
+					builder.append(((PhpNamespace) resolved).getName());
+					builder.append("\\");
 				}
 
 				builder.append(name);
 
 				String fullyClassName = builder.toString().replace(" ", "");
-				Collection<PhpClass> phpClasses = PhpFullFqClassIndex.INSTANCE.get(fullyClassName, getProject(), getResolveScope());
-				List<ResolveResult> resultList = new SmartList<ResolveResult>();
+				Collection<PhpClass> phpClasses = PhpIndex.getInstance(getProject()).getClassesByFQN(fullyClassName);
+				List<ResolveResult> resultList = new SmartList<>();
 				for(PhpClass phpClass : phpClasses)
 				{
 					resultList.add(new PsiElementResolveResult(phpClass, true));
 				}
 				return resultList.isEmpty() ? ResolveResult.EMPTY_ARRAY : resultList.toArray(new ResolveResult[resultList.size()]);
+			case TO_CLASS:
+				PhpResolveProcessor processor = new PhpResolveProcessor(this, getReferenceName(), PhpResolveProcessor.ElementKind.CLASS);
+				ResolveUtil.treeWalkUp(this, processor);
+				return processor.getResult().stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
 			default:
 				return ResolveResult.EMPTY_ARRAY;
 		}
@@ -274,20 +253,18 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		PsiElement parent = getParent();
 		if(parent instanceof PhpClassReferenceImpl)
 		{
-			ResolveKind resolveKind = ((PhpClassReferenceImpl) parent).findResolveKind();
-			if(resolveKind == ResolveKind.TO_FQ_CLASS)
+			PhpUseImpl use = PsiTreeUtil.getParentOfType(this, PhpUseImpl.class);
+			if(use != null)
 			{
 				return ResolveKind.TO_NAMESPACE;
 			}
-
-			return resolveKind;
 		}
-		else if(parent instanceof PhpNamespace)
+		else if(parent instanceof PhpUseImpl)
 		{
-			return ResolveKind.TO_NAMESPACE;
+			return ResolveKind.TO_FQ_CLASS;
 		}
 
-		return ResolveKind.TO_FQ_CLASS;
+		return ResolveKind.TO_CLASS;
 	}
 
 	@RequiredReadAction
@@ -315,6 +292,12 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Nullable
 	public PsiElement resolve()
 	{
+		if(findResolveKind() == ResolveKind.TO_NAMESPACE)
+		{
+			ResolveResult[] results = multiResolve(false);
+			return results.length > 0 ? results[0].getElement() : null;
+		}
+
 		ResolveResult[] results = multiResolve(false);
 		if(results.length == 1)
 		{
@@ -405,6 +388,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	{
 		TO_NAMESPACE,
 		TO_FQ_CLASS,
+		TO_CLASS,
 
 		TO_UNKNOWN
 	}

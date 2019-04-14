@@ -3,6 +3,9 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.ResolveState;
+import com.intellij.psi.scope.PsiScopeProcessor;
 import com.jetbrains.php.lang.psi.elements.PhpUse;
 import consulo.php.lang.psi.PhpUseListStatement;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -28,5 +31,18 @@ public class PhpUseListStatementImpl extends PhpElementImpl implements PhpUseLis
 	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitUseList(this);
+	}
+
+	@Override
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
+	{
+		for(PhpUse use : getUses())
+		{
+			if(!use.processDeclarations(processor, state, lastParent, source))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

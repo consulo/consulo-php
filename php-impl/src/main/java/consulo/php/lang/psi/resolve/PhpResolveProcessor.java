@@ -13,6 +13,7 @@ import com.jetbrains.php.lang.psi.elements.Catch;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 
@@ -27,6 +28,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		FIELD,
 		PARAMETER,
 		FUNCTION,
+		CLASS,
 		NONE
 	}
 
@@ -83,6 +85,11 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		if(element instanceof Function)
 		{
 			return ElementKind.FUNCTION;
+		}
+
+		if(element instanceof PhpClass)
+		{
+			return ElementKind.CLASS;
 		}
 
 		if(element instanceof Variable && element.getParent() instanceof Catch)

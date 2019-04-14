@@ -68,8 +68,10 @@
 		<itemPresentationProvider forClass="com.jetbrains.php.lang.psi.PhpFile" implementationClass="consulo.php.ide.presentation.PhpFilePresentation"/>
 
 		<editorHighlighterProvider filetype="PHP" implementationClass="consulo.php.lang.PhpEditorHighlighterProvider"/>
+
 		<stubIndex implementation="consulo.php.index.PhpClassIndex"/>
 		<stubIndex implementation="consulo.php.index.PhpFullFqClassIndex"/>
+		<stubIndex implementation="consulo.php.index.PhpNamespaceIndex"/>
 
 		<stubElementTypeHolder class="consulo.php.lang.psi.PhpStubElements"/>
 

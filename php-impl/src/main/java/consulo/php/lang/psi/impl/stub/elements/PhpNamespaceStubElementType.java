@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
@@ -13,6 +14,7 @@ import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
 import consulo.annotations.RequiredReadAction;
+import consulo.php.index.PhpIndexKeys;
 import consulo.php.lang.psi.impl.PhpNamespaceStatementImpl;
 import consulo.php.lang.psi.impl.stub.PhpNamespaceStubImpl;
 
@@ -62,8 +64,12 @@ public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespace
 	}
 
 	@Override
-	public void indexStub(@Nonnull PhpNamespaceStub phpFieldStub, @Nonnull IndexSink indexSink)
+	public void indexStub(@Nonnull PhpNamespaceStub stub, @Nonnull IndexSink indexSink)
 	{
-
+		String name = stub.getName();
+		if(!StringUtil.isEmpty(name))
+		{
+			indexSink.occurrence(PhpIndexKeys.NAMESPACES, name);
+		}
 	}
 }
