@@ -1,11 +1,10 @@
 package consulo.php.completion.insert;
 
-import consulo.php.completion.PhpLookupItem;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 
 /**
  * @author jay
@@ -13,26 +12,20 @@ import com.intellij.openapi.editor.Editor;
  */
 public class PhpClassConstructorInsertHandler extends PhpMethodInsertHandler
 {
-
-	private static PhpClassConstructorInsertHandler instance = null;
+	private static final PhpClassConstructorInsertHandler instance = new PhpClassConstructorInsertHandler();
 
 	public static PhpClassConstructorInsertHandler getInstance()
 	{
-		if(instance == null)
-		{
-			instance = new PhpClassConstructorInsertHandler();
-		}
 		return instance;
 	}
 
 	@Override
 	protected Function getMethod(Editor editor, LookupElement element)
 	{
-		PhpLookupItem item = (PhpLookupItem) element.getObject();
-		final PhpNamedElement psiElement = item.getLightElement();
+		PsiElement psiElement = element.getPsiElement();
 		if(psiElement instanceof PhpClass)
 		{
-			return (Function) ((PhpClass) psiElement).getConstructor();
+			return ((PhpClass) psiElement).getConstructor();
 		}
 		return null;
 	}

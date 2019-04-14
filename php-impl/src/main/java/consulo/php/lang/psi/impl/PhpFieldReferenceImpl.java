@@ -18,22 +18,13 @@ import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
-import com.jetbrains.php.lang.psi.elements.FieldReference;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -233,6 +224,14 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 					for(Field field : aClass.getFields())
 					{
 						if(!processor.process(field))
+						{
+							return false;
+						}
+					}
+
+					for(Method method : aClass.getMethods())
+					{
+						if(!processor.process(method))
 						{
 							return false;
 						}
