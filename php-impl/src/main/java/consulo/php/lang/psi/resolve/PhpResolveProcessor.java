@@ -1,16 +1,20 @@
 package consulo.php.lang.psi.resolve;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
+import com.jetbrains.php.lang.psi.elements.Catch;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
 
 /**
  * @author jay
@@ -18,22 +22,23 @@ import com.intellij.psi.PsiNamedElement;
  */
 public class PhpResolveProcessor extends PhpScopeProcessor
 {
-	public static enum ResolveKind
+	public static enum ElementKind
 	{
-		METHOD,
 		FIELD,
-		FIELD_OR_PARAMETER
+		PARAMETER,
+		FUNCTION,
+		NONE
 	}
 
-	private Set<PsiElement> result = new LinkedHashSet<PsiElement>();
-	private ResolveKind myKind;
+	private Set<PsiElement> result = new LinkedHashSet<>();
+	private Set<ElementKind> myKinds;
 	private String myName;
 
-	public PhpResolveProcessor(PhpPsiElement element, String name, ResolveKind kind)
+	public PhpResolveProcessor(PhpPsiElement element, String name, ElementKind... kinds)
 	{
 		super(element);
 		myName = name;
-		myKind = kind;
+		myKinds = EnumSet.copyOf(Arrays.asList(kinds));
 	}
 
 	public Collection<PsiElement> getResult()
@@ -44,29 +49,13 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 	@Override
 	public boolean execute(PsiElement psiElement)
 	{
-		switch(myKind)
+		if(psiElement == element)
 		{
-			case FIELD:
-				if(!(psiElement instanceof Field))
-				{
-					return true;
-				}
-				break;
-			case FIELD_OR_PARAMETER:
-				if(!(psiElement instanceof Field) && !(psiElement instanceof Parameter))
-				{
-					return true;
-				}
-				break;
-			case METHOD:
-				if(!(psiElement instanceof Function))
-				{
-					return true;
-				}
-				break;
+			return true;
 		}
 
-		if(psiElement == element)
+		ElementKind kind = getKind(psiElement);
+		if(!myKinds.contains(kind))
 		{
 			return true;
 		}
@@ -79,4 +68,28 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		return true;
 	}
 
+	private static ElementKind getKind(PsiElement element)
+	{
+		if(element instanceof Field)
+		{
+			return ElementKind.FIELD;
+		}
+
+		if(element instanceof Parameter)
+		{
+			return ElementKind.PARAMETER;
+		}
+
+		if(element instanceof Function)
+		{
+			return ElementKind.FUNCTION;
+		}
+
+		if(element instanceof Variable && element.getParent() instanceof Catch)
+		{
+			return ElementKind.PARAMETER;
+		}
+
+		return ElementKind.NONE;
+	}
 }

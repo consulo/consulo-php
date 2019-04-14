@@ -65,7 +65,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 				}
 			}
 
-			PhpResolveProcessor processor = new PhpResolveProcessor(reference, reference.getName(), PhpResolveProcessor.ResolveKind.FIELD_OR_PARAMETER);
+			PhpResolveProcessor processor = new PhpResolveProcessor(reference, reference.getName(), PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER);
 			ResolveUtil.treeWalkUp(reference, processor);
 			Collection<PsiElement> declarations = processor.getResult();
 

@@ -152,7 +152,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ResolveKind.METHOD);
+		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ElementKind.FUNCTION);
 		ResolveUtil.treeWalkUp(this, processor);
 		Collection<PsiElement> declarations = processor.getResult();
 
