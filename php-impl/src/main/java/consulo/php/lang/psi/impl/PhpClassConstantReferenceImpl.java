@@ -22,16 +22,15 @@ import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.PhpClassConstantReference;
+import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date Jun 18, 2008 1:51:48 PM
  */
-public class PhpClassConstantReferenceImpl extends PhpElementImpl implements PhpClassConstantReference
+public class PhpClassConstantReferenceImpl extends PhpElementImpl implements ClassConstantReference
 {
-
 	public PhpClassConstantReferenceImpl(ASTNode node)
 	{
 		super(node);
