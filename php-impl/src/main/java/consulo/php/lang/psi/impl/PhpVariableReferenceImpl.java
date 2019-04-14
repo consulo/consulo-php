@@ -33,7 +33,7 @@ import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpAssignmentExpression;
-import consulo.php.lang.psi.PhpCatchStatement;
+import com.jetbrains.php.lang.psi.elements.Catch;
 import consulo.php.lang.psi.PhpGlobal;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpSelfAssignmentExpression;
@@ -195,9 +195,9 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 			PhpForeachStatement foreach = (PhpForeachStatement) getParent();
 			return (foreach.getKey() == this) || (foreach.getValue() == this);
 		}
-		if(getParent() instanceof PhpCatchStatement)
+		if(getParent() instanceof Catch)
 		{
-			return ((PhpCatchStatement) getParent()).getException() == this;
+			return ((Catch) getParent()).getException() == this;
 		}
 		if(getParent() instanceof PhpGlobal)
 		{

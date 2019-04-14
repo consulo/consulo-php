@@ -65,7 +65,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(foreach);
 	}
 
-	public void visitCatchStatement(PhpCatchStatement phpCatch)
+	public void visitCatchStatement(Catch phpCatch)
 	{
 		visitPhpElement(phpCatch);
 	}

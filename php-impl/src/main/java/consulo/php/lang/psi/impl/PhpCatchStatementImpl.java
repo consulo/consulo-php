@@ -2,7 +2,7 @@ package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.PhpCatchStatement;
+import com.jetbrains.php.lang.psi.elements.Catch;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -16,9 +16,8 @@ import com.intellij.psi.util.PsiTreeUtil;
  * @author jay
  * @date Apr 15, 2008 4:08:31 PM
  */
-public class PhpCatchStatementImpl extends PhpElementImpl implements PhpCatchStatement
+public class PhpCatchStatementImpl extends PhpElementImpl implements Catch
 {
-
 	public PhpCatchStatementImpl(ASTNode node)
 	{
 		super(node);
@@ -65,5 +64,4 @@ public class PhpCatchStatementImpl extends PhpElementImpl implements PhpCatchSta
 		}
 		return super.processDeclarations(processor, state, lastParent, source);
 	}
-
 }

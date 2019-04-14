@@ -21,7 +21,7 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import consulo.php.lang.psi.PhpAssignmentExpression;
-import consulo.php.lang.psi.PhpCatchStatement;
+import com.jetbrains.php.lang.psi.elements.Catch;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.NewExpression;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -72,9 +72,9 @@ public class PhpTypeAnnotatorVisitor extends PhpElementVisitor
 					type.add(((PhpTypedElement) value).getType());
 				}
 			}
-			else if(parent instanceof PhpCatchStatement)
+			else if(parent instanceof Catch)
 			{
-				ClassReference classReference = ((PhpCatchStatement) parent).getExceptionType();
+				ClassReference classReference = ((Catch) parent).getExceptionType();
 				if(classReference != null)
 				{
 					//type.addClasses(PhpIndexUtil.getClassesForName(variable, classReference.getReferenceName()));
