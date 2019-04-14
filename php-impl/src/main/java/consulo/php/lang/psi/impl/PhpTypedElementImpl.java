@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -29,13 +28,6 @@ public class PhpTypedElementImpl extends PhpElementImpl implements PhpTypedEleme
 	@Nonnull
 	public PhpType getType()
 	{
-		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		if(type == null)
-		{
-			PhpTypeAnnotatorVisitor.process(this);
-		}
-		type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		assert type != null;
-		return type;
+		return PhpType.EMPTY;
 	}
 }

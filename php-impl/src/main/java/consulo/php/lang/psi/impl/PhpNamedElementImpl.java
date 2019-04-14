@@ -7,27 +7,28 @@ import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import consulo.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
 /**
  * @author jay
  * @date Jun 4, 2008 11:38:51 AM
  */
-abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpNamedElement
+public abstract class PhpNamedElementImpl extends PhpElementImpl implements PhpNamedElement
 {
-
 	public PhpNamedElementImpl(ASTNode node)
 	{
 		super(node);
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
@@ -41,6 +42,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return this;
 	}
 
+	@RequiredReadAction
 	@Nullable
 	@Override
 	public PsiElement getNameIdentifier()
@@ -48,6 +50,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
+	@Nonnull
 	@Override
 	public String getName()
 	{
@@ -59,6 +62,7 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public int getTextOffset()
 	{
@@ -81,16 +85,10 @@ abstract public class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return null;
 	}
 
+	@Override
 	@Nonnull
 	public PhpType getType()
 	{
-		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		if(type == null)
-		{
-			PhpTypeAnnotatorVisitor.process(this);
-		}
-		type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		assert type != null;
-		return type;
+		return PhpType.EMPTY;
 	}
 }

@@ -88,6 +88,30 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		return null;
 	}
 
+	@Nonnull
+	@Override
+	public PhpType getType()
+	{
+		PsiElement element = resolve();
+		if(element instanceof PhpTypedElement)
+		{
+			return ((PhpTypedElement) element).getType();
+		}
+		return PhpType.EMPTY;
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getDeclaredType()
+	{
+		PsiElement element = resolve();
+		if(element instanceof PhpTypedElement)
+		{
+			return ((PhpTypedElement) element).getDeclaredType();
+		}
+		return PhpType.EMPTY;
+	}
+
 	@Override
 	public ClassReference getClassReference()
 	{

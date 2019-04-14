@@ -27,6 +27,7 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
@@ -247,18 +248,28 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		if(Variable.$THIS.equals(getNameCS()))
+		PsiElement element = resolve();
+		if(element instanceof PhpTypedElement)
 		{
-			PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-			if(phpClass != null)
-			{
-				return PhpType.builder().add(phpClass).build();
-			}
+			return ((PhpTypedElement) element).getType();
 		}
+		return PhpType.EMPTY;
+	}
 
-		return super.getType();
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getDeclaredType()
+	{
+		PsiElement element = resolve();
+		if(element instanceof PhpTypedElement)
+		{
+			return ((PhpTypedElement) element).getDeclaredType();
+		}
+		return PhpType.EMPTY;
 	}
 
 	@Override
