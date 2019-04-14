@@ -18,6 +18,8 @@ import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -51,12 +53,46 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 
 	@Override
 	@RequiredReadAction
+	public void visitVariableReference(Variable variable)
+	{
+		super.visitVariableReference(variable);
+
+		if(variable.canReadName())
+		{
+			if(Variable.SUPERGLOBALS.contains(variable.getName()) || variable.getName().equals(Variable.THIS) || variable.isDeclaration())
+			{
+				return;
+			}
+			PsiElement resolved = variable.resolve();
+			if(resolved == null)
+			{
+				registerWrongRef(variable, variable);
+			}
+		}
+	}
+
+	@Override
+	@RequiredReadAction
+	public void visitMethodReference(MethodReference reference)
+	{
+		if(reference.canReadName())
+		{
+			final PsiElement element = reference.resolve();
+			if(element == null)
+			{
+				registerWrongRef(reference.getNameIdentifier(), reference);
+			}
+		}
+	}
+
+	@Override
+	@RequiredReadAction
 	public void visitClassReference(ClassReference classReference)
 	{
 		super.visitPhpElement(classReference);
 
-		PsiElement resolve = classReference.resolve();
-		if(resolve == null)
+		PsiElement resolved = classReference.resolve();
+		if(resolved == null)
 		{
 			registerWrongRef(classReference.getReferenceElement(), classReference);
 		}
@@ -87,7 +123,7 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 			return;
 		}
 
-		createHighlighing(HighlightInfoType.WRONG_REF, reference, "'" + element.getText() + "' is not resolved", null);
+		createHighlighing(HighlightInfoType.WARNING, reference, "'" + element.getText() + "' is not resolved", null);
 	}
 
 	@RequiredReadAction

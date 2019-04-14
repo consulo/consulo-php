@@ -74,8 +74,6 @@
 
 		<stubElementTypeHolder class="consulo.php.lang.psi.PhpStubElements"/>
 
-		<inspectionToolProvider implementation="consulo.php.codeInsight.PhpInspectionToolProvider"/>
-
 		<pathMacroExpendableProtocol protocol="phar"/>
 
 		<virtualFileSystem implementation="consulo.php.vfs.PharFileSystem"/>
@@ -83,5 +81,8 @@
 		<projectService serviceImplementation="consulo.php.pom.PhpPomAspect" lazy="false"/>
 
 		<projectService serviceInterface="com.jetbrains.php.PhpIndex" serviceImplementation="consulo.php.lang.psi.impl.PhpIndexImpl" />
+
+		<localInspection groupName="PHP" displayName="Dynamic method called as static" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall" />
+		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
 	</extensions>
 </idea-plugin>
