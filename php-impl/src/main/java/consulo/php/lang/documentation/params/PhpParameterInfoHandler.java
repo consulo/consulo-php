@@ -147,7 +147,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 					buff.append(", ");
 				}
 				final PsiElement parameter = parameters[i];
-				String paramName = "$" + ((Parameter)parameter).getName();
+				String paramName = ((Parameter)parameter).getName();
 				if(paramName.equals("$"))
 				{
 					paramName = "";
