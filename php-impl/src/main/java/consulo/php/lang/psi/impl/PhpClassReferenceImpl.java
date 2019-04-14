@@ -13,6 +13,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
+import com.intellij.psi.ResolveState;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
@@ -180,7 +181,19 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				return resultList.isEmpty() ? ResolveResult.EMPTY_ARRAY : resultList.toArray(new ResolveResult[resultList.size()]);
 			case TO_CLASS:
 				PhpResolveProcessor processor = new PhpResolveProcessor(this, getReferenceName(), PhpResolveProcessor.ElementKind.CLASS);
-				ResolveUtil.treeWalkUp(this, processor);
+				PsiElement slashElement = findChildByType(PhpTokenTypes.SLASH);
+				if(slashElement != null)
+				{
+					Collection<PhpClass> classes = PhpIndex.getInstance(getProject()).getClassesByFQN(getReferenceName());
+					for(PhpClass aClass : classes)
+					{
+						processor.execute(aClass, ResolveState.initial());
+					}
+				}
+				else
+				{
+					ResolveUtil.treeWalkUp(this, processor);
+				}
 				return processor.getResult().stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
 			default:
 				return ResolveResult.EMPTY_ARRAY;
