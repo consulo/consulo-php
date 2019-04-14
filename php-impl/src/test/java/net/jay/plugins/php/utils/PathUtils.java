@@ -1,11 +1,12 @@
 package net.jay.plugins.php.utils;
 
-import org.jetbrains.annotations.NonNls;
+import java.io.File;
+import java.net.URL;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.net.URL;
+import org.jetbrains.annotations.NonNls;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,10 +24,8 @@ public class PathUtils {
 
 	@Nullable
 	public static String getDataPath(@Nonnull Class s) {
-		String n = s.getName();
-		int index = n.lastIndexOf(".");
-		String path = "testData/" + n.substring(0, index).replace(".", "/");
-		return path;
+		final File f = new File(s.getProtectionDomain().getCodeSource().getLocation().getPath());
+		return f.getPath();
 	}
 
 	@Nullable
