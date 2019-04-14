@@ -21,7 +21,10 @@ import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -55,11 +58,11 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	public PhpType resolveLocalType()
 	{
 		PsiElement element = resolve();
-		if(element instanceof PhpClass)
+		if(element instanceof PhpTypedElement)
 		{
-			return PhpType.builder().add(element).build();
+			return ((PhpTypedElement) element).getType();
 		}
-		return PhpType.VOID;
+		return PhpType.EMPTY;
 	}
 
 	@Nullable
@@ -88,6 +91,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return this;
 	}
 
+	@RequiredReadAction
 	@Override
 	@SuppressWarnings({"ConstantConditions"})
 	@Nonnull
@@ -163,7 +167,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 
 						if(superClass != null)
 						{
-							return new ResolveResult[]{new PsiElementResolveResult(parentOfType, true)};
+							return new ResolveResult[]{new PsiElementResolveResult(superClass, true)};
 						}
 						else
 						{
@@ -287,12 +291,15 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return ResolveKind.TO_FQ_CLASS;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
 	{
@@ -304,6 +311,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return new TextRange(referenceElement.getStartOffsetInParent(), referenceElement.getStartOffsetInParent() + referenceElement.getTextLength());
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -316,12 +324,15 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return null;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
 	{
 		return getText();
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
@@ -335,12 +346,14 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return this;
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
@@ -384,6 +397,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return context;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public Object[] getVariants()
 	{
@@ -393,6 +408,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return new Object[0];
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{
