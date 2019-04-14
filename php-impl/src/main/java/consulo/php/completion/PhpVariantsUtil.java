@@ -180,12 +180,13 @@ public class PhpVariantsUtil
 
 	@Nonnull
 	@RequiredReadAction
-	public static LookupElement[] getLookupItems(List<? extends PhpNamedElement> elements, UsageContext usageContext)
+	public static LookupElement[] getLookupItems(Collection<PhpNamedElement> elements, UsageContext usageContext)
 	{
 		LookupElement[] result = new LookupElement[elements.size()];
-		for(int i = 0; i < result.length; i++)
+		int i = 0;
+		for(PhpNamedElement element : elements)
 		{
-			result[i] = getLookupItem(elements.get(i), usageContext);
+			result[i++] = getLookupItem(element, usageContext);
 		}
 		return result;
 	}

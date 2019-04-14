@@ -6,23 +6,31 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.intellij.util.containers.ContainerUtil;
+import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -31,6 +39,24 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  */
 public class PhpClassConstantReferenceImpl extends PhpElementImpl implements ClassConstantReference
 {
+	private static final class OurResolver implements ResolveCache.PolyVariantResolver<PhpClassConstantReferenceImpl>
+	{
+		private static final OurResolver INSTANCE = new OurResolver();
+
+		@Nonnull
+		@Override
+		@RequiredReadAction
+		public ResolveResult[] resolve(@Nonnull PhpClassConstantReferenceImpl constantReference, boolean incompleteCode)
+		{
+			List<ResolveResult> results = new ArrayList<>();
+			constantReference.process(element -> {
+				results.add(new PsiElementResolveResult(element, true));
+				return true;
+			}, constantReference.getName());
+			return ContainerUtil.toArray(results, ResolveResult.ARRAY_FACTORY);
+		}
+	}
+
 	public PhpClassConstantReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -42,33 +68,32 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 		visitor.visitClassConstantReference(this);
 	}
 
-	private ASTNode getNameNode()
+	@Override
+	@RequiredReadAction
+	@Nullable
+	public PsiElement getNameIdentifier()
 	{
-		return getNode().findChildByType(PhpTokenTypes.IDENTIFIER);
+		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
+	@RequiredReadAction
 	public boolean canReadName()
 	{
-		return getNameNode() != null;
+		return getNameIdentifier() != null;
 	}
 
-	public String getConstantName()
+	@Override
+	@Nonnull
+	@RequiredReadAction
+	public String getName()
 	{
-		if(canReadName())
-		{
-			return getNameNode().getText();
-		}
-		return null;
+		return getNameIdentifier().getText();
 	}
 
 	@Override
 	public PsiReference getReference()
 	{
-		if(canReadName())
-		{
-			return this;
-		}
-		return null;
+		return this;
 	}
 
 	@Nullable
@@ -82,64 +107,79 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		return new ResolveResult[0];
+		return ResolveCache.getInstance(getProject()).resolveWithCaching(this, OurResolver.INSTANCE, true, incompleteCode);
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
 	{
 		if(canReadName())
 		{
-			ASTNode nameNode = getNameNode();
-			int startOffset = nameNode.getPsi().getStartOffsetInParent();
-			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
+			PsiElement element = getNameIdentifier();
+			int startOffset = element.getStartOffsetInParent();
+			return new TextRange(startOffset, startOffset + element.getTextLength());
 		}
-		return null;
+		return getTextRange();
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
 	{
+		ResolveResult[] results = multiResolve(false);
+		if(results.length == 1)
+		{
+			return results[0].getElement();
+		}
 		return null;
 	}
 
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		return getText();
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		return false;
+		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
-	@Override
-	public Object[] getVariants()
+	@RequiredReadAction
+	private void process(@Nonnull Processor<PhpNamedElement> processor, @Nullable String name)
 	{
 		final ClassReference classReference = getClassReference();
 		if(classReference != null)
@@ -147,32 +187,65 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 			final PsiElement psiElement = classReference.resolve();
 			if(psiElement instanceof PhpClass)
 			{
-				final UsageContext context = new UsageContext();
-				final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-
-				context.setClassForAccessFilter(contextClass);
-
-
-				context.setCallingObjectClass(contextClass);
-
-				final List<PhpNamedElement> toComplete = new ArrayList<PhpNamedElement>();
-				for(Function method : contextClass.getOwnMethods())
+				for(Function method : ((PhpClass) psiElement).getOwnMethods())
 				{
-					toComplete.add(method);
+					if(name != null)
+					{
+						if(Comparing.equal(name, method.getName()) && !processor.process(method))
+						{
+							return;
+						}
+					}
+					else
+					{
+						if(!processor.process(method))
+						{
+							return;
+						}
+					}
 				}
-		  /*for (LightPhpField field : lightPhpClass.getFields()) {
-			toComplete.add(field);
-          }*/
 
-				final LookupElement[] list = PhpVariantsUtil.getLookupItems(toComplete, context);
-				return list;
+				for(Field field : ((PhpClass) psiElement).getOwnFields())
+				{
+					if(name != null)
+					{
+						if(Comparing.equal(name, field.getName()) && !processor.process(field))
+						{
+							return;
+						}
+					}
+					else
+					{
+						if(!processor.process(field))
+						{
+							return;
+						}
+					}
+				}
 			}
 		}
-		return new Object[0];
-
-
 	}
 
+	@Nonnull
+	@RequiredReadAction
+	@Override
+	public Object[] getVariants()
+	{
+		CommonProcessors.CollectProcessor<PhpNamedElement> elements = new CommonProcessors.CollectProcessor<>();
+
+		final UsageContext context = new UsageContext();
+		final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+
+		context.setClassForAccessFilter(contextClass);
+
+		context.setCallingObjectClass(contextClass);
+
+		process(elements, null);
+
+		return PhpVariantsUtil.getLookupItems(elements.getResults(), context);
+	}
+
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{

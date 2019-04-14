@@ -98,7 +98,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		return getText();
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		return false;
+		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
 	/**

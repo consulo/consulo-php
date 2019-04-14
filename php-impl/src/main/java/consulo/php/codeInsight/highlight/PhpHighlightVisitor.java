@@ -16,6 +16,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ReferenceRange;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.Field;
@@ -77,6 +78,24 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 
 	@Override
 	@RequiredReadAction
+	public void visitClassConstantReference(ClassConstantReference constantReference)
+	{
+		super.visitClassConstantReference(constantReference);
+
+		PsiElement element = constantReference.resolve();
+		if(element == null)
+		{
+			registerWrongRef(constantReference.getNameIdentifier(), constantReference);
+		}
+		else
+		{
+			PsiElement nameIdentifier = constantReference.getNameIdentifier();
+			createHighlighing(HighlightInfoType.INFORMATION, nameIdentifier.getTextRange(), null, PhpHighlightingData.CONSTANT);
+		}
+	}
+
+	@Override
+	@RequiredReadAction
 	public void visitField(Field phpField)
 	{
 		super.visitField(phpField);
@@ -92,11 +111,13 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	}
 
 	@Override
+	@RequiredReadAction
 	public void visitConstant(ConstantReference constant)
 	{
 		super.visitConstant(constant);
 
-		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
+		String text = constant.getText();
+		if(text.equalsIgnoreCase("true") || text.equalsIgnoreCase("false") || text.equalsIgnoreCase("null"))
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.KEYWORD);
 		}

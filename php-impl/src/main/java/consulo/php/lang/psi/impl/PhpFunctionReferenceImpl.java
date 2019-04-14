@@ -3,10 +3,6 @@ package consulo.php.lang.psi.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import consulo.php.lang.lexer.PhpTokenTypes;
-import com.jetbrains.php.lang.psi.elements.FunctionReference;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -16,6 +12,11 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.elements.FunctionReference;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
+import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
@@ -185,10 +186,11 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 * @param element the element to check target for.
 	 * @return true if the reference targets that element, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		return false;
+		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
 	/**

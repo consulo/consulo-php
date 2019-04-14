@@ -275,11 +275,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		if(element instanceof Field)
-		{
-			return element == resolve();
-		}
-		return false;
+		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
 	/**

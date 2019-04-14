@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.jetbrains.php.lang.psi.elements.*;
 import consulo.php.lang.psi.*;
 import consulo.php.lang.psi.impl.PhpArrayHashElementImpl;
-import consulo.php.lang.psi.impl.PhpClassConstantReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import consulo.php.lang.psi.impl.PhpReturnStatemetImpl;
 import consulo.php.lang.psi.impl.PhpTryStatementImpl;
@@ -110,7 +109,7 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(reference);
 	}
 
-	public void visitClassConstantReference(PhpClassConstantReferenceImpl constantReference)
+	public void visitClassConstantReference(ClassConstantReference constantReference)
 	{
 		visitPhpElement(constantReference);
 	}
