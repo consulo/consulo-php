@@ -16,9 +16,9 @@ import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpNamedStub;
 import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.types.PhpTypeAnnotatorVisitor;
 
 /**
  * @author VISTALL
@@ -36,6 +36,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		super(node);
 	}
 
+	@Override
 	public PhpDocComment getDocComment()
 	{
 		PsiElement element = getPrevSibling();
@@ -108,19 +109,14 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		return getName();
 	}
 
+	@Override
 	@Nonnull
 	public PhpType getType()
 	{
-		PhpType type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		if(type == null)
-		{
-			PhpTypeAnnotatorVisitor.process(this);
-		}
-		type = getUserData(PhpTypeAnnotatorVisitor.TYPE_KEY);
-		assert type != null;
-		return type;
+		return PhpType.EMPTY;
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement setName(@NonNls @Nonnull String s) throws IncorrectOperationException
 	{

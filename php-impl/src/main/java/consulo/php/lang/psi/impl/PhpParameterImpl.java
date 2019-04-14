@@ -8,6 +8,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -53,16 +54,28 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 
 	@Nonnull
 	@Override
+	public PhpType getType()
+	{
+		ClassReference reference = findChildByClass(ClassReference.class);
+		if(reference != null)
+		{
+			return reference.resolveLocalType();
+		}
+		return PhpType.EMPTY;
+	}
+
+	@Nonnull
+	@Override
 	public PhpType getDeclaredType()
 	{
-		return PhpType.VOID;
+		return PhpType.EMPTY;
 	}
 
 	@Nonnull
 	@Override
 	public PhpType getLocalType()
 	{
-		return PhpType.VOID;
+		return PhpType.EMPTY;
 	}
 
 	@Nullable
