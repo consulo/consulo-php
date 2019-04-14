@@ -17,10 +17,13 @@ import com.intellij.psi.ReferenceRange;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.ConstantReference;
+import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
+import consulo.php.lang.highlighter.PhpHighlightingData;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -63,11 +66,39 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 			{
 				return;
 			}
+
 			PsiElement resolved = variable.resolve();
 			if(resolved == null)
 			{
 				registerWrongRef(variable, variable);
 			}
+		}
+	}
+
+	@Override
+	@RequiredReadAction
+	public void visitField(Field phpField)
+	{
+		super.visitField(phpField);
+
+		if(phpField.isConstant())
+		{
+			PsiElement nameIdentifier = phpField.getNameIdentifier();
+			if(nameIdentifier != null)
+			{
+				createHighlighing(HighlightInfoType.INFORMATION, nameIdentifier.getTextRange(), null, PhpHighlightingData.CONSTANT);
+			}
+		}
+	}
+
+	@Override
+	public void visitConstant(ConstantReference constant)
+	{
+		super.visitConstant(constant);
+
+		if(constant.getText().equalsIgnoreCase("true") || constant.getText().equalsIgnoreCase("false") || constant.getText().equalsIgnoreCase("null"))
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.KEYWORD);
 		}
 	}
 
@@ -90,6 +121,12 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	public void visitClassReference(ClassReference classReference)
 	{
 		super.visitPhpElement(classReference);
+
+		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, classReference, null, PhpHighlightingData.KEYWORD);
+			return;
+		}
 
 		PsiElement resolved = classReference.resolve();
 		if(resolved == null)
@@ -129,9 +166,12 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	@RequiredReadAction
 	private void createHighlighing(@Nonnull HighlightInfoType type, @Nonnull PsiReference reference, @Nullable String description, @Nullable TextAttributesKey key)
 	{
-		TextRange range = ContainerUtil.getFirstItem(ReferenceRange.getAbsoluteRanges(reference));
-		assert range != null;
+		createHighlighing(type, ContainerUtil.getFirstItem(ReferenceRange.getAbsoluteRanges(reference)), description, key);
+	}
 
+	@RequiredReadAction
+	private void createHighlighing(@Nonnull HighlightInfoType type, @Nonnull TextRange range, @Nullable String description, @Nullable TextAttributesKey key)
+	{
 		HighlightInfo.Builder builder = HighlightInfo.newHighlightInfo(type);
 		builder.range(range);
 		if(description != null)

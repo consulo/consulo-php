@@ -58,7 +58,6 @@
 		<codeInsight.parameterInfo language="PHP" implementationClass="consulo.php.lang.documentation.params.PhpParameterInfoHandler"/>
 
 		<lang.syntaxHighlighterFactory language="PHP" implementationClass="consulo.php.lang.highlighter.PhpSyntaxHighlighterFactory"/>
-		<annotator language="PHP" implementationClass="consulo.php.lang.annotator.PhpAnnotator"/>
 		<lang.fileViewProviderFactory language="PHP" implementationClass="consulo.php.lang.PhpFileViewProviderFactory"/>
 		<lang.substitutor language="HTML" implementationClass="consulo.php.PhpLanguageSubstitutor"/>
 		<lang.psiStructureViewFactory language="PHP" implementationClass="consulo.php.lang.PhpStructureViewBuilderProvider"/>
