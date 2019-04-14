@@ -1,35 +1,30 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
-import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date Jun 30, 2008 1:44:07 AM
  */
-public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements ConstantReference
+public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements ConstantReference, PhpReferenceWithCompletion
 {
 	public PhpConstantReferenceImpl(ASTNode node)
 	{
@@ -77,34 +72,25 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 		return null;
 	}
 
-	private ClassUsageContext getUsageContext()
+	@Override
+	public ClassUsageContext createClassUsageContext()
 	{
 		ClassUsageContext context = new ClassUsageContext();
 		context.setStatic(true);
 		return context;
 	}
 
-	@Nonnull
-	@RequiredReadAction
 	@Override
-	public Object[] getVariants()
+	public void processForCompletion(@Nonnull Processor<PhpNamedElement> elementProcessor)
 	{
 		PhpIndex index = PhpIndex.getInstance(getProject());
-		List<PhpClass> variants = new ArrayList<>();
 		for(String className : index.getAllClassFqns(null))
 		{
-			variants.addAll(index.getClassesByFQN(className));
+			for(PhpClass phpClass : index.getClassesByFQN(className))
+			{
+				elementProcessor.process(phpClass);
+			}
 		}
-
-		final List<LookupElement> list = PhpVariantsUtil.getLookupItemsForClasses(variants, getUsageContext());
-
-//		List<LightPhpFunction> functions = new ArrayList<LightPhpFunction>();
-//		for(String functionName : index.getAllFunctionNames())
-//		{
-//			functions.addAll(index.getFunctionsByName(functionName));
-//		}
-//		list.addAll(PhpVariantsUtil.getLookupItems(functions, null));
-		return ArrayUtil.toObjectArray(list);
 	}
 
 	@Nonnull
@@ -203,20 +189,13 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public CharSequence getNameCS()
 	{
-		return null;
+		return getName();
 	}
 
 	@Override
 	public void processDocs(Processor<PhpDocComment> processor)
 	{
 
-	}
-
-	@Nonnull
-	@Override
-	public String getFQN()
-	{
-		return null;
 	}
 
 	@Nonnull

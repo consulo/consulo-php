@@ -165,8 +165,8 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Php
 			toComplete.add(field);
           }*/
 
-				final List<LookupElement> list = PhpVariantsUtil.getLookupItems(toComplete, context);
-				return list.toArray(new LookupElement[list.size()]);
+				final LookupElement[] list = PhpVariantsUtil.getLookupItems(toComplete, context);
+				return list;
 			}
 		}
 		return new Object[0];

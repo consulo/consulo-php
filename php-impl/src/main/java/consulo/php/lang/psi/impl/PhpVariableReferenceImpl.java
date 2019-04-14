@@ -22,6 +22,7 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import com.jetbrains.php.lang.psi.elements.Catch;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
@@ -30,10 +31,8 @@ import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
-import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpAssignmentExpression;
-import com.jetbrains.php.lang.psi.elements.Catch;
 import consulo.php.lang.psi.PhpGlobal;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpSelfAssignmentExpression;
@@ -46,7 +45,7 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  * @author jay
  * @date Apr 3, 2008 9:59:26 PM
  */
-public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Variable
+public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Variable, PhpReferenceWithCompletion
 {
 	private static class OurResolver implements ResolveCache.PolyVariantResolver<PhpVariableReferenceImpl>
 	{
@@ -92,17 +91,6 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public ASTNode getNameNode()
 	{
-		return null;
-	}
-
-	@Nonnull
-	@Override
-	public String getName()
-	{
-		if(canReadName())
-		{
-			return getNode().getText().substring(1);
-		}
 		return null;
 	}
 
@@ -273,6 +261,17 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return super.getType();
 	}
 
+	@Override
+	public void processForCompletion(@RequiredReadAction Processor<PhpNamedElement> processor)
+	{
+		PhpVariantsProcessor variantsProcessor = new PhpVariantsProcessor(this);
+		ResolveUtil.treeWalkUp(this, variantsProcessor);
+		for(PhpNamedElement element : variantsProcessor.getVariants())
+		{
+			processor.process(element);
+		}
+	}
+
 	@Nonnull
 	@RequiredReadAction
 	@Override
@@ -304,17 +303,6 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 			return psiElement == resolve();
 		}
 		return false;
-	}
-
-	@RequiredReadAction
-	@Nonnull
-	@Override
-	public Object[] getVariants()
-	{
-		PhpVariantsProcessor processor = new PhpVariantsProcessor(this);
-		ResolveUtil.treeWalkUp(this, processor);
-		List<PhpNamedElement> variants = processor.getVariants();
-		return PhpVariantsUtil.getLookupItemsForVariables(variants);
 	}
 
 	@RequiredReadAction

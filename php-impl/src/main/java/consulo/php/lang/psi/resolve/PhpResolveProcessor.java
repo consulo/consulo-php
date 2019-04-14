@@ -68,7 +68,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		return true;
 	}
 
-	private static ElementKind getKind(PsiElement element)
+	public static ElementKind getKind(PsiElement element)
 	{
 		if(element instanceof Field)
 		{

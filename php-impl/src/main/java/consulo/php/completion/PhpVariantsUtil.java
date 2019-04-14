@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.intellij.codeInsight.completion.BasicInsertHandler;
-import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.util.Iconable;
@@ -76,7 +74,7 @@ public class PhpVariantsUtil
 		return items;
 	}
 
-	public static List<LookupElement> getLookupItems(List<? extends PhpNamedElement> elements, UsageContext context)
+	public static List<LookupElement> getLookupItemsOld(List<? extends PhpNamedElement> elements, UsageContext context)
 	{
 	/*	List<PhpNamedElement> filtered = new ArrayList<PhpNamedElement>();
 		for(LightPhpElement element : elements)
@@ -138,7 +136,7 @@ public class PhpVariantsUtil
 	@RequiredReadAction
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
-		LookupElementBuilder builder = LookupElementBuilder.create(element);
+		LookupElementBuilder builder = LookupElementBuilder.create(element, element.getName());
 		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
 
 		if(context != null)
@@ -165,28 +163,9 @@ public class PhpVariantsUtil
 		{
 			builder = builder.withTypeText(element.getType().toString());
 			builder = builder.withTailText("()");
+			builder = builder.withInsertHandler(PhpMethodInsertHandler.getInstance());
 		}
-		builder = builder.withInsertHandler(getInsertHandler(element));
-		return builder;
-	}
-
-	@Nonnull
-	public static LookupElement[] getLookupItemsForVariables(List<? extends PhpNamedElement> elements)
-	{
-		LookupElement[] result = new LookupElement[elements.size()];
-		for(int i = 0; i < result.length; i++)
-		{
-			result[i] = getLookupItemForVariable(elements.get(i));
-		}
-		return result;
-	}
-
-	@Nonnull
-	public static LookupElement getLookupItemForVariable(PhpNamedElement element)
-	{
-		LookupElementBuilder builder = LookupElementBuilder.create(element, element.getName());
-		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
-		if(element instanceof Variable)
+		else if(element instanceof Variable)
 		{
 			Variable variable = (Variable) element;
 			builder = builder.withTypeText(variable.getType().toString());
@@ -199,17 +178,15 @@ public class PhpVariantsUtil
 		return builder;
 	}
 
-	public static InsertHandler getInsertHandler(PhpNamedElement element)
+	@Nonnull
+	@RequiredReadAction
+	public static LookupElement[] getLookupItems(List<? extends PhpNamedElement> elements, UsageContext usageContext)
 	{
-		if(element instanceof Function)
+		LookupElement[] result = new LookupElement[elements.size()];
+		for(int i = 0; i < result.length; i++)
 		{
-			return PhpMethodInsertHandler.getInstance();
+			result[i] = getLookupItem(elements.get(i), usageContext);
 		}
-	/*	if(element instanceof LightPhpFunction)
-		{
-			return PhpMethodInsertHandler.getInstance();
-		}  */
-		return new BasicInsertHandler();
+		return result;
 	}
-
 }

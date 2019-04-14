@@ -85,25 +85,6 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		return false;
 	}
 
-	@Nonnull
-	@RequiredReadAction
-	@Override
-	public String getName()
-	{
-		PhpParameterStub stub = getStub();
-		if(stub != null)
-		{
-			return stub.getName();
-		}
-
-		PsiElement nameNode = getNameIdentifier();
-		if(nameNode != null)
-		{
-			return nameNode.getText().substring(1);
-		}
-		return "";
-	}
-
 	@RequiredReadAction
 	@Nullable
 	@Override

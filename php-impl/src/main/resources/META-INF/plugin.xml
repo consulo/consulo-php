@@ -82,6 +82,8 @@
 
 		<projectService serviceInterface="com.jetbrains.php.PhpIndex" serviceImplementation="consulo.php.lang.psi.impl.PhpIndexImpl" />
 
+		<completion.contributor language="PHP" implementationClass="consulo.php.completion.PhpCompletionContributor" />
+
 		<localInspection groupName="PHP" displayName="Dynamic method called as static" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall" />
 		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
 	</extensions>
