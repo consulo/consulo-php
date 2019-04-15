@@ -13,6 +13,8 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.PhpReturnType;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.PhpStubElements;
@@ -32,6 +34,18 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	public PhpFunctionImpl(@Nonnull PhpFunctionStub stub)
 	{
 		super(stub, PhpStubElements.FUNCTION);
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getType()
+	{
+		PhpReturnType type = findChildByClass(PhpReturnType.class);
+		if(type != null)
+		{
+			return type.getType();
+		}
+		return super.getType();
 	}
 
 	@RequiredReadAction

@@ -17,6 +17,7 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.completion.insert.PhpClassConstructorInsertHandler;
@@ -162,7 +163,18 @@ public class PhpVariantsUtil
 		else if(element instanceof Function)
 		{
 			builder = builder.withTypeText(element.getType().toString());
-			builder = builder.withTailText("()");
+			Parameter[] parameters = ((Function) element).getParameters();
+
+			String parametersText = StringUtil.join(parameters, parameter ->
+			{
+				PhpType type = parameter.getType();
+				if(type != PhpType.EMPTY)
+				{
+					return type.toString() + " " + parameter.getName();
+				}
+				return parameter.getName();
+			}, ", ");
+			builder = builder.withTailText("(" + parametersText + ")");
 			builder = builder.withInsertHandler(PhpMethodInsertHandler.getInstance());
 		}
 		else if(element instanceof Variable)

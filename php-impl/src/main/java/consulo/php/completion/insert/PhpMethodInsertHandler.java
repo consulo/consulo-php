@@ -12,7 +12,7 @@ import consulo.php.lang.documentation.params.PhpParameterInfoHandlerUtil;
  * @author jay
  * @date Jun 24, 2008 4:51:54 PM
  */
-public class PhpMethodInsertHandler implements InsertHandler
+public class PhpMethodInsertHandler implements InsertHandler<LookupElement>
 {
 	private static final PhpMethodInsertHandler instance = new PhpMethodInsertHandler();
 

@@ -18,6 +18,7 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.impl.PhpFileImpl;
 
@@ -158,6 +159,13 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 					start = buff.length();
 					end = start + paramName.length();
 				}
+
+				PhpType type = parameter.getType();
+				if(type != PhpType.EMPTY)
+				{
+					buff.append(type.toString()).append(" ");
+				}
+
 				buff.append(paramName);
 			}
 		}

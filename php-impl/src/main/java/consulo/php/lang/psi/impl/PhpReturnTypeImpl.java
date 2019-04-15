@@ -21,6 +21,7 @@ public class PhpReturnTypeImpl extends PhpElementImpl implements PhpReturnType
 		super(node);
 	}
 
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public ClassReference getClassReference()
@@ -39,7 +40,8 @@ public class PhpReturnTypeImpl extends PhpElementImpl implements PhpReturnType
 	@Override
 	public PhpType getType()
 	{
-		return PhpType.VOID;
+		ClassReference classReference = getClassReference();
+		return classReference.resolveLocalType();
 	}
 
 	@Override
