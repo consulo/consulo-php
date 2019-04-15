@@ -117,10 +117,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		{
 			return new PhpImplementsListImpl(node);
 		}
-		if(type == CLASS_CONSTANT_REFERENCE)
-		{
-			return new PhpClassConstantReferenceImpl(node);
-		}
+
 		if(type == CONSTANT)
 		{
 			return new PhpConstantReferenceImpl(node);

@@ -69,7 +69,7 @@ public interface PhpElementTypes
 	IElementType CLASS_REFERENCE = new ElementTypeAsPsiFactory("CLASS_REFERENCE", PhpLanguage.INSTANCE, PhpClassReferenceImpl.class);
 	IElementType VARIABLE_REFERENCE = new ElementTypeAsPsiFactory("VARIABLE_REFERENCE", PhpLanguage.INSTANCE, PhpVariableReferenceImpl.class);
 	IElementType ARRAY_INDEX = new PhpElementType("Array index");
-	IElementType CLASS_CONSTANT_REFERENCE = new PhpElementType("Class constant reference");
+	IElementType CLASS_CONSTANT_REFERENCE = new ElementTypeAsPsiFactory("CLASS_CONSTANT_REFERENCE", PhpLanguage.INSTANCE, PhpClassConstantReferenceImpl.class);
 	IElementType ELSE_IF = new PhpElementType("Elseif");
 	IElementType ELSE = new PhpElementType("Else");
 	IElementType ARRAY = new PhpElementType("Array");

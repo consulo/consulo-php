@@ -13,7 +13,6 @@ import com.intellij.psi.tree.IElementType;
  */
 public class StaticClassConstant implements PhpTokenTypes
 {
-
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker mainMarker = builder.mark();
@@ -33,21 +32,30 @@ public class StaticClassConstant implements PhpTokenTypes
 			return PhpElementTypes.EMPTY_INPUT;
 		}
 
-		builder.match(IDENTIFIER);
-
-		if(builder.getTokenType() == LPAREN)
-		{
-			Function.parseFunctionCallParameterList(builder);
-
-			mainMarker.done(PhpElementTypes.FUNCTION_CALL);
-
-			return PhpElementTypes.FUNCTION_CALL;
-		}
-		else
+		if(builder.compareAndEat(kwCLASS))
 		{
 			mainMarker.done(PhpElementTypes.CLASS_CONSTANT_REFERENCE);
 
 			return PhpElementTypes.CLASS_CONSTANT_REFERENCE;
+		}
+		else
+		{
+			builder.match(IDENTIFIER);
+
+			if(builder.getTokenType() == LPAREN)
+			{
+				Function.parseFunctionCallParameterList(builder);
+
+				mainMarker.done(PhpElementTypes.FUNCTION_CALL);
+
+				return PhpElementTypes.FUNCTION_CALL;
+			}
+			else
+			{
+				mainMarker.done(PhpElementTypes.CLASS_CONSTANT_REFERENCE);
+
+				return PhpElementTypes.CLASS_CONSTANT_REFERENCE;
+			}
 		}
 	}
 }

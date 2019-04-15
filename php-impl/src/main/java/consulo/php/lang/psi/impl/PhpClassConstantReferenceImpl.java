@@ -14,7 +14,9 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
@@ -26,6 +28,8 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.PhpVariantsUtil;
@@ -57,6 +61,8 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 		}
 	}
 
+	private static final TokenSet ourNameTokens = TokenSet.create(PhpTokenTypes.IDENTIFIER, PhpTokenTypes.kwCLASS);
+
 	public PhpClassConstantReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -73,7 +79,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 	@Nullable
 	public PsiElement getNameIdentifier()
 	{
-		return findChildByType(PhpTokenTypes.IDENTIFIER);
+		return findChildByType(ourNameTokens);
 	}
 
 	@RequiredReadAction
@@ -147,6 +153,25 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 			return results[0].getElement();
 		}
 		return null;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		if(PsiUtilCore.getElementType(nameIdentifier) == PhpTokenTypes.kwCLASS)
+		{
+			return PhpType.STRING;
+		}
+
+		PsiElement element = resolve();
+		if(element instanceof PhpTypedElement)
+		{
+			return ((PhpTypedElement) element).getType();
+		}
+		return PhpType.EMPTY;
 	}
 
 	@Nonnull
@@ -249,6 +274,11 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 	@Override
 	public boolean isSoft()
 	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		if(PsiUtilCore.getElementType(nameIdentifier) == PhpTokenTypes.kwCLASS)
+		{
+			return true;
+		}
 		return false;
 	}
 }

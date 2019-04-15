@@ -85,6 +85,11 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		PsiElement element = constantReference.resolve();
 		if(element == null)
 		{
+			if(constantReference.isSoft())
+			{
+				return;
+			}
+
 			registerWrongRef(constantReference.getNameIdentifier(), constantReference);
 		}
 		else

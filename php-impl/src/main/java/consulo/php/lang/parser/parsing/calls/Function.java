@@ -77,6 +77,13 @@ public class Function implements PhpTokenTypes
 				rollback.rollbackTo();
 				ClassReference.parse(builder);
 				builder.match(SCOPE_RESOLUTION);
+
+				if(builder.compareAndEat(kwCLASS))
+				{
+					rollback.rollbackTo();
+					return PhpElementTypes.EMPTY_INPUT;
+				}
+
 				if(builder.compareAndEat(IDENTIFIER))
 				{
 					if(builder.compare(LPAREN))
