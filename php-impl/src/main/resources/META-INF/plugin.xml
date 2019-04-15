@@ -85,6 +85,8 @@
 
 		<completion.contributor language="PHP" implementationClass="consulo.php.completion.PhpCompletionContributor" />
 
+		<contentFolderSupportPatcher implementation="consulo.php.module.PhpContentFolderSupportPatcher" />
+
 		<localInspection groupName="PHP" displayName="Dynamic method called as static" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall" />
 		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
 	</extensions>
