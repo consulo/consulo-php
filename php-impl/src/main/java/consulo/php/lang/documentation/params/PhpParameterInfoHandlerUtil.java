@@ -11,11 +11,9 @@ import com.intellij.psi.PsiFile;
  */
 public class PhpParameterInfoHandlerUtil
 {
-
 	public static void showParameterInfo(Editor editor)
 	{
 		final PsiFile psiFile = PsiDocumentManager.getInstance(editor.getProject()).getPsiFile(editor.getDocument());
 		new ShowParameterInfoHandler().invoke(editor.getProject(), editor, psiFile);
 	}
-
 }
