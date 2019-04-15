@@ -33,6 +33,7 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
+import consulo.php.lang.psi.resolve.PhpResolveResult;
 import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -180,6 +181,30 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				}
 				return resultList.isEmpty() ? ResolveResult.EMPTY_ARRAY : resultList.toArray(new ResolveResult[resultList.size()]);
 			case TO_CLASS:
+				if(PhpClass.SELF.equals(name))
+				{
+					final PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+					if(phpClass != null)
+					{
+						return new ResolveResult[]{new PhpResolveResult(phpClass)};
+					}
+					return ResolveResult.EMPTY_ARRAY;
+				}
+
+				if(PhpClass.PARENT.equals(name))
+				{
+					final PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+					if(phpClass != null)
+					{
+						final PhpClass superClass = phpClass.getSuperClass();
+						if(superClass != null)
+						{
+							return new ResolveResult[]{new PhpResolveResult(superClass)};
+						}
+					}
+					return ResolveResult.EMPTY_ARRAY;
+				}
+
 				PhpResolveProcessor processor = new PhpResolveProcessor(this, getReferenceName(), PhpResolveProcessor.ElementKind.CLASS);
 				PsiElement slashElement = findChildByType(PhpTokenTypes.SLASH);
 				if(slashElement != null)
@@ -198,67 +223,6 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 			default:
 				return ResolveResult.EMPTY_ARRAY;
 		}
-
-
-		/*boolean instantiation = getParent() instanceof NewExpression;
-
-		if(getReferenceName().equals("self"))
-		{
-			final PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-			if(phpClass != null)
-			{
-				return new ResolveResult[]{new PhpResolveResult(phpClass)};
-			}
-		}
-		if(getReferenceName().equals("parent"))
-		{
-			final PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-			if(phpClass != null)
-			{
-				final PhpClass superClass = phpClass.getSuperClass();
-				if(superClass != null)
-				{
-					return new ResolveResult[]{new PhpResolveResult(superClass)};
-				}
-			}
-		}
-
-		DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-		if(index == null)
-		{
-			return ResolveResult.EMPTY_ARRAY;
-		}
-		List<LightPhpClass> classes = index.getClassesByName(getReferenceName());
-		List<LightPhpInterface> interfaces = index.getInterfacesByName(getReferenceName());
-		ResolveResult[] result = new ResolveResult[classes.size() + interfaces.size()];
-		for(int i = 0; i < classes.size(); i++)
-		{
-			final PsiElement element;
-			final PhpClass klass = (PhpClass) classes.get(i).getPsi(getProject());
-			if(klass != null && instantiation)
-			{
-				PhpMethod constructor = klass.getConstructor();
-				if(constructor == null)
-				{
-					element = klass;
-				}
-				else
-				{
-					element = constructor;
-				}
-			}
-			else
-			{
-				element = klass;
-			}
-			result[i] = new PhpResolveResult(element);
-		}
-		for(int i = 0; i < interfaces.size(); i++)
-		{
-			final PhpClass anInterface = (PhpClass) interfaces.get(i).getPsi(getProject());
-			result[i + classes.size()] = new PhpResolveResult(anInterface);
-		}
-		return result; */
 	}
 
 	public ResolveKind findResolveKind()
