@@ -14,6 +14,7 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -33,6 +34,7 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 		super(stub, PhpStubElements.FUNCTION);
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nonnull
 	public Parameter[] getParameters()

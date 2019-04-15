@@ -14,6 +14,7 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.impl.PhpFileImpl;
@@ -37,6 +38,7 @@ class PhpTreeElement implements StructureViewTreeElement
 	}
 
 	@Override
+	@RequiredReadAction
 	public ItemPresentation getPresentation()
 	{
 		if(myElement instanceof PhpFileImpl)
@@ -66,13 +68,13 @@ class PhpTreeElement implements StructureViewTreeElement
 		return null;
 	}
 
-	private void listParameters(StringBuilder b, PsiElement[] parameters)
+	private void listParameters(StringBuilder b, Parameter[] parameters)
 	{
 		b.append('(');
 		for(int i = 0; i < parameters.length; i++)
 		{
-			PsiElement parameter = parameters[i];
-			b.append(((Parameter) parameter).getName());
+			Parameter parameter = parameters[i];
+			b.append(parameter.getName());
 			if(parameters.length - i > 1)
 			{
 				b.append(", ");

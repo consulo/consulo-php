@@ -1,6 +1,9 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.util.ArrayFactory;
+import consulo.annotations.RequiredReadAction;
 
 /**
  * @author jay
@@ -11,4 +14,9 @@ public interface Function extends PhpElementWithModifier, PhpTypedElement, PhpNa
 	Function[] EMPTY_ARRAY = new Function[0];
 
 	ArrayFactory<Function> ARRAY_FACTORY = i -> i == 0 ? EMPTY_ARRAY : new Function[i];
+
+	@Override
+	@Nonnull
+	@RequiredReadAction
+	Parameter[] getParameters();
 }

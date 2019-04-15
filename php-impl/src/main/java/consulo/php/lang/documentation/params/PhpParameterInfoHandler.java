@@ -137,7 +137,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 		int start = -1;
 		int end = -1;
 
-		final PsiElement[] parameters = phpMethod.getParameters();
+		final Parameter[] parameters = phpMethod.getParameters();
 		if(parameters.length > 0)
 		{
 			for(int i = 0; i < parameters.length; i++)
@@ -146,8 +146,8 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 				{
 					buff.append(", ");
 				}
-				final PsiElement parameter = parameters[i];
-				String paramName = ((Parameter)parameter).getName();
+				final Parameter parameter = parameters[i];
+				String paramName = parameter.getName();
 				if(paramName.equals("$"))
 				{
 					paramName = "";
