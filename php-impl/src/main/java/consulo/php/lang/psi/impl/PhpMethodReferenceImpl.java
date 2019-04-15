@@ -14,14 +14,16 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtil;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
@@ -155,30 +157,49 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		PsiElement target = this;
-		ClassReference classReference = getClassReference();
-		if(classReference != null)
+		PhpPsiElement firstChild = getFirstPsiChild();
+
+		PhpType phpType = null;
+		if(firstChild instanceof PhpTypedElement)
 		{
-			target = ObjectUtil.notNull(classReference.resolve(), this);
-		}
-		PsiElement objectReference = getObjectReference();
-		if(objectReference instanceof PsiReference)
-		{
-			target = ObjectUtil.notNull(((PsiReference) objectReference).resolve(), this);
+			phpType = ((PhpTypedElement) firstChild).getType();
 		}
 
-		PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ElementKind.FUNCTION);
-		ResolveUtil.treeWalkUp(target, processor);
-		Collection<PsiElement> declarations = processor.getResult();
-
-		List<ResolveResult> result = new ArrayList<>(declarations.size());
-		for(final PsiElement element : declarations)
+		if(firstChild instanceof ClassReference)
 		{
-			if(declarations.size() > 1 && element == this)
+			phpType = ((ClassReference) firstChild).resolveLocalType();
+		}
+
+		List<PsiElement> owners = new ArrayList<>();
+		if(phpType != null)
+		{
+			PhpIndex phpIndex = PhpIndex.getInstance(getProject());
+			for(String type : phpType.getTypes())
 			{
-				continue;
+				Collection<PhpClass> classesByFQN = phpIndex.getClassesByFQN(type);
+				owners.addAll(classesByFQN);
 			}
-			result.add(new PsiElementResolveResult(element, true));
+		}
+		else
+		{
+			owners.add(this);
+		}
+
+		List<ResolveResult> result = new ArrayList<>();
+		for(PsiElement owner : owners)
+		{
+			PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ElementKind.FUNCTION);
+			ResolveUtil.treeWalkUp(owner, processor);
+			Collection<PsiElement> declarations = processor.getResult();
+
+			for(final PsiElement element : declarations)
+			{
+				if(declarations.size() > 1 && element == this)
+				{
+					continue;
+				}
+				result.add(new PsiElementResolveResult(element, true));
+			}
 		}
 
 		return result.toArray(new ResolveResult[result.size()]);
