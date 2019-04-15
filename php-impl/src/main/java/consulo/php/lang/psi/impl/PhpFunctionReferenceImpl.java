@@ -1,5 +1,8 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -14,7 +17,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
@@ -51,38 +57,81 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Override
 	public PsiReference getReference()
 	{
-		if(canReadName())
-		{
-			return this;
-		}
-		return null;
+		return this;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
-	private ASTNode getNameNode()
+	@Override
+	public ASTNode getNameNode()
 	{
 		return getNode().findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
+	@Nonnull
 	@Override
-	public boolean canReadName()
+	public Collection<? extends PhpNamedElement> resolveLocal()
 	{
-		return getNameNode() != null;
+		return Collections.emptyList();
+	}
+
+	@Nonnull
+	@Override
+	public PhpType resolveLocalType()
+	{
+		return PhpType.EMPTY;
+	}
+
+	@Nonnull
+	@Override
+	public Collection<? extends PhpNamedElement> resolveGlobal(boolean incompleteCode)
+	{
+		return Collections.emptyList();
+	}
+
+	@Nonnull
+	@Override
+	public String getSignature()
+	{
+		return "";
+	}
+
+	@Nonnull
+	@Override
+	public String getNamespaceName()
+	{
+		return "";
+	}
+
+	@Nonnull
+	@Override
+	public String getImmediateNamespaceName()
+	{
+		return "";
 	}
 
 	@Override
-	public String getFunctionName()
+	public boolean isAbsolute()
 	{
-		if(canReadName())
-		{
-			return getNameNode().getText();
-		}
+		return false;
+	}
+
+	@Nullable
+	@Override
+	public String getFQN()
+	{
 		return null;
+	}
+
+	@Override
+	public String getName()
+	{
+		return getNameNode().getText();
 	}
 
 	@Override
@@ -91,16 +140,26 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 		return PsiTreeUtil.getChildOfType(this, ParameterList.class);
 	}
 
+	@Nonnull
+	@Override
+	public PsiElement[] getParameters()
+	{
+		ParameterList parameterList = getParameterList();
+		return parameterList == null ? PsiElement.EMPTY_ARRAY : parameterList.getParameters();
+	}
+
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public TextRange getRangeInElement()
 	{
-		if(canReadName())
+		ASTNode nameNode = getNameNode();
+		if(nameNode == null)
 		{
-			ASTNode nameNode = getNameNode();
-			int startOffset = nameNode.getPsi().getStartOffsetInParent();
-			return new TextRange(startOffset, startOffset + nameNode.getTextLength());
+			return TextRange.EMPTY_RANGE;
 		}
-		return null;
+		int startOffset = nameNode.getPsi().getStartOffsetInParent();
+		return new TextRange(startOffset, startOffset + nameNode.getTextLength());
 	}
 
 	/**
@@ -108,6 +167,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 *
 	 * @return the target element, or null if it was not possible to resolve the reference to a valid target.
 	 */
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -120,6 +180,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
@@ -143,6 +204,8 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 *
 	 * @return the canonical text of the reference.
 	 */
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public String getCanonicalText()
 	{
@@ -158,6 +221,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rename cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
 	{
@@ -174,6 +238,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 * @throws com.intellij.util.IncorrectOperationException
 	 *          if the rebind cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
@@ -202,6 +267,8 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 *
 	 * @return the array of available identifiers.
 	 */
+	@Nonnull
+	@RequiredReadAction
 	@Override
 	public Object[] getVariants()
 	{
@@ -224,6 +291,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	 *
 	 * @return true if the refence is soft, false otherwise.
 	 */
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{

@@ -17,6 +17,7 @@ import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
@@ -31,7 +32,20 @@ public interface PhpReference extends PhpExpression, PhpTypedElement, PsiPolyVar
 	String getName();
 
 	@Nullable
-	CharSequence getNameCS();
+	default CharSequence getNameCS()
+	{
+		String name = getName();
+		if(name == null)
+		{
+			return null;
+		}
+
+		if(name.length() > 0 && name.charAt(0) == '$')
+		{
+			return name.substring(1, name.length());
+		}
+		return name;
+	}
 
 	@Nullable
 	ASTNode getNameNode();
