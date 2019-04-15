@@ -111,5 +111,4 @@ public class Expression implements PhpTokenTypes
 	{
 		return LiteralOrExpression.parse(builder);
 	}
-
 }

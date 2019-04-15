@@ -19,7 +19,7 @@ import consulo.php.lang.parser.util.PhpPsiBuilder;
  */
 public class AssignmentExpression implements PhpTokenTypes
 {
-	public static final TokenSet ASSIGNABLE = TokenSet.create(PhpElementTypes.VARIABLE_REFERENCE, PhpElementTypes.ARRAY, PhpElementTypes.FIELD_REFERENCE);
+	public static final TokenSet ASSIGNABLE = TokenSet.create(PhpElementTypes.VARIABLE_REFERENCE, PhpElementTypes.ARRAY, PhpElementTypes.FIELD_REFERENCE, PhpElementTypes.ARRAY_ACCESS_EXPRESSION);
 
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
@@ -84,11 +84,13 @@ public class AssignmentExpression implements PhpTokenTypes
 			marker.done(PhpElementTypes.MULTIASSIGNMENT_EXPRESSION);
 			return PhpElementTypes.MULTIASSIGNMENT_EXPRESSION;
 		}
+
 		if(!builder.compare(Variable.START_TOKENS))
 		{
 			marker.drop();
 			return PhpElementTypes.EMPTY_INPUT;
 		}
+
 		IElementType result = Variable.parseAssignable(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT || !builder.compare(tsASGN_OPS))
 		{

@@ -49,6 +49,37 @@ public class Variable implements PhpTokenTypes
 				result = method;
 			}
 		}
+
+		if(result != PhpElementTypes.EMPTY_INPUT)
+		{
+			while(builder.getTokenType() == LBRACKET)
+			{
+				reference.done(result);
+				reference = reference.precede();
+
+				builder.advanceLexer();
+
+				if(builder.getTokenType() == RBRACKET)
+				{
+					builder.advanceLexer();
+				}
+				else
+				{
+					if(Expression.parse(builder) == PhpElementTypes.EMPTY_INPUT)
+					{
+						builder.error("Expression expected");
+						break;
+					}
+					else
+					{
+						builder.compareAndEat(RBRACKET);
+					}
+				}
+
+				result = PhpElementTypes.ARRAY_ACCESS_EXPRESSION;
+			}
+		}
+
 		reference.drop();
 		return result;
 	}
@@ -114,7 +145,7 @@ public class Variable implements PhpTokenTypes
 	//	;
 	private static IElementType parseObjectDimList(PhpPsiBuilder builder)
 	{
-		TokenSet tokens = TokenSet.create(LBRACE, LBRACKET);
+		TokenSet tokens = TokenSet.create(LBRACE);
 		PsiBuilder.Marker preceder = builder.mark();
 		IElementType result = parseVariableName(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
@@ -131,14 +162,6 @@ public class Variable implements PhpTokenTypes
 			{
 				Expression.parse(builder);
 				builder.match(RBRACE);
-				result = PhpElementTypes.ARRAY;
-			}
-			else if(builder.compareAndEat(LBRACKET))
-			{
-				PsiBuilder.Marker arrayIndex = builder.mark();
-				parseDimOffset(builder);
-				arrayIndex.done(PhpElementTypes.ARRAY_INDEX);
-				builder.match(RBRACKET);
 				result = PhpElementTypes.ARRAY;
 			}
 			else

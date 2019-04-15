@@ -14,7 +14,6 @@ import com.intellij.psi.tree.TokenSet;
  */
 public class UnaryExpression implements PhpTokenTypes
 {
-
 	private static TokenSet CAST_OPERATORS = TokenSet.create(opBOOLEAN_CAST, opINTEGER_CAST, opSTRING_CAST, opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST, opFLOAT_CAST);
 
 	private static TokenSet INC_DEC_OPERATORS = TokenSet.create(opINCREMENT, opDECREMENT);
