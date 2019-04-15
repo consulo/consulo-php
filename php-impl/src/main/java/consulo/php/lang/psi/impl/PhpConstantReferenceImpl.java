@@ -185,13 +185,6 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 		return null;
 	}
 
-	@Nonnull
-	@Override
-	public CharSequence getNameCS()
-	{
-		return getName();
-	}
-
 	@Override
 	public void processDocs(Processor<PhpDocComment> processor)
 	{

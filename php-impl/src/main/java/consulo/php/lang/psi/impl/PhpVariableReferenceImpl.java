@@ -23,7 +23,6 @@ import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.Catch;
-import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
@@ -37,7 +36,9 @@ import consulo.php.lang.psi.PhpAssignmentExpression;
 import consulo.php.lang.psi.PhpGlobal;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpSelfAssignmentExpression;
+import consulo.php.lang.psi.impl.light.PhpLightConstant;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
+import consulo.php.lang.psi.resolve.PhpResolveResult;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
@@ -56,7 +57,13 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		@Override
 		public ResolveResult[] resolve(@Nonnull PhpVariableReferenceImpl reference, boolean b)
 		{
-			if(Variable.$THIS.equals(reference.getNameCS()))
+			if(Variable.SUPERGLOBALS.contains(reference.getNameCS()))
+			{
+				return new ResolveResult[]{new PhpResolveResult(new PhpLightConstant(reference.getProject(), reference.getName(), PhpType.STRING))};
+			}
+
+			String name = reference.getName();
+			if(Variable.$THIS.equals(name))
 			{
 				PhpClass phpClass = PsiTreeUtil.getParentOfType(reference, PhpClass.class);
 				if(phpClass != null)
@@ -65,7 +72,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 				}
 			}
 
-			PhpResolveProcessor processor = new PhpResolveProcessor(reference, reference.getName(), PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER);
+			PhpResolveProcessor processor = new PhpResolveProcessor(reference, name, PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER);
 			ResolveUtil.treeWalkUp(reference, processor);
 			Collection<PsiElement> declarations = processor.getResult();
 
@@ -93,13 +100,6 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	public ASTNode getNameNode()
 	{
 		return null;
-	}
-
-	@Nonnull
-	@Override
-	public CharSequence getNameCS()
-	{
-		return getNode().getText();
 	}
 
 	@Override
@@ -309,11 +309,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public boolean isReferenceTo(PsiElement psiElement)
 	{
-		if(psiElement instanceof Variable || psiElement instanceof Parameter)
-		{
-			return psiElement == resolve();
-		}
-		return false;
+		return getManager().areElementsEquivalent(resolve(), psiElement);
 	}
 
 	@RequiredReadAction

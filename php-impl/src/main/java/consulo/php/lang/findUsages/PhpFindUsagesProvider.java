@@ -1,18 +1,18 @@
 package consulo.php.lang.findUsages;
 
 import javax.annotation.Nonnull;
-
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.Variable;
-
 import javax.annotation.Nullable;
+
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.Constant;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
 
 /**
  * @author jay
@@ -20,23 +20,17 @@ import com.intellij.psi.PsiElement;
  */
 public class PhpFindUsagesProvider implements FindUsagesProvider
 {
-	private PhpWordsScanner wordsScanner;
-
 	@Override
 	@Nullable
 	public WordsScanner getWordsScanner()
 	{
-		if(wordsScanner == null)
-		{
-			wordsScanner = new PhpWordsScanner();
-		}
-		return wordsScanner;
+		return new PhpWordsScanner();
 	}
 
 	@Override
 	public boolean canFindUsagesFor(@Nonnull PsiElement psiElement)
 	{
-		return psiElement instanceof PhpClass || psiElement instanceof Function || psiElement instanceof Field || psiElement instanceof Parameter || psiElement instanceof Variable;
+		return psiElement instanceof PhpNamedElement;
 	}
 
 	@Override
@@ -52,23 +46,38 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	{
 		if(element instanceof Variable)
 		{
-			return "PhpVariableReference";
+			return "variable";
 		}
 		if(element instanceof Parameter)
 		{
-			return "PhpParameter";
+			return "parameter";
+		}
+		if(element instanceof Constant)
+		{
+			return "constant";
 		}
 		if(element instanceof PhpClass)
 		{
-			return ((PhpClass) element).isInterface() ? "Interface" : "Class";
+			if(((PhpClass) element).isInterface())
+			{
+				return "interface";
+			}
+			else if(((PhpClass) element).isTrait())
+			{
+				return "trait";
+			}
+			else
+			{
+				return "class";
+			}
 		}
 		if(element instanceof Function)
 		{
-			return "Function";
+			return "function";
 		}
 		if(element instanceof Field)
 		{
-			return "PhpField";
+			return "field";
 		}
 		return "";
 	}
@@ -87,8 +96,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	{
 		if(element instanceof PhpNamedElement)
 		{
-			final String name = ((PhpNamedElement) element).getName();
-			return name == null ? "" : name;
+			return ((PhpNamedElement) element).getName();
 		}
 		return "";
 	}
@@ -106,8 +114,7 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	{
 		if(element instanceof PhpNamedElement)
 		{
-			final String name = ((PhpNamedElement) element).getName();
-			return name == null ? "" : name;
+			return ((PhpNamedElement) element).getName();
 		}
 		return "";
 	}

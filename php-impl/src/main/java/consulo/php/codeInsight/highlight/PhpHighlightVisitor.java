@@ -63,7 +63,7 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 
 		if(variable.canReadName())
 		{
-			if(Variable.SUPERGLOBALS.contains(variable.getName()) || variable.getName().equals(Variable.THIS) || variable.isDeclaration())
+			if(variable.getName().equals(Variable.$THIS) || variable.isDeclaration())
 			{
 				return;
 			}

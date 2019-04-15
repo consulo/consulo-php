@@ -13,9 +13,6 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import java.util.Collections;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -43,7 +40,15 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 
 	@Nonnull
 	@NonNls
-	CharSequence getNameCS();
+	default CharSequence getNameCS()
+	{
+		String name = getName();
+		if(name.length() > 0 && name.charAt(0) == '$')
+		{
+			return name.substring(1, name.length());
+		}
+		return name;
+	}
 
 	/**
 	 * Doc Comment attached directly to this element, in SAME file

@@ -102,13 +102,6 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		return nameIdentifier == null ? null : nameIdentifier.getText();
 	}
 
-	@Nonnull
-	@Override
-	public CharSequence getNameCS()
-	{
-		return getName();
-	}
-
 	@Override
 	@Nonnull
 	public PhpType getType()
