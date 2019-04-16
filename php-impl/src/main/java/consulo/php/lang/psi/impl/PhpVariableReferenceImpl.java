@@ -70,6 +70,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 				{
 					return new ResolveResult[]{new PsiElementResolveResult(phpClass, true)};
 				}
+				return ResolveResult.EMPTY_ARRAY;
 			}
 
 			PhpResolveProcessor processor = new PhpResolveProcessor(reference, name, PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER);
