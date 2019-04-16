@@ -125,6 +125,7 @@ DECIMAL_INTEGER =                  [1-9][0-9]* | 0
 HEX_INTEGER =                      0[xX][0-9a-fA-F]+
 OCTAL_INTEGER =                    0[0-7]+
 INTEGER_LITERAL =                  ({DECIMAL_INTEGER} | {HEX_INTEGER} | {OCTAL_INTEGER})
+BIN_INTEGER_LITERAL = 0 [Bb] [0-9]*
 
 FLOATING_POINT_LITERAL1 =          [0-9]*"."[0-9]+{EXPONENT_PART}?
 FLOATING_POINT_LITERAL2 =          [0-9]+{EXPONENT_PART}
@@ -263,6 +264,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 <ST_IN_SCRIPTING>{
 	{INTEGER_LITERAL}                  { return opManager.process(PhpTokenTypes.INTEGER_LITERAL); }
+	{BIN_INTEGER_LITERAL}              { return opManager.process(PhpTokenTypes.BINARY_LITERAL); }
 	{FLOAT_LITERAL}                    { return opManager.process(PhpTokenTypes.FLOAT_LITERAL); }
 }
 

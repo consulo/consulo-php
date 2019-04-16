@@ -103,6 +103,7 @@ public interface PhpTokenTypes extends TokenType
 	IElementType SCOPE_RESOLUTION = new PhpElementType("scope resolution");
 	IElementType FLOAT_LITERAL = new PhpElementType("float");
 	IElementType INTEGER_LITERAL = new PhpElementType("integer");
+	IElementType BINARY_LITERAL = new PhpElementType("BINARY_LITERAL");
 	IElementType STRING_LITERAL = new PhpElementType("string");
 	IElementType STRING_LITERAL_SINGLE_QUOTE = new PhpElementType("single quoted string");
 	IElementType EXEC_COMMAND = new PhpElementType("exec command");
@@ -214,7 +215,6 @@ public interface PhpTokenTypes extends TokenType
 
 	TokenSet tsUNARY_OPS = TokenSet.orSet(tsUNARY_PREFIX_OPS, tsUNARY_POSTFIX_OPS);
 
-
 	TokenSet tsCOMPARE_OPS = TokenSet.create(opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL, opGREATER, opLESS, opGREATER_OR_EQUAL, opLESS_OR_EQUAL);
 
 	TokenSet tsLOGICAL_OPS = TokenSet.create(opAND, opOR);
@@ -227,7 +227,7 @@ public interface PhpTokenTypes extends TokenType
 
 	TokenSet tsCONSTANTS = TokenSet.create(CONST_CLASS, CONST_FILE, CONST_FUNCTION, CONST_LINE, CONST_METHOD);
 
-	TokenSet tsNUMBERS = TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL);
+	TokenSet tsNUMBERS = TokenSet.create(INTEGER_LITERAL, BINARY_LITERAL, FLOAT_LITERAL);
 
 	TokenSet tsSTRINGS = TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE);
 

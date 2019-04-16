@@ -104,7 +104,7 @@ public class StaticScalar implements PhpTokenTypes
 			PsiBuilder.Marker scalar = builder.mark();
 			IElementType type = builder.getTokenType();
 			builder.advanceLexer();
-			if(TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL).contains(type))
+			if(TokenSet.create(INTEGER_LITERAL, BINARY_LITERAL, FLOAT_LITERAL).contains(type))
 			{
 				scalar.done(PhpElementTypes.NUMBER);
 			}
