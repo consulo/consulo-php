@@ -47,14 +47,21 @@ public class TryStatement implements PhpTokenTypes
 	//	;
 	private static void parseCatchClauses(PhpPsiBuilder builder)
 	{
-		if(parseCatchClause(builder) == PhpElementTypes.EMPTY_INPUT)
+		if(builder.getTokenType()== FINALLY_KEYWORD || builder.getTokenType() == kwCATCH)
 		{
-			builder.error(PhpParserErrors.expected("catch clause"));
+			//noinspection StatementWithEmptyBody
+			while(parseCatchClause(builder) != PhpElementTypes.EMPTY_INPUT)
+			{
+			}
+
+			//noinspection StatementWithEmptyBody
+			while(parseFinally(builder) != PhpElementTypes.EMPTY_INPUT)
+			{
+			}
 		}
-		//noinspection StatementWithEmptyBody
-		while(parseCatchClause(builder) != PhpElementTypes.EMPTY_INPUT)
+		else
 		{
-			;
+			builder.error("Expected catch or finally statement");
 		}
 	}
 
@@ -81,5 +88,22 @@ public class TryStatement implements PhpTokenTypes
 		builder.match(RBRACE);
 		catchClause.done(PhpElementTypes.CATCH);
 		return PhpElementTypes.CATCH;
+	}
+
+	private static IElementType parseFinally(PhpPsiBuilder builder)
+	{
+		if(!builder.compare(FINALLY_KEYWORD))
+		{
+			return PhpElementTypes.EMPTY_INPUT;
+		}
+		PsiBuilder.Marker finallyMarker = builder.mark();
+		builder.advanceLexer();
+
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
+
+		finallyMarker.done(PhpElementTypes.FINALLY_STATEMENT);
+		return PhpElementTypes.FINALLY_STATEMENT;
 	}
 }

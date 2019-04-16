@@ -246,6 +246,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"try"                              { return PhpTokenTypes.kwTRY; }
 	"catch"                            { return PhpTokenTypes.kwCATCH; }
 	"throw"                            { return PhpTokenTypes.kwTHROW; }
+	"finally"                          { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_5) ? PhpTokenTypes.FINALLY_KEYWORD : PhpTokenTypes.IDENTIFIER; }
 
 	//   magic constants
 	"__LINE__"                         { return opManager.process(PhpTokenTypes.CONST_LINE); }
