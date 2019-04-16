@@ -29,6 +29,7 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		PARAMETER,
 		FUNCTION,
 		CLASS,
+		VARIABLE,
 		NONE
 	}
 
@@ -95,6 +96,11 @@ public class PhpResolveProcessor extends PhpScopeProcessor
 		if(element instanceof Variable && element.getParent() instanceof Catch)
 		{
 			return ElementKind.PARAMETER;
+		}
+
+		if(element instanceof Variable)
+		{
+			return ElementKind.VARIABLE;
 		}
 
 		return ElementKind.NONE;

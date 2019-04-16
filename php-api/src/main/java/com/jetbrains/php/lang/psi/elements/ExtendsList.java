@@ -8,8 +8,6 @@ import javax.annotation.Nullable;
  */
 public interface ExtendsList extends PhpPsiElement
 {
-
 	@Nullable
 	public PhpClass getExtendsClass();
-
 }

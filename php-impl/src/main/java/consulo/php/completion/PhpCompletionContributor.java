@@ -62,7 +62,7 @@ public class PhpCompletionContributor extends CompletionContributor
 					protected boolean isAppropriateDeclarationType(PsiElement possibleDeclaration)
 					{
 						PhpResolveProcessor.ElementKind kind = PhpResolveProcessor.getKind(possibleDeclaration);
-						return kind == PhpResolveProcessor.ElementKind.PARAMETER;
+						return kind == PhpResolveProcessor.ElementKind.PARAMETER || kind == PhpResolveProcessor.ElementKind.VARIABLE;
 					}
 				};
 

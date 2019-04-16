@@ -10,8 +10,6 @@ import javax.annotation.Nonnull;
  */
 public interface ImplementsList extends PhpPsiElement
 {
-
 	@Nonnull
 	public List<PhpClass> getInterfaces();
-
 }

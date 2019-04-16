@@ -15,6 +15,6 @@ public interface PhpExpression extends PhpPsiElement, PhpTypedElement
 	default PhpType getType()
 	{
 		// TODO [VISTALL] remove after resolver finish
-		return PhpType.VOID;
+		return PhpType.EMPTY;
 	}
 }

@@ -180,7 +180,16 @@ public class PhpVariantsUtil
 		else if(element instanceof Variable)
 		{
 			Variable variable = (Variable) element;
-			builder = builder.withTypeText(variable.getType().toString());
+			PhpType type = variable.getType();
+			if(type != PhpType.EMPTY)
+			{
+				builder = builder.withTypeText(type.toString());
+			}
+			else
+			{
+				PhpType inferredType = variable.getInferredType();
+				builder = builder.withTypeText(inferredType.toString());
+			}
 		}
 		else if(element instanceof Parameter)
 		{

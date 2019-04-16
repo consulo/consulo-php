@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.NewExpression;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 import com.intellij.lang.ASTNode;
 
@@ -47,5 +48,17 @@ public class PhpNewExpressionImpl extends PhpTypedElementImpl implements NewExpr
 	{
 		ParameterList parameterList = getParameterList();
 		return parameterList == null ? PsiElement.EMPTY_ARRAY : parameterList.getParameters();
+	}
+
+	@Nonnull
+	@Override
+	public PhpType getType()
+	{
+		ClassReference classReference = getClassReference();
+		if(classReference != null)
+		{
+			return classReference.resolveLocalType();
+		}
+		return PhpType.EMPTY;
 	}
 }

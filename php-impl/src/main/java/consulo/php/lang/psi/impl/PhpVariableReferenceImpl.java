@@ -261,6 +261,29 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 
 	@Nonnull
 	@Override
+	public PhpType getInferredType()
+	{
+		if(isDeclaration())
+		{
+			PsiElement parent = getParent();
+			if(parent instanceof PhpAssignmentExpression)
+			{
+				PsiElement variable = ((PhpAssignmentExpression) parent).getVariable();
+				if(variable == this)
+				{
+					PsiElement value = ((PhpAssignmentExpression) parent).getValue();
+					if(value instanceof PhpTypedElement)
+					{
+						return ((PhpTypedElement) value).getType();
+					}
+				}
+			}
+		}
+		return PhpType.EMPTY;
+	}
+
+	@Nonnull
+	@Override
 	@RequiredReadAction
 	public PhpType getDeclaredType()
 	{
