@@ -73,7 +73,8 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 				return ResolveResult.EMPTY_ARRAY;
 			}
 
-			PhpResolveProcessor processor = new PhpResolveProcessor(reference, name, PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER);
+			PhpResolveProcessor processor = new PhpResolveProcessor(reference, name, PhpResolveProcessor.ElementKind.FIELD, PhpResolveProcessor.ElementKind.PARAMETER, PhpResolveProcessor.ElementKind
+					.VARIABLE);
 			ResolveUtil.treeWalkUp(reference, processor);
 			Collection<PsiElement> declarations = processor.getResult();
 
@@ -264,6 +265,12 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public PhpType getInferredType()
 	{
+		PhpType type = getType();
+		if(type != PhpType.EMPTY)
+		{
+			return type;
+		}
+
 		if(isDeclaration())
 		{
 			PsiElement parent = getParent();

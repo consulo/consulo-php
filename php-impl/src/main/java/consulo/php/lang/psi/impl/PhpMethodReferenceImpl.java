@@ -151,7 +151,6 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		return null;
 	}
 
-	//TODO multiresolve
 	@RequiredReadAction
 	@Override
 	@Nonnull
@@ -160,12 +159,23 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		PhpPsiElement firstChild = getFirstPsiChild();
 
 		PhpType phpType = null;
-		if(firstChild instanceof PhpTypedElement)
+		if(firstChild instanceof Variable)
+		{
+			PsiElement element = ((Variable) firstChild).resolve();
+			if(element instanceof PhpTypedElement)
+			{
+				phpType = ((PhpTypedElement) element).getInferredType();
+			}
+			else
+			{
+				phpType = ((Variable) firstChild).getType();
+			}
+		}
+		else if(firstChild instanceof PhpTypedElement)
 		{
 			phpType = ((PhpTypedElement) firstChild).getType();
 		}
-
-		if(firstChild instanceof ClassReference)
+		else if(firstChild instanceof ClassReference)
 		{
 			phpType = ((ClassReference) firstChild).resolveLocalType();
 		}
