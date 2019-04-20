@@ -303,6 +303,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 		return PhpType.EMPTY;
 	}
 
+	@RequiredReadAction
 	@Override
 	public void processForCompletion(@RequiredReadAction Processor<PhpNamedElement> processor)
 	{

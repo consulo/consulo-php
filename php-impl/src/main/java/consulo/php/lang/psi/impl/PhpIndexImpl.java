@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.intellij.codeInsight.completion.PrefixMatcher;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -72,7 +73,21 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<String> getAllFunctionNames(@Nullable PrefixMatcher prefixMatcher)
 	{
-		return null;
+		if(DumbService.isDumb(myProject))
+		{
+			return Collections.emptyList();
+		}
+
+		Collection<String> allKeys = PhpFunctionByNameIndex.INSTANCE.getAllKeys(myProject);
+		List<String> result = new ArrayList<>(allKeys.size());
+		for(String key : allKeys)
+		{
+			if(prefixMatcher == null || prefixMatcher.prefixMatches(key))
+			{
+				result.add(key);
+			}
+		}
+		return result;
 	}
 
 	@Nonnull
@@ -189,6 +204,7 @@ public class PhpIndexImpl extends PhpIndex
 			Collection<String> allKeys = PhpFunctionByNameIndex.INSTANCE.getAllKeys(myProject);
 			for(String key : allKeys)
 			{
+				ProgressManager.checkCanceled();
 				result.addAll(PhpFunctionByNameIndex.INSTANCE.get(key, myProject, GlobalSearchScope.allScope(myProject)));
 			}
 			return result;

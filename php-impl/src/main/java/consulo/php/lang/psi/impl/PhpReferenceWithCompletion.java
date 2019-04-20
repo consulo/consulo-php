@@ -14,6 +14,7 @@ import consulo.php.completion.UsageContext;
  */
 public interface PhpReferenceWithCompletion
 {
+	@RequiredReadAction
 	void processForCompletion(@RequiredReadAction @Nonnull Processor<PhpNamedElement> elementProcessor);
 
 	default UsageContext createUsageContext()

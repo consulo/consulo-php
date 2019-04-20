@@ -40,6 +40,12 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Override
 	public PhpType getType()
 	{
+		PhpFunctionStub stub = getStub();
+		if(stub != null)
+		{
+			// TODO [VISTALL] implement me. don't call AST inside completion
+			return PhpType.EMPTY;
+		}
 		PhpReturnType type = findChildByClass(PhpReturnType.class);
 		if(type != null)
 		{

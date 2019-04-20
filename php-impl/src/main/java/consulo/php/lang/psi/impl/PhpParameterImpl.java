@@ -56,6 +56,13 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 	@Override
 	public PhpType getType()
 	{
+		PhpParameterStub stub = getStub();
+		if(stub != null)
+		{
+			// TODO [VISTALL] implement me. don't call AST inside completion
+			return PhpType.EMPTY;
+		}
+
 		ClassReference reference = findChildByClass(ClassReference.class);
 		if(reference != null)
 		{

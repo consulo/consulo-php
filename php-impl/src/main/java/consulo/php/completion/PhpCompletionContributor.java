@@ -12,6 +12,7 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.impl.PhpConstantReferenceImpl;
+import consulo.php.lang.psi.impl.PhpFunctionReferenceImpl;
 import consulo.php.lang.psi.impl.PhpVariableReferenceImpl;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
@@ -82,6 +83,17 @@ public class PhpCompletionContributor extends CompletionContributor
 				List<LookupElement> lookupItemsForClasses = PhpVariantsUtil.getLookupItemsForClasses(classes, classUsageContext);
 
 				result.addAllElements(lookupItemsForClasses);
+			}
+			else if(parent instanceof PhpFunctionReferenceImpl)
+			{
+				UsageContext usageContext = ((PhpFunctionReferenceImpl) parent).createUsageContext();
+
+				((PhpFunctionReferenceImpl) parent).processForCompletion(phpNamedElement ->
+				{
+					LookupElement lookupItem = PhpVariantsUtil.getLookupItem(phpNamedElement, usageContext);
+					result.addElement(lookupItem);
+					return true;
+				});
 			}
 		});
 	}

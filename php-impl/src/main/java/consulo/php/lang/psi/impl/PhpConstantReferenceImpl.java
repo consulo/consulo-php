@@ -80,6 +80,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 		return context;
 	}
 
+	@RequiredReadAction
 	@Override
 	public void processForCompletion(@Nonnull Processor<PhpNamedElement> elementProcessor)
 	{

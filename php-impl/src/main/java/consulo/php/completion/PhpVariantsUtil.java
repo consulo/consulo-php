@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -201,12 +202,13 @@ public class PhpVariantsUtil
 
 	@Nonnull
 	@RequiredReadAction
-	public static LookupElement[] getLookupItems(Collection<PhpNamedElement> elements, UsageContext usageContext)
+	public static LookupElement[] getLookupItems(Collection<? extends PhpNamedElement> elements, UsageContext usageContext)
 	{
 		LookupElement[] result = new LookupElement[elements.size()];
 		int i = 0;
 		for(PhpNamedElement element : elements)
 		{
+			ProgressManager.checkCanceled();
 			result[i++] = getLookupItem(element, usageContext);
 		}
 		return result;

@@ -7,6 +7,7 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor;
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder;
+import com.intellij.lang.ASTNode;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.TextRange;
@@ -21,7 +22,9 @@ import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
+import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.highlighter.PhpHighlightingData;
@@ -144,11 +147,23 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 
 	@Override
 	@RequiredReadAction
+	public void visitFunctionReference(FunctionReference reference)
+	{
+		final PsiElement element = reference.resolve();
+		ASTNode node = reference.getNameNode();
+		if(element == null && node != null)
+		{
+			registerWrongRef(node.getPsi(), reference);
+		}
+	}
+
+	@Override
+	@RequiredReadAction
 	public void visitClassReference(ClassReference classReference)
 	{
 		super.visitPhpElement(classReference);
 
-		if(classReference.getText().equals("self") || classReference.getText().equals("parent"))
+		if(classReference.getText().equals(PhpClass.SELF) || classReference.getText().equals(PhpClass.PARENT))
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, classReference, null, PhpHighlightingData.KEYWORD);
 			return;

@@ -129,9 +129,9 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 		visitPhpElement(constant);
 	}
 
-	public void visitFunctionCall(FunctionReference call)
+	public void visitFunctionReference(FunctionReference reference)
 	{
-		visitPhpElement(call);
+		visitPhpElement(reference);
 	}
 
 	public void visitTryStatement(PhpTryStatementImpl tryStatement)

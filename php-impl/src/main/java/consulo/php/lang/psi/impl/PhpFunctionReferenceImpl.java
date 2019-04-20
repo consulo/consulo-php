@@ -7,28 +7,36 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
+import consulo.php.index.PhpFunctionByNameIndex;
 import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.psi.resolve.PhpResolveResult;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
  * @author jay
  * @date May 15, 2008 12:36:39 PM
  */
-public class PhpFunctionReferenceImpl extends PhpElementImpl implements FunctionReference
+public class PhpFunctionReferenceImpl extends PhpElementImpl implements FunctionReference, PhpReferenceWithCompletion
 {
 	public PhpFunctionReferenceImpl(ASTNode node)
 	{
@@ -38,7 +46,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Override
 	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
-		visitor.visitFunctionCall(this);
+		visitor.visitFunctionReference(this);
 	}
 
 	@Override
@@ -118,7 +126,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Override
 	public boolean isAbsolute()
 	{
-		return false;
+		return findChildByType(PhpTokenTypes.SLASH) != null;
 	}
 
 	@Nullable
@@ -131,7 +139,12 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Override
 	public String getName()
 	{
-		return getNameNode().getText();
+		ASTNode node = getNameNode();
+		if(node == null)
+		{
+			return null;
+		}
+		return node.getText();
 	}
 
 	@Override
@@ -185,16 +198,9 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-		List<LightPhpFunction> functions = index.getFunctionsByName(getFunctionName());
-		ResolveResult[] result = new PhpResolveResult[functions.size()];
-		for(int i = 0; i < functions.size(); i++)
-		{
-			LightPhpFunction function = functions.get(i);
-			result[i] = new PhpResolveResult(function.getPsi(getProject()));
-		}
-		return result;  */
-		return new ResolveResult[0];
+		PhpIndex index = PhpIndex.getInstance(getProject());
+		Collection<Function> functions = index.getFunctionsByName(getName());
+		return functions.stream().map(PhpResolveResult::new).toArray(ResolveResult[]::new);
 	}
 
 	/**
@@ -209,7 +215,7 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		return getText();
 	}
 
 	/**
@@ -258,29 +264,25 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
-	/**
-	 * Returns the array of String, {@link com.intellij.psi.PsiElement} and/or {@link com.intellij.psi.infos.CandidateInfo}
-	 * instances representing all identifiers that are visible at the location of the reference. The contents
-	 * of the returned array is used to build the lookup list for basic code completion. (The list
-	 * of visible identifiers must not be filtered by the completion prefix string - the
-	 * filtering is performed later by IDEA core.)
-	 *
-	 * @return the array of available identifiers.
-	 */
-	@Nonnull
 	@RequiredReadAction
 	@Override
-	public Object[] getVariants()
+	public void processForCompletion(@Nonnull @RequiredReadAction Processor<PhpNamedElement> elementProcessor)
 	{
-		/*DeclarationsIndex index = DeclarationsIndex.getInstance(this);
-		List<LightPhpFunction> variants = new ArrayList<LightPhpFunction>();
-		for(String functionName : index.getAllFunctionNames())
+		Project project = getProject();
+		Collection<String> keys = PhpFunctionByNameIndex.INSTANCE.getAllKeys(project);
+		GlobalSearchScope scope = GlobalSearchScope.allScope(project);
+		for(String key : keys)
 		{
-			variants.addAll(index.getFunctionsByName(functionName));
+			ProgressManager.checkCanceled();
+			Collection<Function> functions = PhpFunctionByNameIndex.INSTANCE.get(key, project, scope);
+			for(Function function : functions)
+			{
+				if(!elementProcessor.process(function))
+				{
+					return;
+				}
+			}
 		}
-		List<LookupElement> lookupItems = PhpVariantsUtil.getLookupItems(variants, null);
-		return lookupItems.toArray(new Object[lookupItems.size()]);   */
-		return new Object[0];
 	}
 
 	/**

@@ -29,6 +29,12 @@ public abstract class PhpStubbedElementImpl<T extends StubElement> extends StubB
 	}
 
 	@Override
+	public PsiElement getParent()
+	{
+		return getParentByStub();
+	}
+
+	@Override
 	public final void accept(@Nonnull final PsiElementVisitor visitor)
 	{
 		if(visitor instanceof PhpElementVisitor)

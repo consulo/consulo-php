@@ -34,7 +34,7 @@ public class Function implements PhpTokenTypes
 		{
 			variable.done(result);
 			parseFunctionCallParameterList(builder);
-			return PhpElementTypes.FUNCTION_CALL;
+			return PhpElementTypes.FUNCTION_REFERENCE;
 		}
 		variable.drop();
 
@@ -111,7 +111,8 @@ public class Function implements PhpTokenTypes
 				rollback.rollbackTo();
 				return PhpElementTypes.EMPTY_INPUT;
 			}
-			return PhpElementTypes.FUNCTION_CALL;
+			referenceMark.drop();
+			return PhpElementTypes.FUNCTION_REFERENCE;
 		}
 		return PhpElementTypes.EMPTY_INPUT;
 	}
@@ -156,6 +157,4 @@ public class Function implements PhpTokenTypes
 
 		builder.match(RPAREN);
 	}
-
-
 }
