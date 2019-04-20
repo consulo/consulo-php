@@ -1,0 +1,3 @@
+[submodule "php-impl/src/main/dist/php-runtime-stubs"]
+	path = php-impl/src/main/dist/php-runtime-stubs
+	url = git@github.com:consulo/php-runtime-stubs.git
