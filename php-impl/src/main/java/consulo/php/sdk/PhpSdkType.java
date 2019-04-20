@@ -111,7 +111,7 @@ public class PhpSdkType extends SdkType
 
 		File pluginPath = PluginManager.getPluginPath(PhpSdkType.class);
 
-		File stubDirectory = new File(pluginPath, "stubs");
+		File stubDirectory = new File(pluginPath, "php-runtime-stubs");
 		VirtualFile stubsDir = LocalFileSystem.getInstance().findFileByIoFile(stubDirectory);
 
 		if(stubsDir == null)
