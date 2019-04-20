@@ -75,7 +75,7 @@ public class Function implements PhpTokenTypes
 			else if(builder.compare(SCOPE_RESOLUTION))
 			{
 				rollback.rollbackTo();
-				ClassReference.parse(builder);
+				ClassReference.parseClassNameReference(builder, null, ClassReference.ALLOW_STATIC);
 				builder.match(SCOPE_RESOLUTION);
 
 				if(builder.compareAndEat(kwCLASS))

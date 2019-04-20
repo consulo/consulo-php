@@ -11,13 +11,13 @@ import com.intellij.psi.tree.IElementType;
  * @author markov
  * @date 17.10.2007
  */
-public class StaticClassConstant implements PhpTokenTypes
+public class StaticClassConstant
 {
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker mainMarker = builder.mark();
 
-		PsiBuilder.Marker marker = ClassReference.parseClassNameReference(builder, null, false, false, false);
+		PsiBuilder.Marker marker = ClassReference.parseClassNameReference(builder, null, ClassReference.ALLOW_STATIC);
 
 		if(marker == null)
 		{
@@ -25,14 +25,14 @@ public class StaticClassConstant implements PhpTokenTypes
 			return PhpElementTypes.EMPTY_INPUT;
 		}
 
-		if(!builder.compareAndEat(SCOPE_RESOLUTION))
+		if(!builder.compareAndEat(PhpTokenTypes.SCOPE_RESOLUTION))
 		{
 			marker.rollbackTo();
 			mainMarker.drop();
 			return PhpElementTypes.EMPTY_INPUT;
 		}
 
-		if(builder.compareAndEat(kwCLASS))
+		if(builder.compareAndEat(PhpTokenTypes.kwCLASS))
 		{
 			mainMarker.done(PhpElementTypes.CLASS_CONSTANT_REFERENCE);
 
@@ -40,15 +40,15 @@ public class StaticClassConstant implements PhpTokenTypes
 		}
 		else
 		{
-			builder.match(IDENTIFIER);
+			builder.match(PhpTokenTypes.IDENTIFIER);
 
-			if(builder.getTokenType() == LPAREN)
+			if(builder.getTokenType() == PhpTokenTypes.LPAREN)
 			{
 				Function.parseFunctionCallParameterList(builder);
 
-				mainMarker.done(PhpElementTypes.FUNCTION_CALL);
+				mainMarker.done(PhpElementTypes.METHOD_REFERENCE);
 
-				return PhpElementTypes.FUNCTION_CALL;
+				return PhpElementTypes.METHOD_REFERENCE;
 			}
 			else
 			{

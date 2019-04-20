@@ -1,15 +1,15 @@
 package consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
+import com.jetbrains.php.lang.psi.elements.PhpModifierList;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart2;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.jetbrains.php.lang.psi.elements.PhpModifierList;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,7 +31,14 @@ public class ClassDeclaration implements PhpTokenTypes
 
 		ClassMemberModifiers.parseModifiers(builder);
 
+		if(!builder.compare(CLASS_START_TYPES))
+		{
+			classMarker.rollbackTo();
+			return PhpElementTypes.EMPTY_INPUT;
+		}
+
 		builder.match(CLASS_START_TYPES);
+
 		if(!builder.compareAndEat(IDENTIFIER))
 		{
 			builder.error(PhpParserErrors.expected("class name"));

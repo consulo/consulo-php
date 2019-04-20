@@ -241,7 +241,7 @@ public class Variable implements PhpTokenTypes
 	{
 		PsiBuilder.Marker rollback = builder.mark();
 		PsiBuilder.Marker var = builder.mark();
-		if(ClassReference.parse(builder) != PhpElementTypes.EMPTY_INPUT)
+		if(ClassReference.parseClassNameReference(builder, null, ClassReference.ALLOW_STATIC) != PhpElementTypes.EMPTY_INPUT)
 		{
 			if(builder.compareAndEat(SCOPE_RESOLUTION))
 			{

@@ -103,6 +103,13 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 
 		switch(resolveKind)
 		{
+			case TO_STATIC_CLASS:
+				PhpClass thisStaticClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+				if(thisStaticClass != null)
+				{
+					return new ResolveResult[]{new PhpResolveResult(thisStaticClass)};
+				}
+				return ResolveResult.EMPTY_ARRAY;
 			case TO_NAMESPACE:
 				String text = getElement().getText();
 
@@ -225,8 +232,15 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		}
 	}
 
+	@Nonnull
 	public ResolveKind findResolveKind()
 	{
+		PsiElement staticKeyword = findChildByType(PhpTokenTypes.STATIC_KEYWORD);
+		if(staticKeyword != null)
+		{
+			return ResolveKind.TO_STATIC_CLASS;
+		}
+
 		PsiElement parent = getParent();
 		if(parent instanceof PhpClassReferenceImpl)
 		{
@@ -366,6 +380,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		TO_NAMESPACE,
 		TO_FQ_CLASS,
 		TO_CLASS,
+		TO_STATIC_CLASS,
 
 		TO_UNKNOWN
 	}

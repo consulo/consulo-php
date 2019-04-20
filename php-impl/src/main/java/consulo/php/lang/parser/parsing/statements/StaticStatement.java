@@ -1,13 +1,13 @@
 package consulo.php.lang.parser.parsing.statements;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.expressions.StaticScalar;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +26,11 @@ public class StaticStatement implements PhpTokenTypes
 		}
 		PsiBuilder.Marker statement = builder.mark();
 		builder.advanceLexer();
+		if(builder.getTokenType() == SCOPE_RESOLUTION)
+		{
+			statement.rollbackTo();
+			return PhpElementTypes.EMPTY_INPUT;
+		}
 		parseStaticVarList(builder);
 		if(!builder.compare(PHP_CLOSING_TAG))
 		{
