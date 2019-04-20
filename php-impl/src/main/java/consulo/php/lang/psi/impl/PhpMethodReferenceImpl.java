@@ -7,25 +7,24 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.Processor;
+import com.jetbrains.php.PhpClassHierarchyUtils;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
-import com.jetbrains.php.lang.psi.elements.FieldReference;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
+import consulo.annotations.RequiredWriteAction;
+import consulo.php.completion.PhpVariantsUtil;
+import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.PhpResolveResult;
@@ -37,7 +36,6 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  */
 public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements MethodReference
 {
-
 	public PhpMethodReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -121,12 +119,15 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		return false;
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getElement()
 	{
 		return this;
 	}
 
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public TextRange getRangeInElement()
 	{
@@ -139,6 +140,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		return null;
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -156,8 +158,17 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		PhpPsiElement firstChild = getFirstPsiChild();
+		List<ResolveResult> result = new ArrayList<>();
 
+		process(element -> result.add(new PhpResolveResult(element)), getMethodName());
+
+		return result.toArray(new ResolveResult[result.size()]);
+	}
+
+	@RequiredReadAction
+	private void process(@RequiredReadAction Processor<PhpNamedElement> processor, @Nullable String name)
+	{
+		PhpPsiElement firstChild = getFirstPsiChild();
 		PhpType phpType = null;
 		if(firstChild instanceof Variable)
 		{
@@ -199,25 +210,48 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 			}
 		}
 
-		List<ResolveResult> result = new ArrayList<>();
 		for(PhpClass owner : owners)
 		{
-			Method methodByName = owner.findMethodByName(getMethodName());
-			if(methodByName != null)
+			if(name != null)
 			{
-				result.add(new PhpResolveResult(methodByName));
+				Method methodByName = owner.findMethodByName(name);
+				if(methodByName != null)
+				{
+					if(!processor.process(methodByName))
+					{
+						return;
+					}
+				}
+			}
+			else
+			{
+				PhpClassHierarchyUtils.processMethods(owner, owner, (method, subClass, baseClass) -> processor.process(method), false);
 			}
 		}
-
-		return result.toArray(new ResolveResult[result.size()]);
 	}
 
+	@RequiredReadAction
+	@Nonnull
+	@Override
+	public Object[] getVariants()
+	{
+		List<LookupElement> elements = new ArrayList<>();
+		process(element -> {
+			elements.add(PhpVariantsUtil.getLookupItem(element, new UsageContext()));
+			return true;
+		}, null);
+		return ArrayUtil.toObjectArray(elements);
+	}
+
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		return getText();
 	}
 
+	@RequiredWriteAction
 	@Override
 	public PsiElement handleElementRename(String name) throws IncorrectOperationException
 	{
@@ -238,8 +272,9 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	 *
 	 * @param element the element which should become the target of the reference.
 	 * @return the new underlying element of the reference.
-	 * @throws com.intellij.util.IncorrectOperationException if the rebind cannot be handled for some reason.
+	 * @throws IncorrectOperationException if the rebind cannot be handled for some reason.
 	 */
+	@RequiredWriteAction
 	@Override
 	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
@@ -253,6 +288,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		return getManager().areElementsEquivalent(resolve(), element);
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isSoft()
 	{
