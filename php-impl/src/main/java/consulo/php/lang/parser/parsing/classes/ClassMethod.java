@@ -16,8 +16,7 @@ import com.intellij.psi.tree.IElementType;
  */
 public class ClassMethod implements PhpTokenTypes
 {
-
-	public static IElementType parseFunction(PhpPsiBuilder builder)
+	public static IElementType parseMethod(PhpPsiBuilder builder)
 	{
 		builder.match(kwFUNCTION);
 		IsReference.parse(builder);

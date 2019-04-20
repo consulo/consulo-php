@@ -1,6 +1,7 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -33,6 +34,13 @@ public class PhpUseImpl extends PhpElementImpl implements PhpUse
 	public ClassReference[] getClassReferences()
 	{
 		return findChildrenByClass(ClassReference.class);
+	}
+
+	@Nullable
+	@Override
+	public String getAliasName()
+	{
+		return null;
 	}
 
 	@Override

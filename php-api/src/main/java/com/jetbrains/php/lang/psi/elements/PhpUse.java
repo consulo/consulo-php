@@ -1,6 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -10,4 +11,7 @@ public interface PhpUse extends PhpPsiElement
 {
 	@Nonnull
 	ClassReference[] getClassReferences();
+
+	@Nullable
+	String getAliasName();
 }

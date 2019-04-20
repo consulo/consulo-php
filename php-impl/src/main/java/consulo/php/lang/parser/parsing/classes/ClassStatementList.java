@@ -49,7 +49,7 @@ public class ClassStatementList implements PhpTokenTypes
 		IElementType tokenType = builder.getTokenType();
 		if(tokenType == kwFUNCTION)
 		{
-			elementType = ClassMethod.parseFunction(builder);
+			elementType = ClassMethod.parseMethod(builder);
 		}
 		else
 		{
