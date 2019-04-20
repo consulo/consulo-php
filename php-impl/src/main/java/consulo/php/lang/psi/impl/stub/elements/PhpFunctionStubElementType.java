@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
@@ -13,6 +14,7 @@ import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
 import consulo.annotations.RequiredReadAction;
+import consulo.php.index.PhpIndexKeys;
 import consulo.php.lang.psi.impl.PhpFunctionImpl;
 import consulo.php.lang.psi.impl.stub.PhpFunctionStubImpl;
 
@@ -65,6 +67,10 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 	@Override
 	public void indexStub(@Nonnull PhpFunctionStub stub, @Nonnull IndexSink sink)
 	{
-
+		String name = stub.getName();
+		if(!StringUtil.isEmpty(name))
+		{
+			sink.occurrence(PhpIndexKeys.FUNCTION_BY_NAME, name);
+		}
 	}
 }

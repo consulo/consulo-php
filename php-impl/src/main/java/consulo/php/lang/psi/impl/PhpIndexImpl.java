@@ -29,6 +29,7 @@ import com.jetbrains.php.lang.psi.elements.PhpUse;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.index.PhpFullFqClassIndex;
+import consulo.php.index.PhpFunctionByNameIndex;
 import consulo.php.index.PhpNamespaceIndex;
 
 /**
@@ -182,7 +183,17 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<Function> getFunctionsByName(@Nullable String name)
 	{
-		return null;
+		if(name == null)
+		{
+			List<Function> result = new ArrayList<>();
+			Collection<String> allKeys = PhpFunctionByNameIndex.INSTANCE.getAllKeys(myProject);
+			for(String key : allKeys)
+			{
+				result.addAll(PhpFunctionByNameIndex.INSTANCE.get(key, myProject, GlobalSearchScope.allScope(myProject)));
+			}
+			return result;
+		}
+		return PhpFunctionByNameIndex.INSTANCE.get(name, myProject, GlobalSearchScope.allScope(myProject));
 	}
 
 	@Nonnull
