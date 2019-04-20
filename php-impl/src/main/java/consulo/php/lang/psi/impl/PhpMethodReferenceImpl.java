@@ -10,14 +10,15 @@ import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
+import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
@@ -27,8 +28,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
-import consulo.php.lang.psi.resolve.PhpResolveProcessor;
-import consulo.php.lang.psi.resolve.ResolveUtil;
+import consulo.php.lang.psi.resolve.PhpResolveResult;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -180,7 +180,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 			phpType = ((ClassReference) firstChild).resolveLocalType();
 		}
 
-		List<PsiElement> owners = new ArrayList<>();
+		List<PhpClass> owners = new ArrayList<>();
 		if(phpType != null)
 		{
 			PhpIndex phpIndex = PhpIndex.getInstance(getProject());
@@ -192,23 +192,20 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		}
 		else
 		{
-			owners.add(this);
+			PhpClass phpClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
+			if(phpClass != null)
+			{
+				owners.add(phpClass);
+			}
 		}
 
 		List<ResolveResult> result = new ArrayList<>();
-		for(PsiElement owner : owners)
+		for(PhpClass owner : owners)
 		{
-			PhpResolveProcessor processor = new PhpResolveProcessor(this, getMethodName(), PhpResolveProcessor.ElementKind.FUNCTION);
-			ResolveUtil.treeWalkUp(owner, processor);
-			Collection<PsiElement> declarations = processor.getResult();
-
-			for(final PsiElement element : declarations)
+			Method methodByName = owner.findMethodByName(getMethodName());
+			if(methodByName != null)
 			{
-				if(declarations.size() > 1 && element == this)
-				{
-					continue;
-				}
-				result.add(new PsiElementResolveResult(element, true));
+				result.add(new PhpResolveResult(methodByName));
 			}
 		}
 

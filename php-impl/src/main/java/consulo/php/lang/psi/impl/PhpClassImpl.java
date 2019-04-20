@@ -10,12 +10,17 @@ import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
+import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
+import com.intellij.psi.util.CachedValueProvider;
+import com.intellij.psi.util.CachedValuesManager;
+import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.MultiMap;
+import com.jetbrains.php.PhpClassHierarchyUtils;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
@@ -122,24 +127,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method getConstructor()
 	{
-		Method newOne = null;
-		Method oldOne = null;
-		for(Method method : getOwnMethods())
-		{
-			if(method.getName().equals(CONSTRUCTOR))
-			{
-				newOne = method;
-			}
-			if(method.getName().equals(this.getName()))
-			{
-				oldOne = method;
-			}
-		}
-		if(newOne != null)
-		{
-			return newOne;
-		}
-		return oldOne;
+		return getOwnConstructor();
 	}
 
 	@Override
@@ -240,13 +228,26 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public PhpClass[] getSupers()
 	{
-		return new PhpClass[0];
+		PhpClass superClass = getSuperClass();
+		if(superClass != null)
+		{
+			return new PhpClass[]{superClass};
+		}
+		return PhpClass.EMPTY_ARRAY;
 	}
 
+	@Nonnull
 	@Override
 	public MultiMap<CharSequence, Field> getOwnFieldMap()
 	{
-		return null;
+		return CachedValuesManager.getCachedValue(this, () -> {
+			MultiMap<CharSequence, Field> map = new MultiMap<>();
+			for(Field field : getOwnFields())
+			{
+				map.putValue(field.getNameCS(), field);
+			}
+			return CachedValueProvider.Result.create(map, PsiModificationTracker.MODIFICATION_COUNT);
+		});
 	}
 
 	@Override
@@ -261,15 +262,18 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		return getStubOrPsiChildren(PhpStubElements.CLASS_METHOD, Method.ARRAY_FACTORY);
 	}
 
+	@Nonnull
 	@Override
 	public MultiMap<CharSequence, Method> getOwnMethodsMap()
 	{
-		MultiMap<CharSequence, Method> map = new MultiMap<>();
-		for(Method childrenByClas : getOwnMethods())
-		{
-			map.putValue(childrenByClas.getName(), childrenByClas);
-		}
-		return map;
+		return CachedValuesManager.getCachedValue(this, () -> {
+			MultiMap<CharSequence, Method> map = new MultiMap<>();
+			for(Method childrenByClas : getOwnMethods())
+			{
+				map.putValue(childrenByClas.getNameCS(), childrenByClas);
+			}
+			return CachedValueProvider.Result.create(map, PsiModificationTracker.MODIFICATION_COUNT);
+		});
 	}
 
 	@Override
@@ -307,26 +311,29 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method findMethodByName(@Nullable CharSequence name)
 	{
-		return null;
+		Ref<Method> methodRef = Ref.create();
+		PhpClassHierarchyUtils.processMethods(this, this, (method, subClass, baseClass) -> {
+			if(StringUtil.equals(method.getNameCS(), name))
+			{
+				methodRef.set(method);
+				return false;
+			}
+
+			return true;
+		}, false);
+		return methodRef.get();
 	}
 
 	@Nullable
 	@Override
 	public Method findOwnMethodByName(@Nullable CharSequence name)
 	{
-		return null;
-	}
-
-	@Nullable
-	@Override
-	public Field findFieldByName(@Nullable CharSequence name, boolean findConstant)
-	{
-		List<Field> fields = getFields();
-		for(Field field : fields)
+		Method[] ownMethods = getOwnMethods();
+		for(Method ownMethod : ownMethods)
 		{
-			if(StringUtil.equals(field.getName(), name))
+			if(StringUtil.equals(ownMethod.getNameCS(), name))
 			{
-				return field;
+				return ownMethod;
 			}
 		}
 		return null;
@@ -334,8 +341,33 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 
 	@Nullable
 	@Override
+	public Field findFieldByName(@Nullable CharSequence name, boolean findConstant)
+	{
+		Ref<Field> fieldRef = Ref.create();
+		PhpClassHierarchyUtils.processFields(this, this, (field, subClass, baseClass) -> {
+			if(StringUtil.equals(field.getNameCS(), name))
+			{
+				fieldRef.set(field);
+				return false;
+			}
+
+			return true;
+		}, false);
+		return fieldRef.get();
+	}
+
+	@Nullable
+	@Override
 	public Field findOwnFieldByName(@Nullable CharSequence name, boolean findConstant)
 	{
+		Field[] fields = getOwnFields();
+		for(Field field : fields)
+		{
+			if(StringUtil.equals(field.getNameCS(), name))
+			{
+				return field;
+			}
+		}
 		return null;
 	}
 
@@ -361,7 +393,24 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method getOwnConstructor()
 	{
-		return getConstructor();
+		Method newOne = null;
+		Method oldOne = null;
+		for(Method method : getOwnMethods())
+		{
+			if(method.getName().equals(CONSTRUCTOR))
+			{
+				newOne = method;
+			}
+			if(method.getName().equals(this.getName()))
+			{
+				oldOne = method;
+			}
+		}
+		if(newOne != null)
+		{
+			return newOne;
+		}
+		return oldOne;
 	}
 
 	@Override

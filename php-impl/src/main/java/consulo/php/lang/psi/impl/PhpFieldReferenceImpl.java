@@ -17,6 +17,7 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
+import com.jetbrains.php.PhpClassHierarchyUtils;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -206,11 +207,11 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		{
 			Collection<PhpClass> classes = phpIndex.getClassesByFQN(type);
 
-			for(PhpClass aClass : classes)
+			for(PhpClass targetClass : classes)
 			{
 				if(fieldName != null)
 				{
-					Field field = aClass.findFieldByName(fieldName, true);
+					Field field = targetClass.findFieldByName(fieldName, true);
 					if(field != null)
 					{
 						if(!processor.process(field))
@@ -221,15 +222,9 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 				}
 				else
 				{
-					for(Field field : aClass.getFields())
-					{
-						if(!processor.process(field))
-						{
-							return false;
-						}
-					}
+					PhpClassHierarchyUtils.processFields(targetClass, targetClass, (field, subClass, baseClass) -> processor.process(field), false);
 
-					for(Method method : aClass.getMethods())
+					for(Method method : targetClass.getMethods())
 					{
 						if(!processor.process(method))
 						{

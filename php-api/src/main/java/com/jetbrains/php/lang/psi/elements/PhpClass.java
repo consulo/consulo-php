@@ -88,6 +88,7 @@ public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCa
 	 */
 	Field[] getOwnFields();
 
+	@Nonnull
 	MultiMap<CharSequence, Field> getOwnFieldMap();
 
 	/**
@@ -112,6 +113,7 @@ public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCa
 	 * If both exist, @method is rudimentary and must be shown as a duplicate declaration. Resolve, completion, and refactorings must choose the
 	 * real method because it is used in the code and @method is a descriptive annotation for magic methods (for example, __call).
 	 */
+	@Nonnull
 	MultiMap<CharSequence, Method> getOwnMethodsMap();
 
 	boolean hasOwnStaticMembers();
