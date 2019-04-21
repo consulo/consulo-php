@@ -90,6 +90,9 @@
 
 		<contentFolderSupportPatcher implementation="consulo.php.module.PhpContentFolderSupportPatcher" />
 
+		<configurationType implementation="consulo.php.run.script.PhpScriptConfigrationType" />
+		<runConfigurationProducer implementation="consulo.php.run.script.PhpScriptConfigurationProducer" />
+
 		<localInspection groupName="PHP" displayName="Dynamic method called as static" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall" />
 		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
 
