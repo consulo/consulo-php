@@ -55,6 +55,7 @@
 					</packaging>
 					<dependencies>
 						<dependency>com.intellij.xml</dependency>
+						<dependency>consulo.javascript</dependency>
 					</dependencies>
 				</configuration>
 				<executions>
@@ -73,6 +74,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>consulo.php-php.api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.php-composer.impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

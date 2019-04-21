@@ -4,6 +4,7 @@
 	<description>PHP support with refactoring</description>
 	<vendor>Jay &amp; consulo.io</vendor>
 	<depends>com.intellij.xml</depends>
+	<depends>consulo.javascript</depends>
 	<version>SNAPSHOT</version>
 
 	<actions>
@@ -91,5 +92,7 @@
 
 		<localInspection groupName="PHP" displayName="Dynamic method called as static" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.PhpDynamicAsStaticMethodCall" />
 		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
+
+		<fileTypeFactory implementation="consulo.php.composer.ComposerFileTypeFactory" />
 	</extensions>
 </idea-plugin>
