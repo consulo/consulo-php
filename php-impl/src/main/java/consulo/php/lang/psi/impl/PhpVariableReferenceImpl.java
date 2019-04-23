@@ -343,11 +343,4 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	{
 		return getManager().areElementsEquivalent(resolve(), psiElement);
 	}
-
-	@RequiredReadAction
-	@Override
-	public boolean isSoft()
-	{
-		return false;
-	}
 }

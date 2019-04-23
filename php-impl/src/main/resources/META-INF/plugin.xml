@@ -86,6 +86,8 @@
 
 		<projectService serviceInterface="com.jetbrains.php.PhpIndex" serviceImplementation="consulo.php.lang.psi.impl.PhpIndexImpl" />
 
+		<referencesSearch implementation="consulo.php.lang.psi.search.PhpReferenceQueryExecutor" />
+
 		<completion.contributor language="PHP" implementationClass="consulo.php.completion.PhpCompletionContributor" />
 
 		<contentFolderSupportPatcher implementation="consulo.php.module.PhpContentFolderSupportPatcher" />
