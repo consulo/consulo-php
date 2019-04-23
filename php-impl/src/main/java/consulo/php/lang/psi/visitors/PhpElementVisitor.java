@@ -218,4 +218,9 @@ public abstract class PhpElementVisitor extends PsiElementVisitor
 	{
 		visitPhpElement(statemet);
 	}
+
+	public void visitPhpYield(PhpYield yield)
+	{
+		visitPhpElement(yield);
+	}
 }

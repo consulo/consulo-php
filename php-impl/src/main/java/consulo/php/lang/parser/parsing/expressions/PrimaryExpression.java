@@ -1,8 +1,10 @@
 package consulo.php.lang.parser.parsing.expressions;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.lang.PsiBuilder;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -74,6 +76,10 @@ public class PrimaryExpression implements PhpTokenTypes
 			builder.match(RPAREN);
 			return PhpElementTypes.EXPRESSION;
 		}
+		if(builder.compare(PhpTokenTypes.YIELD_KEYWORD))
+		{
+			return parseYield(builder);
+		}
 		if(builder.compare(kwNEW))
 		{
 			return NewExpression.parse(builder);
@@ -100,6 +106,27 @@ public class PrimaryExpression implements PhpTokenTypes
 		}
 		result = parseInternalFunctions(builder);
 		return result;
+	}
+
+	@Nonnull
+	private static IElementType parseYield(PhpPsiBuilder builder)
+	{
+		PsiBuilder.Marker mark = builder.mark();
+
+		builder.advanceLexer();
+
+		if(builder.getTokenType() == IDENTIFIER && StringUtil.equals(builder.getTokenText(), "from"))
+		{
+			builder.remapCurrentToken(FROM_KEYWORD);
+			builder.advanceLexer();
+		}
+
+		if(Expression.parse(builder) == null)
+		{
+			builder.error("Expression expected");
+		}
+		mark.done(PhpElementTypes.YIELD);
+		return PhpElementTypes.YIELD;
 	}
 
 	public static IElementType parseArrayExpression(PhpPsiBuilder builder, @Nullable PsiBuilder.Marker otherMarker)

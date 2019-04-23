@@ -66,6 +66,8 @@ public interface PhpTokenTypes extends TokenType
 	IElementType TRAIT_KEYWORD = new PhpElementType("TRAIT_KEYWORD");
 	IElementType PUBLIC_KEYWORD = new PhpElementType("PUBLIC_KEYWORD");
 	IElementType STATIC_KEYWORD = new PhpElementType("STATIC_KEYWORD");
+	IElementType YIELD_KEYWORD = new PhpElementType("YIELD_KEYWORD");
+	IElementType FROM_KEYWORD = new PhpElementType("FROM_KEYWORD");
 	IElementType kwCLONE = new PhpElementType("clone keyword");
 	IElementType kwISSET = new PhpElementType("isset keyword");
 	IElementType kwEMPTY = new PhpElementType("empty keyword");
@@ -200,10 +202,12 @@ public interface PhpTokenTypes extends TokenType
 
 	);
 
+	TokenSet SOFT_KEYWORDS = TokenSet.create(FROM_KEYWORD);
+
 	TokenSet KEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(ABSTRACT_KEYWORD, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, TRAIT_KEYWORD, kwCLONE, kwCONST, kwCONTINUE,
 			kwDEFAULT, kwDIE, kwECHO, kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, FINAL_KEYWORD,
 			kwFUNCTION, kwGLOBAL, kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, INTERFACE_KEYWORD, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, PRIVATE_KEYWORD, PROTECTED_KEYWORD, PUBLIC_KEYWORD,
-			kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD, FINALLY_KEYWORD));
+			kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD, FINALLY_KEYWORD, YIELD_KEYWORD));
 
 	TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM);
 

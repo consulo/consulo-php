@@ -235,6 +235,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"exit"                             { return opManager.process(PhpTokenTypes.kwEXIT); }
 	"isset"                            { return opManager.process(PhpTokenTypes.kwISSET); }
 	"unset"                            { return opManager.process(PhpTokenTypes.kwUNSET); }
+	"yield"                            { return opManager.process(PhpTokenTypes.YIELD_KEYWORD); }
 
 	//   includes
 	"include"                          { return opManager.process(PhpTokenTypes.kwINCLUDE); }

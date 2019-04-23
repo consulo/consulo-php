@@ -133,4 +133,9 @@ public class PhpPsiBuilder
 	{
 		return psiBuilder.getCurrentOffset();
 	}
+
+	public void remapCurrentToken(IElementType elementType)
+	{
+		psiBuilder.remapCurrentToken(elementType);
+	}
 }

@@ -15,6 +15,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ReferenceRange;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
@@ -28,6 +30,7 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.highlighter.PhpHighlightingData;
+import consulo.php.lang.parser.PhpTokenSets;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -56,6 +59,19 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		myHolder = highlightInfoHolder;
 		runnable.run();
 		return true;
+	}
+
+	@Override
+	@RequiredReadAction
+	public void visitElement(PsiElement element)
+	{
+		super.visitElement(element);
+
+		IElementType elementType = PsiUtilCore.getElementType(element);
+		if(PhpTokenSets.SOFT_KEYWORDS.contains(elementType))
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, element.getTextRange(), null, PhpHighlightingData.KEYWORD);
+		}
 	}
 
 	@Override
