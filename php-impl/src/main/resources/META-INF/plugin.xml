@@ -30,8 +30,8 @@
 								 allowMixin="true"
 								 icon="/icons/fileTypes/php.png"
 								 name="PHP"
-								 immutableClass="consulo.php.module.extension.PhpModuleExtension"
-								 mutableClass="consulo.php.module.extension.PhpMutableModuleExtension"/>
+								 immutableClass="consulo.php.module.extension.impl.PhpModuleExtensionImpl"
+								 mutableClass="consulo.php.module.extension.impl.PhpMutableModuleExtension"/>
 		<fileTypeFactory implementation="consulo.php.lang.PhpFileTypeFactory"/>
 		<fileTypeDetector implementation="consulo.php.lang.PhpFileDetector"/>
 		<xml.fileNSInfoProvider implementation="consulo.php.PhpXmlFileNSInfoProvider"/>
@@ -99,5 +99,6 @@
 		<localInspection groupName="PHP" displayName="Unimplemented abstract methods in class" language="PHP" enabledByDefault="true" implementationClass="consulo.php.lang.inspections.classes.PhpUnimplementedMethodsInClass" />
 
 		<fileTypeFactory implementation="consulo.php.composer.ComposerFileTypeFactory" />
+		<moduleImportProvider implementation="consulo.php.composer.importProvider.ComposerModuleImportProvider" />
 	</extensions>
 </idea-plugin>

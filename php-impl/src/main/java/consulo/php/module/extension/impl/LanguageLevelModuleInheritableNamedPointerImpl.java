@@ -1,10 +1,11 @@
-package consulo.php.module.extension;
+package consulo.php.module.extension.impl;
 
 import javax.annotation.Nonnull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
 import consulo.php.PhpLanguageLevel;
+import consulo.php.module.extension.PhpModuleExtension;
 import consulo.roots.ModuleRootLayer;
 import consulo.util.pointers.NamedPointer;
 
@@ -25,7 +26,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public String getItemNameFromModule(@Nonnull Module module)
 	{
-		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
+		PhpModuleExtension<?> extension = (PhpModuleExtension<?>) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
 			return extension.getLanguageLevel().getId();
@@ -36,7 +37,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	@Override
 	public PhpLanguageLevel getItemFromModule(@Nonnull Module module)
 	{
-		PhpModuleExtension extension = (PhpModuleExtension) ModuleUtilCore.getExtension(module, myKey);
+		PhpModuleExtension<?> extension = (PhpModuleExtension<?>) ModuleUtilCore.getExtension(module, myKey);
 		if(extension != null)
 		{
 			return extension.getLanguageLevel();

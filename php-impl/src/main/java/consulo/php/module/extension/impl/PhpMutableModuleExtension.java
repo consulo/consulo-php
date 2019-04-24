@@ -1,22 +1,21 @@
-package consulo.php.module.extension;
+package consulo.php.module.extension.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 
-import consulo.php.PhpLanguageLevel;
-
-import javax.annotation.Nullable;
 import com.intellij.openapi.projectRoots.Sdk;
-import consulo.annotations.RequiredDispatchThread;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.php.PhpLanguageLevel;
 import consulo.roots.ModuleRootLayer;
+import consulo.ui.RequiredUIAccess;
 
 /**
  * @author VISTALL
  * @since 04.07.13.
  */
-public class PhpMutableModuleExtension extends PhpModuleExtension implements MutableModuleExtensionWithSdk<PhpModuleExtension>
+public class PhpMutableModuleExtension extends PhpModuleExtensionImpl implements MutableModuleExtensionWithSdk<PhpModuleExtensionImpl>
 {
 	public PhpMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module)
 	{
@@ -37,7 +36,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 		return myLanguageLevel;
 	}
 
-	@RequiredDispatchThread
+	@RequiredUIAccess
 	@Nullable
 	@Override
 	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
@@ -52,7 +51,7 @@ public class PhpMutableModuleExtension extends PhpModuleExtension implements Mut
 	}
 
 	@Override
-	public boolean isModified(@Nonnull PhpModuleExtension extension)
+	public boolean isModified(@Nonnull PhpModuleExtensionImpl extension)
 	{
 		return isModifiedImpl(extension) || !extension.getInheritableLanguageLevel().equals
 				(getInheritableLanguageLevel());

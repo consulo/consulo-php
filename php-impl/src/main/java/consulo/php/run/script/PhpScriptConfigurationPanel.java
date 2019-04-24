@@ -43,7 +43,7 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersPanel
 		List<Module> moduleList = new ArrayList<>();
 		for(Module module : ModuleManager.getInstance(project).getModules())
 		{
-			PhpModuleExtension extension = ModuleUtilCore.getExtension(module, PhpModuleExtension.class);
+			PhpModuleExtension<?> extension = ModuleUtilCore.getExtension(module, PhpModuleExtension.class);
 			if(extension != null)
 			{
 				moduleList.add(module);

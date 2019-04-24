@@ -19,7 +19,7 @@ public class PhpContentFolderSupportPatcher implements ContentFolderSupportPatch
 	@Override
 	public void patch(@Nonnull ModifiableRootModel model, @Nonnull Set<ContentFolderTypeProvider> set)
 	{
-		PhpModuleExtension extension = model.getExtension(PhpModuleExtension.class);
+		PhpModuleExtension<?> extension = model.getExtension(PhpModuleExtension.class);
 		if(extension != null)
 		{
 			set.add(ProductionContentFolderTypeProvider.getInstance());

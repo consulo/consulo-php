@@ -1,4 +1,4 @@
-package consulo.php.module.extension;
+package consulo.php.module.extension.impl;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -22,6 +22,8 @@ import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
 import consulo.module.extension.ModuleExtension;
 import consulo.module.extension.ModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.php.module.extension.impl.PhpModuleExtensionImpl;
+import consulo.php.module.extension.impl.PhpMutableModuleExtension;
 
 /**
  * @author VISTALL
@@ -54,8 +56,8 @@ public class PhpModuleExtensionPanel extends JPanel
 					setIcon(AllIcons.Nodes.Module);
 					append(((Module) value).getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
 
-					final PhpModuleExtension extension = ModuleUtilCore.getExtension((Module) value,
-							PhpModuleExtension.class);
+					final PhpModuleExtensionImpl extension = ModuleUtilCore.getExtension((Module) value,
+							PhpModuleExtensionImpl.class);
 					if(extension != null)
 					{
 						final PhpLanguageLevel languageLevel = extension.getLanguageLevel();

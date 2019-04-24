@@ -27,6 +27,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
+import consulo.annotations.RequiredReadAction;
 import consulo.awt.TargetAWT;
 import consulo.php.PhpIcons;
 import consulo.php.PhpLanguageLevel;
@@ -58,7 +59,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 		{
 			Map<String, Object> defaultProperties = FileTemplateManager.getInstance(project).getDefaultVariables();
 
-			PhpModuleExtension phpModuleExtension = getPhpModuleExtension(dir);
+			PhpModuleExtension<?> phpModuleExtension = getPhpModuleExtension(dir);
 			if(phpModuleExtension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_3))
 			{
 				PhpPackage psiPackage = PhpPsiUtil.findPackage(project, dir);
@@ -137,6 +138,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 		}
 	}
 
+	@RequiredReadAction
 	private static PhpModuleExtension getPhpModuleExtension(PsiDirectory psiDirectory)
 	{
 		Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(psiDirectory);

@@ -1,19 +1,19 @@
 package consulo.php.lang.psi.impl;
 
 import javax.annotation.Nonnull;
-
-import consulo.php.PhpLanguageLevel;
-import consulo.php.module.extension.PhpModuleExtension;
-
 import javax.annotation.Nullable;
+
 import com.intellij.lang.Language;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
+import consulo.annotations.RequiredReadAction;
 import consulo.lang.LanguageVersion;
 import consulo.lang.LanguageVersionResolver;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.module.extension.PhpModuleExtension;
 
 /**
  * @author VISTALL
@@ -21,6 +21,7 @@ import consulo.lang.LanguageVersionResolver;
  */
 public class PhpLanguageVersionResolver implements LanguageVersionResolver
 {
+	@RequiredReadAction
 	@Nonnull
 	@Override
 	public LanguageVersion getLanguageVersion(@Nonnull Language language, @Nullable PsiElement psiElement)
@@ -32,6 +33,8 @@ public class PhpLanguageVersionResolver implements LanguageVersionResolver
 		return findLanguage(ModuleUtilCore.findModuleForPsiElement(psiElement));
 	}
 
+	@RequiredReadAction
+	@Nonnull
 	@Override
 	public LanguageVersion getLanguageVersion(@Nonnull Language language, @Nullable Project project, @Nullable VirtualFile virtualFile)
 	{
@@ -42,6 +45,7 @@ public class PhpLanguageVersionResolver implements LanguageVersionResolver
 		return findLanguage(ModuleUtilCore.findModuleForFile(virtualFile, project));
 	}
 
+	@RequiredReadAction
 	private static LanguageVersion findLanguage(Module module)
 	{
 		if(module == null)

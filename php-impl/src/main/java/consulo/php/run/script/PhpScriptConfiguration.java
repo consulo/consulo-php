@@ -26,6 +26,7 @@ import com.intellij.execution.configurations.RunProfileState;
 import com.intellij.execution.filters.TextConsoleBuilder;
 import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
+import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.ConsoleView;
@@ -95,7 +96,7 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 		Module[] modules = ModuleManager.getInstance(getProject()).getModules();
 		for(Module module : modules)
 		{
-			PhpModuleExtension moduleExtension = ModuleUtilCore.getExtension(module, PhpModuleExtension.class);
+			PhpModuleExtension<?> moduleExtension = ModuleUtilCore.getExtension(module, PhpModuleExtension.class);
 			if(moduleExtension != null)
 			{
 				result.add(module);
@@ -149,7 +150,7 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 
 				TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(environment.getProject());
 				ConsoleView console = consoleBuilder.getConsole();
-				OSProcessHandler processHandler = new OSProcessHandler(commandLine);
+				OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createProcessHandler(commandLine);
 				console.attachToProcess(processHandler);
 				return new DefaultExecutionResult(console, processHandler);
 			}

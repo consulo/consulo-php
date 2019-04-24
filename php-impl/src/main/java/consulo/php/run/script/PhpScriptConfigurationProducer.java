@@ -1,6 +1,5 @@
 package consulo.php.run.script;
 
-import com.intellij.compiler.options.CompileStepBeforeRun;
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -33,7 +32,7 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
 		{
 			return false;
 		}
-		PhpModuleExtension extension = ModuleUtilCore.getExtension(phpFile, PhpModuleExtension.class);
+		PhpModuleExtension<?> extension = ModuleUtilCore.getExtension(phpFile, PhpModuleExtension.class);
 		if(extension == null)
 		{
 			return false;

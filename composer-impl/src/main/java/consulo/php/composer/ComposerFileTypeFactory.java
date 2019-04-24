@@ -13,10 +13,13 @@ import consulo.json.JsonFileType;
  */
 public class ComposerFileTypeFactory extends FileTypeFactory
 {
+	public static final String COMPOSER_JSON = "composer.json";
+	public static final String COMPOSER_LOCK = "composer.lock";
+
 	@Override
 	public void createFileTypes(@Nonnull FileTypeConsumer fileTypeConsumer)
 	{
-		fileTypeConsumer.consume(JsonFileType.INSTANCE, new ExactFileNameMatcher("composer.json"));
-		fileTypeConsumer.consume(JsonFileType.INSTANCE, new ExactFileNameMatcher("composer.lock"));
+		fileTypeConsumer.consume(JsonFileType.INSTANCE, new ExactFileNameMatcher(COMPOSER_JSON));
+		fileTypeConsumer.consume(JsonFileType.INSTANCE, new ExactFileNameMatcher(COMPOSER_LOCK));
 	}
 }

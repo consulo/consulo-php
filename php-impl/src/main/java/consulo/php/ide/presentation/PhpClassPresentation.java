@@ -45,7 +45,7 @@ public class PhpClassPresentation implements ItemPresentationProvider<Navigation
 				String location = null;
 				if(moduleForPsiElement != null)
 				{
-					PhpModuleExtension extension = ModuleUtilCore.getExtension(moduleForPsiElement, PhpModuleExtension.class);
+					PhpModuleExtension<?> extension = ModuleUtilCore.getExtension(moduleForPsiElement, PhpModuleExtension.class);
 					if(extension != null && extension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_3))
 					{
 						location = phpClass.getNamespaceName();

@@ -1,13 +1,12 @@
 package consulo.php.lang.psi.util;
 
 import javax.annotation.Nonnull;
-
-import consulo.php.lang.psi.PhpPackage;
-import consulo.php.module.extension.PhpModuleExtension;
-
 import javax.annotation.Nullable;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
+import consulo.php.lang.psi.PhpPackage;
+import consulo.php.module.extension.PhpModuleExtension;
 import consulo.psi.PsiPackageManager;
 
 /**

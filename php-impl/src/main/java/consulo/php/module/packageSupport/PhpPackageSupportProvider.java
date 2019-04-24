@@ -2,11 +2,11 @@ package consulo.php.module.packageSupport;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.psi.impl.PhpPackageImpl;
-import consulo.php.module.PhpModuleExtensionUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiManager;
 import consulo.module.extension.ModuleExtension;
+import consulo.php.lang.psi.impl.PhpPackageImpl;
+import consulo.php.module.extension.PhpModuleExtension;
 import consulo.psi.PsiPackage;
 import consulo.psi.PsiPackageManager;
 import consulo.psi.PsiPackageSupportProvider;
@@ -20,7 +20,7 @@ public class PhpPackageSupportProvider implements PsiPackageSupportProvider
 	@Override
 	public boolean isSupported(@Nonnull ModuleExtension moduleExtension)
 	{
-		return PhpModuleExtensionUtil.isSingleModuleExtension(moduleExtension.getModule());
+		return moduleExtension instanceof PhpModuleExtension;
 	}
 
 	@Override

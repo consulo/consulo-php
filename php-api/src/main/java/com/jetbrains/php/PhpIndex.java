@@ -36,7 +36,6 @@ import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 
 public abstract class PhpIndex
 {
-
 	@Nonnull
 	public static PhpIndex getInstance(@Nonnull Project project)
 	{
