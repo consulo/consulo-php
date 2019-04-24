@@ -15,6 +15,8 @@ import com.intellij.openapi.module.ModifiableModuleModel;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -22,13 +24,14 @@ import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.packaging.artifacts.ModifiableArtifactModel;
+import com.intellij.util.containers.ContainerUtil;
 import consulo.annotations.RequiredReadAction;
-import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.moduleImport.ModuleImportContext;
 import consulo.moduleImport.ModuleImportProvider;
 import consulo.php.composer.ComposerFileTypeFactory;
 import consulo.php.composer.ComposerIcons;
-import consulo.php.module.extension.PhpModuleExtension;
+import consulo.php.module.extension.PhpMutableModuleExtension;
+import consulo.php.sdk.PhpSdkType;
 import consulo.roots.impl.ProductionContentFolderTypeProvider;
 import consulo.ui.image.Image;
 
@@ -102,9 +105,12 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 		ContentEntry contentEntry = modifiableModel.addContentEntry(targetVFile);
 		contentEntry.addFolder(targetVFile.getUrl() + "/src", ProductionContentFolderTypeProvider.getInstance());
 
-		MutableModuleExtensionWithSdk phpModuleExtension = (MutableModuleExtensionWithSdk) moduleRootManager.getExtensionWithoutCheck(PhpModuleExtension.class);
+		Sdk sdk = ContainerUtil.getFirstItem(SdkTable.getInstance().getSdksOfType(PhpSdkType.getInstance()));
+
+		PhpMutableModuleExtension<?> phpModuleExtension = modifiableModel.getExtensionWithoutCheck(PhpMutableModuleExtension.class);
 		assert phpModuleExtension != null;
 		phpModuleExtension.setEnabled(true);
+		phpModuleExtension.getInheritableSdk().set(null, sdk);
 
 		WriteAction.run(modifiableModel::commit);
 

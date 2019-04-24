@@ -63,6 +63,7 @@ public class PhpModuleExtensionImpl extends ModuleExtensionWithSdkImpl<PhpModule
 		myLanguageLevel.toXml(element);
 	}
 
+	@RequiredReadAction
 	@Override
 	protected void loadStateImpl(@Nonnull Element element)
 	{

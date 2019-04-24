@@ -19,11 +19,11 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import consulo.php.PhpBundle;
 import consulo.php.PhpIcons;
+import consulo.platform.Platform;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
 import consulo.ui.image.Image;
@@ -35,14 +35,16 @@ public class PhpSdkType extends SdkType
 {
 	private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
 
+	@Nonnull
 	public static PhpSdkType getInstance()
 	{
-		return EP_NAME.findExtension(PhpSdkType.class);
+		return EP_NAME.findExtensionOrFail(PhpSdkType.class);
 	}
 
+	@Nonnull
 	public static String getExecutableFile(String home)
 	{
-		return home + File.separator + (SystemInfo.isWindows ? "php.exe" : "php");
+		return home + File.separator + (Platform.current().os().isWindows() ? "php.exe" : "php");
 	}
 
 	public PhpSdkType()
@@ -54,7 +56,7 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Collection<String> suggestHomePaths()
 	{
-		if(SystemInfo.isMacOSLeopard || SystemInfo.isMacOSTiger)
+		if(Platform.current().os().isMac())
 		{
 			return Collections.singletonList("/usr/bin");
 		}
