@@ -115,7 +115,7 @@ public class PrimaryExpression implements PhpTokenTypes
 
 		builder.advanceLexer();
 
-		if(builder.getTokenType() == IDENTIFIER && StringUtil.equals(builder.getTokenText(), "from"))
+		if(builder.getTokenType() == IDENTIFIER && StringUtil.equals(builder.getTokenSequence(), "from"))
 		{
 			builder.remapCurrentToken(FROM_KEYWORD);
 			builder.advanceLexer();
