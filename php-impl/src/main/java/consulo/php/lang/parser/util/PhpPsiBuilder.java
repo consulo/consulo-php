@@ -1,22 +1,21 @@
 package consulo.php.lang.parser.util;
 
 import javax.annotation.Nonnull;
-import com.intellij.lang.ASTNode;
+
 import com.intellij.lang.PsiBuilder;
+import com.intellij.lang.impl.PsiBuilderAdapter;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 
 /**
  * @author markov
- * @date 13.10.2007
+ * @since 13.10.2007
  */
-public class PhpPsiBuilder
+public class PhpPsiBuilder extends PsiBuilderAdapter
 {
-	private PsiBuilder psiBuilder;
-
 	public PhpPsiBuilder(@Nonnull PsiBuilder builder)
 	{
-		psiBuilder = builder;
+		super(builder);
 	}
 
 	public boolean compare(final IElementType type)
@@ -86,56 +85,10 @@ public class PhpPsiBuilder
 			}
 			else
 			{
-				PsiBuilder.Marker mark = psiBuilder.mark();
+				PsiBuilder.Marker mark = mark();
 				advanceLexer();
 				mark.error("Unexpected token");
 			}
 		}
-	}
-
-	// CORE PsiBuilder FEATURES
-	public void advanceLexer()
-	{
-		psiBuilder.advanceLexer();
-	}
-
-	public PsiBuilder.Marker mark()
-	{
-		return psiBuilder.mark();
-	}
-
-	public void error(String errorMessage)
-	{
-		psiBuilder.error(errorMessage);
-	}
-
-	public IElementType getTokenType()
-	{
-		return psiBuilder.getTokenType();
-	}
-
-	public String getTokenText()
-	{
-		return psiBuilder.getTokenText();
-	}
-
-	public boolean eof()
-	{
-		return psiBuilder.eof();
-	}
-
-	public ASTNode getTreeBuilt()
-	{
-		return psiBuilder.getTreeBuilt();
-	}
-
-	public int getCurrentOffset()
-	{
-		return psiBuilder.getCurrentOffset();
-	}
-
-	public void remapCurrentToken(IElementType elementType)
-	{
-		psiBuilder.remapCurrentToken(elementType);
 	}
 }
