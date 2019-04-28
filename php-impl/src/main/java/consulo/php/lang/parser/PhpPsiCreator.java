@@ -41,10 +41,6 @@ public class PhpPsiCreator implements PhpElementTypes
 			return new PhpStatementImpl(node);
 		}
 
-		if(type == PARAMETER_LIST)
-		{
-			return new PhpParameterListImpl(node);
-		}
 		if(type == PARAMETER)
 		{
 			return new PhpParameterImpl(node);

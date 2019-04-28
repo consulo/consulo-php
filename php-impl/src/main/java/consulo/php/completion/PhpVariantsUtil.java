@@ -16,6 +16,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -149,7 +150,11 @@ public class PhpVariantsUtil
 				builder = builder.withBoldness(true);
 			}
 		}
-		if(element instanceof Field)
+
+		if(element instanceof PhpDefine)
+		{
+		}
+		else if(element instanceof Field)
 		{
 			builder = builder.withTypeText(element.getType().toString());
 		}

@@ -1,23 +1,30 @@
 package consulo.php.lang.psi.impl;
 
+import java.util.Collection;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
+import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
 import consulo.php.completion.ClassUsageContext;
+import consulo.php.index.PhpDefineIndex;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 /**
@@ -69,7 +76,8 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Nullable
 	public PsiElement resolve()
 	{
-		return null;
+		Collection<PhpDefine> phpDefines = PhpDefineIndex.INSTANCE.get(getName(), getProject(), getResolveScope());
+		return ContainerUtil.getFirstItem(phpDefines);
 	}
 
 	@Override
@@ -84,12 +92,27 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public void processForCompletion(@Nonnull Processor<PhpNamedElement> elementProcessor)
 	{
-		PhpIndex index = PhpIndex.getInstance(getProject());
+		Project project = getProject();
+		PhpIndex index = PhpIndex.getInstance(project);
 		for(String className : index.getAllClassFqns(null))
 		{
 			for(PhpClass phpClass : index.getClassesByFQN(className))
 			{
 				elementProcessor.process(phpClass);
+			}
+		}
+
+		GlobalSearchScope scope = getResolveScope();
+
+		Collection<String> keys = PhpDefineIndex.INSTANCE.getAllKeys(project);
+
+		for(String key : keys)
+		{
+			Collection<PhpDefine> defines = PhpDefineIndex.INSTANCE.get(key, project, scope);
+
+			for(PhpDefine define : defines)
+			{
+				elementProcessor.process(define);
 			}
 		}
 	}
@@ -108,8 +131,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	 *
 	 * @param newElementName the new name of the target element.
 	 * @return the new underlying element of the reference.
-	 * @throws com.intellij.util.IncorrectOperationException
-	 *          if the rename cannot be handled for some reason.
+	 * @throws com.intellij.util.IncorrectOperationException if the rename cannot be handled for some reason.
 	 */
 	@RequiredWriteAction
 	@Override
@@ -125,8 +147,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	 *
 	 * @param element the element which should become the target of the reference.
 	 * @return the new underlying element of the reference.
-	 * @throws com.intellij.util.IncorrectOperationException
-	 *          if the rebind cannot be handled for some reason.
+	 * @throws com.intellij.util.IncorrectOperationException if the rebind cannot be handled for some reason.
 	 */
 	@RequiredWriteAction
 	@Override
@@ -149,28 +170,12 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	}
 
 	/**
-	 * Returns false if the underlying element is guaranteed to be a reference, or true
-	 * if the underlying element is a possible reference which should not be reported as
-	 * an error if it fails to resolve. For example, a text in an XML file which looks
-	 * like a full-qualified Java class name is a soft reference.
-	 *
-	 * @return true if the refence is soft, false otherwise.
-	 */
-	@RequiredReadAction
-	@Override
-	public boolean isSoft()
-	{
-		return false;
-	}
-
-	/**
 	 * Renames the element.
 	 *
 	 * @param name the new element name.
 	 * @return the element corresponding to this element after the rename (either <code>this</code>
-	 *         or a different element if the rename caused the element to be replaced).
-	 * @throws com.intellij.util.IncorrectOperationException
-	 *          if the modification is not supported or not possible for some reason.
+	 * or a different element if the rename caused the element to be replaced).
+	 * @throws com.intellij.util.IncorrectOperationException if the modification is not supported or not possible for some reason.
 	 */
 	@RequiredWriteAction
 	@Override
@@ -183,7 +188,8 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public ASTNode getNameNode()
 	{
-		return null;
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? null : nameIdentifier.getNode();
 	}
 
 	@Override
@@ -196,7 +202,7 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 
 	@Override

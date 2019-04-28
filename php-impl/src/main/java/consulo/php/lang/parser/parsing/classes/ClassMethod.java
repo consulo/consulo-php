@@ -22,7 +22,7 @@ public class ClassMethod implements PhpTokenTypes
 		IsReference.parse(builder);
 		builder.match(IDENTIFIER);
 
-		ParameterList.parse(builder);
+		ParameterList.parseFunctionParamList(builder);
 
 		if(builder.getTokenType() == opCOLON)
 		{

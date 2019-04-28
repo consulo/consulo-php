@@ -2,16 +2,16 @@ package consulo.php.lang.parser;
 
 import javax.annotation.Nonnull;
 
-import consulo.php.lang.parser.parsing.Program;
-import consulo.php.lang.parser.util.PhpPsiBuilder;
 import com.intellij.lang.ASTNode;
-import consulo.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
+import consulo.application.ApplicationProperties;
+import consulo.lang.LanguageVersion;
+import consulo.php.lang.parser.parsing.Program;
+import consulo.php.lang.parser.util.PhpPsiBuilder;
 
 /**
- * Created by IntelliJ IDEA.
  * User: jay
  * Date: 26.02.2007
  *
@@ -19,18 +19,16 @@ import com.intellij.psi.tree.IElementType;
  */
 public class PhpPsiParser implements PsiParser
 {
-
 	@Override
 	@Nonnull
-	public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion)
+	public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion)
 	{
-		builder.setDebugMode(true);
+		builder.setDebugMode(ApplicationProperties.isInSandbox());
+
 		PhpPsiBuilder psiBuilder = new PhpPsiBuilder(builder);
 
 		PsiBuilder.Marker marker = psiBuilder.mark();
-		//    long startTime = System.currentTimeMillis();
 		Program.parse(psiBuilder);
-		//    System.out.println("parsing time: " + (System.currentTimeMillis() - startTime));
 		marker.done(root);
 		return psiBuilder.getTreeBuilt();
 	}

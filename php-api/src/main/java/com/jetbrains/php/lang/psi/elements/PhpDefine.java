@@ -13,18 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
 
-/**
- * Represents both Declaration and Call parameter list.
- */
-public interface ParameterList extends PhpPsiElement
+public interface PhpDefine extends Constant
 {
-	Condition<PsiElement> INSTANCEOF = use -> use instanceof ParameterList;
-
-	@Nonnull
-	PsiElement[] getParameters();
+	Condition<PsiElement> INSTANCEOF = e -> e instanceof PhpDefine;
 }

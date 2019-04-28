@@ -145,6 +145,10 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.KEYWORD);
 		}
+		else
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.CONSTANT);
+		}
 	}
 
 	@Override

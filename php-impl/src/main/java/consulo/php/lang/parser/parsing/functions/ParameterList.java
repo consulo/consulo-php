@@ -17,22 +17,15 @@ import com.intellij.psi.tree.IElementType;
  */
 public class ParameterList implements PhpTokenTypes
 {
-
-	//	parameter_list:
-	//		non_empty_parameter_list
-	//		| /* empty */
-	//	;
-	//
-
-	public static IElementType parse(PhpPsiBuilder builder)
+	public static IElementType parseFunctionParamList(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker parameterList = builder.mark();
 		builder.match(LPAREN);
 		ParserPart parameterParser = new Parameter();
 		int result = ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, parameterParser.parse(builder), parameterParser, false);
 		builder.match(RPAREN);
-		parameterList.done(PhpElementTypes.PARAMETER_LIST);
-		return (result > 0) ? PhpElementTypes.PARAMETER_LIST : PhpElementTypes.EMPTY_INPUT;
+		parameterList.done(PhpElementTypes.FUNCTION_PARAMETER_LIST);
+		return (result > 0) ? PhpElementTypes.FUNCTION_PARAMETER_LIST : PhpElementTypes.EMPTY_INPUT;
 	}
 
 	//	non_empty_parameter_list:

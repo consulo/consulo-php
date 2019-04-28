@@ -10,9 +10,11 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpElementWithModifier;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
 
@@ -22,6 +24,7 @@ import consulo.ide.IconDescriptorUpdater;
  */
 public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 {
+	@RequiredReadAction
 	@Override
 	public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags)
 	{
@@ -69,6 +72,18 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 			iconDescriptor.setMainIcon(AllIcons.Nodes.Field);
 
 			processModifierList(iconDescriptor, flags, (PhpElementWithModifier) element);
+		}
+		else if(element instanceof PhpDefine)
+		{
+			IconDescriptor descriptor = new IconDescriptor(AllIcons.Nodes.Field);
+			descriptor.addLayerIcon(AllIcons.Nodes.StaticMark);
+			descriptor.addLayerIcon(AllIcons.Nodes.FinalMark);
+			if(BitUtil.isSet(flags, Iconable.ICON_FLAG_VISIBILITY))
+			{
+				descriptor.setRightIcon(AllIcons.Nodes.C_public);
+			}
+
+			iconDescriptor.setMainIcon(descriptor.toIcon());
 		}
 	}
 

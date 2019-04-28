@@ -70,7 +70,7 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 		{
 			return Parameter.EMPTY_ARRAY;
 		}
-		return parameterList.getParameters();
+		return (Parameter[]) parameterList.getParameters();
 	}
 
 	@Override

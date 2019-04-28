@@ -1,6 +1,7 @@
 package consulo.php.completion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
@@ -9,6 +10,7 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.impl.PhpConstantReferenceImpl;
@@ -75,14 +77,24 @@ public class PhpCompletionContributor extends CompletionContributor
 				}
 
 				List<PhpClass> classes = new ArrayList<>();
-				reference.processForCompletion(phpNamedElement -> {
-					classes.add((PhpClass) phpNamedElement);
+				List<PhpDefine> defines = new ArrayList<>();
+				reference.processForCompletion(namedElement -> {
+					if(namedElement instanceof PhpClass)
+					{
+						classes.add((PhpClass) namedElement);
+					}
+					else if(namedElement instanceof PhpDefine)
+					{
+						defines.add((PhpDefine) namedElement);
+					}
 					return true;
 				});
 
 				List<LookupElement> lookupItemsForClasses = PhpVariantsUtil.getLookupItemsForClasses(classes, classUsageContext);
 
 				result.addAllElements(lookupItemsForClasses);
+
+				result.addAllElements(Arrays.asList(PhpVariantsUtil.getLookupItems(defines, usageContext)));
 			}
 			else if(parent instanceof PhpFunctionReferenceImpl)
 			{

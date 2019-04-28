@@ -35,7 +35,7 @@ public class Function implements PhpTokenTypes
 		{
 			builder.error(PhpParserErrors.expected("function name"));
 		}
-		ParameterList.parse(builder);
+		ParameterList.parseFunctionParamList(builder);
 		builder.match(LBRACE);
 		StatementList.parse(builder, RBRACE);
 		builder.match(RBRACE);

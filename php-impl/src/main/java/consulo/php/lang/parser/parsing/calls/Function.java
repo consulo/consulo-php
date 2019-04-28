@@ -1,6 +1,7 @@
 package consulo.php.lang.parser.parsing.calls;
 
 import com.intellij.lang.PsiBuilder;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
@@ -42,16 +43,16 @@ public class Function implements PhpTokenTypes
 		{
 			boolean slash = builder.getTokenType() == SLASH;
 
+			CharSequence functionName = !slash ? builder.getTokenSequence() : null;
+
 			PsiBuilder.Marker rollback = builder.mark();
 
-			PsiBuilder.Marker referenceMark = builder.mark();
 			if(slash)
 			{
 				builder.advanceLexer();
 
 				if(builder.getTokenType() != IDENTIFIER)
 				{
-					referenceMark.drop();
 					rollback.rollbackTo();
 
 					return PhpElementTypes.EMPTY_INPUT;
@@ -65,22 +66,38 @@ public class Function implements PhpTokenTypes
 			{
 				builder.advanceLexer();
 			}
-			referenceMark.done(PhpElementTypes.METHOD_REFERENCE);
 
 			if(builder.compare(LPAREN))
 			{
-				rollback.drop();
-				parseFunctionCallParameterList(builder);
+				if(StringUtil.equals(functionName, "define"))
+				{
+					rollback.rollbackTo();
+
+					PsiBuilder.Marker nextMarker = builder.mark();
+					builder.advanceLexer(); // IDENTIFIER
+
+					parseFunctionCallParameterList(builder);
+
+					nextMarker.done(PhpElementTypes.FUNCTION_REFERENCE);
+
+					return PhpElementTypes.DEFINE;
+				}
+				else
+				{
+					rollback.drop();
+
+					parseFunctionCallParameterList(builder);
+				}
 			}
 			else if(builder.compare(SCOPE_RESOLUTION))
 			{
 				rollback.rollbackTo();
+
 				ClassReference.parseClassNameReference(builder, null, ClassReference.ALLOW_STATIC);
 				builder.match(SCOPE_RESOLUTION);
 
 				if(builder.compareAndEat(kwCLASS))
 				{
-					rollback.rollbackTo();
 					return PhpElementTypes.EMPTY_INPUT;
 				}
 
@@ -93,7 +110,6 @@ public class Function implements PhpTokenTypes
 					}
 					else
 					{
-						rollback.rollbackTo();
 						return PhpElementTypes.EMPTY_INPUT;
 					}
 				}
@@ -111,7 +127,7 @@ public class Function implements PhpTokenTypes
 				rollback.rollbackTo();
 				return PhpElementTypes.EMPTY_INPUT;
 			}
-			referenceMark.drop();
+
 			return PhpElementTypes.FUNCTION_REFERENCE;
 		}
 		return PhpElementTypes.EMPTY_INPUT;
@@ -153,7 +169,7 @@ public class Function implements PhpTokenTypes
 		{
 			builder.error(PhpParserErrors.expected("expression"));
 		}
-		paramList.done(PhpElementTypes.PARAMETER_LIST);
+		paramList.done(PhpElementTypes.EXPRESSION_PARAMETER_LIST);
 
 		builder.match(RPAREN);
 	}

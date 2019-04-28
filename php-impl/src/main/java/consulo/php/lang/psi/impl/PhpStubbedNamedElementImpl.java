@@ -99,7 +99,7 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 		}
 
 		PsiElement nameIdentifier = getNameIdentifier();
-		return nameIdentifier == null ? null : nameIdentifier.getText();
+		return nameIdentifier == null ? "" : nameIdentifier.getText();
 	}
 
 	@Override

@@ -74,6 +74,7 @@
 		<stubIndex implementation="consulo.php.index.PhpFullFqClassIndex"/>
 		<stubIndex implementation="consulo.php.index.PhpNamespaceIndex"/>
 		<stubIndex implementation="consulo.php.index.PhpFunctionByNameIndex"/>
+		<stubIndex implementation="consulo.php.index.PhpDefineIndex"/>
 
 		<stubElementTypeHolder class="consulo.php.lang.psi.PhpStubElements"/>
 

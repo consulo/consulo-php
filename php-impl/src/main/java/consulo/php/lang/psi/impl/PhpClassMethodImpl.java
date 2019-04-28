@@ -46,7 +46,7 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 		{
 			return Parameter.EMPTY_ARRAY;
 		}
-		return parameterList.getParameters();
+		return (Parameter[]) parameterList.getParameters();
 	}
 
 	@Override

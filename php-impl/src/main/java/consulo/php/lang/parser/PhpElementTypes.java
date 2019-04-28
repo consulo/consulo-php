@@ -23,13 +23,16 @@ public interface PhpElementTypes
 
 	IElementType GROUP_STATEMENT = new ElementTypeAsPsiFactory("GROUP_STATEMENT", PhpLanguage.INSTANCE, PhpGroupStatementImpl.class);
 	IElementType STATEMENT = new ElementTypeAsPsiFactory("STATEMENT", PhpLanguage.INSTANCE, PhpStatementImpl.class);
-	IElementType PARAMETER_LIST = new ElementTypeAsPsiFactory("PARAMETER_LIST", PhpLanguage.INSTANCE, PhpParameterListImpl.class);
 	IElementType PARAMETER = PhpStubElements.PARAMETER;
 	IElementType MODIFIER_LIST = new ElementTypeAsPsiFactory("MODIFIER_LIST", PhpLanguage.INSTANCE, PhpModifierListImpl.class);
 	IElementType NAMESPACE = PhpStubElements.NAMESPACE;
+	IElementType DEFINE = PhpStubElements.DEFINE;
 	IElementType USE_LIST = new ElementTypeAsPsiFactory("USE_LIST_STATEMENT", PhpLanguage.INSTANCE, PhpUseListStatementImpl.class);
 	IElementType USE = new ElementTypeAsPsiFactory("USE", PhpLanguage.INSTANCE, PhpUseImpl.class);
 	IElementType RETURN_TYPE = new ElementTypeAsPsiFactory("RETURN_TYPE", PhpLanguage.INSTANCE, PhpReturnTypeImpl.class);
+
+	IElementType EXPRESSION_PARAMETER_LIST = new ElementTypeAsPsiFactory("EXPRESSION_PARAMETER_LIST", PhpLanguage.INSTANCE, PhpExpressionParameterListImpl.class);
+	IElementType FUNCTION_PARAMETER_LIST = new ElementTypeAsPsiFactory("FUNCTION_PARAMETER_LIST", PhpLanguage.INSTANCE, PhpFunctionParameterListImpl.class);
 
 	IElementType UNARY_EXPRESSION = new ElementTypeAsPsiFactory("UNARY_EXPRESSION", PhpLanguage.INSTANCE, PhpUnaryExpressionImpl.class);
 	IElementType ASSIGNMENT_EXPRESSION = new ElementTypeAsPsiFactory("ASSIGNMENT_EXPRESSION", PhpLanguage.INSTANCE, PhpAssignmentExpressionImpl.class);

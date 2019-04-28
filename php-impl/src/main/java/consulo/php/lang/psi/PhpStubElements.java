@@ -2,6 +2,7 @@ package consulo.php.lang.psi;
 
 import consulo.php.lang.psi.impl.stub.elements.PhpClassMethodStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpClassStubElementType;
+import consulo.php.lang.psi.impl.stub.elements.PhpDefineStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFieldStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFileStubElementType;
 import consulo.php.lang.psi.impl.stub.elements.PhpFunctionStubElementType;
@@ -23,4 +24,6 @@ public interface PhpStubElements
 	PhpFunctionStubElementType FUNCTION = new PhpFunctionStubElementType();
 	PhpNamespaceStubElementType NAMESPACE = new PhpNamespaceStubElementType();
 	PhpParameterStubElementType PARAMETER = new PhpParameterStubElementType();
+
+	PhpDefineStubElementType DEFINE = new PhpDefineStubElementType();
 }
