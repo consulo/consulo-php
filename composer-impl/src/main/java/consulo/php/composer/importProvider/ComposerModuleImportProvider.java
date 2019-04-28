@@ -112,6 +112,8 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 		phpModuleExtension.setEnabled(true);
 		phpModuleExtension.getInheritableSdk().set(null, sdk);
 
+		modifiableModel.addModuleExtensionSdkEntry(phpModuleExtension);
+
 		WriteAction.run(modifiableModel::commit);
 
 		if(originalModuleModel == null)
