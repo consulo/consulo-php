@@ -46,13 +46,14 @@ public class PhpDefineStubElementType extends PhpStubElementType<PhpConstantStub
 	@Override
 	public PhpConstantStub createStub(@Nonnull PhpDefine phpDefine, StubElement parent)
 	{
-		return new PhpConstantStubImpl(parent, this, phpDefine.getName(), (short) 0);
+		return new PhpConstantStubImpl(parent, this, phpDefine.getName(), phpDefine.getValuePresentation());
 	}
 
 	@Override
-	public void serialize(@Nonnull PhpConstantStub phpConstantStub, @Nonnull StubOutputStream stubOutputStream) throws IOException
+	public void serialize(@Nonnull PhpConstantStub phpConstantStub, @Nonnull StubOutputStream outputStream) throws IOException
 	{
-		stubOutputStream.writeName(phpConstantStub.getName());
+		outputStream.writeName(phpConstantStub.getName());
+		outputStream.writeName(phpConstantStub.getValuePresentation());
 	}
 
 	@Nonnull
@@ -60,7 +61,8 @@ public class PhpDefineStubElementType extends PhpStubElementType<PhpConstantStub
 	public PhpConstantStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement parent) throws IOException
 	{
 		StringRef nameRef = stubInputStream.readName();
-		return new PhpConstantStubImpl(parent, this, StringRef.toString(nameRef), (short) 0);
+		StringRef valuePresentation = stubInputStream.readName();
+		return new PhpConstantStubImpl(parent, this, StringRef.toString(nameRef), StringRef.toString(valuePresentation));
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.stubs.PhpConstantStub;
 
@@ -14,14 +13,12 @@ import com.jetbrains.php.lang.psi.stubs.PhpConstantStub;
  */
 public class PhpConstantStubImpl extends PhpNamedStubImpl<Constant> implements PhpConstantStub
 {
-	public PhpConstantStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
-	{
-		super(parent, elementType, name, flags);
-	}
+	private final String myValuePresentation;
 
-	public PhpConstantStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, short flags)
+	public PhpConstantStubImpl(StubElement parent, IStubElementType elementType, @Nullable String name, @Nullable String valuePresentation)
 	{
-		super(parent, elementType, name, flags);
+		super(parent, elementType, name, (short) 0);
+		myValuePresentation = valuePresentation;
 	}
 
 	@Override
@@ -39,6 +36,6 @@ public class PhpConstantStubImpl extends PhpNamedStubImpl<Constant> implements P
 	@Override
 	public String getValuePresentation()
 	{
-		return null;
+		return myValuePresentation;
 	}
 }

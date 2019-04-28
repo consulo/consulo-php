@@ -79,14 +79,29 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 	@Override
 	public PsiElement getValue()
 	{
-		return null;
+		PhpFunctionReferenceImpl reference = findNotNullChildByClass(PhpFunctionReferenceImpl.class);
+
+		ParameterList parameterList = reference.getParameterList();
+		if(parameterList == null)
+		{
+			return null;
+		}
+
+		PsiElement[] parameters = parameterList.getParameters();
+		return parameters.length >= 2 ? parameters[1] : null;
 	}
 
 	@Nullable
 	@Override
 	public String getValuePresentation()
 	{
-		return null;
+		PhpConstantStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.getValuePresentation();
+		}
+		PsiElement value = getValue();
+		return value == null ? null : value.getText();
 	}
 
 	@Override
@@ -99,7 +114,7 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 
 	@Override

@@ -153,6 +153,11 @@ public class PhpVariantsUtil
 
 		if(element instanceof PhpDefine)
 		{
+			String valuePresentation = ((PhpDefine) element).getValuePresentation();
+			if(!StringUtil.isEmpty(valuePresentation))
+			{
+				builder = builder.withTailText(" = " + valuePresentation, true);
+			}
 		}
 		else if(element instanceof Field)
 		{
