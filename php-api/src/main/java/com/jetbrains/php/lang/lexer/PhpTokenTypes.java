@@ -87,11 +87,6 @@ public interface PhpTokenTypes extends TokenType
 	IElementType kwARRAY = new PhpElementType("array");
 	IElementType kwREQUIRE = new PhpElementType("require");
 
-	IElementType CONST_FUNCTION = new PhpElementType("__FUNCTION__ const");
-	IElementType CONST_LINE = new PhpElementType("__LINE__ const");
-	IElementType CONST_CLASS = new PhpElementType("__CLASS__ const");
-	IElementType CONST_METHOD = new PhpElementType("__METHOD__ const");
-	IElementType CONST_FILE = new PhpElementType("__FILE__ const");
 
 	IElementType LINE_COMMENT = new PhpElementType("line comment");
 	//	IElementType DOC_COMMENT = new PhpElementType("doc comment");
@@ -234,8 +229,6 @@ public interface PhpTokenTypes extends TokenType
 
 	TokenSet tsOPERATORS = TokenSet.orSet(tsBINARY_OPS, tsUNARY_OPS);
 
-	TokenSet tsCONSTANTS = TokenSet.create(CONST_CLASS, CONST_FILE, CONST_FUNCTION, CONST_LINE, CONST_METHOD);
-
 	TokenSet tsNUMBERS = TokenSet.create(INTEGER_LITERAL, BINARY_LITERAL, FLOAT_LITERAL);
 
 	TokenSet tsSTRINGS = TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE);
@@ -252,7 +245,7 @@ public interface PhpTokenTypes extends TokenType
 
 	TokenSet tsREFERENCE_FIRST_TOKENS = TokenSet.create(VARIABLE, IDENTIFIER, DOLLAR);
 
-	TokenSet tsOPERAND_FIRST_TOKENS = TokenSet.orSet(tsREFERENCE_FIRST_TOKENS, tsCONSTANTS, tsNUMBERS, tsSTRING_EDGE, TokenSet.create(kwARRAY, kwEMPTY, kwEXIT, kwISSET));
+	TokenSet tsOPERAND_FIRST_TOKENS = TokenSet.orSet(tsREFERENCE_FIRST_TOKENS, tsNUMBERS, tsSTRING_EDGE, TokenSet.create(kwARRAY, kwEMPTY, kwEXIT, kwISSET));
 
 	TokenSet tsPRIMARY_TOKENS = TokenSet.orSet(tsOPERAND_FIRST_TOKENS, tsUNARY_OPS, TokenSet.create(LPAREN));
 
@@ -260,7 +253,7 @@ public interface PhpTokenTypes extends TokenType
 
 	TokenSet tsHEREDOC_IDS = TokenSet.create(HEREDOC_START, HEREDOC_END);
 
-	TokenSet tsCOMMON_SCALARS = TokenSet.orSet(tsCONSTANTS, tsNUMBERS, TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE));
+	TokenSet tsCOMMON_SCALARS = TokenSet.orSet(tsNUMBERS, TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE));
 
 	TokenSet tsJUNKS = TokenSet.create(HTML, PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG);
 

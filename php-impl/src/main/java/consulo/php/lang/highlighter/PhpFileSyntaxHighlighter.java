@@ -51,7 +51,6 @@ public class PhpFileSyntaxHighlighter extends LanguageVersionableSyntaxHighlight
 	{
 		safeMap(ATTRIBUTES, PhpTokenSets.tsCOMMENTS, PhpHighlightingData.COMMENT);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsNUMBERS, PhpHighlightingData.NUMBER);
-		safeMap(ATTRIBUTES, PhpTokenTypes.tsCONSTANTS, PhpHighlightingData.CONSTANT);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsSTRING_EDGE, PhpHighlightingData.STRING);
 		safeMap(ATTRIBUTES, PhpTokenTypes.tsEXPR_SUBST_MARKS, PhpHighlightingData.EXPR_SUBST_MARKS);
 		//safeMap(ATTRIBUTES, PhpTokenTypes.tsBINARY_OPS, PhpHighlightingData.OPERATION_SIGN);

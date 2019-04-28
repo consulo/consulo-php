@@ -248,13 +248,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"catch"                            { return PhpTokenTypes.kwCATCH; }
 	"throw"                            { return PhpTokenTypes.kwTHROW; }
 	"finally"                          { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_5) ? PhpTokenTypes.FINALLY_KEYWORD : PhpTokenTypes.IDENTIFIER; }
-
-	//   magic constants
-	"__LINE__"                         { return opManager.process(PhpTokenTypes.CONST_LINE); }
-	"__FILE__"                         { return opManager.process(PhpTokenTypes.CONST_FILE); }
-	"__FUNCTION__"                     { return opManager.process(PhpTokenTypes.CONST_FUNCTION); }
-	"__CLASS__"                        { return opManager.process(PhpTokenTypes.CONST_CLASS); }
-	"__METHOD__"                       { return opManager.process(PhpTokenTypes.CONST_METHOD); }
 }
 
 <ST_IN_SCRIPTING>{
