@@ -14,6 +14,7 @@ import consulo.php.lang.parser.util.PhpPsiBuilder;
  */
 public class StaticScalar implements PhpTokenTypes
 {
+	private static final TokenSet tsCOMMON_SCALARS = TokenSet.orSet(TokenSet.create(IDENTIFIER, SLASH), tsNUMBERS, TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE));
 
 	//	static_scalar: /* compile-time evaluated scalars */
 	//		common_scalar
@@ -25,19 +26,17 @@ public class StaticScalar implements PhpTokenTypes
 	//	;
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
+		boolean drop = false;
+
 		PsiBuilder.Marker staticScalar = builder.mark();
 		IElementType result = StaticClassConstant.parse(builder);
 		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
-			if(builder.compareAndEat(opPLUS) || builder.compareAndEat(opMINUS))
+			if(builder.compareAndEat(opPLUS) || builder.compareAndEat(opMINUS) || builder.compareAndEat(opBIT_NOT))
 			{
 				parse(builder);
 				staticScalar.done(PhpElementTypes.STATIC_SCALAR);
 				result = PhpElementTypes.STATIC_SCALAR;
-			}
-			else if(builder.compare(LBRACKET))
-			{
-				result = PrimaryExpression.parseArrayExpression(builder, staticScalar);
 			}
 			else if(builder.compareAndEat(kwARRAY))
 			{
@@ -47,34 +46,53 @@ public class StaticScalar implements PhpTokenTypes
 				staticScalar.done(PhpElementTypes.ARRAY);
 				result = PhpElementTypes.ARRAY;
 			}
-			else if(builder.compareAndEat(IDENTIFIER))
-			{
-				staticScalar.done(PhpElementTypes.CONSTANT);
-				result = PhpElementTypes.CONSTANT;
-			}
-			else if(builder.compareAndEat(SLASH))
-			{
-				builder.compareAndEat(IDENTIFIER);
-
-				staticScalar.done(PhpElementTypes.CONSTANT);
-				result = PhpElementTypes.CONSTANT;
-			}
 			else
 			{
 				result = parseCommonScalar(builder);
 				if(result != PhpElementTypes.EMPTY_INPUT)
 				{
-					staticScalar.drop();
+					drop = true;
 				}
 			}
 		}
 		else
 		{
-			staticScalar.drop();
+			drop = true;
 		}
+
 		if(result == PhpElementTypes.EMPTY_INPUT)
 		{
-			staticScalar.rollbackTo();
+			if(drop)
+			{
+				staticScalar.drop();
+			}
+			else
+			{
+				staticScalar.rollbackTo();
+			}
+		}
+		else
+		{
+			if(builder.compareAndEat(TokenSet.create(opBIT_OR, opBIT_AND)))
+			{
+				if(parse(builder) == PhpElementTypes.EMPTY_INPUT)
+				{
+					builder.error("Expression expected");
+				}
+
+				staticScalar.done(PhpElementTypes.BIT_EXPRESSION);
+				result = PhpElementTypes.BIT_EXPRESSION;
+			}
+			else
+			{
+				if(drop)
+				{
+					staticScalar.drop();
+				}
+				else {
+					staticScalar.rollbackTo();
+				}
+			}
 		}
 		return result;
 	}
@@ -83,11 +101,6 @@ public class StaticScalar implements PhpTokenTypes
 	//		INTEGER_LITERAL
 	//		| FLOAT_LITERAL
 	//		| STRING_LITERAL
-	//		| CONST_LINE
-	//		| CONST_FILE
-	//		| CONST_CLASS
-	//		| CONST_METHOD
-	//		| CONST_FUNCTION
 	//	;
 
 	/**
@@ -112,14 +125,23 @@ public class StaticScalar implements PhpTokenTypes
 			{
 				scalar.done(PhpElementTypes.STRING);
 			}
+			else if(type == SLASH)
+			{
+				builder.match(PhpTokenTypes.IDENTIFIER, "Identifier expected");
+
+				scalar.done(PhpElementTypes.CONSTANT);
+			}
 			else
 			{
 				scalar.done(PhpElementTypes.CONSTANT);
 			}
 			return PhpElementTypes.COMMON_SCALAR;
 		}
+		else if(builder.getTokenType() == LBRACKET)
+		{
+			return PrimaryExpression.parseArrayExpression(builder, null);
+		}
 		return PhpElementTypes.EMPTY_INPUT;
 	}
-
 }
 

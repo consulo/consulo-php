@@ -3,6 +3,7 @@ package consulo.php.lang.parser;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.jetbrains.php.lang.PhpLanguage;
+import consulo.annotations.DeprecationInfo;
 import consulo.php.lang.psi.PhpElementType;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.impl.*;
@@ -94,6 +95,8 @@ public interface PhpElementTypes
 	IElementType IS_REFERENCE = new PhpElementType("Is reference");
 	IElementType PARAMETER_DEFAULT_VALUE = new PhpElementType("PhpParameter default value");
 	IElementType COMMON_SCALAR = new PhpElementType("Common scalar");
+	@Deprecated
+	@DeprecationInfo("Replace by expression elements")
 	IElementType STATIC_SCALAR = new PhpElementType("Static scalar");
 	IElementType EXTENDS_LIST = new PhpElementType("Extends list");
 
