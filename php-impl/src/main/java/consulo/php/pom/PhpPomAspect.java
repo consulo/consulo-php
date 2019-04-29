@@ -2,6 +2,7 @@ package consulo.php.pom;
 
 import java.util.Collections;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import consulo.php.lang.psi.impl.PhpFileImpl;
@@ -23,6 +24,7 @@ public class PhpPomAspect implements PomModelAspect
 	private final PomModel model;
 	private final TreeAspect aspect;
 
+	@Inject
 	public PhpPomAspect(final PomModel model, final TreeAspect treeAspect)
 	{
 		this.model = model;
