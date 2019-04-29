@@ -11,6 +11,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
@@ -140,14 +141,22 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	{
 		super.visitConstant(constant);
 
-		String text = constant.getText();
-		if(text.equalsIgnoreCase("true") || text.equalsIgnoreCase("false") || text.equalsIgnoreCase("null"))
+		CharSequence text = constant.getNode().getChars();
+		if(StringUtil.equalsIgnoreCase(text, "true") || StringUtil.equalsIgnoreCase(text, "false") || StringUtil.equalsIgnoreCase(text, "null"))
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.KEYWORD);
 		}
 		else
 		{
-			createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.CONSTANT);
+			PsiElement resolved = constant.resolve();
+			if(resolved == null)
+			{
+				registerWrongRef(constant.getNameIdentifier(), constant);
+			}
+			else
+			{
+				createHighlighing(HighlightInfoType.INFORMATION, constant, null, PhpHighlightingData.CONSTANT);
+			}
 		}
 	}
 
