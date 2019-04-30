@@ -22,7 +22,7 @@ public class NewExpression implements PhpTokenTypes
 		PsiBuilder.Marker newExpr = builder.mark();
 		if(builder.compareAndEat(kwNEW))
 		{
-			if(ClassReference.parseClassNameReference(builder, null, true, false, false) == null)
+			if(ClassReference.parseClassNameReference(builder, null, true, false) == null)
 			{
 				builder.error(PhpParserErrors.expected("class name"));
 			}

@@ -60,7 +60,7 @@ public class ClassDeclaration implements PhpTokenTypes
 				@Override
 				public PsiBuilder.Marker parse(PhpPsiBuilder builder)
 				{
-					return ClassReference.parseClassNameReference(builder, null, false, false, false);
+					return ClassReference.parseClassNameReference(builder, null, false, false);
 				}
 			};
 			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);

@@ -19,8 +19,7 @@ public class ClassReference implements PhpTokenTypes
 {
 	public static final int ALLOW_STATIC = 1 << 0;
 	public static final int ALLOW_DYNAMIC = 1 << 1;
-	public static final int ALLOW_AS = 1 << 2;
-	public static final int ALLOW_ARRAY = 1 << 3;
+	public static final int ALLOW_ARRAY = 1 << 2;
 
 	@Deprecated
 	@Nullable
@@ -31,12 +30,11 @@ public class ClassReference implements PhpTokenTypes
 
 	@Nullable
 	@Deprecated
-	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, boolean allowStatic, boolean dynamic, boolean allowAs)
+	public static PsiBuilder.Marker parseClassNameReference(PhpPsiBuilder builder, PsiBuilder.Marker m, boolean allowStatic, boolean dynamic)
 	{
 		int flags = 0;
 		flags = BitUtil.set(flags, ALLOW_STATIC, allowStatic);
 		flags = BitUtil.set(flags, ALLOW_DYNAMIC, dynamic);
-		flags = BitUtil.set(flags, ALLOW_AS, allowAs);
 		return parseClassNameReference(builder, m, flags);
 	}
 
@@ -82,17 +80,6 @@ public class ClassReference implements PhpTokenTypes
 			if(marker == null)
 			{
 				return null;
-			}
-
-			if(BitUtil.isSet(flags, ALLOW_AS) && builder.getTokenType() == kwAS)
-			{
-				marker = marker.precede();
-
-				builder.advanceLexer();
-
-				builder.match(IDENTIFIER);
-
-				marker.done(PhpElementTypes.CLASS_REFERENCE);
 			}
 
 			return marker;

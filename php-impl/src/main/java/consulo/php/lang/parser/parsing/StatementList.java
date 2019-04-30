@@ -206,7 +206,7 @@ public class StatementList implements PhpTokenTypes
 	{
 		PsiBuilder.Marker mark = builder.mark();
 
-		if(ClassReference.parseClassNameReference(builder, null, false, false, true) == null)
+		if(ClassReference.parseClassNameReference(builder, null, 0) == null)
 		{
 			mark.error("Reference expected");
 			return null;
@@ -216,6 +216,8 @@ public class StatementList implements PhpTokenTypes
 			if(builder.getTokenType() == kwAS)
 			{
 				builder.advanceLexer();
+
+				builder.match(IDENTIFIER);
 			}
 
 			mark.done(PhpElementTypes.USE);
