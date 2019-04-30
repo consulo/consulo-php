@@ -1,6 +1,5 @@
 package consulo.php.ide.presentation;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.navigation.ItemPresentation;
@@ -9,8 +8,7 @@ import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ArrayUtil;
+import com.intellij.openapi.util.text.StringUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.PhpLanguageLevel;
@@ -50,15 +48,11 @@ public class PhpClassPresentation implements ItemPresentationProvider<Navigation
 					{
 						location = phpClass.getNamespaceName();
 
-						if(location != null)
+						if(!StringUtil.isEmpty(location))
 						{
 							location = "(" + location + ")";
 						}
 					}
-				}
-				if(location == null)
-				{
-					location = getPresentablePathForClass(phpClass);
 				}
 				return location;
 			}
@@ -68,25 +62,6 @@ public class PhpClassPresentation implements ItemPresentationProvider<Navigation
 			public Image getIcon()
 			{
 				return IconDescriptorUpdaters.getIcon(phpClass, 0);
-			}
-
-			private String getPresentablePathForClass(@Nonnull PhpClass klass)
-			{
-				VirtualFile classRoot = klass.getContainingFile().getVirtualFile();
-
-				if(klass.getName() != null)
-				{
-					String[] fileNames = ArrayUtil.reverseArray(klass.getName().split("_"));
-					for(String fileName : fileNames)
-					{
-						if(!classRoot.getNameWithoutExtension().equals(fileName))
-						{
-							break;
-						}
-						classRoot = classRoot.getParent();
-					}
-				}
-				return PhpFilePresentation.getPresentablePathForFile(classRoot, klass.getProject());
 			}
 		};
 	}
