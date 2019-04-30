@@ -5,7 +5,7 @@ import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.calls.Variable;
 import consulo.php.lang.parser.parsing.classes.StaticClassConstant;
 import consulo.php.lang.parser.parsing.expressions.Expression;
-import consulo.php.lang.parser.parsing.expressions.StaticScalar;
+import consulo.php.lang.parser.parsing.expressions.CommonScalar;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
 import com.intellij.lang.PsiBuilder;
@@ -66,7 +66,7 @@ public class Scalar implements PhpTokenTypes
 			marker.done(PhpElementTypes.STRING);
 			return PhpElementTypes.STRING;
 		}
-		result = StaticScalar.parseCommonScalar(builder);
+		result = CommonScalar.parseCommonScalar(builder);
 		if(result != PhpElementTypes.EMPTY_INPUT)
 		{
 			return result;

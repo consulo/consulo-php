@@ -1,12 +1,12 @@
 package consulo.php.lang.parser.parsing.classes;
 
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.parser.parsing.expressions.StaticScalar;
+import consulo.php.lang.parser.parsing.expressions.Expression;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,7 +40,7 @@ public class ClassField implements PhpTokenTypes
 				builder.match(type);
 				if(builder.compareAndEat(opASGN))
 				{
-					StaticScalar.parse(builder);
+					Expression.parse(builder);
 				}
 
 				return PhpElementTypes.CLASS_FIELD;

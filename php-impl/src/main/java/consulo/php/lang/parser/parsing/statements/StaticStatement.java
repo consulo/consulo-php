@@ -4,7 +4,7 @@ import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
-import consulo.php.lang.parser.parsing.expressions.StaticScalar;
+import consulo.php.lang.parser.parsing.expressions.Expression;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
@@ -61,7 +61,7 @@ public class StaticStatement implements PhpTokenTypes
 				builder.match(VARIABLE);
 				if(builder.compareAndEat(opASGN))
 				{
-					StaticScalar.parse(builder);
+					Expression.parse(builder);
 				}
 				var.done(PhpElementTypes.VARIABLE_REFERENCE);
 				return PhpElementTypes.VARIABLE_REFERENCE;

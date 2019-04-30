@@ -5,7 +5,7 @@ import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.classes.ClassReference;
-import consulo.php.lang.parser.parsing.expressions.StaticScalar;
+import consulo.php.lang.parser.parsing.expressions.Expression;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
@@ -82,7 +82,7 @@ public class ParameterList implements PhpTokenTypes
 			{
 				PsiBuilder.Marker defaultValue = builder.mark();
 				builder.advanceLexer();
-				if(StaticScalar.parse(builder) == PhpElementTypes.EMPTY_INPUT)
+				if(Expression.parse(builder) == PhpElementTypes.EMPTY_INPUT)
 				{
 					builder.error(PhpParserErrors.expected("default value"));
 				}

@@ -1,15 +1,15 @@
 package consulo.php.lang.parser.parsing.statements;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.parsing.Statement;
 import consulo.php.lang.parser.parsing.StatementList;
-import consulo.php.lang.parser.parsing.expressions.StaticScalar;
+import consulo.php.lang.parser.parsing.expressions.Expression;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -76,7 +76,7 @@ public class DeclareStatement implements PhpTokenTypes
 				PsiBuilder.Marker directive = builder.mark();
 				builder.advanceLexer();
 				builder.match(opASGN);
-				StaticScalar.parse(builder);
+				Expression.parse(builder);
 				directive.done(PhpElementTypes.DECLARE_DIRECTIVE);
 				return PhpElementTypes.DECLARE_DIRECTIVE;
 			}
