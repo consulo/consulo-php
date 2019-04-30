@@ -47,12 +47,14 @@ public class Function implements PhpTokenTypes
 
 			PsiBuilder.Marker rollback = builder.mark();
 
+			PsiBuilder.Marker referenceMark = builder.mark();
 			if(slash)
 			{
 				builder.advanceLexer();
 
 				if(builder.getTokenType() != IDENTIFIER)
 				{
+					referenceMark.drop();
 					rollback.rollbackTo();
 
 					return PhpElementTypes.EMPTY_INPUT;
@@ -66,6 +68,7 @@ public class Function implements PhpTokenTypes
 			{
 				builder.advanceLexer();
 			}
+			referenceMark.done(PhpElementTypes.METHOD_REFERENCE);
 
 			if(builder.compare(LPAREN))
 			{
@@ -98,6 +101,7 @@ public class Function implements PhpTokenTypes
 
 				if(builder.compareAndEat(kwCLASS))
 				{
+					rollback.rollbackTo();
 					return PhpElementTypes.EMPTY_INPUT;
 				}
 
@@ -110,6 +114,7 @@ public class Function implements PhpTokenTypes
 					}
 					else
 					{
+						rollback.rollbackTo();
 						return PhpElementTypes.EMPTY_INPUT;
 					}
 				}
@@ -127,7 +132,7 @@ public class Function implements PhpTokenTypes
 				rollback.rollbackTo();
 				return PhpElementTypes.EMPTY_INPUT;
 			}
-
+			referenceMark.drop();
 			return PhpElementTypes.FUNCTION_REFERENCE;
 		}
 		return PhpElementTypes.EMPTY_INPUT;
