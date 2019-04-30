@@ -50,26 +50,19 @@ public class ClassDeclaration implements PhpTokenTypes
 		return PhpElementTypes.CLASS;
 	}
 
-	private static IElementType parseTypeList(PhpPsiBuilder builder, IElementType start, IElementType doneTo)
+	public static IElementType parseTypeList(PhpPsiBuilder builder, IElementType start, IElementType doneTo)
 	{
 		PsiBuilder.Marker implementsList = builder.mark();
 		if(builder.compareAndEat(start))
 		{
-			ParserPart2 interfaceParser = new ParserPart2()
-			{
-				@Override
-				public PsiBuilder.Marker parse(PhpPsiBuilder builder)
-				{
-					return ClassReference.parseClassNameReference(builder, null, false, false);
-				}
-			};
+			ParserPart2 interfaceParser = builder1 -> ClassReference.parseClassNameReference(builder1, null, 0);
 			ListParsingHelper.parseCommaDelimitedExpressionWithLeadExpr(builder, interfaceParser.parse(builder), interfaceParser, false);
 		}
 		implementsList.done(doneTo);
 		return doneTo;
 	}
 
-	private static void parseClassStatements(PhpPsiBuilder builder)
+	public static void parseClassStatements(PhpPsiBuilder builder)
 	{
 		builder.match(LBRACE);
 		ClassStatementList.parse(builder);

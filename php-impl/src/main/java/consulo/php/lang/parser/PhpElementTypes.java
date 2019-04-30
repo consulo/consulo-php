@@ -30,6 +30,7 @@ public interface PhpElementTypes
 	IElementType USE_LIST = new ElementTypeAsPsiFactory("USE_LIST_STATEMENT", PhpLanguage.INSTANCE, PhpUseListStatementImpl.class);
 	IElementType USE = new ElementTypeAsPsiFactory("USE", PhpLanguage.INSTANCE, PhpUseImpl.class);
 	IElementType RETURN_TYPE = new ElementTypeAsPsiFactory("RETURN_TYPE", PhpLanguage.INSTANCE, PhpReturnTypeImpl.class);
+	IElementType ANONYMOUS_CLASS = new ElementTypeAsPsiFactory("ANONYMOUS_CLASS", PhpLanguage.INSTANCE, PhpClassImpl.class);
 
 	IElementType EXPRESSION_PARAMETER_LIST = new ElementTypeAsPsiFactory("EXPRESSION_PARAMETER_LIST", PhpLanguage.INSTANCE, PhpExpressionParameterListImpl.class);
 	IElementType FUNCTION_PARAMETER_LIST = new ElementTypeAsPsiFactory("FUNCTION_PARAMETER_LIST", PhpLanguage.INSTANCE, PhpFunctionParameterListImpl.class);
