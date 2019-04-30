@@ -9,14 +9,17 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
+import consulo.php.lang.parser.parsing.StatementList;
 import consulo.php.lang.parser.parsing.calls.Variable;
 import consulo.php.lang.parser.parsing.expressions.primary.Array;
 import consulo.php.lang.parser.parsing.expressions.primary.NewExpression;
 import consulo.php.lang.parser.parsing.expressions.primary.Scalar;
+import consulo.php.lang.parser.parsing.functions.ParameterList;
 import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
+import consulo.php.lang.psi.PhpStubElements;
 
 /**
  * @author jay
@@ -84,6 +87,10 @@ public class PrimaryExpression implements PhpTokenTypes
 		{
 			return NewExpression.parse(builder);
 		}
+		if(builder.compare(kwFUNCTION))
+		{
+			return parseAnonymousFunction(builder);
+		}
 		if(builder.compare(kwCLONE))
 		{
 			PsiBuilder.Marker marker = builder.mark();
@@ -106,6 +113,27 @@ public class PrimaryExpression implements PhpTokenTypes
 		}
 		result = parseInternalFunctions(builder);
 		return result;
+	}
+
+	private static IElementType parseAnonymousFunction(PhpPsiBuilder builder)
+	{
+		PsiBuilder.Marker function = builder.mark();
+		builder.advanceLexer();
+
+		ParameterList.parseFunctionParamList(builder);
+
+		if(builder.compare(USE_KEYWORD))
+		{
+			builder.advanceLexer();
+
+			ParameterList.parseFunctionParamList(builder);
+		}
+
+		builder.match(LBRACE);
+		StatementList.parse(builder, RBRACE);
+		builder.match(RBRACE);
+		function.done(PhpStubElements.FUNCTION);
+		return PhpStubElements.FUNCTION;
 	}
 
 	@Nonnull
