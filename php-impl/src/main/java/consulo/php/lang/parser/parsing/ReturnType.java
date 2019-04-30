@@ -12,6 +12,19 @@ import consulo.php.lang.parser.util.PhpPsiBuilder;
  */
 public class ReturnType
 {
+	public static void parseIfColon(PhpPsiBuilder builder)
+	{
+		if(builder.getTokenType() == PhpTokenTypes.opCOLON)
+		{
+			builder.advanceLexer();
+
+			if(!ReturnType.parse(builder))
+			{
+				builder.error("Expected return type");
+			}
+		}
+	}
+
 	public static boolean parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker mark = builder.mark();

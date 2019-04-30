@@ -1,13 +1,14 @@
 package consulo.php.lang.parser.parsing.functions;
 
+import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
+import consulo.php.lang.parser.parsing.ReturnType;
 import consulo.php.lang.parser.parsing.StatementList;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
 import consulo.php.lang.psi.PhpStubElements;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.tree.IElementType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,7 +36,11 @@ public class Function implements PhpTokenTypes
 		{
 			builder.error(PhpParserErrors.expected("function name"));
 		}
+
 		ParameterList.parseFunctionParamList(builder);
+
+		ReturnType.parseIfColon(builder);
+
 		builder.match(LBRACE);
 		StatementList.parse(builder, RBRACE);
 		builder.match(RBRACE);

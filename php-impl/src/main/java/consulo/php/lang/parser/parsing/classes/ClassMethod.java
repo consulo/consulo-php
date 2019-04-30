@@ -24,15 +24,7 @@ public class ClassMethod implements PhpTokenTypes
 
 		ParameterList.parseFunctionParamList(builder);
 
-		if(builder.getTokenType() == opCOLON)
-		{
-			builder.advanceLexer();
-
-			if(!ReturnType.parse(builder))
-			{
-				builder.error("Expected return type");
-			}
-		}
+		ReturnType.parseIfColon(builder);
 
 		if(builder.getTokenType() == opSEMICOLON)
 		{
