@@ -101,6 +101,7 @@ public interface PhpElementTypes
 
 	IElementType CLASS = PhpStubElements.CLASS;
 	IElementType FUNCTION = PhpStubElements.FUNCTION;
+	IElementType ANONYMOUS_FUNCTION = new ElementTypeAsPsiFactory("PHP_ANONYMOUS_FUNCTION", PhpLanguage.INSTANCE, PhpFunctionImpl.class);
 	IElementType CLASS_FIELD = PhpStubElements.CLASS_FIELD;
 	IElementType SWITCH = new PhpElementType("Switch statement");
 	IElementType CASE_DEFAULT = new PhpElementType("Default case");

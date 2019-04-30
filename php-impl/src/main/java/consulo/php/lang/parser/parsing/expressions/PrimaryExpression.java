@@ -19,7 +19,6 @@ import consulo.php.lang.parser.util.ListParsingHelper;
 import consulo.php.lang.parser.util.ParserPart;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import consulo.php.lang.psi.PhpStubElements;
 
 /**
  * @author jay
@@ -132,8 +131,8 @@ public class PrimaryExpression implements PhpTokenTypes
 		builder.match(LBRACE);
 		StatementList.parse(builder, RBRACE);
 		builder.match(RBRACE);
-		function.done(PhpStubElements.FUNCTION);
-		return PhpStubElements.FUNCTION;
+		function.done(PhpElementTypes.ANONYMOUS_FUNCTION);
+		return PhpElementTypes.ANONYMOUS_FUNCTION;
 	}
 
 	@Nonnull

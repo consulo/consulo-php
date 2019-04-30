@@ -8,7 +8,6 @@ import consulo.php.lang.parser.parsing.ReturnType;
 import consulo.php.lang.parser.parsing.StatementList;
 import consulo.php.lang.parser.util.PhpParserErrors;
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import consulo.php.lang.psi.PhpStubElements;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,7 +43,7 @@ public class Function implements PhpTokenTypes
 		builder.match(LBRACE);
 		StatementList.parse(builder, RBRACE);
 		builder.match(RBRACE);
-		function.done(PhpStubElements.FUNCTION);
-		return PhpStubElements.FUNCTION;
+		function.done(PhpElementTypes.FUNCTION);
+		return PhpElementTypes.FUNCTION;
 	}
 }

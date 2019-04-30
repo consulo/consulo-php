@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.impl.source.tree.TreeUtil;
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
@@ -16,7 +15,6 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.stubs.PhpFunctionStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.index.PhpIndexKeys;
-import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.psi.impl.PhpFunctionImpl;
 import consulo.php.lang.psi.impl.stub.PhpFunctionStubImpl;
 
@@ -64,12 +62,6 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 		StringRef name = dataStream.readName();
 
 		return new PhpFunctionStubImpl(parentStub, name, (short) 0);
-	}
-
-	@Override
-	public boolean shouldCreateStub(ASTNode node)
-	{
-		return TreeUtil.findParent(node, PhpElementTypes.GROUP_STATEMENT) == null;
 	}
 
 	@Override
