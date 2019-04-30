@@ -66,7 +66,7 @@ LABEL= 					[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 WHITESPACE = 				[ \n\r\t]+
 TABS_AND_SPACES = 			[ \t]*
 //TOKENS = 				[;:,.\[\]()|^&+-/*=%!~$<>?@]
-ANY_CHAR = 				(.|[\n])
+ANY_CHAR = 				[^]
 NEWLINE = 				("\r"|"\n"|"\r\n")
 
 /*
