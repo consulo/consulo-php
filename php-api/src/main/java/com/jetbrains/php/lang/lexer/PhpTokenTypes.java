@@ -96,7 +96,6 @@ public interface PhpTokenTypes extends TokenType
 	IElementType VARIABLE_OFFSET_NUMBER = new PhpElementType("array index"); // ???
 	IElementType DOLLAR_LBRACE = new PhpElementType("${"); // ???
 	IElementType IDENTIFIER = new PhpElementType("identifier");
-	IElementType PREDEFINED_IDENTIFIER = new PhpElementType("identifier");
 	IElementType ARROW = new PhpElementType("arrow");
 	IElementType SCOPE_RESOLUTION = new PhpElementType("scope resolution");
 	IElementType FLOAT_LITERAL = new PhpElementType("float");
