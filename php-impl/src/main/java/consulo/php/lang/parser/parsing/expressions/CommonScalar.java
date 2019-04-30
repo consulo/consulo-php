@@ -38,16 +38,17 @@ public class CommonScalar implements PhpTokenTypes
 			if(TokenSet.create(INTEGER_LITERAL, BINARY_LITERAL, FLOAT_LITERAL).contains(type))
 			{
 				scalar.done(PhpElementTypes.NUMBER);
+				return PhpElementTypes.NUMBER;
 			}
 			else if(TokenSet.create(STRING_LITERAL, STRING_LITERAL_SINGLE_QUOTE).contains(type))
 			{
 				scalar.done(PhpElementTypes.STRING);
+				return PhpElementTypes.STRING;
 			}
 			else
 			{
 				throw new UnsupportedOperationException(type.toString());
 			}
-			return PhpElementTypes.COMMON_SCALAR;
 		}
 		return PhpElementTypes.EMPTY_INPUT;
 	}
