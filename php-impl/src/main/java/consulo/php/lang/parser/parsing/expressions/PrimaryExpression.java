@@ -172,7 +172,7 @@ public class PrimaryExpression implements PhpTokenTypes
 				}
 
 				PsiBuilder.Marker hashMarker = builder.mark();
-				IElementType r = UnaryExpression.parse(builder);
+				IElementType r = Expression.parse(builder);
 				if(r == PhpElementTypes.EMPTY_INPUT)
 				{
 					hashMarker.drop();
@@ -184,7 +184,7 @@ public class PrimaryExpression implements PhpTokenTypes
 				{
 					builder.advanceLexer();
 
-					r = UnaryExpression.parse(builder);
+					r = Expression.parse(builder);
 					if(r == PhpElementTypes.EMPTY_INPUT)
 					{
 						hashMarker.error("Expression expected");

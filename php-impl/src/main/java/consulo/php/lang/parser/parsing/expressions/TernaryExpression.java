@@ -16,7 +16,6 @@ import consulo.php.lang.parser.util.PhpPsiBuilder;
  */
 public class TernaryExpression implements PhpTokenTypes
 {
-
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
 		PsiBuilder.Marker marker = builder.mark();
