@@ -15,6 +15,7 @@ import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.ResolveState;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
@@ -44,6 +45,18 @@ import consulo.php.lang.psi.visitors.PhpElementVisitor;
  */
 public class PhpClassReferenceImpl extends PhpElementImpl implements ClassReference
 {
+	private static final class OurResolver implements ResolveCache.PolyVariantResolver<PhpClassReferenceImpl>
+	{
+		public static final OurResolver INSTANCE = new OurResolver();
+
+		@Nonnull
+		@Override
+		public ResolveResult[] resolve(@Nonnull PhpClassReferenceImpl phpClassReference, boolean incompleteCode)
+		{
+			return phpClassReference.multiResolveImpl(incompleteCode);
+		}
+	}
+
 	public PhpClassReferenceImpl(ASTNode node)
 	{
 		super(node);
@@ -103,6 +116,13 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Override
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
+	{
+		return ResolveCache.getInstance(getProject()).resolveWithCaching(this, OurResolver.INSTANCE, true, incompleteCode);
+	}
+
+	@RequiredReadAction
+	@Nonnull
+	private ResolveResult[] multiResolveImpl(boolean incompleteCode)
 	{
 		ResolveKind resolveKind = findResolveKind();
 		String referenceName = getReferenceName();
