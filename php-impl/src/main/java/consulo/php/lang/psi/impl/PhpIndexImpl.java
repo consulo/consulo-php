@@ -32,6 +32,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.index.PhpFunctionByNameIndex;
 import consulo.php.index.PhpNamespaceIndex;
+import consulo.php.lang.psi.impl.light.PhpEmptyNamespaceImpl;
 
 /**
  * @author VISTALL
@@ -52,7 +53,20 @@ public class PhpIndexImpl extends PhpIndex
 	public Collection<PhpNamespace> getNamespacesByName(String name)
 	{
 		Collection<PhpNamespace> collection = PhpNamespaceIndex.INSTANCE.get(name, myProject, GlobalSearchScope.allScope(myProject));
-		return collection;
+		if(!collection.isEmpty())
+		{
+			return collection;
+		}
+
+		Collection<String> keys = PhpNamespaceIndex.INSTANCE.getAllKeys(myProject);
+		for(String key : keys)
+		{
+			if(key.startsWith(key))
+			{
+				return Collections.singletonList(new PhpEmptyNamespaceImpl(myProject, name));
+			}
+		}
+		return Collections.emptyList();
 	}
 
 	@Nonnull

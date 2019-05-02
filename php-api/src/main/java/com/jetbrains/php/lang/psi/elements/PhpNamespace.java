@@ -29,7 +29,11 @@ public interface PhpNamespace extends PhpNamedElement, StubBasedPsiElement<PhpNa
 	GroupStatement getStatements();
 
 	@Nonnull
-	String getParentNamespaceName();
+	default String getParentNamespaceName()
+	{
+		// TODO [VISTALL] impl this
+		return "";
+	}
 
 	boolean isBraced();
 }

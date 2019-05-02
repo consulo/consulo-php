@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
@@ -75,13 +76,6 @@ public class PhpNamespaceStatementImpl extends PhpStubbedNamedElementImpl<PhpNam
 		return findChildByClass(GroupStatement.class);
 	}
 
-	@Nonnull
-	@Override
-	public String getParentNamespaceName()
-	{
-		return "";
-	}
-
 	@Override
 	public boolean isBraced()
 	{
@@ -127,9 +121,20 @@ public class PhpNamespaceStatementImpl extends PhpStubbedNamedElementImpl<PhpNam
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement place)
 	{
-		Collection<PhpNamespace> namespaces = PhpIndex.getInstance(getProject()).getNamespacesByName(getName());
+		String name = getName();
+		if(!StringUtil.startsWith(name, "\\"))
+		{
+			name = "\\" + name;
+		}
+
+		Collection<PhpNamespace> namespaces = PhpIndex.getInstance(getProject()).getNamespacesByName(name);
 		for(PhpNamespace namespace : namespaces)
 		{
+			if(!(namespace instanceof PhpNamespaceStatementImpl))
+			{
+				continue;
+			}
+
 			PhpNamespaceStatementImpl impl = (PhpNamespaceStatementImpl) namespace;
 
 			for(PhpNamedElement element : impl.getElements())

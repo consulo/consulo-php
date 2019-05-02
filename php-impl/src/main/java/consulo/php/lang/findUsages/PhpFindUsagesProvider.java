@@ -12,6 +12,7 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.Variable;
 
 /**
@@ -51,6 +52,10 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 		if(element instanceof Parameter)
 		{
 			return "parameter";
+		}
+		if(element instanceof PhpNamespace)
+		{
+			return "namespace";
 		}
 		if(element instanceof Constant)
 		{
