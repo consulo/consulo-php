@@ -212,43 +212,67 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 			final PsiElement psiElement = classReference.resolve();
 			if(psiElement instanceof PhpClass)
 			{
-				for(Function method : ((PhpClass) psiElement).getOwnMethods())
-				{
-					if(name != null)
-					{
-						if(Comparing.equal(name, method.getName()) && !processor.process(method))
-						{
-							return;
-						}
-					}
-					else
-					{
-						if(!processor.process(method))
-						{
-							return;
-						}
-					}
-				}
+				processClass(name, (PhpClass) psiElement, processor);
+			}
+		}
+	}
 
-				for(Field field : ((PhpClass) psiElement).getOwnFields())
+	private boolean processClass(@Nullable String name, @Nonnull PhpClass phpClass, @Nonnull Processor<PhpNamedElement> processor)
+	{
+		for(Function method : phpClass.getOwnMethods())
+		{
+			if(name != null)
+			{
+				if(Comparing.equal(name, method.getName()) && !processor.process(method))
 				{
-					if(name != null)
-					{
-						if(Comparing.equal(name, field.getName()) && !processor.process(field))
-						{
-							return;
-						}
-					}
-					else
-					{
-						if(!processor.process(field))
-						{
-							return;
-						}
-					}
+					return false;
+				}
+			}
+			else
+			{
+				if(!processor.process(method))
+				{
+					return false;
 				}
 			}
 		}
+
+		for(Field field : phpClass.getOwnFields())
+		{
+			if(name != null)
+			{
+				if(Comparing.equal(name, field.getName()) && !processor.process(field))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if(!processor.process(field))
+				{
+					return false;
+				}
+			}
+		}
+
+		PhpClass superClass = phpClass.getSuperClass();
+		if(superClass != null)
+		{
+			if(!processClass(name, phpClass, processor))
+			{
+				return false;
+			}
+		}
+
+		PhpClass[] implementedInterfaces = phpClass.getImplementedInterfaces();
+		for(PhpClass implementedInterface : implementedInterfaces)
+		{
+			if(!processClass(name, implementedInterface, processor))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Nonnull
