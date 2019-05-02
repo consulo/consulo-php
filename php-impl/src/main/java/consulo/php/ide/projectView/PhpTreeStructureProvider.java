@@ -11,6 +11,7 @@ import com.intellij.ide.projectView.SelectableTreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
@@ -79,7 +80,10 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 					return null;
 				}
 				PhpNamedElement element = ContainerUtil.getFirstItem(value);
-				return element instanceof PhpClass ? (PhpClass) element : null;
+				if(element!= null && Comparing.equal(file.getContainingFile().getVirtualFile().getNameWithoutExtension(), element.getName()))
+				{
+					return element instanceof PhpClass ? (PhpClass) element : null;
+				}
 			}
 		}
 		return null;
