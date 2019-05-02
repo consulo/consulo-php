@@ -72,7 +72,7 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 		{
 			return getName();
 		}
-		return namespaceName + "\\" + getName();
+		return "\\" + namespaceName + "\\" + getName();
 	}
 
 	@Nonnull

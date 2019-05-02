@@ -69,7 +69,7 @@ public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespace
 		String name = stub.getName();
 		if(!StringUtil.isEmpty(name))
 		{
-			indexSink.occurrence(PhpIndexKeys.NAMESPACES, name);
+			indexSink.occurrence(PhpIndexKeys.NAMESPACES, "\\" + name);
 		}
 	}
 }

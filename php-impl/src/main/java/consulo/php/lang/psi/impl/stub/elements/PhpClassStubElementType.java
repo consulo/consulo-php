@@ -79,11 +79,11 @@ public class PhpClassStubElementType extends PhpStubElementType<PhpClassStub, Ph
 
 			if(StringUtil.isEmpty(namespace))
 			{
-				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, name);
+				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, "\\" + name);
 			}
 			else
 			{
-				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, namespace + "\\" + name);
+				indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, "\\" + namespace + "\\" + name);
 			}
 		}
 	}

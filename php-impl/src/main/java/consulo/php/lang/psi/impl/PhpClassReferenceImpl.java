@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiReference;
@@ -111,9 +112,13 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				}
 				return ResolveResult.EMPTY_ARRAY;
 			case TO_NAMESPACE:
-				String text = getElement().getText();
+				String namespaceText = getElement().getText();
+				if(!StringUtil.startsWith(namespaceText, "\\"))
+				{
+					namespaceText = "\\" + namespaceText;
+				}
 
-				Collection<PhpNamespace> namespacesByName = PhpIndex.getInstance(getProject()).getNamespacesByName(text);
+				Collection<PhpNamespace> namespacesByName = PhpIndex.getInstance(getProject()).getNamespacesByName(namespaceText);
 
 				if(namespacesByName.isEmpty())
 				{
@@ -164,6 +169,7 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				}
 
 				StringBuilder builder = new StringBuilder();
+				builder.append("\\");
 
 				if(qualifier != null)
 				{
