@@ -36,19 +36,19 @@ public class PhpNamedStubImpl<T extends PhpNamedElement> extends NamedStubBase<T
 	}
 
 	@Override
-	public short getFlags()
+	public final short getFlags()
 	{
 		return myFlags;
 	}
 
 	@Override
-	public boolean isDeprecated()
+	public final boolean isDeprecated()
 	{
 		return BitUtil.isSet(myFlags, DEPRECATED);
 	}
 
 	@Override
-	public boolean isInternal()
+	public final boolean isInternal()
 	{
 		return BitUtil.isSet(myFlags, INTERNAL);
 	}
@@ -57,6 +57,6 @@ public class PhpNamedStubImpl<T extends PhpNamedElement> extends NamedStubBase<T
 	@Override
 	public PhpType getType()
 	{
-		return PhpType.VOID;
+		return PhpType.EMPTY;
 	}
 }

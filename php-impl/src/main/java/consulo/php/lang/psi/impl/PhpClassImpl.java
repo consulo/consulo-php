@@ -451,6 +451,10 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		{
 			return PhpModifier.PUBLIC_FINAL_STATIC;
 		}
+		else if(isAbstract())
+		{
+			return PhpModifier.PUBLIC_ABSTRACT_STATIC;
+		}
 		return PhpModifier.PUBLIC_IMPLEMENTED_STATIC;
 	}
 }

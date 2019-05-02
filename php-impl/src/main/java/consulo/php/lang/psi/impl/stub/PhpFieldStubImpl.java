@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
+import com.intellij.util.BitUtil;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
@@ -14,6 +15,15 @@ import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
  */
 public class PhpFieldStubImpl extends PhpMemberStubImpl<Field> implements PhpFieldStub
 {
+	public static short packFlags(Field field)
+	{
+		int flags = 0;
+
+		flags = BitUtil.set(flags, DEPRECATED, field.isDeprecated());
+		flags = BitUtil.set(flags, INTERNAL, field.isInternal());
+		return (short) flags;
+	}
+
 	public PhpFieldStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
 		super(parent, elementType, name, flags);

@@ -124,24 +124,6 @@ public class PhpClassStubImpl extends PhpNamedStubImpl<PhpClass> implements PhpC
 	}
 
 	@Override
-	public short getFlags()
-	{
-		return myFlags;
-	}
-
-	@Override
-	public boolean isDeprecated()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isInternal()
-	{
-		return false;
-	}
-
-	@Override
 	public String getNamespaceName()
 	{
 		return myNamespaceName;

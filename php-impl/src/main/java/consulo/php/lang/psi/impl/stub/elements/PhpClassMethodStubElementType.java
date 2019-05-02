@@ -43,13 +43,15 @@ public class PhpClassMethodStubElementType extends PhpStubElementType<PhpClassMe
 	@Override
 	public PhpClassMethodStubImpl createStub(@Nonnull Method psi, StubElement parentStub)
 	{
-		return new PhpClassMethodStubImpl(parentStub, this, psi.getName(), (short) 0);
+		short flags = PhpClassMethodStubImpl.packFlags(psi);
+		return new PhpClassMethodStubImpl(parentStub, this, psi.getName(), flags);
 	}
 
 	@Override
 	public void serialize(@Nonnull PhpClassMethodStubImpl stub, @Nonnull StubOutputStream dataStream) throws IOException
 	{
 		dataStream.writeName(stub.getName());
+		dataStream.writeShort(stub.getFlags());
 	}
 
 	@Nonnull
@@ -57,8 +59,9 @@ public class PhpClassMethodStubElementType extends PhpStubElementType<PhpClassMe
 	public PhpClassMethodStubImpl deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException
 	{
 		StringRef name = dataStream.readName();
+		short flags = dataStream.readShort();
 
-		return new PhpClassMethodStubImpl(parentStub, this, name, (short) 0);
+		return new PhpClassMethodStubImpl(parentStub, this, name, flags);
 	}
 
 	@Override

@@ -44,21 +44,24 @@ public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Fi
 	@Override
 	public PhpFieldStubImpl createStub(@Nonnull Field phpField, StubElement stubElement)
 	{
-		return new PhpFieldStubImpl(stubElement, this, phpField.getName(), (short) 0);
+		short flags = PhpFieldStubImpl.packFlags(phpField);
+		return new PhpFieldStubImpl(stubElement, this, phpField.getName(), flags);
 	}
 
 	@Override
-	public void serialize(@Nonnull PhpFieldStub phpFieldStub, @Nonnull StubOutputStream stubOutputStream) throws IOException
+	public void serialize(@Nonnull PhpFieldStub stub, @Nonnull StubOutputStream stream) throws IOException
 	{
-		stubOutputStream.writeName(phpFieldStub.getName());
+		stream.writeName(stub.getName());
+		stream.writeShort(stub.getFlags());
 	}
 
 	@Nonnull
 	@Override
-	public PhpFieldStub deserialize(@Nonnull StubInputStream stubInputStream, StubElement stubElement) throws IOException
+	public PhpFieldStub deserialize(@Nonnull StubInputStream stream, StubElement stubElement) throws IOException
 	{
-		StringRef ref = stubInputStream.readName();
-		return new PhpFieldStubImpl(stubElement, this, ref, (short) 0);
+		StringRef ref = stream.readName();
+		short flags = stream.readShort();
+		return new PhpFieldStubImpl(stubElement, this, ref, flags);
 	}
 
 	@Override
