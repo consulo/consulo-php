@@ -157,7 +157,7 @@ public class StatementList implements PhpTokenTypes
 		}
 		else
 		{
-			identifierNameMarker.error("Namespace name expected");
+			identifierNameMarker.drop();
 		}
 
 		IElementType tokenType = builder.getTokenType();
