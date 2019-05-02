@@ -18,8 +18,8 @@ import com.jetbrains.php.lang.psi.stubs.PhpNamedStub;
  */
 public class PhpNamedStubImpl<T extends PhpNamedElement> extends NamedStubBase<T> implements PhpNamedStub<T>
 {
-	public static final short DEPRECATED = 1 << 0;
-	public static final short INTERNAL = 1 << 1;
+	public static final short DEPRECATED = 1 << 13;
+	public static final short INTERNAL = 1 << 14;
 
 	protected final short myFlags;
 

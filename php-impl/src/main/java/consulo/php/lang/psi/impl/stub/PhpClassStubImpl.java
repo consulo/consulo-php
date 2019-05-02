@@ -26,10 +26,10 @@ public class PhpClassStubImpl extends PhpNamedStubImpl<PhpClass> implements PhpC
 		return (short) flags;
 	}
 
-	public static final int INTERFACE = 1 << 2;
-	public static final int TRAIT = 1 << 3;
-	public static final int ABSTRACT = 1 << 4;
-	public static final int FINAL = 1 << 5;
+	public static final int INTERFACE = 1 << 0;
+	public static final int TRAIT = 1 << 1;
+	public static final int ABSTRACT = 1 << 2;
+	public static final int FINAL = 1 << 3;
 
 	private final String myNamespaceName;
 

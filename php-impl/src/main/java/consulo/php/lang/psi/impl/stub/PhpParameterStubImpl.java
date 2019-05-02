@@ -15,9 +15,9 @@ import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
  */
 public class PhpParameterStubImpl extends PhpNamedStubImpl<Parameter> implements PhpParameterStub
 {
-	public static final int VARIADIC = 1 << 2;
-	public static final int OPTIONAL = 1 << 3;
-	public static final int PASS_BY_REF = 1 << 4;
+	public static final int VARIADIC = 1 << 0;
+	public static final int OPTIONAL = 1 << 1;
+	public static final int PASS_BY_REF = 1 << 2;
 
 	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{
