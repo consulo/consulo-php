@@ -16,7 +16,7 @@ public class PhpDocParserTest extends ParserTest {
         super(dataPath);
     }
 
-    public static Test _suite() {
+    public static Test suite() {
         return new PhpDocParserTest(DATA_PATH);
     }
 }

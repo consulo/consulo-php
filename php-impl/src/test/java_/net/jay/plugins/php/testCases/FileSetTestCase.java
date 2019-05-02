@@ -1,16 +1,17 @@
 package net.jay.plugins.php.testCases;
 
-import com.intellij.openapi.util.text.StringUtil;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import net.jay.plugins.php.utils.FileScanner;
-import org.jetbrains.annotations.NonNls;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import net.jay.plugins.php.utils.FileScanner;
+
+import org.jetbrains.annotations.NonNls;
+import com.intellij.openapi.util.text.StringUtil;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,6 +43,8 @@ public abstract class FileSetTestCase extends TestSuite {
 		myFiles = myFileList.toArray(new File[myFileList.size()]);
 		addAllTests();
 	}
+
+
 
 	protected void setUp() {
 	}

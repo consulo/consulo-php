@@ -1,32 +1,46 @@
-package net.jay.plugins.php.lang.phpdoc.lexer;
+package net.jay.plugins.php.lang.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jay.plugins.php.lang.lexer.LexerTest;
+import net.jay.plugins.php.testCases.BasePHPFileSetTestCase;
 import net.jay.plugins.php.utils.PathUtils;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
-import consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
-import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer.PhpTokenTypes;
 import junit.framework.Test;
 
 /**
+ * Created by IntelliJ IDEA.
+ * User: jay
+ * Date: 27.02.2007
+ *
  * @author jay
- * @date Jun 28, 2008 1:13:51 AM
  */
-public class PhpDocLexerTest extends LexerTest {
+public class LexerTest extends BasePHPFileSetTestCase {
 
     @NonNls
-    private static final String DATA_PATH = PathUtils.getDataPath(PhpDocLexerTest.class);
+    private static final String DATA_PATH = PathUtils.getDataPath(LexerTest.class);// + "/heredoc";
 
-    public PhpDocLexerTest() {
-        super(DATA_PATH);
+    public LexerTest() {
+        super(DATA_PATH, LightLexerTest.class);
     }
-//	private static final String DATA_PATH = PathUtils.getDataPath(PhpDocLexerTest.class) + "/live_cases";
+
+    public LexerTest(String path) {
+        super(path, LightLexerTest.class);
+    }
+
+    protected String getTypeText(char[] whole, int start, int end) {
+        char[] subString = new char[end - start];
+        System.arraycopy(whole, start, subString, 0, end - start);
+        return new String(subString);
+    }
+
 
     @Override
 	public String transform(String testName, String[] data) throws Exception {
@@ -34,7 +48,7 @@ public class PhpDocLexerTest extends LexerTest {
         final char[] text = fileText.toCharArray();
         List<IElementType> types = new ArrayList<IElementType>();
         List<String> typeTexts = new ArrayList<String>();
-        Lexer lexer = new PhpDocLexer();
+        Lexer lexer = new PhpFlexLexer(false, PhpLanguageLevel.HIGHEST);
         lexer.start(fileText);
         IElementType type = lexer.getTokenType();
         while (type != null) {
@@ -47,7 +61,7 @@ public class PhpDocLexerTest extends LexerTest {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < types.size(); i++) {
             IElementType elementType = types.get(i);
-            if (elementType != PhpDocTokenTypes.DOC_WHITESPACE) {
+            if (elementType != PhpTokenTypes.WHITE_SPACE) {
                 String currentText = typeTexts.get(i);
                 currentText = StringUtil.replace(currentText, "\n", "\\n");
                 currentText = StringUtil.replace(currentText, "\r", "\\r");
@@ -58,8 +72,8 @@ public class PhpDocLexerTest extends LexerTest {
         return buf.toString();
     }
 
-    public static Test _suite() {
-        return new PhpDocLexerTest();
+    public static Test suite() {
+        return new LexerTest();
     }
 
 
