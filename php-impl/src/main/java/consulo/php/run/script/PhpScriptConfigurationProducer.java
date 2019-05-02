@@ -27,7 +27,7 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
 	@Override
 	protected boolean setupConfigurationFromContext(PhpScriptConfiguration configuration, ConfigurationContext context, Ref<PsiElement> sourceElement)
 	{
-		PhpFile phpFile = PsiTreeUtil.getParentOfType(sourceElement.get(), PhpFile.class);
+		PhpFile phpFile = PsiTreeUtil.getParentOfType(sourceElement.get(), PhpFile.class, false);
 		if(phpFile == null)
 		{
 			return false;
@@ -47,7 +47,7 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
 	@Override
 	public boolean isConfigurationFromContext(PhpScriptConfiguration configuration, ConfigurationContext context)
 	{
-		PhpFile phpFile = PsiTreeUtil.getParentOfType(context.getPsiLocation(), PhpFile.class);
+		PhpFile phpFile = PsiTreeUtil.getParentOfType(context.getPsiLocation(), PhpFile.class, false);
 		if(phpFile == null)
 		{
 			return false;
