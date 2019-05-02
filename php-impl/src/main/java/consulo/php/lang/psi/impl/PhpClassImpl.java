@@ -161,7 +161,8 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		{
 			return stub.isAbstract();
 		}
-		return false;  // TODO [VISTALL] impl it!
+		PhpModifierList element = findChildByClass(PhpModifierList.class);
+		return element != null && element.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD);
 	}
 
 	@Override
@@ -172,7 +173,8 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		{
 			return stub.isFinal();
 		}
-		return false; // TODO [VISTALL] impl it!
+		PhpModifierList element = findChildByClass(PhpModifierList.class);
+		return element != null && element.hasModifier(PhpTokenTypes.FINAL_KEYWORD);
 	}
 
 	@Nonnull
