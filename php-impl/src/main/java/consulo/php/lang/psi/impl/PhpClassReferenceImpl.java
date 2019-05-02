@@ -55,6 +55,12 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		return findChildByType(PhpTokenTypes.IDENTIFIER);
 	}
 
+	@Override
+	public boolean isAbsolute()
+	{
+		return findChildByType(PhpTokenTypes.SLASH) != null;
+	}
+
 	@Nonnull
 	@Override
 	public PhpType resolveLocalType()
@@ -99,7 +105,8 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
 		ResolveKind resolveKind = findResolveKind();
-		String name = getReferenceName();
+		String referenceName = getReferenceName();
+		String name = referenceName;
 		ClassReference qualifier = getQualifier();
 
 		switch(resolveKind)
@@ -218,11 +225,16 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 					return ResolveResult.EMPTY_ARRAY;
 				}
 
-				PhpResolveProcessor processor = new PhpResolveProcessor(this, getReferenceName(), PhpResolveProcessor.ElementKind.CLASS);
-				PsiElement slashElement = findChildByType(PhpTokenTypes.SLASH);
-				if(slashElement != null)
+				PhpResolveProcessor processor = new PhpResolveProcessor(this, referenceName, PhpResolveProcessor.ElementKind.CLASS);
+				boolean absolute = isAbsolute();
+				if(absolute)
 				{
-					Collection<PhpClass> classes = PhpIndex.getInstance(getProject()).getClassesByFQN(getReferenceName());
+					if(!StringUtil.startsWith(referenceName, "\\"))
+					{
+						referenceName = "\\" + referenceName;
+					}
+
+					Collection<PhpClass> classes = PhpIndex.getInstance(getProject()).getClassesByFQN(referenceName);
 					for(PhpClass aClass : classes)
 					{
 						processor.execute(aClass, ResolveState.initial());
@@ -232,7 +244,17 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				{
 					ResolveUtil.treeWalkUp(this, processor);
 				}
-				return processor.getResult().stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
+
+				if(!processor.getResult().isEmpty())
+				{
+					return processor.getResult().stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
+				}
+
+				if(!isAbsolute() && qualifier == null)
+				{
+					Collection<PhpClass> classes = PhpIndex.getInstance(getProject()).getClassesByFQN("\\" + getReferenceName());
+					return classes.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
+				}
 			default:
 				return ResolveResult.EMPTY_ARRAY;
 		}

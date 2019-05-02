@@ -26,4 +26,6 @@ public interface ClassReference extends PhpPsiElement, PsiPolyVariantReference
 
 	@Nonnull
 	PhpType resolveLocalType();
+
+	boolean isAbsolute();
 }
