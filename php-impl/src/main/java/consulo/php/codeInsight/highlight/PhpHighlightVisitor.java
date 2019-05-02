@@ -29,6 +29,7 @@ import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.highlighter.PhpHighlightingData;
 import consulo.php.lang.parser.PhpTokenSets;
@@ -192,7 +193,14 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 	{
 		super.visitPhpElement(classReference);
 
-		if(classReference.getText().equals(PhpClass.SELF) || classReference.getText().equals(PhpClass.PARENT))
+		String text = classReference.getText();
+		if(text.equals(PhpClass.SELF) || text.equals(PhpClass.PARENT))
+		{
+			createHighlighing(HighlightInfoType.INFORMATION, classReference, null, PhpHighlightingData.KEYWORD);
+			return;
+		}
+
+		if(PhpType.isPrimitiveType(text))
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, classReference, null, PhpHighlightingData.KEYWORD);
 			return;
