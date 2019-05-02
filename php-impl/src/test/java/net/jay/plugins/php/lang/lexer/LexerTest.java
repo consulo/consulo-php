@@ -72,7 +72,7 @@ public class LexerTest extends BasePHPFileSetTestCase {
         return buf.toString();
     }
 
-    public static Test suite() {
+    public static Test _suite() {
         return new LexerTest();
     }
 

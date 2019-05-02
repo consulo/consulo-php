@@ -65,7 +65,7 @@ public class ParserTest extends BasePHPFileSetTestCase {
         return result.toString();
     }
 
-    public static Test suite() {
+    public static Test _suite() {
         return new ParserTest();
     }
 

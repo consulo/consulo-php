@@ -58,7 +58,7 @@ public class PhpDocLexerTest extends LexerTest {
         return buf.toString();
     }
 
-    public static Test suite() {
+    public static Test _suite() {
         return new PhpDocLexerTest();
     }
 
