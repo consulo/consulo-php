@@ -1,24 +1,26 @@
 package consulo.php.ide.projectView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.intellij.ide.projectView.SelectableTreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.ide.util.treeView.AbstractTreeUi;
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
+import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.PhpFileType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author VISTALL
@@ -36,9 +38,17 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 	@Override
 	public Collection<AbstractTreeNode> modify(AbstractTreeNode abstractTreeNode, Collection<AbstractTreeNode> list, ViewSettings viewSettings)
 	{
+		return AbstractTreeUi.calculateYieldingToWriteAction(() -> doModify(list, viewSettings));
+	}
+
+	@Nonnull
+	private Collection<AbstractTreeNode> doModify(Collection<AbstractTreeNode> list, ViewSettings viewSettings)
+	{
 		List<AbstractTreeNode> nodes = new ArrayList<>(list.size());
 		for(AbstractTreeNode treeNode : list)
 		{
+			ProgressManager.checkCanceled();
+
 			Object value = treeNode.getValue();
 			PhpClass phpClass = findSingleClass(value);
 			if(phpClass != null)
