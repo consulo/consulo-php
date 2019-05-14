@@ -1,19 +1,16 @@
 package consulo.php.ide.projectView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.projectView.impl.nodes.AbstractPsiBasedNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * @author VISTALL
@@ -53,6 +50,22 @@ public class PhpClassTreeNode extends AbstractPsiBasedNode<PhpClass>
 		Collections.addAll(list, value.getOwnFields());
 		Collections.addAll(list, value.getOwnMethods());
 		return PhpFileTreeNode.fillToTreeNodes(list, getSettings());
+	}
+
+	@Override
+	public boolean canRepresent(Object element)
+	{
+		if(super.canRepresent(element))
+		{
+			return true;
+		}
+
+		if(element instanceof PsiElement)
+		{
+			PsiFile containingFile = getValue().getContainingFile();
+			return Objects.equals(containingFile, ((PsiElement) element).getContainingFile());
+		}
+		return false;
 	}
 
 	@Override
