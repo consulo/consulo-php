@@ -68,7 +68,7 @@ public class PhpTreeStructureProvider implements SelectableTreeStructureProvider
 	}
 
 	@Nullable
-	public PhpClass findSingleClass(Object o)
+	public static PhpClass findSingleClass(Object o)
 	{
 		if(o instanceof PhpFile)
 		{

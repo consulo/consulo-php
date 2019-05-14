@@ -1,11 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.TextRange;
@@ -21,14 +15,7 @@ import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
@@ -36,6 +23,11 @@ import consulo.php.completion.PhpVariantsUtil;
 import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -258,7 +250,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 		PhpClass superClass = phpClass.getSuperClass();
 		if(superClass != null)
 		{
-			if(!processClass(name, phpClass, processor))
+			if(!processClass(name, superClass, processor))
 			{
 				return false;
 			}

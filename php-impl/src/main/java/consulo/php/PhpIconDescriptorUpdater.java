@@ -1,22 +1,18 @@
 package consulo.php;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.BitUtil;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpDefine;
-import com.jetbrains.php.lang.psi.elements.PhpElementWithModifier;
-import com.jetbrains.php.lang.psi.elements.PhpModifier;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.elements.*;
 import consulo.annotations.RequiredReadAction;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
+import consulo.ide.IconDescriptorUpdaters;
+import consulo.php.ide.projectView.PhpTreeStructureProvider;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -28,7 +24,15 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 	@Override
 	public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags)
 	{
-		if(element instanceof PhpClass)
+		if(element instanceof PhpFile)
+		{
+			PhpClass singleClass = PhpTreeStructureProvider.findSingleClass(element);
+			if(singleClass != null)
+			{
+				IconDescriptorUpdaters.processExistingDescriptor(iconDescriptor, singleClass, flags);
+			}
+		}
+		else if(element instanceof PhpClass)
 		{
 			PhpClass phpClass = (PhpClass) element;
 
