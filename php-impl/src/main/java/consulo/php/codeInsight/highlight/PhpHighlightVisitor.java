@@ -110,6 +110,8 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 			PsiElement nameIdentifier = constantReference.getNameIdentifier();
 			createHighlighing(HighlightInfoType.INFORMATION, nameIdentifier.getTextRange(), null, PhpHighlightingData.CONSTANT);
 		}
+
+		PhpHightlightUtil.checkIsStaticForSelf(myHolder, constantReference);
 	}
 
 	@Override
@@ -222,6 +224,8 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 		{
 			createHighlighing(HighlightInfoType.INFORMATION, fieldReference, null, DefaultLanguageHighlighterColors.INSTANCE_FIELD);
 		}
+
+		PhpHightlightUtil.checkIsStaticForSelf(myHolder, fieldReference);
 	}
 
 	@RequiredReadAction

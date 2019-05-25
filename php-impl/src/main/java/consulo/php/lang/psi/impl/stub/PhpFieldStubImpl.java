@@ -22,6 +22,7 @@ public class PhpFieldStubImpl extends PhpMemberStubImpl<Field> implements PhpFie
 		int flags = 0;
 
 		flags = BitUtil.set(flags, CONSTANT, field.isConstant());
+		flags = BitUtil.set(flags, STATIC, field.isStatic());
 		flags = BitUtil.set(flags, DEPRECATED, field.isDeprecated());
 		flags = BitUtil.set(flags, INTERNAL, field.isInternal());
 		return (short) flags;

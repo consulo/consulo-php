@@ -45,7 +45,8 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		visitor.visitFieldReference(this);
 	}
 
-	private PsiElement getNameIdentifier()
+	@Override
+	public PsiElement getNameIdentifier()
 	{
 		if(getClassReference() != null)
 		{

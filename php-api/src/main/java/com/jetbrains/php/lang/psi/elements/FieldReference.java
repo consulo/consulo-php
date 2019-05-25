@@ -1,9 +1,9 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nullable;
-
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+
+import javax.annotation.Nullable;
 
 /**
  * @author jay
@@ -21,4 +21,6 @@ public interface FieldReference extends PhpPsiElement, PsiReference
 
 	@Nullable
 	PsiElement getObjectReference();
+
+	PsiElement getNameIdentifier();
 }

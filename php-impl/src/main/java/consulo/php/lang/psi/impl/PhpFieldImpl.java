@@ -110,6 +110,33 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		return findChildByType(PhpTokenTypes.kwCONST) != null;
 	}
 
+	@Override
+	public boolean isStatic()
+	{
+		PhpFieldStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.isConstant();
+		}
+
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.STATIC_KEYWORD);
+	}
+
+	@Nullable
+	@Override
+	public PsiElement getDefaultValue()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public String getDefaultValuePresentation()
+	{
+		return null;
+	}
+
 	@Nullable
 	@Override
 	public PhpClass getContainingClass()
@@ -147,12 +174,16 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 			return PhpModifier.State.DYNAMIC;
 		}
 
-		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
-
-		if(modifierList != null && modifierList.hasModifier(PhpTokenTypes.STATIC_KEYWORD) || isConstant())
+		if(isStatic() || isConstant())
 		{
 			return PhpModifier.State.STATIC;
 		}
 		return PhpModifier.State.DYNAMIC;
+	}
+
+	@Override
+	public boolean isWriteAccess()
+	{
+		return false;
 	}
 }

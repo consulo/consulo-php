@@ -5,6 +5,10 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.*;
+import consulo.annotations.RequiredReadAction;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -12,27 +16,44 @@ import com.jetbrains.php.lang.psi.elements.*;
  */
 public class PhpHightlightUtil
 {
+	@RequiredReadAction
 	public static void checkIsStaticForSelf(HighlightInfoHolder holder, PhpPsiElement element)
 	{
 		if(element instanceof MethodReference)
 		{
-			PsiElement resolvedElement = ((MethodReference) element).resolve();
-			if(resolvedElement == null)
-			{
-				return;
-			}
-
-			if(((MethodReference) element).isStatic() && resolvedElement instanceof PhpElementWithModifier && !((PhpElementWithModifier) resolvedElement).getModifier().isStatic())
-			{
-				String name = ((PhpNamedElement) resolvedElement).getName();
-				holder.add(HighlightInfo.newHighlightInfo(HighlightInfoType.ERROR).range(((MethodReference) element).getNameIdentifier()).descriptionAndTooltip("'" + name + "' is not static")
-						.createUnconditionally());
-			}
+			validateSelfQualifierReference(holder, ((MethodReference) element).resolve(), ((MethodReference) element).getClassReference(), ((MethodReference) element).getNameIdentifier());
 		}
-
+		else if(element instanceof FieldReference)
+		{
+			validateSelfQualifierReference(holder, ((FieldReference) element).resolve(), ((FieldReference) element).getClassReference(), ((FieldReference) element).getNameIdentifier());
+		}
 		else if(element instanceof ClassConstantReference)
 		{
-
+			validateSelfQualifierReference(holder, ((ClassConstantReference) element).resolve(), ((ClassConstantReference) element).getClassReference(), ((ClassConstantReference) element).getNameIdentifier());
 		}
+	}
+
+	private static void validateSelfQualifierReference(@Nonnull HighlightInfoHolder holder,
+													   @Nullable PsiElement resolvedElement,
+													   @Nullable ClassReference classReference,
+													   @Nonnull PsiElement referenceElement)
+	{
+		if(resolvedElement == null)
+		{
+			return;
+		}
+
+		if(isSelfQualifier(classReference) && resolvedElement instanceof PhpElementWithModifier && !((PhpElementWithModifier) resolvedElement).getModifier().isStatic())
+		{
+			System.out.println(((PhpElementWithModifier) resolvedElement).getModifier());
+
+			String name = ((PhpNamedElement) resolvedElement).getName();
+			holder.add(HighlightInfo.newHighlightInfo(HighlightInfoType.ERROR).range(referenceElement).descriptionAndTooltip("'" + name + "' is not static").createUnconditionally());
+		}
+	}
+
+	private static boolean isSelfQualifier(@Nullable ClassReference classReference)
+	{
+		return classReference != null && PhpClass.SELF.equals(classReference.getReferenceName()) && classReference.getQualifier() == null;
 	}
 }

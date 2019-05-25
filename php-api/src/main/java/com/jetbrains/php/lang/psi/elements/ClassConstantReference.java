@@ -1,11 +1,10 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author jay
@@ -18,4 +17,6 @@ public interface ClassConstantReference extends PhpPsiElement, PsiPolyVariantRef
 
 	@Nullable
 	PsiElement getNameIdentifier();
+
+	ClassReference getClassReference();
 }
