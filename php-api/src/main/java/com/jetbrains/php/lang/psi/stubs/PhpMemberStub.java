@@ -14,6 +14,9 @@
 package com.jetbrains.php.lang.psi.stubs;
 
 import com.jetbrains.php.lang.psi.elements.PhpClassMember;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+
+import javax.annotation.Nonnull;
 
 public interface PhpMemberStub<T extends PhpClassMember> extends PhpNamedStub<T>
 {
@@ -26,4 +29,20 @@ public interface PhpMemberStub<T extends PhpClassMember> extends PhpNamedStub<T>
 	boolean isPrivate();
 
 	boolean isProtected();
+
+	@Nonnull
+	default PhpModifier.Access getAccess()
+	{
+		if(isPrivate())
+		{
+			return PhpModifier.Access.PRIVATE;
+		}
+
+		if(isProtected())
+		{
+			return PhpModifier.Access.PROTECTED;
+		}
+
+		return PhpModifier.Access.PUBLIC;
+	}
 }

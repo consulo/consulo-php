@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
-import java.util.Collection;
+import com.jetbrains.php.lang.psi.elements.Method;
 
 import javax.annotation.Nonnull;
-import com.jetbrains.php.lang.psi.elements.Method;
+import java.util.Collection;
 
 public interface PhpMethodStub extends PhpMemberStub<Method>
 {
@@ -24,5 +24,4 @@ public interface PhpMethodStub extends PhpMemberStub<Method>
 	Collection<String> getDocExceptions();
 
 	boolean isReturningByReference();
-
 }

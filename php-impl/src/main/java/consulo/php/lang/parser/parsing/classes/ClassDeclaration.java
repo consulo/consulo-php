@@ -3,7 +3,6 @@ package consulo.php.lang.parser.parsing.classes;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import com.jetbrains.php.lang.psi.elements.PhpModifierList;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.parser.util.ListParsingHelper;
@@ -21,9 +20,12 @@ public class ClassDeclaration implements PhpTokenTypes
 {
 	private static final TokenSet CLASS_START_TYPES = TokenSet.create(kwCLASS, INTERFACE_KEYWORD, TRAIT_KEYWORD);
 
+	private static final TokenSet MODIFIERS = TokenSet.create(PhpTokenTypes.PUBLIC_KEYWORD, PhpTokenTypes.PROTECTED_KEYWORD, PhpTokenTypes.PRIVATE_KEYWORD,
+			PhpTokenTypes.STATIC_KEYWORD, PhpTokenTypes.FINAL_KEYWORD, PhpTokenTypes.ABSTRACT_KEYWORD);
+
 	public static IElementType parse(PhpPsiBuilder builder)
 	{
-		if(!builder.compare(CLASS_START_TYPES) && !builder.compare(PhpModifierList.MODIFIERS))
+		if(!builder.compare(CLASS_START_TYPES) && !builder.compare(MODIFIERS))
 		{
 			return PhpElementTypes.EMPTY_INPUT;
 		}

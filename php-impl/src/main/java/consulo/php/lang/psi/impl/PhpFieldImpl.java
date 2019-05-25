@@ -1,24 +1,20 @@
 package consulo.php.lang.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpModifier;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author jay
@@ -42,12 +38,14 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		visitor.visitField(this);
 	}
 
+	@RequiredReadAction
 	@Override
 	public PsiElement getNameIdentifier()
 	{
 		return isConstant() ? findChildByType(PhpTokenTypes.IDENTIFIER) : findChildByType(PhpTokenTypes.VARIABLE);
 	}
 
+	@Nonnull
 	@RequiredReadAction
 	@Override
 	public String getName()
@@ -97,12 +95,18 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isConstant()
 	{
+		PhpFieldStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.isConstant();
+		}
 		return findChildByType(PhpTokenTypes.kwCONST) != null;
 	}
 
@@ -110,12 +114,24 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	@Override
 	public PhpClass getContainingClass()
 	{
-		return null;
+		return getStubOrPsiParentOfType(PhpClass.class);
 	}
 
+	@Nonnull
 	@Override
 	public PhpModifier getModifier()
 	{
-		return PhpModifier.PUBLIC_FINAL_STATIC;
+		PhpFieldStub stub = getStub();
+		if(stub != null)
+		{
+			boolean constant = stub.isConstant();
+			return PhpModifier.instance(stub.getAccess(), stub.isFinal() ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, constant ? PhpModifier.State.STATIC : PhpModifier
+					.State.DYNAMIC);
+		}
+
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		boolean constant = isConstant();
+		PhpModifier.Access access = modifierList == null ? PhpModifier.Access.PUBLIC : modifierList.getAccess();
+		return PhpModifier.instance(access, constant ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, constant ? PhpModifier.State.STATIC : PhpModifier.State.DYNAMIC);
 	}
 }

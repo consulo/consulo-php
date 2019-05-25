@@ -1,24 +1,19 @@
 package consulo.php.lang.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.stubs.PhpMethodStub;
 import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.PhpStubElements;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -56,12 +51,6 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
-	{
-		return null;
-	}
-
-	@Override
 	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitMethod(this);
@@ -90,45 +79,89 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 	@Override
 	public boolean isStatic()
 	{
-		return false;
+		PhpMethodStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.isStatic();
+		}
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.STATIC_KEYWORD);
 	}
 
 	@Override
 	public boolean isFinal()
 	{
-		return false;
+		PhpMethodStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.isFinal();
+		}
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.FINAL_KEYWORD);
 	}
 
 	@Override
 	public boolean isAbstract()
 	{
-		return false;
+		PhpMethodStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.isAbstract();
+		}
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.ABSTRACT_KEYWORD);
 	}
 
 	@Override
 	public PhpModifier.Access getAccess()
 	{
-		return null;
+		PhpMethodStub stub = getGreenStub();
+		if(stub != null)
+		{
+			return stub.getAccess();
+		}
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		if(modifierList == null)
+		{
+			return PhpModifier.Access.PUBLIC;
+		}
+
+		return modifierList.getAccess();
 	}
 
 	@Nullable
 	@Override
 	public PhpClass getContainingClass()
 	{
-		return null;
+		return getStubOrPsiParentOfType(PhpClass.class);
 	}
 
 	@Nonnull
 	@Override
 	public PhpModifier getModifier()
 	{
-		return PhpModifier.PUBLIC_FINAL_STATIC;
+		PhpModifier.Abstractness abstractness = PhpModifier.Abstractness.IMPLEMENTED;
+		if(isAbstract())
+		{
+			abstractness = PhpModifier.Abstractness.ABSTRACT;
+		}
+		else if(isFinal())
+		{
+			abstractness = PhpModifier.Abstractness.FINAL;
+		}
+
+		PhpModifier.State state = PhpModifier.State.DYNAMIC;
+		if(isStatic())
+		{
+			state = PhpModifier.State.STATIC;
+		}
+		return PhpModifier.instance(getAccess(), abstractness, state);
 	}
 
 	@Nonnull
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 }

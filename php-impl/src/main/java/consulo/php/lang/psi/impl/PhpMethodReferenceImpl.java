@@ -1,12 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -29,6 +22,12 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.resolve.PhpResolveResult;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author jay
@@ -235,9 +234,22 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public Object[] getVariants()
 	{
+		ClassReference classReference = getClassReference();
+
+		boolean requireStatic = classReference != null && PhpClass.SELF.equals(classReference.getReferenceName()) && classReference.getQualifier() == null;
+
 		List<LookupElement> elements = new ArrayList<>();
 		process(element -> {
+			if(requireStatic)
+			{
+				if(element instanceof PhpElementWithModifier && !((PhpElementWithModifier) element).getModifier().isStatic())
+				{
+					return true;
+				}
+			}
+
 			elements.add(PhpVariantsUtil.getLookupItem(element, new UsageContext()));
+
 			return true;
 		}, null);
 		return ArrayUtil.toObjectArray(elements);

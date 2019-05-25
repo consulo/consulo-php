@@ -1,12 +1,5 @@
 package consulo.php.lang.psi.impl.stub.elements;
 
-import java.io.IOException;
-
-import javax.annotation.Nonnull;
-
-import com.jetbrains.php.lang.PhpLanguage;
-import com.jetbrains.php.lang.psi.PhpFile;
-import consulo.php.lang.psi.impl.stub.PhpFileStubImpl;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.StubBuilder;
@@ -14,6 +7,12 @@ import com.intellij.psi.stubs.DefaultStubBuilder;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.tree.IStubFileElementType;
+import com.jetbrains.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.psi.PhpFile;
+import consulo.php.lang.psi.impl.stub.PhpFileStubImpl;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
 
 /**
  * @author VISTALL
@@ -55,7 +54,7 @@ public class PhpFileStubElementType extends IStubFileElementType<PhpFileStubImpl
 	@Override
 	public int getStubVersion()
 	{
-		return 41;
+		return 43;
 	}
 
 	@Nonnull

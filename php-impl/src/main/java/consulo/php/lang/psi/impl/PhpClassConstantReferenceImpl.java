@@ -281,7 +281,17 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 
 		context.setCallingObjectClass(contextClass);
 
-		process(elements, null);
+		process(phpNamedElement -> {
+			if(phpNamedElement instanceof PhpElementWithModifier)
+			{
+				PhpModifier modifier = ((PhpElementWithModifier) phpNamedElement).getModifier();
+				if(modifier.isStatic())
+				{
+					return elements.process(phpNamedElement);
+				}
+			}
+			return true;
+		}, null);
 
 		return PhpVariantsUtil.getLookupItems(elements.getResults(), context);
 	}

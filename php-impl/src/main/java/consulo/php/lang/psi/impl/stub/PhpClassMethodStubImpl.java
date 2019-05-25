@@ -1,17 +1,17 @@
 package consulo.php.lang.psi.impl.stub;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.BitUtil;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.stubs.PhpMethodStub;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author VISTALL
@@ -22,6 +22,10 @@ public class PhpClassMethodStubImpl extends PhpMemberStubImpl<Method> implements
 	public static short packFlags(Method method)
 	{
 		int flags = 0;
+		PhpModifier.Access access = method.getAccess();
+		flags = BitUtil.set(flags, PRIVATE, access.isPrivate());
+		flags = BitUtil.set(flags, PROTECTED, access.isProtected());
+
 		flags = BitUtil.set(flags, STATIC, method.isStatic());
 		flags = BitUtil.set(flags, FINAL, method.isFinal());
 		flags = BitUtil.set(flags, ABSTRACT, method.isAbstract());
