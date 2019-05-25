@@ -111,11 +111,8 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public boolean isStatic()
 	{
-		if(getClassReference() != null && !getClassReference().getText().equals(PhpClass.PARENT))
-		{
-			return true;
-		}
-		return false;
+		ClassReference classReference = getClassReference();
+		return classReference != null && PhpClass.SELF.equals(classReference.getReferenceName()) && classReference.getQualifier() == null;
 	}
 
 	@RequiredReadAction
@@ -236,7 +233,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	{
 		ClassReference classReference = getClassReference();
 
-		boolean requireStatic = classReference != null && PhpClass.SELF.equals(classReference.getReferenceName()) && classReference.getQualifier() == null;
+		boolean requireStatic = isStatic();
 
 		List<LookupElement> elements = new ArrayList<>();
 		process(element -> {

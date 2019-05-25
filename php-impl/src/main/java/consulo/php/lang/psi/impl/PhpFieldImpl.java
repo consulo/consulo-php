@@ -58,7 +58,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		PsiElement nameIdentifier = getNameIdentifier();
 		if(nameIdentifier != null)
 		{
-			return isConstant() ? nameIdentifier.getText() : nameIdentifier.getText().substring(1);
+			return nameIdentifier.getText();
 		}
 		return null;
 	}
@@ -121,17 +121,38 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	@Override
 	public PhpModifier getModifier()
 	{
+		PhpModifier.State state = getState();
 		PhpFieldStub stub = getStub();
 		if(stub != null)
 		{
-			boolean constant = stub.isConstant();
-			return PhpModifier.instance(stub.getAccess(), stub.isFinal() ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, constant ? PhpModifier.State.STATIC : PhpModifier
-					.State.DYNAMIC);
+			return PhpModifier.instance(stub.getAccess(), stub.isFinal() ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, state);
 		}
 
 		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
 		boolean constant = isConstant();
 		PhpModifier.Access access = modifierList == null ? PhpModifier.Access.PUBLIC : modifierList.getAccess();
-		return PhpModifier.instance(access, constant ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, constant ? PhpModifier.State.STATIC : PhpModifier.State.DYNAMIC);
+		return PhpModifier.instance(access, constant ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, state);
+	}
+
+	@Nonnull
+	private PhpModifier.State getState()
+	{
+		PhpFieldStub stub = getGreenStub();
+		if(stub != null)
+		{
+			if(stub.isStatic() || stub.isConstant())
+			{
+				return PhpModifier.State.STATIC;
+			}
+			return PhpModifier.State.DYNAMIC;
+		}
+
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+
+		if(modifierList != null && modifierList.hasModifier(PhpTokenTypes.STATIC_KEYWORD) || isConstant())
+		{
+			return PhpModifier.State.STATIC;
+		}
+		return PhpModifier.State.DYNAMIC;
 	}
 }

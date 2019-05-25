@@ -1,12 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -28,6 +21,12 @@ import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author jay
@@ -294,20 +293,5 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	public boolean isReferenceTo(PsiElement element)
 	{
 		return getManager().areElementsEquivalent(resolve(), element);
-	}
-
-	/**
-	 * Returns false if the underlying element is guaranteed to be a reference, or true
-	 * if the underlying element is a possible reference which should not be reported as
-	 * an error if it fails to resolve. For example, a text in an XML file which looks
-	 * like a full-qualified Java class name is a soft reference.
-	 *
-	 * @return true if the refence is soft, false otherwise.
-	 */
-	@RequiredReadAction
-	@Override
-	public boolean isSoft()
-	{
-		return false;
 	}
 }

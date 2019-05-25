@@ -13,10 +13,6 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
@@ -24,6 +20,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, PhpTypedElement
 {
@@ -70,7 +70,7 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 		String namespaceName = getNamespaceName();
 		if(StringUtil.isEmpty(namespaceName))
 		{
-			return getName();
+			return "\\" + getName();
 		}
 		return "\\" + namespaceName + "\\" + getName();
 	}

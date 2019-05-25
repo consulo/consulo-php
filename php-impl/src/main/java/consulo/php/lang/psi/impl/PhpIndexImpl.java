@@ -1,17 +1,5 @@
 package consulo.php.lang.psi.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.intellij.codeInsight.completion.PrefixMatcher;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.DumbService;
@@ -20,19 +8,18 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.Processor;
 import com.intellij.util.indexing.ID;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.Constant;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.PhpNamespace;
-import com.jetbrains.php.lang.psi.elements.PhpUse;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.index.PhpFullFqClassIndex;
 import consulo.php.index.PhpFunctionByNameIndex;
 import consulo.php.index.PhpNamespaceIndex;
 import consulo.php.lang.psi.impl.light.PhpEmptyNamespaceImpl;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.*;
 
 /**
  * @author VISTALL
@@ -324,6 +311,10 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<PhpClass> getClassesByFQN(String fqn)
 	{
+		if(DumbService.isDumb(myProject))
+		{
+			return Collections.emptyList();
+		}
 		return PhpFullFqClassIndex.INSTANCE.get(fqn, myProject, GlobalSearchScope.allScope(myProject));
 	}
 

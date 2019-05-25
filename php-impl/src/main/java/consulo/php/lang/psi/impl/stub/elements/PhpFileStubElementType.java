@@ -54,7 +54,7 @@ public class PhpFileStubElementType extends IStubFileElementType<PhpFileStubImpl
 	@Override
 	public int getStubVersion()
 	{
-		return 43;
+		return 44;
 	}
 
 	@Nonnull
