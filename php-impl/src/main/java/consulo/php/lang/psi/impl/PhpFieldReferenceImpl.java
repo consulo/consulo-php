@@ -1,12 +1,9 @@
 package consulo.php.lang.psi.impl;
 
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.Processor;
@@ -16,23 +13,19 @@ import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotations.RequiredReadAction;
 import consulo.annotations.RequiredWriteAction;
-import consulo.php.completion.PhpVariantsUtil;
-import consulo.php.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.PhpPsiElementFactory;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author jay
  * @date May 15, 2008 11:24:30 AM
  */
-public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldReference
+public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldReference, PhpReferenceWithCompletion
 {
 	public PhpFieldReferenceImpl(ASTNode node)
 	{
@@ -155,30 +148,6 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	}
 
 	@RequiredReadAction
-	@Nonnull
-	@Override
-	public Object[] getVariants()
-	{
-		UsageContext context = new UsageContext();
-		final PhpClass contextClass = PsiTreeUtil.getParentOfType(this, PhpClass.class);
-		if(contextClass != null)
-		{
-			context.setClassForAccessFilter(contextClass);
-		}
-
-		context.setCallingObjectClass(contextClass);
-
-		List<Object> elements = new ArrayList<>();
-		processElements(e -> {
-			LookupElement lookupElement = PhpVariantsUtil.getLookupItem(e, context);
-			elements.add(lookupElement);
-			return true;
-		}, null);
-
-		return ArrayUtil.toObjectArray(elements);
-	}
-
-	@RequiredReadAction
 	@Override
 	@Nullable
 	public PsiElement resolve()
@@ -186,6 +155,13 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		CommonProcessors.FindFirstProcessor<PhpNamedElement> processor = new CommonProcessors.FindFirstProcessor<>();
 		processElements(processor, getFieldName());
 		return processor.getFoundValue();
+	}
+
+	@RequiredReadAction
+	@Override
+	public void processForCompletion(@RequiredReadAction @Nonnull Processor<PhpNamedElement> elementProcessor)
+	{
+		processElements(elementProcessor, null);
 	}
 
 	private boolean processElements(Processor<PhpNamedElement> processor, @Nullable String fieldName)

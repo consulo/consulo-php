@@ -1,24 +1,26 @@
 package consulo.php.completion;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.psi.impl.PhpConstantReferenceImpl;
+import consulo.php.lang.psi.impl.PhpFieldReferenceImpl;
 import consulo.php.lang.psi.impl.PhpFunctionReferenceImpl;
 import consulo.php.lang.psi.impl.PhpVariableReferenceImpl;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author VISTALL
@@ -95,6 +97,26 @@ public class PhpCompletionContributor extends CompletionContributor
 				result.addAllElements(lookupItemsForClasses);
 
 				result.addAllElements(Arrays.asList(PhpVariantsUtil.getLookupItems(defines, usageContext)));
+			}
+			else if(parent instanceof PhpFieldReferenceImpl)
+			{
+				UsageContext usageContext = new UsageContext();
+				final PhpClass contextClass = PsiTreeUtil.getParentOfType(parent, PhpClass.class);
+				if(contextClass != null)
+				{
+					usageContext.setClassForAccessFilter(contextClass);
+				}
+
+				usageContext.setCallingObjectClass(contextClass);
+
+				PsiElement objectReference = ((PhpFieldReferenceImpl) parent).getObjectReference();
+
+				((PhpFieldReferenceImpl) parent).processForCompletion(e -> {
+					LookupElement lookupElement = PhpVariantsUtil.getLookupItem(e, usageContext, objectReference == null ? PhpNamingPolicy.NOTHING : PhpNamingPolicy.WITHOUT_DOLLAR);
+					result.addElement(lookupElement);
+					return true;
+				});
+
 			}
 			else if(parent instanceof PhpFunctionReferenceImpl)
 			{

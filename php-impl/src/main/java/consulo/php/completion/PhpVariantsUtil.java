@@ -74,7 +74,14 @@ public class PhpVariantsUtil
 	@RequiredReadAction
 	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context)
 	{
-		LookupElementBuilder builder = LookupElementBuilder.create(element, element.getName());
+		return getLookupItem(element, context, PhpNamingPolicy.NOTHING);
+	}
+
+	@Nonnull
+	@RequiredReadAction
+	public static LookupElement getLookupItem(PhpNamedElement element, UsageContext context, @Nonnull PhpNamingPolicy namingPolicy)
+	{
+		LookupElementBuilder builder = LookupElementBuilder.create(element, String.valueOf(namingPolicy.getName(element)));
 		builder = builder.withIcon(IconDescriptorUpdaters.getIcon(element, Iconable.ICON_FLAG_VISIBILITY));
 
 		if(context != null)
