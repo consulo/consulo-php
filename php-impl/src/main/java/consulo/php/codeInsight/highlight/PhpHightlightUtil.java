@@ -45,8 +45,6 @@ public class PhpHightlightUtil
 
 		if(isSelfQualifier(classReference) && resolvedElement instanceof PhpElementWithModifier && !((PhpElementWithModifier) resolvedElement).getModifier().isStatic())
 		{
-			System.out.println(((PhpElementWithModifier) resolvedElement).getModifier());
-
 			String name = ((PhpNamedElement) resolvedElement).getName();
 			holder.add(HighlightInfo.newHighlightInfo(HighlightInfoType.ERROR).range(referenceElement).descriptionAndTooltip("'" + name + "' is not static").createUnconditionally());
 		}
