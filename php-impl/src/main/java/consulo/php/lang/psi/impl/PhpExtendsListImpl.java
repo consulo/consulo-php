@@ -1,14 +1,15 @@
 package consulo.php.lang.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.intellij.lang.ASTNode;
+import com.intellij.util.ObjectUtil;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ExtendsList;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import consulo.annotations.RequiredReadAction;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author jay
@@ -27,24 +28,15 @@ public class PhpExtendsListImpl extends PhpElementImpl implements ExtendsList
 		visitor.visitPhpElement(this);
 	}
 
+	@RequiredReadAction
 	@Override
 	@Nullable
 	public PhpClass getExtendsClass()
 	{
-		final PsiElement[] children = getChildren();
-		assert children.length <= 1;
-		if(children.length > 0)
+		ClassReference reference = findChildByClass(ClassReference.class);
+		if(reference != null)
 		{
-			final PsiElement element = children[0];
-			if(element instanceof ClassReference)
-			{
-				//noinspection ConstantConditions
-				final PsiElement resolveResult = element.getReference().resolve();
-				if(resolveResult instanceof PhpClass)
-				{
-					return (PhpClass) resolveResult;
-				}
-			}
+			return ObjectUtil.tryCast(reference.resolve(), PhpClass.class);
 		}
 		return null;
 	}

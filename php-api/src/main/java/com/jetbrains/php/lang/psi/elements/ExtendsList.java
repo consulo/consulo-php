@@ -1,5 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.annotations.RequiredReadAction;
+
 import javax.annotation.Nullable;
 
 /**
@@ -9,5 +11,6 @@ import javax.annotation.Nullable;
 public interface ExtendsList extends PhpPsiElement
 {
 	@Nullable
-	public PhpClass getExtendsClass();
+	@RequiredReadAction
+	PhpClass getExtendsClass();
 }
