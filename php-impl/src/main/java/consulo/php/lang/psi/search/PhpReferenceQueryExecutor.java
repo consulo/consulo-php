@@ -1,14 +1,15 @@
 package consulo.php.lang.psi.search;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.application.QueryExecutorBase;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Processor;
+import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.Variable;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -28,6 +29,11 @@ public class PhpReferenceQueryExecutor extends QueryExecutorBase<PsiReference, R
 		if(elementToSearch instanceof PhpClass)
 		{
 			queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, elementToSearch);
+		}
+		else if(elementToSearch instanceof Field)
+		{
+			CharSequence nameCS = ((Field) elementToSearch).getNameCS();
+			queryParameters.getOptimizer().searchWord(nameCS.toString(), queryParameters.getEffectiveSearchScope(), true, elementToSearch);
 		}
 	}
 }

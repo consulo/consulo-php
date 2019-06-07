@@ -1,19 +1,18 @@
 package consulo.php.lang.findUsages;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import com.jetbrains.php.lang.psi.elements.Constant;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.PhpNamespace;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.intellij.psi.tree.TokenSet;
+import com.jetbrains.php.lang.psi.elements.*;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.lang.lexer.PhpFlexLexer;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.PhpTokenSets;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author jay
@@ -25,7 +24,8 @@ public class PhpFindUsagesProvider implements FindUsagesProvider
 	@Nullable
 	public WordsScanner getWordsScanner()
 	{
-		return new PhpWordsScanner();
+		return new DefaultWordsScanner(new PhpFlexLexer(false, PhpLanguageLevel.HIGHEST), TokenSet.create(PhpTokenTypes.VARIABLE, PhpTokenSets.IDENTIFIER), PhpTokenSets.tsCOMMENTS, PhpTokenSets
+				.tsSTRINGS);
 	}
 
 	@Override
