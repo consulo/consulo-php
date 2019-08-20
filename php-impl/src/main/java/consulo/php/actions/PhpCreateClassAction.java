@@ -1,11 +1,5 @@
 package consulo.php.actions;
 
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.velocity.runtime.parser.ParseException;
 import com.intellij.ide.IdeView;
 import com.intellij.ide.actions.CreateFileAction;
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
@@ -34,6 +28,12 @@ import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.util.PhpPsiUtil;
 import consulo.php.module.extension.PhpModuleExtension;
+import consulo.php.module.util.PhpModuleExtensionUtil;
+import org.apache.velocity.runtime.parser.ParseException;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * @author VISTALL
@@ -48,7 +48,8 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 
 	@SuppressWarnings("DialogTitleCapitalization")
 	@Nullable
-	public static com.intellij.psi.PsiFile createFileFromTemplate(@Nullable String name, @Nonnull FileTemplate template, @Nonnull PsiDirectory dir, @Nullable String defaultTemplateProperty)
+	@RequiredReadAction
+	public static PsiFile createFileFromTemplate(@Nullable String name, @Nonnull FileTemplate template, @Nonnull PsiDirectory dir, @Nullable String defaultTemplateProperty)
 	{
 		CreateFileAction.MkDirs mkdirs = new CreateFileAction.MkDirs(name, dir);
 		name = mkdirs.newName;
@@ -59,8 +60,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 		{
 			Map<String, Object> defaultProperties = FileTemplateManager.getInstance(project).getDefaultVariables();
 
-			PhpModuleExtension<?> phpModuleExtension = getPhpModuleExtension(dir);
-			if(phpModuleExtension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_3))
+			if(PhpModuleExtensionUtil.getLanguageLevel(dir).isAtLeast(PhpLanguageLevel.PHP_5_3))
 			{
 				PhpPackage psiPackage = PhpPsiUtil.findPackage(project, dir);
 
@@ -126,29 +126,15 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 	}
 
 	@Override
+	@RequiredReadAction
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
 		builder.setTitle("Create New Class").addKind("Class", TargetAWT.to(PhpIcons.Class), "PHP Class").addKind("Interface", TargetAWT.to(PhpIcons.Interface), "PHP Interface");
 
-		PhpModuleExtension extension = getPhpModuleExtension(psiDirectory);
-
-		if(extension.getLanguageLevel().isAtLeast(PhpLanguageLevel.PHP_5_4))
+		if(PhpModuleExtensionUtil.getLanguageLevel(psiDirectory).isAtLeast(PhpLanguageLevel.PHP_5_4))
 		{
 			builder.addKind("Trait", TargetAWT.to(PhpIcons.Trait), "Php Trait");
 		}
-	}
-
-	@RequiredReadAction
-	private static PhpModuleExtension getPhpModuleExtension(PsiDirectory psiDirectory)
-	{
-		Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(psiDirectory);
-
-		assert moduleForPsiElement != null;
-
-		PhpModuleExtension extension = ModuleUtilCore.getExtension(moduleForPsiElement, PhpModuleExtension.class);
-
-		assert extension != null;
-		return extension;
 	}
 
 	@Override
