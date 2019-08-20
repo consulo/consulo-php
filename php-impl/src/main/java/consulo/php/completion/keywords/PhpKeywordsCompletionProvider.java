@@ -59,36 +59,36 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 	private static void setBasicStatementKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElement(resultSet, PhpKeywords.CLONE, PhpKeywords.ECHO, PhpKeywords.FOR,
+		fillLookupElement(resultSet, PhpKeywords.CLONE, PhpKeywords.ECHO, PhpKeywords.FOR,
 				PhpKeywords.FOREACH, PhpKeywords.GLOBAL, PhpKeywords.IF,
 				PhpKeywords.NEW, PhpKeywords.PRINT, PhpKeywords.SWITCH, PhpKeywords.THROW,
 				PhpKeywords.TRY, PhpKeywords.WHILE);
 
 		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3))
 		{
-			addLookupElement(resultSet, PhpKeywords.GOTO);
+			fillLookupElement(resultSet, PhpKeywords.GOTO);
 		}
 
 		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_5))
 		{
-			addLookupElement(resultSet, PhpKeywords.YIELD);
+			fillLookupElement(resultSet, PhpKeywords.YIELD);
 		}
 	}
 
 	private static void setGlobalKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.FUNCTION, PhpKeywords.EXTENDS,
+		fillLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.FUNCTION, PhpKeywords.EXTENDS,
 				PhpKeywords.CLASS, PhpKeywords.INTERFACE,
 				PhpKeywords.USE);
 
 		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3))
 		{
-			addLookupElement(resultSet, PhpKeywords.NAMESPACE);
+			fillLookupElement(resultSet, PhpKeywords.NAMESPACE);
 		}
 
 		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_4))
 		{
-			addLookupElement(resultSet, PhpKeywords.TRAIT);
+			fillLookupElement(resultSet, PhpKeywords.TRAIT);
 		}
 
 		setBasicStatementKeywords(resultSet, languageLevel);
@@ -96,7 +96,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 	private static void setKeywordsForClassParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.CONST, PhpKeywords.FINAL,
+		fillLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.CONST, PhpKeywords.FINAL,
 				PhpKeywords.PUBLIC, PhpKeywords.PRIVATE, PhpKeywords.PROTECTED,
 				PhpKeywords.STATIC, PhpKeywords.FUNCTION, PhpKeywords.USE,
 				PhpKeywords.VAR, PhpKeywords.EXTENDS, PhpKeywords.IMPLEMENTS);
@@ -104,7 +104,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 	private static void setKeywordsForFunctionParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElement(resultSet, PhpKeywords.RETURN);
+		fillLookupElement(resultSet, PhpKeywords.RETURN);
 
 		setBasicStatementKeywords(resultSet, languageLevel);
 	}
@@ -117,7 +117,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 		setKeywordsForFunctionParent(resultSet, languageLevel);
 	}
 
-	private static void addLookupElement(CompletionResultSet resultSet, String... elements)
+	private static void fillLookupElement(CompletionResultSet resultSet, String... elements)
 	{
 		for(String element : elements)
 		{
