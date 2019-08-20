@@ -8,7 +8,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import consulo.annotations.RequiredReadAction;
 import consulo.codeInsight.completion.CompletionProvider;
+import consulo.php.PhpLanguageLevel;
 import consulo.php.lang.psi.impl.*;
+import consulo.php.module.util.PhpModuleExtensionUtil;
 
 import javax.annotation.Nonnull;
 
@@ -25,6 +27,8 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 		PsiElement position = completionParameters.getPosition();
 		PsiElement parent = position.getParent();
 
+		PhpLanguageLevel languageLevel = PhpModuleExtensionUtil.getLanguageLevel(position);
+
 		if(parent instanceof PhpFieldReferenceImpl)
 		{
 			return; // skip for $var->...
@@ -32,7 +36,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 		if(parent instanceof PhpClassImpl)
 		{
-			setKeywordsForClassParent(completionResultSet);
+			setKeywordsForClassParent(completionResultSet, languageLevel);
 		}
 		else if(parent.getParent() instanceof PhpGroupStatementImpl)
 		{
@@ -40,64 +44,84 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 			if(parent instanceof PhpClassMethodImpl)
 			{
-				setKeywordsForClassMethodParent(completionResultSet);
+				setKeywordsForClassMethodParent(completionResultSet, languageLevel);
 			}
 			else if(parent instanceof PhpFunctionImpl)
 			{
-				setKeywordsForFunctionParent(completionResultSet);
+				setKeywordsForFunctionParent(completionResultSet, languageLevel);
 			}
 			else if(parent instanceof PhpFileImpl)
 			{
-				setGlobalKeywords(completionResultSet);
+				setGlobalKeywords(completionResultSet, languageLevel);
 			}
 		}
 	}
 
-	private static void setBasicStatementKeywords(CompletionResultSet resultSet)
+	private static void setBasicStatementKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElements(resultSet, PhpKeywords.CLONE, PhpKeywords.ECHO, PhpKeywords.FOR,
-				PhpKeywords.FOREACH, PhpKeywords.GLOBAL, PhpKeywords.GOTO, PhpKeywords.IF,
+		addLookupElement(resultSet, PhpKeywords.CLONE, PhpKeywords.ECHO, PhpKeywords.FOR,
+				PhpKeywords.FOREACH, PhpKeywords.GLOBAL, PhpKeywords.IF,
 				PhpKeywords.NEW, PhpKeywords.PRINT, PhpKeywords.SWITCH, PhpKeywords.THROW,
-				PhpKeywords.TRY, PhpKeywords.WHILE, PhpKeywords.YIELD);
+				PhpKeywords.TRY, PhpKeywords.WHILE);
+
+		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3))
+		{
+			addLookupElement(resultSet, PhpKeywords.GOTO);
+		}
+
+		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_5))
+		{
+			addLookupElement(resultSet, PhpKeywords.YIELD);
+		}
 	}
 
-	private static void setGlobalKeywords(CompletionResultSet resultSet)
+	private static void setGlobalKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElements(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.FUNCTION, PhpKeywords.EXTENDS,
-				PhpKeywords.CLASS, PhpKeywords.NAMESPACE, PhpKeywords.INTERFACE,
-				PhpKeywords.TRAIT, PhpKeywords.USE);
+		addLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.FUNCTION, PhpKeywords.EXTENDS,
+				PhpKeywords.CLASS, PhpKeywords.INTERFACE,
+				PhpKeywords.USE);
 
-		setBasicStatementKeywords(resultSet);
+		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3))
+		{
+			addLookupElement(resultSet, PhpKeywords.NAMESPACE);
+		}
+
+		if(languageLevel.isAtLeast(PhpLanguageLevel.PHP_5_4))
+		{
+			addLookupElement(resultSet, PhpKeywords.TRAIT);
+		}
+
+		setBasicStatementKeywords(resultSet, languageLevel);
 	}
 
-	private static void setKeywordsForClassParent(CompletionResultSet resultSet)
+	private static void setKeywordsForClassParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElements(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.CONST, PhpKeywords.FINAL,
+		addLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.CONST, PhpKeywords.FINAL,
 				PhpKeywords.PUBLIC, PhpKeywords.PRIVATE, PhpKeywords.PROTECTED,
 				PhpKeywords.STATIC, PhpKeywords.FUNCTION, PhpKeywords.USE,
 				PhpKeywords.VAR, PhpKeywords.EXTENDS, PhpKeywords.IMPLEMENTS);
 	}
 
-	private static void setKeywordsForFunctionParent(CompletionResultSet resultSet)
+	private static void setKeywordsForFunctionParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
-		addLookupElements(resultSet, PhpKeywords.RETURN);
+		addLookupElement(resultSet, PhpKeywords.RETURN);
 
-		setBasicStatementKeywords(resultSet);
+		setBasicStatementKeywords(resultSet, languageLevel);
 	}
 
-	private static void addLookupElements(CompletionResultSet resultSet, String... elements)
+	private static void setKeywordsForClassMethodParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	{
+		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.SELF).bold());
+		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.PARENT).bold());
+
+		setKeywordsForFunctionParent(resultSet, languageLevel);
+	}
+
+	private static void addLookupElement(CompletionResultSet resultSet, String... elements)
 	{
 		for(String element : elements)
 		{
 			resultSet.addElement(LookupElementBuilder.create(element).bold().withInsertHandler(AddSpaceInsertHandler.INSTANCE));
 		}
-	}
-
-	private static void setKeywordsForClassMethodParent(CompletionResultSet resultSet)
-	{
-		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.SELF).bold());
-		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.PARENT).bold());
-
-		setKeywordsForFunctionParent(resultSet);
 	}
 }
