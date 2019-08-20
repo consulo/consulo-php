@@ -1,6 +1,5 @@
 package consulo.php.module.extension.impl;
 
-import javax.annotation.Nonnull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import consulo.module.extension.impl.ModuleInheritableNamedPointerImpl;
@@ -8,6 +7,8 @@ import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.roots.ModuleRootLayer;
 import consulo.util.pointers.NamedPointer;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -51,7 +52,7 @@ public class LanguageLevelModuleInheritableNamedPointerImpl extends ModuleInheri
 	{
 		for(PhpLanguageLevel value : PhpLanguageLevel.VALUES)
 		{
-			if(value.getId().equals(name))
+			if(value.getShortName().equals(name))
 			{
 				return value;
 			}

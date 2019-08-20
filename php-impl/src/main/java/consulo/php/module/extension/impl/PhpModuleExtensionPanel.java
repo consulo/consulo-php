@@ -1,12 +1,5 @@
 package consulo.php.module.extension.impl;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JPanel;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -23,6 +16,8 @@ import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.ui.RequiredUIAccess;
+
+import javax.swing.*;
 
 /**
  * @author VISTALL
@@ -55,7 +50,7 @@ public class PhpModuleExtensionPanel extends JPanel
 					setIcon(AllIcons.Nodes.Module);
 					append(((Module) value).getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
 
-					final PhpModuleExtension extension = ModuleUtilCore.getExtension((Module) value,PhpModuleExtension.class);
+					final PhpModuleExtension extension = ModuleUtilCore.getExtension((Module) value, PhpModuleExtension.class);
 					if(extension != null)
 					{
 						final PhpLanguageLevel languageLevel = extension.getLanguageLevel();
@@ -116,24 +111,20 @@ public class PhpModuleExtensionPanel extends JPanel
 			versionComboBox.setSelectedItem(inheritableLanguageLevel.get());
 		}
 
-		versionComboBox.addItemListener(new ItemListener()
+		versionComboBox.addItemListener(e ->
 		{
-			@Override
-			public void itemStateChanged(ItemEvent e)
+			final Object selectedItem = versionComboBox.getSelectedItem();
+			if(selectedItem instanceof Module)
 			{
-				final Object selectedItem = versionComboBox.getSelectedItem();
-				if(selectedItem instanceof Module)
-				{
-					inheritableLanguageLevel.set(((Module) selectedItem).getName(), null);
-				}
-				else if(selectedItem instanceof PhpLanguageLevel)
-				{
-					inheritableLanguageLevel.set(null, ((PhpLanguageLevel) selectedItem).getName());
-				}
-				else
-				{
-					inheritableLanguageLevel.set(selectedItem.toString(), null);
-				}
+				inheritableLanguageLevel.set(((Module) selectedItem).getName(), null);
+			}
+			else if(selectedItem instanceof PhpLanguageLevel)
+			{
+				inheritableLanguageLevel.set(null, ((PhpLanguageLevel) selectedItem).getShortName());
+			}
+			else
+			{
+				inheritableLanguageLevel.set(selectedItem.toString(), null);
 			}
 		});
 	}
