@@ -36,7 +36,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 		if(parent instanceof PhpClassImpl)
 		{
-			setKeywordsForClassParent(completionResultSet, languageLevel);
+			fillKeywordsForClassParent(completionResultSet, languageLevel);
 		}
 		else if(parent.getParent() instanceof PhpGroupStatementImpl)
 		{
@@ -44,20 +44,20 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 
 			if(parent instanceof PhpClassMethodImpl)
 			{
-				setKeywordsForClassMethodParent(completionResultSet, languageLevel);
+				fillKeywordsForClassMethodParent(completionResultSet, languageLevel);
 			}
 			else if(parent instanceof PhpFunctionImpl)
 			{
-				setKeywordsForFunctionParent(completionResultSet, languageLevel);
+				fillKeywordsForFunctionParent(completionResultSet, languageLevel);
 			}
 			else if(parent instanceof PhpFileImpl)
 			{
-				setGlobalKeywords(completionResultSet, languageLevel);
+				fillGlobalKeywords(completionResultSet, languageLevel);
 			}
 		}
 	}
 
-	private static void setBasicStatementKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	private static void fillBasicStatementKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
 		fillLookupElement(resultSet, PhpKeywords.CLONE, PhpKeywords.ECHO, PhpKeywords.FOR,
 				PhpKeywords.FOREACH, PhpKeywords.GLOBAL, PhpKeywords.IF,
@@ -75,7 +75,7 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 		}
 	}
 
-	private static void setGlobalKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	private static void fillGlobalKeywords(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
 		fillLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.FUNCTION, PhpKeywords.EXTENDS,
 				PhpKeywords.CLASS, PhpKeywords.INTERFACE,
@@ -91,10 +91,10 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 			fillLookupElement(resultSet, PhpKeywords.TRAIT);
 		}
 
-		setBasicStatementKeywords(resultSet, languageLevel);
+		fillBasicStatementKeywords(resultSet, languageLevel);
 	}
 
-	private static void setKeywordsForClassParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	private static void fillKeywordsForClassParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
 		fillLookupElement(resultSet, PhpKeywords.ABSTRACT, PhpKeywords.CONST, PhpKeywords.FINAL,
 				PhpKeywords.PUBLIC, PhpKeywords.PRIVATE, PhpKeywords.PROTECTED,
@@ -102,19 +102,19 @@ public class PhpKeywordsCompletionProvider implements CompletionProvider
 				PhpKeywords.VAR, PhpKeywords.EXTENDS, PhpKeywords.IMPLEMENTS);
 	}
 
-	private static void setKeywordsForFunctionParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	private static void fillKeywordsForFunctionParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
 		fillLookupElement(resultSet, PhpKeywords.RETURN);
 
-		setBasicStatementKeywords(resultSet, languageLevel);
+		fillBasicStatementKeywords(resultSet, languageLevel);
 	}
 
-	private static void setKeywordsForClassMethodParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
+	private static void fillKeywordsForClassMethodParent(CompletionResultSet resultSet, PhpLanguageLevel languageLevel)
 	{
 		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.SELF).bold());
 		resultSet.addElement(LookupElementBuilder.create(PhpKeywords.PARENT).bold());
 
-		setKeywordsForFunctionParent(resultSet, languageLevel);
+		fillKeywordsForFunctionParent(resultSet, languageLevel);
 	}
 
 	private static void fillLookupElement(CompletionResultSet resultSet, String... elements)
