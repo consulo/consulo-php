@@ -1,29 +1,16 @@
 package consulo.php.composer.importProvider;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.intellij.ide.util.newProjectWizard.ProjectNameStep;
-import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.module.ModifiableModuleModel;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.packaging.artifacts.ModifiableArtifactModel;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.annotations.RequiredReadAction;
 import consulo.moduleImport.ModuleImportContext;
@@ -34,6 +21,10 @@ import consulo.php.module.extension.PhpMutableModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import consulo.roots.impl.ProductionContentFolderTypeProvider;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.util.function.Consumer;
 
 /**
  * @author VISTALL
@@ -68,26 +59,11 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 		return new File(file, ComposerFileTypeFactory.COMPOSER_JSON).exists();
 	}
 
-	@Override
-	public ModuleWizardStep[] createSteps(@Nonnull WizardContext context, @Nonnull ModuleImportContext moduleImportContext)
-	{
-		return new ModuleWizardStep[]{new ProjectNameStep(context)};
-	}
-
-	@Nonnull
-	@Override
 	@RequiredReadAction
-	public List<Module> commit(@Nonnull ModuleImportContext moduleImportContext,
-							   @Nonnull Project project,
-							   @Nullable ModifiableModuleModel originalModuleModel,
-							   @Nonnull ModulesProvider modulesProvider,
-							   @Nullable ModifiableArtifactModel modifiableArtifactModel)
+	@Override
+	public void process(@Nonnull ModuleImportContext context, @Nonnull Project project, @Nonnull ModifiableModuleModel modifiableModuleModel, @Nonnull Consumer<Module> consumer)
 	{
-		ModifiableModuleModel targetModuleModel = originalModuleModel == null ? ModuleManager.getInstance(project).getModifiableModel() : originalModuleModel;
-
-		List<Module> modules = new ArrayList<>();
-
-		String fileToImport = moduleImportContext.getFileToImport();
+		String fileToImport = context.getFileToImport();
 
 		File targetDirectory = new File(fileToImport);
 
@@ -95,8 +71,8 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 
 		assert targetVFile != null;
 
-		Module rootModule = targetModuleModel.newModule(targetDirectory.getName(), targetDirectory.getPath());
-		modules.add(rootModule);
+		Module rootModule = modifiableModuleModel.newModule(targetDirectory.getName(), targetDirectory.getPath());
+		consumer.accept(rootModule);
 
 		ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(rootModule);
 
@@ -115,12 +91,5 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 		modifiableModel.addModuleExtensionSdkEntry(phpModuleExtension);
 
 		WriteAction.run(modifiableModel::commit);
-
-		if(originalModuleModel == null)
-		{
-			WriteAction.run(targetModuleModel::commit);
-		}
-
-		return modules;
 	}
 }
