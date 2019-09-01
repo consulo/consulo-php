@@ -9,11 +9,9 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.php.completion.keywords.PhpKeywordsCompletionProvider;
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.psi.impl.PhpConstantReferenceImpl;
-import consulo.php.lang.psi.impl.PhpFieldReferenceImpl;
-import consulo.php.lang.psi.impl.PhpFunctionReferenceImpl;
-import consulo.php.lang.psi.impl.PhpVariableReferenceImpl;
+import consulo.php.lang.psi.impl.*;
 import consulo.php.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.lang.psi.resolve.ResolveUtil;
@@ -49,6 +47,7 @@ public class PhpCompletionContributor extends CompletionContributor
 			}
 		});
 
+		extend(CompletionType.BASIC, StandardPatterns.psiElement(PhpTokenTypes.IDENTIFIER), new PhpKeywordsCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.psiElement(PhpTokenTypes.IDENTIFIER), (parameters, context, result) -> {
 			PsiElement position = parameters.getPosition();
 
