@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.intellij.openapi.util.text.StringUtil;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.index.PhpIndexKeys;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.php.lang.psi.impl.PhpClassImpl;

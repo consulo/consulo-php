@@ -3,7 +3,7 @@ package consulo.php.module.util;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.psi.PsiElement;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 

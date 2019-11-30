@@ -7,7 +7,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.util.PhpModuleExtensionUtil;

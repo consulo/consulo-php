@@ -13,16 +13,16 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.intellij.util.ArrayFactory;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElement<PhpParameterStub>
 {

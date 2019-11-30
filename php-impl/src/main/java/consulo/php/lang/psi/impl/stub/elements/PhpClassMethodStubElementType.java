@@ -11,7 +11,7 @@ import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Method;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.lang.psi.impl.PhpClassMethodImpl;
 import consulo.php.lang.psi.impl.stub.PhpClassMethodStubImpl;
 

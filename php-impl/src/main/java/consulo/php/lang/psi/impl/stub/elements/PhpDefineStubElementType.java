@@ -13,7 +13,7 @@ import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import com.jetbrains.php.lang.psi.stubs.PhpConstantStub;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.index.PhpIndexKeys;
 import consulo.php.lang.psi.impl.PhpDefineImpl;
 import consulo.php.lang.psi.impl.stub.PhpConstantStubImpl;

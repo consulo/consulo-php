@@ -1,23 +1,18 @@
 package consulo.php.lang;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import com.jetbrains.php.lang.psi.elements.Function;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.Variable;
-import consulo.annotations.RequiredReadAction;
+import com.jetbrains.php.lang.psi.elements.*;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.ide.IconDescriptorUpdaters;
-import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import consulo.php.lang.psi.impl.PhpFileImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author AG

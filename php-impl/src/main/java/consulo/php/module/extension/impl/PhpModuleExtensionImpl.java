@@ -1,16 +1,16 @@
 package consulo.php.module.extension.impl;
 
-import javax.annotation.Nonnull;
-
-import org.jdom.Element;
 import com.intellij.openapi.projectRoots.SdkType;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.module.extension.ModuleInheritableNamedPointer;
 import consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import consulo.roots.ModuleRootLayer;
+import org.jdom.Element;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL

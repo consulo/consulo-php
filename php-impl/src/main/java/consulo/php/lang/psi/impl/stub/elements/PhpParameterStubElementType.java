@@ -13,7 +13,7 @@ import com.intellij.util.BitUtil;
 import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.lang.psi.impl.PhpParameterImpl;
 import consulo.php.lang.psi.impl.stub.PhpParameterStubImpl;
 

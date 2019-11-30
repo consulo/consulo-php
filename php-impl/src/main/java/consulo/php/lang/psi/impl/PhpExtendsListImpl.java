@@ -5,7 +5,7 @@ import com.intellij.util.ObjectUtil;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ExtendsList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;
 
 import javax.annotation.Nonnull;

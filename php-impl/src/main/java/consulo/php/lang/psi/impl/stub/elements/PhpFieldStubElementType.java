@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.lang.psi.impl.PhpFieldImpl;
 import consulo.php.lang.psi.impl.stub.PhpFieldStubImpl;
 import com.intellij.lang.ASTNode;

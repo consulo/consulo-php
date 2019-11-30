@@ -1,11 +1,11 @@
 package consulo.php;
 
-import javax.annotation.Nonnull;
-import consulo.annotations.Immutable;
-import consulo.lang.LanguageVersion;
 import com.jetbrains.php.lang.PhpLanguage;
+import consulo.lang.LanguageVersion;
 import consulo.util.pointers.Named;
 import consulo.util.pointers.NamedPointer;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -25,7 +25,6 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 
 	public static final PhpLanguageLevel HIGHEST = PHP_7_3;
 
-	@Immutable
 	public static final PhpLanguageLevel[] VALUES = new PhpLanguageLevel[]{
 			PHP_5_0,
 			PHP_5_3,

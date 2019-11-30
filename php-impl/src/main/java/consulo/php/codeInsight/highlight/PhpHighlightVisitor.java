@@ -19,7 +19,7 @@ import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.lang.highlighter.PhpHighlightingData;
 import consulo.php.lang.parser.PhpTokenSets;
 import consulo.php.lang.psi.visitors.PhpElementVisitor;

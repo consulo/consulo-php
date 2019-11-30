@@ -13,10 +13,11 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
+
+import javax.annotation.Nonnull;
 
 public interface PhpReturnType extends PhpPsiElement, PhpTypedElement
 {

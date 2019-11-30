@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.php.completion.ClassUsageContext;
 import consulo.php.completion.UsageContext;
 

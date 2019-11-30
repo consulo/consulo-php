@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 
 import javax.annotation.Nullable;
 

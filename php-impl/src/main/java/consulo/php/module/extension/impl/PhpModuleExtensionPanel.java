@@ -15,7 +15,7 @@ import consulo.module.extension.ModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
-import consulo.ui.RequiredUIAccess;
+import consulo.ui.annotation.RequiredUIAccess;
 
 import javax.swing.*;
 
