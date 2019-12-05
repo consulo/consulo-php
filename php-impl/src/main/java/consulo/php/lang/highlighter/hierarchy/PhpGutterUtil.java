@@ -1,13 +1,13 @@
 package consulo.php.lang.highlighter.hierarchy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
