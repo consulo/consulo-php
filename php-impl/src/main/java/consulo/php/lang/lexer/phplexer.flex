@@ -54,9 +54,6 @@ import consulo.php.PhpLanguageLevel;
 %unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
-
 
 LNUM =					[0-9]+
 DNUM =					([0-9]*[\.][0-9]+)|([0-9]+[\.][0-9]*)
