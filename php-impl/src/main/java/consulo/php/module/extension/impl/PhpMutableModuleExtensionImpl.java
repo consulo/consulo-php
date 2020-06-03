@@ -1,21 +1,26 @@
 package consulo.php.module.extension.impl;
 
-import com.intellij.openapi.projectRoots.Sdk;
-import consulo.module.extension.MutableModuleInheritableNamedPointer;
-import consulo.php.PhpLanguageLevel;
-import consulo.php.module.extension.PhpMutableModuleExtension;
-import consulo.roots.ModuleRootLayer;
-import consulo.ui.annotation.RequiredUIAccess;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
+
+import com.intellij.openapi.projectRoots.Sdk;
+import consulo.disposer.Disposable;
+import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.module.extension.swing.SwingMutableModuleExtension;
+import consulo.php.PhpLanguageLevel;
+import consulo.php.module.extension.PhpMutableModuleExtension;
+import consulo.roots.ModuleRootLayer;
+import consulo.ui.Component;
+import consulo.ui.Label;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.layout.VerticalLayout;
 
 /**
  * @author VISTALL
  * @since 04.07.13.
  */
-public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implements PhpMutableModuleExtension<PhpModuleExtensionImpl>
+public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implements PhpMutableModuleExtension<PhpModuleExtensionImpl>, SwingMutableModuleExtension
 {
 	public PhpMutableModuleExtensionImpl(@Nonnull String id, @Nonnull ModuleRootLayer module)
 	{
@@ -39,7 +44,15 @@ public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implem
 	@RequiredUIAccess
 	@Nullable
 	@Override
-	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
+	public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
+	{
+		return VerticalLayout.create().add(Label.create("Unsupported platform"));
+	}
+
+	@RequiredUIAccess
+	@Nullable
+	@Override
+	public JComponent createConfigurablePanel(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
 	{
 		return new PhpModuleExtensionPanel(this, runnable);
 	}
