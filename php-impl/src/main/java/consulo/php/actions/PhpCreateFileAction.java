@@ -22,7 +22,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 {
 	public PhpCreateFileAction()
 	{
-		super("Php File", "Create new Php File", TargetAWT.to(PhpIcons.Php));
+		super("Php File", "Create new Php File", PhpIcons.Php);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
-		builder.setTitle("Create File").addKind("File", TargetAWT.to(PhpIcons.Php), "PHP File");
+		builder.setTitle("Create File").addKind("File", PhpIcons.Php, "PHP File");
 	}
 
 	@Override
