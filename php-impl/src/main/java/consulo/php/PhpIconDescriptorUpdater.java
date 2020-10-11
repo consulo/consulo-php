@@ -38,19 +38,19 @@ public class PhpIconDescriptorUpdater implements IconDescriptorUpdater
 
 			if(phpClass.isInterface())
 			{
-				iconDescriptor.setMainIcon(PhpIcons.Interface);
+				iconDescriptor.setMainIcon(AllIcons.Nodes.Interface);
 			}
 			else if(phpClass.isTrait())
 			{
-				iconDescriptor.setMainIcon(PhpIcons.Trait);
+				iconDescriptor.setMainIcon(AllIcons.Nodes.Trait);
 			}
 			else if(phpClass.getModifier().isAbstract())
 			{
-				iconDescriptor.setMainIcon(PhpIcons.AbstractClass);
+				iconDescriptor.setMainIcon(AllIcons.Nodes.AbstractClass);
 			}
 			else
 			{
-				iconDescriptor.setMainIcon(PhpIcons.Class);
+				iconDescriptor.setMainIcon(AllIcons.Nodes.Class);
 			}
 
 			processModifierList(iconDescriptor, flags, (PhpElementWithModifier) element);

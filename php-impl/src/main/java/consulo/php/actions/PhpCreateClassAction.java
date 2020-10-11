@@ -1,5 +1,6 @@
 package consulo.php.actions;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeView;
 import com.intellij.ide.actions.CreateFileAction;
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
@@ -22,8 +23,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.php.PhpIcons;
 import consulo.php.PhpLanguageLevel;
+import consulo.php.icon.PhpIconGroup;
 import consulo.php.lang.psi.PhpPackage;
 import consulo.php.lang.psi.util.PhpPsiUtil;
 import consulo.php.module.extension.PhpModuleExtension;
@@ -42,7 +43,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 {
 	public PhpCreateClassAction()
 	{
-		super("Php Class", "Create new Php Class", PhpIcons.Php);
+		super("Php Class", "Create new Php Class", PhpIconGroup.fileTypesPhp());
 	}
 
 	@SuppressWarnings("DialogTitleCapitalization")
@@ -128,11 +129,11 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction
 	@RequiredReadAction
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
-		builder.setTitle("Create New Class").addKind("Class", PhpIcons.Class, "PHP Class").addKind("Interface", PhpIcons.Interface, "PHP Interface");
+		builder.setTitle("Create New Class").addKind("Class", AllIcons.Nodes.Class, "PHP Class").addKind("Interface", AllIcons.Nodes.Interface, "PHP Interface");
 
 		if(PhpModuleExtensionUtil.getLanguageLevel(psiDirectory).isAtLeast(PhpLanguageLevel.PHP_5_4))
 		{
-			builder.addKind("Trait", PhpIcons.Trait, "Php Trait");
+			builder.addKind("Trait", AllIcons.Nodes.Trait, "Php Trait");
 		}
 	}
 

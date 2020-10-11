@@ -7,7 +7,7 @@ import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.project.Project;
 import consulo.module.extension.ModuleExtensionHelper;
-import consulo.php.PhpIcons;
+import consulo.php.icon.PhpIconGroup;
 import consulo.php.module.extension.PhpModuleExtension;
 
 /**
@@ -24,7 +24,7 @@ public class PhpScriptConfigrationType extends ConfigurationTypeBase
 
 	private PhpScriptConfigrationType()
 	{
-		super("PhpScriptConfigrationType", "PHP Script", "", PhpIcons.Php);
+		super("PhpScriptConfigrationType", "PHP Script", "", PhpIconGroup.fileTypesPhp());
 
 		addFactory(new ConfigurationFactoryEx(this)
 		{

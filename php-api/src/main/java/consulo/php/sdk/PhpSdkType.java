@@ -1,14 +1,5 @@
 package consulo.php.sdk;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
@@ -22,11 +13,19 @@ import com.intellij.openapi.vfs.VirtualFile;
 import consulo.container.plugin.PluginManager;
 import consulo.logging.Logger;
 import consulo.php.PhpBundle;
-import consulo.php.PhpIcons;
+import consulo.php.icon.PhpIconGroup;
 import consulo.platform.Platform;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Maxim
@@ -138,6 +137,6 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Image getIcon()
 	{
-		return PhpIcons.Php;
+		return PhpIconGroup.fileTypesPhp();
 	}
 }

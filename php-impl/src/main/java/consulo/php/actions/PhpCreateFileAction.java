@@ -10,7 +10,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
-import consulo.php.PhpIcons;
+import consulo.php.icon.PhpIconGroup;
 import consulo.php.module.extension.PhpModuleExtension;
 
 /**
@@ -21,7 +21,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 {
 	public PhpCreateFileAction()
 	{
-		super("Php File", "Create new Php File", PhpIcons.Php);
+		super("Php File", "Create new Php File", PhpIconGroup.fileTypesPhp());
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class PhpCreateFileAction extends CreateFileFromTemplateAction
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder)
 	{
-		builder.setTitle("Create File").addKind("File", PhpIcons.Php, "PHP File");
+		builder.setTitle("Create File").addKind("File", PhpIconGroup.fileTypesPhp(), "PHP File");
 	}
 
 	@Override

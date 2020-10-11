@@ -16,7 +16,7 @@ import consulo.annotation.access.RequiredReadAction;
 import consulo.moduleImport.ModuleImportContext;
 import consulo.moduleImport.ModuleImportProvider;
 import consulo.php.composer.ComposerFileTypeFactory;
-import consulo.php.composer.ComposerIcons;
+import consulo.php.composer.icon.ComposerIconGroup;
 import consulo.php.module.extension.PhpMutableModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import consulo.roots.impl.ProductionContentFolderTypeProvider;
@@ -50,7 +50,7 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
 	@Override
 	public Image getIcon()
 	{
-		return ComposerIcons.Composer;
+		return ComposerIconGroup.composer();
 	}
 
 	@Override
