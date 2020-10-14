@@ -1,4 +1,4 @@
-<idea-plugin>
+<consulo-plugin>
 	<id>consulo.php</id>
 	<name>PHP</name>
 	<description>PHP support with refactoring</description>
@@ -27,7 +27,7 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="php"
-								 icon="/icons/fileTypes/php.png"
+								 icon="consulo.php.PhpIconGroup@filetypes.php"
 								 name="PHP"
 								 immutableClass="consulo.php.module.extension.impl.PhpModuleExtensionImpl"
 								 mutableClass="consulo.php.module.extension.impl.PhpMutableModuleExtensionImpl"/>
@@ -101,4 +101,4 @@
 		<fileTypeFactory implementation="consulo.php.composer.ComposerFileTypeFactory" />
 		<moduleImportProvider implementation="consulo.php.composer.importProvider.ComposerModuleImportProvider" />
 	</extensions>
-</idea-plugin>
+</consulo-plugin>
