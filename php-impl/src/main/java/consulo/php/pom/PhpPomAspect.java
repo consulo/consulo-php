@@ -2,8 +2,8 @@ package consulo.php.pom;
 
 import java.util.Collections;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import consulo.php.lang.psi.impl.PhpFileImpl;
 import com.intellij.lang.ASTNode;
