@@ -1,9 +1,9 @@
 package consulo.php.lang.documentation.phpdoc.parser.tags;
 
-import java.util.Map;
-
 import consulo.php.lang.parser.util.PhpPsiBuilder;
-import com.intellij.util.containers.HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jay
@@ -11,7 +11,6 @@ import com.intellij.util.containers.HashMap;
  */
 public class PhpDocTagParserRegistry
 {
-
 	private static PhpDocTagParser defaultParser;
 	private static Map<String, PhpDocTagParser> parsers = new HashMap<String, PhpDocTagParser>();
 
