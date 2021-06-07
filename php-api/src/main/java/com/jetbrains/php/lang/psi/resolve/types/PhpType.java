@@ -13,18 +13,6 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.resolve.types;
 
-import gnu.trove.THashSet;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -33,7 +21,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.SmartHashSet;
 import com.intellij.util.text.CaseInsensitiveStringHashingStrategy;
 import com.jetbrains.php.PhpClassHierarchyUtils;
 import com.jetbrains.php.PhpIndex;
@@ -41,6 +28,12 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpClassMember;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.util.collection.Sets;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class PhpType
 {
@@ -186,7 +179,7 @@ public class PhpType
 				}
 			if(types == null)
 			{
-				types = new SmartHashSet<>(CaseInsensitiveStringHashingStrategy.INSTANCE);
+				types = Sets.newHashSet(CaseInsensitiveStringHashingStrategy.INSTANCE);
 			}
 			if(types.size() > 50 && ApplicationManager.getApplication().isInternal())
 			{
@@ -222,8 +215,8 @@ public class PhpType
 				isComplete &= type.isComplete;
 				if(types == null)
 				{
-					types = type.types.size() < 2 ? new SmartHashSet<>(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE)
-							: new THashSet<>(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE);
+					types = type.types.size() < 2 ? Sets.newHashSet(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE)
+							: Sets.newHashSet(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE);
 				}
 				else
 				{
@@ -587,7 +580,7 @@ public class PhpType
 		//                   " this=[" + this + "] ");
 		try
 		{
-			return PhpIndex.getInstance(context.getProject()).completeThis(this, get$ThisClassFQN(context), new THashSet<>());
+			return PhpIndex.getInstance(context.getProject()).completeThis(this, get$ThisClassFQN(context), new HashSet<>());
 		}
 		catch(StackOverflowError e)
 		{
@@ -847,7 +840,7 @@ public class PhpType
 		int result = 0;
 		for(final String type : types)
 		{
-			result += CaseInsensitiveStringHashingStrategy.INSTANCE.computeHashCode(type); // the same as THashSet does
+			result += CaseInsensitiveStringHashingStrategy.INSTANCE.hashCode(type); // the same as THashSet does
 		}
 		return result;
 	}

@@ -6,7 +6,6 @@ import com.intellij.psi.tree.IElementType;
 import consulo.php.lang.lexer.managers.*;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
-import gnu.trove.THashSet;
 import java.util.Arrays;
 import java.util.Set;
 import consulo.php.PhpLanguageLevel;

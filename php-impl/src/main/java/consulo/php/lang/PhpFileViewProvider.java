@@ -1,17 +1,5 @@
 package consulo.php.lang;
 
-import gnu.trove.THashSet;
-
-import java.util.Arrays;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import com.jetbrains.php.lang.PhpLanguage;
-import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.php.lang.parser.PhpElementTypes;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageParserDefinitions;
 import com.intellij.lang.html.HTMLLanguage;
@@ -22,6 +10,15 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.psi.templateLanguages.TemplateDataElementType;
 import com.intellij.psi.templateLanguages.TemplateLanguageFileViewProvider;
+import com.jetbrains.php.lang.PhpLanguage;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.php.lang.parser.PhpElementTypes;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Maxim.Mossienko
@@ -30,7 +27,7 @@ import com.intellij.psi.templateLanguages.TemplateLanguageFileViewProvider;
  */
 public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProvider implements TemplateLanguageFileViewProvider
 {
-	private static final Set<Language> ourRelevantLanguages = new THashSet<Language>(Arrays.asList(HTMLLanguage.INSTANCE, PhpLanguage.INSTANCE));
+	private static final Set<Language> ourRelevantLanguages = new HashSet<Language>(Arrays.asList(HTMLLanguage.INSTANCE, PhpLanguage.INSTANCE));
 
 	public PhpFileViewProvider(PsiManager manager, VirtualFile file, boolean physical)
 	{

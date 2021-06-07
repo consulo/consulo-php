@@ -13,12 +13,6 @@
 // limitations under the License.
 package com.jetbrains.php;
 
-import gnu.trove.THashSet;
-
-import java.util.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Ref;
@@ -26,15 +20,12 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpClassAlias;
-import com.jetbrains.php.lang.psi.elements.PhpClassMember;
-import com.jetbrains.php.lang.psi.elements.PhpTraitUseRule;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public final class PhpClassHierarchyUtils
 {
@@ -233,7 +224,7 @@ public final class PhpClassHierarchyUtils
 										 @Nonnull HierarchyMethodProcessor methodProcessor,
 										 boolean processOwnMembersOnly)
 	{
-		return processMembersInternal(phpClass, new THashSet<>(), null, initialClass, methodProcessor, Method.INSTANCEOF,
+		return processMembersInternal(phpClass, new HashSet<>(), null, initialClass, methodProcessor, Method.INSTANCEOF,
 				processOwnMembersOnly);
 	}
 
@@ -242,11 +233,11 @@ public final class PhpClassHierarchyUtils
 										@Nonnull HierarchyFieldProcessor fieldProcessor,
 										boolean processOwnMembersOnly)
 	{
-		return processMembersInternal(phpClass, new THashSet<>(), null, initialClass, fieldProcessor, Field.INSTANCEOF, processOwnMembersOnly);
+		return processMembersInternal(phpClass, new HashSet<>(), null, initialClass, fieldProcessor, Field.INSTANCEOF, processOwnMembersOnly);
 	}
 
 	private static boolean processMembersInternal(@Nullable final PhpClass phpClass,
-												  @Nonnull THashSet<? super PhpClass> visited,
+												  @Nonnull Set<? super PhpClass> visited,
 												  @Nullable Map<String, PhpTraitUseRule> conflictResolution, final PhpClass initialClass,
 												  @Nonnull final HierarchyMemberProcessor processor, Condition<PsiElement> condition, boolean processOwnMembersOnly)
 	{
@@ -411,7 +402,7 @@ public final class PhpClassHierarchyUtils
 
 	public static boolean processSuperMembers(@Nonnull PhpClassMember member, @Nonnull final HierarchyClassMemberProcessor memberProcessor)
 	{
-		final THashSet<PhpClass> processed = new THashSet<>();
+		final HashSet<PhpClass> processed = new HashSet<>();
 		// TODO IMPROVE - potentially expensive call: leads to full PSI tree mat. on PHPDoc @property & @method
 		final String memberName = member.getName();
 		boolean fieldIsConstant = (member instanceof Field) && ((Field) member).isConstant();
@@ -520,7 +511,7 @@ public final class PhpClassHierarchyUtils
 		}
 		if(visited == null)
 		{
-			visited = new THashSet<>();
+			visited = new HashSet<>();
 		}
 		for(final PhpClass candidate : me.getTraits())
 		{

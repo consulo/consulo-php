@@ -1,13 +1,12 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import gnu.trove.THashSet;
-
-import java.util.Arrays;
-import java.util.Set;
-
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author jay
@@ -18,7 +17,7 @@ public interface Variable extends PhpPsiElement, PhpNamedElement, PsiPolyVariant
 	String THIS = "this";
 	String $THIS = "$this";
 
-	Set<String> SUPERGLOBALS = new THashSet<>(Arrays.asList(
+	Set<String> SUPERGLOBALS = new HashSet<>(Arrays.asList(
 			"GLOBALS",
 			"_COOKIE",
 			"_ENV",
