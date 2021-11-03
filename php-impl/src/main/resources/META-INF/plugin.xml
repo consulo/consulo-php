@@ -6,6 +6,11 @@
 	<depends>com.intellij.xml</depends>
 	<depends>consulo.javascript</depends>
 	<version>SNAPSHOT</version>
+	<category>Custom Languages</category>
+
+	<tags>
+		<tag>custom.language</tag>
+	</tags>
 
 	<actions>
 		<action id="PhpNewFile" class="consulo.php.actions.PhpCreateFileAction">
