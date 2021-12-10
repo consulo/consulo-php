@@ -1,13 +1,13 @@
 package com.jetbrains.php.lang;
 
+import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.localize.LocalizeValue;
+import consulo.php.icon.PhpIconGroup;
+import consulo.php.localize.PhpLocalize;
+import consulo.ui.image.Image;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import consulo.php.icon.PhpIconGroup;
-import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import consulo.php.PhpBundle;
-import consulo.ui.image.Image;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,9 +22,7 @@ public class PhpFileType extends LanguageFileType
 
 	public static final String DEFAULT_EXTENSION = "php";
 	public static final String NAME = "PHP";
-	public static final
-	@NonNls
-	String[] EXTENTIONS = new String[]{
+	public static final String[] EXTENTIONS = new String[]{
 			DEFAULT_EXTENSION,
 			"inc",
 			"phtml",
@@ -38,7 +36,6 @@ public class PhpFileType extends LanguageFileType
 
 	@Override
 	@Nonnull
-	@NonNls
 	public String getId()
 	{
 		return NAME;
@@ -46,14 +43,13 @@ public class PhpFileType extends LanguageFileType
 
 	@Override
 	@Nonnull
-	public String getDescription()
+	public LocalizeValue getDescription()
 	{
-		return PhpBundle.message("filetype.description");
+		return PhpLocalize.filetypeDescription();
 	}
 
 	@Override
 	@Nonnull
-	@NonNls
 	public String getDefaultExtension()
 	{
 		return DEFAULT_EXTENSION;
