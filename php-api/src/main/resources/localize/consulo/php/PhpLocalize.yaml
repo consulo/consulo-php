@@ -162,3 +162,5 @@ gutter.overriden.select.implementation.title:
   text: Choose implementation of {0}
 tab.structureview.view:
   text: PHP
+phar.archive.file.description:
+  text: Phar Archive

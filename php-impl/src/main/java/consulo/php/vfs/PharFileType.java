@@ -1,7 +1,10 @@
 package consulo.php.vfs;
 
-import javax.annotation.Nonnull;
 import consulo.fileTypes.ArchiveFileType;
+import consulo.localize.LocalizeValue;
+import consulo.php.localize.PhpLocalize;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -11,10 +14,18 @@ public class PharFileType extends ArchiveFileType
 {
 	public static final PharFileType INSTANCE = new PharFileType();
 
+	@Nonnull
 	@Override
 	public String getProtocol()
 	{
 		return PharFileSystem.PROTOCOL;
+	}
+
+	@Nonnull
+	@Override
+	public LocalizeValue getDescription()
+	{
+		return PhpLocalize.pharArchiveFileDescription();
 	}
 
 	@Nonnull
@@ -26,7 +37,7 @@ public class PharFileType extends ArchiveFileType
 
 	@Nonnull
 	@Override
-	public String getName()
+	public String getId()
 	{
 		return "PHAR_ARCHIVE";
 	}
