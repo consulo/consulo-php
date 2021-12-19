@@ -1,11 +1,5 @@
 package consulo.php.run.script;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.swing.JComponent;
-
 import com.intellij.application.options.ModuleListCellRenderer;
 import com.intellij.execution.CommonProgramRunConfigurationParameters;
 import com.intellij.execution.ui.CommonProgramParametersPanel;
@@ -22,6 +16,12 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.PhpFileType;
 import consulo.php.module.extension.PhpModuleExtension;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author VISTALL
@@ -72,7 +72,7 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersPanel
 
 		PhpScriptConfiguration phpScriptConfiguration = (PhpScriptConfiguration) configuration;
 
-		myScriptFileComponent.getComponent().setText(FileUtil.toSystemDependentName(phpScriptConfiguration.SCRIPT_PATH));
+		myScriptFileComponent.getComponent().setText(FileUtil.toSystemDependentName(StringUtil.notNullize(phpScriptConfiguration.SCRIPT_PATH)));
 		myModuleComponent.getComponent().setSelectedItem(((PhpScriptConfiguration) configuration).getConfigurationModule().getModule());
 	}
 
