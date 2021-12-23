@@ -1,4 +1,4 @@
-<consulo-plugin>
+<consulo-plugin url="https://github.com/consulo/consulo-php">
 	<id>consulo.php</id>
 	<name>PHP</name>
 	<description>PHP support with refactoring</description>
