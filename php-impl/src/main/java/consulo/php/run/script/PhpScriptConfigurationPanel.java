@@ -10,12 +10,13 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.LabeledComponent;
-import com.intellij.openapi.ui.TextBrowseFolderListener;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.PhpFileType;
+import consulo.awt.TargetAWT;
+import consulo.ide.ui.FileChooserTextBoxBuilder;
 import consulo.php.module.extension.PhpModuleExtension;
+import consulo.ui.annotation.RequiredUIAccess;
 import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
@@ -29,16 +30,21 @@ import java.util.List;
  */
 public class PhpScriptConfigurationPanel extends CommonProgramParametersPanel
 {
-	private LabeledComponent<TextFieldWithBrowseButton> myScriptFileComponent;
+	private final FileChooserTextBoxBuilder.Controller myController;
+	private LabeledComponent<JComponent> myScriptFileComponent;
 	private LabeledComponent<ComboBox<Module>> myModuleComponent;
 
+	@RequiredUIAccess
 	public PhpScriptConfigurationPanel(@Nonnull Project project)
 	{
 		super(false);
 
-		TextFieldWithBrowseButton component = new TextFieldWithBrowseButton();
-		component.addBrowseFolderListener(new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(PhpFileType.INSTANCE), project));
-		myScriptFileComponent = LabeledComponent.create(component, "Script Path");
+		FileChooserTextBoxBuilder scriptPathBuilder = FileChooserTextBoxBuilder.create(project);
+		scriptPathBuilder.fileChooserDescriptor(FileChooserDescriptorFactory.createSingleFileDescriptor(PhpFileType.INSTANCE));
+
+		myController = scriptPathBuilder.build();
+
+		myScriptFileComponent = LabeledComponent.create((JComponent) TargetAWT.to(myController.getComponent()), "Script Path");
 
 		List<Module> moduleList = new ArrayList<>();
 		for(Module module : ModuleManager.getInstance(project).getModules())
@@ -72,7 +78,7 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersPanel
 
 		PhpScriptConfiguration phpScriptConfiguration = (PhpScriptConfiguration) configuration;
 
-		myScriptFileComponent.getComponent().setText(FileUtil.toSystemDependentName(StringUtil.notNullize(phpScriptConfiguration.SCRIPT_PATH)));
+		myController.setValue(FileUtil.toSystemDependentName(StringUtil.notNullize(phpScriptConfiguration.SCRIPT_PATH)));
 		myModuleComponent.getComponent().setSelectedItem(((PhpScriptConfiguration) configuration).getConfigurationModule().getModule());
 	}
 
@@ -83,7 +89,7 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersPanel
 
 		PhpScriptConfiguration phpScriptConfiguration = (PhpScriptConfiguration) configuration;
 
-		phpScriptConfiguration.SCRIPT_PATH = FileUtil.toSystemIndependentName(myScriptFileComponent.getComponent().getText());
+		phpScriptConfiguration.SCRIPT_PATH = FileUtil.toSystemIndependentName(myController.getValue());
 
 		Object selectedItem = myModuleComponent.getComponent().getSelectedItem();
 		if(selectedItem instanceof Module)
