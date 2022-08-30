@@ -1,7 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.psi.PsiElement;
 
 /**
  * @author jay
@@ -9,11 +9,9 @@ import com.intellij.psi.tree.IElementType;
  */
 public interface BinaryExpression extends PhpPsiElement
 {
-
 	public PsiElement getLeftOperand();
 
 	public PsiElement getRightOperand();
 
 	public IElementType getOperation();
-
 }

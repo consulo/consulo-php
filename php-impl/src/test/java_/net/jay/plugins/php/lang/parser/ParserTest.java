@@ -5,11 +5,11 @@ import net.jay.plugins.php.utils.PathUtils;
 import net.jay.plugins.php.utils.TestUtils;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.DebugUtil;
-import consulo.php.lang.psi.visitors.PhpElementVisitor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiElementVisitor;
+import consulo.language.psi.PsiFile;
+import consulo.language.impl.DebugUtil;
+import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import junit.framework.Assert;
 import junit.framework.Test;
 

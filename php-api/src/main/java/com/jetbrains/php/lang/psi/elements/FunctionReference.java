@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiPolyVariantReference;
+import consulo.util.lang.function.Condition;
 
 public interface FunctionReference extends PsiPolyVariantReference, PhpReference, PhpExpression, ParameterListOwner
 {

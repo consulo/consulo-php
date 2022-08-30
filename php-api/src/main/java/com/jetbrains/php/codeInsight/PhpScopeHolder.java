@@ -13,13 +13,12 @@
 // limitations under the License.
 package com.jetbrains.php.codeInsight;
 
-import java.util.Set;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
-
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import java.util.Set;
 
 public interface PhpScopeHolder extends PhpPsiElement
 {

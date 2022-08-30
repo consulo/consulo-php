@@ -13,12 +13,12 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.psi.stubs.StubElement;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.language.psi.stub.StubElement;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
 
 public interface PhpTypedStub<T extends PhpTypedElement> extends StubElement<T>
 {

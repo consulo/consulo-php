@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang.patterns;
 
-import com.intellij.patterns.StandardPatterns;
+import consulo.language.pattern.StandardPatterns;
 
 /**
  * stub

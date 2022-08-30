@@ -1,23 +1,24 @@
 package consulo.php.sdk;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.CapturingProcessHandler;
-import com.intellij.execution.process.ProcessOutput;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.OrderRootType;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.container.plugin.PluginManager;
+import consulo.content.OrderRootType;
+import consulo.content.base.BinariesOrderRootType;
+import consulo.content.base.SourcesOrderRootType;
+import consulo.content.bundle.Sdk;
+import consulo.content.bundle.SdkModificator;
+import consulo.content.bundle.SdkType;
 import consulo.logging.Logger;
 import consulo.php.PhpBundle;
 import consulo.php.icon.PhpIconGroup;
 import consulo.platform.Platform;
-import consulo.roots.types.BinariesOrderRootType;
-import consulo.roots.types.SourcesOrderRootType;
+import consulo.process.ExecutionException;
+import consulo.process.cmd.GeneralCommandLine;
+import consulo.process.local.CapturingProcessHandler;
+import consulo.process.local.ProcessOutput;
 import consulo.ui.image.Image;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,6 +31,7 @@ import java.util.List;
 /**
  * @author Maxim
  */
+@ExtensionImpl
 public class PhpSdkType extends SdkType
 {
 	private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
@@ -137,6 +139,6 @@ public class PhpSdkType extends SdkType
 	@Override
 	public Image getIcon()
 	{
-		return PhpIconGroup.fileTypesPhp();
+		return PhpIconGroup.filetypesPhp();
 	}
 }

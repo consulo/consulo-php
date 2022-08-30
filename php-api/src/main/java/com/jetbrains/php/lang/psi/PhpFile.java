@@ -13,16 +13,16 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.ui.Queryable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.containers.MultiMap;
 import com.jetbrains.php.codeInsight.PhpScopeHolder;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.application.util.Queryable;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.util.collection.MultiMap;
+import consulo.util.lang.function.Condition;
+
+import javax.annotation.Nonnull;
 
 public interface PhpFile extends PsiFile, Queryable, PhpPsiElement, PhpScopeHolder
 {

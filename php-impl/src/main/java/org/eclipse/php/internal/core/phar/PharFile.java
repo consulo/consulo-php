@@ -24,11 +24,11 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import consulo.virtualFileSystem.archive.ArchiveFile;
 import org.eclipse.php.internal.core.phar.streams.CBZip2InputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.GZIPInputStreamForPhar;
 import org.eclipse.php.internal.core.phar.streams.PharEntryBufferedRandomInputStream;
-import consulo.vfs.impl.archive.ArchiveEntry;
-import consulo.vfs.impl.archive.ArchiveFile;
+import consulo.virtualFileSystem.archive.ArchiveEntry;
 
 public class PharFile implements ArchiveFile
 {
@@ -439,6 +439,11 @@ public class PharFile implements ArchiveFile
 	public int getSize()
 	{
 		return pharEntryList.size();
+	}
+
+	@Override
+	public void close() throws IOException
+	{
 	}
 
 	@Nullable

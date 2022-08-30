@@ -13,8 +13,8 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.function.Condition;
 
 public interface PhpYield extends StatementWithArgument, PhpExpression
 {

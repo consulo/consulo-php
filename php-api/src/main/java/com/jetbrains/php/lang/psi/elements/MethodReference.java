@@ -1,9 +1,9 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nullable;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiPolyVariantReference;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
+import javax.annotation.Nullable;
 
 /**
  * @author jay

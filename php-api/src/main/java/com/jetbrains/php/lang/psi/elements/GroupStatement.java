@@ -13,11 +13,11 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.function.Condition;
 
+import javax.annotation.Nonnull;
 public interface GroupStatement extends Statement
 {
 	Condition<PsiElement> INSTANCEOF = e -> e instanceof GroupStatement;

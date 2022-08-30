@@ -13,13 +13,13 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import java.util.List;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.ArrayFactory;
+import java.util.List;
 
 /**
  * This is actually a method reference.

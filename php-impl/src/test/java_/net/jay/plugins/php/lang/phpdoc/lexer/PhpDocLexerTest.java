@@ -3,15 +3,15 @@ package net.jay.plugins.php.lang.phpdoc.lexer;
 import java.util.ArrayList;
 import java.util.List;
 
+import consulo.language.lexer.Lexer;
+import consulo.util.lang.StringUtil;
 import net.jay.plugins.php.lang.lexer.LexerTest;
 import net.jay.plugins.php.utils.PathUtils;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.tree.IElementType;
-import consulo.php.lang.documentation.phpdoc.lexer.PhpDocLexer;
-import consulo.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import consulo.language.ast.IElementType;
+import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocLexer;
+import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import junit.framework.Test;
 
 /**

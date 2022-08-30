@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.psi.PsiReference;
+import consulo.language.psi.PsiReference;
 
 /**
  * @author jay
