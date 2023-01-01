@@ -1,7 +1,7 @@
 package consulo.php;
 
+import consulo.component.util.localize.AbstractBundle;
 import org.jetbrains.annotations.PropertyKey;
-import com.intellij.AbstractBundle;
 
 public class PhpBundle extends AbstractBundle
 {

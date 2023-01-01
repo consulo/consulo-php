@@ -13,8 +13,8 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
-import com.intellij.util.io.StringRef;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import consulo.index.io.StringRef;
 
 public interface PhpNamespaceStub extends PhpNamedStub<PhpNamespace>
 {

@@ -1,8 +1,8 @@
 package consulo.php.lang.psi;
 
-import org.jetbrains.annotations.NonNls;
-import com.intellij.psi.tree.IElementType;
 import com.jetbrains.php.lang.PhpLanguage;
+import consulo.language.ast.IElementType;
+import org.jetbrains.annotations.NonNls;
 
 /**
  * Created by IntelliJ IDEA.

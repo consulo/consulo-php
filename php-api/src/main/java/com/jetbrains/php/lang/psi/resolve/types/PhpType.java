@@ -13,22 +13,22 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.resolve.types;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.text.CaseInsensitiveStringHashingStrategy;
 import com.jetbrains.php.PhpClassHierarchyUtils;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpClassMember;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.elements.Variable;
+import consulo.application.ApplicationManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.HashingStrategy;
 import consulo.util.collection.Sets;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ref.Ref;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,8 +37,7 @@ import java.util.function.Predicate;
 
 public class PhpType
 {
-
-	private static final Logger LOG = Logger.getInstance("#com.jetbrains.php.PhpType");
+	private static final Logger LOG = Logger.getInstance(PhpType.class);
 
 	public static final String PHPSTORM_HELPERS = "___PHPSTORM_HELPERS";
 	public static final String _PHPSTORM_HELPERS_FQN = "\\___PHPSTORM_HELPERS";
@@ -179,7 +178,7 @@ public class PhpType
 				}
 			if(types == null)
 			{
-				types = Sets.newHashSet(CaseInsensitiveStringHashingStrategy.INSTANCE);
+				types = Sets.newHashSet(HashingStrategy.caseInsensitive());
 			}
 			if(types.size() > 50 && ApplicationManager.getApplication().isInternal())
 			{
@@ -215,8 +214,8 @@ public class PhpType
 				isComplete &= type.isComplete;
 				if(types == null)
 				{
-					types = type.types.size() < 2 ? Sets.newHashSet(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE)
-							: Sets.newHashSet(type.types, CaseInsensitiveStringHashingStrategy.INSTANCE);
+					types = type.types.size() < 2 ? Sets.newHashSet(type.types, HashingStrategy.caseInsensitive())
+							: Sets.newHashSet(type.types, HashingStrategy.caseInsensitive());
 				}
 				else
 				{
@@ -840,7 +839,7 @@ public class PhpType
 		int result = 0;
 		for(final String type : types)
 		{
-			result += CaseInsensitiveStringHashingStrategy.INSTANCE.hashCode(type); // the same as THashSet does
+			result += HashingStrategy.caseInsensitive().hashCode(type); // the same as THashSet does
 		}
 		return result;
 	}

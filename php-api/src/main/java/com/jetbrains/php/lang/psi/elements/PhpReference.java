@@ -13,16 +13,15 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import java.util.Collection;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiPolyVariantReference;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import java.util.Collection;
 
 public interface PhpReference extends PhpExpression, PhpTypedElement, PsiPolyVariantReference
 {

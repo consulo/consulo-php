@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import consulo.util.lang.StringUtil;
 import org.junit.Assert;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 
 /**
  * Created by IntelliJ IDEA.

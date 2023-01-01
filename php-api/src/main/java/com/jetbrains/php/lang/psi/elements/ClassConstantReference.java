@@ -1,7 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiPolyVariantReference;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

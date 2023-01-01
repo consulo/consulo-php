@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.resolve.types;
 
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.openapi.util.text.StringUtil;
 
 public enum PhpTypeSignatureKey
 {

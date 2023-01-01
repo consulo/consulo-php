@@ -1,7 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.util.ArrayFactory;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.util.collection.ArrayFactory;
 
 import javax.annotation.Nonnull;
 

@@ -9,7 +9,7 @@ import java.util.List;
 import net.jay.plugins.php.utils.FileScanner;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.lang.StringUtil;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 

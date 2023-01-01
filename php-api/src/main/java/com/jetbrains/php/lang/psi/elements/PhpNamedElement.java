@@ -13,13 +13,13 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.util.Processor;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import consulo.application.util.function.Processor;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiNameIdentifierOwner;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.function.Condition;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;

@@ -1,26 +1,27 @@
 package consulo.php.composer.importProvider;
 
-import com.intellij.openapi.application.WriteAction;
-import com.intellij.openapi.module.ModifiableModuleModel;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.SdkTable;
-import com.intellij.openapi.roots.ContentEntry;
-import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.containers.ContainerUtil;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.moduleImport.ModuleImportContext;
-import consulo.moduleImport.ModuleImportProvider;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.WriteAction;
+import consulo.content.bundle.Sdk;
+import consulo.content.bundle.SdkTable;
+import consulo.ide.moduleImport.ModuleImportContext;
+import consulo.ide.moduleImport.ModuleImportProvider;
+import consulo.language.content.ProductionContentFolderTypeProvider;
+import consulo.module.ModifiableModuleModel;
+import consulo.module.Module;
+import consulo.module.content.ModuleRootManager;
+import consulo.module.content.layer.ContentEntry;
+import consulo.module.content.layer.ModifiableRootModel;
 import consulo.php.composer.ComposerFileTypeFactory;
 import consulo.php.composer.icon.ComposerIconGroup;
 import consulo.php.module.extension.PhpMutableModuleExtension;
 import consulo.php.sdk.PhpSdkType;
-import consulo.roots.impl.ProductionContentFolderTypeProvider;
+import consulo.project.Project;
 import consulo.ui.image.Image;
+import consulo.util.collection.ContainerUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -30,6 +31,7 @@ import java.util.function.Consumer;
  * @author VISTALL
  * @since 2019-04-24
  */
+@ExtensionImpl
 public class ComposerModuleImportProvider implements ModuleImportProvider<ModuleImportContext>
 {
 	@Nonnull

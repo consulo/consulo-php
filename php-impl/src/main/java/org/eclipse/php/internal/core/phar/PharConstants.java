@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar;
 
-import com.intellij.openapi.util.SystemInfo;
+import consulo.application.util.SystemInfo;
 
 public class PharConstants
 {

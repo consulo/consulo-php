@@ -1,9 +1,9 @@
 package consulo.php;
 
 import com.jetbrains.php.lang.PhpLanguage;
-import consulo.lang.LanguageVersion;
-import consulo.util.pointers.Named;
-import consulo.util.pointers.NamedPointer;
+import consulo.component.util.pointer.Named;
+import consulo.component.util.pointer.NamedPointer;
+import consulo.language.version.LanguageVersion;
 
 import javax.annotation.Nonnull;
 

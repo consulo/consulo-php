@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.php.icon.PhpIconGroup;
 import consulo.php.localize.PhpLocalize;
@@ -59,6 +59,6 @@ public class PhpFileType extends LanguageFileType
 	@Nullable
 	public Image getIcon()
 	{
-		return PhpIconGroup.fileTypesPhp();
+		return PhpIconGroup.filetypesPhp();
 	}
 }

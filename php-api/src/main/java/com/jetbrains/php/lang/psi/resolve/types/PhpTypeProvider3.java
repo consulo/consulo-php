@@ -13,15 +13,16 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.resolve.types;
 
-import java.util.Collection;
-import java.util.Set;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ExtensionAPI;
+import consulo.component.extension.ExtensionPointName;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 
 import javax.annotation.Nullable;
-
-import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Extension point to implement to provide Type information on various PhpPsiElements.
@@ -29,9 +30,10 @@ import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
  * @deprecated use PhpTypeProviderLATEST, this will be dropped in 2019.2
  */
 @Deprecated
+@ExtensionAPI(ComponentScope.APPLICATION)
 public interface PhpTypeProvider3
 {
-	ExtensionPointName<PhpTypeProvider3> EP_NAME = ExtensionPointName.create("consulo.php.typeProvider3");
+	ExtensionPointName<PhpTypeProvider3> EP_NAME = ExtensionPointName.create(PhpTypeProvider3.class);
 
 	/**
 	 * @return Your custom signature key, i.e. "Я". Do not use any of PhpTypeSignatureKey.XXX constants though!

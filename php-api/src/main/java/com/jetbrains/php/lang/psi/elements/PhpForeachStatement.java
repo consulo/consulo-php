@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
 
 /**
  * @author jay

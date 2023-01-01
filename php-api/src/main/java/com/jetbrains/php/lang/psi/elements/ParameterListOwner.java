@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.psi.PsiElement;
 
 public interface ParameterListOwner extends PhpPsiElement
 {

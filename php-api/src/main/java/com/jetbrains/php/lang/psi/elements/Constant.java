@@ -13,9 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.function.Condition;
+
 import javax.annotation.Nullable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
 
 public interface Constant extends PhpNamedElement, RWAccess
 {

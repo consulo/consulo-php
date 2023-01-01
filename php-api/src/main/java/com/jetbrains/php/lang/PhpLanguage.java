@@ -1,14 +1,13 @@
 package com.jetbrains.php.lang;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.lang.Language;
-import com.intellij.psi.templateLanguages.TemplateLanguage;
-import consulo.lang.LanguageVersion;
+import consulo.language.Language;
+import consulo.language.template.TemplateLanguage;
+import consulo.language.version.LanguageVersion;
 import consulo.php.PhpLanguageLevel;
 
+import javax.annotation.Nonnull;
+
 /**
- * Created by IntelliJ IDEA.
  * User: jay
  * Date: 22.02.2007
  *
@@ -20,7 +19,7 @@ public class PhpLanguage extends Language implements TemplateLanguage
 
 	public PhpLanguage()
 	{
-		super("PHP");
+		super("PHP", "text/x-php", "text/php");
 	}
 
 	@Override

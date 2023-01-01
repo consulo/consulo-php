@@ -13,16 +13,17 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import java.util.Collection;
-import java.util.List;
+import consulo.language.psi.PsiElement;
+import consulo.navigation.NavigationItem;
+import consulo.util.collection.MultiMap;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.MultiMap;
+import java.util.Collection;
+import java.util.List;
 
-public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement
+public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement, NavigationItem
 {
 	String CLONE = "__clone";
 	String TO_STRING = "__toString";

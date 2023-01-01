@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.function.Condition;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
+import javax.annotation.Nonnull;
 
 public interface ArrayCreationExpression extends PhpExpression
 {

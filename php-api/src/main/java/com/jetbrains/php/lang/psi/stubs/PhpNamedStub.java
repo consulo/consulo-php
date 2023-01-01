@@ -13,8 +13,8 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
-import com.intellij.psi.stubs.NamedStub;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import consulo.language.psi.stub.NamedStub;
 
 public interface PhpNamedStub<T extends PhpNamedElement> extends NamedStub<T>, PhpTypedStub<T>
 {

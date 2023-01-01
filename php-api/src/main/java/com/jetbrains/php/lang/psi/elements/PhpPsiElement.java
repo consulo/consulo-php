@@ -1,7 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.util.ArrayFactory;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ArrayFactory;
 
 /**
  * Created by IntelliJ IDEA.

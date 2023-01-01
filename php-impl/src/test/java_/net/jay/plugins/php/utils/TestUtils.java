@@ -1,11 +1,11 @@
 package net.jay.plugins.php.utils;
 
-import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.LocalTimeCounter;
+import consulo.language.file.FileTypeManager;
+import consulo.project.Project;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileFactory;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.lang.LocalTimeCounter;
 import org.jetbrains.annotations.NonNls;
 
 /**
@@ -26,10 +26,11 @@ public class TestUtils {
      * @param project Current project
      * @param text    Content for file to be created
      * @return PsiFile - the resulting file
-     * @throws com.intellij.util.IncorrectOperationException
+     * @throws IncorrectOperationException
      *
      */
-    public static PsiFile createPseudoPhysicalFile(final Project project, final String text) throws IncorrectOperationException {
+    public static PsiFile createPseudoPhysicalFile(final Project project, final String text) throws IncorrectOperationException
+	{
         return PsiFileFactory.getInstance(project).createFileFromText(TEMP_FILE, FileTypeManager.getInstance().getFileTypeByFileName(TEMP_FILE),
                 text, LocalTimeCounter.currentTime(), true);
 	}

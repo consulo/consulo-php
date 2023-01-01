@@ -13,14 +13,14 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.document.util.TextRange;
+import consulo.language.psi.ContributedReferenceHost;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiLanguageInjectionHost;
+import consulo.util.lang.function.Condition;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.ContributedReferenceHost;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiLanguageInjectionHost;
 
 public interface StringLiteralExpression extends PsiLanguageInjectionHost, PhpExpression, ContributedReferenceHost
 {

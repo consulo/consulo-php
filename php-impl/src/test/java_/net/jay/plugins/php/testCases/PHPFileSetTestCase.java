@@ -1,6 +1,6 @@
 package net.jay.plugins.php.testCases;
 
-import com.intellij.openapi.project.Project;
+import consulo.project.Project;
 import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.TestFixtureBuilder;

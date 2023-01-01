@@ -13,15 +13,15 @@
 // limitations under the License.
 package com.jetbrains.php;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.Processor;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.application.util.function.Processor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.function.Condition;
+import consulo.util.lang.ref.Ref;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,7 +29,6 @@ import java.util.*;
 
 public final class PhpClassHierarchyUtils
 {
-
 	private static final NextElementsAppender<PhpClass> SUPER_CLASS_APPENDER_NOT_AMBIGUITY = new NextElementsAppender<PhpClass>()
 	{
 		@Override
