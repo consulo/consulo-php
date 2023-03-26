@@ -1,6 +1,5 @@
 package consulo.php.impl.codeInsight.highlight;
 
-import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotation.access.RequiredReadAction;
@@ -28,16 +27,9 @@ import javax.annotation.Nullable;
  * @author VISTALL
  * @since 19.09.13.
  */
-@ExtensionImpl
 public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightVisitor
 {
 	private HighlightInfoHolder myHolder;
-
-	@Override
-	public boolean suitableForFile(@Nonnull PsiFile psiFile)
-	{
-		return psiFile instanceof PhpFile;
-	}
 
 	@Override
 	public void visit(@Nonnull PsiElement element)
@@ -258,12 +250,5 @@ public class PhpHighlightVisitor extends PhpElementVisitor implements HighlightV
 			builder.textAttributes(key);
 		}
 		myHolder.add(builder.createUnconditionally());
-	}
-
-	@Nonnull
-	@Override
-	public HighlightVisitor clone()
-	{
-		return new PhpHighlightVisitor();
 	}
 }

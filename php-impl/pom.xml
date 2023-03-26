@@ -47,7 +47,6 @@
 				<artifactId>maven-consulo-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
-					<repositoryChannel>valhalla</repositoryChannel>
 					<packaging>
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>
