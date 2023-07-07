@@ -6,6 +6,7 @@ import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.php.icon.PhpIconGroup;
+import consulo.php.localize.PhpLocalize;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.project.Project;
 import jakarta.inject.Inject;
@@ -28,7 +29,7 @@ public class PhpScriptConfigrationType extends ConfigurationTypeBase
 	@Inject
 	PhpScriptConfigrationType()
 	{
-		super("PhpScriptConfigurationType", "PHP Script", "", PhpIconGroup.filetypesPhp());
+		super("PhpScriptConfigurationType", PhpLocalize.phpScriptConfigurationName(), PhpIconGroup.filetypesPhp());
 
 		addFactory(new ConfigurationFactory(this)
 		{
