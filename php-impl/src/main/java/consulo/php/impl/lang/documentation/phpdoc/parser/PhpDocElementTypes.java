@@ -1,13 +1,10 @@
 package consulo.php.impl.lang.documentation.phpdoc.parser;
 
-import javax.annotation.Nonnull;
-
+import com.jetbrains.php.lang.PhpLanguage;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.ILazyParseableElementType;
 import consulo.language.parser.PsiBuilder;
 import consulo.language.parser.PsiBuilderFactory;
-import consulo.language.ast.ILazyParseableElementType;
-import com.jetbrains.php.lang.PhpFileType;
-import consulo.language.Language;
-import consulo.language.ast.ASTNode;
 import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.version.LanguageVersion;
@@ -23,15 +20,8 @@ import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocElementType;
 public interface PhpDocElementTypes extends PhpDocTokenTypes
 {
 
-	final public ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment")
+	final public ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment", PhpLanguage.INSTANCE)
 	{
-		@Override
-		@Nonnull
-		public Language getLanguage()
-		{
-			return PhpFileType.INSTANCE.getLanguage();
-		}
-
 		@Override
 		public ASTNode parseContents(ASTNode chameleon)
 		{
