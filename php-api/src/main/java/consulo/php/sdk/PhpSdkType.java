@@ -14,8 +14,8 @@ import consulo.php.icon.PhpIconGroup;
 import consulo.platform.Platform;
 import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
-import consulo.process.local.ExecUtil;
-import consulo.process.local.ProcessOutput;
+import consulo.process.util.CapturingProcessUtil;
+import consulo.process.util.ProcessOutput;
 import consulo.ui.image.Image;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
@@ -77,7 +77,7 @@ public class PhpSdkType extends SdkType
 		args.add("--version");
 		try
 		{
-			ProcessOutput processOutput = ExecUtil.execAndGetOutput(new GeneralCommandLine(args).withWorkDirectory(home));
+			ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(new GeneralCommandLine(args).withWorkDirectory(home));
 			List<String> stdoutLines = processOutput.getStdoutLines();
 			return !stdoutLines.isEmpty() ? stdoutLines.get(0) : null;
 		}
