@@ -36,7 +36,7 @@ public class PhpModuleExtensionProvider implements ModuleExtensionProvider<PhpMo
 	@Override
 	public Image getIcon()
 	{
-		return PhpIconGroup.filetypesPhp();
+		return PhpIconGroup.php();
 	}
 
 	@Nonnull
