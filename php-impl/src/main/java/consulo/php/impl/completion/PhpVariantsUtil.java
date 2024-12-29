@@ -13,7 +13,7 @@ import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.php.impl.completion.insert.PhpClassConstructorInsertHandler;
 import consulo.php.impl.completion.insert.PhpMethodInsertHandler;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

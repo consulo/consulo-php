@@ -3,7 +3,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author jay

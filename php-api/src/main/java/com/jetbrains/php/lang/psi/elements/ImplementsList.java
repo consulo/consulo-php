@@ -2,7 +2,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

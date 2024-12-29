@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.stubs;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.jetbrains.php.lang.psi.elements.Parameter;
 

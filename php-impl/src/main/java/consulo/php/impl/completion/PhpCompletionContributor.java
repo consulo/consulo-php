@@ -19,7 +19,7 @@ import consulo.php.impl.lang.psi.resolve.PhpResolveProcessor;
 import consulo.php.impl.lang.psi.resolve.PhpVariantsProcessor;
 import consulo.php.impl.lang.psi.resolve.ResolveUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

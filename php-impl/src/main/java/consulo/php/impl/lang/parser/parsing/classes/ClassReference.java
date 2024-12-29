@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.parser.parsing.classes;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import consulo.language.ast.IElementType;
 import consulo.language.parser.PsiBuilder;

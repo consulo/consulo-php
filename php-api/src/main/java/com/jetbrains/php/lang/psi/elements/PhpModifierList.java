@@ -3,7 +3,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.language.ast.IElementType;
 import consulo.language.ast.TokenSet;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

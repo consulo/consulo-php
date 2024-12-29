@@ -11,7 +11,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.php.impl.lang.psi.impl.PhpClassMethodImpl;
 import consulo.php.impl.lang.psi.impl.stub.PhpClassMethodStubImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 /**

@@ -15,7 +15,7 @@ package com.jetbrains.php.lang.psi.stubs;
 
 import java.util.Collection;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.Function;
 

@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ParameterList;

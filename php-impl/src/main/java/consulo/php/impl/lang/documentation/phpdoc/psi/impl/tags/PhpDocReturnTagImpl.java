@@ -9,7 +9,7 @@ import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

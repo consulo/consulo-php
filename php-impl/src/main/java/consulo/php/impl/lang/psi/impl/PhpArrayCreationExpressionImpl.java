@@ -2,7 +2,7 @@ package consulo.php.impl.lang.psi.impl;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
 import com.jetbrains.php.lang.psi.elements.ArrayHashElement;

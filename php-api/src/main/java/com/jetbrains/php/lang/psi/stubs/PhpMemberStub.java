@@ -16,7 +16,7 @@ package com.jetbrains.php.lang.psi.stubs;
 import com.jetbrains.php.lang.psi.elements.PhpClassMember;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface PhpMemberStub<T extends PhpClassMember> extends PhpNamedStub<T>
 {

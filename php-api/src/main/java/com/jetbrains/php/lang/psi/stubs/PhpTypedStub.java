@@ -18,7 +18,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.language.psi.stub.StubElement;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface PhpTypedStub<T extends PhpTypedElement> extends StubElement<T>
 {

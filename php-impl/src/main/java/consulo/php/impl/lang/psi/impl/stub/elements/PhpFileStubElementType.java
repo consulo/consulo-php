@@ -7,7 +7,7 @@ import consulo.language.psi.stub.*;
 import consulo.php.impl.lang.psi.impl.stub.PhpFileStubImpl;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 /**

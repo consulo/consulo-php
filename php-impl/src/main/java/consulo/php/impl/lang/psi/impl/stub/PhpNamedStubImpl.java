@@ -9,8 +9,8 @@ import consulo.language.psi.stub.NamedStubBase;
 import consulo.language.psi.stub.StubElement;
 import consulo.util.lang.BitUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

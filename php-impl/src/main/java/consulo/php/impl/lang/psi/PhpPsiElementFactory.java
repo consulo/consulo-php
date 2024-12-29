@@ -8,7 +8,7 @@ import consulo.language.psi.PsiFileFactory;
 import consulo.php.impl.lang.psi.impl.PhpFileImpl;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

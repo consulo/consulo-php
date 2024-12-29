@@ -18,8 +18,8 @@ import consulo.navigation.NavigationItem;
 import consulo.util.collection.MultiMap;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 

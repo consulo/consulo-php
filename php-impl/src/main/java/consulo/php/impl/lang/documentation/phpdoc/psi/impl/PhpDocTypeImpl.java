@@ -3,7 +3,7 @@ package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 import consulo.language.ast.ASTNode;
 import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

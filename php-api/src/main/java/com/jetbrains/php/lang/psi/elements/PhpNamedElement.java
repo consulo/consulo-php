@@ -22,8 +22,8 @@ import consulo.util.lang.StringUtil;
 import consulo.util.lang.function.Condition;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, PhpTypedElement
 {

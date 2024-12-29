@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
 import com.jetbrains.php.lang.psi.elements.ArrayHashElement;

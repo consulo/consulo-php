@@ -12,7 +12,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.php.impl.lang.psi.impl.PhpFieldImpl;
 import consulo.php.impl.lang.psi.impl.stub.PhpFieldStubImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 /**

@@ -17,8 +17,8 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.PhpPsiElementFactory;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

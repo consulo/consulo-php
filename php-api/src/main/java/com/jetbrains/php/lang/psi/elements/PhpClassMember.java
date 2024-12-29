@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface PhpClassMember extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement
 {

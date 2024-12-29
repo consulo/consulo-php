@@ -20,7 +20,7 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.php.impl.lang.psi.impl.PhpFileImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.

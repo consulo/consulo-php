@@ -1,6 +1,6 @@
 package consulo.php.module.extension;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.module.extension.ModuleExtensionWithSdk;
 import consulo.php.PhpLanguageLevel;

@@ -18,8 +18,8 @@ import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import consulo.util.collection.MultiMap;
 import consulo.virtualFileSystem.fileType.FileType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;

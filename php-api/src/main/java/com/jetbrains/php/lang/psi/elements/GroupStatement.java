@@ -17,7 +17,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 public interface GroupStatement extends Statement
 {
 	Condition<PsiElement> INSTANCEOF = e -> e instanceof GroupStatement;

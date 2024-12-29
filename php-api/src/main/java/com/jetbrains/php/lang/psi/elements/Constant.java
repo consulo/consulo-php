@@ -16,7 +16,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface Constant extends PhpNamedElement, RWAccess
 {

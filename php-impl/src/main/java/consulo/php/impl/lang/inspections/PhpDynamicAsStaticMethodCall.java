@@ -10,7 +10,7 @@ import consulo.php.PhpBundle;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.Nls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

@@ -3,7 +3,7 @@ package consulo.php.impl.lang.psi;
 import consulo.language.psi.PsiPackage;
 import consulo.util.collection.ArrayFactory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

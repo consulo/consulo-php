@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.parser.parsing;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import consulo.language.ast.TokenSet;
 import consulo.language.parser.PsiBuilder;

@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.PhpForeachStatement;
 import com.jetbrains.php.lang.psi.elements.Variable;

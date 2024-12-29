@@ -11,7 +11,7 @@ import consulo.php.impl.lang.psi.impl.PhpElementImpl;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;

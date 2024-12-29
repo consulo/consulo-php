@@ -16,7 +16,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface ArrayCreationExpression extends PhpExpression
 {

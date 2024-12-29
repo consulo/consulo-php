@@ -1,6 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 

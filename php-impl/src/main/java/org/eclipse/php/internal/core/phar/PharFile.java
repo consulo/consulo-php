@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import consulo.virtualFileSystem.archive.ArchiveFile;
 import org.eclipse.php.internal.core.phar.streams.CBZip2InputStreamForPhar;

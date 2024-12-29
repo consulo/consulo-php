@@ -6,8 +6,8 @@ import consulo.php.icon.PhpIconGroup;
 import consulo.php.localize.PhpLocalize;
 import consulo.ui.image.Image;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Created by IntelliJ IDEA.

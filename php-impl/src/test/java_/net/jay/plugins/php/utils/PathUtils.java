@@ -3,8 +3,8 @@ package net.jay.plugins.php.utils;
 import java.io.File;
 import java.net.URL;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
 

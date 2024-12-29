@@ -15,7 +15,7 @@ package com.jetbrains.php.lang.psi.stubs;
 
 import com.jetbrains.php.lang.psi.elements.Method;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 public interface PhpMethodStub extends PhpMemberStub<Method>

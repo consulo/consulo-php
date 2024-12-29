@@ -10,7 +10,7 @@ import consulo.module.extension.ModuleExtension;
 import consulo.php.impl.lang.psi.impl.PhpPackageImpl;
 import consulo.php.module.extension.PhpModuleExtension;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

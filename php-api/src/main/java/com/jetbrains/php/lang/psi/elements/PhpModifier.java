@@ -15,7 +15,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class PhpModifier implements Serializable
 {

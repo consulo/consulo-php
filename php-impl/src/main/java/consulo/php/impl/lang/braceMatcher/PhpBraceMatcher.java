@@ -7,7 +7,7 @@ import consulo.language.Language;
 import consulo.language.PairedBraceMatcher;
 import consulo.php.lang.lexer.PhpTokenTypes;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

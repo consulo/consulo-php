@@ -20,8 +20,8 @@ import consulo.php.impl.completion.UsageContext;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

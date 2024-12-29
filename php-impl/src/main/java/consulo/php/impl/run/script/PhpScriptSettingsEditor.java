@@ -1,6 +1,6 @@
 package consulo.php.impl.run.script;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.swing.JComponent;
 
 import consulo.configurable.ConfigurationException;

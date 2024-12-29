@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiLanguageInjectionHost;

@@ -1,7 +1,7 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi;
 
 import com.jetbrains.php.lang.PhpFileType;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import consulo.language.ast.IElementType;
 
 /**

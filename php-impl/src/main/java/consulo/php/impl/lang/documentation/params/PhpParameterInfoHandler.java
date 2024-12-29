@@ -18,7 +18,7 @@ import consulo.logging.Logger;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.impl.PhpFileImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

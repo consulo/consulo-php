@@ -3,7 +3,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.util.collection.ArrayFactory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author jay

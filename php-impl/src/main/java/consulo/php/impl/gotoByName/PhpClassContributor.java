@@ -13,8 +13,8 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.navigation.NavigationItem;
 import consulo.php.impl.index.PhpIndexKeys;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author jay

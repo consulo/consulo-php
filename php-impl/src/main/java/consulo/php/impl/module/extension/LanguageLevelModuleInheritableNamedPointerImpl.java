@@ -9,7 +9,7 @@ import consulo.module.content.layer.extension.ModuleInheritableNamedPointerImpl;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

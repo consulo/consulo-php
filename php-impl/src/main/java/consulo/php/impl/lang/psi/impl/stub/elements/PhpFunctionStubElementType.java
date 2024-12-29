@@ -14,7 +14,7 @@ import consulo.php.impl.lang.psi.impl.PhpFunctionImpl;
 import consulo.php.impl.lang.psi.impl.stub.PhpFunctionStubImpl;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 /**

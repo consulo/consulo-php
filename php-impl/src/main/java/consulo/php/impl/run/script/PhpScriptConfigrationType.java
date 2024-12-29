@@ -11,7 +11,7 @@ import consulo.php.module.extension.PhpModuleExtension;
 import consulo.project.Project;
 import jakarta.inject.Inject;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

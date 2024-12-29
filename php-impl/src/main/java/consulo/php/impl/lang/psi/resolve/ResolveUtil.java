@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.psi.resolve;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.PsiScopeProcessor;

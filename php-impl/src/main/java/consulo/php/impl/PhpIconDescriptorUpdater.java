@@ -13,7 +13,7 @@ import consulo.language.psi.PsiElement;
 import consulo.php.impl.ide.projectView.PhpTreeStructureProvider;
 import consulo.util.lang.BitUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

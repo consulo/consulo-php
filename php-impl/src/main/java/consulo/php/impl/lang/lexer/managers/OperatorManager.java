@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.lexer.managers;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.IElementType;
 import consulo.language.ast.TokenSet;

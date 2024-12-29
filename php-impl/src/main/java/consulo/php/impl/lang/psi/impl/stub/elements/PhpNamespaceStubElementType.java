@@ -14,7 +14,7 @@ import consulo.php.impl.lang.psi.impl.PhpNamespaceStatementImpl;
 import consulo.php.impl.lang.psi.impl.stub.PhpNamespaceStubImpl;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 /**

@@ -23,8 +23,8 @@ import consulo.php.impl.lang.psi.resolve.PhpResolveResult;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

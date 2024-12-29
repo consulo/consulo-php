@@ -17,7 +17,7 @@ import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Set;
 
 public interface PhpScopeHolder extends PhpPsiElement

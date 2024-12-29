@@ -3,7 +3,7 @@ package consulo.php.impl.lang.highlighter.hierarchy;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**

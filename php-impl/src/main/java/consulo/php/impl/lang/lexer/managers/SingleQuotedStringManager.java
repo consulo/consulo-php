@@ -2,7 +2,7 @@ package consulo.php.impl.lang.lexer.managers;
 
 import consulo.php.impl.lang.lexer._PhpFlexLexer;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.

@@ -9,8 +9,8 @@ import consulo.language.editor.structureView.TemplateLanguageStructureViewBuilde
 import consulo.language.psi.PsiFile;
 import consulo.php.impl.lang.psi.impl.PhpFileImpl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author Maxim.Mossienko

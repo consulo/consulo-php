@@ -5,7 +5,7 @@ import consulo.language.psi.stub.IStubFileElementType;
 import consulo.language.psi.stub.PsiFileStubImpl;
 import consulo.php.impl.lang.psi.PhpStubElements;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

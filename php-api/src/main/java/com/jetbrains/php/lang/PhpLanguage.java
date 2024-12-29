@@ -5,7 +5,7 @@ import consulo.language.template.TemplateLanguage;
 import consulo.language.version.LanguageVersion;
 import consulo.php.PhpLanguageLevel;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * User: jay

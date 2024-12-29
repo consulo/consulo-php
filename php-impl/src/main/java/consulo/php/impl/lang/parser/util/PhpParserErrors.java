@@ -3,8 +3,8 @@ package consulo.php.impl.lang.parser.util;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import consulo.language.ast.IElementType;
 import consulo.php.PhpBundle;

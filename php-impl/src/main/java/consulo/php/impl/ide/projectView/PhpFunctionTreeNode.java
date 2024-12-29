@@ -3,7 +3,7 @@ package consulo.php.impl.ide.projectView;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import consulo.project.ui.view.tree.AbstractPsiBasedNode;
 import consulo.project.ui.view.tree.AbstractTreeNode;

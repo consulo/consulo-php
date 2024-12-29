@@ -18,8 +18,8 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.php.impl.lang.psi.visitors.PhpRecursiveElementVisitor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

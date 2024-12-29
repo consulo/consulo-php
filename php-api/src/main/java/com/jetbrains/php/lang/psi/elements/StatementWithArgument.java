@@ -15,7 +15,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface StatementWithArgument extends Statement
 {

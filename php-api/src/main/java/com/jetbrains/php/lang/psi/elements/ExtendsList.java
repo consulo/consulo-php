@@ -2,7 +2,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import consulo.annotation.access.RequiredReadAction;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author jay

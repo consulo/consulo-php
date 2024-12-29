@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
 import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocType;

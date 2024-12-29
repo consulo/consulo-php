@@ -6,8 +6,8 @@ import consulo.index.io.StringRef;
 import consulo.language.psi.stub.StubElement;
 import consulo.php.impl.lang.psi.PhpStubElements;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 

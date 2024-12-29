@@ -9,8 +9,8 @@ import consulo.language.psi.PsiComment;
 import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.lang.lexer.PhpTokenTypes;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author jay

@@ -22,7 +22,7 @@ import consulo.language.psi.PsiFile;
 import consulo.util.collection.MultiMap;
 import consulo.util.lang.function.Condition;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface PhpFile extends PsiFile, Queryable, PhpPsiElement, PhpScopeHolder
 {

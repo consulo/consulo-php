@@ -1,6 +1,6 @@
 package consulo.php.impl.lang.parser.util;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.parser.PsiBuilder;
 import consulo.language.parser.PsiBuilderAdapter;

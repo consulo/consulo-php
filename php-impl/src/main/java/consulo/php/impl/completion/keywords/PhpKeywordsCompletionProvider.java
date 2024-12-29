@@ -12,7 +12,7 @@ import consulo.php.PhpLanguageLevel;
 import consulo.php.impl.lang.psi.impl.*;
 import consulo.php.module.util.PhpModuleExtensionUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Created by mwguy
