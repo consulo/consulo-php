@@ -7,7 +7,6 @@ import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.impl.lang.lexer.managers.*;
 import consulo.php.lang.lexer.PhpTokenTypes;
 
-import javax.annotation.Nonnull;
 %%
 
 %{
@@ -29,7 +28,6 @@ import javax.annotation.Nonnull;
 	private LineCommentManager lcManager = new LineCommentManager(this);
 
 
-	@Nonnull
 	public final CharSequence getBuffer(){
 		return zzBuffer;
 	}
