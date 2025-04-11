@@ -1,6 +1,7 @@
 package consulo.php.impl.run.script;
 
 import com.jetbrains.php.lang.psi.PhpFile;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.action.ConfigurationContext;
 import consulo.execution.action.RunConfigurationProducer;
@@ -10,7 +11,7 @@ import consulo.language.util.ModuleUtilCore;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.Comparing;
-import consulo.util.lang.ref.Ref;
+import consulo.util.lang.ref.SimpleReference;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
@@ -25,10 +26,11 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
     }
 
     @Override
+    @RequiredReadAction
     protected boolean setupConfigurationFromContext(
         PhpScriptConfiguration configuration,
         ConfigurationContext context,
-        Ref<PsiElement> sourceElement
+        SimpleReference<PsiElement> sourceElement
     ) {
         PhpFile phpFile = PsiTreeUtil.getParentOfType(sourceElement.get(), PhpFile.class, false);
         if (phpFile == null) {
@@ -53,10 +55,6 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
         }
 
         VirtualFile file = LocalFileSystem.getInstance().findFileByPath(configuration.SCRIPT_PATH);
-        if (file == null) {
-            return false;
-        }
-
-        return Comparing.equal(file, phpFile.getVirtualFile());
+        return file != null && Comparing.equal(file, phpFile.getVirtualFile());
     }
 }
