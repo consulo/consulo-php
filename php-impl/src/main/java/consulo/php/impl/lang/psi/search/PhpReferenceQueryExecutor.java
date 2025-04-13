@@ -13,6 +13,8 @@ import consulo.project.util.query.QueryExecutorBase;
 
 import jakarta.annotation.Nonnull;
 
+import java.util.function.Predicate;
+
 /**
  * @author VISTALL
  * @since 2019-04-23
@@ -26,15 +28,15 @@ public class PhpReferenceQueryExecutor extends QueryExecutorBase<PsiReference, R
     @Override
     public void processQuery(
         @Nonnull ReferencesSearch.SearchParameters queryParameters,
-        @Nonnull Processor<? super PsiReference> consumer
+        @Nonnull Predicate<? super PsiReference> consumer
     ) {
         PsiElement elementToSearch = queryParameters.getElementToSearch();
-        if (elementToSearch instanceof PhpClass) {
-            queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, elementToSearch);
+        if (elementToSearch instanceof PhpClass phpClass) {
+            queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, phpClass);
         }
-        else if (elementToSearch instanceof Field) {
-            CharSequence nameCS = ((Field)elementToSearch).getNameCS();
-            queryParameters.getOptimizer().searchWord(nameCS.toString(), queryParameters.getEffectiveSearchScope(), true, elementToSearch);
+        else if (elementToSearch instanceof Field field) {
+            CharSequence nameCS = field.getNameCS();
+            queryParameters.getOptimizer().searchWord(nameCS.toString(), queryParameters.getEffectiveSearchScope(), true, field);
         }
     }
 }
