@@ -18,25 +18,23 @@ import jakarta.annotation.Nonnull;
  * @since 2019-04-23
  */
 @ExtensionImpl
-public class PhpReferenceQueryExecutor extends QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters> implements ReferencesSearchQueryExecutor
-{
-	public PhpReferenceQueryExecutor()
-	{
-		super(true);
-	}
+public class PhpReferenceQueryExecutor extends QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters> implements ReferencesSearchQueryExecutor {
+    public PhpReferenceQueryExecutor() {
+        super(true);
+    }
 
-	@Override
-	public void processQuery(@Nonnull ReferencesSearch.SearchParameters queryParameters, @Nonnull Processor<? super PsiReference> consumer)
-	{
-		PsiElement elementToSearch = queryParameters.getElementToSearch();
-		if(elementToSearch instanceof PhpClass)
-		{
-			queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, elementToSearch);
-		}
-		else if(elementToSearch instanceof Field)
-		{
-			CharSequence nameCS = ((Field) elementToSearch).getNameCS();
-			queryParameters.getOptimizer().searchWord(nameCS.toString(), queryParameters.getEffectiveSearchScope(), true, elementToSearch);
-		}
-	}
+    @Override
+    public void processQuery(
+        @Nonnull ReferencesSearch.SearchParameters queryParameters,
+        @Nonnull Processor<? super PsiReference> consumer
+    ) {
+        PsiElement elementToSearch = queryParameters.getElementToSearch();
+        if (elementToSearch instanceof PhpClass) {
+            queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, elementToSearch);
+        }
+        else if (elementToSearch instanceof Field) {
+            CharSequence nameCS = ((Field)elementToSearch).getNameCS();
+            queryParameters.getOptimizer().searchWord(nameCS.toString(), queryParameters.getEffectiveSearchScope(), true, elementToSearch);
+        }
+    }
 }
