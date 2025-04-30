@@ -1,8 +1,8 @@
 package consulo.php.impl.run.script;
 
 import consulo.annotation.component.ExtensionImpl;
-import consulo.execution.configuration.ConfigurationFactory;
-import consulo.execution.configuration.ConfigurationTypeBase;
+import consulo.application.Application;import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.ConfigurationType;import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.php.icon.PhpIconGroup;
@@ -21,7 +21,8 @@ import jakarta.annotation.Nonnull;
 public class PhpScriptConfigrationType extends ConfigurationTypeBase {
     @Nonnull
     public static PhpScriptConfigrationType getInstance() {
-        return EP_NAME.findExtensionOrFail(PhpScriptConfigrationType.class);
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(PhpScriptConfigrationType.class);
     }
 
     @Inject
