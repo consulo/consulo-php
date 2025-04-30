@@ -18,32 +18,26 @@ import jakarta.annotation.Nonnull;
  * @since 2019-04-21
  */
 @ExtensionImpl
-public class PhpScriptConfigrationType extends ConfigurationTypeBase
-{
-	@Nonnull
-	public static PhpScriptConfigrationType getInstance()
-	{
-		return EP_NAME.findExtensionOrFail(PhpScriptConfigrationType.class);
-	}
+public class PhpScriptConfigrationType extends ConfigurationTypeBase {
+    @Nonnull
+    public static PhpScriptConfigrationType getInstance() {
+        return EP_NAME.findExtensionOrFail(PhpScriptConfigrationType.class);
+    }
 
-	@Inject
-	PhpScriptConfigrationType()
-	{
-		super("PhpScriptConfigurationType", PhpLocalize.phpScriptConfigurationName(), PhpIconGroup.filetypesPhp());
+    @Inject
+    PhpScriptConfigrationType() {
+        super("PhpScriptConfigurationType", PhpLocalize.phpScriptConfigurationName(), PhpIconGroup.filetypesPhp());
 
-		addFactory(new ConfigurationFactory(this)
-		{
-			@Override
-			public RunConfiguration createTemplateConfiguration(Project project)
-			{
-				return new PhpScriptConfiguration(project, this);
-			}
+        addFactory(new ConfigurationFactory(this) {
+            @Override
+            public RunConfiguration createTemplateConfiguration(Project project) {
+                return new PhpScriptConfiguration(project, this);
+            }
 
-			@Override
-			public boolean isApplicable(@Nonnull Project project)
-			{
-				return ModuleExtensionHelper.getInstance(project).hasModuleExtension(PhpModuleExtension.class);
-			}
-		});
-	}
+            @Override
+            public boolean isApplicable(@Nonnull Project project) {
+                return ModuleExtensionHelper.getInstance(project).hasModuleExtension(PhpModuleExtension.class);
+            }
+        });
+    }
 }
