@@ -10,8 +10,8 @@ import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkModificator;
 import consulo.content.bundle.SdkType;
 import consulo.logging.Logger;
-import consulo.php.PhpBundle;
 import consulo.php.icon.PhpIconGroup;
+import consulo.php.localize.PhpLocalize;
 import consulo.platform.Platform;
 import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
@@ -86,13 +86,13 @@ public class PhpSdkType extends SdkType {
 
     @Override
     public String suggestSdkName(String currentSdkName, String sdkHome) {
-        return PhpBundle.message("default.php.sdk.name");
+        return PhpLocalize.defaultPhpSdkName().get();
     }
 
     @Override
     @Nonnull
     public String getPresentableName() {
-        return PhpBundle.message("php.sdk.type.name");
+        return PhpLocalize.phpSdkTypeName().get();
     }
 
     @Override

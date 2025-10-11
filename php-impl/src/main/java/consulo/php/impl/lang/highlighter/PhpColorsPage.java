@@ -6,7 +6,6 @@ import consulo.colorScheme.setting.ColorDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.localize.LocalizeValue;
-import consulo.php.PhpBundle;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.localize.PhpLocalize;
 import jakarta.annotation.Nonnull;
