@@ -10,16 +10,14 @@
  *******************************************************************************/
 package org.eclipse.php.internal.core.phar.streams;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-
-public class CBZip2InputStreamForPhar extends BZip2CompressorInputStream
-{
-	public CBZip2InputStreamForPhar(InputStream in) throws IOException
-	{
-		super(in);
-		skip(2);
-	}
+public class CBZip2InputStreamForPhar extends BZip2CompressorInputStream {
+    public CBZip2InputStreamForPhar(InputStream in) throws IOException {
+        super(in);
+        skip(2);
+    }
 }
