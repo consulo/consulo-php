@@ -82,13 +82,6 @@
         </dependency>
 
         <dependency>
-            <groupId>consulo</groupId>
-            <artifactId>consulo-ide-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <scope>provided</scope>

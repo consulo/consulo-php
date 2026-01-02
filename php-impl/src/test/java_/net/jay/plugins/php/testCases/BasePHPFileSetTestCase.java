@@ -1,12 +1,13 @@
 package net.jay.plugins.php.testCases;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 import org.junit.Assert;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +33,7 @@ public abstract class BasePHPFileSetTestCase extends PHPFileSetTestCase
 	@Override
 	public void runTest(final File myTestFile) throws Throwable
 	{
-		String content = new String(FileUtil.loadFileText(myTestFile));
+		String content = Files.readString(myTestFile.toPath());
 		Assert.assertNotNull(content);
 
 		List<String> input = new ArrayList<String>();

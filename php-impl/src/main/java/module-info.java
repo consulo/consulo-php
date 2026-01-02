@@ -12,9 +12,6 @@ open module consulo.php {
     // TODO remove this dependency in future
     requires java.desktop;
 
-    // TODO remove this big dependency
-    requires consulo.ide.impl;
-
     exports consulo.php.impl;
     exports consulo.php.impl.actions;
     exports consulo.php.impl.actions.generate;

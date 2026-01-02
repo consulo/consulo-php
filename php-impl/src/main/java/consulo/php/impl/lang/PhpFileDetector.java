@@ -2,36 +2,21 @@ package consulo.php.impl.lang;
 
 import com.jetbrains.php.lang.PhpFileType;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
-import consulo.util.io.ByteSequence;
-import consulo.virtualFileSystem.VirtualFile;
-import consulo.virtualFileSystem.fileType.FileType;
-import consulo.virtualFileSystem.fileType.FileTypeDetector;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import consulo.php.localize.PhpLocalize;
+import consulo.virtualFileSystem.fileType.HashBangFileTypeDetector;
 
 /**
  * @author VISTALL
  * @since 16:50/04.07.13
  */
 @ExtensionImpl
-public class PhpFileDetector implements FileTypeDetector
-{
-	@Nullable
-	@Override
-	public FileType detect(@Nonnull VirtualFile virtualFile, @Nonnull ByteSequence byteSequence, @Nullable CharSequence charSequence)
-	{
-		if(FileUtil.isHashBangLine(charSequence, "php"))
-		{
-			return PhpFileType.INSTANCE;
-		}
-		return null;
-	}
+public class PhpFileDetector extends HashBangFileTypeDetector {
+    public PhpFileDetector() {
+        super(PhpFileType.INSTANCE, "php", PhpLocalize.filetypeDescription());
+    }
 
-	@Override
-	public int getVersion()
-	{
-		return 1;
-	}
+    @Override
+    public int getVersion() {
+        return 1;
+    }
 }
