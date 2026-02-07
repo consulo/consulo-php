@@ -70,7 +70,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>consulo.javascript</artifactId>
+            <artifactId>consulo.json.jom.api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

@@ -8,7 +8,8 @@ module consulo.php.composer.impl
 
 	requires consulo.php.api;
 
-	requires consulo.javascript.json.javascript.impl;
+	requires consulo.json.api;
+	requires consulo.json.jom.api;
 
 	exports consulo.php.composer;
 	exports consulo.php.composer.icon;

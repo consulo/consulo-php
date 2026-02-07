@@ -53,7 +53,7 @@
                     </packaging>
                     <dependencies>
                         <dependency>com.intellij.xml</dependency>
-                        <dependency>consulo.javascript</dependency>
+                        <dependency>consulo.json</dependency>
                     </dependencies>
                 </configuration>
                 <executions>
