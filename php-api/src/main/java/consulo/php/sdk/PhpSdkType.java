@@ -17,7 +17,6 @@ import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.util.CapturingProcessUtil;
 import consulo.process.util.ProcessOutput;
-import consulo.ui.image.Image;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
@@ -47,7 +46,7 @@ public class PhpSdkType extends SdkType {
     }
 
     public PhpSdkType() {
-        super("PHP SDK");
+        super("PHP SDK", PhpLocalize.phpSdkTypeName(), PhpIconGroup.filetypesPhp());
     }
 
     @Nonnull
@@ -85,17 +84,6 @@ public class PhpSdkType extends SdkType {
     }
 
     @Override
-    public String suggestSdkName(String currentSdkName, String sdkHome) {
-        return PhpLocalize.defaultPhpSdkName().get();
-    }
-
-    @Override
-    @Nonnull
-    public String getPresentableName() {
-        return PhpLocalize.phpSdkTypeName().get();
-    }
-
-    @Override
     public void setupSdkPaths(Sdk sdk) {
         final SdkModificator sdkModificator = sdk.getSdkModificator();
 
@@ -118,10 +106,5 @@ public class PhpSdkType extends SdkType {
     @Override
     public boolean isRootTypeApplicable(OrderRootType type) {
         return type == BinariesOrderRootType.getInstance() || type == SourcesOrderRootType.getInstance();
-    }
-
-    @Override
-    public Image getIcon() {
-        return PhpIconGroup.filetypesPhp();
     }
 }
