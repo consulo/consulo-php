@@ -4,7 +4,7 @@
  */
 module consulo.php.composer.impl
 {
-	requires consulo.ide.api;
+	requires consulo.module.creation.api;
 
 	requires consulo.php.api;
 
