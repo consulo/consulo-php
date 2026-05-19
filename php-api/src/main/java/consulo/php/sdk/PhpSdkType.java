@@ -23,10 +23,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Maxim
@@ -35,6 +32,8 @@ import java.util.List;
 public class PhpSdkType extends SdkType {
     private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
 
+    private static final Set<String> ourAllowedRootTypeIds = Set.of(BinariesOrderRootType.ID, SourcesOrderRootType.ID);
+    
     @Nonnull
     public static PhpSdkType getInstance() {
         return Application.get().getExtensionPoint(SdkType.class).findExtensionOrFail(PhpSdkType.class);
@@ -96,15 +95,15 @@ public class PhpSdkType extends SdkType {
             LOGGER.warn("Cant find stubs for path: " + stubDirectory);
         }
         else {
-            sdkModificator.addRoot(stubsDir, BinariesOrderRootType.getInstance());
-            sdkModificator.addRoot(stubsDir, SourcesOrderRootType.getInstance());
+            sdkModificator.addRoot(stubsDir, BinariesOrderRootType.ID);
+            sdkModificator.addRoot(stubsDir, SourcesOrderRootType.ID);
         }
 
         sdkModificator.commitChanges();
     }
 
     @Override
-    public boolean isRootTypeApplicable(OrderRootType type) {
-        return type == BinariesOrderRootType.getInstance() || type == SourcesOrderRootType.getInstance();
+    public boolean isRootTypeApplicable(String type) {
+        return ourAllowedRootTypeIds.contains(type);
     }
 }
