@@ -83,7 +83,8 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
                 modifiableModel.addModuleExtensionSdkEntry(phpModuleExtension);
 
                 return modifiableModel;
-            }).toCoroutine()
+            })
+            .toCoroutine()
             .then(WriteLock.apply((modifiableRootModel, continuation) -> {
                 modifiableRootModel.commit();
                 return null;
