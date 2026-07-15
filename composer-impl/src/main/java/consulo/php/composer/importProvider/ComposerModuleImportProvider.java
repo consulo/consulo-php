@@ -1,8 +1,8 @@
 package consulo.php.composer.importProvider;
 
-import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.WriteAction;
+import consulo.application.concurrent.coroutine.ReadLock;
+import consulo.application.concurrent.coroutine.WriteLock;
 import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkTable;
 import consulo.language.content.ProductionContentFolderTypeProvider;
@@ -21,6 +21,7 @@ import consulo.php.sdk.PhpSdkType;
 import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
+import consulo.util.concurrent.coroutine.Coroutine;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
@@ -51,36 +52,41 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
         return new File(file, ComposerFileTypeFactory.COMPOSER_JSON).exists();
     }
 
-    @RequiredReadAction
     @Override
-    public void process(@Nonnull ModuleImportContext context, @Nonnull Project project, @Nonnull ModifiableModuleModel modifiableModuleModel, @Nonnull Consumer<Module> consumer) {
-        String fileToImport = context.getFileToImport();
+    public Coroutine<Object, Object> process(@Nonnull ModuleImportContext context, @Nonnull Project project, @Nonnull ModifiableModuleModel modifiableModuleModel, @Nonnull Consumer<Module> consumer) {
+        return ReadLock.apply((i, continuation) -> {
+                String fileToImport = context.getFileToImport();
 
-        File targetDirectory = new File(fileToImport);
+                File targetDirectory = new File(fileToImport);
 
-        VirtualFile targetVFile = LocalFileSystem.getInstance().findFileByIoFile(targetDirectory);
+                VirtualFile targetVFile = LocalFileSystem.getInstance().findFileByIoFile(targetDirectory);
 
-        assert targetVFile != null;
+                assert targetVFile != null;
 
-        Module rootModule = modifiableModuleModel.newModule(targetDirectory.getName(), targetDirectory.getPath());
-        consumer.accept(rootModule);
+                Module rootModule = modifiableModuleModel.newModule(targetDirectory.getName(), targetDirectory.getPath());
+                consumer.accept(rootModule);
 
-        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(rootModule);
+                ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(rootModule);
 
-        ModifiableRootModel modifiableModel = moduleRootManager.getModifiableModel();
+                ModifiableRootModel modifiableModel = moduleRootManager.getModifiableModel();
 
-        ContentEntry contentEntry = modifiableModel.addContentEntry(targetVFile);
-        contentEntry.addFolder(targetVFile.getUrl() + "/src", ProductionContentFolderTypeProvider.getInstance());
+                ContentEntry contentEntry = modifiableModel.addContentEntry(targetVFile);
+                contentEntry.addFolder(targetVFile.getUrl() + "/src", ProductionContentFolderTypeProvider.getInstance());
 
-        Sdk sdk = ContainerUtil.getFirstItem(SdkTable.getInstance().getSdksOfType(PhpSdkType.getInstance()));
+                Sdk sdk = ContainerUtil.getFirstItem(SdkTable.getInstance().getSdksOfType(PhpSdkType.getInstance()));
 
-        PhpMutableModuleExtension<?> phpModuleExtension = modifiableModel.getExtensionWithoutCheck(PhpMutableModuleExtension.class);
-        assert phpModuleExtension != null;
-        phpModuleExtension.setEnabled(true);
-        phpModuleExtension.getInheritableSdk().set(null, sdk);
+                PhpMutableModuleExtension<?> phpModuleExtension = modifiableModel.getExtensionWithoutCheck(PhpMutableModuleExtension.class);
+                assert phpModuleExtension != null;
+                phpModuleExtension.setEnabled(true);
+                phpModuleExtension.getInheritableSdk().set(null, sdk);
 
-        modifiableModel.addModuleExtensionSdkEntry(phpModuleExtension);
+                modifiableModel.addModuleExtensionSdkEntry(phpModuleExtension);
 
-        WriteAction.run(modifiableModel::commit);
+                return modifiableModel;
+            }).toCoroutine()
+            .then(WriteLock.apply((modifiableRootModel, continuation) -> {
+                modifiableRootModel.commit();
+                return null;
+            }));
     }
 }
