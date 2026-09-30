@@ -29,7 +29,6 @@ import consulo.php.module.extension.PhpModuleExtension;
 import consulo.php.module.util.PhpModuleExtensionUtil;
 import consulo.project.Project;
 import consulo.project.ProjectPropertiesComponent;
-import consulo.ui.ex.awt.Messages;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -45,7 +44,6 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction {
         super(LocalizeValue.localizeTODO("Php Class"), LocalizeValue.localizeTODO("Create new Php Class"), PhpIconGroup.filetypesPhp());
     }
 
-    @SuppressWarnings("DialogTitleCapitalization")
     @Nullable
     @RequiredReadAction
     public static PsiFile createFileFromTemplate(@Nullable String name, @Nonnull FileTemplate template, @Nonnull PsiDirectory dir, @Nullable String defaultTemplateProperty) {
@@ -78,8 +76,7 @@ public class PhpCreateClassAction extends CreateFileFromTemplateAction {
             }
         }
         catch (FileTemplateParseException e) {
-            Messages.showErrorDialog(project, "Error parsing Velocity template: " + e.getMessage(), "Create File from Template");
-            return null;
+            throw new IncorrectOperationException("Error parsing Velocity template: " + e.getMessage(), e);
         }
         catch (IncorrectOperationException e) {
             throw e;

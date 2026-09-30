@@ -42,7 +42,6 @@ open module consulo.php {
 
     requires consulo.ui.api;
     requires consulo.ui.ex.api;
-    requires consulo.ui.ex.awt.api;
 
     requires org.apache.commons.compress;
 

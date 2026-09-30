@@ -1,42 +1,38 @@
 package consulo.php.impl.run.script;
 
-import jakarta.annotation.Nonnull;
-import javax.swing.JComponent;
-
 import consulo.configurable.ConfigurationException;
 import consulo.execution.configuration.ui.SettingsEditor;
 import consulo.project.Project;
+import consulo.ui.Component;
+import consulo.ui.annotation.RequiredUIAccess;
 
 /**
  * @author VISTALL
  * @since 2019-04-21
  */
-public class PhpScriptSettingsEditor extends SettingsEditor<PhpScriptConfiguration>
-{
-	private final Project myProject;
-	private PhpScriptConfigurationPanel myPanel;
+public class PhpScriptSettingsEditor extends SettingsEditor<PhpScriptConfiguration> {
+    private final PhpScriptConfigurationPanel myPanel;
 
-	public PhpScriptSettingsEditor(Project project)
-	{
-		myProject = project;
-	}
+    public PhpScriptSettingsEditor(Project project) {
+        myPanel = new PhpScriptConfigurationPanel(project);
+    }
 
-	@Nonnull
-	@Override
-	protected JComponent createEditor()
-	{
-		return myPanel = new PhpScriptConfigurationPanel(myProject);
-	}
+    @RequiredUIAccess
+    @Override
+    protected Component createUIComponent() {
+        myPanel.build();
+        return myPanel.getComponent();
+    }
 
-	@Override
-	protected void resetEditorFrom(PhpScriptConfiguration phpScriptConfiguration)
-	{
-		myPanel.reset(phpScriptConfiguration);
-	}
+    @RequiredUIAccess
+    @Override
+    protected void resetEditorFrom(PhpScriptConfiguration phpScriptConfiguration) {
+        myPanel.reset(phpScriptConfiguration);
+    }
 
-	@Override
-	protected void applyEditorTo(PhpScriptConfiguration phpScriptConfiguration) throws ConfigurationException
-	{
-		myPanel.applyTo(phpScriptConfiguration);
-	}
+    @RequiredUIAccess
+    @Override
+    protected void applyEditorTo(PhpScriptConfiguration phpScriptConfiguration) throws ConfigurationException {
+        myPanel.apply(phpScriptConfiguration);
+    }
 }

@@ -166,3 +166,9 @@ phar.archive.file.description:
   text: Phar Archive
 php.script.configuration.name:
   text: PHP Script
+php.script.configuration.module.label:
+  text: 'Module:'
+php.script.configuration.script.path.label:
+  text: 'Script path:'
+php.module.extension.version.label:
+  text: Version
