@@ -3,10 +3,10 @@ package consulo.php.impl.ide.presentation;
 import com.jetbrains.php.lang.psi.PhpFile;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.icon.IconDescriptorUpdaters;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
 import consulo.navigation.ItemPresentationProvider;
 import consulo.ui.image.Image;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -15,40 +15,33 @@ import jakarta.annotation.Nullable;
  * @since 22.09.13.
  */
 @ExtensionImpl
-public class PhpFilePresentation implements ItemPresentationProvider<PhpFile>
-{
-	@Nonnull
-	@Override
-	public Class<PhpFile> getItemClass()
-	{
-		return PhpFile.class;
-	}
+public class PhpFilePresentation implements ItemPresentationProvider<PhpFile> {
+    @Nonnull
+    @Override
+    public Class<PhpFile> getItemClass() {
+        return PhpFile.class;
+    }
 
-	@Override
-	public ItemPresentation getPresentation(final PhpFile item)
-	{
-		return new ItemPresentation()
-		{
-			@Nullable
-			@Override
-			public String getPresentableText()
-			{
-				return item.getName();
-			}
+    @Override
+    public ItemPresentation getPresentation(final PhpFile item) {
+        return new ItemPresentation() {
+            @Nonnull
+            @Override
+            public LocalizeValue getPresentableText() {
+                return LocalizeValue.ofNullable(item.getName());
+            }
 
-			@Nullable
-			@Override
-			public String getLocationString()
-			{
-				return null;
-			}
+            @Nullable
+            @Override
+            public String getLocationString() {
+                return null;
+            }
 
-			@Nullable
-			@Override
-			public Image getIcon()
-			{
-				return IconDescriptorUpdaters.getIcon(item, 0);
-			}
-		};
-	}
+            @Nullable
+            @Override
+            public Image getIcon() {
+                return IconDescriptorUpdaters.getIcon(item, 0);
+            }
+        };
+    }
 }
