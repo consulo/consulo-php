@@ -36,8 +36,8 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersLayout<P
         myProject = project;
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     protected void addBefore(FormBuilder builder) {
         FileChooserTextBoxBuilder scriptPathBuilder = FileChooserTextBoxBuilder.create(myProject);
         scriptPathBuilder.fileChooserDescriptor(FileChooserDescriptorFactory.createSingleFileDescriptor(PhpFileType.INSTANCE));
@@ -47,8 +47,8 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersLayout<P
         builder.addLabeled(PhpLocalize.phpScriptConfigurationScriptPathLabel(), scriptPath.getComponent());
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     protected void addAfter(FormBuilder builder) {
         List<Module> modules = new ArrayList<>();
         for (Module module : ModuleManager.getInstance(myProject).getModules()) {
@@ -58,7 +58,7 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersLayout<P
         }
 
         ComboBox<Module> moduleBox = ComboBox.create(modules);
-        moduleBox.setRender((presentation, item) -> {
+        moduleBox.setRenderer((presentation, item) -> {
             Module module = item.getValue();
             if (module != null) {
                 presentation.withIcon(PlatformIconGroup.nodesModule());
@@ -70,8 +70,8 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersLayout<P
         builder.addLabeled(PhpLocalize.phpScriptConfigurationModuleLabel(), moduleBox);
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     public void reset(PhpScriptConfiguration configuration) {
         super.reset(configuration);
 
@@ -86,8 +86,8 @@ public class PhpScriptConfigurationPanel extends CommonProgramParametersLayout<P
         }
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     public void apply(PhpScriptConfiguration configuration) {
         super.apply(configuration);
 
