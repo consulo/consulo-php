@@ -23,13 +23,13 @@ import consulo.ui.layout.VerticalLayout;
 import consulo.ui.util.LabeledBuilder;
 import consulo.util.lang.StringUtil;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
 /**
  * @author VISTALL
- * @since 04.07.13.
+ * @since 2013-07-04
  */
 public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implements PhpMutableModuleExtension<PhpModuleExtensionImpl> {
     public PhpMutableModuleExtensionImpl(@Nonnull String id, @Nonnull ModuleRootLayer module) {
@@ -48,10 +48,9 @@ public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implem
         return myLanguageLevel;
     }
 
-    @RequiredUIAccess
-    @Nullable
     @Override
-    public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable) {
+    @RequiredUIAccess
+    public @Nullable Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable) {
         MutableModuleInheritableNamedPointer<PhpLanguageLevel> languageLevel = getInheritableLanguageLevel();
 
         List<Object> items = new ArrayList<>(Arrays.asList(PhpLanguageLevel.VALUES));
@@ -86,8 +85,7 @@ public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implem
         }
 
         ComboBox<Object> versionBox = ComboBox.create(items);
-        versionBox.setRenderer((presentation, item) ->
-        {
+        versionBox.setRenderer((presentation, item) -> {
             Object value = item.getValue();
             if (value instanceof PhpLanguageLevel level) {
                 presentation.append(level.getShortName());
