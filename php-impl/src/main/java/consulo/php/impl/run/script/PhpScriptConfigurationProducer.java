@@ -42,7 +42,7 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
         }
 
         configuration.setName(phpFile.getName());
-        configuration.SCRIPT_PATH = FileUtil.toSystemIndependentName(phpFile.getVirtualFile().getPath());
+        configuration.setScriptPath(FileUtil.toSystemIndependentName(phpFile.getVirtualFile().getPath()));
         configuration.getConfigurationModule().setModule(extension.getModule());
         return true;
     }
@@ -54,7 +54,8 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
             return false;
         }
 
-        VirtualFile file = LocalFileSystem.getInstance().findFileByPath(configuration.SCRIPT_PATH);
+        String scriptPath = configuration.getScriptPath();
+        VirtualFile file = scriptPath == null ? null : LocalFileSystem.getInstance().findFileByPath(scriptPath);
         return file != null && Comparing.equal(file, phpFile.getVirtualFile());
     }
 }

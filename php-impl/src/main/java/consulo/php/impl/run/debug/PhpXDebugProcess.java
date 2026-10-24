@@ -127,7 +127,7 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
         commandLine.withEnvironment("XDEBUG_SESSION", "consulo");
 
         List<String> args = new ArrayList<>();
-        args.add(FileUtil.toSystemDependentName(config.SCRIPT_PATH));
+        args.add(FileUtil.toSystemDependentName(StringUtil.notNullize(config.getScriptPath())));
         args.addAll(StringUtil.split(StringUtil.notNullize(config.getProgramParameters()), " "));
         commandLine.withParameters(args);
         commandLine.withParentEnvironmentType(

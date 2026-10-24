@@ -86,7 +86,7 @@ public class PhpMutableModuleExtensionImpl extends PhpModuleExtensionImpl implem
         }
 
         ComboBox<Object> versionBox = ComboBox.create(items);
-        versionBox.setRender((presentation, item) ->
+        versionBox.setRenderer((presentation, item) ->
         {
             Object value = item.getValue();
             if (value instanceof PhpLanguageLevel level) {

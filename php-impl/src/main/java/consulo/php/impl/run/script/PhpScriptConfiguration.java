@@ -7,7 +7,10 @@ import consulo.execution.CommonProgramRunConfigurationParameters;
 import consulo.execution.DefaultExecutionResult;
 import consulo.execution.ExecutionResult;
 import consulo.execution.configuration.*;
-import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.configuration.fragment.EnvironmentFragmentState;
+import consulo.execution.configuration.fragment.ProgramParametersFragmentState;
+import consulo.execution.configuration.fragment.RunConfigurationFragment;
+import consulo.execution.configuration.fragment.WorkingDirectoryFragmentState;
 import consulo.execution.executor.Executor;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.runner.ProgramRunner;
@@ -26,10 +29,6 @@ import consulo.process.local.ProcessHandlerFactory;
 import consulo.project.Project;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
-import consulo.util.xml.serializer.DefaultJDOMExternalizer;
-import consulo.util.xml.serializer.InvalidDataException;
-import consulo.util.xml.serializer.WriteExternalException;
-import org.jdom.Element;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -42,41 +41,65 @@ import java.util.*;
  */
 public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigurationModule> implements CommonProgramRunConfigurationParameters, CompileStepBeforeRun.Suppressor
 {
-	public String SCRIPT_PATH;
-	public String PROGRAM_ARGUMENTS;
-	public String WORKING_DIRECTORY;
-
-	public Map<String, String> ENVS = new HashMap<>();
-	public boolean PASS_PARENT_ENVS = true;
-
 	public PhpScriptConfiguration(Project project, ConfigurationFactory factory)
 	{
 		super(new RunConfigurationModule(project), factory);
 	}
 
 	@Override
+	protected Class<PhpScriptConfigurationOptions> getOptionsClass()
+	{
+		return PhpScriptConfigurationOptions.class;
+	}
+
+	@Override
+	public PhpScriptConfigurationOptions getOptions()
+	{
+		return (PhpScriptConfigurationOptions) super.getOptions();
+	}
+
+	@Override
+	protected void convertLegacyState(LegacyRunConfigurationConverter converter)
+	{
+		super.convertLegacyState(converter);
+
+		PhpScriptConfigurationLegacyState old = converter.readXml(PhpScriptConfigurationLegacyState.class);
+
+		PhpScriptConfigurationOptions options = new PhpScriptConfigurationOptions();
+		options.setScriptPath(old.SCRIPT_PATH);
+		converter.setOptions(options);
+
+		converter.addFragment(new ProgramParametersFragmentState(old.PROGRAM_ARGUMENTS));
+		converter.addFragment(new WorkingDirectoryFragmentState(old.WORKING_DIRECTORY));
+		converter.addFragment(new EnvironmentFragmentState(converter.readEnvs(), old.PASS_PARENT_ENVS));
+	}
+
+	@Override
+	public List<RunConfigurationFragment<?>> createFragments()
+	{
+		return List.of(new PhpScriptPathFragment());
+	}
+
+	@Nullable
+	public String getScriptPath()
+	{
+		return getOptions().getScriptPath();
+	}
+
+	public void setScriptPath(@Nullable String scriptPath)
+	{
+		getOptions().setScriptPath(scriptPath);
+	}
+
+	@Override
 	public String suggestedName()
 	{
-		if(StringUtil.isEmptyOrSpaces(SCRIPT_PATH))
+		String scriptPath = getScriptPath();
+		if(StringUtil.isEmptyOrSpaces(scriptPath))
 		{
 			return null;
 		}
-		File file = new File(SCRIPT_PATH);
-		return file.getName();
-	}
-
-	@Override
-	public void readExternal(Element element) throws InvalidDataException
-	{
-		super.readExternal(element);
-		DefaultJDOMExternalizer.readExternal(this, element);
-	}
-
-	@Override
-	public void writeExternal(Element element) throws WriteExternalException
-	{
-		super.writeExternal(element);
-		DefaultJDOMExternalizer.writeExternal(this, element);
+		return new File(scriptPath).getName();
 	}
 
 	@Override
@@ -94,13 +117,6 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 			}
 		}
 		return result;
-	}
-
-	@Nonnull
-	@Override
-	public SettingsEditor<? extends RunConfiguration> getConfigurationEditor()
-	{
-		return new PhpScriptSettingsEditor(getProject());
 	}
 
 	@Nullable
@@ -134,7 +150,7 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 				commandLine.withWorkDirectory(StringUtil.nullize(conf.getWorkingDirectory()));
 				commandLine.withEnvironment(conf.getEnvs());
 				List<String> args = new ArrayList<>();
-				args.add(FileUtil.toSystemDependentName(conf.SCRIPT_PATH));
+				args.add(FileUtil.toSystemDependentName(conf.getScriptPath()));
 				args.addAll(StringUtil.split(StringUtil.notNullize(conf.getProgramParameters()), " "));
 				commandLine.withParameters(args);
 				commandLine.withParentEnvironmentType(conf.isPassParentEnvs() ? GeneralCommandLine.ParentEnvironmentType.SYSTEM : GeneralCommandLine.ParentEnvironmentType.NONE);
@@ -146,56 +162,5 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 				return new DefaultExecutionResult(console, processHandler);
 			}
 		};
-	}
-
-	@Override
-	public void setProgramParameters(@Nullable String s)
-	{
-		PROGRAM_ARGUMENTS = s;
-	}
-
-	@Nullable
-	@Override
-	public String getProgramParameters()
-	{
-		return PROGRAM_ARGUMENTS;
-	}
-
-	@Override
-	public void setWorkingDirectory(@Nullable String s)
-	{
-		WORKING_DIRECTORY = s;
-	}
-
-	@Nullable
-	@Override
-	public String getWorkingDirectory()
-	{
-		return WORKING_DIRECTORY;
-	}
-
-	@Override
-	public void setEnvs(@Nonnull Map<String, String> map)
-	{
-		ENVS = map;
-	}
-
-	@Nonnull
-	@Override
-	public Map<String, String> getEnvs()
-	{
-		return ENVS;
-	}
-
-	@Override
-	public void setPassParentEnvs(boolean b)
-	{
-		PASS_PARENT_ENVS = b;
-	}
-
-	@Override
-	public boolean isPassParentEnvs()
-	{
-		return PASS_PARENT_ENVS;
 	}
 }
