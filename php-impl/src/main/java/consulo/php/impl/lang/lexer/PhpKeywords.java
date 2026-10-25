@@ -18,7 +18,7 @@ package consulo.php.impl.lang.lexer;
 
 import consulo.language.ast.IElementType;
 import consulo.language.ast.TokenSet;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.lang.lexer.PhpTokenTypes;
 
 import java.util.HashMap;

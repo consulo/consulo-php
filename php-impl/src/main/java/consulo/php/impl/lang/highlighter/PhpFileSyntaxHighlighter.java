@@ -7,7 +7,7 @@ import consulo.language.ast.StringEscapesTokenTypes;
 import consulo.language.editor.highlight.LanguageVersionableSyntaxHighlighter;
 import consulo.language.lexer.Lexer;
 import consulo.language.version.LanguageVersion;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;

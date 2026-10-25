@@ -8,7 +8,7 @@ import consulo.annotation.access.RequiredReadAction;
 import consulo.language.editor.completion.CompletionProvider;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.ProcessingContext;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.psi.impl.*;
 import consulo.php.module.util.PhpModuleExtensionUtil;
 

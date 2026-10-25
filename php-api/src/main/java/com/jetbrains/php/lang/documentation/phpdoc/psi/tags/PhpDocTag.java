@@ -17,6 +17,8 @@
 package com.jetbrains.php.lang.documentation.phpdoc.psi.tags;
 
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.function.Condition;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -27,6 +29,8 @@ import jakarta.annotation.Nonnull;
  */
 public interface PhpDocTag extends PhpDocPsiElement
 {
+	Condition<PsiElement> INSTANCEOF = e -> e instanceof PhpDocTag;
+
 	/**
 	 * @return tag name with {@code @}: {@code @param}, {@code @ORM\\Column}
 	 */

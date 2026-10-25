@@ -1,7 +1,7 @@
 package consulo.php.impl.lang.lexer;
 
 import consulo.language.lexer.FlexAdapter;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 
 /**
  * @author VISTALL

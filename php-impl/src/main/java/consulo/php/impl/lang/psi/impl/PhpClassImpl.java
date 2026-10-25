@@ -190,7 +190,8 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public boolean isAnonymous()
 	{
-		return false;
+		// anonymous classes are never stubbed
+		return getStub() == null && getNode().getElementType() == PhpElementTypes.ANONYMOUS_CLASS;
 	}
 
 	@Override

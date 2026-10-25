@@ -23,7 +23,7 @@ import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.PsiRecursiveElementWalkingVisitor;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.test.junit.impl.extension.ConsuloProjectLoader;
 import consulo.test.junit.impl.extension.InjectingRecord;

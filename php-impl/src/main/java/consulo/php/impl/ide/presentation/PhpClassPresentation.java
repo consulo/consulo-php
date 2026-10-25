@@ -9,7 +9,7 @@ import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.navigation.ItemPresentation;
 import consulo.navigation.ItemPresentationProvider;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.module.util.PhpModuleExtensionUtil;
 import consulo.ui.image.Image;
 import consulo.util.lang.StringUtil;

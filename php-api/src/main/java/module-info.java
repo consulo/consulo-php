@@ -36,8 +36,9 @@ module consulo.php.api
 	exports com.jetbrains.php.lang.psi;
 	exports com.jetbrains.php.lang.psi.elements;
 	exports com.jetbrains.php.lang.psi.resolve.types;
+	exports com.jetbrains.php.refactoring;
 
-	exports consulo.php;
+	exports com.jetbrains.php.config;
 	exports consulo.php.icon;
 	exports consulo.php.lang.documentation.phpdoc.psi;
 	exports consulo.php.lang.documentation.phpdoc.psi.tags;

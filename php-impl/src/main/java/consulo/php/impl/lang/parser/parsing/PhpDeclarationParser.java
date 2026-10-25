@@ -195,7 +195,7 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
             }
         }
         builder.match(RPAREN);
-        list.done(PhpElementTypes.FUNCTION_PARAMETER_LIST);
+        list.done(PhpElementTypes.PARAMETER_LIST);
     }
 
     /**

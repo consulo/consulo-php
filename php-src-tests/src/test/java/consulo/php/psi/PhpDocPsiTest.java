@@ -31,7 +31,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.util.PsiTreeUtil;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import consulo.test.junit.impl.extension.ConsuloProjectLoader;
 import consulo.test.junit.impl.extension.InjectingRecord;

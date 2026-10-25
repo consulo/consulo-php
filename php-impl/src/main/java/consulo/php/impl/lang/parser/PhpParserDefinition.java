@@ -13,7 +13,7 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.impl.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;

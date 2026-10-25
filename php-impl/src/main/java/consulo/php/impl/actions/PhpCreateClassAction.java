@@ -21,7 +21,7 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.language.util.ModuleUtilCore;
 import consulo.localize.LocalizeValue;
 import consulo.module.Module;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.icon.PhpIconGroup;
 import consulo.php.impl.lang.psi.PhpPackage;
 import consulo.php.impl.lang.psi.util.PhpPsiUtil;

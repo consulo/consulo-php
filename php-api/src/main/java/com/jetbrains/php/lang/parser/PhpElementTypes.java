@@ -39,7 +39,6 @@ public interface PhpElementTypes
 	IElementType RETURN_TYPE = new PhpElementType("RETURN_TYPE");
 	IElementType ANONYMOUS_CLASS = new PhpElementType("ANONYMOUS_CLASS");
 	IElementType EXPRESSION_PARAMETER_LIST = new PhpElementType("EXPRESSION_PARAMETER_LIST");
-	IElementType FUNCTION_PARAMETER_LIST = new PhpElementType("FUNCTION_PARAMETER_LIST");
 	IElementType UNARY_EXPRESSION = new PhpElementType("UNARY_EXPRESSION");
 	IElementType ASSIGNMENT_EXPRESSION = new PhpElementType("ASSIGNMENT_EXPRESSION");
 	IElementType SELF_ASSIGNMENT_EXPRESSION = new PhpElementType("SELF_ASSIGNMENT_EXPRESSION");

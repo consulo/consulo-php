@@ -9,7 +9,7 @@ import consulo.language.ast.TokenSet;
 import com.jetbrains.php.lang.psi.elements.*;
 import consulo.language.findUsage.FindUsagesProvider;
 import consulo.language.psi.PsiElement;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.lexer.PhpFlexLexer;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.parser.PhpTokenSets;

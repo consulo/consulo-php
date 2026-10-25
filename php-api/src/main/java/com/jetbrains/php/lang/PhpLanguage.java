@@ -3,7 +3,7 @@ package com.jetbrains.php.lang;
 import consulo.language.Language;
 import consulo.language.template.TemplateLanguage;
 import consulo.language.version.LanguageVersion;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 
 import jakarta.annotation.Nonnull;
 

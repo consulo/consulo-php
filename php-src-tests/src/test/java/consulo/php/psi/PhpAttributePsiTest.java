@@ -28,7 +28,7 @@ import com.jetbrains.php.lang.psi.stubs.indexes.expectedArguments.PhpExpectedFun
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.util.PsiTreeUtil;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.test.junit.impl.extension.ConsuloProjectLoader;
 import consulo.test.junit.impl.extension.InjectingRecord;
 import org.junit.jupiter.api.Assertions;

@@ -5,7 +5,7 @@ import consulo.content.bundle.SdkType;
 import consulo.module.content.layer.ModuleRootLayer;
 import consulo.module.content.layer.extension.ModuleExtensionWithSdkBase;
 import consulo.module.extension.ModuleInheritableNamedPointer;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import org.jdom.Element;

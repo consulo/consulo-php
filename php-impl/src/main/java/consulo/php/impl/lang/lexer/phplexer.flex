@@ -2,7 +2,7 @@ package consulo.php.impl.lang.lexer;
 
 import consulo.language.ast.IElementType;
 import consulo.language.lexer.FlexLexer;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import consulo.php.impl.lang.lexer.managers.*;
 import consulo.php.lang.lexer.PhpTokenTypes;

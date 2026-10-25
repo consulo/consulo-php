@@ -7,6 +7,8 @@ import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
 import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.language.psi.PsiElement;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocPsiCreator;
@@ -34,8 +36,8 @@ public class PhpPsiCreator implements PhpElementTypes
 		FACTORIES.put(USE, PhpUseImpl::new);
 		FACTORIES.put(RETURN_TYPE, PhpReturnTypeImpl::new);
 		FACTORIES.put(ANONYMOUS_CLASS, PhpClassImpl::new);
-		FACTORIES.put(EXPRESSION_PARAMETER_LIST, PhpExpressionParameterListImpl::new);
-		FACTORIES.put(FUNCTION_PARAMETER_LIST, PhpFunctionParameterListImpl::new);
+		// PhpStorm uses one PARAMETER_LIST type for call arguments and declared parameters
+		FACTORIES.put(PARAMETER_LIST, node -> isDeclaredParameterList(node) ? new PhpFunctionParameterListImpl(node) : new PhpExpressionParameterListImpl(node));
 		FACTORIES.put(UNARY_EXPRESSION, PhpUnaryExpressionImpl::new);
 		FACTORIES.put(ASSIGNMENT_EXPRESSION, PhpAssignmentExpressionImpl::new);
 		FACTORIES.put(SELF_ASSIGNMENT_EXPRESSION, PhpSelfAssignmentExpressionImpl::new);
@@ -58,6 +60,14 @@ public class PhpPsiCreator implements PhpElementTypes
 		FACTORIES.put(METHOD_REFERENCE, PhpMethodReferenceImpl::new);
 	}
 
+
+	private static final TokenSet PARAMETER_LIST_OWNERS = TokenSet.create(FUNCTION, PhpStubElements.CLASS_METHOD, ANONYMOUS_FUNCTION, PROPERTY_HOOK);
+
+	private static boolean isDeclaredParameterList(ASTNode node)
+	{
+		ASTNode parent = node.getTreeParent();
+		return parent != null && PARAMETER_LIST_OWNERS.contains(parent.getElementType());
+	}
 
 	public static PsiElement create(ASTNode node)
 	{

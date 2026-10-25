@@ -27,7 +27,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.util.PsiTreeUtil;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.parser.PhpElementTypes;
 import consulo.php.impl.lang.psi.impl.PhpIndexImpl;
 import consulo.project.Project;

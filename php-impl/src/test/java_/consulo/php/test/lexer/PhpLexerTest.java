@@ -1,7 +1,7 @@
 package consulo.php.test.lexer;
 
 import consulo.language.ast.IElementType;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.lexer.PhpFlexLexer;
 import consulo.testFramework.MockApplicationTestCase;
 

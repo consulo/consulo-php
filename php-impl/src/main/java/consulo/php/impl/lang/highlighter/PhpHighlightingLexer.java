@@ -2,7 +2,7 @@ package consulo.php.impl.lang.highlighter;
 
 import consulo.language.ast.IElementType;
 import consulo.language.lexer.LayeredLexer;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
 import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;

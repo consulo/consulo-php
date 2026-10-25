@@ -1,9 +1,13 @@
-package consulo.php;
+package com.jetbrains.php.config;
 
 import com.jetbrains.php.lang.PhpLanguage;
 import consulo.component.util.pointer.Named;
 import consulo.component.util.pointer.NamedPointer;
 import consulo.language.version.LanguageVersion;
+import consulo.module.Module;
+import consulo.module.ModuleManager;
+import consulo.php.module.extension.PhpModuleExtension;
+import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
 
@@ -31,6 +35,11 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 	public static final PhpLanguageLevel PHP_8_5 = new PhpLanguageLevel(15, "PHP_8_5", "8.5", "");
 
 	public static final PhpLanguageLevel HIGHEST = PHP_8_5;
+
+	/**
+	 * Level of code without a PHP module, see {@link #current(Project)}
+	 */
+	public static final PhpLanguageLevel DEFAULT = HIGHEST;
 
 	public static final PhpLanguageLevel[] VALUES = new PhpLanguageLevel[]{
 			PHP_5_0,
@@ -63,9 +72,37 @@ public class PhpLanguageLevel extends LanguageVersion implements Named, NamedPoi
 		myDescription = description;
 	}
 
+	/**
+	 * Language level is per module: the project level is the highest level of its PHP modules
+	 */
+	@Nonnull
+	public static PhpLanguageLevel current(@Nonnull Project project)
+	{
+		PhpLanguageLevel result = null;
+		for(Module module : ModuleManager.getInstance(project).getModules())
+		{
+			PhpModuleExtension<?> extension = module.getExtension(PhpModuleExtension.class);
+			if(extension != null && (result == null || extension.getLanguageLevel().isAtLeast(result)))
+			{
+				result = extension.getLanguageLevel();
+			}
+		}
+		return result == null ? DEFAULT : result;
+	}
+
 	public boolean isAtLeast(PhpLanguageLevel languageLevel)
 	{
 		return ordinal() >= languageLevel.ordinal();
+	}
+
+	public int compareTo(@Nonnull PhpLanguageLevel languageLevel)
+	{
+		return Integer.compare(ordinal(), languageLevel.ordinal());
+	}
+
+	public boolean hasFeature(@Nonnull PhpLanguageFeature feature)
+	{
+		return isAtLeast(feature.getMinimumLevel());
 	}
 
 	public int ordinal()

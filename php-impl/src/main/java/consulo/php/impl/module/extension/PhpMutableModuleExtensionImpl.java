@@ -10,7 +10,7 @@ import consulo.module.extension.ModuleExtension;
 import consulo.module.extension.ModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.module.ui.extension.ModuleExtensionBundleBoxBuilder;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.localize.PhpLocalize;
 import consulo.php.module.extension.PhpModuleExtension;
 import consulo.php.module.extension.PhpMutableModuleExtension;

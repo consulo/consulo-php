@@ -4,7 +4,7 @@ import consulo.annotation.access.RequiredReadAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.module.extension.PhpModuleExtension;
 
 import jakarta.annotation.Nonnull;

@@ -3,7 +3,7 @@ package consulo.php.module.extension;
 import jakarta.annotation.Nonnull;
 
 import consulo.module.extension.ModuleExtensionWithSdk;
-import consulo.php.PhpLanguageLevel;
+import com.jetbrains.php.config.PhpLanguageLevel;
 
 /**
  * @author VISTALL
