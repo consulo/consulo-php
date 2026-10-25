@@ -1,6 +1,8 @@
 package consulo.php.impl.completion;
 
+import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
 
 /**
  * @author VISTALL
@@ -13,7 +15,8 @@ public enum PhpNamingPolicy
 				@Override
 				public CharSequence getName(PhpNamedElement element)
 				{
-					return element.getName();
+					// variables are completed with the '$'
+					return element instanceof Variable || element instanceof Parameter ? "$" + element.getName() : element.getName();
 				}
 			},
 	WITHOUT_DOLLAR

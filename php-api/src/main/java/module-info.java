@@ -12,6 +12,9 @@ module consulo.php.api
 	requires transitive consulo.process.api;
 	requires transitive consulo.document.api;
 	requires transitive consulo.ui.api;
+	requires transitive consulo.language.editor.api;
+	requires transitive consulo.code.editor.api;
+	requires transitive consulo.color.scheme.api;
 
 	requires consulo.application.api;
 	requires consulo.component.api;
@@ -25,6 +28,9 @@ module consulo.php.api
 	exports com.jetbrains.php;
 	exports com.jetbrains.php.codeInsight;
 	exports com.jetbrains.php.lang;
+	exports com.jetbrains.php.completion;
+	exports com.jetbrains.php.completion.insert;
+	exports com.jetbrains.php.lang.highlighter;
 	exports com.jetbrains.php.lang.documentation.phpdoc;
 	exports com.jetbrains.php.lang.documentation.phpdoc.lexer;
 	exports com.jetbrains.php.lang.documentation.phpdoc.parser;
@@ -49,5 +55,6 @@ module consulo.php.api
 	exports consulo.php.module.util;
 	exports consulo.php.sdk;
 	exports com.jetbrains.php.lang.psi.stubs;
+	exports com.jetbrains.php.lang.psi.stubs.indexes;
 	exports com.jetbrains.php.lang.psi.stubs.indexes.expectedArguments;
 }

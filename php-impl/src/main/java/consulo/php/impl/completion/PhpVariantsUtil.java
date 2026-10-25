@@ -123,9 +123,9 @@ public class PhpVariantsUtil
 				PhpType type = parameter.getType();
 				if(type != PhpType.EMPTY)
 				{
-					return type.toString() + " " + parameter.getName();
+					return type.toString() + " $" + parameter.getName();
 				}
-				return parameter.getName();
+				return "$" + parameter.getName();
 			}, ", ");
 			builder = builder.withTailText("(" + parametersText + ")");
 			builder = builder.withInsertHandler(PhpMethodInsertHandler.getInstance());

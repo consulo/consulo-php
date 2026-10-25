@@ -106,7 +106,7 @@ public class PhpType
 	public static final PhpType STATIC = builder().add(PhpClass.STATIC).build();
 	public static final PhpType EXCEPTION = builder().add(_EXCEPTION).build();
 	public static final PhpType THROWABLE = builder().add(_THROWABLE).build();
-	public static final PhpType $THIS = builder().add(Variable.$THIS).build();
+	public static final PhpType $THIS = builder().add("$this").build();
 
 	@Nullable
 	Set<String> types;

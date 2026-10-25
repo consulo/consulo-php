@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Refreshes src/main/resources/phpstorm-stubs from a php-runtime-stubs (JetBrains phpstorm-stubs) checkout:
 # the stub .php files and the JetBrains\PhpStorm attribute classes they use.
-# Usage: ./sync-runtime-stubs.sh [path-to-php-runtime-stubs]   (default: ../../php-runtime-stubs)
+# Usage: ./sync-runtime-stubs.sh [path-to-php-runtime-stubs]   (default: ../../_PHP_WORLD/php-runtime-stubs, then ../../php-runtime-stubs)
 set -euo pipefail
 
 cd "$(dirname "$0")"
-SRC="$(cd "${1:-../../php-runtime-stubs}" && pwd)"
+DEFAULT_SRC=../../_PHP_WORLD/php-runtime-stubs
+[ -d "$DEFAULT_SRC" ] || DEFAULT_SRC=../../php-runtime-stubs
+SRC="$(cd "${1:-$DEFAULT_SRC}" && pwd)"
 DST=src/main/resources/phpstorm-stubs
 
 rm -rf "$DST"

@@ -2,7 +2,6 @@ package consulo.php.sdk;
 
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.Application;
-import consulo.container.plugin.PluginManager;
 import consulo.content.OrderRootType;
 import consulo.content.base.BinariesOrderRootType;
 import consulo.content.base.SourcesOrderRootType;
@@ -17,7 +16,6 @@ import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.util.CapturingProcessUtil;
 import consulo.process.util.ProcessOutput;
-import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -84,21 +82,63 @@ public class PhpSdkType extends SdkType {
 
     @Override
     public void setupSdkPaths(Sdk sdk) {
-        final SdkModificator sdkModificator = sdk.getSdkModificator();
+        SdkModificator sdkModificator = sdk.getSdkModificator();
 
-        File pluginPath = PluginManager.getPluginPath(PhpSdkType.class);
-
-        File stubDirectory = new File(pluginPath, "php-runtime-stubs");
-        VirtualFile stubsDir = LocalFileSystem.getInstance().findFileByIoFile(stubDirectory);
-
-        if (stubsDir == null) {
-            LOGGER.warn("Cant find stubs for path: " + stubDirectory);
+        // the declarations of PHP itself: classes, functions and constants of the runtime and its extensions
+        VirtualFile stubs = PhpRuntimeStubs.getRoot();
+        if (stubs == null) {
+            LOGGER.warn("Cant find bundled PHP runtime stubs: " + PhpRuntimeStubs.class.getResource(PhpRuntimeStubs.RESOURCE_ROOT));
         }
         else {
-            sdkModificator.addRoot(stubsDir, BinariesOrderRootType.ID);
-            sdkModificator.addRoot(stubsDir, SourcesOrderRootType.ID);
+            sdkModificator.addRoot(stubs, BinariesOrderRootType.ID);
+            sdkModificator.addRoot(stubs, SourcesOrderRootType.ID);
         }
 
+        sdkModificator.commitChanges();
+    }
+
+    /**
+     * Whether the SDK misses the runtime stubs of this plugin, or has the stubs of another plugin location:
+     * the stubs are inside the plugin jar, which moves with plugin updates
+     */
+    public static boolean isRuntimeStubsOutdated(Sdk sdk) {
+        VirtualFile stubs = PhpRuntimeStubs.getRoot();
+        if (stubs == null) {
+            return false;
+        }
+        for (String rootType : ourAllowedRootTypeIds) {
+            String[] urls = sdk.getRootProvider().getUrls(rootType);
+            if (!Arrays.asList(urls).contains(stubs.getUrl())) {
+                return true;
+            }
+            for (String url : urls) {
+                if (PhpRuntimeStubs.isRuntimeStubsUrl(url) && !url.equals(stubs.getUrl())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Replaces the runtime stub roots of the SDK by the stubs of this plugin, other roots stay. Needs the write action.
+     */
+    public static void updateRuntimeStubs(Sdk sdk) {
+        VirtualFile stubs = PhpRuntimeStubs.getRoot();
+        if (stubs == null) {
+            return;
+        }
+        SdkModificator sdkModificator = sdk.getSdkModificator();
+        for (String rootType : ourAllowedRootTypeIds) {
+            String[] urls = sdk.getRootProvider().getUrls(rootType);
+            sdkModificator.removeRoots(rootType);
+            for (String url : urls) {
+                if (!PhpRuntimeStubs.isRuntimeStubsUrl(url)) {
+                    sdkModificator.addRoot(url, rootType);
+                }
+            }
+            sdkModificator.addRoot(stubs, rootType);
+        }
         sdkModificator.commitChanges();
     }
 

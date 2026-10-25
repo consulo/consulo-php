@@ -77,17 +77,33 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Field[] getOwnFields()
 	{
+		List<Field> fields = new ArrayList<>();
 		if(getGreenStub() != null)
 		{
-			return getStubOrPsiChildren(PhpStubElements.CLASS_FIELD, Field.ARRAY_FACTORY);
+			fields.addAll(List.of(getStubOrPsiChildren(PhpStubElements.CLASS_FIELD, Field.ARRAY_FACTORY)));
 		}
-		List<Field> fields = new ArrayList<>();
-		for(PsiElement child : getChildren())
+		else
 		{
-			IElementType type = child.getNode().getElementType();
-			if(type == PhpElementTypes.CLASS_FIELDS || type == PhpElementTypes.CLASS_CONSTANTS)
+			for(PsiElement child : getChildren())
 			{
-				fields.addAll(PsiTreeUtil.getChildrenOfTypeAsList(child, Field.class));
+				IElementType type = child.getNode().getElementType();
+				if(type == PhpElementTypes.CLASS_FIELDS || type == PhpElementTypes.CLASS_CONSTANTS)
+				{
+					fields.addAll(PsiTreeUtil.getChildrenOfTypeAsList(child, Field.class));
+				}
+			}
+		}
+
+		// promoted constructor parameters are fields, like in PhpStorm
+		Method constructor = findOwnMethodByName("__construct");
+		if(constructor != null)
+		{
+			for(Parameter parameter : constructor.getParameters())
+			{
+				if(parameter instanceof Field field)
+				{
+					fields.add(field);
+				}
 			}
 		}
 		return fields.toArray(Field.EMPTY);

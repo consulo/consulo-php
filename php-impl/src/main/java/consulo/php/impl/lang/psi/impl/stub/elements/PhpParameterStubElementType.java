@@ -4,7 +4,9 @@ import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.index.io.StringRef;
+import com.jetbrains.php.lang.psi.elements.impl.PhpPromotedFieldParameterImpl;
 import consulo.language.ast.ASTNode;
+import consulo.php.impl.lang.parser.PhpElementTypes;
 import consulo.language.psi.stub.IndexSink;
 import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
@@ -31,13 +33,14 @@ public class PhpParameterStubElementType extends PhpStubElementType<PhpParameter
 	@Override
 	public Parameter createElement(@Nonnull ASTNode node)
 	{
-		return new PhpParameterImpl(node);
+		// visibility or readonly of a promoted constructor parameter
+		return node.findChildByType(PhpElementTypes.MODIFIER_LIST) != null ? new PhpPromotedFieldParameterImpl(node) : new PhpParameterImpl(node);
 	}
 
 	@Override
 	public Parameter createPsi(@Nonnull PhpParameterStub stub)
 	{
-		return new PhpParameterImpl(stub, this);
+		return BitUtil.isSet(stub.getFlags(), PhpParameterStubImpl.PROMOTED) ? new PhpPromotedFieldParameterImpl(stub, this) : new PhpParameterImpl(stub, this);
 	}
 
 	@RequiredReadAction
@@ -46,6 +49,10 @@ public class PhpParameterStubElementType extends PhpStubElementType<PhpParameter
 	{
 		int flags = 0;
 		flags = BitUtil.set(flags, PhpParameterStubImpl.VARIADIC, psi.isVariadic());
+		if(psi instanceof PhpPromotedFieldParameterImpl promoted)
+		{
+			flags |= PhpParameterStubImpl.PROMOTED | PhpParameterStubImpl.accessFlags(promoted.getAccess());
+		}
 		return new PhpParameterStubImpl(parentStub, this, psi.getName(), (short) flags);
 	}
 

@@ -11,6 +11,7 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.util.lang.StringUtil;
 import consulo.annotation.access.RequiredWriteAction;
 import consulo.document.util.TextRange;
 import consulo.language.ast.ASTNode;
@@ -128,6 +129,17 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	public PsiElement getNameIdentifier()
 	{
 		return findChildByType(PhpTokenTypes.VARIABLE);
+	}
+
+	/**
+	 * Name without the {@code $}, like PhpStorm: {@code $foo} is {@code foo}
+	 */
+	@RequiredReadAction
+	@Override
+	public String getName()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? null : StringUtil.trimStart(nameIdentifier.getText(), "$");
 	}
 
 	@RequiredWriteAction

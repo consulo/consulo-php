@@ -128,11 +128,7 @@ public class PhpParameterInfoHandler implements ParameterInfoHandler
 					buff.append(", ");
 				}
 				final Parameter parameter = parameters[i];
-				String paramName = parameter.getName();
-				if(paramName.equals("$"))
-				{
-					paramName = "";
-				}
+				String paramName = parameter.getName().isEmpty() ? "" : "$" + parameter.getName();
 
 				if(start == -1 && i == index)
 				{

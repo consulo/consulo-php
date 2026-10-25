@@ -15,6 +15,7 @@ import consulo.php.impl.lang.psi.impl.stub.PhpNamespaceStubImpl;
 import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
+import java.util.Locale;
 import java.io.IOException;
 
 /**
@@ -68,7 +69,8 @@ public class PhpNamespaceStubElementType extends PhpStubElementType<PhpNamespace
 		String name = stub.getName();
 		if(!StringUtil.isEmpty(name))
 		{
-			indexSink.occurrence(PhpIndexKeys.NAMESPACES, "\\" + name);
+			// namespace names are case-insensitive in PHP
+			indexSink.occurrence(PhpIndexKeys.NAMESPACES, ("\\" + name).toLowerCase(Locale.ROOT));
 		}
 	}
 }

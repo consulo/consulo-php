@@ -32,7 +32,7 @@ public class PhpReferenceQueryExecutor extends QueryExecutorBase<PsiReference, R
     ) {
         PsiElement elementToSearch = queryParameters.getElementToSearch();
         if (elementToSearch instanceof PhpClass phpClass) {
-            queryParameters.getOptimizer().searchWord(Variable.$THIS, queryParameters.getEffectiveSearchScope(), true, phpClass);
+            queryParameters.getOptimizer().searchWord("$this", queryParameters.getEffectiveSearchScope(), true, phpClass);
         }
         else if (elementToSearch instanceof Field field) {
             CharSequence nameCS = field.getNameCS();

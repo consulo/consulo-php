@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.highlighter;
 
+import com.jetbrains.php.lang.highlighter.PhpHighlightingData;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.setting.AttributesDescriptor;
 import consulo.colorScheme.setting.ColorDescriptor;

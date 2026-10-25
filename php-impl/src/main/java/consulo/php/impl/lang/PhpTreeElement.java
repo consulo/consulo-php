@@ -69,7 +69,7 @@ class PhpTreeElement implements StructureViewTreeElement
 		for(int i = 0; i < parameters.length; i++)
 		{
 			Parameter parameter = parameters[i];
-			b.append(parameter.getName());
+			b.append("$").append(parameter.getName());
 			if(parameters.length - i > 1)
 			{
 				b.append(", ");

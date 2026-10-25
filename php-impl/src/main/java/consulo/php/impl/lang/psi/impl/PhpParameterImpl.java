@@ -7,6 +7,7 @@ import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.util.lang.StringUtil;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.stub.IStubElementType;
@@ -102,6 +103,23 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 	public PsiElement getNameIdentifier()
 	{
 		return findChildByType(PhpTokenTypes.VARIABLE);
+	}
+
+	/**
+	 * Name without the {@code $}, like PhpStorm: {@code $foo} is {@code foo}
+	 */
+	@RequiredReadAction
+	@Nonnull
+	@Override
+	public String getName()
+	{
+		PhpParameterStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.getName();
+		}
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? "" : StringUtil.trimStart(nameIdentifier.getText(), "$");
 	}
 
 	@Nonnull

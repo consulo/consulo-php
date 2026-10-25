@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl.stub;
 
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.index.io.StringRef;
@@ -18,6 +19,23 @@ public class PhpParameterStubImpl extends PhpNamedStubImpl<Parameter> implements
 	public static final int VARIADIC = 1 << 0;
 	public static final int OPTIONAL = 1 << 1;
 	public static final int PASS_BY_REF = 1 << 2;
+	public static final int PROMOTED = 1 << 3;
+	public static final int ACCESS_PROTECTED = 1 << 4;
+	public static final int ACCESS_PRIVATE = 1 << 5;
+
+	public static int accessFlags(PhpModifier.Access access)
+	{
+		return access == PhpModifier.Access.PRIVATE ? ACCESS_PRIVATE : access == PhpModifier.Access.PROTECTED ? ACCESS_PROTECTED : 0;
+	}
+
+	public static PhpModifier.Access getAccess(int flags)
+	{
+		if(BitUtil.isSet(flags, ACCESS_PRIVATE))
+		{
+			return PhpModifier.Access.PRIVATE;
+		}
+		return BitUtil.isSet(flags, ACCESS_PROTECTED) ? PhpModifier.Access.PROTECTED : PhpModifier.Access.PUBLIC;
+	}
 
 	public PhpParameterStubImpl(StubElement parent, IStubElementType elementType, @Nullable StringRef name, short flags)
 	{

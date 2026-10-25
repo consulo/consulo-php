@@ -48,5 +48,6 @@
         <module>composer-impl</module>
         <module>stubs-generator</module>
         <module>php-src-tests</module>
+        <module>php-it</module>
     </modules>
 </project>

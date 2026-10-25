@@ -1,7 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
 import consulo.php.lang.lexer.PhpTokenTypes;
-import consulo.language.ast.TokenSet;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.php.impl.lang.psi.PhpNameResolver;
 import jakarta.annotation.Nonnull;
@@ -11,6 +10,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.resolve.PsiScopeProcessor;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.PhpGroupUseElement;
 import com.jetbrains.php.lang.psi.elements.PhpUse;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
@@ -75,16 +75,43 @@ public class PhpUseImpl extends PhpElementImpl implements PhpUse
 		return name.startsWith("\\") ? name : "\\" + name;
 	}
 
+	/**
+	 * Short name of the imported element; the PSI base class would return null
+	 */
+	@Nullable
 	@Override
-	public boolean isClassImport()
+	public String getName()
 	{
-		TokenSet kinds = TokenSet.create(PhpTokenTypes.kwFUNCTION, PhpTokenTypes.kwCONST);
-		if(getNode().findChildByType(kinds) != null)
+		return PhpUse.super.getName();
+	}
+
+	@Nonnull
+	@Override
+	public PhpGroupUseElement.PhpUseKeyword getUseKeyword()
+	{
+		// 'use function A\b', or the kind of a group: 'use function A\{b, c}'
+		PhpGroupUseElement.PhpUseKeyword keyword = findKeyword(getNode());
+		if(keyword != null)
 		{
-			return false;
+			return keyword;
 		}
 		PsiElement parent = getParent();
-		return parent == null || parent.getNode().findChildByType(kinds) == null;
+		keyword = parent == null ? null : findKeyword(parent.getNode());
+		return keyword == null ? PhpGroupUseElement.PhpUseKeyword.CLASS : keyword;
+	}
+
+	@Nullable
+	private static PhpGroupUseElement.PhpUseKeyword findKeyword(ASTNode node)
+	{
+		if(node.findChildByType(PhpTokenTypes.kwFUNCTION) != null)
+		{
+			return PhpGroupUseElement.PhpUseKeyword.FUNCTION;
+		}
+		if(node.findChildByType(PhpTokenTypes.kwCONST) != null)
+		{
+			return PhpGroupUseElement.PhpUseKeyword.CONST;
+		}
+		return null;
 	}
 
 	@Override

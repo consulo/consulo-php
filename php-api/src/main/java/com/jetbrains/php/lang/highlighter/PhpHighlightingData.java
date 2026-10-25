@@ -1,4 +1,4 @@
-package consulo.php.impl.lang.highlighter;
+package com.jetbrains.php.lang.highlighter;
 
 import consulo.codeEditor.DefaultLanguageHighlighterColors;
 import consulo.codeEditor.HighlighterColors;
@@ -39,4 +39,7 @@ public interface PhpHighlightingData
 
 	TextAttributesKey DOC_TAG = TextAttributesKey.createTextAttributesKey("PHP_DOC_TAG", DefaultLanguageHighlighterColors.DOC_COMMENT_TAG);
 	TextAttributesKey DOC_MARKUP = TextAttributesKey.createTextAttributesKey("PHP_MARKUP_ID", DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
+
+	TextAttributesKey CLASS = TextAttributesKey.createTextAttributesKey("PHP_CLASS", DefaultLanguageHighlighterColors.CLASS_NAME);
+	TextAttributesKey DOC_IDENTIFIER = TextAttributesKey.createTextAttributesKey("PHP_DOC_IDENTIFIER", DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE);
 }

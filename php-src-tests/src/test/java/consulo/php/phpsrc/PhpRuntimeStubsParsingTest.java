@@ -24,6 +24,7 @@ import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.PsiRecursiveElementWalkingVisitor;
 import com.jetbrains.php.config.PhpLanguageLevel;
 import consulo.php.impl.lang.psi.PhpStubElements;
+import consulo.php.sdk.PhpRuntimeStubs;
 import consulo.test.junit.impl.extension.ConsuloProjectLoader;
 import consulo.test.junit.impl.extension.InjectingRecord;
 import org.junit.jupiter.api.Assertions;
@@ -48,7 +49,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Parses the PHP runtime stubs bundled in php-impl ({@code phpstorm-stubs}): every file must parse cleanly and build stubs.
+ * Parses the PHP runtime stubs bundled in php-api ({@code phpstorm-stubs}): every file must parse cleanly and build stubs.
  *
  * @author VISTALL
  * @since 2026-10-25
@@ -66,8 +67,8 @@ public class PhpRuntimeStubsParsingTest {
 
     @TestFactory
     public Stream<DynamicTest> runtimeStubs(Context context) throws IOException, URISyntaxException {
-        URL license = PhpStubElements.class.getResource("/phpstorm-stubs/LICENSE");
-        Assertions.assertNotNull(license, "phpstorm-stubs not bundled in php-impl");
+        URL license = PhpRuntimeStubs.class.getResource(PhpRuntimeStubs.RESOURCE_ROOT + "/LICENSE");
+        Assertions.assertNotNull(license, "phpstorm-stubs not bundled in php-api");
 
         Path root = toPath(license.toURI()).getParent();
         List<Path> files;

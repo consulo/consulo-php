@@ -15,7 +15,10 @@ import java.util.Set;
 public interface Variable extends PhpPsiElement, PhpNamedElement, PsiPolyVariantReference, PhpTypedElement
 {
 	String THIS = "this";
-	String $THIS = "$this";
+	/**
+	 * Name of {@code $this}: variable and parameter names are without the {@code $}
+	 */
+	String $THIS = "this";
 
 	Set<String> SUPERGLOBALS = new HashSet<>(Arrays.asList(
 			"GLOBALS",

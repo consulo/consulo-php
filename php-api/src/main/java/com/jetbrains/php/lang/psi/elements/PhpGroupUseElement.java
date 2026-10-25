@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package consulo.php.impl.library;
-
-import consulo.annotation.component.ExtensionImpl;
-import consulo.language.psi.stub.IndexableSetContributor;
-import consulo.virtualFileSystem.VirtualFile;
-
-import java.util.Set;
+package com.jetbrains.php.lang.psi.elements;
 
 /**
- * Indexes the bundled runtime stubs, so built-in functions, classes and constants resolve in every project.
+ * {@code use A\{B, function c, const D}}: the group of a group import.
  *
  * @author VISTALL
  * @since 2026-10-25
  */
-@ExtensionImpl
-public class PhpRuntimeStubsIndexContributor extends IndexableSetContributor {
-    @Override
-    public Set<VirtualFile> getAdditionalRootsToIndex() {
-        VirtualFile root = PhpRuntimeStubs.getRoot();
-        return root == null ? Set.of() : Set.of(root);
-    }
+public interface PhpGroupUseElement extends PhpPsiElement
+{
+	/**
+	 * What an import imports: {@code use}, {@code use function} or {@code use const}
+	 */
+	enum PhpUseKeyword
+	{
+		CLASS,
+		FUNCTION,
+		CONST
+	}
 }

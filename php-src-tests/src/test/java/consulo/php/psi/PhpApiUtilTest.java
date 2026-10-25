@@ -22,15 +22,24 @@ import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.PhpLanguage;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import com.jetbrains.php.lang.parser.PhpElementTypes;
+import com.jetbrains.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.PhpFile;
+import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
+import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpAttributesList;
+import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
 import com.jetbrains.php.lang.psi.PhpPsiUtil;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
+import com.jetbrains.php.lang.psi.elements.Variable;
 import com.jetbrains.php.refactoring.PhpNameUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
 import consulo.test.junit.impl.extension.ConsuloProjectLoader;
 import consulo.test.junit.impl.extension.InjectingRecord;
 import org.junit.jupiter.api.Assertions;
@@ -47,7 +56,7 @@ import java.util.List;
  */
 @ExtendWith(ConsuloProjectLoader.class)
 public class PhpApiUtilTest {
-    public record Context(PsiFileFactory psiFileFactory) implements InjectingRecord {
+    public record Context(PsiFileFactory psiFileFactory, Project project) implements InjectingRecord {
     }
 
     @Test
@@ -136,5 +145,44 @@ public class PhpApiUtilTest {
         Assertions.assertNull(PhpPsiUtil.getParentByCondition(string, true, PhpClass.INSTANCEOF, Method.INSTANCEOF));
         Assertions.assertNull(PhpPsiUtil.getParentByCondition(string, true, PhpDocTag.INSTANCEOF, null));
         Assertions.assertTrue(PhpPsiUtil.isOfType(parameterList, PhpElementTypes.PARAMETER_LIST));
+    }
+
+    @Test
+    public void testElementFactory(Context context) {
+        Project project = context.project();
+
+        Assertions.assertEquals(1, PhpPsiUtil.findAllClasses(PhpPsiElementFactory.createPsiFileFromText(project, "<?php class Foo {}")).size());
+        Assertions.assertEquals("['foo' => 'bar']",
+            PhpPsiElementFactory.createPhpPsiFromText(project, ArrayCreationExpression.class, "$foo = ['foo' => 'bar'];").getText());
+        Assertions.assertEquals("'BarType'",
+            PhpPsiElementFactory.createFromText(project, StringLiteralExpression.class, "<?php 'BarType';").getText());
+
+        Method method = PhpPsiElementFactory.createMethod(project, "public function foo(\\DateTime $e): void {}");
+        Assertions.assertEquals("foo", method.getName());
+        Assertions.assertEquals(1, method.getParameters().length);
+
+        Function function = PhpPsiElementFactory.createFunction(project, "function show() { return 1; }");
+        Assertions.assertEquals("show", function.getName());
+
+        Assertions.assertEquals("addCompilerPass",
+            PhpPsiElementFactory.createMethodReference(project, "$container->addCompilerPass(new Foo());").getName());
+        Assertions.assertEquals("foo", PhpPsiElementFactory.createFunctionReference(project, "<?php foo('bar');").getName());
+
+        // like PhpStorm, variable and parameter names are without the '$'
+        Parameter parameter = PhpPsiElementFactory.createComplexParameter(project, "private readonly Foo $foo");
+        Assertions.assertEquals("foo", parameter.getName());
+        Variable thisVariable = PhpPsiElementFactory.createPhpPsiFromText(project, Variable.class, "$this->foo();");
+        Assertions.assertEquals("this", thisVariable.getName());
+        Assertions.assertEquals(Variable.$THIS, thisVariable.getName());
+
+        PhpAttributesList attributes = PhpPsiElementFactory.createAttributesList(project, "Route('/foo'), Deprecated");
+        Assertions.assertEquals(2, attributes.getAttributes().size());
+
+        PsiElement comma = PhpPsiElementFactory.createComma(project);
+        Assertions.assertTrue(PhpPsiUtil.isOfType(comma, PhpTokenTypes.opCOMMA));
+
+        PsiElement asterisk = PhpPsiElementFactory.createFromText(project, PhpDocTokenTypes.DOC_LEADING_ASTERISK, "/** \n * @var */");
+        Assertions.assertNotNull(asterisk);
+        Assertions.assertEquals("@var", PhpPsiElementFactory.createFromText(project, PhpDocTag.class, "/** @var */").getName());
     }
 }

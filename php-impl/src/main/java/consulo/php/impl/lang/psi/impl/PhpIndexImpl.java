@@ -106,15 +106,17 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<PhpNamespace> getNamespacesByName(String name)
 	{
-		Collection<PhpNamespace> collection = get(PhpNamespaceIndex.INSTANCE, name);
+		String key = namespaceKey(name);
+		Collection<PhpNamespace> collection = get(PhpNamespaceIndex.INSTANCE, key);
 		if(!collection.isEmpty())
 		{
 			return collection;
 		}
-		String prefix = name + "\\";
-		for(String key : keys(PhpNamespaceIndex.INSTANCE, null))
+		// a parent of declared namespaces exists without a declaration
+		String prefix = key + "\\";
+		for(String indexKey : keys(PhpNamespaceIndex.INSTANCE, null))
 		{
-			if(key.startsWith(prefix))
+			if(indexKey.startsWith(prefix))
 			{
 				return Collections.singletonList(new PhpEmptyNamespaceImpl(myProject, name));
 			}
@@ -126,34 +128,77 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public Collection<String> getChildNamespacesByParentName(@Nullable String name)
 	{
-		String prefix = name == null || name.isEmpty() ? "\\" : (name.endsWith("\\") ? name : name + "\\");
-		Set<String> result = new LinkedHashSet<>();
+		String prefix = namespacePrefix(name);
+		// lowercased child name -> child name as declared
+		Map<String, String> result = new LinkedHashMap<>();
 		for(String key : keys(PhpNamespaceIndex.INSTANCE, null))
 		{
 			if(key.startsWith(prefix) && key.length() > prefix.length())
 			{
 				String rest = key.substring(prefix.length());
 				int separator = rest.indexOf('\\');
-				result.add(separator < 0 ? rest : rest.substring(0, separator));
+				String child = separator < 0 ? rest : rest.substring(0, separator);
+				result.computeIfAbsent(child, it -> declaredSegment(key, prefix.length(), it));
 			}
 		}
-		return result;
+		return result.values();
 	}
 
 	@Nonnull
 	@Override
 	public Collection<String> getAllChildNamespacesFqns(@Nonnull String parentNamespaceFqn)
 	{
-		String prefix = parentNamespaceFqn.endsWith("\\") ? parentNamespaceFqn : parentNamespaceFqn + "\\";
+		String prefix = namespacePrefix(parentNamespaceFqn);
 		List<String> result = new ArrayList<>();
 		for(String key : keys(PhpNamespaceIndex.INSTANCE, null))
 		{
 			if(key.startsWith(prefix))
 			{
-				result.add(key);
+				result.add(declaredName(key));
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Namespace keys are lowercased FQNs without a trailing separator: {@code \app\controller}
+	 */
+	private static String namespaceKey(String name)
+	{
+		String key = normalizeFqn(name);
+		return key.length() > 1 && key.endsWith("\\") ? key.substring(0, key.length() - 1) : key;
+	}
+
+	private static String namespacePrefix(@Nullable String name)
+	{
+		if(name == null || name.isEmpty())
+		{
+			return "\\";
+		}
+		String key = normalizeFqn(name);
+		return key.endsWith("\\") ? key : key + "\\";
+	}
+
+	/**
+	 * Namespace FQN as declared, for a lowercased index key
+	 */
+	private String declaredName(String key)
+	{
+		for(PhpNamespace namespace : get(PhpNamespaceIndex.INSTANCE, key))
+		{
+			String name = namespace.getName();
+			if(name != null && name.length() + 1 == key.length())
+			{
+				return "\\" + name;
+			}
+		}
+		return key;
+	}
+
+	private String declaredSegment(String key, int start, String lowercased)
+	{
+		String declared = declaredName(key);
+		return declared.length() >= start + lowercased.length() ? declared.substring(start, start + lowercased.length()) : lowercased;
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------------
@@ -360,6 +405,7 @@ public class PhpIndexImpl extends PhpIndex
 	@Override
 	public GlobalSearchScope getSearchScope()
 	{
+		// the runtime stubs are roots of the PHP SDK
 		return GlobalSearchScope.allScope(myProject);
 	}
 

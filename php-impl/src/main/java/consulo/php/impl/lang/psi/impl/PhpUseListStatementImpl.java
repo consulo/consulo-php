@@ -22,7 +22,7 @@ public class PhpUseListStatementImpl extends PhpElementImpl implements PhpUseLis
 	}
 
 	@Override
-	public PhpUse[] getUses()
+	public PhpUse[] getDeclarations()
 	{
 		return findChildrenByClass(PhpUse.class);
 	}

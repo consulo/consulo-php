@@ -52,6 +52,7 @@ open module consulo.php {
     // TODO remove this dependency in future
     requires java.desktop;
 
+    exports com.jetbrains.php.lang.psi.elements.impl;
     exports consulo.php.impl;
     exports consulo.php.impl.actions;
     exports consulo.php.impl.actions.generate;

@@ -14,7 +14,7 @@ import consulo.language.editor.rawHighlight.HighlightInfoHolder;
 import consulo.language.editor.rawHighlight.HighlightInfoType;
 import consulo.language.editor.rawHighlight.HighlightVisitor;
 import consulo.language.psi.*;
-import consulo.php.impl.lang.highlighter.PhpHighlightingData;
+import com.jetbrains.php.lang.highlighter.PhpHighlightingData;
 import consulo.php.impl.lang.parser.PhpTokenSets;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import consulo.util.collection.ContainerUtil;

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package consulo.php.impl.library;
+package consulo.php.sdk;
 
+import consulo.util.io.URLUtil;
+import consulo.virtualFileSystem.StandardFileSystems;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
@@ -25,7 +27,7 @@ import java.net.URL;
 
 /**
  * Declarations of PHP itself and its extensions (JetBrains phpstorm-stubs), bundled in this plugin.
- * Refreshed by {@code php-impl/sync-runtime-stubs.sh}.
+ * {@link PhpSdkType} adds them as the roots of PHP SDKs. Refreshed by {@code php-api/sync-runtime-stubs.sh}.
  *
  * @author VISTALL
  * @since 2026-10-25
@@ -44,7 +46,23 @@ public final class PhpRuntimeStubs {
         if (url == null) {
             return null;
         }
-        VirtualFile root = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.convertFromUrl(url));
+        VirtualFile root = VirtualFileManager.getInstance().findFileByUrl(toVirtualFileUrl(url));
         return root != null && root.isValid() ? root : null;
+    }
+
+    /**
+     * Whether the root URL is runtime stubs of some plugin location, also of the old stubs directory next to the plugin jars
+     */
+    public static boolean isRuntimeStubsUrl(String url) {
+        return url.endsWith("!" + RESOURCE_ROOT) || url.endsWith("/php-runtime-stubs");
+    }
+
+    /**
+     * The {@code jar://} file system comes with the Java plugin, the {@code zip://} one is always there: open the plugin jar with it
+     */
+    static String toVirtualFileUrl(URL url) {
+        String vfsUrl = VirtualFileUtil.convertFromUrl(url);
+        String jarPrefix = StandardFileSystems.JAR_PROTOCOL + URLUtil.SCHEME_SEPARATOR;
+        return vfsUrl.startsWith(jarPrefix) ? StandardFileSystems.ZIP_PROTOCOL_PREFIX + vfsUrl.substring(jarPrefix.length()) : vfsUrl;
     }
 }
