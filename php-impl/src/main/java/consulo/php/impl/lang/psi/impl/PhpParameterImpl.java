@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.Variable;
@@ -54,28 +55,18 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		PhpParameterStub stub = getStub();
-		if(stub != null)
-		{
-			// TODO [VISTALL] implement me. don't call AST inside completion
-			return PhpType.EMPTY;
-		}
-
-		ClassReference reference = findChildByClass(ClassReference.class);
-		if(reference != null)
-		{
-			return reference.resolveLocalType();
-		}
-		return PhpType.EMPTY;
+		return PhpTypeInference.getParameterType(this);
 	}
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getDeclaredType()
 	{
-		return PhpType.EMPTY;
+		return PhpTypeInference.getDeclaredType(this);
 	}
 
 	@Nonnull

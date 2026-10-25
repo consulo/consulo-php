@@ -3,7 +3,6 @@ package consulo.php.impl.lang.psi.impl.stub;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
-import consulo.index.io.StringRef;
 import consulo.language.psi.stub.StubElement;
 import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.util.lang.BitUtil;
@@ -32,35 +31,44 @@ public class PhpClassStubImpl extends PhpNamedStubImpl<PhpClass> implements PhpC
 	public static final int FINAL = 1 << 3;
 
 	private final String myNamespaceName;
+	private final String mySuperclass;
+	private final String[] myInterfaces;
+	private final String[] myTraits;
 
-	public PhpClassStubImpl(StubElement parent, StringRef namespace, StringRef name, short flags)
-	{
-		this(parent, StringRef.toString(namespace), StringRef.toString(name), flags);
-	}
-
-	public PhpClassStubImpl(StubElement parent, String namespace, String name, short flags)
+	public PhpClassStubImpl(StubElement parent, String namespace, String name, short flags, String superclass, String[] interfaces, String[] traits)
 	{
 		super(parent, PhpStubElements.CLASS, name, flags);
-
 		myNamespaceName = namespace;
+		mySuperclass = superclass;
+		myInterfaces = interfaces;
+		myTraits = traits;
 	}
 
+	/**
+	 * @return FQN of the extended class
+	 */
 	@Override
 	public String getSuperclass()
 	{
-		return null;
+		return mySuperclass;
 	}
 
+	/**
+	 * @return FQNs of implemented interfaces (extended ones for an interface)
+	 */
 	@Override
 	public String[] getInterfaces()
 	{
-		return new String[0];
+		return myInterfaces;
 	}
 
+	/**
+	 * @return FQNs of used traits
+	 */
 	@Override
 	public String[] getTraits()
 	{
-		return new String[0];
+		return myTraits;
 	}
 
 	@Override
@@ -120,7 +128,7 @@ public class PhpClassStubImpl extends PhpNamedStubImpl<PhpClass> implements PhpC
 	@Override
 	public boolean hasTraitUses()
 	{
-		return false;
+		return myTraits.length > 0;
 	}
 
 	@Override

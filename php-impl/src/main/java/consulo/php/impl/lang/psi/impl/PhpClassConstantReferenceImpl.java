@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.CommonProcessors;
 import consulo.application.util.function.Processor;
 import consulo.language.ast.ASTNode;
@@ -148,18 +149,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 	@RequiredReadAction
 	public PhpType getType()
 	{
-		PsiElement nameIdentifier = getNameIdentifier();
-		if(PsiUtilCore.getElementType(nameIdentifier) == PhpTokenTypes.kwCLASS)
-		{
-			return PhpType.STRING;
-		}
-
-		PsiElement element = resolve();
-		if(element instanceof PhpTypedElement)
-		{
-			return ((PhpTypedElement) element).getType();
-		}
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 
 	@Nonnull
@@ -302,5 +292,13 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 			return true;
 		}
 		return false;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public String getSignature()
+	{
+		return PhpTypeInference.getSignature(this);
 	}
 }

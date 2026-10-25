@@ -12,6 +12,12 @@ import jakarta.annotation.Nullable;
  */
 public interface ClassConstantReference extends PhpPsiElement, PsiPolyVariantReference, PhpTypedElement
 {
+	/**
+	 * @return what this reference stands for, e.g. {@code #M#C\\Foo.bar}; several alternatives joined with {@code |}
+	 */
+	@Nonnull
+	String getSignature();
+
 	@Nonnull
 	String getName();
 

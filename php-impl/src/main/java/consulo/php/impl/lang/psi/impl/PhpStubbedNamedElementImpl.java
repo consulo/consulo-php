@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.language.psi.PsiWhiteSpace;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
@@ -40,11 +41,11 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 	public PhpDocComment getDocComment()
 	{
 		PsiElement element = getPrevSibling();
-		if(element instanceof PhpDocComment)
+		while(element instanceof PsiWhiteSpace)
 		{
-			return (PhpDocComment) element;
+			element = element.getPrevSibling();
 		}
-		return null;
+		return element instanceof PhpDocComment ? (PhpDocComment) element : null;
 	}
 
 	@Override

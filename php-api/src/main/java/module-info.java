@@ -25,8 +25,13 @@ module consulo.php.api
 	exports com.jetbrains.php;
 	exports com.jetbrains.php.codeInsight;
 	exports com.jetbrains.php.lang;
+	exports com.jetbrains.php.lang.documentation.phpdoc;
+	exports com.jetbrains.php.lang.documentation.phpdoc.lexer;
+	exports com.jetbrains.php.lang.documentation.phpdoc.parser;
 	exports com.jetbrains.php.lang.documentation.phpdoc.psi;
+	exports com.jetbrains.php.lang.documentation.phpdoc.psi.tags;
 	exports com.jetbrains.php.lang.lexer;
+	exports com.jetbrains.php.lang.parser;
 	exports com.jetbrains.php.lang.patterns;
 	exports com.jetbrains.php.lang.psi;
 	exports com.jetbrains.php.lang.psi.elements;
@@ -43,4 +48,5 @@ module consulo.php.api
 	exports consulo.php.module.util;
 	exports consulo.php.sdk;
 	exports com.jetbrains.php.lang.psi.stubs;
+	exports com.jetbrains.php.lang.psi.stubs.indexes.expectedArguments;
 }

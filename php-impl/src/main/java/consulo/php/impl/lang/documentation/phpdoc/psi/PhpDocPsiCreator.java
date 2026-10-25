@@ -1,70 +1,64 @@
+/*
+ * Copyright 2013-2026 consulo.io
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package consulo.php.impl.lang.documentation.phpdoc.psi;
 
 import consulo.language.ast.ASTNode;
 import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;
+import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
+import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocStringImpl;
 import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
+import consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags.PhpDocParamTagImpl;
 import consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags.PhpDocReturnTagImpl;
+import consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags.PhpDocTagImpl;
 import consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags.PhpDocVarTagImpl;
-import consulo.php.impl.lang.psi.impl.PhpElementImpl;
-import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
 
-import jakarta.annotation.Nonnull;
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 
 /**
  * @author jay
- * @date Jun 29, 2008 12:03:19 AM
+ * @since Jun 29, 2008
  */
 public class PhpDocPsiCreator implements PhpDocElementTypes
 {
-	public static final Map<String, Class<? extends PhpDocPsiElement>> tagMap = new HashMap<String, Class<? extends PhpDocPsiElement>>();
-
-	static
-	{
-		tagMap.put("@var", PhpDocVarTagImpl.class);
-		tagMap.put("@return", PhpDocReturnTagImpl.class);
-	}
-
 	public static PsiElement createElement(ASTNode node)
 	{
 		IElementType type = node.getElementType();
-
 		if(type == phpDocTag)
 		{
-			final String tagName = node.getText().split("\\s", 2)[0];
-			final Class<? extends PhpDocPsiElement> klass = tagMap.get(tagName);
-			if(klass != null)
+			ASTNode name = node.findChildByType(DOC_TAG_NAME);
+			String tagName = name == null ? "" : name.getText().toLowerCase(Locale.ROOT);
+			return switch(tagName)
 			{
-				try
-				{
-					final Constructor<? extends PhpDocPsiElement> constructor = klass.getDeclaredConstructor(ASTNode.class);
-					return constructor.newInstance(node);
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
+				case "@var", "@psalm-var", "@phpstan-var" -> new PhpDocVarTagImpl(node);
+				case "@return", "@psalm-return", "@phpstan-return" -> new PhpDocReturnTagImpl(node);
+				case "@param", "@psalm-param", "@phpstan-param" -> new PhpDocParamTagImpl(node);
+				default -> new PhpDocTagImpl(node);
+			};
 		}
-
 		if(type == phpDocType)
 		{
 			return new PhpDocTypeImpl(node);
 		}
-
-		return new PhpElementImpl(node)
+		if(type == phpDocString)
 		{
-			@Override
-			public void accept(@Nonnull PhpElementVisitor visitor)
-			{
-				visitor.visitPhpElement(this);
-			}
-		};
+			return new PhpDocStringImpl(node);
+		}
+		return new PhpDocPsiElementImpl(node);
 	}
-
 }

@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
@@ -38,20 +40,10 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		PhpFunctionStub stub = getStub();
-		if(stub != null)
-		{
-			// TODO [VISTALL] implement me. don't call AST inside completion
-			return PhpType.EMPTY;
-		}
-		PhpReturnType type = findChildByClass(PhpReturnType.class);
-		if(type != null)
-		{
-			return type.getType();
-		}
-		return super.getType();
+		return PhpTypeInference.getReturnType(this);
 	}
 
 	@RequiredReadAction
@@ -115,6 +107,12 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		PhpNamespace namespace = PsiTreeUtil.getStubOrPsiParentOfType(this, PhpNamespace.class);
+		String name = namespace == null ? null : namespace.getName();
+		if(name == null)
+		{
+			return "";
+		}
+		return name.startsWith("\\") ? name.substring(1) : name;
 	}
 }

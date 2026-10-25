@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.ParameterList;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
+import consulo.php.impl.lang.psi.PhpClassLookup;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
@@ -164,38 +167,11 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@RequiredReadAction
 	private void process(@RequiredReadAction Processor<PhpNamedElement> processor, @Nullable String name)
 	{
-		PhpPsiElement firstChild = getFirstPsiChild();
-		PhpType phpType = null;
-		if(firstChild instanceof Variable)
-		{
-			PsiElement element = ((Variable) firstChild).resolve();
-			if(element instanceof PhpTypedElement)
-			{
-				phpType = ((PhpTypedElement) element).getInferredType();
-			}
-			else
-			{
-				phpType = ((Variable) firstChild).getType();
-			}
-		}
-		else if(firstChild instanceof PhpTypedElement)
-		{
-			phpType = ((PhpTypedElement) firstChild).getType();
-		}
-		else if(firstChild instanceof ClassReference)
-		{
-			phpType = ((ClassReference) firstChild).resolveLocalType();
-		}
-
+		Collection<PhpClass> qualifierClasses = PhpClassLookup.findQualifierClasses(this);
 		List<PhpClass> owners = new ArrayList<>();
-		if(phpType != null)
+		if(qualifierClasses != null)
 		{
-			PhpIndex phpIndex = PhpIndex.getInstance(getProject());
-			for(String type : phpType.getTypes())
-			{
-				Collection<PhpClass> classesByFQN = phpIndex.getClassesByFQN(type);
-				owners.addAll(classesByFQN);
-			}
+			owners.addAll(qualifierClasses);
 		}
 		else
 		{
@@ -302,5 +278,34 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	public boolean isSoft()
 	{
 		return false;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public String getSignature()
+	{
+		return PhpTypeInference.getSignature(this);
+	}
+
+	@Nullable
+	@Override
+	public ParameterList getParameterList()
+	{
+		return findChildByClass(ParameterList.class);
+	}
+
+	@Nonnull
+	@Override
+	public PsiElement[] getParameters()
+	{
+		ParameterList parameterList = getParameterList();
+		return parameterList == null ? PsiElement.EMPTY_ARRAY : parameterList.getParameters();
+	}
+
+	@Override
+	public String getName()
+	{
+		return getMethodName();
 	}
 }

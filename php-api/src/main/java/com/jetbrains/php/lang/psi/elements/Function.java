@@ -9,7 +9,7 @@ import jakarta.annotation.Nonnull;
  * @author jay
  * @date Apr 3, 2008 10:15:06 PM
  */
-public interface Function extends PhpElementWithModifier, PhpTypedElement, PhpNamedElement, ParameterListOwner
+public interface Function extends PhpElementWithModifier, PhpTypedElement, PhpNamedElement, ParameterListOwner, PhpAttributesOwner
 {
 	Function[] EMPTY_ARRAY = new Function[0];
 

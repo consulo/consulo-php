@@ -20,18 +20,42 @@ public class PhpStringLiteralExpressionImpl extends PhpElementImpl implements St
 		super(node);
 	}
 
+	/**
+	 * Range of the contents inside the quotes, relative to this element
+	 */
 	@Nonnull
 	@Override
 	public TextRange getValueRange()
 	{
-		return getTextRange();
+		String text = getText();
+		int start = 0;
+		if(text.length() > 1 && (text.charAt(0) == 'b' || text.charAt(0) == 'B') && isQuote(text.charAt(1)))
+		{
+			start = 1;
+		}
+		if(start >= text.length() || !isQuote(text.charAt(start)))
+		{
+			return new TextRange(0, text.length());
+		}
+		char quote = text.charAt(start);
+		int end = text.length();
+		if(end - start >= 2 && text.charAt(end - 1) == quote)
+		{
+			end--;
+		}
+		return new TextRange(start + 1, end);
+	}
+
+	private static boolean isQuote(char c)
+	{
+		return c == '\'' || c == '"';
 	}
 
 	@Nonnull
 	@Override
 	public String getContents()
 	{
-		return getText();
+		return getValueRange().substring(getText());
 	}
 
 	@Override
@@ -43,7 +67,8 @@ public class PhpStringLiteralExpressionImpl extends PhpElementImpl implements St
 	@Override
 	public boolean isSingleQuote()
 	{
-		return false;
+		TextRange range = getValueRange();
+		return range.getStartOffset() > 0 && getText().charAt(range.getStartOffset() - 1) == '\'';
 	}
 
 	@Override

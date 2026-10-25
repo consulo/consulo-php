@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.annotation.access.RequiredReadAction;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
@@ -24,10 +26,11 @@ public class PhpTypedElementImpl extends PhpElementImpl implements PhpTypedEleme
 		visitor.visitPhpElement(this);
 	}
 
-	@Override
 	@Nonnull
+	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 }

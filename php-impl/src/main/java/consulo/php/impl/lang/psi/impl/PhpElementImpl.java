@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.annotation.access.RequiredReadAction;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.language.ast.ASTNode;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
@@ -112,5 +115,15 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 			}
 		}
 		return prevSibling;
+	}
+
+	/**
+	 * Local type of this expression, see {@link PhpTypeInference}
+	 */
+	@Nonnull
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		return PhpTypeInference.getType(this);
 	}
 }

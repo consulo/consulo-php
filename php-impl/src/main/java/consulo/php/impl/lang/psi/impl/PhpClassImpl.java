@@ -1,6 +1,15 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.language.ast.IElementType;
+import consulo.php.impl.lang.parser.PhpElementTypes;
 import com.jetbrains.php.PhpClassHierarchyUtils;
+import java.util.Map;
+import java.util.Locale;
+import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import consulo.util.collection.ArrayUtil;
+import consulo.php.impl.lang.psi.PhpClassSupertypes;
+import consulo.php.impl.lang.psi.PhpClassLookup;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
@@ -50,31 +59,54 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		return PhpType.builder().add(getFQN()).build();
 	}
 
+	/**
+	 * @return own and inherited fields and constants
+	 */
 	@Nonnull
 	@Override
-	public List<Field> getFields()
+	public Collection<Field> getFields()
 	{
-		return Arrays.asList(getOwnFields());
+		Map<String, Field> fields = new LinkedHashMap<>();
+		PhpClassHierarchyUtils.processFields(this, this, (field, subClass, baseClass) -> {
+			fields.putIfAbsent((field.isConstant() ? "const:" : "") + field.getName(), field);
+			return true;
+		}, false);
+		return fields.values();
 	}
 
 	@Override
 	public Field[] getOwnFields()
 	{
-		return getStubOrPsiChildren(PhpStubElements.CLASS_FIELD, Field.ARRAY_FACTORY);
+		if(getGreenStub() != null)
+		{
+			return getStubOrPsiChildren(PhpStubElements.CLASS_FIELD, Field.ARRAY_FACTORY);
+		}
+		List<Field> fields = new ArrayList<>();
+		for(PsiElement child : getChildren())
+		{
+			IElementType type = child.getNode().getElementType();
+			if(type == PhpElementTypes.CLASS_FIELDS || type == PhpElementTypes.CLASS_CONSTANTS)
+			{
+				fields.addAll(PsiTreeUtil.getChildrenOfTypeAsList(child, Field.class));
+			}
+		}
+		return fields.toArray(Field.EMPTY);
 	}
 
 	@Nullable
 	@Override
 	public String getSuperName()
 	{
-		return null;
+		String fqn = getSuperFQN();
+		return fqn == null ? null : fqn.substring(fqn.lastIndexOf('\\') + 1);
 	}
 
 	@Nullable
 	@Override
 	public String getSuperFQN()
 	{
-		return null;
+		PhpClassStub stub = getStub();
+		return stub != null ? stub.getSuperclass() : PhpClassSupertypes.superClassFqn(this);
 	}
 
 	@Nonnull
@@ -99,28 +131,54 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		return "";
 	}
 
+	@Nullable
 	@Override
 	public PhpClass getSuperClass()
 	{
-		ExtendsList list = PsiTreeUtil.getChildOfType(this, ExtendsList.class);
-		assert list != null;
-		return list.getExtendsClass();
+		String fqn = getSuperFQN();
+		if(fqn == null)
+		{
+			return null;
+		}
+		for(PhpClass phpClass : PhpClassLookup.findClasses(this, fqn))
+		{
+			if(phpClass != this)
+			{
+				return phpClass;
+			}
+		}
+		return null;
 	}
 
 	@Nonnull
 	@Override
 	public String[] getInterfaceNames()
 	{
-		return new String[0];
+		PhpClassStub stub = getStub();
+		return stub != null ? stub.getInterfaces() : ArrayUtil.toStringArray(PhpClassSupertypes.interfaceFqns(this));
 	}
 
 	@Override
 	public PhpClass[] getImplementedInterfaces()
 	{
-		ImplementsList list = PsiTreeUtil.getChildOfType(this, ImplementsList.class);
-		assert list != null;
-		List<PhpClass> interfaceList = list.getInterfaces();
-		return interfaceList.toArray(new PhpClass[interfaceList.size()]);
+		return findAll(getInterfaceNames());
+	}
+
+	private PhpClass[] findAll(String[] fqns)
+	{
+		List<PhpClass> result = new ArrayList<>();
+		for(String fqn : fqns)
+		{
+			for(PhpClass phpClass : PhpClassLookup.findClasses(this, fqn))
+			{
+				if(phpClass != this)
+				{
+					result.add(phpClass);
+					break;
+				}
+			}
+		}
+		return result.toArray(PhpClass.EMPTY_ARRAY);
 	}
 
 	@Override
@@ -191,6 +249,26 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	}
 
 	@Override
+	public boolean isEnum()
+	{
+		return findChildByType(PhpTokenTypes.ENUM_KEYWORD) != null;
+	}
+
+	@Override
+	public boolean isReadonly()
+	{
+		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.READONLY_KEYWORD);
+	}
+
+	@Nonnull
+	@Override
+	public Collection<PhpEnumCase> getEnumCases()
+	{
+		return Arrays.asList(findChildrenByClass(PhpEnumCase.class));
+	}
+
+	@Override
 	public boolean isTrait()
 	{
 		PhpClassStub stub = getStub();
@@ -205,13 +283,14 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public String[] getTraitNames()
 	{
-		return new String[0];
+		PhpClassStub stub = getStub();
+		return stub != null ? stub.getTraits() : ArrayUtil.toStringArray(PhpClassSupertypes.traitFqns(this));
 	}
 
 	@Override
 	public PhpClass[] getTraits()
 	{
-		return new PhpClass[0];
+		return findAll(getTraitNames());
 	}
 
 	@Override
@@ -229,12 +308,14 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public PhpClass[] getSupers()
 	{
+		List<PhpClass> result = new ArrayList<>();
 		PhpClass superClass = getSuperClass();
 		if(superClass != null)
 		{
-			return new PhpClass[]{superClass};
+			result.add(superClass);
 		}
-		return PhpClass.EMPTY_ARRAY;
+		result.addAll(Arrays.asList(getImplementedInterfaces()));
+		return result.toArray(PhpClass.EMPTY_ARRAY);
 	}
 
 	@Nonnull
@@ -251,10 +332,19 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 		});
 	}
 
+	/**
+	 * @return own and inherited methods, overridden ones excluded
+	 */
+	@Nonnull
 	@Override
 	public Collection<Method> getMethods()
 	{
-		return Arrays.asList(getOwnMethods());
+		Map<String, Method> methods = new LinkedHashMap<>();
+		PhpClassHierarchyUtils.processMethods(this, this, (method, subClass, baseClass) -> {
+			methods.putIfAbsent(method.getName().toLowerCase(Locale.ROOT), method);
+			return true;
+		}, false);
+		return methods.values();
 	}
 
 	@Override
@@ -292,7 +382,7 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public boolean hasTraitUses()
 	{
-		return false;
+		return getTraitNames().length > 0;
 	}
 
 	@Override

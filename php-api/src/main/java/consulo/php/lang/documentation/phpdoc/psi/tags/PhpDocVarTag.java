@@ -6,7 +6,7 @@ import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
  * @author jay
  * @date Jun 29, 2008 2:06:19 AM
  */
-public interface PhpDocVarTag extends PhpDocPsiElement
+public interface PhpDocVarTag extends PhpDocPsiElement, com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag
 {
-	public String getType();
+	public String getTypeString();
 }

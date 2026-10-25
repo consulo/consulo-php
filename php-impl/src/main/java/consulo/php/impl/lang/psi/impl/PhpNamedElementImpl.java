@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.PsiElement;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
@@ -85,10 +86,11 @@ public abstract class PhpNamedElementImpl extends PhpElementImpl implements PhpN
 		return null;
 	}
 
-	@Override
 	@Nonnull
+	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 }

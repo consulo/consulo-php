@@ -1,0 +1,21 @@
+--TEST--
+never return type: unacceptable cases: implicit return in a method
+--FILE--
+<?php
+
+class Foo {
+    public static function bar(): never {
+        if (false) {
+            throw new Exception('bad');
+        }
+    }
+}
+
+try {
+    Foo::bar();
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+?>
+--EXPECT--
+TypeError: Foo::bar(): never-returning method must not implicitly return

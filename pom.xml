@@ -47,5 +47,6 @@
         <module>php-xdebug-impl</module>
         <module>composer-impl</module>
         <module>stubs-generator</module>
+        <module>php-src-tests</module>
     </modules>
 </project>

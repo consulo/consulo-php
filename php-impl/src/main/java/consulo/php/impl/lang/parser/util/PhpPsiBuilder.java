@@ -12,8 +12,23 @@ import jakarta.annotation.Nonnull;
  * @since 13.10.2007
  */
 public class PhpPsiBuilder extends PsiBuilderAdapter {
+    // > 0 inside function, method and closure bodies
+    private int myFunctionDepth;
+
     public PhpPsiBuilder(@Nonnull PsiBuilder builder) {
         super(builder);
+    }
+
+    public void enterFunction() {
+        myFunctionDepth++;
+    }
+
+    public void exitFunction() {
+        myFunctionDepth--;
+    }
+
+    public boolean isInFunction() {
+        return myFunctionDepth > 0;
     }
 
     public boolean compare(final IElementType type) {

@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.Processor;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiElementResolveResult;
@@ -246,12 +247,7 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@RequiredReadAction
 	public PhpType getType()
 	{
-		PsiElement element = resolve();
-		if(element instanceof PhpTypedElement)
-		{
-			return ((PhpTypedElement) element).getType();
-		}
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 
 	@Nonnull

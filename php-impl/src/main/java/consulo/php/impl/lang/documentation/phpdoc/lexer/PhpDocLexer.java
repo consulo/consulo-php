@@ -12,7 +12,7 @@ public class PhpDocLexer extends MergingLexerAdapter
 
 	public PhpDocLexer()
 	{
-		super(new PhpDocFlexLexer(), TokenSet.create(PhpDocTokenTypes.DOC_TEXT, PhpDocTokenTypes.DOC_WHITESPACE, PhpDocTokenTypes.DOC_IGNORED));
+		super(new PhpDocFlexLexer(), TokenSet.create(PhpDocTokenTypes.DOC_WHITESPACE, PhpDocTokenTypes.DOC_IGNORED));
 	}
 
 }

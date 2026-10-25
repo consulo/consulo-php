@@ -18,4 +18,5 @@ public interface PhpIndexKeys
 	StubIndexKey<String, PhpNamespace> NAMESPACES = StubIndexKey.createIndexKey("php.namespaces");
 
 	StubIndexKey<String, PhpDefine> DEFINES = StubIndexKey.createIndexKey("php.defines");
+	StubIndexKey<String, PhpClass> SUPERTYPES = StubIndexKey.createIndexKey("php.supertypes");
 }

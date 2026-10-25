@@ -6,6 +6,6 @@ import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
  * @author jay
  * @date Jun 29, 2008 12:14:50 AM
  */
-public interface PhpDocPsiElement extends PhpPsiElement
+public interface PhpDocPsiElement extends PhpPsiElement, com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocPsiElement
 {
 }

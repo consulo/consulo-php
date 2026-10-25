@@ -70,7 +70,6 @@ open module consulo.php {
     exports consulo.php.impl.lang.documentation.params;
     exports consulo.php.impl.lang.documentation.phpdoc.lexer;
     exports consulo.php.impl.lang.documentation.phpdoc.parser;
-    exports consulo.php.impl.lang.documentation.phpdoc.parser.tags;
     exports consulo.php.impl.lang.documentation.phpdoc.psi;
     exports consulo.php.impl.lang.documentation.phpdoc.psi.impl;
     exports consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags;
@@ -83,16 +82,6 @@ open module consulo.php {
     exports consulo.php.impl.lang.lexer.managers;
     exports consulo.php.impl.lang.parser;
     exports consulo.php.impl.lang.parser.parsing;
-    exports consulo.php.impl.lang.parser.parsing.calls;
-    exports consulo.php.impl.lang.parser.parsing.classes;
-    exports consulo.php.impl.lang.parser.parsing.expressions;
-    exports consulo.php.impl.lang.parser.parsing.expressions.bit;
-    exports consulo.php.impl.lang.parser.parsing.expressions.comparition;
-    exports consulo.php.impl.lang.parser.parsing.expressions.logical;
-    exports consulo.php.impl.lang.parser.parsing.expressions.math;
-    exports consulo.php.impl.lang.parser.parsing.expressions.primary;
-    exports consulo.php.impl.lang.parser.parsing.functions;
-    exports consulo.php.impl.lang.parser.parsing.statements;
     exports consulo.php.impl.lang.parser.util;
     exports consulo.php.impl.lang.psi;
     exports consulo.php.impl.lang.psi.impl;

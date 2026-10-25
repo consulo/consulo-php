@@ -1,5 +1,11 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 
+import jakarta.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import java.util.List;
+import java.util.ArrayList;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocParamTag;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import consulo.language.ast.IElementType;
 import consulo.php.impl.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
@@ -8,19 +14,19 @@ import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import org.jetbrains.annotations.NonNls;
 import consulo.language.psi.PsiElement;
-import consulo.language.impl.psi.CompositePsiElement;
+import consulo.language.impl.psi.LazyParseablePsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
 /**
  * @author jay
  * @date Jun 29, 2008 12:27:19 AM
  */
-public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComment
+public class PhpDocCommentImpl extends LazyParseablePsiElement implements PhpDocComment
 {
 
-	public PhpDocCommentImpl()
+	public PhpDocCommentImpl(CharSequence text)
 	{
-		super(PhpDocElementTypes.DOC_COMMENT);
+		super(PhpDocElementTypes.DOC_COMMENT, text);
 	}
 
 	@Override
@@ -87,6 +93,43 @@ public class PhpDocCommentImpl extends CompositePsiElement implements PhpDocComm
 	public String toString()
 	{
 		return "PhpDocComment";
+	}
+
+	@Nonnull
+	@Override
+	public PhpDocTag[] getTagElementsByName(@Nonnull String name)
+	{
+		List<PhpDocTag> result = new ArrayList<>();
+		for(PsiElement child : getChildren())
+		{
+			if(child instanceof PhpDocTag tag && name.equals(tag.getName()))
+			{
+				result.add(tag);
+			}
+		}
+		return result.toArray(new PhpDocTag[0]);
+	}
+
+	@Nonnull
+	@Override
+	public PhpDocParamTag[] getParamTags()
+	{
+		PhpDocParamTag[] tags = PsiTreeUtil.getChildrenOfType(this, PhpDocParamTag.class);
+		return tags == null ? new PhpDocParamTag[0] : tags;
+	}
+
+	@Nullable
+	@Override
+	public PhpDocParamTag getParamTagByName(@Nonnull String name)
+	{
+		for(PhpDocParamTag tag : getParamTags())
+		{
+			if(name.equals(tag.getVarName()))
+			{
+				return tag;
+			}
+		}
+		return null;
 	}
 
 	@Override

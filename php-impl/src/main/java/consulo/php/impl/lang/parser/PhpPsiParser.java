@@ -8,7 +8,7 @@ import consulo.language.parser.PsiBuilder;
 import consulo.application.ApplicationProperties;
 import consulo.language.version.LanguageVersion;
 import consulo.language.parser.PsiParser;
-import consulo.php.impl.lang.parser.parsing.Program;
+import consulo.php.impl.lang.parser.parsing.PhpStatementParser;
 import consulo.php.impl.lang.parser.util.PhpPsiBuilder;
 
 /**
@@ -28,7 +28,7 @@ public class PhpPsiParser implements PsiParser
 		PhpPsiBuilder psiBuilder = new PhpPsiBuilder(builder);
 
 		PsiBuilder.Marker marker = psiBuilder.mark();
-		Program.parse(psiBuilder);
+		PhpStatementParser.parseFile(psiBuilder);
 		marker.done(root);
 		return psiBuilder.getTreeBuilt();
 	}

@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.stubs.PhpMethodStub;
@@ -163,5 +165,13 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 	public String getNamespaceName()
 	{
 		return "";
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		return PhpTypeInference.getReturnType(this);
 	}
 }

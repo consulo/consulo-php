@@ -23,7 +23,7 @@ import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement, NavigationItem
+public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement, NavigationItem, PhpAttributesOwner
 {
 	String CLONE = "__clone";
 	String TO_STRING = "__toString";
@@ -146,6 +146,22 @@ public interface PhpClass extends PhpNamedElement, PhpElementWithModifier, PhpCa
 	Method getOwnConstructor();
 
 	boolean isTrait();
+
+	/**
+	 * PHP 8.1 {@code enum}
+	 */
+	boolean isEnum();
+
+	/**
+	 * PHP 8.2 {@code readonly class}
+	 */
+	boolean isReadonly();
+
+	/**
+	 * @return own cases of an enum
+	 */
+	@Nonnull
+	Collection<PhpEnumCase> getEnumCases();
 
 	List<PhpTraitUseRule> getTraitUseRules();
 

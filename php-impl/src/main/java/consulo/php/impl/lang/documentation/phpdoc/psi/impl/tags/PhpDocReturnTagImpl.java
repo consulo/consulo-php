@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import consulo.language.ast.ASTNode;
-import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocType;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocReturnTag;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
@@ -15,7 +15,7 @@ import jakarta.annotation.Nonnull;
  * @author jay
  * @date Jun 29, 2008 2:32:57 AM
  */
-public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocReturnTag
+public class PhpDocReturnTagImpl extends PhpDocTagImpl implements PhpDocReturnTag
 {
 
 	public PhpDocReturnTagImpl(ASTNode node)
@@ -38,7 +38,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 		{
 			if(child instanceof PhpDocType)
 			{
-				types.add(((PhpDocType) child).getType());
+				types.add(((PhpDocType) child).getName());
 			}
 			child = child.getNextPsiSibling();
 		}
@@ -55,7 +55,7 @@ public class PhpDocReturnTagImpl extends PhpDocPsiElementImpl implements PhpDocR
 		{
 			if(child instanceof PhpDocType)
 			{
-				types.append(((PhpDocType) child).getType());
+				types.append(((PhpDocType) child).getName());
 			}
 			child = child.getNextPsiSibling();
 			if(child != null && child instanceof PhpDocType)

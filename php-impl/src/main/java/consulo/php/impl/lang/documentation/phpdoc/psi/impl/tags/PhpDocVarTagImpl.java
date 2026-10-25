@@ -3,7 +3,7 @@ package consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags;
 import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
-import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocType;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocPsiElementImpl;
 import consulo.php.lang.documentation.phpdoc.psi.tags.PhpDocVarTag;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
@@ -13,7 +13,7 @@ import consulo.language.psi.util.PsiTreeUtil;
  * @author jay
  * @date Jun 29, 2008 2:10:52 AM
  */
-public class PhpDocVarTagImpl extends PhpDocPsiElementImpl implements PhpDocVarTag
+public class PhpDocVarTagImpl extends PhpDocTagImpl implements PhpDocVarTag
 {
 
 	public PhpDocVarTagImpl(ASTNode node)
@@ -28,12 +28,12 @@ public class PhpDocVarTagImpl extends PhpDocPsiElementImpl implements PhpDocVarT
 	}
 
 	@Override
-	public String getType()
+	public String getTypeString()
 	{
 		final PhpDocType type = PsiTreeUtil.getChildOfType(this, PhpDocType.class);
 		if(type != null)
 		{
-			return type.getType();
+			return type.getName();
 		}
 		return null;
 	}

@@ -1,0 +1,19 @@
+--TEST--
+Promoting require_once warning to exception
+--FILE--
+<?php
+
+function exception_error_handler($errno, $errstr, $errfile, $errline ) {
+    throw new Exception($errstr);
+}
+set_error_handler("exception_error_handler");
+
+try {
+    $results = require_once 'does-not-exist.php';
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+};
+
+?>
+--EXPECT--
+Exception: require_once(): Failed to open stream: No such file or directory

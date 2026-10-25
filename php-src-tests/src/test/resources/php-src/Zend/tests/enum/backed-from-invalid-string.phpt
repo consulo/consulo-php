@@ -1,0 +1,21 @@
+--TEST--
+BackedEnum::from() reject invalid string
+--FILE--
+<?php
+
+enum Suit: string {
+    case Hearts = 'H';
+    case Diamonds = 'D';
+    case Clubs = 'C';
+    case Spades = 'S';
+}
+
+try {
+    var_dump(Suit::from('A'));
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+
+?>
+--EXPECT--
+ValueError: "A" is not a valid backing value for enum Suit

@@ -9,7 +9,7 @@ import consulo.language.lexer.Lexer;
 import consulo.language.version.LanguageVersion;
 import consulo.php.PhpLanguageLevel;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocElementType;
+import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.parser.PhpTokenSets;
 

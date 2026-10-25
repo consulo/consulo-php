@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.Processor;
 import consulo.language.ast.ASTNode;
 import consulo.application.progress.ProgressManager;
@@ -103,9 +104,10 @@ public class PhpFunctionReferenceImpl extends PhpElementImpl implements Function
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public String getSignature()
 	{
-		return "";
+		return PhpTypeInference.getSignature(this);
 	}
 
 	@Nonnull

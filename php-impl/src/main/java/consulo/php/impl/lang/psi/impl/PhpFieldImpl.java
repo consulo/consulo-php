@@ -1,5 +1,16 @@
 package consulo.php.impl.lang.psi.impl;
 
+import java.util.List;
+import java.util.Collection;
+import java.util.ArrayList;
+import com.jetbrains.php.lang.psi.elements.PhpAttributesList;
+import com.jetbrains.php.lang.psi.elements.PhpAttribute;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.php.impl.lang.parser.PhpElementTypes;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.language.psi.PsiElement;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.*;
@@ -76,21 +87,6 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		return this;
 	}
 
-	@Override
-	public PhpDocComment getDocComment()
-	{
-		final PsiElement parent = getParent();
-		if(parent instanceof PhpPsiElement)
-		{
-			final PhpPsiElement element = ((PhpPsiElement) parent).getPrevPsiSibling();
-			if(element instanceof PhpDocComment)
-			{
-				return (PhpDocComment) element;
-			}
-		}
-		return null;
-	}
-
 	@Nonnull
 	@Override
 	public String getNamespaceName()
@@ -107,7 +103,23 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		{
 			return stub.isConstant();
 		}
-		return findChildByType(PhpTokenTypes.kwCONST) != null;
+		return getParent().getNode().getElementType() == PhpElementTypes.CLASS_CONSTANTS;
+	}
+
+	/**
+	 * {@code CLASS_FIELDS} or {@code CLASS_CONSTANTS} holding modifiers, type, attributes and doc comment of this field
+	 */
+	@RequiredReadAction
+	private PsiElement getListElement()
+	{
+		return getParent();
+	}
+
+	@Nullable
+	@RequiredReadAction
+	private PhpModifierList getModifierList()
+	{
+		return PsiTreeUtil.getChildOfType(getListElement(), PhpModifierList.class);
 	}
 
 	@Override
@@ -116,25 +128,37 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		PhpFieldStub stub = getGreenStub();
 		if(stub != null)
 		{
-			return stub.isConstant();
+			return stub.isStatic();
 		}
-
-		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		PhpModifierList modifierList = getModifierList();
 		return modifierList != null && modifierList.hasModifier(PhpTokenTypes.STATIC_KEYWORD);
 	}
 
 	@Nullable
 	@Override
+	@RequiredReadAction
 	public PsiElement getDefaultValue()
 	{
-		return null;
+		PsiElement assign = findChildByType(PhpTokenTypes.opASGN);
+		if(assign == null)
+		{
+			return null;
+		}
+		PsiElement value = assign.getNextSibling();
+		while(value instanceof PsiWhiteSpace || value instanceof PsiComment)
+		{
+			value = value.getNextSibling();
+		}
+		return value;
 	}
 
 	@Nullable
 	@Override
+	@RequiredReadAction
 	public String getDefaultValuePresentation()
 	{
-		return null;
+		PsiElement value = getDefaultValue();
+		return value == null ? null : value.getText();
 	}
 
 	@Nullable
@@ -155,7 +179,7 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 			return PhpModifier.instance(stub.getAccess(), stub.isFinal() ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, state);
 		}
 
-		PhpModifierList modifierList = findChildByClass(PhpModifierList.class);
+		PhpModifierList modifierList = getModifierList();
 		boolean constant = isConstant();
 		PhpModifier.Access access = modifierList == null ? PhpModifier.Access.PUBLIC : modifierList.getAccess();
 		return PhpModifier.instance(access, constant ? PhpModifier.Abstractness.FINAL : PhpModifier.Abstractness.IMPLEMENTED, state);
@@ -185,5 +209,38 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	public boolean isWriteAccess()
 	{
 		return false;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		return PhpTypeInference.getFieldType(this);
+	}
+
+	@Override
+	@RequiredReadAction
+	public PhpDocComment getDocComment()
+	{
+		PsiElement element = getListElement().getPrevSibling();
+		while(element instanceof PsiWhiteSpace)
+		{
+			element = element.getPrevSibling();
+		}
+		return element instanceof PhpDocComment ? (PhpDocComment) element : null;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public Collection<PhpAttribute> getAttributes()
+	{
+		List<PhpAttribute> result = new ArrayList<>();
+		for(PhpAttributesList attributesList : PsiTreeUtil.getChildrenOfTypeAsList(getListElement(), PhpAttributesList.class))
+		{
+			result.addAll(attributesList.getAttributes());
+		}
+		return result;
 	}
 }

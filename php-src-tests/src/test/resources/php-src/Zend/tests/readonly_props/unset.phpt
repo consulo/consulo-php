@@ -1,0 +1,93 @@
+--TEST--
+Unset readonly property
+--FILE--
+<?php
+
+class Test {
+    public readonly int $prop;
+
+    public function __construct(int $prop) {
+        $this->prop = $prop;
+    }
+}
+
+$test = new Test(1);
+try {
+    unset($test->prop);
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+
+class Test2 {
+    public readonly int $prop;
+
+    public function __construct() {
+        unset($this->prop); // Unset uninitialized.
+        unset($this->prop); // Unset unset.
+    }
+
+    public function __get($name) {
+        // Lazy init.
+        echo __METHOD__, "\n";
+        $this->prop = 1;
+        return $this->prop;
+    }
+}
+
+$test = new Test2;
+var_dump($test->prop); // Call __get.
+var_dump($test->prop); // Don't call __get.
+try {
+    unset($test->prop); // Unset initialized, illegal.
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+
+class Test3 {
+    public readonly int $prop;
+}
+
+$test = new Test3;
+try {
+    unset($test->prop);
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+
+class Test4 {
+    public readonly int $prop = 1;
+
+    public function __construct() {
+        try {
+            unset($this->prop);
+        } catch (Throwable $e) {
+            echo $e::class, ': ', $e->getMessage(), "\n";
+        }
+    }
+
+    public function __get($name) {
+        throw new Exception('Unreachable');
+    }
+}
+
+$test = new Test4;
+var_dump($test->prop); // Don't call __get.
+try {
+    unset($test->prop);
+} catch (Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+var_dump($test->prop); // Still don't call __get.
+
+?>
+--EXPECT--
+Error: Cannot unset readonly property Test::$prop
+Test2::__get
+int(1)
+int(1)
+Error: Cannot unset readonly property Test2::$prop
+Error: Cannot unset protected(set) readonly property Test3::$prop from global scope
+Error: Cannot unset readonly property Test4::$prop
+int(1)
+Error: Cannot unset readonly property Test4::$prop
+int(1)

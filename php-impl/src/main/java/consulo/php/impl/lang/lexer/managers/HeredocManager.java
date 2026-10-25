@@ -11,14 +11,21 @@ import consulo.php.impl.lang.lexer._PhpFlexLexer;
  */
 public class HeredocManager extends ReadingManager
 {
-
 	public static final int END_SEEN = 0;
 	public static final int SIMPLE_ESCAPE_SEEN = -1;
 	public static final int EXPR_SUBT_SEEN = -3;
 	public static final int VARIABLE_SEEN = -4;
 
+	private record Heredoc(String id, boolean nowdoc)
+	{
+	}
+
 	private StatesManager stManager;
-	private String heredocID;
+	// heredocs nest through interpolation: <<<A {$f(<<<B ... B)} A
+	private final java.util.Deque<Heredoc> myHeredocs = new java.util.ArrayDeque<>();
+	// length of the closing delimiter found by the last eat(): indentation + label
+	private int myEndLength;
+
 	private static int myID = _PhpFlexLexer.ST_START_HEREDOC;
 
 	public HeredocManager(_PhpFlexLexer lexer, StatesManager manager)
@@ -27,21 +34,50 @@ public class HeredocManager extends ReadingManager
 		stManager = manager;
 	}
 
+	/**
+	 * Called on {@code <<<LABEL}, {@code <<<"LABEL"} or {@code <<<'LABEL'} (nowdoc)
+	 */
 	public void startHeredoc()
 	{
-		heredocID = lexer.yytext().toString().substring(3).trim();
+		String text = lexer.yytext().toString();
+		String id = text.substring(text.indexOf("<<<") + 3).trim();
+		boolean nowdoc = id.startsWith("'");
+		if(id.startsWith("'") || id.startsWith("\""))
+		{
+			id = id.substring(1, id.length() - 1);
+		}
+		myHeredocs.push(new Heredoc(id, nowdoc));
 		stManager.toState(myID);
+	}
+
+	public void endHeredoc()
+	{
+		if(!myHeredocs.isEmpty())
+		{
+			myHeredocs.pop();
+		}
 	}
 
 	public String getHeredocID()
 	{
+		Heredoc heredoc = myHeredocs.peek();
+		return heredoc == null ? "" : heredoc.id();
+	}
 
-		return heredocID;
+	public boolean isNowdoc()
+	{
+		Heredoc heredoc = myHeredocs.peek();
+		return heredoc != null && heredoc.nowdoc();
 	}
 
 	public int getHeredocEndLength()
 	{
-		return heredocID.length();
+		return myEndLength;
+	}
+
+	public static boolean isLabelChar(char c)
+	{
+		return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' || c >= 0x80 && c != (char) -1;
 	}
 
 	/**
@@ -71,7 +107,7 @@ public class HeredocManager extends ReadingManager
 			{
 				return false;
 			}
-			return (nextChar >= 'a' && nextChar <= 255) || nextChar == '_';
+			return (nextChar >= 'a' && nextChar <= 255) || nextChar == '_' || nextChar == '{';
 		}
 		return false;
 	}
@@ -86,30 +122,28 @@ public class HeredocManager extends ReadingManager
 		return s.equals("{$");
 	}
 
+	/**
+	 * PHP 7.3+: the closing label starts a line (indentation allowed) and is not followed by a label character
+	 */
 	private boolean checkForEndDelimiter(int pos)
 	{
 		if(safeReadAt(pos) != '\n')
 		{
 			return false;
 		}
-		String id = safeReadStringAt(pos + 1, heredocID.length());
-		if(!id.equals(heredocID))
+		int labelStart = pos + 1;
+		while(safeReadAt(labelStart) == ' ' || safeReadAt(labelStart) == '\t')
+		{
+			labelStart++;
+		}
+		String heredocID = getHeredocID();
+		String id = safeReadStringAt(labelStart, heredocID.length());
+		if(heredocID.isEmpty() || !id.equals(heredocID) || isLabelChar(safeReadAt(labelStart + heredocID.length())))
 		{
 			return false;
 		}
-		int afterID = pos + 1 + heredocID.length();
-		if(safeReadAt(afterID) == '\n')
-		{
-			return true;
-		}
-		else if(safeReadAt(afterID) == ';' && safeReadAt(afterID + 1) == '\n')
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		myEndLength = labelStart - pos - 1 + heredocID.length();
+		return true;
 	}
 
 	public int eat()
@@ -122,20 +156,22 @@ public class HeredocManager extends ReadingManager
 			{
 				return pos > 0 ? pos : END_SEEN;
 			}
-			// simple escape sequence
-			if(checkForSimpleEsc(pos))
+			if(!isNowdoc())
 			{
-				return pos > 0 ? pos : SIMPLE_ESCAPE_SEEN;
-			}
-			// expr subtitution
-			if(checkForExprSubtitution(pos))
-			{
-				return pos > 0 ? pos : EXPR_SUBT_SEEN;
-			}
-
-			if(checkForVariable(pos))
-			{
-				return pos > 0 ? pos : VARIABLE_SEEN;
+				// simple escape sequence
+				if(checkForSimpleEsc(pos))
+				{
+					return pos > 0 ? pos : SIMPLE_ESCAPE_SEEN;
+				}
+				// expr subtitution
+				if(checkForExprSubtitution(pos))
+				{
+					return pos > 0 ? pos : EXPR_SUBT_SEEN;
+				}
+				if(checkForVariable(pos))
+				{
+					return pos > 0 ? pos : VARIABLE_SEEN;
+				}
 			}
 			pos++;
 		}
@@ -145,5 +181,6 @@ public class HeredocManager extends ReadingManager
 	public void reset()
 	{
 		super.reset();
+		myHeredocs.clear();
 	}
 }

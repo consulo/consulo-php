@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.ClassReference;
@@ -38,10 +39,10 @@ public class PhpReturnTypeImpl extends PhpElementImpl implements PhpReturnType
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		ClassReference classReference = getClassReference();
-		return classReference.resolveLocalType();
+		return PhpTypeInference.getDeclaredType(this);
 	}
 
 	@Override

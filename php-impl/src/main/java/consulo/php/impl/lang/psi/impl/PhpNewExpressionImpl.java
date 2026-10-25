@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.annotation.access.RequiredReadAction;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -52,13 +54,9 @@ public class PhpNewExpressionImpl extends PhpTypedElementImpl implements NewExpr
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		ClassReference classReference = getClassReference();
-		if(classReference != null)
-		{
-			return classReference.resolveLocalType();
-		}
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 }

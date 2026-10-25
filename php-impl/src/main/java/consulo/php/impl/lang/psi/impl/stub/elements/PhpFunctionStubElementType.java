@@ -69,7 +69,7 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 		String name = stub.getName();
 		if(!StringUtil.isEmpty(name))
 		{
-			sink.occurrence(PhpIndexKeys.FUNCTION_BY_NAME, name);
+			sink.occurrence(PhpIndexKeys.FUNCTION_BY_NAME, name.toLowerCase(java.util.Locale.ROOT));
 		}
 	}
 }

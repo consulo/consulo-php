@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013-2026 consulo.io
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package consulo.php.impl.lang.documentation.phpdoc.parser;
 
 import com.jetbrains.php.lang.PhpLanguage;
@@ -11,35 +27,31 @@ import consulo.language.version.LanguageVersion;
 import consulo.language.version.LanguageVersionUtil;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocLexer;
 import consulo.php.impl.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
-import consulo.php.impl.lang.documentation.phpdoc.psi.PhpDocElementType;
+import consulo.php.impl.lang.documentation.phpdoc.psi.impl.PhpDocCommentImpl;
 
 /**
  * @author jay
- * @date Jun 26, 2008 10:12:07 PM
+ * @since Jun 26, 2008
  */
-public interface PhpDocElementTypes extends PhpDocTokenTypes
+public interface PhpDocElementTypes extends com.jetbrains.php.lang.documentation.phpdoc.parser.PhpDocElementTypes, PhpDocTokenTypes
 {
-
-	final public ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment", PhpLanguage.INSTANCE)
+	ILazyParseableElementType DOC_COMMENT = new ILazyParseableElementType("PhpDocComment", PhpLanguage.INSTANCE)
 	{
 		@Override
 		public ASTNode parseContents(ASTNode chameleon)
 		{
 			PsiBuilderFactory factory = PsiBuilderFactory.getInstance();
-			final PsiElement parentElement = chameleon.getTreeParent().getPsi();
-
+			PsiElement parentElement = chameleon.getTreeParent().getPsi();
 			LanguageVersion defaultVersion = LanguageVersionUtil.findDefaultVersion(getLanguage());
-			final PsiBuilder builder = factory.createBuilder(parentElement.getProject(), chameleon, new PhpDocLexer(), getLanguage(), defaultVersion, chameleon.getText());
-			final PsiParser parser = new PhpDocParser();
+			PsiBuilder builder = factory.createBuilder(parentElement.getProject(), chameleon, new PhpDocLexer(), getLanguage(), defaultVersion, chameleon.getText());
+			PsiParser parser = new PhpDocParser();
 			return parser.parse(this, builder, defaultVersion).getFirstChildNode();
 		}
+
+		@Override
+		public ASTNode createNode(CharSequence text)
+		{
+			return new PhpDocCommentImpl(text);
+		}
 	};
-
-	final public PhpDocElementType phpDocText = new PhpDocElementType("PhpDocText");
-	final public PhpDocElementType phpDocTag = new PhpDocElementType("PhpDocTag");
-	final public PhpDocElementType phpDocInlineTag = new PhpDocElementType("PhpDocInlineTag");
-	final public PhpDocElementType phpDocTagValue = new PhpDocElementType("PhpDocTagValue");
-	final public PhpDocElementType phpDocType = new PhpDocElementType("PhpDocType");
-	final public PhpDocElementType phpDocVariable = new PhpDocElementType("PhpDocVariable");
-
 }

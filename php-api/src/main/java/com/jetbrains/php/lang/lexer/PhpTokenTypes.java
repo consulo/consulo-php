@@ -67,6 +67,13 @@ public interface PhpTokenTypes extends StandardTokenTypes {
     IElementType STATIC_KEYWORD = new PhpElementType("STATIC_KEYWORD");
     IElementType YIELD_KEYWORD = new PhpElementType("YIELD_KEYWORD");
     IElementType FROM_KEYWORD = new PhpElementType("FROM_KEYWORD");
+    IElementType FN_KEYWORD = new PhpElementType("FN_KEYWORD"); // fn, PHP 7.4
+    IElementType MATCH_KEYWORD = new PhpElementType("MATCH_KEYWORD"); // match, PHP 8.0
+    IElementType ENUM_KEYWORD = new PhpElementType("ENUM_KEYWORD"); // enum, PHP 8.1 (contextual, remapped by parser)
+    IElementType READONLY_KEYWORD = new PhpElementType("READONLY_KEYWORD"); // readonly, PHP 8.1 (contextual, remapped by parser)
+    IElementType kwGOTO = new PhpElementType("goto");
+    IElementType INSTEADOF_KEYWORD = new PhpElementType("INSTEADOF_KEYWORD");
+    IElementType HALT_COMPILER_KEYWORD = new PhpElementType("HALT_COMPILER_KEYWORD"); // __halt_compiler
     IElementType kwCLONE = new PhpElementType("clone keyword");
     IElementType kwISSET = new PhpElementType("isset keyword");
     IElementType kwEMPTY = new PhpElementType("empty keyword");
@@ -173,6 +180,15 @@ public interface PhpTokenTypes extends StandardTokenTypes {
     IElementType opREM = new PhpElementType("remainder"); //%
     IElementType HASH_ARRAY = new PhpElementType("HASH_ARRAY"); //=>
     IElementType ELLIPSIS = new PhpElementType("ELLIPSIS"); //...
+    IElementType opCOALESCE = new PhpElementType("coalesce"); //??
+    IElementType opCOALESCE_ASGN = new PhpElementType("coalesce assign"); //??=
+    IElementType opPOW = new PhpElementType("pow"); //**
+    IElementType opPOW_ASGN = new PhpElementType("pow assign"); //**=
+    IElementType opSPACESHIP = new PhpElementType("spaceship"); //<=>
+    IElementType opPIPE = new PhpElementType("pipe"); //|>
+    IElementType NULLSAFE_ARROW = new PhpElementType("nullsafe arrow"); //?->
+    IElementType ATTRIBUTE_START = new PhpElementType("attribute start"); //#[
+    IElementType INLINE_DATA = new PhpElementType("inline data"); // everything after __halt_compiler();
 
     //casting
     IElementType opINTEGER_CAST = new PhpElementType("integer cast");
@@ -182,11 +198,23 @@ public interface PhpTokenTypes extends StandardTokenTypes {
     IElementType opARRAY_CAST = new PhpElementType("array cast");
     IElementType opOBJECT_CAST = new PhpElementType("object cast");
     IElementType opUNSET_CAST = new PhpElementType("unset cast");
+    IElementType opVOID_CAST = new PhpElementType("void cast");
 
     IElementType DOLLAR = new PhpElementType("dollar");
 
     IElementType EXPR_SUBST_BEGIN = new PhpElementType("expression substitution begin");
     IElementType EXPR_SUBST_END = new PhpElementType("expression substitution end");
+
+    // PhpStorm names
+    IElementType opVARIADIC = ELLIPSIS;
+    IElementType opHASH_ARRAY = HASH_ARRAY;
+    IElementType chLPAREN = LPAREN;
+    IElementType chRPAREN = RPAREN;
+    IElementType chLBRACKET = LBRACKET;
+    IElementType chRBRACKET = RBRACKET;
+    IElementType chLBRACE = LBRACE;
+    IElementType chRBRACE = RBRACE;
+    IElementType NAMESPACE_RESOLUTION = SLASH;
 
 
     TokenSet tsPHP_OPENING_TAGS = TokenSet.create(PHP_OPENING_TAG, PHP_ECHO_OPENING_TAG);
@@ -195,21 +223,22 @@ public interface PhpTokenTypes extends StandardTokenTypes {
 
     );
 
-    TokenSet SOFT_KEYWORDS = TokenSet.create(FROM_KEYWORD);
+    TokenSet SOFT_KEYWORDS = TokenSet.create(FROM_KEYWORD, ENUM_KEYWORD, READONLY_KEYWORD);
 
     TokenSet KEYWORDS = TokenSet.orSet(tsSTATEMENT_PRIMARY, TokenSet.create(ABSTRACT_KEYWORD, kwARRAY, kwAS, kwBREAK, kwCASE, kwCATCH, kwCLASS, TRAIT_KEYWORD, kwCLONE, kwCONST, kwCONTINUE,
         kwDEFAULT, kwDIE, kwECHO, kwELSE, kwELSEIF, kwEMPTY, kwENDDECLARE, kwENDFOR, kwENDFOREACH, kwENDIF, kwENDSWITCH, kwENDWHILE, kwEVAL, kwEXCEPTION, kwEXIT, kwEXTENDS, FINAL_KEYWORD,
         kwFUNCTION, kwGLOBAL, kwIMPLEMENTS, kwINCLUDE, kwINCLUDE_ONCE, INTERFACE_KEYWORD, kwISSET, kwLIST, kwPHP_USER_FILTER, kwPRINT, PRIVATE_KEYWORD, PROTECTED_KEYWORD, PUBLIC_KEYWORD,
-        kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD, FINALLY_KEYWORD, YIELD_KEYWORD));
+        kwREQUIRE, kwREQUIRE_ONCE, kwRETURN, STATIC_KEYWORD, kwTHROW, kwUNSET, kwVAR, kwNEW, kwINSTANCEOF, NAMESPACE_KEYWORD, USE_KEYWORD, FINALLY_KEYWORD, YIELD_KEYWORD, FN_KEYWORD, MATCH_KEYWORD,
+        kwGOTO, INSTEADOF_KEYWORD, HALT_COMPILER_KEYWORD));
 
-    TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM);
+    TokenSet tsMATH_OPS = TokenSet.create(opPLUS, opMINUS, opMUL, opDIV, opNEGATE, opREM, opPOW);
 
     TokenSet tsBIT_OPS = TokenSet.create(opBIT_AND, opBIT_NOT, opBIT_OR, opBIT_XOR, opSHIFT_LEFT, opSHIFT_RIGHT);
 
     TokenSet tsASGN_OPS = TokenSet.create(opAND_ASGN, opBIT_AND_ASGN, opBIT_OR_ASGN, opBIT_XOR_ASGN, opCONCAT_ASGN, opMINUS_ASGN, opMUL_ASGN, opOR_ASGN, opPLUS_ASGN, opSHIFT_RIGHT_ASGN,
-        opSHIFT_LEFT_ASGN, opREM_ASGN, opASGN);
+        opSHIFT_LEFT_ASGN, opREM_ASGN, opASGN, opCOALESCE_ASGN, opPOW_ASGN, opDIV_ASGN);
 
-    TokenSet tsCAST_OPS = TokenSet.create(opINTEGER_CAST, opFLOAT_CAST, opBOOLEAN_CAST, opSTRING_CAST, opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST);
+    TokenSet tsCAST_OPS = TokenSet.create(opINTEGER_CAST, opFLOAT_CAST, opBOOLEAN_CAST, opSTRING_CAST, opARRAY_CAST, opOBJECT_CAST, opUNSET_CAST, opVOID_CAST);
 
     TokenSet tsUNARY_PREFIX_OPS = TokenSet.orSet(TokenSet.create(opNOT, opDECREMENT, opINCREMENT, opNEGATE, opBIT_NOT, opSILENCE, opUNARY_PLUS, kwNEW, kwPRINT), tsCAST_OPS);
 
@@ -217,13 +246,13 @@ public interface PhpTokenTypes extends StandardTokenTypes {
 
     TokenSet tsUNARY_OPS = TokenSet.orSet(tsUNARY_PREFIX_OPS, tsUNARY_POSTFIX_OPS);
 
-    TokenSet tsCOMPARE_OPS = TokenSet.create(opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL, opGREATER, opLESS, opGREATER_OR_EQUAL, opLESS_OR_EQUAL);
+    TokenSet tsCOMPARE_OPS = TokenSet.create(opEQUAL, opNOT_EQUAL, opIDENTICAL, opNOT_IDENTICAL, opGREATER, opLESS, opGREATER_OR_EQUAL, opLESS_OR_EQUAL, opSPACESHIP);
 
-    TokenSet tsLOGICAL_OPS = TokenSet.create(opAND, opOR);
+    TokenSet tsLOGICAL_OPS = TokenSet.create(opAND, opOR, opCOALESCE);
 
     TokenSet tsTERNARY_OPS = TokenSet.create(opQUEST/*, opCOLON*/);
 
-    TokenSet tsBINARY_OPS = TokenSet.orSet(TokenSet.create(opLIT_AND, opLIT_OR, opLIT_XOR, opCONCAT, kwINSTANCEOF), tsASGN_OPS, tsBIT_OPS, tsCOMPARE_OPS, tsMATH_OPS, tsLOGICAL_OPS, tsTERNARY_OPS);
+    TokenSet tsBINARY_OPS = TokenSet.orSet(TokenSet.create(opLIT_AND, opLIT_OR, opLIT_XOR, opCONCAT, opPIPE, kwINSTANCEOF), tsASGN_OPS, tsBIT_OPS, tsCOMPARE_OPS, tsMATH_OPS, tsLOGICAL_OPS, tsTERNARY_OPS);
 
     TokenSet tsOPERATORS = TokenSet.orSet(tsBINARY_OPS, tsUNARY_OPS);
 

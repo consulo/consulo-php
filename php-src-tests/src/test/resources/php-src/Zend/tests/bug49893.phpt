@@ -1,0 +1,29 @@
+--TEST--
+Bug #49893 (Crash while creating an instance of Zend_Mail_Storage_Pop3)
+--FILE--
+<?php
+class A {
+    function __destruct() {
+        try {
+            throw new Exception("2");
+        } catch (Throwable $e) {
+            echo $e::class, ': ', $e->getMessage(), "\n";
+        }
+    }
+}
+class B {
+    public $a;
+    function __construct() {
+        $this->a = new A();
+        throw new Exception("1");
+    }
+}
+try {
+    $b = new B();
+} catch(Throwable $e) {
+    echo $e::class, ': ', $e->getMessage(), "\n";
+}
+?>
+--EXPECT--
+Exception: 2
+Exception: 1

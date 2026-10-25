@@ -1,5 +1,9 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.lang.lexer.PhpTokenTypes;
+import consulo.language.ast.TokenSet;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.php.impl.lang.psi.PhpNameResolver;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -38,9 +42,49 @@ public class PhpUseImpl extends PhpElementImpl implements PhpUse
 
 	@Nullable
 	@Override
+	@RequiredReadAction
 	public String getAliasName()
 	{
-		return null;
+		PsiElement as = findChildByType(PhpTokenTypes.kwAS);
+		if(as == null)
+		{
+			return null;
+		}
+		PsiElement alias = findChildByType(PhpTokenTypes.IDENTIFIER);
+		return alias == null ? null : alias.getText();
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public String getFQN()
+	{
+		ClassReference reference = findChildByClass(ClassReference.class);
+		if(reference == null)
+		{
+			return null;
+		}
+		String name = PhpNameResolver.nameText(reference);
+		// group use: 'use A\\{B, C}' - the prefix is a sibling of the items
+		PsiElement parent = getParent();
+		ClassReference prefix = parent == null ? null : PsiTreeUtil.getChildOfType(parent, ClassReference.class);
+		if(prefix != null && parent.getNode().findChildByType(PhpTokenTypes.LBRACE) != null)
+		{
+			name = PhpNameResolver.nameText(prefix) + "\\" + name;
+		}
+		return name.startsWith("\\") ? name : "\\" + name;
+	}
+
+	@Override
+	public boolean isClassImport()
+	{
+		TokenSet kinds = TokenSet.create(PhpTokenTypes.kwFUNCTION, PhpTokenTypes.kwCONST);
+		if(getNode().findChildByType(kinds) != null)
+		{
+			return false;
+		}
+		PsiElement parent = getParent();
+		return parent == null || parent.getNode().findChildByType(kinds) == null;
 	}
 
 	@Override

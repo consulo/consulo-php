@@ -1,19 +1,40 @@
+/*
+ * Copyright 2013-2026 consulo.io
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 
 import consulo.language.ast.ASTNode;
-import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
 import consulo.php.impl.lang.psi.impl.PhpElementImpl;
+import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
+import consulo.php.lang.documentation.phpdoc.psi.PhpDocPsiElement;
 
 /**
  * @author jay
- * @date Jun 29, 2008 2:09:01 AM
+ * @since Jun 29, 2008
  */
-abstract public class PhpDocPsiElementImpl extends PhpElementImpl implements PhpDocPsiElement
+public class PhpDocPsiElementImpl extends PhpElementImpl implements PhpDocPsiElement
 {
-
 	public PhpDocPsiElementImpl(ASTNode node)
 	{
 		super(node);
 	}
 
+	@Override
+	public void accept(PhpElementVisitor visitor)
+	{
+		visitor.visitPhpElement(this);
+	}
 }

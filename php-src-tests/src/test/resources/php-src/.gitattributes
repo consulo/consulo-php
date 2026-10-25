@@ -1,0 +1,2 @@
+# keep php-src tests byte-exact (CRLF, binary encodings)
+* -text

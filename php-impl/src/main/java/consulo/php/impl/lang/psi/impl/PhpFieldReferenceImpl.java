@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.PhpClassLookup;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.CommonProcessors;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
@@ -75,14 +77,10 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 
 	@Nonnull
 	@Override
+	@RequiredReadAction
 	public PhpType getType()
 	{
-		PsiElement element = resolve();
-		if(element instanceof PhpTypedElement)
-		{
-			return ((PhpTypedElement) element).getType();
-		}
-		return PhpType.EMPTY;
+		return PhpTypeInference.getType(this);
 	}
 
 	@Nonnull
@@ -166,23 +164,9 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 
 	private boolean processElements(Processor<PhpNamedElement> processor, @Nullable String fieldName)
 	{
-		PhpIndex phpIndex = PhpIndex.getInstance(getProject());
-
-		PhpType phpType = PhpType.NULL;
-		PsiElement firstChild = getFirstPsiChild();
-		if(firstChild instanceof PhpTypedElement)
+		Collection<PhpClass> classes = PhpClassLookup.findQualifierClasses(this);
+		if(classes != null)
 		{
-			phpType = ((PhpTypedElement) firstChild).getType();
-		}
-		else if(firstChild instanceof ClassReference)
-		{
-			phpType = ((ClassReference) firstChild).resolveLocalType();
-		}
-
-		for(String type : phpType.getTypes())
-		{
-			Collection<PhpClass> classes = phpIndex.getClassesByFQN(type);
-
 			for(PhpClass targetClass : classes)
 			{
 				if(fieldName != null)
@@ -270,5 +254,13 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	public boolean isReferenceTo(PsiElement element)
 	{
 		return getManager().areElementsEquivalent(resolve(), element);
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public String getSignature()
+	{
+		return PhpTypeInference.getSignature(this);
 	}
 }

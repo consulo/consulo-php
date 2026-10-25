@@ -24,7 +24,7 @@ import consulo.util.lang.function.Condition;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElement<PhpParameterStub>
+public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElement<PhpParameterStub>, PhpAttributesOwner
 {
 	Parameter[] EMPTY_ARRAY = new Parameter[0];
 	/**

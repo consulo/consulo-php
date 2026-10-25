@@ -12,6 +12,10 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 %{
   private boolean myHighlightingMode;
   private PhpLanguageLevel myLanguageLevel;
+  // __halt_compiler seen: everything after the next ';' or '?>' is raw data
+  private boolean myHaltCompiler;
+  // '{' nesting: __halt_compiler() stops lexing only at the outermost scope
+  private int myBraceDepth;
 
 	public _PhpFlexLexer(boolean highlightingMode, PhpLanguageLevel languageLevel) {
 		myHighlightingMode = highlightingMode;
@@ -38,6 +42,8 @@ import consulo.php.lang.lexer.PhpTokenTypes;
 		sManager.reset();
 		hdManager.reset();
 		brcManager = null;
+		myHaltCompiler = false;
+		myBraceDepth = 0;
 
 		sManager.toState(initialState);
 	}
@@ -114,16 +120,16 @@ DOUBLE_QUOTES_CHARS = 			("{"*([^$\"\\{]|("\\"{ANY_CHAR}))|{DOUBLE_QUOTES_LITERA
 BACKQUOTE_CHARS =			("{"*([^$`\\{]|("\\"{ANY_CHAR}))|{BACKQUOTE_LITERAL_DOLLAR})
 HEREDOC_CHARS =				("{"*([^$\n\r\\{]|("\\"[^\n\r]))|{HEREDOC_LITERAL_DOLLAR}|({HEREDOC_NEWLINE}+({HEREDOC_NON_LABEL}|{HEREDOC_LABEL_NO_NEWLINE})))
 
-DECIMAL_INTEGER =                  [1-9][0-9]* | 0
-HEX_INTEGER =                      0[xX][0-9a-fA-F]+
-OCTAL_INTEGER =                    0[0-7]+
+DIGITS =                           [0-9]("_"?[0-9])*
+DECIMAL_INTEGER =                  [1-9]("_"?[0-9])* | 0
+HEX_INTEGER =                      0[xX][0-9a-fA-F]("_"?[0-9a-fA-F])*
+OCTAL_INTEGER =                    0[oO]?("_"?[0-7])+
 INTEGER_LITERAL =                  ({DECIMAL_INTEGER} | {HEX_INTEGER} | {OCTAL_INTEGER})
-BIN_INTEGER_LITERAL = 0 [Bb] [0-9]*
+BIN_INTEGER_LITERAL =              0[bB][01]("_"?[01])*
 
-FLOATING_POINT_LITERAL1 =          [0-9]*"."[0-9]+{EXPONENT_PART}?
-FLOATING_POINT_LITERAL2 =          [0-9]+{EXPONENT_PART}
-EXPONENT_PART =                    [Ee][+-]?[0-9]+
-
+FLOATING_POINT_LITERAL1 =          {DIGITS}?"."{DIGITS}{EXPONENT_PART}? | {DIGITS}"."{EXPONENT_PART}?
+FLOATING_POINT_LITERAL2 =          {DIGITS}{EXPONENT_PART}
+EXPONENT_PART =                    [Ee][+-]?{DIGITS}
 FLOAT_LITERAL =                    {FLOATING_POINT_LITERAL1} | {FLOATING_POINT_LITERAL2}
 
 LINE_COMMENT_WITH_CLOSING_TAG =    ("//" | "#") .* "?>"
@@ -134,7 +140,7 @@ C_STYLE_COMMENT =                  ("/*"[^"*"]{COMMENT_TAIL})|"/*"
 DOC_COMMENT =                      "/*""*"+("/"|([^"/""*"]{COMMENT_TAIL}))?
 COMMENT_TAIL =                     ([^"*"]*("*"+[^"*""/"])?)*("*"+"/")?
 
-HEREDOC_START =                    "<<<" {TABS_AND_SPACES} {LABEL} {NEWLINE}
+HEREDOC_START =                    [bB]? "<<<" {TABS_AND_SPACES} ({LABEL} | "\"" {LABEL} "\"" | "'" {LABEL} "'") {NEWLINE}
 
 //===================================================================
 //==========================CASTS====================================
@@ -143,19 +149,22 @@ HEREDOC_START =                    "<<<" {TABS_AND_SPACES} {LABEL} {NEWLINE}
 CAST_BEGIN =                       "(" {TABS_AND_SPACES}
 CAST_END =                         {TABS_AND_SPACES} ")"
 
-INTEGER_CAST =                     {CAST_BEGIN} ("int"|"integer") {CAST_END}
-FLOAT_CAST =                       {CAST_BEGIN} ("float"|"double"|"real") {CAST_END}
-BOOLEAN_CAST =                     {CAST_BEGIN} ("bool"|"boolean") {CAST_END}
-STRING_CAST =                      {CAST_BEGIN} ("string"|"binary") {CAST_END}
-ARRAY_CAST  =                      {CAST_BEGIN} "array" {CAST_END}
-OBJECT_CAST  =                     {CAST_BEGIN} "object" {CAST_END}
-UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
+INTEGER_CAST =                     {CAST_BEGIN} ([iI][nN][tT] | [iI][nN][tT][eE][gG][eE][rR]) {CAST_END}
+FLOAT_CAST =                       {CAST_BEGIN} ([fF][lL][oO][aA][tT] | [dD][oO][uU][bB][lL][eE]) {CAST_END}
+BOOLEAN_CAST =                     {CAST_BEGIN} ([bB][oO][oO][lL] | [bB][oO][oO][lL][eE][aA][nN]) {CAST_END}
+STRING_CAST =                      {CAST_BEGIN} ([sS][tT][rR][iI][nN][gG] | [bB][iI][nN][aA][rR][yY]) {CAST_END}
+ARRAY_CAST  =                      {CAST_BEGIN} [aA][rR][rR][aA][yY] {CAST_END}
+OBJECT_CAST  =                     {CAST_BEGIN} [oO][bB][jJ][eE][cC][tT] {CAST_END}
+UNSET_CAST =                       {CAST_BEGIN} [uU][nN][sS][eE][tT] {CAST_END}
+VOID_CAST =                        {CAST_BEGIN} [vV][oO][iI][dD] {CAST_END}
 
 
 %x ST_IN_SCRIPTING
 %x ST_DOUBLE_QUOTES
 %x ST_BACKQUOTE
 %x ST_HEREDOC
+%x ST_NOWDOC
+%x ST_HALTED
 %x ST_START_HEREDOC
 %x ST_END_HEREDOC
 %x ST_LOOKING_FOR_PROPERTY
@@ -166,89 +175,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 %x ST_ONE_LINE_COMMENT
 
 %%
-
-<ST_IN_SCRIPTING>{
-//=========================KEYWORDS==================================
-//   oop
-	"class"                            { return PhpTokenTypes.kwCLASS; }
-	"interface"                        { return PhpTokenTypes.INTERFACE_KEYWORD; }
-	"extends"                          { return PhpTokenTypes.kwEXTENDS; }
-	"implements"                       { return PhpTokenTypes.kwIMPLEMENTS; }
-	"var"                              { return PhpTokenTypes.kwVAR; }
-	"const"                            { return PhpTokenTypes.kwCONST; }
-	"public"                           { return PhpTokenTypes.PUBLIC_KEYWORD; }
-	"protected"                        { return PhpTokenTypes.PROTECTED_KEYWORD; }
-	"private"                          { return PhpTokenTypes.PRIVATE_KEYWORD; }
-	"static"                           { return PhpTokenTypes.STATIC_KEYWORD; }
-	"final"                            { return PhpTokenTypes.FINAL_KEYWORD; }
-	"abstract"                         { return PhpTokenTypes.ABSTRACT_KEYWORD; }
-	"clone"                            { return PhpTokenTypes.kwCLONE; }
-	"new"                              { return PhpTokenTypes.kwNEW; }
-	"instanceof"                       { return PhpTokenTypes.kwINSTANCEOF; }
-
-	"trait"                            { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_4) ? PhpTokenTypes.TRAIT_KEYWORD : PhpTokenTypes.IDENTIFIER;}
-	"namespace"                        { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.NAMESPACE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
-	"use"                              { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? PhpTokenTypes.USE_KEYWORD : PhpTokenTypes.IDENTIFIER;}
-
-	//   flow control
-	"if"                               { return opManager.process(PhpTokenTypes.kwIF); }
-	"elseif"                           { return opManager.process(PhpTokenTypes.kwELSEIF); }
-	"else"                             { return opManager.process(PhpTokenTypes.kwELSE); }
-	"do"                               { return opManager.process(PhpTokenTypes.kwDO); }
-	"while"                            { return opManager.process(PhpTokenTypes.kwWHILE); }
-	"break"                            { return opManager.process(PhpTokenTypes.kwBREAK); }
-	"switch"                           { return opManager.process(PhpTokenTypes.kwSWITCH); }
-	"case"                             { return opManager.process(PhpTokenTypes.kwCASE); }
-	"default"                          { return PhpTokenTypes.kwDEFAULT; }
-	"for"                              { return opManager.process(PhpTokenTypes.kwFOR); }
-	"foreach"                          { return PhpTokenTypes.kwFOREACH; }
-	"as"                               { return opManager.process(PhpTokenTypes.kwAS); }
-	"continue"                         { return opManager.process(PhpTokenTypes.kwCONTINUE); }
-	"declare"                          { return PhpTokenTypes.kwDECLARE; }
-
-	//   terminating flow
-	"endif"                            { return PhpTokenTypes.kwENDIF; }
-	"endwhile"                         { return PhpTokenTypes.kwENDWHILE; }
-	"endfor"                           { return PhpTokenTypes.kwENDFOR; }
-	"endforeach"                       { return PhpTokenTypes.kwENDFOREACH; }
-	"endswitch"                        { return PhpTokenTypes.kwENDSWITCH; }
-	"enddeclare"                       { return PhpTokenTypes.kwENDDECLARE; }
-
-	//   functions
-	"function"                         { return PhpTokenTypes.kwFUNCTION; }
-	"global"                           { return PhpTokenTypes.kwGLOBAL; }
-	"return"                           { return opManager.process(PhpTokenTypes.kwRETURN); }
-	"array"                            { return opManager.process(PhpTokenTypes.kwARRAY); }
-	"list"                             { return opManager.process(PhpTokenTypes.kwLIST); }
-	"print"                            { return opManager.process(PhpTokenTypes.kwPRINT); }
-	"echo"                             { return opManager.process(PhpTokenTypes.kwECHO); }
-	"empty"                            { return opManager.process(PhpTokenTypes.kwEMPTY); }
-	"eval"                             { return opManager.process(PhpTokenTypes.kwEVAL); }
-	"die"                              { return opManager.process(PhpTokenTypes.kwEXIT); }
-	"exit"                             { return opManager.process(PhpTokenTypes.kwEXIT); }
-	"isset"                            { return opManager.process(PhpTokenTypes.kwISSET); }
-	"unset"                            { return opManager.process(PhpTokenTypes.kwUNSET); }
-	"yield"                            { return opManager.process(PhpTokenTypes.YIELD_KEYWORD); }
-
-	//   includes
-	"include"                          { return opManager.process(PhpTokenTypes.kwINCLUDE); }
-	"include_once"                     { return opManager.process(PhpTokenTypes.kwINCLUDE_ONCE); }
-	"require"                          { return opManager.process(PhpTokenTypes.kwREQUIRE); }
-	"require_once"                     { return opManager.process(PhpTokenTypes.kwREQUIRE_ONCE); }
-
-	//   exception handling
-	"try"                              { return PhpTokenTypes.kwTRY; }
-	"catch"                            { return PhpTokenTypes.kwCATCH; }
-	"throw"                            { return PhpTokenTypes.kwTHROW; }
-	"finally"                          { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_5) ? PhpTokenTypes.FINALLY_KEYWORD : PhpTokenTypes.IDENTIFIER; }
-}
-
-<ST_IN_SCRIPTING>{
-//   operators
-	[aA][nN][dD]                       { return opManager.process(PhpTokenTypes.opLIT_AND); }
-	[oO][rR]                           { return opManager.process(PhpTokenTypes.opLIT_OR); }
-	[xX][oO][rR]                       { return opManager.process(PhpTokenTypes.opLIT_XOR); }
-}
 
 <ST_IN_SCRIPTING>{
 	{INTEGER_LITERAL}                  { return opManager.process(PhpTokenTypes.INTEGER_LITERAL); }
@@ -271,10 +197,11 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	{ARRAY_CAST}                       { return opManager.process(PhpTokenTypes.opARRAY_CAST); }
 	{OBJECT_CAST}                      { return opManager.process(PhpTokenTypes.opOBJECT_CAST); }
 	{UNSET_CAST}                       { return opManager.process(PhpTokenTypes.opUNSET_CAST); }
+	{VOID_CAST}                        { return opManager.process(PhpTokenTypes.opVOID_CAST); }
 
 	"++"                               { return opManager.process(PhpTokenTypes.opINCREMENT); }
 	"--"                               { return opManager.process(PhpTokenTypes.opDECREMENT); }
-	"~"                                { return PhpTokenTypes.UNKNOWN_SYMBOL; }
+	"~"                                { return opManager.process(PhpTokenTypes.opBIT_NOT); }
 	"-"                                { return opManager.process(PhpTokenTypes.opMINUS); }
 	"+"                                { return opManager.process(PhpTokenTypes.opPLUS); }
 	"==="                              { return opManager.process(PhpTokenTypes.opIDENTICAL); }
@@ -282,6 +209,12 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"=="                               { return opManager.process(PhpTokenTypes.opEQUAL); }
 	"!="                               { return opManager.process(PhpTokenTypes.opNOT_EQUAL); }
 	"<>"                               { return opManager.process(PhpTokenTypes.opNOT_EQUAL); }
+	"<=>"                              { return opManager.process(PhpTokenTypes.opSPACESHIP); }
+	"??="                              { return opManager.process(PhpTokenTypes.opCOALESCE_ASGN); }
+	"??"                               { return opManager.process(PhpTokenTypes.opCOALESCE); }
+	"**="                              { return opManager.process(PhpTokenTypes.opPOW_ASGN); }
+	"**"                               { return opManager.process(PhpTokenTypes.opPOW); }
+	"|>"                               { return opManager.process(PhpTokenTypes.opPIPE); }
 	"<<"                               { return opManager.process(PhpTokenTypes.opSHIFT_LEFT); }
 	">>"                               { return opManager.process(PhpTokenTypes.opSHIFT_RIGHT); }
 	"<="                               { return opManager.process(PhpTokenTypes.opLESS_OR_EQUAL); }
@@ -313,7 +246,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"%"                                { return opManager.process(PhpTokenTypes.opREM); }
 	"!"                                { return opManager.process(PhpTokenTypes.opNOT); }
 	":"                                { return opManager.process(PhpTokenTypes.opCOLON); }
-	";"                                { return opManager.process(PhpTokenTypes.opSEMICOLON); }
+	";"                                { if (myHaltCompiler && myBraceDepth == 0) { yybegin(ST_HALTED); } return opManager.process(PhpTokenTypes.opSEMICOLON); }
 	"*"                                { return opManager.process(PhpTokenTypes.opMUL); }
 	"/"                                { return opManager.process(PhpTokenTypes.opDIV); }
 	"\\"                               { return myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_5_3) ? opManager.process(PhpTokenTypes.SLASH) : PhpTokenTypes.UNKNOWN_SYMBOL; }
@@ -325,18 +258,19 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	"("                                { return opManager.process(PhpTokenTypes.LPAREN); }
 	")"                                { return opManager.process(PhpTokenTypes.RPAREN); }
 
-	"{"                                { sManager.toState(ST_IN_SCRIPTING); return opManager.process(PhpTokenTypes.LBRACE); }
-	"}"                                { if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PhpTokenTypes.RBRACE); }
+	"{"                                { myBraceDepth++; sManager.toState(ST_IN_SCRIPTING); return opManager.process(PhpTokenTypes.LBRACE); }
+	"}"                                { if (myBraceDepth > 0) {myBraceDepth--;} if (sManager.getStackSize() > 1) {sManager.toPreviousState();} return opManager.process(PhpTokenTypes.RBRACE); }
 	"$"                                { return PhpTokenTypes.DOLLAR; }
 	"::"                               { return PhpTokenTypes.SCOPE_RESOLUTION; }
 }
 
 <ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC>"${" {
+	myBraceDepth++;
 	sManager.toState(ST_LOOKING_FOR_VARNAME);
 	return PhpTokenTypes.DOLLAR_LBRACE;
 }
 
-<ST_LOOKING_FOR_VARNAME>{LABEL} {
+<ST_LOOKING_FOR_VARNAME>{LABEL}/[\[}] {
 	sManager.toPreviousState();
 	sManager.toState(ST_IN_SCRIPTING);
 	return PhpTokenTypes.VARIABLE_NAME;
@@ -353,8 +287,29 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PhpTokenTypes.ARROW;
 }
 
+<ST_IN_SCRIPTING>"?->" {
+	sManager.toState(ST_LOOKING_FOR_PROPERTY);
+	return PhpTokenTypes.NULLSAFE_ARROW;
+}
+
+<ST_IN_SCRIPTING>"#[" {
+	if (myLanguageLevel.isAtLeast(PhpLanguageLevel.PHP_8_0)) {
+		return PhpTokenTypes.ATTRIBUTE_START;
+	}
+	yypushback(1);
+	int eatResult = lcManager.eat();
+	if (eatResult > 0) {
+		zzMarkedPos += eatResult;
+	}
+	return PhpTokenTypes.LINE_COMMENT;
+}
+
 <ST_LOOKING_FOR_PROPERTY>"->" {
 	return PhpTokenTypes.ARROW;
+}
+
+<ST_LOOKING_FOR_PROPERTY>"?->" {
+	return PhpTokenTypes.NULLSAFE_ARROW;
 }
 
 <ST_LOOKING_FOR_PROPERTY>{LABEL} {
@@ -371,7 +326,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 <YYINITIAL>(([^<]|"<"[^?%s<]){1,400})|"<s"|"<" {
 	return PhpTokenTypes.HTML;
 }
-<YYINITIAL>"<?php" | "<?" {
+<YYINITIAL>"<?"[pP][hH][pP] | "<?" {
 	sManager.toState(ST_IN_SCRIPTING);
 	return PhpTokenTypes.PHP_OPENING_TAG;
 }
@@ -391,6 +346,12 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PhpTokenTypes.VARIABLE;
 }
 
+<ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE>"$"{LABEL}"?->"[a-zA-Z_\x7f-\xff] {
+	yypushback(4);
+	sManager.toState(ST_LOOKING_FOR_PROPERTY);
+	return PhpTokenTypes.VARIABLE;
+}
+
 <ST_DOUBLE_QUOTES,ST_HEREDOC,ST_BACKQUOTE>"$"{LABEL}"[" {
 	yypushback(1);
 	sManager.toState(ST_VAR_OFFSET);
@@ -401,13 +362,25 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PhpTokenTypes.LBRACKET;
 }
 
+<ST_VAR_OFFSET>"-" {
+	return PhpTokenTypes.opMINUS;
+}
+
 <ST_VAR_OFFSET>"]" {
 	sManager.toPreviousState();
 	return PhpTokenTypes.RBRACKET;
 }
 
-<ST_IN_SCRIPTING,ST_VAR_OFFSET>{LABEL} {
+<ST_VAR_OFFSET>{LABEL} {
 	return PhpTokenTypes.IDENTIFIER;
+}
+
+<ST_IN_SCRIPTING>{LABEL} {
+	IElementType type = PhpKeywords.lookup(yytext(), myLanguageLevel);
+	if (type == PhpTokenTypes.HALT_COMPILER_KEYWORD) {
+		myHaltCompiler = true;
+	}
+	return opManager.process(type);
 }
 
 <ST_IN_SCRIPTING>{WHITESPACE} {
@@ -415,6 +388,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 }
 
 <ST_IN_SCRIPTING>{
+	"/**/"                             { return PhpTokenTypes.C_STYLE_COMMENT; }
 	{C_STYLE_COMMENT}                  { return PhpTokenTypes.C_STYLE_COMMENT; }
 	{DOC_COMMENT}                      { return PhpDocElementTypes.DOC_COMMENT; }
 }
@@ -446,19 +420,23 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 }
 
 <ST_IN_SCRIPTING>"%>" | "?>"  {
-	yybegin(YYINITIAL);
+	yybegin(myHaltCompiler && myBraceDepth == 0 ? ST_HALTED : YYINITIAL);
 	return PhpTokenTypes.PHP_CLOSING_TAG;
 }
 
-<ST_IN_SCRIPTING>("\"" {DOUBLE_QUOTES_CHARS}* ("{"* | "$"*) "\"") {
+<ST_HALTED>{ANY_CHAR}+ {
+	return PhpTokenTypes.INLINE_DATA;
+}
+
+<ST_IN_SCRIPTING>([bB]? "\"" {DOUBLE_QUOTES_CHARS}* ("{"* | "$"*) "\"") {
 	return PhpTokenTypes.STRING_LITERAL;
 }
 
-<ST_IN_SCRIPTING>("'" ([^'\\]|("\\"{ANY_CHAR}))* "'") {
+<ST_IN_SCRIPTING>([bB]? "'" ([^'\\]|("\\"{ANY_CHAR}))* "'") {
 	return PhpTokenTypes.STRING_LITERAL_SINGLE_QUOTE;
 }
 
-<ST_IN_SCRIPTING>"\"" {
+<ST_IN_SCRIPTING>[bB]? "\"" {
 	sManager.toState(ST_DOUBLE_QUOTES);
 	return PhpTokenTypes.chDOUBLE_QUOTE;
 }
@@ -475,33 +453,26 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 
 <ST_START_HEREDOC>{ANY_CHAR} {
 	yypushback(1);
-	yybegin(ST_HEREDOC);
+	yybegin(hdManager.isNowdoc() ? ST_NOWDOC : ST_HEREDOC);
 }
 
-<ST_START_HEREDOC>{LABEL}";"?[\n\r] {
-	String text = yytext().toString();
-	int labelEnd = text.length() - 1;
-	char semicolon = text.charAt(text.length() - 2);
-	if (semicolon == ';') {
-		labelEnd--;
-		yypushback(2);
-	} else {
-		yypushback(1);
-	}
-	String label = text.substring(0, labelEnd);
-	if (label.equals(hdManager.getHeredocID())) {
+<ST_START_HEREDOC>{TABS_AND_SPACES}{LABEL} {
+	String label = yytext().toString().trim();
+	if (label.equals(hdManager.getHeredocID()) && (zzMarkedPos >= zzEndRead || !HeredocManager.isLabelChar(zzBuffer.charAt(zzMarkedPos)))) {
+		hdManager.endHeredoc();
 		sManager.toPreviousState();
 		return PhpTokenTypes.HEREDOC_END;
 	}
-	return advance();
-
+	yypushback(yylength());
+	yybegin(hdManager.isNowdoc() ? ST_NOWDOC : ST_HEREDOC);
 }
 
-<ST_HEREDOC>{ANY_CHAR} {
+<ST_HEREDOC,ST_NOWDOC>{ANY_CHAR} {
 	int eatResult = hdManager.eat();
 	if (eatResult == HeredocManager.END_SEEN) {
 		sManager.toPreviousState();
 		zzMarkedPos += hdManager.getHeredocEndLength();
+		hdManager.endHeredoc();
 		return PhpTokenTypes.HEREDOC_END;
 	}
 	if (eatResult == HeredocManager.SIMPLE_ESCAPE_SEEN) {
@@ -514,6 +485,7 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 }
 
 <ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC>"{$" {
+	myBraceDepth++;
 	yypushback(1);
 	sManager.toState(ST_IN_SCRIPTING);
 	return PhpTokenTypes.LBRACE;
@@ -547,6 +519,6 @@ UNSET_CAST =                       {CAST_BEGIN} "unset" {CAST_END}
 	return PhpTokenTypes.chBACKTRICK;
 }
 
-<ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC,ST_START_HEREDOC,ST_END_HEREDOC,ST_LOOKING_FOR_PROPERTY,ST_LOOKING_FOR_VARNAME,ST_VAR_OFFSET,ST_COMMENT,ST_DOC_COMMENT,ST_ONE_LINE_COMMENT>{ANY_CHAR} {
+<ST_IN_SCRIPTING,ST_DOUBLE_QUOTES,ST_BACKQUOTE,ST_HEREDOC,ST_NOWDOC,ST_START_HEREDOC,ST_END_HEREDOC,ST_LOOKING_FOR_PROPERTY,ST_LOOKING_FOR_VARNAME,ST_VAR_OFFSET,ST_COMMENT,ST_DOC_COMMENT,ST_ONE_LINE_COMMENT>{ANY_CHAR} {
 	return PhpTokenTypes.UNKNOWN_SYMBOL;
 }
