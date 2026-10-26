@@ -17,6 +17,7 @@
 package com.jetbrains.php.lang.documentation.phpdoc.parser;
 
 import com.jetbrains.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocElementType;
 
 /**
@@ -38,7 +39,7 @@ public interface PhpDocElementTypes extends PhpDocTokenTypes
 	 */
 	PhpDocElementType phpDocAttributeList = new PhpDocElementType("PhpDocAttributeList");
 	/**
-	 * {@code "x"} inside an attribute list - a {@link com.jetbrains.php.lang.psi.elements.StringLiteralExpression}
+	 * {@code "x"} inside an attribute list - a {@link StringLiteralExpression}
 	 */
 	PhpDocElementType phpDocString = new PhpDocElementType("PhpDocString");
 }

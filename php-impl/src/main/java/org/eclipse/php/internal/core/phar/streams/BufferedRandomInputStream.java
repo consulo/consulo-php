@@ -145,7 +145,7 @@ public class BufferedRandomInputStream extends InputStream
 	}
 
 	/**
-	 * Supplies functionality of the {@link java.io.RandomAccessFile#seek(long)} in
+	 * Supplies functionality of the {@link RandomAccessFile#seek(long)} in
 	 * a buffer-friendly manner.
 	 *
 	 * @param pos offset
@@ -168,7 +168,7 @@ public class BufferedRandomInputStream extends InputStream
 	}
 
 	/**
-	 * Supplies functionality of the {@link java.io.RandomAccessFile#length()}.
+	 * Supplies functionality of the {@link RandomAccessFile#length()}.
 	 *
 	 * @return file length
 	 * @throws IOException

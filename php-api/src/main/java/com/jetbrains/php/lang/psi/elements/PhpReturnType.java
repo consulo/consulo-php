@@ -19,7 +19,7 @@ import consulo.util.lang.function.Condition;
 
 import jakarta.annotation.Nonnull;
 
-public interface PhpReturnType extends PhpPsiElement, PhpTypedElement
+public interface PhpReturnType extends PhpTypeDeclaration
 {
 	Condition<PsiElement> INSTANCEOF = e -> e instanceof PhpReturnType;
 

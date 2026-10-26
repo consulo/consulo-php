@@ -17,7 +17,7 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 
 import consulo.language.ast.ASTNode;
-import consulo.php.impl.lang.psi.impl.PhpStringLiteralExpressionImpl;
+import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
 
 /**
  * {@code "value"} inside a PHPDoc attribute list.
@@ -25,7 +25,7 @@ import consulo.php.impl.lang.psi.impl.PhpStringLiteralExpressionImpl;
  * @author VISTALL
  * @since 2026-10-25
  */
-public class PhpDocStringImpl extends PhpStringLiteralExpressionImpl
+public class PhpDocStringImpl extends StringLiteralExpressionImpl
 {
 	public PhpDocStringImpl(ASTNode node)
 	{

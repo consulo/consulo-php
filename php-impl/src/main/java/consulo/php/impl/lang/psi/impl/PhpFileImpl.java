@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.annotation.access.RequiredReadAction;
+import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.PhpLanguage;
 import com.jetbrains.php.lang.psi.PhpFile;
@@ -185,5 +188,13 @@ public class PhpFileImpl extends PsiFileBase implements PhpFile
 	public Set<CharSequence> getPredefinedVariables()
 	{
 		return Collections.emptySet();
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpControlFlow getControlFlow()
+	{
+		return PhpControlFlowBuilder.getControlFlow(this);
 	}
 }

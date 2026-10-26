@@ -13,22 +13,30 @@
 // limitations under the License.
 package com.jetbrains.php.codeInsight;
 
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
 import jakarta.annotation.Nonnull;
+import java.util.Collections;
 import java.util.Set;
 
 public interface PhpScopeHolder extends PhpPsiElement
 {
 	Condition<PsiElement> INSTANCE_OF = e -> e instanceof PhpScopeHolder;
 
-	//@Nonnull
-	//PhpControlFlow getControlFlow();
+	/**
+	 * Control flow of the statements of this scope, nested functions, closures and classes excluded
+	 */
+	@Nonnull
+	PhpControlFlow getControlFlow();
 
 	@Nonnull
-	Set<CharSequence> getPredefinedVariables();
+	default Set<CharSequence> getPredefinedVariables()
+	{
+		return Collections.emptySet();
+	}
 
 	//@NotNull
 	//PhpScope getScope();

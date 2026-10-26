@@ -1,5 +1,6 @@
 package consulo.php.impl.index;
 
+import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.PhpDefine;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.stub.StringStubIndexExtension;
@@ -12,13 +13,13 @@ import jakarta.annotation.Nonnull;
  * @since 2019-04-29
  */
 @ExtensionImpl
-public class PhpDefineIndex extends StringStubIndexExtension<PhpDefine>
+public class PhpDefineIndex extends StringStubIndexExtension<Constant>
 {
 	public static final PhpDefineIndex INSTANCE = new PhpDefineIndex();
 
 	@Nonnull
 	@Override
-	public StubIndexKey<String, PhpDefine> getKey()
+	public StubIndexKey<String, Constant> getKey()
 	{
 		return PhpIndexKeys.DEFINES;
 	}

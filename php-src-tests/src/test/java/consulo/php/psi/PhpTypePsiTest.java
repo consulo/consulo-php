@@ -21,6 +21,7 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.language.psi.PsiElement;
@@ -212,7 +213,7 @@ public class PhpTypePsiTest {
         PsiFile file = parse(context);
         FileIndex index = new FileIndex(context.project(), file);
 
-        Collection<? extends com.jetbrains.php.lang.psi.elements.PhpNamedElement> methods = index.getBySignature("#M#M#C\\App\\Foo.bar.count");
+        Collection<? extends PhpNamedElement> methods = index.getBySignature("#M#M#C\\App\\Foo.bar.count");
         Assertions.assertEquals(1, methods.size());
         Assertions.assertEquals("count", methods.iterator().next().getName());
 

@@ -16,16 +16,24 @@
 
 package com.jetbrains.php.lang.documentation.phpdoc.psi;
 
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import consulo.language.psi.ResolveResult;
+
 /**
  * One type of a PHPDoc type list: {@code Foo}, {@code int[]}, {@code array<string, Foo>}.
  *
  * @author VISTALL
  * @since 2026-10-25
  */
-public interface PhpDocType extends PhpDocPsiElement, com.jetbrains.php.lang.psi.elements.PhpTypedElement
+public interface PhpDocType extends PhpDocPsiElement, PhpTypedElement
 {
 	/**
 	 * @return the type as written: {@code Foo[]}, {@code ?\\App\\Bar}
 	 */
 	String getName();
+
+	/**
+	 * @return the classes this type names, resolved against the namespace and imports
+	 */
+	ResolveResult[] multiResolve(boolean incompleteCode);
 }

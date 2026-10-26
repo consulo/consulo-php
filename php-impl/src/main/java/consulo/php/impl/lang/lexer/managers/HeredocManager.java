@@ -2,6 +2,9 @@ package consulo.php.impl.lang.lexer.managers;
 
 import consulo.php.impl.lang.lexer._PhpFlexLexer;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Created by IntelliJ IDEA.
  * User: jay
@@ -22,7 +25,7 @@ public class HeredocManager extends ReadingManager
 
 	private StatesManager stManager;
 	// heredocs nest through interpolation: <<<A {$f(<<<B ... B)} A
-	private final java.util.Deque<Heredoc> myHeredocs = new java.util.ArrayDeque<>();
+	private final Deque<Heredoc> myHeredocs = new ArrayDeque<>();
 	// length of the closing delimiter found by the last eat(): indentation + label
 	private int myEndLength;
 

@@ -10,7 +10,7 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 import consulo.php.impl.index.PhpIndexKeys;
-import consulo.php.impl.lang.psi.impl.PhpDefineImpl;
+import com.jetbrains.php.lang.psi.elements.impl.PhpDefineImpl;
 import consulo.php.impl.lang.psi.impl.stub.PhpConstantStubImpl;
 import consulo.util.lang.StringUtil;
 

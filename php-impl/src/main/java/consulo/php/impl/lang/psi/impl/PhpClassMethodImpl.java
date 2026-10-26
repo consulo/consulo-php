@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.lexer.PhpTokenTypes;
@@ -173,5 +175,13 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 	public PhpType getType()
 	{
 		return PhpTypeInference.getReturnType(this);
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpControlFlow getControlFlow()
+	{
+		return PhpControlFlowBuilder.getControlFlow(this);
 	}
 }

@@ -16,6 +16,7 @@
 
 package com.jetbrains.php.lang.documentation.phpdoc.psi.tags;
 
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import jakarta.annotation.Nullable;
 
 /**
@@ -24,7 +25,7 @@ import jakarta.annotation.Nullable;
  * @author VISTALL
  * @since 2026-10-25
  */
-public interface PhpDocParamTag extends PhpDocTag
+public interface PhpDocParamTag extends PhpDocTag, PhpTypedElement
 {
 	/**
 	 * @return parameter name without {@code $}

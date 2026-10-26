@@ -10,7 +10,7 @@ import jakarta.annotation.Nullable;
  * @author jay
  * @date May 15, 2008 12:35:16 PM
  */
-public interface MethodReference extends PhpPsiElement, PsiPolyVariantReference, PhpTypedElement, ParameterListOwner
+public interface MethodReference extends FunctionReference, MemberReference
 {
 	/**
 	 * @return what this reference stands for, e.g. {@code #M#C\\Foo.bar}; several alternatives joined with {@code |}
@@ -23,7 +23,8 @@ public interface MethodReference extends PhpPsiElement, PsiPolyVariantReference,
 	String getMethodName();
 
 	@Nullable
-	ClassReference getClassReference();
+	@Override
+	PhpExpression getClassReference();
 
 	@Nullable
 	PsiElement getObjectReference();

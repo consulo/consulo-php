@@ -1,5 +1,6 @@
 package consulo.php.impl.codeInsight.highlight;
 
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.*;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.editor.rawHighlight.HighlightInfo;
@@ -21,15 +22,15 @@ public class PhpHightlightUtil
 	{
 		if(element instanceof MethodReference)
 		{
-			validateSelfQualifierReference(holder, ((MethodReference) element).resolve(), ((MethodReference) element).getClassReference(), ((MethodReference) element).getNameIdentifier());
+			validateSelfQualifierReference(holder, ((MethodReference) element).resolve(), ((MethodReference) element).getClassReference() instanceof ClassReference classReferenceMethodReference ? classReferenceMethodReference : null, ((MethodReference) element).getNameIdentifier());
 		}
 		else if(element instanceof FieldReference)
 		{
-			validateSelfQualifierReference(holder, ((FieldReference) element).resolve(), ((FieldReference) element).getClassReference(), ((FieldReference) element).getNameIdentifier());
+			validateSelfQualifierReference(holder, ((FieldReference) element).resolve(), ((FieldReference) element).getClassReference() instanceof ClassReference classReferenceFieldReference ? classReferenceFieldReference : null, ((FieldReference) element).getNameIdentifier());
 		}
 		else if(element instanceof ClassConstantReference)
 		{
-			validateSelfQualifierReference(holder, ((ClassConstantReference) element).resolve(), ((ClassConstantReference) element).getClassReference(), ((ClassConstantReference) element).getNameIdentifier());
+			validateSelfQualifierReference(holder, ((ClassConstantReference) element).resolve(), ((ClassConstantReference) element).getClassReference() instanceof ClassReference classReferenceClassConstantReference ? classReferenceClassConstantReference : null, ((ClassConstantReference) element).getNameIdentifier());
 		}
 	}
 

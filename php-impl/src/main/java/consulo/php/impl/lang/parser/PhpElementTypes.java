@@ -16,6 +16,7 @@ public interface PhpElementTypes extends com.jetbrains.php.lang.parser.PhpElemen
 	IElementType PARAMETER = PhpStubElements.PARAMETER;
 	IElementType NAMESPACE = PhpStubElements.NAMESPACE;
 	IElementType DEFINE = PhpStubElements.DEFINE;
+	IElementType CONSTANT_ITEM = PhpStubElements.CONSTANT_ITEM;
 	IElementType CLASS_CONSTANT = PhpStubElements.CLASS_FIELD;
 	IElementType CLASS = PhpStubElements.CLASS;
 	IElementType FUNCTION = PhpStubElements.FUNCTION;

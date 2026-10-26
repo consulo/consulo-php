@@ -10,7 +10,7 @@ import jakarta.annotation.Nullable;
  * @author jay
  * @date Jun 18, 2008 1:51:17 PM
  */
-public interface ClassConstantReference extends PhpPsiElement, PsiPolyVariantReference, PhpTypedElement
+public interface ClassConstantReference extends MemberReference
 {
 	/**
 	 * @return what this reference stands for, e.g. {@code #M#C\\Foo.bar}; several alternatives joined with {@code |}
@@ -24,5 +24,7 @@ public interface ClassConstantReference extends PhpPsiElement, PsiPolyVariantRef
 	@Nullable
 	PsiElement getNameIdentifier();
 
-	ClassReference getClassReference();
+	@Nullable
+	@Override
+	PhpExpression getClassReference();
 }

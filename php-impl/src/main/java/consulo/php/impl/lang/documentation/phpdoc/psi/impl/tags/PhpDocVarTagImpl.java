@@ -13,7 +13,7 @@ import consulo.language.psi.util.PsiTreeUtil;
  * @author jay
  * @date Jun 29, 2008 2:10:52 AM
  */
-public class PhpDocVarTagImpl extends PhpDocTagImpl implements PhpDocVarTag
+public class PhpDocVarTagImpl extends PhpDocParamTagImpl implements PhpDocVarTag
 {
 
 	public PhpDocVarTagImpl(ASTNode node)

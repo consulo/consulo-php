@@ -25,4 +25,14 @@ public interface ParameterListOwner extends PhpPsiElement
 
 	@Nonnull
 	PsiElement[] getParameters();
+
+	/**
+	 * @return the parameter (or argument) at the index, null when there is none
+	 */
+	@Nullable
+	default PsiElement getParameter(int index)
+	{
+		PsiElement[] parameters = getParameters();
+		return index >= 0 && index < parameters.length ? parameters[index] : null;
+	}
 }

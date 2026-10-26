@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
@@ -114,5 +116,13 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 			return "";
 		}
 		return name.startsWith("\\") ? name.substring(1) : name;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpControlFlow getControlFlow()
+	{
+		return PhpControlFlowBuilder.getControlFlow(this);
 	}
 }

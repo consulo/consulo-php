@@ -12,7 +12,7 @@ public class FileScanner {
 	 * @param pattern Pattern to match files
 	 * @return List of files
 	 *
-	 * @throws java.io.FileNotFoundException if file not found
+	 * @throws FileNotFoundException if file not found
 	 */
 	public static List<File> scan(final String path, final String pattern) throws FileNotFoundException {
 		List<File> myFiles = new ArrayList<File>();

@@ -11,7 +11,7 @@ import jakarta.annotation.Nullable;
  * @author jay
  * @date May 11, 2008 9:55:46 PM
  */
-public interface ClassReference extends PhpPsiElement, PsiPolyVariantReference
+public interface ClassReference extends PhpReference
 {
 	@Nullable
 	ClassReference getQualifier();

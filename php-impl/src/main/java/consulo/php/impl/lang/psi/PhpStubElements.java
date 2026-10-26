@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi;
 
+import consulo.php.impl.lang.psi.impl.stub.elements.PhpConstantStubElementType;
 import consulo.php.impl.lang.psi.impl.stub.elements.PhpClassMethodStubElementType;
 import consulo.php.impl.lang.psi.impl.stub.elements.PhpClassStubElementType;
 import consulo.php.impl.lang.psi.impl.stub.elements.PhpDefineStubElementType;
@@ -26,4 +27,8 @@ public interface PhpStubElements
 	PhpParameterStubElementType PARAMETER = new PhpParameterStubElementType();
 
 	PhpDefineStubElementType DEFINE = new PhpDefineStubElementType();
+	/**
+	 * {@code A = 1} of {@code const A = 1;} outside of classes
+	 */
+	PhpConstantStubElementType CONSTANT_ITEM = new PhpConstantStubElementType();
 }

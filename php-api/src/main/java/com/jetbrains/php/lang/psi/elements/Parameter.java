@@ -13,11 +13,14 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocParamTag;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.StubBasedPsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.function.Condition;
 
@@ -63,4 +66,26 @@ public interface Parameter extends PhpNamedElement, RWAccess, StubBasedPsiElemen
 	@Override
 	@Nonnull
 	String getName();
+
+	/**
+	 * @return the written type: {@code Foo} of {@code Foo $a}, null without a type
+	 */
+	@org.jspecify.annotations.Nullable
+	@RequiredReadAction
+	default PhpTypeDeclaration getTypeDeclaration()
+	{
+		return PsiTreeUtil.getChildOfType(this, PhpTypeDeclaration.class);
+	}
+
+	/**
+	 * @return the {@code @param} tag of this parameter in the doc comment of its function
+	 */
+	@org.jspecify.annotations.Nullable
+	@RequiredReadAction
+	default PhpDocParamTag getDocTag()
+	{
+		Function function = PsiTreeUtil.getParentOfType(this, Function.class);
+		PhpDocComment docComment = function == null ? null : function.getDocComment();
+		return docComment == null ? null : docComment.getParamTagByName(getName());
+	}
 }

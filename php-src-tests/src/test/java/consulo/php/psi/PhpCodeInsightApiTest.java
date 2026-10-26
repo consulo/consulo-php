@@ -22,6 +22,7 @@ import com.jetbrains.php.completion.PhpClassLookupElement;
 import com.jetbrains.php.completion.PhpLookupElement;
 import com.jetbrains.php.config.PhpLanguageLevel;
 import com.jetbrains.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.PhpPsiUtil;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.Parameter;
@@ -155,6 +156,6 @@ public class PhpCodeInsightApiTest {
         Assertions.assertEquals("App\\Controller\\", namespaceElement.getLookupString());
         Assertions.assertEquals("App\\Controller\\", namespaceElement.getObject());
 
-        Assertions.assertEquals(1, PhpPsiUtil.findAllClasses((com.jetbrains.php.lang.psi.PhpFile) phpClass.getContainingFile()).size());
+        Assertions.assertEquals(1, PhpPsiUtil.findAllClasses((PhpFile) phpClass.getContainingFile()).size());
     }
 }

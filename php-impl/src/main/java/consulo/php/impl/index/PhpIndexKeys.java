@@ -1,5 +1,6 @@
 package consulo.php.impl.index;
 
+import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpDefine;
@@ -20,6 +21,6 @@ public interface PhpIndexKeys
 	StubIndexKey<String, PhpClass> FULL_FQ_CLASSES = StubIndexKey.createIndexKey("php.full.fq.classes");
 	StubIndexKey<String, PhpNamespace> NAMESPACES = PhpNamespaceIndex.KEY;
 
-	StubIndexKey<String, PhpDefine> DEFINES = PhpConstantNameIndex.KEY;
+	StubIndexKey<String, Constant> DEFINES = PhpConstantNameIndex.KEY;
 	StubIndexKey<String, PhpClass> SUPERTYPES = StubIndexKey.createIndexKey("php.supertypes");
 }

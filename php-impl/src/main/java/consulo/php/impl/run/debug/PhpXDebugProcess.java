@@ -31,6 +31,7 @@ import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -284,9 +285,9 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
         try {
             DbgpResponse stackResponse = myCommandSender.stackGet().get();
             if (!stackResponse.hasError()) {
-                List<org.w3c.dom.Element> stackElements = stackResponse.getStackElements();
+                List<Element> stackElements = stackResponse.getStackElements();
                 if (!stackElements.isEmpty()) {
-                    org.w3c.dom.Element topFrame = stackElements.get(0);
+                    Element topFrame = stackElements.get(0);
                     String filename = topFrame.getAttribute("filename");
                     String linenoStr = topFrame.getAttribute("lineno");
                     if (filename != null && linenoStr != null) {

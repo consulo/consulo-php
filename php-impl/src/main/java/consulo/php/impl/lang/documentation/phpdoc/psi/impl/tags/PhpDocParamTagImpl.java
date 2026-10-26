@@ -18,9 +18,12 @@ package consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags;
 
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocParamTag;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.PsiElement;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 /**
@@ -66,5 +69,18 @@ public class PhpDocParamTagImpl extends PhpDocTagImpl implements PhpDocParamTag
 			builder.append(type.getName());
 		}
 		return builder.length() == 0 ? null : builder.toString();
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		PhpType.PhpTypeBuilder builder = PhpType.builder();
+		for(PhpDocType type : findChildrenByClass(PhpDocType.class))
+		{
+			builder.add(PhpTypeInference.getDocType(type));
+		}
+		return builder.build();
 	}
 }

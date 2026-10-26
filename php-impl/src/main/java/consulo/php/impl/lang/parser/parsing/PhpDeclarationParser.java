@@ -215,7 +215,7 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
         }
 
         if (!builder.compare(VARIABLE) && !builder.compare(opBIT_AND) && !builder.compare(ELLIPSIS)) {
-            PhpNameParser.parseType(builder);
+            PhpNameParser.parseTypeDeclaration(builder, PhpElementTypes.TYPE_DECLARATION);
         }
         builder.compareAndEat(opBIT_AND);
         builder.compareAndEat(ELLIPSIS);
@@ -332,7 +332,7 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
         }
         if (kind == ENUM_KEYWORD && builder.compareAndEat(opCOLON)) {
             // backed enum
-            PhpNameParser.parseType(builder);
+            PhpNameParser.parseTypeDeclaration(builder, PhpElementTypes.TYPE_DECLARATION);
         }
         parseClassTail(builder, kind);
         declaration.done(PhpElementTypes.CLASS);
@@ -442,7 +442,7 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
                 builder.error(PhpParserErrors.unexpected(STATIC_KEYWORD));
             }
             if (!builder.compare(VARIABLE)) {
-                PhpNameParser.parseType(builder);
+                PhpNameParser.parseTypeDeclaration(builder, PhpElementTypes.FIELD_TYPE);
             }
             parseProperties(builder);
             member.done(PhpElementTypes.CLASS_FIELDS);
@@ -457,7 +457,7 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
      */
     private static void parseClassConstants(PhpPsiBuilder builder) {
         if (builder.lookAhead(1) != opASGN) {
-            PhpNameParser.parseType(builder);
+            PhpNameParser.parseTypeDeclaration(builder, PhpElementTypes.TYPE_DECLARATION);
         }
         do {
             PsiBuilder.Marker constant = builder.mark();

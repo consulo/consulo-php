@@ -198,6 +198,19 @@ public final class PhpNameParser implements PhpTokenTypes {
     }
 
     /**
+     * A type wrapped into its own node, see {@link PhpElementTypes#TYPE_DECLARATION} and {@link PhpElementTypes#FIELD_TYPE}
+     */
+    public static boolean parseTypeDeclaration(PhpPsiBuilder builder, IElementType elementType) {
+        PsiBuilder.Marker declaration = builder.mark();
+        if (parseType(builder)) {
+            declaration.done(elementType);
+            return true;
+        }
+        declaration.drop();
+        return false;
+    }
+
+    /**
      * {@code ': type'} of functions, methods and closures
      */
     public static void parseReturnTypeIfColon(PhpPsiBuilder builder) {

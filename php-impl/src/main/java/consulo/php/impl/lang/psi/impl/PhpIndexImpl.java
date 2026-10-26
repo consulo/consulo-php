@@ -8,6 +8,7 @@ import consulo.application.progress.ProgressManager;
 import consulo.application.util.function.Processor;
 import consulo.application.util.matcher.PrefixMatcher;
 import consulo.index.io.ID;
+import consulo.language.psi.PsiElement;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.StringStubIndexExtension;
 import consulo.php.impl.index.PhpClassIndex;
@@ -46,7 +47,7 @@ public class PhpIndexImpl extends PhpIndex
 		myProject = project;
 	}
 
-	private <T extends consulo.language.psi.PsiElement> Collection<T> get(StringStubIndexExtension<T> index, @Nullable String key)
+	private <T extends PsiElement> Collection<T> get(StringStubIndexExtension<T> index, @Nullable String key)
 	{
 		if(key == null || DumbService.isDumb(myProject))
 		{

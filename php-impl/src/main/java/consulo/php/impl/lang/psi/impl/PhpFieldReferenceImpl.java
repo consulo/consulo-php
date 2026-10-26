@@ -1,5 +1,9 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.language.psi.PsiElementResolveResult;
+import consulo.language.psi.ResolveResult;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.PhpExpression;
 import consulo.php.impl.lang.psi.PhpClassLookup;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.CommonProcessors;
@@ -43,7 +47,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	@Override
 	public PsiElement getNameIdentifier()
 	{
-		if(getClassReference() != null)
+		if(PhpMemberReferences.staticClassReference(this) != null)
 		{
 			return findChildByType(PhpTokenTypes.VARIABLE);
 		}
@@ -66,7 +70,7 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		if(canReadName())
 		{
 			String name = getNameIdentifier().getText();
-			if(getClassReference() != null)
+			if(PhpMemberReferences.staticClassReference(this) != null)
 			{
 				name = name.substring(1);
 			}
@@ -95,16 +99,6 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 		return PhpType.EMPTY;
 	}
 
-	@Override
-	public ClassReference getClassReference()
-	{
-		PhpPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
-		{
-			return (ClassReference) reference;
-		}
-		return null;
-	}
 
 	@Override
 	public PsiElement getObjectReference()
@@ -262,5 +256,46 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	public String getSignature()
 	{
 		return PhpTypeInference.getSignature(this);
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public PhpExpression getClassReference()
+	{
+		return PhpMemberReferences.qualifier(this);
+	}
+
+	@Override
+	@RequiredReadAction
+	public PhpModifier.State getReferenceType()
+	{
+		return PhpMemberReferences.referenceType(this);
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public String getName()
+	{
+		return getFieldName();
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public ASTNode getNameNode()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? null : nameIdentifier.getNode();
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public ResolveResult[] multiResolve(boolean incompleteCode)
+	{
+		PsiElement resolved = resolve();
+		return resolved == null ? ResolveResult.EMPTY_ARRAY : new ResolveResult[]{new PsiElementResolveResult(resolved)};
 	}
 }

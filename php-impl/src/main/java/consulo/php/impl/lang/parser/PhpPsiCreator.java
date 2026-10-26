@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.parser;
 
+import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
 import java.util.function.Function;
 import java.util.Map;
 import java.util.HashMap;
@@ -39,6 +40,11 @@ public class PhpPsiCreator implements PhpElementTypes
 		// PhpStorm uses one PARAMETER_LIST type for call arguments and declared parameters
 		FACTORIES.put(PARAMETER_LIST, node -> isDeclaredParameterList(node) ? new PhpFunctionParameterListImpl(node) : new PhpExpressionParameterListImpl(node));
 		FACTORIES.put(UNARY_EXPRESSION, PhpUnaryExpressionImpl::new);
+		FACTORIES.put(ARRAY_INDEX, PhpArrayIndexImpl::new);
+		FACTORIES.put(PARENTHESIZED_EXPRESSION, PhpParenthesizedExpressionImpl::new);
+		FACTORIES.put(TYPE_DECLARATION, PhpTypeDeclarationImpl::new);
+		FACTORIES.put(FIELD_TYPE, PhpFieldTypeImpl::new);
+		FACTORIES.put(CLASS_FIELDS, PhpClassFieldsListImpl::new);
 		FACTORIES.put(ASSIGNMENT_EXPRESSION, PhpAssignmentExpressionImpl::new);
 		FACTORIES.put(SELF_ASSIGNMENT_EXPRESSION, PhpSelfAssignmentExpressionImpl::new);
 		FACTORIES.put(TERNARY_EXPRESSION, PhpTernaryExpressionImpl::new);
@@ -50,7 +56,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		FACTORIES.put(ARRAY_ACCESS_EXPRESSION, PhpArrayAccessExpressionImpl::new);
 		FACTORIES.put(ARRAY_HASH, PhpArrayHashElementImpl::new);
 		FACTORIES.put(YIELD, PhpYieldImpl::new);
-		FACTORIES.put(STRING, PhpStringLiteralExpressionImpl::new);
+		FACTORIES.put(STRING, StringLiteralExpressionImpl::new);
 		FACTORIES.put(CLASS_REFERENCE, PhpClassReferenceImpl::new);
 		FACTORIES.put(VARIABLE_REFERENCE, PhpVariableReferenceImpl::new);
 		FACTORIES.put(CLASS_CONSTANT_REFERENCE, PhpClassConstantReferenceImpl::new);

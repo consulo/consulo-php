@@ -39,6 +39,7 @@ import consulo.language.psi.PsiWhiteSpace;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.php.impl.lang.parser.PhpElementTypes;
 import consulo.php.impl.lang.psi.PhpNameResolver;
+import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import org.jspecify.annotations.Nullable;
 
@@ -69,7 +70,7 @@ public final class PhpTypeInference {
         PhpElementTypes.CONCATENATION_EXPRESSION);
 
     private static final TokenSet FUNCTION_SCOPES = TokenSet.create(PhpElementTypes.FUNCTION, PhpElementTypes.ANONYMOUS_FUNCTION,
-        consulo.php.impl.lang.psi.PhpStubElements.CLASS_METHOD);
+        PhpStubElements.CLASS_METHOD);
 
     private PhpTypeInference() {
     }
@@ -607,14 +608,18 @@ public final class PhpTypeInference {
     public static PhpType getDeclaredType(PsiElement owner) {
         PhpType.PhpTypeBuilder builder = PhpType.builder();
         for (ASTNode child = owner.getNode().getFirstChildNode(); child != null; child = child.getTreeNext()) {
-            if (child.getElementType() == PhpTokenTypes.opQUEST) {
+            if (child.getElementType() == PhpElementTypes.TYPE_DECLARATION || child.getElementType() == PhpElementTypes.FIELD_TYPE) {
+                // the type of a parameter, property, constant or enum is wrapped into its declaration
+                builder.add(getDeclaredType(child.getPsi()));
+            }
+            else if (child.getElementType() == PhpTokenTypes.opQUEST) {
                 builder.add(PhpType.NULL);
             }
             else if (child.getPsi() instanceof ClassReference reference) {
                 builder.add(resolveTypeName(reference, PhpNameResolver.nameText(reference)));
             }
             else if (child.getElementType() == PhpTokenTypes.VARIABLE || child.getElementType() == PhpTokenTypes.opASGN
-                || child.getElementType() == consulo.php.impl.lang.psi.PhpStubElements.CLASS_FIELD) {
+                || child.getElementType() == PhpStubElements.CLASS_FIELD) {
                 break;
             }
         }

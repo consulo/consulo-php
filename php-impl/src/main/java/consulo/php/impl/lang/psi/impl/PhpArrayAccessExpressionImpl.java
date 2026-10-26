@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import org.jspecify.annotations.Nullable;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import com.jetbrains.php.lang.psi.elements.ArrayIndex;
 import jakarta.annotation.Nonnull;
 
 import com.jetbrains.php.lang.psi.elements.ArrayAccessExpression;
@@ -21,5 +24,19 @@ public class PhpArrayAccessExpressionImpl extends PhpElementImpl implements Arra
 	public void accept(@Nonnull PhpElementVisitor visitor)
 	{
 		visitor.visitPhpElement(this);
+	}
+
+	@Nullable
+	@Override
+	public PhpPsiElement getValue()
+	{
+		return PhpPsiChildren.phpChild(this, 0);
+	}
+
+	@Nullable
+	@Override
+	public ArrayIndex getIndex()
+	{
+		return findChildByClass(ArrayIndex.class);
 	}
 }

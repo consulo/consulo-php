@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpTypeDeclaration;
 import java.util.List;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -242,5 +243,15 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 			result.addAll(attributesList.getAttributes());
 		}
 		return result;
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public PhpTypeDeclaration getTypeDeclaration()
+	{
+		// constants and properties: the type is shared by the list
+		PsiElement parent = getParent();
+		return parent == null ? null : PsiTreeUtil.getChildOfType(parent, PhpTypeDeclaration.class);
 	}
 }

@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import java.util.List;
+import org.jspecify.annotations.Nullable;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
@@ -20,16 +23,19 @@ public class PhpAssignmentExpressionImpl extends PhpTypedElementImpl implements 
 		super(node);
 	}
 
+	@Nullable
 	@Override
-	public PsiElement getVariable()
+	public PhpPsiElement getVariable()
 	{
-		return getFirstChild();
+		return PhpPsiChildren.phpChild(this, 0);
 	}
 
+	@Nullable
 	@Override
-	public PsiElement getValue()
+	public PhpPsiElement getValue()
 	{
-		return getLastChild();
+		List<PhpPsiElement> children = PhpPsiChildren.phpChildren(this);
+		return children.size() < 2 ? null : children.get(children.size() - 1);
 	}
 
 	@Override
@@ -41,13 +47,15 @@ public class PhpAssignmentExpressionImpl extends PhpTypedElementImpl implements 
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState resolveState, PsiElement lastParent, @Nonnull PsiElement source)
 	{
-		if(getValue() != lastParent && getVariable() != lastParent)
+		PhpPsiElement value = getValue();
+		PhpPsiElement variable = getVariable();
+		if(value != null && variable != null && value != lastParent && variable != lastParent)
 		{
-			if(!getValue().processDeclarations(processor, resolveState, null, source))
+			if(!value.processDeclarations(processor, resolveState, null, source))
 			{
 				return false;
 			}
-			if(!getVariable().processDeclarations(processor, resolveState, null, source))
+			if(!variable.processDeclarations(processor, resolveState, null, source))
 			{
 				return false;
 			}

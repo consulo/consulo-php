@@ -17,6 +17,7 @@ import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Represents both Declaration and Call parameter list.
@@ -27,4 +28,11 @@ public interface ParameterList extends PhpPsiElement
 
 	@Nonnull
 	PsiElement[] getParameters();
+
+	@Nullable
+	default PsiElement getParameter(int index)
+	{
+		PsiElement[] parameters = getParameters();
+		return index >= 0 && index < parameters.length ? parameters[index] : null;
+	}
 }

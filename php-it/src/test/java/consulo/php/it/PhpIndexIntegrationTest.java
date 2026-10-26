@@ -17,6 +17,7 @@
 package consulo.php.it;
 
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
@@ -85,6 +86,8 @@ public class PhpIndexIntegrationTest {
         interface MailerInterface {}
         trait Loggable {}
         enum Status: string { case On = 'on'; }
+
+        const DEFAULT_SENDER = 'noreply@example.com';
 
         class Mailer implements MailerInterface {
             use Loggable;
@@ -218,5 +221,18 @@ public class PhpIndexIntegrationTest {
             Field mailer = classes.iterator().next().findOwnFieldByName("mailer", false);
             return mailer == null ? null : mailer.getModifier().getAccess() + " " + mailer.getType().toString();
         })).isEqualTo("private \\App\\Service\\Mailer");
+    }
+
+    /**
+     * {@code const} outside of classes is indexed with the {@code define()} constants
+     */
+    @Test
+    public void namespaceConstants(HeadlessProjects projects) throws Exception {
+        Project project = open(projects);
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+
+        Collection<Constant> constants = PhpProjects.waitForIndex(() -> phpIndex.getConstantsByName("DEFAULT_SENDER"), found -> !found.isEmpty());
+        assertThat(ReadAction.compute(() -> constants.iterator().next().getFQN())).isEqualTo("\\App\\Service\\DEFAULT_SENDER");
+        assertThat(ReadAction.compute(() -> constants.iterator().next().getValuePresentation())).isEqualTo("'noreply@example.com'");
     }
 }

@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import com.jetbrains.php.codeInsight.PhpScopeHolder;
 import com.jetbrains.php.lang.psi.stubs.PhpNamespaceStub;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.StubBasedPsiElement;
@@ -21,7 +22,7 @@ import consulo.util.lang.function.Condition;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public interface PhpNamespace extends PhpNamedElement, StubBasedPsiElement<PhpNamespaceStub>//, PhpScopeHolder, PsiDirectoryContainer
+public interface PhpNamespace extends PhpNamedElement, StubBasedPsiElement<PhpNamespaceStub>, PhpScopeHolder
 {
 	Condition<PsiElement> INSTANCEOF = use -> use instanceof PhpNamespace;
 

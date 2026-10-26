@@ -1,5 +1,9 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.PsiComment;
+import org.jspecify.annotations.Nullable;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import jakarta.annotation.Nonnull;
 
 import consulo.language.psi.resolve.ResolveState;
@@ -20,10 +24,25 @@ public class PhpUnaryExpressionImpl extends PhpElementImpl implements PhpUnaryEx
 		super(node);
 	}
 
+	@Nullable
 	@Override
-	public PsiElement getExpression()
+	public PhpPsiElement getValue()
 	{
-		return getFirstPsiChild();
+		return PhpPsiChildren.phpChild(this, 0);
+	}
+
+	@Nullable
+	@Override
+	public PsiElement getOperation()
+	{
+		for(PsiElement child = getFirstChild(); child != null; child = child.getNextSibling())
+		{
+			if(!(child instanceof PhpPsiElement) && !(child instanceof PsiWhiteSpace) && !(child instanceof PsiComment) && child.getTextLength() > 0)
+			{
+				return child;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -35,9 +54,10 @@ public class PhpUnaryExpressionImpl extends PhpElementImpl implements PhpUnaryEx
 	@Override
 	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement source)
 	{
-		if(getExpression() != lastParent)
+		PhpPsiElement value = getValue();
+		if(value != null && value != lastParent)
 		{
-			if(!getExpression().processDeclarations(processor, state, null, source))
+			if(!value.processDeclarations(processor, state, null, source))
 			{
 				return false;
 			}

@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.language.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.PhpExpression;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.CommonProcessors;
 import consulo.application.util.function.Processor;
@@ -91,16 +94,6 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 		return this;
 	}
 
-	@Nullable
-	public ClassReference getClassReference()
-	{
-		PhpPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
-		{
-			return (ClassReference) reference;
-		}
-		return null;
-	}
 
 	@RequiredReadAction
 	@Override
@@ -184,7 +177,7 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 	@RequiredReadAction
 	private void process(@Nonnull Processor<PhpNamedElement> processor, @Nullable String name)
 	{
-		final ClassReference classReference = getClassReference();
+		final ClassReference classReference = PhpMemberReferences.staticClassReference(this);
 		if(classReference != null)
 		{
 			final PsiElement psiElement = classReference.resolve();
@@ -300,5 +293,29 @@ public class PhpClassConstantReferenceImpl extends PhpElementImpl implements Cla
 	public String getSignature()
 	{
 		return PhpTypeInference.getSignature(this);
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public PhpExpression getClassReference()
+	{
+		return PhpMemberReferences.qualifier(this);
+	}
+
+	@Override
+	@RequiredReadAction
+	public PhpModifier.State getReferenceType()
+	{
+		return PhpMemberReferences.referenceType(this);
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public ASTNode getNameNode()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? null : nameIdentifier.getNode();
 	}
 }

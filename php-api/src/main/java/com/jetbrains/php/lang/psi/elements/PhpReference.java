@@ -13,6 +13,9 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import java.util.List;
+import java.util.ArrayList;
+import consulo.language.psi.ResolveResult;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.PsiElement;
@@ -55,10 +58,24 @@ public interface PhpReference extends PhpExpression, PhpTypedElement, PsiPolyVar
 	 * @return targets
 	 */
 	@Nonnull
-	Collection<? extends PhpNamedElement> resolveLocal();
+	default Collection<? extends PhpNamedElement> resolveLocal()
+	{
+		List<PhpNamedElement> result = new ArrayList<>();
+		for(ResolveResult resolveResult : multiResolve(false))
+		{
+			if(resolveResult.getElement() instanceof PhpNamedElement namedElement)
+			{
+				result.add(namedElement);
+			}
+		}
+		return result;
+	}
 
 	@Nonnull
-	PhpType resolveLocalType();
+	default PhpType resolveLocalType()
+	{
+		return getType();
+	}
 
 	/**
 	 * Find targets in all files
@@ -67,7 +84,10 @@ public interface PhpReference extends PhpExpression, PhpTypedElement, PsiPolyVar
 	 * @return targets
 	 */
 	@Nonnull
-	Collection<? extends PhpNamedElement> resolveGlobal(boolean incompleteCode);
+	default Collection<? extends PhpNamedElement> resolveGlobal(boolean incompleteCode)
+	{
+		return resolveLocal();
+	}
 
 	@Nonnull
 	String getSignature();
@@ -76,19 +96,34 @@ public interface PhpReference extends PhpExpression, PhpTypedElement, PsiPolyVar
 	 * @return computed namespace
 	 */
 	@Nonnull
-	String getNamespaceName();
+	default String getNamespaceName()
+	{
+		return "";
+	}
 
 	/**
 	 * @return namespace explicitly written in current reference
 	 */
 	@Nonnull
-	String getImmediateNamespaceName();
+	default String getImmediateNamespaceName()
+	{
+		return "";
+	}
 
 	/**
 	 * @return true if reference locally defined as absolute - starts with \ or is always absolute by context
 	 */
-	boolean isAbsolute();
+	default boolean isAbsolute()
+	{
+		return false;
+	}
 
+	/**
+	 * @return fully qualified name of the referenced element when known without the index, null otherwise
+	 */
 	@Nullable
-	String getFQN();
+	default String getFQN()
+	{
+		return null;
+	}
 }

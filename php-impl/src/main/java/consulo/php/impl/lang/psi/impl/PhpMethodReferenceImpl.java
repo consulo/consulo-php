@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.PhpExpression;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.php.impl.lang.psi.PhpClassLookup;
@@ -87,17 +90,6 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 		return null;
 	}
 
-	@Override
-	@Nullable
-	public ClassReference getClassReference()
-	{
-		PhpPsiElement reference = getFirstPsiChild();
-		if(reference instanceof ClassReference)
-		{
-			return (ClassReference) reference;
-		}
-		return null;
-	}
 
 	@Override
 	@Nullable
@@ -114,7 +106,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public boolean isStatic()
 	{
-		ClassReference classReference = getClassReference();
+		ClassReference classReference = PhpMemberReferences.staticClassReference(this);
 		return classReference != null && PhpClass.SELF.equals(classReference.getReferenceName()) && classReference.getQualifier() == null;
 	}
 
@@ -207,7 +199,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public Object[] getVariants()
 	{
-		ClassReference classReference = getClassReference();
+		ClassReference classReference = PhpMemberReferences.staticClassReference(this);
 
 		boolean requireStatic = isStatic();
 
@@ -307,5 +299,80 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	public String getName()
 	{
 		return getMethodName();
+	}
+
+	@Nullable
+	@Override
+	public ASTNode getNameNode()
+	{
+		PsiElement nameIdentifier = getNameIdentifier();
+		return nameIdentifier == null ? null : nameIdentifier.getNode();
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public Collection<? extends PhpNamedElement> resolveLocal()
+	{
+		List<PhpNamedElement> result = new ArrayList<>();
+		for(ResolveResult resolveResult : multiResolve(false))
+		{
+			if(resolveResult.getElement() instanceof PhpNamedElement namedElement)
+			{
+				result.add(namedElement);
+			}
+		}
+		return result;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType resolveLocalType()
+	{
+		return getType();
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public Collection<? extends PhpNamedElement> resolveGlobal(boolean incompleteCode)
+	{
+		return resolveLocal();
+	}
+
+	@Nonnull
+	@Override
+	public String getImmediateNamespaceName()
+	{
+		return "";
+	}
+
+	@Override
+	public boolean isAbsolute()
+	{
+		return false;
+	}
+
+	@Nullable
+	@Override
+	public String getFQN()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public PhpExpression getClassReference()
+	{
+		return PhpMemberReferences.qualifier(this);
+	}
+
+	@Override
+	@RequiredReadAction
+	public PhpModifier.State getReferenceType()
+	{
+		return PhpMemberReferences.referenceType(this);
 	}
 }

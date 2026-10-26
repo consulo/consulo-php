@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl.stub.elements;
 
+import consulo.php.impl.lang.parser.PhpElementTypes;
+import com.jetbrains.php.lang.psi.elements.impl.ClassConstImpl;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.stubs.PhpFieldStub;
 import consulo.annotation.access.RequiredReadAction;
@@ -30,13 +32,15 @@ public class PhpFieldStubElementType extends PhpStubElementType<PhpFieldStub, Fi
 	@Override
 	public Field createElement(@Nonnull ASTNode node)
 	{
-		return new PhpFieldImpl(node);
+		// constants are declared in a constant list: const A = 1, B = 2;
+		ASTNode parent = node.getTreeParent();
+		return parent != null && parent.getElementType() == PhpElementTypes.CLASS_CONSTANTS ? new ClassConstImpl(node) : new PhpFieldImpl(node);
 	}
 
 	@Override
 	public Field createPsi(@Nonnull PhpFieldStub stub)
 	{
-		return new PhpFieldImpl(stub);
+		return stub.isConstant() ? new ClassConstImpl(stub) : new PhpFieldImpl(stub);
 	}
 
 	@RequiredReadAction

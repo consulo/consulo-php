@@ -17,13 +17,18 @@
 package consulo.php.impl.lang.psi;
 
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.application.util.CachedValueProvider;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.LanguageCachedValueUtil;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
+import consulo.php.lang.lexer.PhpTokenTypes;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,24 +77,24 @@ public final class PhpClassLookup {
      * Classes the qualifier of {@code $a->x}, {@code Foo::x} evaluates to, or {@code null} if there is no qualifier
      */
     @RequiredReadAction
-    public static @org.jspecify.annotations.Nullable Collection<PhpClass> findQualifierClasses(PsiElement reference) {
+    public static @Nullable Collection<PhpClass> findQualifierClasses(PsiElement reference) {
         PsiElement qualifier = reference.getFirstChild();
-        if (qualifier == null || qualifier.getNode().getElementType() == consulo.php.lang.lexer.PhpTokenTypes.IDENTIFIER) {
+        if (qualifier == null || qualifier.getNode().getElementType() == PhpTokenTypes.IDENTIFIER) {
             return null;
         }
-        com.jetbrains.php.lang.psi.resolve.types.PhpType type;
-        if (qualifier instanceof com.jetbrains.php.lang.psi.elements.ClassReference classReference) {
+        PhpType type;
+        if (qualifier instanceof ClassReference classReference) {
             String fqn = PhpNameResolver.resolveClassFqn(classReference);
-            type = fqn == null ? com.jetbrains.php.lang.psi.resolve.types.PhpType.EMPTY
-                : com.jetbrains.php.lang.psi.resolve.types.PhpType.builder().add(fqn).build();
+            type = fqn == null ? PhpType.EMPTY
+                : PhpType.builder().add(fqn).build();
         }
         else {
-            type = consulo.php.impl.lang.psi.resolve.types.PhpTypeInference.getType(qualifier);
+            type = PhpTypeInference.getType(qualifier);
         }
-        com.jetbrains.php.lang.psi.resolve.types.PhpType global = PhpIndex.getInstance(reference.getProject()).completeType(reference.getProject(), type, null);
+        PhpType global = PhpIndex.getInstance(reference.getProject()).completeType(reference.getProject(), type, null);
         List<PhpClass> result = new ArrayList<>();
         for (String className : global.getTypes()) {
-            if (!className.startsWith("#") && !com.jetbrains.php.lang.psi.resolve.types.PhpType.isPrimitiveType(className)) {
+            if (!className.startsWith("#") && !PhpType.isPrimitiveType(className)) {
                 result.addAll(findClasses(reference, className));
             }
         }

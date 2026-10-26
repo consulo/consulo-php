@@ -16,6 +16,11 @@
 
 package com.jetbrains.php.lang.psi.stubs.indexes.expectedArguments;
 
+import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
+import com.jetbrains.php.lang.psi.elements.PhpExpression;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -47,6 +52,22 @@ public abstract class PhpExpectedFunctionArgument
 	public String getValue()
 	{
 		return myValue;
+	}
+
+	/**
+	 * @return PSI of the argument value, parsed out of any file: a string literal, class constant reference, ...
+	 */
+	@Nonnull
+	@RequiredReadAction
+	public PsiElement createReference(@Nonnull Project project)
+	{
+		PhpExpression expression = PhpPsiElementFactory.createFirstFromText(project,
+			PhpExpression.class, myValue + ";");
+		if(expression == null)
+		{
+			throw new AssertionError("Not an expression: " + myValue);
+		}
+		return expression;
 	}
 
 	@Override

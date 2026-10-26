@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.ConstantReference;
@@ -44,9 +45,9 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 		@Override
 		public ResolveResult[] resolve(@Nonnull PhpConstantReferenceImpl constantReference, boolean incompleteCode)
 		{
-			Collection<PhpDefine> phpDefines = PhpDefineIndex.INSTANCE.get(constantReference.getName(), constantReference.getProject(), constantReference.getResolveScope());
+			Collection<Constant> phpDefines = PhpDefineIndex.INSTANCE.get(constantReference.getName(), constantReference.getProject(), constantReference.getResolveScope());
 
-			PhpDefine define = ContainerUtil.getFirstItem(phpDefines);
+			Constant define = ContainerUtil.getFirstItem(phpDefines);
 			if(define != null)
 			{
 				return new ResolveResult[]{new PhpResolveResult(define)};
@@ -138,9 +139,9 @@ public class PhpConstantReferenceImpl extends PhpNamedElementImpl implements Con
 
 		for(String key : keys)
 		{
-			Collection<PhpDefine> defines = PhpDefineIndex.INSTANCE.get(key, project, scope);
+			Collection<Constant> defines = PhpDefineIndex.INSTANCE.get(key, project, scope);
 
-			for(PhpDefine define : defines)
+			for(Constant define : defines)
 			{
 				elementProcessor.process(define);
 			}

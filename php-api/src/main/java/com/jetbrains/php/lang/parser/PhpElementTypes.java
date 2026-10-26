@@ -16,6 +16,7 @@
 
 package com.jetbrains.php.lang.parser;
 
+import com.jetbrains.php.lang.psi.elements.PhpFieldType;
 import consulo.language.ast.IElementType;
 import consulo.language.ast.TokenSet;
 import consulo.php.lang.psi.PhpElementType;
@@ -37,6 +38,14 @@ public interface PhpElementTypes
 	IElementType USE_LIST = new PhpElementType("USE_LIST_STATEMENT");
 	IElementType USE = new PhpElementType("USE");
 	IElementType RETURN_TYPE = new PhpElementType("RETURN_TYPE");
+	/**
+	 * Type of a parameter, class constant or enum: {@link com.jetbrains.php.lang.psi.elements.PhpTypeDeclaration}
+	 */
+	IElementType TYPE_DECLARATION = new PhpElementType("TYPE_DECLARATION");
+	/**
+	 * Type of a property list: {@link PhpFieldType}
+	 */
+	IElementType FIELD_TYPE = new PhpElementType("FIELD_TYPE");
 	IElementType ANONYMOUS_CLASS = new PhpElementType("ANONYMOUS_CLASS");
 	IElementType EXPRESSION_PARAMETER_LIST = new PhpElementType("EXPRESSION_PARAMETER_LIST");
 	IElementType UNARY_EXPRESSION = new PhpElementType("UNARY_EXPRESSION");

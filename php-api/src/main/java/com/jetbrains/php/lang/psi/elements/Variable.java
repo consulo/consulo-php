@@ -1,5 +1,7 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import jakarta.annotation.Nonnull;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiPolyVariantReference;
 import consulo.util.lang.function.Condition;
@@ -12,7 +14,7 @@ import java.util.Set;
  * @author jay
  * @date Apr 3, 2008 9:55:25 PM
  */
-public interface Variable extends PhpPsiElement, PhpNamedElement, PsiPolyVariantReference, PhpTypedElement
+public interface Variable extends PhpNamedElement, PhpReference
 {
 	String THIS = "this";
 	/**
@@ -47,4 +49,30 @@ public interface Variable extends PhpPsiElement, PhpNamedElement, PsiPolyVariant
 	public boolean canReadName();
 
 	public boolean isDeclaration();
+
+	// both PhpNamedElement and PhpReference declare these
+
+	@Override
+	String getName();
+
+	@Nonnull
+	@Override
+	PhpType getType();
+
+	@Nonnull
+	@Override
+	default CharSequence getNameCS()
+	{
+		return PhpNamedElement.super.getNameCS();
+	}
+
+	@Nonnull
+	@Override
+	String getNamespaceName();
+
+	@Override
+	default String getFQN()
+	{
+		return PhpNamedElement.super.getFQN();
+	}
 }

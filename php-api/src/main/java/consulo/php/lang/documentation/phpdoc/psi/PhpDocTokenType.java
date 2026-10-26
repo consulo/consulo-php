@@ -16,8 +16,10 @@
 
 package consulo.php.lang.documentation.phpdoc.psi;
 
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocToken;
+
 /**
- * Leaf of a PHPDoc comment - its PSI is a {@link com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocToken}.
+ * Leaf of a PHPDoc comment - its PSI is a {@link PhpDocToken}.
  *
  * @author VISTALL
  * @since 2026-10-25

@@ -344,4 +344,12 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	{
 		return getManager().areElementsEquivalent(resolve(), psiElement);
 	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public String getSignature()
+	{
+		return PhpTypeInference.getSignature(this);
+	}
 }

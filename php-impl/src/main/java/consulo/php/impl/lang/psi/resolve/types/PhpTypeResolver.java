@@ -22,6 +22,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpEnumCase;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -216,7 +217,7 @@ public final class PhpTypeResolver {
         }
         if (key == 'K') {
             if (phpClass.isEnum()) {
-                for (com.jetbrains.php.lang.psi.elements.PhpEnumCase enumCase : phpClass.getEnumCases()) {
+                for (PhpEnumCase enumCase : phpClass.getEnumCases()) {
                     if (name.equals(enumCase.getName())) {
                         return phpClass;
                     }

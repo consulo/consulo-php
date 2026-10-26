@@ -7,6 +7,7 @@ import consulo.php.impl.xdebug.connection.DbgpResponse;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
@@ -94,8 +95,8 @@ public class PhpValue extends XNamedValue {
         NodeList children = element.getChildNodes();
         StringBuilder text = new StringBuilder();
         for (int i = 0; i < children.getLength(); i++) {
-            if (children.item(i).getNodeType() == org.w3c.dom.Node.TEXT_NODE ||
-                children.item(i).getNodeType() == org.w3c.dom.Node.CDATA_SECTION_NODE) {
+            if (children.item(i).getNodeType() == Node.TEXT_NODE ||
+                children.item(i).getNodeType() == Node.CDATA_SECTION_NODE) {
                 text.append(children.item(i).getNodeValue());
             }
         }

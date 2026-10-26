@@ -133,6 +133,23 @@ public abstract class PhpIndex
 	public abstract Collection<PhpClass> getAllSubclasses(@Nullable String fqn);
 
 	/**
+	 * Visits every direct and indirect subclass and implementor
+	 *
+	 * @return false when the processor stopped
+	 */
+	public boolean processAllSubclasses(@Nonnull String fqn, @Nonnull Processor<? super PhpClass> processor)
+	{
+		for(PhpClass phpClass : getAllSubclasses(fqn))
+		{
+			if(!processor.process(phpClass))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * This scope should be used if results from php lib stubs are needed.
 	 */
 	public abstract GlobalSearchScope getSearchScope();

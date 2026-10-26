@@ -32,6 +32,16 @@ import java.util.function.Predicate;
  */
 public final class PhpDocUtil
 {
+	/**
+	 * Standard PHPDoc tags
+	 */
+	public static final String[] ALL_TAGS = {
+		"@abstract", "@access", "@api", "@author", "@category", "@copyright", "@deprecated", "@example", "@filesource", "@final", "@global",
+		"@ignore", "@inheritDoc", "@internal", "@license", "@link", "@method", "@mixin", "@name", "@package", "@param", "@property",
+		"@property-read", "@property-write", "@return", "@see", "@since", "@static", "@staticvar", "@subpackage", "@throws", "@todo",
+		"@tutorial", "@uses", "@used-by", "@var", "@version"
+	};
+
 	private PhpDocUtil()
 	{
 	}

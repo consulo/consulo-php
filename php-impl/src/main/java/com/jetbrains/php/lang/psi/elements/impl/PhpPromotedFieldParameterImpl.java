@@ -21,6 +21,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.PhpModifierList;
+import com.jetbrains.php.lang.psi.elements.PhpTypeDeclaration;
 import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
@@ -91,5 +92,13 @@ public class PhpPromotedFieldParameterImpl extends PhpParameterImpl implements F
 		// 'readonly' alone is public
 		PhpModifierList modifierList = PsiTreeUtil.getChildOfType(this, PhpModifierList.class);
 		return modifierList == null ? PhpModifier.Access.PUBLIC : modifierList.getAccess();
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public PhpTypeDeclaration getTypeDeclaration()
+	{
+		return PsiTreeUtil.getChildOfType(this, PhpTypeDeclaration.class);
 	}
 }

@@ -17,6 +17,7 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl.tags;
 
 import com.jetbrains.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
+import com.jetbrains.php.lang.documentation.phpdoc.parser.PhpDocElementTypes;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
@@ -95,6 +96,6 @@ public class PhpDocTagImpl extends PhpDocPsiElementImpl implements PhpDocTag
 
 	protected PsiElement findVariable()
 	{
-		return findChildByType(com.jetbrains.php.lang.documentation.phpdoc.parser.PhpDocElementTypes.phpDocVariable);
+		return findChildByType(PhpDocElementTypes.phpDocVariable);
 	}
 }

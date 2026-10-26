@@ -126,6 +126,28 @@ public class PhpType
 		return new PhpTypeBuilder();
 	}
 
+	/**
+	 * @return type of the given type strings: {@code \\Foo}, {@code \\int}, signatures, ...
+	 */
+	@Nonnull
+	public static PhpType from(String... types)
+	{
+		PhpType type = new PhpType();
+		for(String aClass : types)
+		{
+			type.add(aClass);
+		}
+		return type;
+	}
+
+	/**
+	 * @see #isConvertibleFrom(PhpType, PhpIndex)
+	 */
+	public boolean isConvertibleFrom(@Nonnull Project project, @Nonnull PhpType otherType)
+	{
+		return isConvertibleFrom(otherType, PhpIndex.getInstance(project));
+	}
+
 	@Nonnull
 	public PhpType add(@Nullable String aClass)
 	{

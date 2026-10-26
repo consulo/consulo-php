@@ -358,12 +358,15 @@ public final class PhpStatementParser implements PhpTokenTypes {
         }
         builder.match(kwCONST);
         do {
+            PsiBuilder.Marker constant = builder.mark();
             if (!builder.compareAndEat(IDENTIFIER)) {
+                constant.drop();
                 builder.error(PhpParserErrors.expected("constant name"));
                 break;
             }
             builder.match(opASGN);
             PhpExpressionParser.parseRequired(builder);
+            constant.done(PhpElementTypes.CONSTANT_ITEM);
         }
         while (builder.compareAndEat(opCOMMA));
         PhpParserUtil.expectStatementEnd(builder);

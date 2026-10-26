@@ -27,6 +27,8 @@ module consulo.php.api
 
 	exports com.jetbrains.php;
 	exports com.jetbrains.php.codeInsight;
+	exports com.jetbrains.php.codeInsight.controlFlow;
+	exports com.jetbrains.php.codeInsight.controlFlow.instructions;
 	exports com.jetbrains.php.lang;
 	exports com.jetbrains.php.completion;
 	exports com.jetbrains.php.completion.insert;

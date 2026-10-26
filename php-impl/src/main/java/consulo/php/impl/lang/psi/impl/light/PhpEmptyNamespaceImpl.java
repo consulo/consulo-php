@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl.light;
 
+import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import consulo.application.util.function.Processor;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.stub.IStubElementType;
@@ -150,5 +152,13 @@ public class PhpEmptyNamespaceImpl extends LightElement implements PhpNamespace
 	public PhpPsiElement getPrevPsiSibling()
 	{
 		return null;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpControlFlow getControlFlow()
+	{
+		return PhpControlFlowBuilder.getControlFlow(this);
 	}
 }

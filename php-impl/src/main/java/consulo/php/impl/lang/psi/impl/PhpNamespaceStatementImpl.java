@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -145,5 +147,13 @@ public class PhpNamespaceStatementImpl extends PhpStubbedNamedElementImpl<PhpNam
 			}
 		}
 		return true;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpControlFlow getControlFlow()
+	{
+		return PhpControlFlowBuilder.getControlFlow(this);
 	}
 }

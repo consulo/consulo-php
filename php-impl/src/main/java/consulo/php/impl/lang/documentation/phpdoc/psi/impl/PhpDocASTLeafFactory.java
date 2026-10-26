@@ -16,6 +16,7 @@
 
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocToken;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.ast.IElementType;
 import consulo.language.impl.ast.ASTLeafFactory;
@@ -24,7 +25,7 @@ import consulo.language.version.LanguageVersion;
 import consulo.php.lang.documentation.phpdoc.psi.PhpDocTokenType;
 
 /**
- * PHPDoc tokens are {@link com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocToken}s.
+ * PHPDoc tokens are {@link PhpDocToken}s.
  *
  * @author VISTALL
  * @since 2026-10-25

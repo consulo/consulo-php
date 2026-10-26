@@ -19,6 +19,7 @@ package consulo.php.impl.lang.psi;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.php.impl.lang.parser.PhpElementTypes;
@@ -75,7 +76,7 @@ public final class PhpClassSupertypes {
     }
 
     @RequiredReadAction
-    private static List<String> listFqns(PhpClass phpClass, consulo.language.ast.IElementType listType) {
+    private static List<String> listFqns(PhpClass phpClass, IElementType listType) {
         List<String> result = new ArrayList<>();
         for (PsiElement child : phpClass.getChildren()) {
             if (child.getNode().getElementType() != listType) {

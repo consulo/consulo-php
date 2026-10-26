@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import consulo.php.impl.lang.psi.PhpNameResolver;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -426,5 +427,52 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 		TO_STATIC_CLASS,
 
 		TO_UNKNOWN
+	}
+
+	/**
+	 * @return the short name: {@code Bar} of {@code \\Foo\\Bar}
+	 */
+	@Override
+	@RequiredReadAction
+	public String getName()
+	{
+		return getReferenceName();
+	}
+
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public ASTNode getNameNode()
+	{
+		PsiElement element = getReferenceElement();
+		return element == null ? null : element.getNode();
+	}
+
+	/**
+	 * @return the class name resolved against the namespace and imports, without the index
+	 */
+	@Nullable
+	@Override
+	@RequiredReadAction
+	public String getFQN()
+	{
+		return PhpNameResolver.resolveClassFqn(this);
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public String getSignature()
+	{
+		String fqn = getFQN();
+		return fqn == null ? "" : "#C" + fqn;
+	}
+
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public PhpType getType()
+	{
+		return resolveLocalType();
 	}
 }

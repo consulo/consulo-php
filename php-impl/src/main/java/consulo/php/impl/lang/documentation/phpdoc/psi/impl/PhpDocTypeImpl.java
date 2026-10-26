@@ -1,11 +1,19 @@
 package consulo.php.impl.lang.documentation.phpdoc.psi.impl;
 
+import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElementResolveResult;
+import consulo.language.psi.ResolveResult;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocType;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
 import jakarta.annotation.Nonnull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jay
@@ -38,4 +46,24 @@ public class PhpDocTypeImpl extends PhpDocPsiElementImpl implements PhpDocType
 		return PhpTypeInference.getDocType(this);
 	}
 
+	@Override
+	@RequiredReadAction
+	public ResolveResult[] multiResolve(boolean incompleteCode)
+	{
+		List<ResolveResult> result = new ArrayList<>();
+		PhpIndex index = PhpIndex.getInstance(getProject());
+		for(String type : getType().getTypes())
+		{
+			String fqn = type.endsWith("[]") ? type.substring(0, type.indexOf("[]")) : type;
+			if(!fqn.startsWith("\\") || PhpType.isPrimitiveType(fqn))
+			{
+				continue;
+			}
+			for(PhpClass phpClass : index.getAnyByFQN(fqn))
+			{
+				result.add(new PsiElementResolveResult(phpClass));
+			}
+		}
+		return result.toArray(ResolveResult.EMPTY_ARRAY);
+	}
 }

@@ -1,5 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.annotation.access.RequiredReadAction;
 import consulo.language.psi.PsiElement;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.function.Condition;
@@ -25,4 +26,11 @@ public interface Field extends PhpClassMember, RWAccess, PhpAttributesOwner
 
 	@Nullable
 	String getDefaultValuePresentation();
+
+	/**
+	 * @return the written type of the property (shared by its property list), null without a type and for constants without one
+	 */
+	@org.jspecify.annotations.Nullable
+	@RequiredReadAction
+	PhpTypeDeclaration getTypeDeclaration();
 }

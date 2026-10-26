@@ -17,20 +17,20 @@
 package com.jetbrains.php.lang.psi.stubs.indexes;
 
 import com.jetbrains.php.lang.PhpFileType;
-import com.jetbrains.php.lang.psi.elements.PhpDefine;
+import com.jetbrains.php.lang.psi.elements.Constant;
 import consulo.language.psi.stub.DefaultFileTypeSpecificInputFilter;
 import consulo.language.psi.stub.FileBasedIndex;
 import consulo.language.psi.stub.StubIndexKey;
 
 /**
- * Stub index of {@code define()} constants by name.
+ * Stub index of constants by name: {@code define()} and {@code const} outside of classes.
  *
  * @author VISTALL
  * @since 2026-10-25
  */
 public final class PhpConstantNameIndex
 {
-	public static final StubIndexKey<String, PhpDefine> KEY = StubIndexKey.createIndexKey("php.defines");
+	public static final StubIndexKey<String, Constant> KEY = StubIndexKey.createIndexKey("php.defines");
 
 	/**
 	 * Input filter of PHP files, for file indexes over PHP code

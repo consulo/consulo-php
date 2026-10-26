@@ -16,6 +16,7 @@ import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @author VISTALL
@@ -69,7 +70,7 @@ public class PhpFunctionStubElementType extends PhpStubElementType<PhpFunctionSt
 		String name = stub.getName();
 		if(!StringUtil.isEmpty(name))
 		{
-			sink.occurrence(PhpIndexKeys.FUNCTION_BY_NAME, name.toLowerCase(java.util.Locale.ROOT));
+			sink.occurrence(PhpIndexKeys.FUNCTION_BY_NAME, name.toLowerCase(Locale.ROOT));
 		}
 	}
 }

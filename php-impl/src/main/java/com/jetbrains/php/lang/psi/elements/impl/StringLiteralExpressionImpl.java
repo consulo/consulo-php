@@ -1,5 +1,6 @@
-package consulo.php.impl.lang.psi.impl;
+package com.jetbrains.php.lang.psi.elements.impl;
 
+import consulo.php.impl.lang.psi.impl.PhpElementImpl;
 import jakarta.annotation.Nonnull;
 
 import consulo.document.util.TextRange;
@@ -13,9 +14,9 @@ import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
  * @author VISTALL
  * @since 2019-04-10
  */
-public class PhpStringLiteralExpressionImpl extends PhpElementImpl implements StringLiteralExpression
+public class StringLiteralExpressionImpl extends PhpElementImpl implements StringLiteralExpression
 {
-	public PhpStringLiteralExpressionImpl(ASTNode node)
+	public StringLiteralExpressionImpl(ASTNode node)
 	{
 		super(node);
 	}

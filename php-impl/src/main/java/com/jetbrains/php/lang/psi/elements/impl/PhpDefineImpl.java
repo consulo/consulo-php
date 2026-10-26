@@ -1,5 +1,8 @@
-package consulo.php.impl.lang.psi.impl;
+package com.jetbrains.php.lang.psi.elements.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.php.impl.lang.psi.impl.PhpFunctionReferenceImpl;
+import consulo.php.impl.lang.psi.impl.PhpStubbedNamedElementImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.stub.IStubElementType;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
@@ -68,7 +71,7 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 		}
 
 		PsiElement parameter = parameters[0];
-		if(!(parameter instanceof PhpStringLiteralExpressionImpl))
+		if(!(parameter instanceof StringLiteralExpressionImpl))
 		{
 			return null;
 		}
@@ -77,7 +80,7 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 
 	@Nullable
 	@Override
-	public PsiElement getValue()
+	public PhpPsiElement getValue()
 	{
 		PhpFunctionReferenceImpl reference = findNotNullChildByClass(PhpFunctionReferenceImpl.class);
 
@@ -88,7 +91,7 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 		}
 
 		PsiElement[] parameters = parameterList.getParameters();
-		return parameters.length >= 2 ? parameters[1] : null;
+		return parameters.length >= 2 && parameters[1] instanceof PhpPsiElement value ? value : null;
 	}
 
 	@Nullable

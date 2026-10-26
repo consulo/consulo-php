@@ -15,7 +15,7 @@ import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
  * @author VISTALL
  * @since 2019-04-05
  */
-public class PhpReturnTypeImpl extends PhpElementImpl implements PhpReturnType
+public class PhpReturnTypeImpl extends PhpTypeDeclarationImpl implements PhpReturnType
 {
 	public PhpReturnTypeImpl(ASTNode node)
 	{
@@ -28,21 +28,6 @@ public class PhpReturnTypeImpl extends PhpElementImpl implements PhpReturnType
 	public ClassReference getClassReference()
 	{
 		return findChildByClass(ClassReference.class);
-	}
-
-	@RequiredReadAction
-	@Override
-	public boolean isNullable()
-	{
-		return findChildByType(PhpTokenTypes.opQUEST) != null;
-	}
-
-	@Nonnull
-	@Override
-	@RequiredReadAction
-	public PhpType getType()
-	{
-		return PhpTypeInference.getDeclaredType(this);
 	}
 
 	@Override
