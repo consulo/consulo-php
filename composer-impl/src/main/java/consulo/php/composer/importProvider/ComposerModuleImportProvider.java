@@ -27,6 +27,8 @@ import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 
 /**
@@ -48,8 +50,8 @@ public class ComposerModuleImportProvider implements ModuleImportProvider<Module
     }
 
     @Override
-    public boolean canImport(@Nonnull File file) {
-        return new File(file, ComposerFileTypeFactory.COMPOSER_JSON).exists();
+    public boolean canImport(@Nonnull Path file) {
+        return Files.exists(file.resolve(ComposerFileTypeFactory.COMPOSER_JSON));
     }
 
     @Override
