@@ -29,7 +29,7 @@ import java.util.List;
  * @author VISTALL
  * @since 2026-10-25
  */
-public interface PhpAttributesOwner extends PsiElement
+public interface PhpAttributesOwner extends PhpPsiElement
 {
 	/**
 	 * @return attributes of all {@code #[...]} groups, in source order

@@ -9,7 +9,10 @@ import com.jetbrains.php.lang.psi.stubs.PhpParameterStub;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.util.lang.StringUtil;
 import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiWhiteSpace;
+import com.jetbrains.php.lang.parser.PhpElementTypes;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.util.IncorrectOperationException;
 import consulo.php.lang.lexer.PhpTokenTypes;
@@ -36,10 +39,16 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		super(stub, nodeType);
 	}
 
+	@RequiredReadAction
 	@Override
 	public boolean isOptional()
 	{
-		return false;
+		PhpParameterStub stub = getStub();
+		if(stub != null)
+		{
+			return stub.isOptional();
+		}
+		return getDefaultValue() != null;
 	}
 
 	@RequiredReadAction
@@ -77,18 +86,40 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 		return PhpType.EMPTY;
 	}
 
+	/**
+	 * @return the expression after {@code =}
+	 */
+	@RequiredReadAction
 	@Nullable
 	@Override
 	public PsiElement getDefaultValue()
 	{
+		ASTNode defaultValue = getNode().findChildByType(PhpElementTypes.PARAMETER_DEFAULT_VALUE);
+		if(defaultValue == null)
+		{
+			return null;
+		}
+		for(PsiElement child = defaultValue.getPsi().getLastChild(); child != null; child = child.getPrevSibling())
+		{
+			if(child.getNode().getElementType() == PhpTokenTypes.opASGN)
+			{
+				return null;
+			}
+			if(!(child instanceof PsiWhiteSpace) && !(child instanceof PsiComment))
+			{
+				return child;
+			}
+		}
 		return null;
 	}
 
+	@RequiredReadAction
 	@Nullable
 	@Override
 	public String getDefaultValuePresentation()
 	{
-		return null;
+		PsiElement defaultValue = getDefaultValue();
+		return defaultValue == null ? null : defaultValue.getText();
 	}
 
 	@Override

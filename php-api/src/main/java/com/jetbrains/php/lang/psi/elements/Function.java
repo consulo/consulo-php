@@ -31,6 +31,19 @@ public interface Function extends PhpElementWithModifier, PhpTypedElement, PhpNa
 		return index >= 0 && index < parameters.length ? parameters[index] : null;
 	}
 
+	@Nullable
+	default Parameter getParameter(@Nonnull String name)
+	{
+		for(Parameter parameter : getParameters())
+		{
+			if(name.equals(parameter.getName()))
+			{
+				return parameter;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @return true for {@code function () {}} and {@code fn() => x}
 	 */

@@ -1,5 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.language.psi.NavigatablePsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.util.collection.ArrayFactory;
 
@@ -10,7 +11,7 @@ import consulo.util.collection.ArrayFactory;
  *
  * @author jay
  */
-public interface PhpPsiElement extends PsiElement
+public interface PhpPsiElement extends NavigatablePsiElement
 {
 	public static final PhpPsiElement[] EMPTY_ARRAY = new PhpPsiElement[0];
 

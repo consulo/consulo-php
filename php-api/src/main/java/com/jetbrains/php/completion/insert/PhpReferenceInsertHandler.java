@@ -22,7 +22,7 @@ import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpGroupUseElement;
+import com.jetbrains.php.lang.psi.PhpGroupUseElement;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.refactoring.PhpAliasImporter;
 import consulo.document.Document;

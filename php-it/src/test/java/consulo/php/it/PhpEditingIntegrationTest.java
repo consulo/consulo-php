@@ -16,6 +16,12 @@
 
 package consulo.php.it;
 
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import com.jetbrains.php.refactoring.PhpRefactoringUtil;
+import com.jetbrains.php.refactoring.changeSignature.PhpChangeSignatureProcessor;
+import com.jetbrains.php.refactoring.changeSignature.PhpParameterInfo;
+import com.jetbrains.php.refactoring.introduce.introduceField.PhpIntroduceFieldHandler;
 import com.jetbrains.php.PhpIcons;
 import com.jetbrains.php.codeInsight.PhpCodeInsightUtil;
 import com.jetbrains.php.completion.PhpClassLookupElement;
@@ -38,6 +44,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.undoRedo.CommandProcessor;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -126,6 +133,61 @@ public class PhpEditingIntegrationTest {
         assertThat(presentation.getItemText()).isEqualTo("Mailer");
         assertThat(presentation.getTailText()).isEqualTo(" (App\\Service)");
         assertThat(presentation.getIcon()).isSameAs(PhpIcons.CLASS);
+    }
+
+    @Test
+    public void injectsAConstructorParameter(CodeInsightTestFixture fixture) throws Exception {
+        PsiFile file = fixture.configureByText("Service.php", "<?php\nclass Service {\n    private $name;\n\n    public function run() {}\n}\n");
+        PhpClass phpClass = findClass(file);
+
+        runCommand(fixture, () -> {
+            Method constructor = PhpIntroduceFieldHandler.getOrCreateConstructor(phpClass);
+            PhpParameterInfo info = new PhpParameterInfo(0, "mailer");
+            info.setType(new PhpType().add("\\Mailer"), "Mailer");
+            PhpChangeSignatureProcessor.addParameterToFunctionSignature(fixture.getProject(), constructor, List.of(info));
+            PhpRefactoringUtil.initializeFieldsByParameters(phpClass, List.of(constructor.getParameters()[0]), PhpModifier.Access.PRIVATE);
+        });
+
+        String text = ReadAction.compute(file::getText);
+        assertThat(text).isEqualTo("""
+            <?php
+            class Service {
+                private $name;
+                private Mailer $mailer;
+
+                public function __construct(Mailer $mailer)
+                {
+                    $this->mailer = $mailer;
+                }
+
+                public function run() {}
+            }
+            """);
+        assertThat(ReadAction.compute(() -> phpClass.findOwnFieldByName("mailer", false))).isNotNull();
+        // the existing constructor is reused
+        assertThat(ReadAction.compute(() -> PhpIntroduceFieldHandler.getOrCreateConstructor(phpClass) == phpClass.getOwnConstructor())).isTrue();
+    }
+
+    @Test
+    public void insertsPromotedParametersBeforeOptionalOnes(CodeInsightTestFixture fixture) throws Exception {
+        PsiFile file = fixture.configureByText("Promoted.php",
+            "<?php\nclass Promoted {\n    public function __construct(private A $a, $b = null) {}\n    public function empty() {}\n}\n");
+        PhpClass phpClass = findClass(file);
+        Method constructor = ReadAction.compute(phpClass::getOwnConstructor);
+        Method empty = ReadAction.compute(() -> phpClass.findOwnMethodByName("empty"));
+
+        assertThat(ReadAction.compute(() -> PhpChangeSignatureProcessor.findParameterToInsertAfter(constructor).getName())).isEqualTo("a");
+        runCommand(fixture, () -> {
+            Project project = fixture.getProject();
+            PhpChangeSignatureProcessor.appendParameterToParameterList(empty, PhpPsiElementFactory.createComplexParameter(project, "$x"));
+            PhpChangeSignatureProcessor.appendParameterToParameterList(empty, PhpPsiElementFactory.createComplexParameter(project, "$y"));
+            PhpParameterInfo info = new PhpParameterInfo(0, "c");
+            info.setType(PhpType.EMPTY, "C");
+            PhpChangeSignatureProcessor.addParameterToFunctionSignature(project, constructor, List.of(info));
+        });
+
+        String text = ReadAction.compute(file::getText);
+        assertThat(text).contains("__construct(private A $a, C $c, $b = null)", "function empty($x, $y)");
     }
 
     private static void runCommand(CodeInsightTestFixture fixture, Runnable change) throws Exception {

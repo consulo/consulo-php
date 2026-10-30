@@ -17,20 +17,11 @@
 package com.jetbrains.php.lang.psi.elements;
 
 /**
- * {@code use A\{B, function c, const D}}: the group of a group import.
+ * First-class callable of a function: {@code foo(...)}
  *
  * @author VISTALL
- * @since 2026-10-25
+ * @since 2026-10-30
  */
-public interface PhpGroupUseElement extends PhpPsiElement
+public interface PhpCallableFunction extends FunctionReference
 {
-	/**
-	 * What an import imports: {@code use}, {@code use function} or {@code use const}
-	 */
-	enum PhpUseKeyword
-	{
-		CLASS,
-		FUNCTION,
-		CONST
-	}
 }

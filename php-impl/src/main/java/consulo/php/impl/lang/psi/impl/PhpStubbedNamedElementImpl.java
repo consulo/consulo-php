@@ -40,12 +40,27 @@ public abstract class PhpStubbedNamedElementImpl<T extends PhpNamedStub<?>> exte
 	@Override
 	public PhpDocComment getDocComment()
 	{
-		PsiElement element = getPrevSibling();
-		while(element instanceof PsiWhiteSpace)
+		PsiElement anchor = this;
+		while(true)
 		{
-			element = element.getPrevSibling();
+			PsiElement element = anchor.getPrevSibling();
+			while(element instanceof PsiWhiteSpace)
+			{
+				element = element.getPrevSibling();
+			}
+			if(element instanceof PhpDocComment docComment)
+			{
+				return docComment;
+			}
+			// the comments before the first statement of a block are outside of the block node: namespace A { /** */ class B {} }
+			PsiElement parent = anchor.getParent();
+			if(element == null && parent instanceof com.jetbrains.php.lang.psi.elements.GroupStatement)
+			{
+				anchor = parent;
+				continue;
+			}
+			return null;
 		}
-		return element instanceof PhpDocComment ? (PhpDocComment) element : null;
 	}
 
 	@Override

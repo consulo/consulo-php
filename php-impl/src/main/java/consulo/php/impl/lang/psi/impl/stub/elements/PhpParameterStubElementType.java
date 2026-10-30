@@ -49,6 +49,7 @@ public class PhpParameterStubElementType extends PhpStubElementType<PhpParameter
 	{
 		int flags = 0;
 		flags = BitUtil.set(flags, PhpParameterStubImpl.VARIADIC, psi.isVariadic());
+		flags = BitUtil.set(flags, PhpParameterStubImpl.OPTIONAL, psi.isOptional());
 		if(psi instanceof PhpPromotedFieldParameterImpl promoted)
 		{
 			flags |= PhpParameterStubImpl.PROMOTED | PhpParameterStubImpl.accessFlags(promoted.getAccess());

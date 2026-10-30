@@ -17,6 +17,7 @@ module consulo.php.api
 	requires transitive consulo.color.scheme.api;
 
 	requires consulo.application.api;
+	requires consulo.language.editor.ui.api;
 	requires consulo.component.api;
 	requires consulo.container.api;
 	requires consulo.index.io;
@@ -44,7 +45,14 @@ module consulo.php.api
 	exports com.jetbrains.php.lang.psi;
 	exports com.jetbrains.php.lang.psi.elements;
 	exports com.jetbrains.php.lang.psi.resolve.types;
+	exports com.jetbrains.php.lang.psi.resolve.types.shapes;
 	exports com.jetbrains.php.refactoring;
+	exports consulo.php.composer.importer;
+	exports com.jetbrains.php.refactoring.changeSignature;
+	exports com.jetbrains.php.refactoring.introduce.introduceField;
+	exports com.jetbrains.php.util;
+	exports com.jetbrains.php.phpunit;
+	exports com.jetbrains.php.lang.documentation;
 
 	exports com.jetbrains.php.config;
 	exports consulo.php.icon;

@@ -34,6 +34,7 @@ import java.net.URL;
  */
 public final class PhpRuntimeStubs {
     public static final String RESOURCE_ROOT = "/phpstorm-stubs";
+    private static final String ANCHOR_FILE = RESOURCE_ROOT + "/Core/Core.php";
 
     private PhpRuntimeStubs() {
     }
@@ -42,11 +43,13 @@ public final class PhpRuntimeStubs {
      * @return stubs directory inside the plugin jar, {@code null} if it can not be found
      */
     public static @Nullable VirtualFile getRoot() {
-        URL url = PhpRuntimeStubs.class.getResource(RESOURCE_ROOT);
+        // plugin class loaders index files only, a directory resource is not found: go through a stub file
+        URL url = PhpRuntimeStubs.class.getResource(ANCHOR_FILE);
         if (url == null) {
             return null;
         }
-        VirtualFile root = VirtualFileManager.getInstance().findFileByUrl(toVirtualFileUrl(url));
+        VirtualFile anchor = VirtualFileManager.getInstance().findFileByUrl(toVirtualFileUrl(url));
+        VirtualFile root = anchor == null ? null : anchor.getParent() == null ? null : anchor.getParent().getParent();
         return root != null && root.isValid() ? root : null;
     }
 

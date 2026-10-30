@@ -4,12 +4,14 @@
  */
 open module consulo.php {
     requires consulo.php.api;
+    requires consulo.json.api;
     requires consulo.php.xdebug.impl;
 
     requires consulo.ide.api;
     requires consulo.ide.impl;
 
     requires consulo.language.impl;
+    requires consulo.language.code.style.api;
     requires consulo.language.editor.api;
     requires consulo.language.editor.impl;
     requires consulo.language.editor.ui.api;
@@ -53,6 +55,9 @@ open module consulo.php {
     requires java.desktop;
 
     exports com.jetbrains.php.lang.psi.elements.impl;
+    exports com.jetbrains.php.lang.findUsages;
+    exports com.jetbrains.php.roots;
+    exports com.jetbrains.php.lang.formatter;
     exports consulo.php.impl;
     exports consulo.php.impl.actions;
     exports consulo.php.impl.actions.generate;

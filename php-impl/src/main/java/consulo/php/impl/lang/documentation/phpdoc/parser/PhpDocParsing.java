@@ -79,6 +79,10 @@ public final class PhpDocParsing implements PhpDocElementTypes
 		{
 			parseTypedValue(builder, name.toLowerCase(Locale.ROOT));
 		}
+		else if(!nested && name != null && isTypeAliasTag(name.toLowerCase(Locale.ROOT)))
+		{
+			parseTypeAlias(builder, name.toLowerCase(Locale.ROOT).endsWith("-import-type"));
+		}
 
 		if(!nested)
 		{
@@ -199,6 +203,44 @@ public final class PhpDocParsing implements PhpDocElementTypes
 		if(hasVariable)
 		{
 			parseVariable(builder);
+		}
+	}
+
+	/**
+	 * {@code @phpstan-type Name Type}, {@code @psalm-type Name = Type}, {@code @psalm-import-type Name from Class as Alias}
+	 */
+	private static boolean isTypeAliasTag(String name)
+	{
+		return (name.startsWith("@phpstan-") || name.startsWith("@psalm-") || name.startsWith("@phan-"))
+			&& (name.endsWith("-type") && !name.endsWith("-return-type") && !name.endsWith("-var-type"));
+	}
+
+	private static void parseTypeAlias(PhpPsiBuilder builder, boolean importTag)
+	{
+		if(!builder.compareAndEat(DOC_IDENTIFIER))
+		{
+			return;
+		}
+		if(importTag)
+		{
+			// Name from Class [as Alias]: the class is the type of the tag
+			if(builder.compare(DOC_IDENTIFIER) && "from".equals(builder.getTokenText()))
+			{
+				builder.advanceLexer();
+				if(isTypeStart(builder))
+				{
+					parseTypes(builder);
+				}
+			}
+			return;
+		}
+		if(builder.compare(DOC_TEXT) && "=".equals(builder.getTokenText()))
+		{
+			builder.advanceLexer();
+		}
+		if(isTypeStart(builder))
+		{
+			parseTypes(builder);
 		}
 	}
 

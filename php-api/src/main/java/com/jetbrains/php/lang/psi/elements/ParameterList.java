@@ -13,7 +13,9 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import com.jetbrains.php.lang.parser.PhpElementTypes;
 import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.function.Condition;
 
 import jakarta.annotation.Nonnull;
@@ -34,5 +36,41 @@ public interface ParameterList extends PhpPsiElement
 	{
 		PsiElement[] parameters = getParameters();
 		return index >= 0 && index < parameters.length ? parameters[index] : null;
+	}
+
+	/**
+	 * The value of the named argument {@code name: value}, or else the positional argument at the index
+	 */
+	@Nullable
+	default PsiElement getParameter(@Nonnull String name, int index)
+	{
+		int position = 0;
+		PsiElement positional = null;
+		boolean named = false;
+		for(PsiElement child = getFirstChild(); child != null; child = child.getNextSibling())
+		{
+			if(!(child instanceof PhpPsiElement))
+			{
+				continue;
+			}
+			if(child.getNode().getElementType() == PhpElementTypes.NAMED_ARGUMENT)
+			{
+				named = true;
+				PsiElement nameElement = child.getFirstChild();
+				if(nameElement != null && name.equals(nameElement.getText()))
+				{
+					return PsiTreeUtil.getChildOfType(child, PhpPsiElement.class);
+				}
+			}
+			else if(!named && child.getNode().getElementType() != PhpElementTypes.CALLABLE_PLACEHOLDER)
+			{
+				// positional arguments are before the named ones
+				if(position++ == index)
+				{
+					positional = child.getNode().getElementType() == PhpElementTypes.VARIADIC_ARGUMENT ? null : child;
+				}
+			}
+		}
+		return positional;
 	}
 }

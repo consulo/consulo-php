@@ -7,6 +7,7 @@ import consulo.content.base.BinariesOrderRootType;
 import consulo.content.base.SourcesOrderRootType;
 import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkModificator;
+import consulo.content.bundle.PlatformAwareSdkType;
 import consulo.content.bundle.SdkType;
 import consulo.logging.Logger;
 import consulo.php.icon.PhpIconGroup;
@@ -21,13 +22,16 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 import java.util.*;
 
 /**
  * @author Maxim
  */
 @ExtensionImpl
-public class PhpSdkType extends SdkType {
+public class PhpSdkType extends PlatformAwareSdkType {
     private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
 
     private static final Set<String> ourAllowedRootTypeIds = Set.of(BinariesOrderRootType.ID, SourcesOrderRootType.ID);
@@ -46,18 +50,30 @@ public class PhpSdkType extends SdkType {
         super("PHP SDK", PhpLocalize.phpSdkTypeName(), PhpIconGroup.filetypesPhp());
     }
 
+    /**
+     * The PHP executable of the SDK home: {@code /usr/bin/php}
+     */
     @Nonnull
-    @Override
-    public Collection<String> suggestHomePaths() {
-        if (Platform.current().os().isMac()) {
-            return Collections.singletonList("/usr/bin");
-        }
-        return Collections.emptyList();
+    public static Path getExecutable(@Nonnull Platform platform, @Nonnull Path home) {
+        return home.resolve(platform.os().isWindows() ? "php.exe" : "php");
     }
 
     @Override
-    public boolean isValidSdkHome(String path) {
-        return new File(getExecutableFile(path)).exists();
+    public void collectHomePaths(Platform platform, Consumer<Path> pathConsumer) {
+        if (platform.os().isWindows()) {
+            return;
+        }
+        for (String directory : new String[]{"/usr/bin", "/usr/local/bin", "/opt/homebrew/bin"}) {
+            Path home = platform.fs().getPath(directory);
+            if (Files.exists(getExecutable(platform, home))) {
+                pathConsumer.accept(home);
+            }
+        }
+    }
+
+    @Override
+    public boolean isValidSdkHome(Platform platform, Path path) {
+        return Files.exists(getExecutable(platform, path));
     }
 
     public static String getVersion(String home) {
@@ -76,8 +92,8 @@ public class PhpSdkType extends SdkType {
 
     @Nullable
     @Override
-    public String getVersionString(String s) {
-        return getVersion(s);
+    public String getVersionString(Platform platform, Path path) {
+        return getVersion(path.toString());
     }
 
     @Override

@@ -24,6 +24,8 @@ import consulo.php.module.extension.PhpModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
+import consulo.process.event.ProcessEvent;
+import consulo.process.event.ProcessListener;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.local.ProcessHandlerFactory;
 import consulo.util.io.FileUtil;
@@ -143,6 +145,13 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
         console.attachToProcess(myProcessHandler);
 
         getSession().getRunContentDescriptor().setProcessHandler(myProcessHandler);
+        myProcessHandler.addProcessListener(new ProcessListener() {
+            @Override
+            public void processTerminated(ProcessEvent event) {
+                // the session may end with the process only, the listener must not keep the port
+                myClient.stop();
+            }
+        });
         myProcessHandler.startNotify();
     }
 
@@ -263,7 +272,8 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
     }
 
     private void handleContinuationResponse(CompletableFuture<DbgpResponse> future) {
-        future.whenComplete((response, error) -> {
+        // off the Xdebug reader thread: onBreak waits for stack_get, which the reader thread reads
+        future.whenCompleteAsync((response, error) -> {
             if (error != null) {
                 LOG.warn("Continuation command error", error);
                 return;
@@ -273,6 +283,10 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
                 onBreak(response);
             }
             else if ("stopping".equals(status) || "stopped".equals(status)) {
+                // the script ended: let Xdebug finish the PHP process, then end the session
+                if ("stopping".equals(status) && myConnected) {
+                    myCommandSender.stop();
+                }
                 getSession().stop();
             }
         });
@@ -348,6 +362,8 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
     public void onDisconnected() {
         myConnected = false;
         LOG.info("Xdebug disconnected");
+        // one connection per session: free the port for the next debug session
+        myClient.stop();
     }
 
     @Override

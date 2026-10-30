@@ -1,5 +1,6 @@
 package com.jetbrains.php.lang.psi.elements;
 
+import com.jetbrains.php.lang.psi.PhpGroupUseElement;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 

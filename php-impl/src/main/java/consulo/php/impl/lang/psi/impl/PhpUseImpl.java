@@ -10,7 +10,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.resolve.PsiScopeProcessor;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.PhpGroupUseElement;
+import com.jetbrains.php.lang.psi.PhpGroupUseElement;
 import com.jetbrains.php.lang.psi.elements.PhpUse;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;

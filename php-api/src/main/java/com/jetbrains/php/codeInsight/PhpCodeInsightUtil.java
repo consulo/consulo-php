@@ -19,7 +19,7 @@ package com.jetbrains.php.codeInsight;
 import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.GroupStatement;
-import com.jetbrains.php.lang.psi.elements.PhpGroupUseElement;
+import com.jetbrains.php.lang.psi.PhpGroupUseElement;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.PhpUse;

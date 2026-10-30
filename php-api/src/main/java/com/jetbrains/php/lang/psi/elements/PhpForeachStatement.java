@@ -6,7 +6,7 @@ import consulo.language.psi.PsiElement;
  * @author jay
  * @date Apr 15, 2008 3:36:12 PM
  */
-public interface PhpForeachStatement extends PhpPsiElement
+public interface PhpForeachStatement extends ForeachStatement
 {
 	public PsiElement getArray();
 

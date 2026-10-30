@@ -17,6 +17,8 @@
 package consulo.php.it;
 
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.roots.PhpNamespaceCompositeProvider;
+import com.jetbrains.php.phpunit.PhpUnitUtil;
 import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
@@ -234,5 +236,40 @@ public class PhpIndexIntegrationTest {
         Collection<Constant> constants = PhpProjects.waitForIndex(() -> phpIndex.getConstantsByName("DEFAULT_SENDER"), found -> !found.isEmpty());
         assertThat(ReadAction.compute(() -> constants.iterator().next().getFQN())).isEqualTo("\\App\\Service\\DEFAULT_SENDER");
         assertThat(ReadAction.compute(() -> constants.iterator().next().getValuePresentation())).isEqualTo("'noreply@example.com'");
+    }
+
+    @Test
+    public void phpUnitTestClasses(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of(
+            "vendor/phpunit/TestCase.php", "<?php\nnamespace PHPUnit\\Framework;\nabstract class TestCase {}\n",
+            "tests/MailerTest.php", "<?php\nnamespace App\\Tests;\nuse PHPUnit\\Framework\\TestCase;\nclass Base extends TestCase {}\nclass MailerTest extends Base {}\n",
+            "src/Service/Mailer.php", SERVICES
+        ));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        Collection<PhpClass> tests = PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\App\\Tests\\MailerTest"), found -> !found.isEmpty());
+        Collection<PhpClass> mailer = ReadAction.compute(() -> phpIndex.getClassesByFQN("\\App\\Service\\Mailer"));
+
+        assertThat(ReadAction.compute(() -> PhpUnitUtil.isTestClass(tests.iterator().next()))).isTrue();
+        assertThat(ReadAction.compute(() -> PhpUnitUtil.isPhpUnitTestFile(tests.iterator().next().getContainingFile()))).isTrue();
+        assertThat(ReadAction.compute(() -> PhpUnitUtil.isTestClass(mailer.iterator().next()))).isFalse();
+    }
+
+    @Test
+    public void psr4Namespaces(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of(
+            "composer.json", "{\"autoload\": {\"psr-4\": {\"App\\\\\": \"src/\"}}, \"autoload-dev\": {\"psr-4\": {\"App\\\\Tests\\\\\": [\"tests/\"]}}}",
+            "src/Controller/Admin/Dashboard.php", "<?php\n",
+            "tests/Unit/FooTest.php", "<?php\n"
+        ));
+        List<String> controller = ReadAction.compute(() -> {
+            VirtualFile directory = project.getBaseDir().findFileByRelativePath("src/Controller/Admin");
+            return PhpNamespaceCompositeProvider.INSTANCE.suggestNamespaces(PsiManager.getInstance(project).findDirectory(directory));
+        });
+        assertThat(controller).containsExactly("App\\Controller\\Admin");
+        List<String> tests = ReadAction.compute(() -> {
+            VirtualFile directory = project.getBaseDir().findFileByRelativePath("tests/Unit");
+            return PhpNamespaceCompositeProvider.INSTANCE.suggestNamespaces(PsiManager.getInstance(project).findDirectory(directory));
+        });
+        assertThat(tests).containsExactly("App\\Tests\\Unit");
     }
 }

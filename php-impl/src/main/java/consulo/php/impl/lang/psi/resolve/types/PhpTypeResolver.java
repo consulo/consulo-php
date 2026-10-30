@@ -165,12 +165,14 @@ public final class PhpTypeResolver {
         if (provider == null) {
             return PhpType.EMPTY;
         }
-        PhpType completed = provider.complete(signature, myProject);
+        // like PhpStorm, the provider gets the signature without its "#" + key prefix
+        String expression = signature.substring(2);
+        PhpType completed = provider.complete(expression, myProject);
         if (completed != null) {
             return complete(completed, visited, depth);
         }
         PhpType.PhpTypeBuilder builder = PhpType.builder();
-        Collection<? extends PhpNamedElement> elements = provider.getBySignature(signature, visited, depth, myProject);
+        Collection<? extends PhpNamedElement> elements = provider.getBySignature(expression, visited, depth, myProject);
         if (elements != null) {
             for (PhpNamedElement element : elements) {
                 builder.add(complete(typeOf(element), visited, depth));
@@ -294,7 +296,7 @@ public final class PhpTypeResolver {
                 if (provider == null) {
                     return List.of();
                 }
-                Collection<? extends PhpNamedElement> elements = provider.getBySignature(signature, visited, depth + 1, myProject);
+                Collection<? extends PhpNamedElement> elements = provider.getBySignature(body, visited, depth + 1, myProject);
                 return elements == null ? List.of() : elements;
             }
         }

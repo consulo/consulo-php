@@ -62,12 +62,30 @@ public class PhpPsiCreator implements PhpElementTypes
 		FACTORIES.put(CLASS_CONSTANT_REFERENCE, PhpClassConstantReferenceImpl::new);
 		FACTORIES.put(ANONYMOUS_FUNCTION, PhpFunctionImpl::new);
 		FACTORIES.put(RETURN, PhpReturnStatemetImpl::new);
-		FACTORIES.put(FUNCTION_REFERENCE, PhpFunctionReferenceImpl::new);
-		FACTORIES.put(METHOD_REFERENCE, PhpMethodReferenceImpl::new);
+		FACTORIES.put(FUNCTION_REFERENCE, node -> isFirstClassCallable(node) ? new PhpCallableFunctionImpl(node) : new PhpFunctionReferenceImpl(node));
+		FACTORIES.put(METHOD_REFERENCE, node -> isFirstClassCallable(node) ? new PhpCallableMethodImpl(node) : new PhpMethodReferenceImpl(node));
+		FACTORIES.put(CONCATENATION_EXPRESSION, PhpConcatenationExpressionImpl::new);
+		FACTORIES.put(SWITCH, PhpSwitchImpl::new);
+		FACTORIES.put(CASE, PhpCaseImpl::new);
+		FACTORIES.put(CASE_DEFAULT, PhpCaseImpl::new);
 	}
 
 
 	private static final TokenSet PARAMETER_LIST_OWNERS = TokenSet.create(FUNCTION, PhpStubElements.CLASS_METHOD, ANONYMOUS_FUNCTION, PROPERTY_HOOK);
+
+	/**
+	 * {@code foo(...)}: the arguments are only the callable placeholder
+	 */
+	private static boolean isFirstClassCallable(ASTNode node)
+	{
+		ASTNode arguments = node.findChildByType(PARAMETER_LIST);
+		ASTNode first = arguments == null ? null : arguments.getFirstChildNode();
+		while(first != null && first.getPsi() instanceof consulo.language.psi.PsiWhiteSpace)
+		{
+			first = first.getTreeNext();
+		}
+		return first != null && first.getElementType() == CALLABLE_PLACEHOLDER && first.getTreeNext() == null && "...".equals(first.getText());
+	}
 
 	private static boolean isDeclaredParameterList(ASTNode node)
 	{

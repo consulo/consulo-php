@@ -141,6 +141,45 @@ public class PhpType
 	}
 
 	/**
+	 * @return union of the types
+	 */
+	@Nonnull
+	public static PhpType from(PhpType... types)
+	{
+		PhpType type = new PhpType();
+		for(PhpType other : types)
+		{
+			type.add(other);
+		}
+		return type;
+	}
+
+	/**
+	 * @return the type strings
+	 */
+	@Nonnull
+	public java.util.stream.Stream<String> types()
+	{
+		return getTypes().stream();
+	}
+
+	/**
+	 * @return whether one of the types is an array: {@code array}, {@code iterable}, {@code Foo[]}
+	 */
+	public boolean isArray()
+	{
+		return types().anyMatch(type -> type.equalsIgnoreCase(_ARRAY) || type.equalsIgnoreCase(_ITERABLE) || type.endsWith("[]"));
+	}
+
+	/**
+	 * @return whether one of the types is a boolean: {@code bool}, {@code true}, {@code false}
+	 */
+	public boolean isBoolean()
+	{
+		return types().anyMatch(type -> type.equalsIgnoreCase(_BOOL) || type.equalsIgnoreCase(_TRUE) || type.equalsIgnoreCase(_FALSE));
+	}
+
+	/**
 	 * @see #isConvertibleFrom(PhpType, PhpIndex)
 	 */
 	public boolean isConvertibleFrom(@Nonnull Project project, @Nonnull PhpType otherType)

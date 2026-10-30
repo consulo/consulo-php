@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import consulo.language.icon.IconDescriptorUpdaters;
+import consulo.ui.image.Image;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.application.util.function.Processor;
 import consulo.language.ast.ASTNode;
@@ -37,6 +39,15 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 	@Nonnull
 	@NonNls
 	String getName();
+
+	/**
+	 * The icon of the element, like PhpStorm's {@code PhpNamedElement#getIcon()}
+	 */
+	@Nonnull
+	default Image getIcon()
+	{
+		return IconDescriptorUpdaters.getIcon(this, 0);
+	}
 
 	@Nonnull
 	@NonNls
