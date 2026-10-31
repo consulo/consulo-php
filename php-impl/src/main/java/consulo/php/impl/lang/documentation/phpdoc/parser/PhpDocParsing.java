@@ -186,13 +186,18 @@ public final class PhpDocParsing implements PhpDocElementTypes
 	}
 
 	/**
-	 * {@code @param Type $name}, {@code @param $name}, {@code @var Type $name}, {@code @return Type}
+	 * {@code @param Type $name}, {@code @param $name}, {@code @var Type $name}, {@code @var $name Type}, {@code @return Type}
 	 */
 	private static void parseTypedValue(PhpPsiBuilder builder, String name)
 	{
 		boolean hasVariable = name.endsWith("param") || name.endsWith("var") || name.startsWith("@property");
 		if(hasVariable && parseVariable(builder))
 		{
+			// the legacy {@code @var $name Type}; after {@code @param $name} is the description
+			if(name.endsWith("var") && isTypeStart(builder))
+			{
+				parseTypes(builder);
+			}
 			return;
 		}
 		if(!isTypeStart(builder))

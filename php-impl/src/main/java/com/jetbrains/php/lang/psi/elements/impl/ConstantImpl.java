@@ -16,6 +16,8 @@
 
 package com.jetbrains.php.lang.psi.elements.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
@@ -109,11 +111,7 @@ public class ConstantImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> im
 	{
 		PhpNamespace namespace = PsiTreeUtil.getStubOrPsiParentOfType(this, PhpNamespace.class);
 		String name = namespace == null ? null : namespace.getName();
-		if(name == null)
-		{
-			return "";
-		}
-		return name.startsWith("\\") ? name.substring(1) : name;
+		return PhpLangUtil.toNamespaceName(name);
 	}
 
 	@Override

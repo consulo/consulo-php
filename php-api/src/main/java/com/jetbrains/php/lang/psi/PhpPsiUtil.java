@@ -16,6 +16,7 @@
 
 package com.jetbrains.php.lang.psi;
 
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.language.ast.ASTNode;
@@ -190,6 +191,22 @@ public final class PhpPsiUtil
 			sibling = sibling.getPrevSibling();
 		}
 		return sibling;
+	}
+
+	/**
+	 * The name of a named argument {@code name: value} - the name and the colon are the previous siblings of the value
+	 * in the parameter list
+	 */
+	@Nullable
+	public static String getArgumentName(@Nonnull PsiElement argument)
+	{
+		PsiElement colon = getPrevSiblingIgnoreWhitespace(argument, true);
+		if(colon == null || colon.getNode().getElementType() != PhpTokenTypes.opCOLON)
+		{
+			return null;
+		}
+		PsiElement name = getPrevSiblingIgnoreWhitespace(colon, true);
+		return name == null ? null : name.getText();
 	}
 
 	@Nullable

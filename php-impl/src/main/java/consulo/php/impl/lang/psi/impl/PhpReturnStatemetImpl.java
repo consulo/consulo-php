@@ -4,6 +4,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.PhpReturn;
 import consulo.language.ast.ASTNode;
 import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
@@ -23,7 +25,8 @@ public class PhpReturnStatemetImpl extends PhpElementImpl implements PhpReturn
 	@Override
 	public PsiElement getArgument()
 	{
-		return null;
+		// the returned expression, null for a plain return
+		return PsiTreeUtil.getChildOfType(this, PhpPsiElement.class);
 	}
 
 	@Override

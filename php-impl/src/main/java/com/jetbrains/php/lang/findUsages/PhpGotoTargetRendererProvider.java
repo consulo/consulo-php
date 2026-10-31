@@ -16,6 +16,8 @@
 
 package com.jetbrains.php.lang.findUsages;
 
+import consulo.util.lang.StringUtil;
+import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClassMember;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
@@ -74,7 +76,7 @@ public final class PhpGotoTargetRendererProvider
 			if(element instanceof PhpClass)
 			{
 				String namespace = element.getNamespaceName();
-				return namespace.isEmpty() ? null : "(" + namespace + ")";
+				return PhpLangUtil.isGlobalNamespaceName(namespace) ? null : "(" + StringUtil.trimEnd(PhpLangUtil.toPresentableFQN(namespace), "\\") + ")";
 			}
 			String fqn = element.getFQN();
 			return fqn == null ? null : "(" + fqn + ")";

@@ -103,6 +103,20 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- the external system import of composer.json sets the compiler paths of the modules it creates -->
+        <dependency>
+            <groupId>consulo</groupId>
+            <artifactId>consulo-compiler-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- composer-impl reads composer.json through its JOM model -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consulo.json.jom.api</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- needed by the XML plugin at runtime -->
         <dependency>
             <groupId>consulo</groupId>

@@ -26,14 +26,13 @@ import consulo.php.composer.jom.ComposerAutoloadElement;
 import consulo.php.composer.jom.ComposerJsonRootElement;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Reads {@code composer.json} through its JOM model into a {@link ComposerPackage}
+ * Reads {@code composer.json} through its JOM model
  *
  * @author VISTALL
  * @since 2026-10-31
@@ -42,9 +41,14 @@ public final class ComposerJsonReader {
     private ComposerJsonReader() {
     }
 
-    @Nullable
     @RequiredReadAction
-    public static ComposerPackage read(@Nonnull Project project, @Nonnull VirtualFile composerJson) {
+    public static @Nullable ComposerPackage read(Project project, VirtualFile composerJson) {
+        ComposerJson json = readJson(project, composerJson);
+        return json == null ? null : json.composerPackage();
+    }
+
+    @RequiredReadAction
+    public static @Nullable ComposerJson readJson(Project project, VirtualFile composerJson) {
         PsiFile file = PsiManager.getInstance(project).findFile(composerJson);
         if (file == null) {
             return null;
@@ -55,10 +59,16 @@ public final class ComposerJsonReader {
         }
 
         ComposerJsonRootElement root = element.getRootElement();
-        return new ComposerPackage(root.getName(), root.getRequire(), root.getRequireDev(), psr4(root.getAutoload()), psr4(root.getAutoloadDev()));
+        ComposerPackage composerPackage = new ComposerPackage(
+            root.getName(),
+            root.getRequire(),
+            root.getRequireDev(),
+            psr4(root.getAutoload()),
+            psr4(root.getAutoloadDev())
+        );
+        return new ComposerJson(composerPackage, root.getScripts());
     }
 
-    @Nonnull
     private static Map<String, List<String>> psr4(@Nullable ComposerAutoloadElement autoload) {
         return autoload == null ? Map.of() : autoload.getPsr4();
     }

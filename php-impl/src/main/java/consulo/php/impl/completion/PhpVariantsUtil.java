@@ -1,5 +1,6 @@
 package consulo.php.impl.completion;
 
+import com.jetbrains.php.lang.PhpLangUtil;
 import consulo.language.editor.completion.lookup.LookupElement;
 import consulo.language.editor.completion.lookup.LookupElementBuilder;
 import consulo.application.progress.ProgressManager;
@@ -108,8 +109,9 @@ public class PhpVariantsUtil
 		else if(element instanceof PhpClass)
 		{
 			String namespaceName = element.getNamespaceName();
-			if(!StringUtil.isEmpty(namespaceName))
+			if(!PhpLangUtil.isGlobalNamespaceName(namespaceName))
 			{
+				namespaceName = StringUtil.trimEnd(PhpLangUtil.toPresentableFQN(namespaceName), "\\");
 				builder = builder.withTailText(" (" + namespaceName + ")", true);
 			}
 		}

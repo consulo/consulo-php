@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
 import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
@@ -111,11 +113,7 @@ public class PhpFunctionImpl extends PhpStubbedNamedElementImpl<PhpFunctionStub>
 	{
 		PhpNamespace namespace = PsiTreeUtil.getStubOrPsiParentOfType(this, PhpNamespace.class);
 		String name = namespace == null ? null : namespace.getName();
-		if(name == null)
-		{
-			return "";
-		}
-		return name.startsWith("\\") ? name.substring(1) : name;
+		return PhpLangUtil.toNamespaceName(name);
 	}
 
 	@Nonnull

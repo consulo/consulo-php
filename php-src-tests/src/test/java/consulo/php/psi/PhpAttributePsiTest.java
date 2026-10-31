@@ -17,6 +17,10 @@
 package consulo.php.psi;
 
 import com.jetbrains.php.lang.PhpLanguage;
+import consulo.language.psi.PsiElement;
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
+import com.jetbrains.php.lang.psi.PhpPsiUtil;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.Parameter;
@@ -175,6 +179,33 @@ public class PhpAttributePsiTest {
         Assertions.assertEquals(List.of("path", "name"), arguments.stream().map(PhpAttribute.PhpAttributeArgument::getName).toList());
         Assertions.assertFalse(arguments.get(0).isNamedArgument());
         Assertions.assertEquals("/x", ((PhpExpectedFunctionScalarArgument) arguments.get(0).getArgument()).getNormalizedValue());
+    }
+
+    @Test
+    public void testNamedArgumentIsFlat(Context context) {
+        PsiFile file = parse(context, """
+            <?php
+            namespace App;
+
+            #[Route('/x', name: 'x')]
+            class A {}
+            """);
+        PhpAttribute attribute = findClass(file, "A").getAttributes().iterator().next();
+        ParameterList parameterList = PsiTreeUtil.findChildOfType(attribute, ParameterList.class);
+        Assertions.assertNotNull(parameterList);
+
+        // the name, the colon and the value are children of the parameter list
+        PsiElement value = parameterList.getParameters()[1];
+        Assertions.assertEquals("'x'", value.getText());
+        Assertions.assertSame(parameterList, value.getParent());
+        PsiElement colon = PhpPsiUtil.getPrevSiblingIgnoreWhitespace(value, true);
+        Assertions.assertEquals(PhpTokenTypes.opCOLON, colon.getNode().getElementType());
+        Assertions.assertEquals("name", PhpPsiUtil.getPrevSiblingIgnoreWhitespace(colon, true).getText());
+
+        Assertions.assertEquals("name", PhpPsiUtil.getArgumentName(value));
+        Assertions.assertNull(PhpPsiUtil.getArgumentName(parameterList.getParameters()[0]));
+        Assertions.assertSame(value, parameterList.getParameter("name", 1));
+        Assertions.assertEquals("'/x'", parameterList.getParameter("path", 0).getText());
     }
 
     @Test

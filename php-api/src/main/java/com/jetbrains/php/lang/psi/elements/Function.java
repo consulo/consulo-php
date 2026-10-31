@@ -49,6 +49,6 @@ public interface Function extends PhpElementWithModifier, PhpTypedElement, PhpNa
 	 */
 	default boolean isClosure()
 	{
-		return getNode().getElementType() == PhpElementTypes.CLOSURE;
+		return getNode().getElementType() == PhpElementTypes.ANONYMOUS_FUNCTION;
 	}
 }

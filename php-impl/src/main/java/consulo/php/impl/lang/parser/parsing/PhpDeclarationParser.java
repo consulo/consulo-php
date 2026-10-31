@@ -155,7 +155,9 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
             builder.error(PhpParserErrors.expected("function"));
         }
         closure.done(PhpElementTypes.ANONYMOUS_FUNCTION);
-        return PhpElementTypes.ANONYMOUS_FUNCTION;
+        // the function is wrapped by the closure expression
+        closure.precede().done(PhpElementTypes.CLOSURE);
+        return PhpElementTypes.CLOSURE;
     }
 
     private static void parseClosureUses(PhpPsiBuilder builder) {

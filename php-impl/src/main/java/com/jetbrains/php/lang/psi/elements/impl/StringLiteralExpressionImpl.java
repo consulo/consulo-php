@@ -4,7 +4,11 @@ import consulo.php.impl.lang.psi.impl.PhpElementImpl;
 import jakarta.annotation.Nonnull;
 
 import consulo.document.util.TextRange;
+import consulo.language.psi.ContributedReferenceHost;
 import consulo.language.psi.PsiLanguageInjectionHost;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.ReferenceProvidersRegistry;
+import jakarta.annotation.Nullable;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.LiteralTextEscaper;
@@ -14,7 +18,7 @@ import consulo.php.impl.lang.psi.visitors.PhpElementVisitor;
  * @author VISTALL
  * @since 2019-04-10
  */
-public class StringLiteralExpressionImpl extends PhpElementImpl implements StringLiteralExpression
+public class StringLiteralExpressionImpl extends PhpElementImpl implements StringLiteralExpression, ContributedReferenceHost
 {
 	public StringLiteralExpressionImpl(ASTNode node)
 	{
@@ -108,6 +112,25 @@ public class StringLiteralExpressionImpl extends PhpElementImpl implements Strin
 				return false;
 			}
 		};
+	}
+
+	/**
+	 * A string carries the references of the registered {@link consulo.language.psi.PsiReferenceContributor}s,
+	 * like the route or the service names of the Symfony plugin
+	 */
+	@Nonnull
+	@Override
+	public PsiReference[] getReferences()
+	{
+		return ReferenceProvidersRegistry.getReferencesFromProviders(this);
+	}
+
+	@Nullable
+	@Override
+	public PsiReference getReference()
+	{
+		PsiReference[] references = getReferences();
+		return references.length == 0 ? null : references[0];
 	}
 
 	@Override

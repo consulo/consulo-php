@@ -1,5 +1,6 @@
 package consulo.php.impl.ide.presentation;
 
+import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
@@ -49,8 +50,12 @@ public class PhpClassPresentation implements ItemPresentationProvider<PhpClass> 
                     if (PhpModuleExtensionUtil.getLanguageLevel(moduleForPsiElement).isAtLeast(PhpLanguageLevel.PHP_5_3)) {
                         location = phpClass.getNamespaceName();
 
-                        if (!StringUtil.isEmpty(location)) {
+                        if (!PhpLangUtil.isGlobalNamespaceName(location)) {
+                            location = StringUtil.trimEnd(PhpLangUtil.toPresentableFQN(location), "\\");
                             location = "(" + location + ")";
+                        }
+                        else {
+                            location = null;
                         }
                     }
                 }

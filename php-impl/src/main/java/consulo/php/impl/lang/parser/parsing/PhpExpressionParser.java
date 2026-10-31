@@ -971,7 +971,7 @@ public final class PhpExpressionParser implements PhpTokenTypes {
             return true;
         }
         if (PhpParserUtil.isIdentifierLike(builder) && builder.lookAhead(1) == opCOLON) {
-            PsiBuilder.Marker marker = builder.mark();
+            // a named argument is flat in the parameter list: the name, the colon and the value
             PhpParserUtil.eatIdentifierLike(builder);
             builder.advanceLexer();
             if (builder.compare(opQUEST) && (builder.lookAhead(1) == opCOMMA || builder.lookAhead(1) == RPAREN)) {
@@ -980,7 +980,6 @@ public final class PhpExpressionParser implements PhpTokenTypes {
             else {
                 parseRequired(builder);
             }
-            marker.done(PhpElementTypes.NAMED_ARGUMENT);
             return true;
         }
         if (builder.compareAndEat(opBIT_AND)) {

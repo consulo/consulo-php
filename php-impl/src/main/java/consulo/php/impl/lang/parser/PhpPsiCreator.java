@@ -61,6 +61,7 @@ public class PhpPsiCreator implements PhpElementTypes
 		FACTORIES.put(VARIABLE_REFERENCE, PhpVariableReferenceImpl::new);
 		FACTORIES.put(CLASS_CONSTANT_REFERENCE, PhpClassConstantReferenceImpl::new);
 		FACTORIES.put(ANONYMOUS_FUNCTION, PhpFunctionImpl::new);
+		FACTORIES.put(CLOSURE, PhpClosureExpressionImpl::new);
 		FACTORIES.put(RETURN, PhpReturnStatemetImpl::new);
 		FACTORIES.put(FUNCTION_REFERENCE, node -> isFirstClassCallable(node) ? new PhpCallableFunctionImpl(node) : new PhpFunctionReferenceImpl(node));
 		FACTORIES.put(METHOD_REFERENCE, node -> isFirstClassCallable(node) ? new PhpCallableMethodImpl(node) : new PhpMethodReferenceImpl(node));

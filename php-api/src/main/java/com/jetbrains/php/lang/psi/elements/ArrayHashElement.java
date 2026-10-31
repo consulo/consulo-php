@@ -16,7 +16,7 @@ package com.jetbrains.php.lang.psi.elements;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.function.Condition;
 
-import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * {@code getKey()=>getValue()}
@@ -26,9 +26,15 @@ public interface ArrayHashElement extends PhpExpression
 {
 	Condition<PsiElement> INSTANCEOF = use -> use instanceof ArrayHashElement;
 
-	@Nonnull
+	/**
+	 * The key expression, not its {@code ARRAY_KEY} wrapper
+	 */
+	@Nullable
 	PhpPsiElement getKey();
 
-	@Nonnull
+	/**
+	 * The value expression, not its {@code ARRAY_VALUE} wrapper
+	 */
+	@Nullable
 	PhpPsiElement getValue();
 }

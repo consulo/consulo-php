@@ -39,7 +39,7 @@ public class PhpExpressionParameterListImpl extends PhpElementImpl implements Pa
 			{
 				continue;
 			}
-			if(type == PhpElementTypes.NAMED_ARGUMENT || type == PhpElementTypes.VARIADIC_ARGUMENT)
+			if(type == PhpElementTypes.VARIADIC_ARGUMENT)
 			{
 				PhpPsiElement value = PsiTreeUtil.getChildOfType(child, PhpPsiElement.class);
 				if(value != null)

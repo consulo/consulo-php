@@ -60,7 +60,8 @@ public class PhpStructurePsiTest {
             """);
         PhpClass foo = PsiTreeUtil.findChildOfType(file, PhpClass.class);
         Field[] fields = foo.getOwnFields();
-        Assertions.assertEquals(List.of("$a", "$b", "X", "Y", "$c"), Arrays.stream(fields).map(Field::getName).toList());
+        // properties without their $
+        Assertions.assertEquals(List.of("a", "b", "X", "Y", "c"), Arrays.stream(fields).map(Field::getName).toList());
 
         Field a = fields[0];
         Field b = fields[1];

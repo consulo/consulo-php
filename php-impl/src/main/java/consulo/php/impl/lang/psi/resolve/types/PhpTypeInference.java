@@ -178,7 +178,7 @@ public final class PhpTypeInference {
             List<PsiElement> operands = operands(element);
             return operands.size() < 2 ? PhpType.EMPTY : getType(operands.get(operands.size() - 1));
         }
-        if (type == PhpElementTypes.ANONYMOUS_FUNCTION) {
+        if (type == PhpElementTypes.ANONYMOUS_FUNCTION || type == PhpElementTypes.CLOSURE) {
             return PhpType.CLOSURE;
         }
         if (type == PhpElementTypes.ARRAY_ACCESS_EXPRESSION) {

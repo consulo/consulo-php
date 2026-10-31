@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Parameter;
@@ -83,7 +85,8 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 	@Override
 	public PhpType getLocalType()
 	{
-		return PhpType.EMPTY;
+		// what the parameter itself declares - its type and @param - before any global resolve
+		return getType();
 	}
 
 	/**
@@ -157,7 +160,7 @@ public class PhpParameterImpl extends PhpStubbedNamedElementImpl<PhpParameterStu
 	@Override
 	public String getNamespaceName()
 	{
-		return "";
+		return PhpLangUtil.GLOBAL_NAMESPACE_NAME;
 	}
 
 	@Override

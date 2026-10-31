@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl.light;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import consulo.application.util.function.Processor;
 import consulo.language.ast.ASTNode;
 import consulo.project.Project;
@@ -91,7 +93,7 @@ public class PhpLightConstant extends LightElement implements Constant
 	@Override
 	public String getNamespaceName()
 	{
-		return "";
+		return PhpLangUtil.GLOBAL_NAMESPACE_NAME;
 	}
 
 	@Override

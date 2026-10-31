@@ -16,6 +16,7 @@
 
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.PhpPsiUtil;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Method;
@@ -84,7 +85,7 @@ public class PhpAttributeImpl extends PhpElementImpl implements PhpAttribute {
     }
 
     /**
-     * Argument nodes: expressions, {@code NAMED_ARGUMENT}, {@code VARIADIC_ARGUMENT}
+     * Argument nodes: expressions (a named one is preceded by its name and a colon), {@code VARIADIC_ARGUMENT}
      */
     private List<PsiElement> getArgumentNodes() {
         List<PsiElement> result = new ArrayList<>();
@@ -94,6 +95,11 @@ public class PhpAttributeImpl extends PhpElementImpl implements PhpAttribute {
         }
         for (PsiElement child = list.getFirstChild(); child != null; child = child.getNextSibling()) {
             if (child instanceof PsiWhiteSpace || child instanceof PsiComment || child.getNode().getElementType() == PhpTokenTypes.opCOMMA) {
+                continue;
+            }
+            // the name and the colon of a named argument
+            if (child.getNode().getElementType() == PhpTokenTypes.opCOLON
+                || PhpPsiUtil.isOfType(PhpPsiUtil.getNextSiblingIgnoreWhitespace(child, true), PhpTokenTypes.opCOLON)) {
                 continue;
             }
             result.add(child);
@@ -126,11 +132,11 @@ public class PhpAttributeImpl extends PhpElementImpl implements PhpAttribute {
                 continue;
             }
 
-            boolean named = node.getNode().getElementType() == PhpElementTypes.NAMED_ARGUMENT;
+            String argumentName = PhpPsiUtil.getArgumentName(node);
+            boolean named = argumentName != null;
             String name;
             if (named) {
-                PsiElement identifier = node.getFirstChild();
-                name = identifier == null ? "" : identifier.getText();
+                name = argumentName;
             }
             else {
                 if (parameters == null) {
@@ -145,7 +151,7 @@ public class PhpAttributeImpl extends PhpElementImpl implements PhpAttribute {
 
     private static @Nullable PsiElement valueOf(PsiElement node) {
         IElementType type = node.getNode().getElementType();
-        if (type == PhpElementTypes.NAMED_ARGUMENT || type == PhpElementTypes.VARIADIC_ARGUMENT) {
+        if (type == PhpElementTypes.VARIADIC_ARGUMENT) {
             PsiElement last = node.getLastChild();
             while (last instanceof PsiWhiteSpace || last instanceof PsiComment) {
                 last = last.getPrevSibling();

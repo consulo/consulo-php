@@ -1,5 +1,7 @@
 package com.jetbrains.php.lang.psi.elements.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import consulo.php.impl.lang.psi.impl.PhpFunctionReferenceImpl;
 import consulo.php.impl.lang.psi.impl.PhpStubbedNamedElementImpl;
@@ -117,7 +119,7 @@ public class PhpDefineImpl extends PhpStubbedNamedElementImpl<PhpConstantStub> i
 	@Override
 	public String getNamespaceName()
 	{
-		return "";
+		return PhpLangUtil.GLOBAL_NAMESPACE_NAME;
 	}
 
 	@Override

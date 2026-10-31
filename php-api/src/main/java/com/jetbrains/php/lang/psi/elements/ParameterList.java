@@ -15,7 +15,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import com.jetbrains.php.lang.parser.PhpElementTypes;
 import consulo.language.psi.PsiElement;
-import consulo.language.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.PhpPsiUtil;
 import consulo.util.lang.function.Condition;
 
 import jakarta.annotation.Nonnull;
@@ -53,13 +53,13 @@ public interface ParameterList extends PhpPsiElement
 			{
 				continue;
 			}
-			if(child.getNode().getElementType() == PhpElementTypes.NAMED_ARGUMENT)
+			String argumentName = PhpPsiUtil.getArgumentName(child);
+			if(argumentName != null)
 			{
 				named = true;
-				PsiElement nameElement = child.getFirstChild();
-				if(nameElement != null && name.equals(nameElement.getText()))
+				if(name.equals(argumentName))
 				{
-					return PsiTreeUtil.getChildOfType(child, PhpPsiElement.class);
+					return child;
 				}
 			}
 			else if(!named && child.getNode().getElementType() != PhpElementTypes.CALLABLE_PLACEHOLDER)

@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import com.jetbrains.php.lang.psi.elements.PhpTypeDeclaration;
 import java.util.List;
 import java.util.Collection;
@@ -70,7 +72,9 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 		PsiElement nameIdentifier = getNameIdentifier();
 		if(nameIdentifier != null)
 		{
-			return nameIdentifier.getText();
+			// the name of a property without its $
+			String name = nameIdentifier.getText();
+			return name.startsWith("$") ? name.substring(1) : name;
 		}
 		return null;
 	}
@@ -92,7 +96,9 @@ public class PhpFieldImpl extends PhpStubbedNamedElementImpl<PhpFieldStub> imple
 	@Override
 	public String getNamespaceName()
 	{
-		return "";
+		// the namespace of the class of the member
+		PhpClass containingClass = getContainingClass();
+		return containingClass == null ? PhpLangUtil.GLOBAL_NAMESPACE_NAME : containingClass.getNamespaceName();
 	}
 
 	@RequiredReadAction

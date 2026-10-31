@@ -60,6 +60,14 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- composer-impl comes with php-impl, its external system classes are loaded with its bindings -->
+        <dependency>
+            <groupId>consulo</groupId>
+            <artifactId>consulo-external-system-api</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>consulo</groupId>
             <artifactId>consulo-test-junit-impl</artifactId>

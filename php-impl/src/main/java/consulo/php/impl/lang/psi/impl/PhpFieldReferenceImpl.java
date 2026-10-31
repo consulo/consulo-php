@@ -204,7 +204,9 @@ public class PhpFieldReferenceImpl extends PhpTypedElementImpl implements FieldR
 	@Override
 	public String getCanonicalText()
 	{
-		return null;
+		// the field name, without the $ of a static field
+		String name = getName();
+		return name == null ? "" : name;
 	}
 
 	@RequiredWriteAction

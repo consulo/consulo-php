@@ -62,7 +62,7 @@ public class PhpEnumCaseImpl extends PhpNamedElementImpl implements PhpEnumCase 
     @Override
     public String getNamespaceName() {
         PhpClass phpClass = getContainingClass();
-        return phpClass == null ? "" : phpClass.getNamespaceName();
+        return phpClass == null ? com.jetbrains.php.lang.PhpLangUtil.GLOBAL_NAMESPACE_NAME : phpClass.getNamespaceName();
     }
 
     @Override

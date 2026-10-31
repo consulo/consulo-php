@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl.stub.elements;
 
+import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.stubs.PhpClassStub;
 import consulo.annotation.access.RequiredReadAction;
@@ -108,7 +109,7 @@ public class PhpClassStubElementType extends PhpStubElementType<PhpClassStub, Ph
 			// class names are case-insensitive in PHP
 			indexSink.occurrence(PhpIndexKeys.CLASSES, name.toLowerCase(Locale.ROOT));
 
-			String fqn = StringUtil.isEmpty(namespace) ? "\\" + name : "\\" + namespace + "\\" + name;
+			String fqn = PhpLangUtil.toFQN(StringUtil.notNullize(namespace), name);
 			indexSink.occurrence(PhpIndexKeys.FULL_FQ_CLASSES, fqn.toLowerCase(Locale.ROOT));
 		}
 

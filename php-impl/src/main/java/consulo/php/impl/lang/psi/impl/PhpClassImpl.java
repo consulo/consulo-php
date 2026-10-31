@@ -1,9 +1,13 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import consulo.language.ast.IElementType;
 import consulo.php.impl.lang.parser.PhpElementTypes;
 import com.jetbrains.php.PhpClassHierarchyUtils;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Locale;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
@@ -129,10 +133,11 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public String getNamespaceName()
 	{
+		// \Foo\Bar\, the global namespace is \
 		PhpClassStub stub = getStub();
 		if(stub != null)
 		{
-			return stub.getNamespaceName();
+			return PhpLangUtil.toNamespaceName(stub.getNamespaceName());
 		}
 
 		PsiElement parent = getParent();
@@ -141,10 +146,10 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 			PsiElement groupParent = parent.getParent();
 			if(groupParent instanceof PhpNamespace)
 			{
-				return ((PhpNamespace) groupParent).getName();
+				return PhpLangUtil.toNamespaceName(((PhpNamespace) groupParent).getName());
 			}
 		}
-		return "";
+		return PhpLangUtil.GLOBAL_NAMESPACE_NAME;
 	}
 
 	@Nullable
@@ -200,7 +205,17 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method getConstructor()
 	{
-		return getOwnConstructor();
+		// the own constructor, else the inherited one; a cyclic hierarchy of broken code ends the walk
+		Set<PhpClass> visited = new HashSet<>();
+		for(PhpClass phpClass = this; phpClass != null && visited.add(phpClass); phpClass = phpClass.getSuperClass())
+		{
+			Method constructor = phpClass.getOwnConstructor();
+			if(constructor != null)
+			{
+				return constructor;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -405,14 +420,16 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public List<PhpTraitUseRule> getTraitUseRules()
 	{
-		return null;
+		// the insteadof / as rules of a trait use are not parsed yet: the members of the used traits are taken as they are
+		return List.of();
 	}
 
 	@Nonnull
 	@Override
 	public String getPresentableFQN()
 	{
-		return getFQN();
+		// the FQN without its leading separator
+		return PhpLangUtil.toPresentableFQN(getFQN());
 	}
 
 	@Nullable

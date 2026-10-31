@@ -154,7 +154,10 @@ public interface PhpElementTypes
 
 	// PhpStorm names
 	IElementType PARAMETER_LIST = EXPRESSION_PARAMETER_LIST;
-	IElementType CLOSURE = ANONYMOUS_FUNCTION;
+	/**
+	 * The expression of a closure, its child is the {@link #ANONYMOUS_FUNCTION}
+	 */
+	IElementType CLOSURE = new PhpElementType("CLOSURE");
 	IElementType NON_LAZY_GROUP_STATEMENT = GROUP_STATEMENT;
 	IElementType HASH_ARRAY_ELEMENT = ARRAY_HASH;
 	IElementType PHP_ARRAY_KEY = ARRAY_KEY;

@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
 import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
 import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.PhpIndex;
@@ -67,7 +68,19 @@ public class PhpNamespaceStatementImpl extends PhpStubbedNamedElementImpl<PhpNam
 	@Override
 	public String getNamespaceName()
 	{
-		return getName();
+		// the parent namespace, \Foo\ of the namespace Foo\Bar
+		String name = PhpLangUtil.toFQN(getName());
+		return PhpLangUtil.toNamespaceName(name.substring(0, name.lastIndexOf(PhpLangUtil.NAMESPACE_SEPARATOR)));
+	}
+
+	/**
+	 * {@code \Foo\Bar} of the namespace {@code Foo\Bar}
+	 */
+	@Nonnull
+	@Override
+	public String getFQN()
+	{
+		return PhpLangUtil.toFQN(getName());
 	}
 
 	@Nullable

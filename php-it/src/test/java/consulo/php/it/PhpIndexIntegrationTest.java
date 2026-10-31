@@ -16,6 +16,8 @@
 
 package consulo.php.it;
 
+import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.NewExpression;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.roots.PhpNamespaceCompositeProvider;
 import com.jetbrains.php.phpunit.PhpUnitUtil;
@@ -271,5 +273,33 @@ public class PhpIndexIntegrationTest {
             return PhpNamespaceCompositeProvider.INSTANCE.suggestNamespaces(PsiManager.getInstance(project).findDirectory(directory));
         });
         assertThat(tests).containsExactly("App\\Tests\\Unit");
+    }
+
+    @Test
+    public void newExpressionResolvesToConstructor(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of("src/New.php", """
+            <?php
+            class WithConstructor { public function __construct($a) {} }
+            class Child extends WithConstructor {}
+            class Plain {}
+            new WithConstructor(1); new Child(2); new Plain();
+            """));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\Plain"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            VirtualFile file = project.getBaseDir().findFileByRelativePath("src/New.php");
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            List<NewExpression> expressions = List.copyOf(PsiTreeUtil.findChildrenOfType(psiFile, NewExpression.class));
+
+            // the class of a new expression resolves to the constructor, an inherited one too, else to the class
+            assertThat(((Method) expressions.get(0).getClassReference().resolve()).getName()).isEqualTo("__construct");
+            assertThat(((Method) expressions.get(1).getClassReference().resolve()).getContainingClass().getName()).isEqualTo("WithConstructor");
+            assertThat(((PhpClass) expressions.get(2).getClassReference().resolve()).getName()).isEqualTo("Plain");
+
+            // usages of the class keep the new expressions
+            PhpClass withConstructor = phpIndex.getClassesByFQN("\\WithConstructor").iterator().next();
+            assertThat(expressions.get(0).getClassReference().isReferenceTo(withConstructor)).isTrue();
+        });
     }
 }

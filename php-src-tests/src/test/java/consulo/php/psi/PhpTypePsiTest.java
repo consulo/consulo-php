@@ -179,6 +179,26 @@ public class PhpTypePsiTest {
     }
 
     @Test
+    public void testInlineVarTypes(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("b.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            /** @var \\App\\Foo $typeFirst */
+            $typeFirst->a();
+            /** @var $nameFirst \\App\\Bar */
+            $nameFirst->b();
+            """);
+        Assertions.assertEquals(Set.of("\\App\\Foo"), receiverType(file, "a"));
+        // the legacy order of the inline @var
+        Assertions.assertEquals(Set.of("\\App\\Bar"), receiverType(file, "b"));
+    }
+
+    private static Set<String> receiverType(PsiFile file, String method) {
+        MethodReference reference = PsiTreeUtil.findChildrenOfType(file, MethodReference.class).stream()
+            .filter(r -> method.equals(r.getName())).findFirst().orElseThrow();
+        return ((PhpTypedElement) reference.getClassReference()).getType().getTypes();
+    }
+
+    @Test
     public void testDeclaredTypes(Context context) {
         PsiFile file = parse(context);
         PhpClass foo = PsiTreeUtil.findChildrenOfType(file, PhpClass.class).stream().filter(c -> "Foo".equals(c.getName())).findFirst().orElseThrow();

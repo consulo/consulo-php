@@ -24,10 +24,19 @@ import com.jetbrains.php.config.PhpLanguageLevel;
 import com.jetbrains.php.lang.PhpLanguage;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocParamTag;
+import com.jetbrains.php.lang.psi.elements.ArrayHashElement;
 import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
+import com.jetbrains.php.lang.psi.elements.Parameter;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import com.jetbrains.php.lang.parser.PhpElementTypes;
+import com.jetbrains.php.lang.psi.elements.PhpYield;
+import com.jetbrains.php.lang.psi.elements.NewExpression;
+import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
+import com.jetbrains.php.lang.psi.elements.PhpReturn;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.ParenthesizedExpression;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -170,6 +179,89 @@ public class PhpReferenceApiTest {
 
         PsiElement reference = new PhpExpectedFunctionScalarArgument(0, "'label'").createReference(context.project());
         Assertions.assertInstanceOf(StringLiteralExpression.class, reference);
+    }
+
+    @Test
+    public void testReturnArgument(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("e.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            function a() { return; }
+            return ['route' => []];
+            """);
+        List<PhpReturn> returns = all(file, PhpReturn.class);
+        Assertions.assertNull(returns.get(0).getArgument());
+        ArrayCreationExpression array = (ArrayCreationExpression) returns.get(1).getArgument();
+        Assertions.assertInstanceOf(ArrayCreationExpression.class, array);
+
+        // the key and the value expressions, not their wrappers
+        ArrayHashElement hash = array.getHashElements().iterator().next();
+        Assertions.assertEquals("route", ((StringLiteralExpression) hash.getKey()).getContents());
+        Assertions.assertInstanceOf(ArrayCreationExpression.class, hash.getValue());
+    }
+
+    @Test
+    public void testClosureAndYield(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("g.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            $a = ['qb' => function () { yield Message::class => ['method' => 'x']; }, 'fn' => fn() => 1];
+            """);
+        // a closure is a CLOSURE expression around the function
+        List<Function> functions = all(file, Function.class);
+        Assertions.assertEquals(2, functions.size());
+        for (Function function : functions) {
+            Assertions.assertTrue(function.isClosure());
+            Assertions.assertEquals(PhpElementTypes.CLOSURE, function.getParent().getNode().getElementType());
+            Assertions.assertInstanceOf(PhpExpression.class, function.getParent());
+        }
+
+        PhpYield yield = all(file, PhpYield.class).get(0);
+        Assertions.assertInstanceOf(ClassConstantReference.class, yield.getArgument());
+    }
+
+    @Test
+    public void testNamespaceAndParameterLocalType(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("h.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            namespace Symfony\\Loader\\Configurator;
+
+            return static function (ContainerConfigurator $container) {};
+            """);
+        PhpNamespace namespace = all(file, PhpNamespace.class).get(0);
+        // the FQN of the namespace and its parent namespace
+        Assertions.assertEquals("\\Symfony\\Loader\\Configurator", namespace.getFQN());
+        Assertions.assertEquals("\\Symfony\\Loader\\", namespace.getNamespaceName());
+
+        Parameter container = all(file, Function.class).get(0).getParameter(0);
+        Assertions.assertEquals(Set.of("\\Symfony\\Loader\\Configurator\\ContainerConfigurator"), container.getLocalType().getTypes());
+    }
+
+    @Test
+    public void testNamespaceNames(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("c.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            namespace App\\Controller;
+
+            const LIMIT = 10;
+            function helper() {}
+            class Blog { public $title; public function index() {} }
+            """);
+        // with the leading and the trailing separator
+        PhpClass blog = all(file, PhpClass.class).get(0);
+        Assertions.assertEquals("\\App\\Controller\\", blog.getNamespaceName());
+        Assertions.assertEquals("\\App\\Controller\\Blog", blog.getFQN());
+        Assertions.assertEquals("App\\Controller\\Blog", blog.getPresentableFQN());
+        Assertions.assertEquals("\\App\\Controller\\", all(file, Function.class).get(0).getNamespaceName());
+        Assertions.assertEquals("\\App\\Controller\\LIMIT", all(file, ConstantImpl.class).get(0).getFQN());
+
+        // members are named after their class
+        Assertions.assertEquals("\\App\\Controller\\Blog.index", blog.findOwnMethodByName("index").getFQN());
+        Assertions.assertEquals("\\App\\Controller\\Blog.title", blog.findOwnFieldByName("title", false).getFQN());
+        // a property is named without its $
+        Assertions.assertEquals("title", blog.findOwnFieldByName("title", false).getName());
+
+        PsiFile global = context.psiFileFactory().createFileFromText("d.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, "<?php class Plain {}");
+        Assertions.assertEquals("\\", all(global, PhpClass.class).get(0).getNamespaceName());
+        Assertions.assertEquals("\\Plain", all(global, PhpClass.class).get(0).getFQN());
     }
 
     @Test

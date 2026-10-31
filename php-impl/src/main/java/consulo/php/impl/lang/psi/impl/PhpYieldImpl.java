@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -23,7 +25,8 @@ public class PhpYieldImpl extends PhpElementImpl implements PhpYield
 	@Override
 	public PsiElement getArgument()
 	{
-		return null;
+		// the first expression - the key of a yield key => value
+		return PsiTreeUtil.getChildOfType(this, PhpPsiElement.class);
 	}
 
 	@Override

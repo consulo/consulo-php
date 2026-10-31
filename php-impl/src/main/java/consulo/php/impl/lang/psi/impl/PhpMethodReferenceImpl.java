@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.PhpExpression;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
@@ -61,7 +63,7 @@ public class PhpMethodReferenceImpl extends PhpTypedElementImpl implements Metho
 	@Override
 	public String getNamespaceName()
 	{
-		return null;
+		return "";
 	}
 
 	@Override

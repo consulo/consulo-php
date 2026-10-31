@@ -1,0 +1,38 @@
+system.name:
+  text: "Composer"
+status.reading:
+  text: "Reading composer.json..."
+task.install.description:
+  text: "Install the dependencies of composer.lock (or resolve them from composer.json)"
+task.update.description:
+  text: "Update the dependencies to their latest allowed versions and write composer.lock"
+task.dump.autoload.description:
+  text: "Regenerate the autoloader"
+error.no.composer.json:
+  text: "There is no composer.json in ''{0}''"
+error.cannot.read:
+  text: "Cannot read ''{0}''"
+error.command.failed:
+  text: "''{0}'' failed with exit code {1}"
+error.cannot.run:
+  text: "Cannot run ''{0}'': {1}"
+error.cancelled:
+  text: "''{0}'' was cancelled"
+settings.executable.label:
+  text: "Composer executable:"
+settings.executable.placeholder:
+  text: "{0} (from PATH), or the path of composer.phar"
+new.project.group:
+  text: "PHP"
+new.project.item:
+  text: "Composer"
+new.project.php.sdk.label:
+  text: "PHP SDK:"
+new.project.template.empty.description:
+  text: "A composer.json autoloading App\\ from src/"
+new.project.template.description:
+  text: "Created by composer create-project {0}"
+new.project.creating:
+  text: "Creating Composer project..."
+new.project.failed:
+  text: "Cannot create the Composer project: {0}"

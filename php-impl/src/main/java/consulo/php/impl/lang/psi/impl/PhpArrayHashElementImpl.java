@@ -1,5 +1,9 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.parser.PhpElementTypes;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.ast.IElementType;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Nonnull;
 
 import consulo.language.ast.ASTNode;
@@ -19,19 +23,25 @@ public class PhpArrayHashElementImpl extends PhpElementImpl implements ArrayHash
 		super(node);
 	}
 
-	@Nonnull
+	@Nullable
 	@Override
 	public PhpPsiElement getKey()
 	{
-		return getFirstPsiChild();
+		return unwrap(PhpElementTypes.ARRAY_KEY);
 	}
 
-	@Nonnull
+	@Nullable
 	@Override
 	public PhpPsiElement getValue()
 	{
-		PhpPsiElement firstPsiChild = getFirstPsiChild();
-		return ObjectUtil.notNull(firstPsiChild.getNextPsiSibling());
+		return unwrap(PhpElementTypes.ARRAY_VALUE);
+	}
+
+	@Nullable
+	private PhpPsiElement unwrap(IElementType wrapperType)
+	{
+		ASTNode wrapper = getNode().findChildByType(wrapperType);
+		return wrapper == null ? null : PsiTreeUtil.getChildOfType(wrapper.getPsi(), PhpPsiElement.class);
 	}
 
 	@Override

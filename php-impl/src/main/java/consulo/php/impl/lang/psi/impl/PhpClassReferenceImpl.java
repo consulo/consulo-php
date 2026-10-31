@@ -1,5 +1,8 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.NewExpression;
 import consulo.php.impl.lang.psi.PhpNameResolver;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
@@ -113,7 +116,20 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Nonnull
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
-		return ResolveCache.getInstance(getProject()).resolveWithCaching(this, OurResolver.INSTANCE, true, incompleteCode);
+		ResolveResult[] results = ResolveCache.getInstance(getProject()).resolveWithCaching(this, OurResolver.INSTANCE, true, incompleteCode);
+		if(!(getParent() instanceof NewExpression newExpression) || newExpression.getClassReference() != this)
+		{
+			return results;
+		}
+
+		// the class of a new expression resolves to its constructor, own or inherited
+		ResolveResult[] constructors = new ResolveResult[results.length];
+		for(int i = 0; i < results.length; i++)
+		{
+			Method constructor = results[i].getElement() instanceof PhpClass phpClass ? phpClass.getConstructor() : null;
+			constructors[i] = constructor == null ? results[i] : new PsiElementResolveResult(constructor);
+		}
+		return constructors;
 	}
 
 	@RequiredReadAction
@@ -374,7 +390,14 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Override
 	public boolean isReferenceTo(PsiElement element)
 	{
-		return getManager().areElementsEquivalent(resolve(), element);
+		PsiElement resolved = resolve();
+		if(getManager().areElementsEquivalent(resolved, element))
+		{
+			return true;
+		}
+		// the class of a new expression, which resolves to the constructor
+		return element instanceof PhpClass && resolved instanceof Method method
+			&& getManager().areElementsEquivalent(method.getContainingClass(), element);
 	}
 
 	private ClassUsageContext getUsageContext()

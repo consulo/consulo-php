@@ -1,5 +1,7 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.PhpLangUtil;
+
 import consulo.php.impl.codeInsight.controlFlow.PhpControlFlowBuilder;
 import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
@@ -166,7 +168,9 @@ public class PhpClassMethodImpl extends PhpStubbedNamedElementImpl<PhpMethodStub
 	@Override
 	public String getNamespaceName()
 	{
-		return "";
+		// the namespace of the class of the member
+		PhpClass containingClass = getContainingClass();
+		return containingClass == null ? PhpLangUtil.GLOBAL_NAMESPACE_NAME : containingClass.getNamespaceName();
 	}
 
 	@Nonnull

@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.jetbrains.php.lang.psi.elements;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public interface PhpClassMember extends PhpNamedElement, PhpElementWithModifier, PhpCallbackElement
@@ -24,4 +25,15 @@ public interface PhpClassMember extends PhpNamedElement, PhpElementWithModifier,
 	 */
 	@Nullable
 	PhpClass getContainingClass();
+
+	/**
+	 * {@code \Foo\Bar.member}
+	 */
+	@Nonnull
+	@Override
+	default String getFQN()
+	{
+		PhpClass containingClass = getContainingClass();
+		return containingClass == null ? "\\" + getNameCS() : containingClass.getFQN() + "." + getNameCS();
+	}
 }

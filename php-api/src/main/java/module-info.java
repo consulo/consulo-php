@@ -48,6 +48,7 @@ module consulo.php.api
 	exports com.jetbrains.php.lang.psi.resolve.types.shapes;
 	exports com.jetbrains.php.refactoring;
 	exports consulo.php.composer.importer;
+	exports consulo.php.composer.newProject;
 	exports com.jetbrains.php.refactoring.changeSignature;
 	exports com.jetbrains.php.refactoring.introduce.introduceField;
 	exports com.jetbrains.php.util;

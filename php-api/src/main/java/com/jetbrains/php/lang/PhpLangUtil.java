@@ -114,4 +114,15 @@ public final class PhpLangUtil
 		String namespace = toFQN(StringUtil.trimEnd(namespaceName, GLOBAL_NAMESPACE_NAME));
 		return isGlobalNamespaceFQN(namespace) ? namespace + name : namespace + NAMESPACE_SEPARATOR + name;
 	}
+
+	/**
+	 * The namespace name of {@code PhpNamedElement#getNamespaceName()}: with the leading and the trailing separator,
+	 * {@code Foo\Bar} becomes {@code \Foo\Bar\} and the global namespace is {@code \}
+	 */
+	@Nonnull
+	public static String toNamespaceName(@Nullable String namespace)
+	{
+		String name = namespace == null ? "" : StringUtil.trim(namespace, c -> c != NAMESPACE_SEPARATOR);
+		return name.isEmpty() ? GLOBAL_NAMESPACE_NAME : GLOBAL_NAMESPACE_NAME + name + GLOBAL_NAMESPACE_NAME;
+	}
 }

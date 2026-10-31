@@ -15,6 +15,7 @@ package com.jetbrains.php.lang.psi.elements;
 
 import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.ui.image.Image;
+import com.jetbrains.php.lang.PhpLangUtil;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import consulo.application.util.function.Processor;
 import consulo.language.ast.ASTNode;
@@ -78,12 +79,7 @@ public interface PhpNamedElement extends PsiNameIdentifierOwner, PhpPsiElement, 
 	@Nonnull
 	default String getFQN()
 	{
-		String namespaceName = getNamespaceName();
-		if(StringUtil.isEmpty(namespaceName))
-		{
-			return "\\" + getName();
-		}
-		return "\\" + namespaceName + "\\" + getName();
+		return PhpLangUtil.toFQN(getNamespaceName(), getName());
 	}
 
 	@Nonnull
