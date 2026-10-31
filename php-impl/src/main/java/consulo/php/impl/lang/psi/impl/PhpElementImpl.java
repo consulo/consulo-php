@@ -79,42 +79,34 @@ public abstract class PhpElementImpl extends ASTWrapperPsiElement implements Php
 		return null;
 	}
 
+	/**
+	 * The next sibling which is a PHP element - error elements and other nodes between are skipped
+	 */
 	public static PhpPsiElement getNextPsiSibling(PsiElement element)
 	{
-		PsiElement[] children = element.getParent().getChildren();
-		PhpPsiElement nextSibling = null;
-		for(int i = 0; i < children.length; i++)
+		for(PsiElement sibling = element.getNextSibling(); sibling != null; sibling = sibling.getNextSibling())
 		{
-			PsiElement child = children[i];
-			if(child == element && children.length > i + 1)
+			if(sibling instanceof PhpPsiElement phpSibling)
 			{
-				if(children[i + 1] instanceof PhpPsiElement)
-				{
-					nextSibling = (PhpPsiElement) children[i + 1];
-				}
-				break;
+				return phpSibling;
 			}
 		}
-		return nextSibling;
+		return null;
 	}
 
+	/**
+	 * The previous sibling which is a PHP element - error elements and other nodes between are skipped
+	 */
 	public static PhpPsiElement getPrevPsiSibling(PsiElement element)
 	{
-		PsiElement[] children = element.getParent().getChildren();
-		PhpPsiElement prevSibling = null;
-		for(int i = 0; i < children.length; i++)
+		for(PsiElement sibling = element.getPrevSibling(); sibling != null; sibling = sibling.getPrevSibling())
 		{
-			PsiElement child = children[i];
-			if(child == element && i > 0)
+			if(sibling instanceof PhpPsiElement phpSibling)
 			{
-				if(children[i - 1] instanceof PhpPsiElement)
-				{
-					prevSibling = (PhpPsiElement) children[i - 1];
-				}
-				break;
+				return phpSibling;
 			}
 		}
-		return prevSibling;
+		return null;
 	}
 
 	/**

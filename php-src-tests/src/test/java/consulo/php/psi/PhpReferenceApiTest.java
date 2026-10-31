@@ -236,6 +236,38 @@ public class PhpReferenceApiTest {
     }
 
     @Test
+    public void testLocalVariableResolvesToFirstDeclaration(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("i.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            function foo() {
+                $var['a'] = 1;
+                $var['b'] = 2;
+                bar($var);
+                $single = 1;
+            }
+            """);
+        List<Variable> variables = all(file, Variable.class).stream().filter(v -> "var".equals(v.getName())).toList();
+        // every occurrence resolves to the first one, which is its own declaration
+        for (Variable variable : variables) {
+            Assertions.assertSame(variables.get(0), variable.resolve());
+        }
+        Variable single = all(file, Variable.class).stream().filter(v -> "single".equals(v.getName())).findFirst().orElseThrow();
+        Assertions.assertSame(single, single.resolve());
+
+        // a statement broken by a missing semicolon still declares its variable
+        PsiFile broken = context.psiFileFactory().createFileFromText("j.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            function foo() {
+                $test = 'a'
+                $other = 1;
+                bar($test);
+            }
+            """);
+        List<Variable> tests = all(broken, Variable.class).stream().filter(v -> "test".equals(v.getName())).toList();
+        Assertions.assertSame(tests.get(0), tests.get(1).resolve());
+    }
+
+    @Test
     public void testNamespaceNames(Context context) {
         PsiFile file = context.psiFileFactory().createFileFromText("c.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
             <?php

@@ -1,5 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
+import com.jetbrains.php.lang.psi.elements.ArrayAccessExpression;
 import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import consulo.application.util.function.Processor;
 import consulo.language.psi.PsiElement;
@@ -76,7 +77,8 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 			List<ResolveResult> result = new ArrayList<>(declarations.size());
 			for(final PsiElement element : declarations)
 			{
-				if(declarations.size() > 1 && element == this)
+				// the reference itself is its declaration only when there is no other
+				if(declarations.size() > 1 && element == reference)
 				{
 					continue;
 				}
@@ -176,9 +178,15 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Override
 	public boolean isDeclaration()
 	{
-		if((getParent() instanceof PhpAssignmentExpression) && !(getParent() instanceof PhpSelfAssignmentExpression))
+		// an element written to declares the array: $var['a']['b'] = ...
+		PsiElement target = this;
+		while(target.getParent() instanceof ArrayAccessExpression arrayAccess && arrayAccess.getValue() == target)
 		{
-			return ((PhpAssignmentExpression) getParent()).getVariable() == this;
+			target = arrayAccess;
+		}
+		if((target.getParent() instanceof PhpAssignmentExpression) && !(target.getParent() instanceof PhpSelfAssignmentExpression))
+		{
+			return ((PhpAssignmentExpression) target.getParent()).getVariable() == target;
 		}
 		if(getParent() instanceof PhpForeachStatement)
 		{
@@ -238,12 +246,17 @@ public class PhpVariableReferenceImpl extends PhpNamedElementImpl implements Var
 	@Nullable
 	public PsiElement resolve()
 	{
-		ResolveResult[] results = multiResolve(false);
-		if(results.length == 1)
+		// the first declaration of the variable in its scope, a declaration without an earlier one is its own
+		PsiElement first = isDeclaration() ? this : null;
+		for(ResolveResult result : multiResolve(false))
 		{
-			return results[0].getElement();
+			PsiElement element = result.getElement();
+			if(element != null && (first == null || element.getTextOffset() < first.getTextOffset()))
+			{
+				first = element;
+			}
 		}
-		return null;
+		return first;
 	}
 
 	@RequiredReadAction
