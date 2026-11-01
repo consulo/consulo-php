@@ -16,11 +16,15 @@
 
 package consulo.php.it;
 
+import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlowUtil;
+import com.jetbrains.php.codeInsight.controlFlow.PhpInstructionProcessor;
+import com.jetbrains.php.codeInsight.controlFlow.instructions.PhpConstructorCallInstruction;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.NewExpression;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.roots.PhpNamespaceCompositeProvider;
 import com.jetbrains.php.phpunit.PhpUnitUtil;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
@@ -52,6 +56,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -310,6 +315,201 @@ public class PhpIndexIntegrationTest {
             assertThat(expressions.get(0).getClassReference().getType().getTypes()).containsExactly("\\WithConstructor");
             assertThat(expressions.get(1).getClassReference().getType().getTypes()).containsExactly("\\Child");
             assertThat(expressions.get(2).getClassReference().getType().getTypes()).containsExactly("\\Plain");
+        });
+    }
+
+    /**
+     * Fully qualified classes without a constructor, created inside a returned array: a Twig extension declaring its operators
+     */
+    @Test
+    public void newExpressionOfQualifiedClassWithoutConstructor(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of("src/Ext.php", """
+            <?php
+            namespace App {
+                class Ext {
+                    public function getExpressionParsers(): array
+                    {
+                        return [
+                            new \\Twig\\Infix\\BinaryParser(\\Twig\\Binary\\BitwiseAnd::class, 'b-and', 18),
+                            new \\Twig\\Infix\\BinaryParser(\\Twig\\Binary\\Elvis::class, '?:', 5, aliases: ['? :']),
+                        ];
+                    }
+                }
+            }
+            namespace Twig\\Infix {
+                class BinaryParser {}
+            }
+            namespace Twig\\Binary {
+                class BitwiseAnd {}
+                class Elvis {}
+            }
+            """));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\Twig\\Infix\\BinaryParser"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            PhpClass ext = phpIndex.getClassesByFQN("\\App\\Ext").iterator().next();
+            Method method = ext.findMethodByName("getExpressionParsers");
+            List<NewExpression> expressions = List.copyOf(PsiTreeUtil.findChildrenOfType(method, NewExpression.class));
+            assertThat(expressions).hasSize(2);
+
+            for (NewExpression expression : expressions) {
+                assertThat(expression.getClassReference().resolve()).isInstanceOf(PhpClass.class);
+                assertThat(expression.getClassReference().getType().getTypes()).containsExactly("\\Twig\\Infix\\BinaryParser");
+                assertThat(expression.getParameters()).hasSizeGreaterThan(2);
+            }
+
+            // the control flow of the method holds both constructor calls
+            List<NewExpression> called = new ArrayList<>();
+            PhpControlFlowUtil.processFlow(method.getControlFlow(), new PhpInstructionProcessor() {
+                @Override
+                public boolean processConstructorCallInstruction(PhpConstructorCallInstruction instruction) {
+                    called.add(instruction.getNewExpression());
+                    return super.processConstructorCallInstruction(instruction);
+                }
+            });
+            assertThat(called).containsExactlyInAnyOrderElementsOf(expressions);
+        });
+    }
+
+    /**
+     * A return type imported by a use statement of a braced namespace block
+     */
+    @Test
+    public void returnTypeImportedInBracedNamespace(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of("src/Str.php", """
+            <?php
+            namespace Twig\\Extra\\String {
+                use Symfony\\Component\\String\\UnicodeString;
+
+                class StringExtension
+                {
+                    public function createUnicodeString(?string $text): UnicodeString
+                    {
+                        return new UnicodeString($text ?? '');
+                    }
+                }
+            }
+
+            namespace Symfony\\Component\\String {
+                class UnicodeString
+                {
+                    public function truncate(int $length): static {}
+                }
+            }
+            """));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\Twig\\Extra\\String\\StringExtension"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            Collection<? extends com.jetbrains.php.lang.psi.elements.PhpNamedElement> elements =
+                phpIndex.getBySignature("#M#C\\Twig\\Extra\\String\\StringExtension.createUnicodeString");
+            assertThat(elements).hasSize(1);
+            Method method = (Method) elements.iterator().next();
+            assertThat(method.getType().global(project).getTypes()).contains("\\Symfony\\Component\\String\\UnicodeString");
+        });
+    }
+
+    /**
+     * The receiver {@code $this->bag} of a promoted constructor property has the declared class, its method resolves
+     */
+    @Test
+    public void promotedPropertyReceiver(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of(
+            "src/Bag.php", """
+                <?php
+                namespace Symfony\\Component\\DependencyInjection\\ParameterBag
+                {
+                    interface ParameterBagInterface
+                    {
+                        public function get(string $name);
+                    }
+                }
+                """,
+            "src/TestService.php", """
+                <?php
+                use Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBagInterface;
+
+                class TestService
+                {
+                    public function __construct(private ParameterBagInterface $bag) {}
+
+                    public function testFoo()
+                    {
+                        $this->bag->get('');
+                    }
+                }
+                """
+        ));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\TestService"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            VirtualFile file = project.getBaseDir().findFileByRelativePath("src/TestService.php");
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            MethodReference get = PsiTreeUtil.findChildrenOfType(psiFile, MethodReference.class).iterator().next();
+            assertThat(get.getClassReference().getType().global(project).getTypes())
+                .contains("\\Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBagInterface");
+            assertThat(get.getClassReference().getType().getTypes())
+                .contains("\\Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBagInterface");
+            assertThat(get.resolve()).isInstanceOf(Method.class);
+        });
+    }
+
+    /**
+     * An interface declared twice: the subclasses of both declarations are found, also through an abstract class
+     */
+    @Test
+    public void subclassesOfDuplicatedInterface(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of(
+            "src/First.php", """
+                <?php
+                namespace{
+                    interface Twig_ExtensionInterface {}
+                    abstract class Twig_Extension implements Twig_ExtensionInterface {}
+                    class Twig_SimpleFilter {}
+                }
+                """,
+            "src/Second.php", """
+                <?php
+
+                namespace
+                {
+                    interface Twig_ExtensionInterface
+                    {
+                    }
+                }
+                namespace Twig
+                {
+                    class Extensions implements \\Twig_ExtensionInterface {}
+                }
+                """,
+            "src/Str.php", """
+                <?php
+
+                namespace Twig\\Extra\\String {
+                    class StringExtension extends \\Twig_Extension
+                    {
+                    }
+                }
+                """
+        ));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\Twig\\Extra\\String\\StringExtension"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            List<String> subclasses = phpIndex.getAllSubclasses("\\Twig_ExtensionInterface").stream().map(PhpClass::getFQN).toList();
+            assertThat(subclasses).contains("\\Twig_Extension", "\\Twig\\Extensions", "\\Twig\\Extra\\String\\StringExtension");
+
+            PhpClass extension = phpIndex.getClassesByFQN("\\Twig\\Extra\\String\\StringExtension").iterator().next();
+            assertThat(extension.getSuperClass()).isNotNull();
+            assertThat(extension.getSuperClass().getImplementedInterfaces()).extracting(PhpClass::getFQN).containsExactly("\\Twig_ExtensionInterface");
+
+            // a class declared twice resolves to no single class, its type is the class written
+            PsiFile second = PsiManager.getInstance(project).findFile(project.getBaseDir().findFileByRelativePath("src/Second.php"));
+            ClassReference reference = PsiTreeUtil.findChildrenOfType(second, ClassReference.class).iterator().next();
+            assertThat(reference.resolve()).isNull();
+            assertThat(reference.getType().getTypes()).containsExactly("\\Twig_ExtensionInterface");
         });
     }
 }

@@ -69,7 +69,14 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	@Override
 	public boolean isAbsolute()
 	{
-		return findChildByType(PhpTokenTypes.SLASH) != null;
+		// a qualified name nests its qualifier: only the innermost reference holds the leading slash, the others the separators
+		ClassReference qualifier = getQualifier();
+		if(qualifier != null)
+		{
+			return qualifier.isAbsolute();
+		}
+		PsiElement first = getFirstChild();
+		return first != null && first.getNode().getElementType() == PhpTokenTypes.SLASH;
 	}
 
 	@Nonnull
@@ -77,17 +84,14 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	public PhpType resolveLocalType()
 	{
 		PsiElement element = resolve();
-		// the class of "new Foo()" resolves to the constructor, maybe an inherited one: the type is the class written
-		if(element instanceof Method)
-		{
-			String fqn = getFQN();
-			return fqn == null ? PhpType.EMPTY : new PhpType().add(fqn);
-		}
-		if(element instanceof PhpTypedElement)
+		// the class of "new Foo()" resolves to the constructor, maybe an inherited one: the type is the class written,
+		// like for a class declared twice or not at all, which resolves to no single element
+		if(element instanceof PhpTypedElement && !(element instanceof Method))
 		{
 			return ((PhpTypedElement) element).getType();
 		}
-		return PhpType.EMPTY;
+		String fqn = getFQN();
+		return fqn == null ? PhpType.EMPTY : new PhpType().add(fqn);
 	}
 
 	@Nullable
@@ -263,15 +267,11 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 				}
 
 				PhpResolveProcessor processor = new PhpResolveProcessor(this, referenceName, PhpResolveProcessor.ElementKind.CLASS);
-				boolean absolute = isAbsolute();
-				if(absolute)
+				if(isAbsolute() || qualifier != null)
 				{
-					if(!StringUtil.startsWith(referenceName, "\\"))
-					{
-						referenceName = "\\" + referenceName;
-					}
-
-					Collection<PhpClass> classes = PhpIndex.getInstance(getProject()).getClassesByFQN(referenceName);
+					// a qualified name is resolved against the namespace and the imports of its first segment
+					String fqn = getFQN();
+					Collection<PhpClass> classes = fqn == null ? List.of() : PhpIndex.getInstance(getProject()).getClassesByFQN(fqn);
 					for(PhpClass aClass : classes)
 					{
 						processor.execute(aClass, ResolveState.initial());

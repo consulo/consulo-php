@@ -241,4 +241,29 @@ public class PhpAttributePsiTest {
         Assertions.assertTrue(point.isReadonly());
         Assertions.assertTrue(point.isFinal());
     }
+
+    /**
+     * An attribute of a parameter still being typed: the attribute stays in the parameter list, its arguments with it
+     */
+    @Test
+    public void testAttributeOfIncompleteParameter(Context context) {
+        PsiFile file = parse(context, """
+            <?php
+            use Symfony\\Component\\DependencyInjection\\Attribute\\Autowire;
+
+            class HandlerCollection
+            {
+                public function __construct(
+                    #[Autowire(service: '')]
+                ) {}
+            }
+            """);
+        List<PhpAttribute> attributes = List.copyOf(PsiTreeUtil.findChildrenOfType(file, PhpAttribute.class));
+        Assertions.assertEquals(1, attributes.size());
+        Assertions.assertEquals("\\Symfony\\Component\\DependencyInjection\\Attribute\\Autowire", attributes.get(0).getFQN());
+        Assertions.assertInstanceOf(ParameterList.class, attributes.get(0).getParent().getParent());
+
+        Method constructor = findClass(file, "HandlerCollection").findOwnMethodByName("__construct");
+        Assertions.assertEquals(0, constructor.getParameters().length);
+    }
 }

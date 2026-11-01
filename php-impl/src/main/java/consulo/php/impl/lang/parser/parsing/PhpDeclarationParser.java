@@ -205,7 +205,9 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
      */
     private static boolean parseParameter(PhpPsiBuilder builder) {
         PsiBuilder.Marker parameter = builder.mark();
+        boolean attributed = builder.compare(ATTRIBUTE_START);
         parseAttributes(builder);
+        PsiBuilder.Marker afterAttributes = builder.mark();
 
         PsiBuilder.Marker modifiers = builder.mark();
         boolean promoted = parseMemberModifierTokens(builder);
@@ -222,9 +224,18 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
         builder.compareAndEat(opBIT_AND);
         builder.compareAndEat(ELLIPSIS);
         if (!builder.compareAndEat(VARIABLE)) {
-            parameter.rollbackTo();
+            if (attributed) {
+                // a parameter being typed after its attributes: the attributes stay, the incomplete rest is an error
+                afterAttributes.rollbackTo();
+                parameter.drop();
+            }
+            else {
+                afterAttributes.drop();
+                parameter.rollbackTo();
+            }
             return false;
         }
+        afterAttributes.drop();
         if (builder.compare(opASGN)) {
             PsiBuilder.Marker defaultValue = builder.mark();
             builder.advanceLexer();

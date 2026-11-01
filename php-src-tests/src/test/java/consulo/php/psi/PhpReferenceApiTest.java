@@ -338,7 +338,8 @@ public class PhpReferenceApiTest {
              * @method Provider __iterator()
              * @method static Provider[]|null findAll(int $limit) all of them
              * @method run()
-             * @method broken
+             * @method Provider[] items the words after the name describe it
+             * @method plain
              */
             class ProviderCollection {
                 public function run() {}
@@ -346,9 +347,12 @@ public class PhpReferenceApiTest {
             """);
         PhpClass collection = all(file, PhpClass.class).get(0);
 
-        // the tags are methods after the real ones, a tag without parentheses declares none
+        // the tags are methods after the real ones, the parentheses are optional
         Method[] methods = collection.getOwnMethods();
-        Assertions.assertEquals(List.of("run", "__iterator", "findAll", "run"), Arrays.stream(methods).map(Method::getName).toList());
+        Assertions.assertEquals(
+            List.of("run", "__iterator", "findAll", "run", "items", "plain"),
+            Arrays.stream(methods).map(Method::getName).toList()
+        );
         Assertions.assertFalse(methods[0] instanceof PhpDocMethodImpl);
 
         Method iterator = collection.getOwnMethodsMap().get("__iterator").iterator().next();
@@ -361,5 +365,9 @@ public class PhpReferenceApiTest {
         // a @method has no body: its control flow is only the entry and the exit
         Assertions.assertEquals(2, findAll.getControlFlow().getInstructions().length);
         Assertions.assertEquals(Set.of("\\App\\Entity\\Provider[]", "\\null"), findAll.getType().getTypes());
+
+        Method items = collection.getOwnMethodsMap().get("items").iterator().next();
+        Assertions.assertEquals(Set.of("\\App\\Entity\\Provider[]"), items.getType().getTypes());
+        Assertions.assertTrue(collection.getOwnMethodsMap().get("plain").iterator().next().getType().isEmpty());
     }
 }

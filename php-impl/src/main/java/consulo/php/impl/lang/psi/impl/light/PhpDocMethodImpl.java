@@ -37,8 +37,11 @@ import consulo.php.impl.lang.psi.resolve.types.PhpTypeInference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 /**
- * A method declared by a {@code @method [static] [Type] name(arguments) [description]} tag of the doc comment of a class: a
+ * A method declared by a {@code @method [static] [Type] name[(arguments)] [description]} tag of the doc comment of a class: a
  * magic method like one handled by {@code __call}. It navigates to the tag.
  *
  * @author VISTALL
@@ -46,6 +49,8 @@ import jakarta.annotation.Nullable;
  */
 public class PhpDocMethodImpl extends LightElement implements Method
 {
+	private static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*");
+
 	private final PhpClass myClass;
 	private final PhpDocTag myTag;
 	private final String myName;
@@ -71,13 +76,23 @@ public class PhpDocMethodImpl extends LightElement implements Method
 	{
 		String value = tag.getTagValue().trim();
 		int parenthesis = value.indexOf('(');
-		if(parenthesis <= 0)
+		String[] parts;
+		if(parenthesis > 0)
 		{
-			return null;
+			// [static] [Type] name(...) description
+			parts = value.substring(0, parenthesis).trim().split("\\s+");
 		}
-		String[] parts = value.substring(0, parenthesis).trim().split("\\s+");
+		else
+		{
+			// [static] [Type] name description: the words after the name are the description
+			String[] words = value.split("\\s+");
+			int start = words.length > 2 && words[0].equalsIgnoreCase("static") ? 1 : 0;
+			// a single word is the name, else the type comes first
+			int nameIndex = words.length - start >= 2 ? start + 1 : start;
+			parts = Arrays.copyOf(words, nameIndex + 1);
+		}
 		String name = parts[parts.length - 1];
-		if(name.isEmpty())
+		if(!NAME_PATTERN.matcher(name).matches())
 		{
 			return null;
 		}

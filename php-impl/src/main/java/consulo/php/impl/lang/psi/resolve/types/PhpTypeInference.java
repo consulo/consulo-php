@@ -21,6 +21,7 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocParamTag;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
+import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -336,6 +337,15 @@ public final class PhpTypeInference {
                 continue;
             }
             builder.add("#" + key + (type.startsWith("#") ? type : "#C" + type) + "." + name);
+        }
+
+        // $this->field of a field the class declares itself: its type is known from the class, without the index
+        if (key == 'P' && qualifierNode.getElementType() == PhpElementTypes.VARIABLE_REFERENCE && "$this".equals(qualifier.getText())) {
+            PhpClass phpClass = PsiTreeUtil.getParentOfType(element, PhpClass.class);
+            Field field = phpClass == null ? null : phpClass.findOwnFieldByName(name, false);
+            if (field != null) {
+                builder.add(field.getType());
+            }
         }
         return builder.build();
     }
