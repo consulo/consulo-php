@@ -38,7 +38,7 @@ public final class PhpPresentationUtil
 
 	/**
 	 * @param context element the parameters are shown for, may be null
-	 * @return {@code (string $name, int ...$ids)}
+	 * @return {@code (string name, int ...ids)}: the parameter names without {@code $}
 	 */
 	@Nonnull
 	@RequiredReadAction
@@ -61,7 +61,7 @@ public final class PhpPresentationUtil
 			{
 				builder.append("...");
 			}
-			builder.append('$').append(parameter.getName());
+			builder.append(parameter.getName());
 		}
 		return builder.append(')');
 	}

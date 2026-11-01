@@ -134,7 +134,7 @@ public class PhpCodeInsightApiTest {
 
         Assertions.assertInstanceOf(PhpPromotedFieldParameterImpl.class, parameters[0]);
         Assertions.assertFalse(parameters[1] instanceof PhpPromotedFieldParameterImpl);
-        Assertions.assertEquals("(\\App\\Controller\\Mailer $mailer, string $plain, int ...$ids)",
+        Assertions.assertEquals("(\\App\\Controller\\Mailer mailer, string plain, int ...ids)",
             PhpPresentationUtil.formatParameters(null, parameters).toString());
     }
 
@@ -150,7 +150,7 @@ public class PhpCodeInsightApiTest {
 
         PhpLookupElement methodElement = new PhpLookupElement(phpClass.findOwnMethodByName("__construct"));
         Assertions.assertEquals("__construct", methodElement.getLookupString());
-        Assertions.assertTrue(methodElement.tailText.startsWith("(\\App\\Controller\\Mailer $mailer"));
+        Assertions.assertTrue(methodElement.tailText.startsWith("(\\App\\Controller\\Mailer mailer"));
 
         PhpLookupElement namespaceElement = new PhpLookupElement("App\\Controller\\", null, null, null, null, null);
         Assertions.assertEquals("App\\Controller\\", namespaceElement.getLookupString());
