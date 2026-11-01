@@ -28,8 +28,11 @@ import consulo.php.sdk.PhpSdkType;
 import consulo.ui.Label;
 import consulo.ui.TextBox;
 import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.ex.wizard.WizardStepValidationException;
 import consulo.ui.util.FormBuilder;
 import org.jspecify.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
 
 
 /**
@@ -77,6 +80,21 @@ public class ComposerNewModuleSetupStep extends UnifiedProjectOrModuleNameStep<C
         return description == LocalizeValue.empty()
             ? ComposerLocalize.newProjectTemplateDescription(template.getPackageName())
             : description;
+    }
+
+    @RequiredUIAccess
+    @Override
+    public CompletableFuture<?> validateStep(ComposerNewModuleWizardContext context) {
+        BundleBox bundleBox = myBundleBox;
+        if (bundleBox != null) {
+            BundleBox.BundleBoxItem item = bundleBox.getComponent().getValue();
+            if (item == null || item.getBundle() == null) {
+                return CompletableFuture.failedFuture(
+                    new WizardStepValidationException(bundleBox.getComponent(), ComposerLocalize.newProjectPhpSdkRequired())
+                );
+            }
+        }
+        return super.validateStep(context);
     }
 
     @Override

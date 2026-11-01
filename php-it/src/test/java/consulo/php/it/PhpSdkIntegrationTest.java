@@ -97,4 +97,11 @@ public class PhpSdkIntegrationTest {
         sdk.readExternal(state, SdkTable.getInstance());
         return sdk;
     }
+
+    @Test
+    public void testParseVersion() {
+        assertThat(PhpSdkType.parseVersion("PHP 8.5.11 (cli) (built: Sep 23 2026 17:41:29) (NTS)")).isEqualTo("8.5.11");
+        assertThat(PhpSdkType.parseVersion("PHP 8.4.0-dev (cli) (NTS DEBUG)")).isEqualTo("8.4.0-dev");
+        assertThat(PhpSdkType.parseVersion("Copyright (c) The PHP Group")).isNull();
+    }
 }

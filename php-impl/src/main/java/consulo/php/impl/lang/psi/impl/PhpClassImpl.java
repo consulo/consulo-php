@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Locale;
 import java.util.LinkedHashMap;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
+import consulo.php.impl.lang.psi.impl.light.PhpDocMethodImpl;
 import java.util.ArrayList;
 import consulo.util.collection.ArrayUtil;
 import consulo.php.impl.lang.psi.PhpClassSupertypes;
@@ -382,7 +385,33 @@ public class PhpClassImpl extends PhpStubbedNamedElementImpl<PhpClassStub> imple
 	@Override
 	public Method[] getOwnMethods()
 	{
-		return getStubOrPsiChildren(PhpStubElements.CLASS_METHOD, Method.ARRAY_FACTORY);
+		Method[] methods = getStubOrPsiChildren(PhpStubElements.CLASS_METHOD, Method.ARRAY_FACTORY);
+		Method[] docMethods = getDocMethods();
+		// the real methods first, then the @method tags of the doc comment
+		return docMethods.length == 0 ? methods : ArrayUtil.mergeArrays(methods, docMethods, Method.ARRAY_FACTORY);
+	}
+
+	/**
+	 * The methods declared by the {@code @method} tags of the doc comment
+	 */
+	private Method[] getDocMethods()
+	{
+		return LanguageCachedValueUtil.getCachedValue(this, () -> {
+			List<Method> methods = new ArrayList<>();
+			PhpDocComment docComment = getDocComment();
+			if(docComment != null)
+			{
+				for(PhpDocTag tag : docComment.getTagElementsByName("@method"))
+				{
+					PhpDocMethodImpl method = PhpDocMethodImpl.create(this, tag);
+					if(method != null)
+					{
+						methods.add(method);
+					}
+				}
+			}
+			return CachedValueProvider.Result.create(methods.toArray(Method.EMPTY), PsiModificationTracker.MODIFICATION_COUNT);
+		});
 	}
 
 	@Nonnull

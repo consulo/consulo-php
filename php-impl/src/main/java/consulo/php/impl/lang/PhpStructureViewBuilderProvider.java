@@ -24,7 +24,7 @@ public class PhpStructureViewBuilderProvider implements PsiStructureViewFactory
 	@Nullable
 	public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile)
 	{
-		return TemplateLanguageStructureViewBuilder.create(psiFile, (mainFile, editor) -> new PhpStructureViewModel((PhpFileImpl) mainFile));
+		return TemplateLanguageStructureViewBuilder.create(psiFile, (mainFile, editor) -> new PhpStructureViewModel((PhpFileImpl) mainFile, editor));
 	}
 
 	@Nonnull

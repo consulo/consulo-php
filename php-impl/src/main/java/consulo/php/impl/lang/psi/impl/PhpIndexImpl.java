@@ -62,10 +62,12 @@ public class PhpIndexImpl extends PhpIndex
 		{
 			return Collections.emptyList();
 		}
+		// the keys are lower case: the names match case-insensitive, like "FooClass" the key "fooclass"
+		PrefixMatcher matcher = prefixMatcher == null ? null : prefixMatcher.cloneWithPrefix(prefixMatcher.getPrefix().toLowerCase(Locale.ROOT));
 		List<String> result = new ArrayList<>();
 		for(String key : index.getAllKeys(myProject))
 		{
-			if(prefixMatcher == null || prefixMatcher.prefixMatches(key))
+			if(matcher == null || matcher.prefixMatches(key))
 			{
 				result.add(key);
 			}

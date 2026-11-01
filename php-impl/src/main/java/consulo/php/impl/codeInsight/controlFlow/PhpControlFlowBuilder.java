@@ -135,6 +135,10 @@ public final class PhpControlFlowBuilder {
         if (scopeHolder instanceof PhpFile) {
             return children(scopeHolder);
         }
+        // a light element, like a @method tag of a doc comment, has no body
+        if (scopeHolder.getNode() == null) {
+            return List.of();
+        }
         if (scopeHolder.getNode().getElementType() == PhpElementTypes.ANONYMOUS_FUNCTION && isArrowFunction(scopeHolder)) {
             // fn($x) => expression
             PsiElement arrow = findChildByType(scopeHolder, PhpTokenTypes.HASH_ARRAY);

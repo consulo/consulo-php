@@ -643,7 +643,7 @@ public final class PhpTypeInference {
     /**
      * {@code ?Foo}, {@code Foo[]}, {@code array<int, Foo>}, {@code \\Foo\\Bar}, {@code $this}
      */
-    private static PhpType resolveDocType(PsiElement context, String text) {
+    public static PhpType resolveDocType(PsiElement context, String text) {
         String type = text.trim();
         PhpType.PhpTypeBuilder builder = PhpType.builder();
         if (type.startsWith("?")) {

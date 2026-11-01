@@ -25,6 +25,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.*;
 
 /**
@@ -33,6 +35,8 @@ import java.util.*;
 @ExtensionImpl
 public class PhpSdkType extends PlatformAwareSdkType {
     private static final Logger LOGGER = Logger.getInstance(PhpSdkType.class);
+
+    private static final Pattern VERSION_PATTERN = Pattern.compile("^PHP\\s+(\\S+)");
 
     private static final Set<String> ourAllowedRootTypeIds = Set.of(BinariesOrderRootType.ID, SourcesOrderRootType.ID);
     
@@ -71,6 +75,14 @@ public class PhpSdkType extends PlatformAwareSdkType {
         }
     }
 
+    /**
+     * Every PHP interpreter found on the local machine becomes an SDK, so a project always has one to choose
+     */
+    @Override
+    public boolean canCreatePredefinedSdks(Platform platform) {
+        return Platform.LOCAL.equals(platform.getId());
+    }
+
     @Override
     public boolean isValidSdkHome(Platform platform, Path path) {
         return Files.exists(getExecutable(platform, path));
@@ -83,11 +95,20 @@ public class PhpSdkType extends PlatformAwareSdkType {
         try {
             ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(new GeneralCommandLine(args).withWorkDirectory(home));
             List<String> stdoutLines = processOutput.getStdoutLines();
-            return !stdoutLines.isEmpty() ? stdoutLines.get(0) : null;
+            return stdoutLines.isEmpty() ? null : parseVersion(stdoutLines.get(0));
         }
         catch (ExecutionException e) {
             return null;
         }
+    }
+
+    /**
+     * The version of the first line of {@code php --version}: {@code 8.5.11} of {@code PHP 8.5.11 (cli) (built: ...) (NTS)}
+     */
+    @Nullable
+    public static String parseVersion(String line) {
+        Matcher matcher = VERSION_PATTERN.matcher(line);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     @Nullable

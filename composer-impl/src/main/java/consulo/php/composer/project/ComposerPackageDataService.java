@@ -104,7 +104,8 @@ public class ComposerPackageDataService implements ProjectDataService<ComposerPa
             PhpMutableModuleExtension<?> extension = model.getExtensionWithoutCheck(PhpMutableModuleExtension.class);
             if (extension != null) {
                 extension.setEnabled(true);
-                if (extension.getInheritableSdk().isNull()) {
+                // no SDK, or one that is gone: a removed SDK or a predefined one detected again under another name
+                if (extension.getInheritableSdk().get() == null) {
                     Sdk sdk = ContainerUtil.getFirstItem(SdkTable.getInstance().getSdksOfType(PhpSdkType.getInstance()));
                     if (sdk != null) {
                         extension.getInheritableSdk().set(null, sdk);

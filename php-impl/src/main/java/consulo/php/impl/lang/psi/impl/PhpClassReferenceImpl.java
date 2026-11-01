@@ -1,7 +1,6 @@
 package consulo.php.impl.lang.psi.impl;
 
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.NewExpression;
 import consulo.php.impl.lang.psi.PhpNameResolver;
 import com.jetbrains.php.PhpIndex;
@@ -78,6 +77,12 @@ public class PhpClassReferenceImpl extends PhpElementImpl implements ClassRefere
 	public PhpType resolveLocalType()
 	{
 		PsiElement element = resolve();
+		// the class of "new Foo()" resolves to the constructor, maybe an inherited one: the type is the class written
+		if(element instanceof Method)
+		{
+			String fqn = getFQN();
+			return fqn == null ? PhpType.EMPTY : new PhpType().add(fqn);
+		}
 		if(element instanceof PhpTypedElement)
 		{
 			return ((PhpTypedElement) element).getType();

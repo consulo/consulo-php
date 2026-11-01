@@ -1,5 +1,6 @@
 package consulo.php.impl.lang;
 
+import consulo.codeEditor.Editor;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
 import consulo.fileEditor.structureView.tree.Filter;
 import consulo.fileEditor.structureView.tree.Grouper;
@@ -10,6 +11,7 @@ import consulo.language.psi.PsiNamedElement;
 import consulo.php.impl.lang.psi.impl.PhpFileImpl;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author AG
@@ -19,9 +21,9 @@ class PhpStructureViewModel extends TextEditorBasedStructureViewModel
 	private PhpFileImpl mainFile;
 	private Class[] myClasses = {PsiNamedElement.class};
 
-	public PhpStructureViewModel(PhpFileImpl mainFile)
+	public PhpStructureViewModel(PhpFileImpl mainFile, @Nullable Editor editor)
 	{
-		super(mainFile);
+		super(editor, mainFile);
 		this.mainFile = mainFile;
 	}
 

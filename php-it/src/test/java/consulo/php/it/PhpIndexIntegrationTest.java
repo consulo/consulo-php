@@ -34,6 +34,7 @@ import com.jetbrains.php.lang.psi.stubs.indexes.PhpInterfaceFqnIndex;
 import com.jetbrains.php.lang.psi.stubs.indexes.PhpNamespaceIndex;
 import com.jetbrains.php.lang.psi.stubs.indexes.PhpTraitFqnIndex;
 import consulo.application.ReadAction;
+import consulo.application.util.matcher.PlainPrefixMatcher;
 import consulo.content.base.BinariesOrderRootType;
 import consulo.content.base.SourcesOrderRootType;
 import consulo.content.bundle.Sdk;
@@ -297,9 +298,18 @@ public class PhpIndexIntegrationTest {
             assertThat(((Method) expressions.get(1).getClassReference().resolve()).getContainingClass().getName()).isEqualTo("WithConstructor");
             assertThat(((PhpClass) expressions.get(2).getClassReference().resolve()).getName()).isEqualTo("Plain");
 
+            // class names match a prefix case-insensitive, the index keys are lower case
+            assertThat(phpIndex.getAllClassNames(new PlainPrefixMatcher("WithCon"))).contains("withconstructor");
+            assertThat(phpIndex.getAllClassNames(new PlainPrefixMatcher("NoSuchClassQzx"))).isEmpty();
+
             // usages of the class keep the new expressions
             PhpClass withConstructor = phpIndex.getClassesByFQN("\\WithConstructor").iterator().next();
             assertThat(expressions.get(0).getClassReference().isReferenceTo(withConstructor)).isTrue();
+
+            // the type of the class reference is the class written, not the class of the constructor
+            assertThat(expressions.get(0).getClassReference().getType().getTypes()).containsExactly("\\WithConstructor");
+            assertThat(expressions.get(1).getClassReference().getType().getTypes()).containsExactly("\\Child");
+            assertThat(expressions.get(2).getClassReference().getType().getTypes()).containsExactly("\\Plain");
         });
     }
 }

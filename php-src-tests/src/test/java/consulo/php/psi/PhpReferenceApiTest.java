@@ -16,6 +16,8 @@
 
 package consulo.php.psi;
 
+import java.util.Arrays;
+import consulo.php.impl.lang.psi.impl.light.PhpDocMethodImpl;
 import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
 import com.jetbrains.php.lang.psi.elements.impl.PhpDefineImpl;
 import com.jetbrains.php.lang.psi.elements.impl.ConstantImpl;
@@ -324,5 +326,40 @@ public class PhpReferenceApiTest {
         Assertions.assertInstanceOf(ClassConstImpl.class, config.findOwnFieldByName("VERSION", true));
         Assertions.assertEquals("'1.0'", ((ClassConstImpl) config.findOwnFieldByName("VERSION", true)).getDefaultValue().getText());
         Assertions.assertFalse(config.findOwnFieldByName("field", false) instanceof ClassConstImpl);
+    }
+
+    @Test
+    public void testDocMethods(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("m.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            namespace App\\Service;
+            use App\\Entity\\Provider;
+            /**
+             * @method Provider __iterator()
+             * @method static Provider[]|null findAll(int $limit) all of them
+             * @method run()
+             * @method broken
+             */
+            class ProviderCollection {
+                public function run() {}
+            }
+            """);
+        PhpClass collection = all(file, PhpClass.class).get(0);
+
+        // the tags are methods after the real ones, a tag without parentheses declares none
+        Method[] methods = collection.getOwnMethods();
+        Assertions.assertEquals(List.of("run", "__iterator", "findAll", "run"), Arrays.stream(methods).map(Method::getName).toList());
+        Assertions.assertFalse(methods[0] instanceof PhpDocMethodImpl);
+
+        Method iterator = collection.getOwnMethodsMap().get("__iterator").iterator().next();
+        Assertions.assertEquals(Set.of("\\App\\Entity\\Provider"), iterator.getType().getTypes());
+        Assertions.assertFalse(iterator.isStatic());
+        Assertions.assertSame(collection, iterator.getContainingClass());
+
+        Method findAll = collection.getOwnMethodsMap().get("findAll").iterator().next();
+        Assertions.assertTrue(findAll.isStatic());
+        // a @method has no body: its control flow is only the entry and the exit
+        Assertions.assertEquals(2, findAll.getControlFlow().getInstructions().length);
+        Assertions.assertEquals(Set.of("\\App\\Entity\\Provider[]", "\\null"), findAll.getType().getTypes());
     }
 }

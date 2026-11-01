@@ -36,6 +36,10 @@ public interface ComposerSettingsListener extends ExternalSystemSettingsListener
     }
 
     @Override
+    default void onProjectsLoaded(Collection<ComposerProjectSettings> settings) {
+    }
+
+    @Override
     default void onProjectsLinked(Collection<ComposerProjectSettings> settings) {
     }
 

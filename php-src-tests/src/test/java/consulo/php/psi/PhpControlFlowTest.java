@@ -16,6 +16,8 @@
 
 package consulo.php.psi;
 
+import com.jetbrains.php.lang.psi.elements.NewExpression;
+import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlow;
 import com.jetbrains.php.codeInsight.controlFlow.PhpControlFlowUtil;
 import com.jetbrains.php.codeInsight.controlFlow.PhpInstructionProcessor;
@@ -289,5 +291,40 @@ public class PhpControlFlowTest {
         });
         Assertions.assertFalse(completed);
         Assertions.assertEquals(List.of("a", "b"), calls);
+    }
+
+    @Test
+    public void testNewExpressionsOfReturnedArray(Context context) {
+        PhpFile file = parse(context, """
+            <?php
+            namespace App {
+                class Extension {
+                    public function getExpressionParsers(): array
+                    {
+                        return [
+                            new \\Twig\\Parser(\\Twig\\BitwiseAndBinary::class, 'b-and', 18),
+                            new \\Twig\\Parser(\\Twig\\ElvisBinary::class, '?:', 5, aliases: ['? :']),
+                        ];
+                    }
+                }
+            }
+            """);
+        Method method = PsiTreeUtil.findChildOfType(file, Method.class);
+        Assertions.assertNotNull(method);
+
+        List<NewExpression> newExpressions = new ArrayList<>();
+        PhpControlFlowUtil.processFlow(method.getControlFlow(), new PhpInstructionProcessor() {
+            @Override
+            public boolean processConstructorCallInstruction(PhpConstructorCallInstruction instruction) {
+                newExpressions.add(instruction.getNewExpression());
+                return super.processConstructorCallInstruction(instruction);
+            }
+        });
+
+        // both constructor calls of the returned array, with their arguments; a named argument is flat
+        Assertions.assertEquals(2, newExpressions.size());
+        Assertions.assertEquals("'b-and'", newExpressions.get(0).getParameters()[1].getText());
+        Assertions.assertEquals(4, newExpressions.get(1).getParameters().length);
+        Assertions.assertEquals("\\Twig\\Parser", newExpressions.get(0).getClassReference().getFQN());
     }
 }
