@@ -28,6 +28,7 @@ import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.Constant;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
@@ -45,6 +46,7 @@ import consulo.content.bundle.Sdk;
 import consulo.php.sdk.PhpRuntimeStubs;
 import consulo.it.HeadlessProjectExtension;
 import consulo.it.HeadlessProjects;
+import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.scope.GlobalSearchScope;
@@ -510,6 +512,55 @@ public class PhpIndexIntegrationTest {
             ClassReference reference = PsiTreeUtil.findChildrenOfType(second, ClassReference.class).iterator().next();
             assertThat(reference.resolve()).isNull();
             assertThat(reference.getType().getTypes()).containsExactly("\\Twig_ExtensionInterface");
+        });
+    }
+
+    /**
+     * consulo/consulo-php#17: the use of a trait in a class, consulo/consulo-php#15: the unpacking of arguments with {@code ...}
+     */
+    @Test
+    public void traitUseAndArgumentUnpacking(HeadlessProjects projects) throws Exception {
+        Project project = PhpProjects.open(projects, Map.of("src/Issues.php", """
+            <?php
+            trait Greeting
+            {
+                public function hello() {}
+            }
+
+            class Foo
+            {
+                use Greeting;
+            }
+
+            function add($a, $b, $c) {
+                return $a + $b + $c;
+            }
+
+            $operators = [2, 3];
+            echo add(1, ...$operators);
+            (new Foo())->hello();
+            """));
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        PhpProjects.waitForIndex(() -> phpIndex.getClassesByFQN("\\Foo"), classes -> !classes.isEmpty());
+
+        ReadAction.run(() -> {
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(project.getBaseDir().findFileByRelativePath("src/Issues.php"));
+            assertThat(PsiTreeUtil.findChildrenOfType(psiFile, PsiErrorElement.class)).isEmpty();
+
+            PhpClass foo = phpIndex.getClassesByFQN("\\Foo").iterator().next();
+            assertThat(foo.getTraitNames()).containsExactly("\\Greeting");
+            assertThat(foo.getTraits()).extracting(PhpClass::getFQN).containsExactly("\\Greeting");
+            assertThat(foo.findMethodByName("hello")).isNotNull();
+
+            List<FunctionReference> calls = PsiTreeUtil.findChildrenOfType(psiFile, FunctionReference.class).stream()
+                .filter(call -> "add".equals(call.getName()))
+                .toList();
+            assertThat(calls).hasSize(1);
+            assertThat(calls.get(0).getParameters()).hasSize(2);
+            assertThat(calls.get(0).resolve()).isInstanceOf(Function.class);
+
+            MethodReference hello = PsiTreeUtil.findChildrenOfType(psiFile, MethodReference.class).iterator().next();
+            assertThat(hello.resolve()).isInstanceOf(Method.class);
         });
     }
 }

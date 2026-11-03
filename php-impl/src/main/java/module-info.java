@@ -11,6 +11,7 @@ open module consulo.php {
     requires consulo.ide.impl;
 
     requires consulo.language.impl;
+    requires consulo.language.spellchecker.api;
     requires consulo.language.code.style.api;
     requires consulo.language.editor.api;
     requires consulo.language.editor.impl;
