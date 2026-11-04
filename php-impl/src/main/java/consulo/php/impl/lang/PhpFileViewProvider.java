@@ -3,6 +3,7 @@ package consulo.php.impl.lang;
 import com.jetbrains.php.lang.PhpLanguage;
 import consulo.html.language.HTMLLanguage;
 import consulo.language.Language;
+import consulo.language.ast.IElementType;
 import consulo.language.impl.file.MultiplePsiFilesPerDocumentFileViewProvider;
 import consulo.language.impl.psi.PsiFileImpl;
 import consulo.language.impl.psi.template.TemplateDataElementType;
@@ -56,6 +57,13 @@ public class PhpFileViewProvider extends MultiplePsiFilesPerDocumentFileViewProv
 	}
 
 	private static TemplateDataElementType ourTemplateDataType = new TemplateDataElementType("TEMPLATE_DATA in PHP", PhpLanguage.INSTANCE, PhpTokenTypes.HTML, PhpElementTypes.PHP_OUTER_TYPE);
+
+	@Override
+	@Nullable
+	public IElementType getContentElementType(Language language)
+	{
+		return language == getTemplateDataLanguage() ? ourTemplateDataType : null;
+	}
 
 	@Override
 	@Nullable
