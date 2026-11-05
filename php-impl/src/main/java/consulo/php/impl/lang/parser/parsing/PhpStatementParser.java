@@ -62,6 +62,22 @@ public final class PhpStatementParser implements PhpTokenTypes {
 
     public static void parseStatementList(PhpPsiBuilder builder, TokenSet stopAt) {
         PsiBuilder.Marker list = builder.mark();
+        parseStatements(builder, stopAt);
+        list.done(PhpElementTypes.GROUP_STATEMENT);
+    }
+
+    /**
+     * {@code { statements }}: the braces belong to the group statement, the last child of a function or method is its body
+     */
+    public static void parseBlock(PhpPsiBuilder builder) {
+        PsiBuilder.Marker block = builder.mark();
+        builder.match(LBRACE);
+        parseStatements(builder, TokenSet.create(RBRACE));
+        builder.match(RBRACE);
+        block.done(PhpElementTypes.GROUP_STATEMENT);
+    }
+
+    private static void parseStatements(PhpPsiBuilder builder, TokenSet stopAt) {
         while (!builder.eof() && !builder.compare(stopAt)) {
             int offset = builder.getCurrentOffset();
             parseStatement(builder);
@@ -70,7 +86,6 @@ public final class PhpStatementParser implements PhpTokenTypes {
                 builder.advanceLexer();
             }
         }
-        list.done(PhpElementTypes.GROUP_STATEMENT);
     }
 
     /**
@@ -93,9 +108,7 @@ public final class PhpStatementParser implements PhpTokenTypes {
             return;
         }
         if (token == LBRACE) {
-            builder.advanceLexer();
-            parseStatementList(builder, TokenSet.create(RBRACE));
-            builder.match(RBRACE);
+            parseBlock(builder);
             return;
         }
         if (token == opSEMICOLON) {
@@ -674,9 +687,4 @@ public final class PhpStatementParser implements PhpTokenTypes {
         statement.done(PhpElementTypes.TRY);
     }
 
-    private static void parseBlock(PhpPsiBuilder builder) {
-        builder.match(LBRACE);
-        parseStatementList(builder, TokenSet.create(RBRACE));
-        builder.match(RBRACE);
-    }
 }

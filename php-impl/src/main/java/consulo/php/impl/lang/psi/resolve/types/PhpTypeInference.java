@@ -100,6 +100,14 @@ public final class PhpTypeInference {
      */
     @RequiredReadAction
     public static String getSignature(PsiElement reference) {
+        // the signature of Foo::class names the constant, its type is a string
+        if (reference.getNode().getElementType() == PhpElementTypes.CLASS_CONSTANT_REFERENCE && isClassNameFetch(reference)) {
+            ASTNode qualifier = reference.getNode().getFirstChildNode();
+            String fqn = qualifier != null && qualifier.getPsi() instanceof ClassReference classReference
+                ? PhpNameResolver.resolveClassFqn(classReference)
+                : null;
+            return fqn == null ? "" : "#K#C" + fqn + ".class";
+        }
         return String.join("|", getLocalType(reference).getTypes());
     }
 

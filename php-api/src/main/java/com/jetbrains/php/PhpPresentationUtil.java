@@ -38,7 +38,7 @@ public final class PhpPresentationUtil
 
 	/**
 	 * @param context element the parameters are shown for, may be null
-	 * @return {@code (string name, int ...ids)}: the parameter names without {@code $}
+	 * @return {@code (name : string, ...ids : int)}: the parameter names without {@code $}, their declared types after them
 	 */
 	@Nonnull
 	@RequiredReadAction
@@ -52,16 +52,16 @@ public final class PhpPresentationUtil
 				builder.append(", ");
 			}
 			Parameter parameter = parameters[i];
-			PhpType type = parameter.getDeclaredType();
-			if(!type.isEmpty())
-			{
-				builder.append(type.toStringResolved()).append(' ');
-			}
 			if(parameter.isVariadic())
 			{
 				builder.append("...");
 			}
 			builder.append(parameter.getName());
+			PhpType type = parameter.getDeclaredType();
+			if(!type.isEmpty())
+			{
+				builder.append(" : ").append(type.toStringResolved());
+			}
 		}
 		return builder.append(')');
 	}

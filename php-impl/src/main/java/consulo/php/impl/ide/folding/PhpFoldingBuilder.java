@@ -14,6 +14,7 @@ import com.jetbrains.php.lang.psi.elements.Function;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import consulo.annotation.access.RequiredReadAction;
+import com.jetbrains.php.lang.parser.PhpElementTypes;
 import consulo.php.lang.lexer.PhpTokenTypes;
 import consulo.php.impl.lang.psi.PhpStubElements;
 import consulo.php.impl.lang.psi.visitors.PhpRecursiveElementVisitor;
@@ -66,8 +67,15 @@ public class PhpFoldingBuilder implements FoldingBuilder
 
 			private void addFolding(PsiElement owner)
 			{
-				ASTNode lbrace = owner.getNode().findChildByType(PhpTokenTypes.LBRACE);
-				ASTNode rbrace = owner.getNode().findChildByType(PhpTokenTypes.RBRACE);
+				// the braces of a class or namespace are its own, those of a function or method belong to its body
+				ASTNode braceOwner = owner.getNode();
+				ASTNode body = braceOwner.findChildByType(PhpElementTypes.GROUP_STATEMENT);
+				if(braceOwner.findChildByType(PhpTokenTypes.LBRACE) == null && body != null)
+				{
+					braceOwner = body;
+				}
+				ASTNode lbrace = braceOwner.findChildByType(PhpTokenTypes.LBRACE);
+				ASTNode rbrace = braceOwner.findChildByType(PhpTokenTypes.RBRACE);
 
 				if(lbrace == null || rbrace == null)
 				{

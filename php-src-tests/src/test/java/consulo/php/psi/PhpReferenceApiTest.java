@@ -38,6 +38,7 @@ import com.jetbrains.php.lang.psi.elements.PhpReturn;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.Function;
+import com.jetbrains.php.lang.psi.elements.GroupStatement;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.ParenthesizedExpression;
@@ -369,5 +370,43 @@ public class PhpReferenceApiTest {
         Method items = collection.getOwnMethodsMap().get("items").iterator().next();
         Assertions.assertEquals(Set.of("\\App\\Entity\\Provider[]"), items.getType().getTypes());
         Assertions.assertTrue(collection.getOwnMethodsMap().get("plain").iterator().next().getType().isEmpty());
+    }
+
+    @Test
+    public void testFunctionBodyIsTheLastChild(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("b.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            class Route {
+                public static function get($uri, $action) {
+                    if ($uri) { return Router::get($uri, $action); }
+                }
+            }
+            """);
+        Method method = all(file, Method.class).get(0);
+
+        // the body with its braces is a group statement, the last child of the method
+        PsiElement body = method.getLastChild();
+        Assertions.assertInstanceOf(GroupStatement.class, body);
+        Assertions.assertEquals("{", body.getFirstChild().getText());
+        Assertions.assertEquals("}", body.getLastChild().getText());
+
+        // a block is a group statement with its braces too
+        List<GroupStatement> groups = List.copyOf(PsiTreeUtil.findChildrenOfType(body, GroupStatement.class));
+        Assertions.assertEquals(1, groups.size());
+        Assertions.assertTrue(groups.get(0).getText().startsWith("{"));
+        Assertions.assertTrue(groups.get(0).getText().endsWith("}"));
+    }
+
+    @Test
+    public void testClassNameFetchSignature(Context context) {
+        PsiFile file = context.psiFileFactory().createFileFromText("c.php", PhpLanguage.INSTANCE, PhpLanguageLevel.HIGHEST, """
+            <?php
+            $f->make(\\Foo\\Bar::class);
+            """);
+        ClassConstantReference classFetch = all(file, ClassConstantReference.class).get(0);
+
+        // the signature names the constant, like other members; the value is a string
+        Assertions.assertEquals("#K#C\\Foo\\Bar.class", classFetch.getSignature());
+        Assertions.assertEquals(Set.of("\\string"), classFetch.getType().getTypes());
     }
 }

@@ -111,15 +111,14 @@ public final class PhpDeclarationParser implements PhpTokenTypes {
     }
 
     private static void parseBody(PhpPsiBuilder builder) {
-        if (builder.compareAndEat(LBRACE)) {
+        if (builder.compare(LBRACE)) {
             builder.enterFunction();
             try {
-                PhpStatementParser.parseStatementList(builder, TokenSet.create(RBRACE));
+                PhpStatementParser.parseBlock(builder);
             }
             finally {
                 builder.exitFunction();
             }
-            builder.match(RBRACE);
         }
         else {
             builder.error(PhpParserErrors.expected(LBRACE));

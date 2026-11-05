@@ -109,42 +109,37 @@ public final class PhpRefactoringUtil
 	}
 
 	/**
-	 * Adds the statement at the end of the statement list of a body; the braces of the body are outside of the list
+	 * Adds the statement at the end of a body {@code { statements }}, before its closing brace
 	 */
 	private static void appendStatement(@Nonnull GroupStatement body, @Nonnull String indent, @Nonnull String statementText)
 	{
 		Project project = body.getProject();
 		Function dummy = PhpPsiElementFactory.createPhpPsiFromText(project, Function.class, "function dummy() {\n" + statementText + "\n}");
 		GroupStatement dummyBody = PsiTreeUtil.getChildOfType(dummy, GroupStatement.class);
-		if(dummyBody == null || dummyBody.getFirstChild() == null)
+		PsiElement closingBrace = body.getLastChild();
+		if(dummyBody == null || closingBrace == null || !"}".equals(closingBrace.getText()))
+		{
+			return;
+		}
+
+		// the statements of the dummy body, without its braces and the line breaks next to them
+		PsiElement first = PsiTreeUtil.skipSiblingsForward(dummyBody.getFirstChild(), PsiWhiteSpace.class);
+		PsiElement last = PsiTreeUtil.skipSiblingsBackward(dummyBody.getLastChild(), PsiWhiteSpace.class);
+		if(first == null || last == null)
 		{
 			return;
 		}
 
 		PsiParserFacade parserFacade = PsiParserFacade.getInstance(project);
-		boolean empty = body.getFirstChild() == null;
-		if(!empty)
-		{
-			body.add(parserFacade.createWhiteSpaceFromText("\n" + indent));
-		}
-		body.addRange(dummyBody.getFirstChild(), dummyBody.getLastChild());
-		if(!empty)
-		{
-			return;
-		}
-
-		// an empty list sits between the line breaks of the braces: {\n<list>}
 		String closingIndent = indent.length() >= 4 ? indent.substring(4) : "";
-		PsiElement before = body.getPrevSibling();
-		if(before instanceof PsiWhiteSpace)
+		PsiElement beforeClosing = closingBrace.getPrevSibling();
+		if(beforeClosing instanceof PsiWhiteSpace)
 		{
-			before.replace(parserFacade.createWhiteSpaceFromText("\n" + indent));
+			beforeClosing.delete();
 		}
-		else
-		{
-			body.getParent().addBefore(parserFacade.createWhiteSpaceFromText("\n" + indent), body);
-		}
-		body.getParent().addAfter(parserFacade.createWhiteSpaceFromText("\n" + closingIndent), body);
+		body.addBefore(parserFacade.createWhiteSpaceFromText("\n" + indent), closingBrace);
+		body.addRangeBefore(first, last, closingBrace);
+		body.addBefore(parserFacade.createWhiteSpaceFromText("\n" + closingIndent), closingBrace);
 	}
 
 	/**
