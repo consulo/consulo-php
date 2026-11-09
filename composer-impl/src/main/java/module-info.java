@@ -20,6 +20,9 @@ module consulo.php.composer.impl {
     requires consulo.json.api;
     requires consulo.json.jom.api;
     requires consulo.json.scheme.api;
+    requires consulo.repository.ui.api;
+    requires consulo.http.api;
+    requires com.google.gson;
 
     exports consulo.php.composer;
     exports consulo.php.composer.execution;
