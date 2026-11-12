@@ -6,8 +6,8 @@ import consulo.virtualFileSystem.archive.ArchiveFileSystemProvider;
 import org.eclipse.php.internal.core.phar.PharFile;
 
 import jakarta.annotation.Nonnull;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * @author VISTALL
@@ -27,8 +27,8 @@ public class PharFileSystemProvider implements ArchiveFileSystemProvider
 
 	@Nonnull
 	@Override
-	public ArchiveFile createArchiveFile(@Nonnull String path) throws IOException
+	public ArchiveFile createArchiveFile(@Nonnull Path path) throws IOException
 	{
-		return new PharFile(new File(path));
+		return new PharFile(path.toFile());
 	}
 }
