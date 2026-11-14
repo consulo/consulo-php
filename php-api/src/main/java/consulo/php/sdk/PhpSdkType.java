@@ -22,6 +22,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
@@ -80,10 +81,22 @@ public class PhpSdkType extends PlatformAwareSdkType {
                 homes.add(platform.fs().getPath(entry));
             }
         }
+        // one home for one interpreter - /bin and /usr/bin are often the same directory
+        Set<Path> executables = new HashSet<>();
         for (Path home : homes) {
-            if (Files.isRegularFile(getExecutable(platform, home))) {
+            Path executable = getExecutable(platform, home);
+            if (Files.isRegularFile(executable) && executables.add(toRealPath(executable))) {
                 pathConsumer.accept(home);
             }
+        }
+    }
+
+    private static Path toRealPath(Path path) {
+        try {
+            return path.toRealPath();
+        }
+        catch (IOException e) {
+            return path;
         }
     }
 
