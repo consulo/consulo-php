@@ -13,6 +13,7 @@ import consulo.logging.Logger;
 import consulo.php.icon.PhpIconGroup;
 import consulo.php.localize.PhpLocalize;
 import consulo.platform.Platform;
+import consulo.util.lang.StringUtil;
 import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.util.CapturingProcessUtil;
@@ -21,7 +22,6 @@ import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
@@ -45,11 +45,6 @@ public class PhpSdkType extends PlatformAwareSdkType {
         return Application.get().getExtensionPoint(SdkType.class).findExtensionOrFail(PhpSdkType.class);
     }
 
-    @Nonnull
-    public static String getExecutableFile(String home) {
-        return home + File.separator + (Platform.current().os().isWindows() ? "php.exe" : "php");
-    }
-
     public PhpSdkType() {
         super("PHP SDK", PhpLocalize.phpSdkTypeName(), PhpIconGroup.filetypesPhp());
     }
@@ -62,25 +57,42 @@ public class PhpSdkType extends PlatformAwareSdkType {
         return home.resolve(platform.os().isWindows() ? "php.exe" : "php");
     }
 
+    /**
+     * The PHP executable of the SDK - of the machine of the SDK
+     */
+    @Nonnull
+    public static Path getExecutable(@Nonnull Sdk sdk) {
+        return getExecutable(sdk.getPlatform(), sdk.getHomeNioPath());
+    }
+
     @Override
     public void collectHomePaths(Platform platform, Consumer<Path> pathConsumer) {
-        if (platform.os().isWindows()) {
-            return;
+        Set<Path> homes = new LinkedHashSet<>();
+        if (!platform.os().isWindows()) {
+            for (String directory : new String[]{"/usr/bin", "/usr/local/bin", "/opt/homebrew/bin"}) {
+                homes.add(platform.fs().getPath(directory));
+            }
         }
-        for (String directory : new String[]{"/usr/bin", "/usr/local/bin", "/opt/homebrew/bin"}) {
-            Path home = platform.fs().getPath(directory);
-            if (Files.exists(getExecutable(platform, home))) {
+        // the interpreters of the path - also the ones of Windows, which has no standard location
+        String path = platform.os().getEnvironmentVariable("PATH");
+        if (path != null) {
+            for (String entry : StringUtil.split(path, platform.fs().getPathListSeparator())) {
+                homes.add(platform.fs().getPath(entry));
+            }
+        }
+        for (Path home : homes) {
+            if (Files.isRegularFile(getExecutable(platform, home))) {
                 pathConsumer.accept(home);
             }
         }
     }
 
     /**
-     * Every PHP interpreter found on the local machine becomes an SDK, so a project always has one to choose
+     * Every PHP interpreter found on a machine becomes an SDK, so a project always has one to choose
      */
     @Override
     public boolean canCreatePredefinedSdks(Platform platform) {
-        return Platform.LOCAL.equals(platform.getId());
+        return true;
     }
 
     @Override
@@ -88,19 +100,6 @@ public class PhpSdkType extends PlatformAwareSdkType {
         return Files.exists(getExecutable(platform, path));
     }
 
-    public static String getVersion(String home) {
-        List<String> args = new ArrayList<>(2);
-        args.add(getExecutableFile(home));
-        args.add("--version");
-        try {
-            ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(new GeneralCommandLine(args).withWorkDirectory(home));
-            List<String> stdoutLines = processOutput.getStdoutLines();
-            return stdoutLines.isEmpty() ? null : parseVersion(stdoutLines.get(0));
-        }
-        catch (ExecutionException e) {
-            return null;
-        }
-    }
 
     /**
      * The version of the first line of {@code php --version}: {@code 8.5.11} of {@code PHP 8.5.11 (cli) (built: ...) (NTS)}
@@ -114,7 +113,20 @@ public class PhpSdkType extends PlatformAwareSdkType {
     @Nullable
     @Override
     public String getVersionString(Platform platform, Path path) {
-        return getVersion(path.toString());
+        // asked on the machine of the interpreter
+        GeneralCommandLine commandLine = new GeneralCommandLine();
+        commandLine.withPlatform(platform);
+        commandLine.withExecutablePath(getExecutable(platform, path));
+        commandLine.withWorkingDirectory(path);
+        commandLine.addParameter("--version");
+        try {
+            ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(commandLine);
+            List<String> stdoutLines = processOutput.getStdoutLines();
+            return stdoutLines.isEmpty() ? null : parseVersion(stdoutLines.get(0));
+        }
+        catch (ExecutionException e) {
+            return null;
+        }
     }
 
     @Override

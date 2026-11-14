@@ -99,7 +99,8 @@ public final class ComposerProjectCreator {
                 if (project.isDisposed()) {
                     return;
                 }
-                linkAndImport(project, contentRoot.getPath(), request.composerExecutable());
+                // the native path - of the machine of the project
+                linkAndImport(project, directory.toString(), request.composerExecutable());
                 VirtualFile composerJson = contentRoot.findChild(ComposerConstants.COMPOSER_JSON);
                 if (composerJson != null) {
                     FileEditorManager.getInstance(project).openFile(composerJson, true);

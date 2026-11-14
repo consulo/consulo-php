@@ -1,15 +1,15 @@
 package consulo.php.impl.xdebug.connection;
 
 import consulo.logging.Logger;
+import consulo.platform.Platform;
+import consulo.platform.PlatformServerSocket;
+import consulo.platform.PlatformSocket;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -32,19 +32,29 @@ public class DbgpClient {
     }
 
     private final int myPort;
+    private final Platform myPlatform;
     private final Listener myListener;
     private final AtomicInteger myTransactionId = new AtomicInteger(1);
     private final Map<String, CompletableFuture<DbgpResponse>> myPendingCommands = new ConcurrentHashMap<>();
     private final AtomicBoolean myRunning = new AtomicBoolean(false);
 
-    private volatile ServerSocket myServerSocket;
-    private volatile Socket mySocket;
+    private volatile PlatformServerSocket myServerSocket;
+    private volatile PlatformSocket mySocket;
     private volatile OutputStream myOutputStream;
     private volatile Thread myListenThread;
 
-    public DbgpClient(int port, @Nonnull Listener listener) {
+    /**
+     * @param platform the machine of the debugged script - Xdebug connects to a port of its own machine
+     */
+    public DbgpClient(int port, @Nonnull Platform platform, @Nonnull Listener listener) {
         myPort = port;
+        myPlatform = platform;
         myListener = listener;
+    }
+
+    @Nonnull
+    public Platform getPlatform() {
+        return myPlatform;
     }
 
     public void startListening() throws IOException {
@@ -52,10 +62,9 @@ public class DbgpClient {
             return;
         }
 
-        myServerSocket = new ServerSocket(myPort);
-        myServerSocket.setSoTimeout(500);
+        myServerSocket = myPlatform.net().bind("127.0.0.1", myPort);
 
-        myListenThread = new Thread(this::listenLoop, "PHP-Xdebug-Listener-" + myPort);
+        myListenThread = new Thread(this::listenLoop, "PHP-Xdebug-Listener-" + myServerSocket.getPort());
         myListenThread.setDaemon(true);
         myListenThread.start();
     }
@@ -63,13 +72,9 @@ public class DbgpClient {
     private void listenLoop() {
         try {
             while (myRunning.get()) {
-                try {
-                    Socket socket = myServerSocket.accept();
-                    handleConnection(socket);
-                }
-                catch (SocketTimeoutException ignored) {
-                    // retry accept
-                }
+                // blocks until a connection comes or the socket is closed by stop()
+                PlatformSocket socket = myServerSocket.accept();
+                handleConnection(socket);
             }
         }
         catch (IOException e) {
@@ -79,7 +84,7 @@ public class DbgpClient {
         }
     }
 
-    private void handleConnection(@Nonnull Socket socket) {
+    private void handleConnection(@Nonnull PlatformSocket socket) {
         mySocket = socket;
         try {
             InputStream input = socket.getInputStream();
@@ -96,7 +101,7 @@ public class DbgpClient {
             }
 
             // read loop
-            while (myRunning.get() && !socket.isClosed()) {
+            while (myRunning.get() && mySocket == socket) {
                 xml = readMessage(input);
                 if (xml == null) {
                     break;
@@ -229,12 +234,15 @@ public class DbgpClient {
     }
 
     public boolean isConnected() {
-        Socket socket = mySocket;
-        return socket != null && !socket.isClosed();
+        return mySocket != null;
     }
 
+    /**
+     * The port Xdebug connects to - on the machine of the script.
+     */
     public int getPort() {
-        return myPort;
+        PlatformServerSocket serverSocket = myServerSocket;
+        return serverSocket != null ? serverSocket.getPort() : myPort;
     }
 
     public void stop() {
@@ -251,7 +259,7 @@ public class DbgpClient {
     }
 
     private void closeSocket() {
-        Socket socket = mySocket;
+        PlatformSocket socket = mySocket;
         if (socket != null) {
             try {
                 socket.close();
@@ -264,7 +272,7 @@ public class DbgpClient {
     }
 
     private void closeServerSocket() {
-        ServerSocket serverSocket = myServerSocket;
+        PlatformServerSocket serverSocket = myServerSocket;
         if (serverSocket != null) {
             try {
                 serverSocket.close();

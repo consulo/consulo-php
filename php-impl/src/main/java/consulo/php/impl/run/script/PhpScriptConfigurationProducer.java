@@ -12,7 +12,6 @@ import consulo.php.module.extension.PhpModuleExtension;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.ref.SimpleReference;
-import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
 /**
@@ -42,7 +41,8 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
         }
 
         configuration.setName(phpFile.getName());
-        configuration.setScriptPath(FileUtil.toSystemIndependentName(phpFile.getVirtualFile().getPath()));
+        // the path on the machine of the file - it is run there
+        configuration.setScriptPath(toScriptPath(phpFile.getVirtualFile()));
         configuration.getConfigurationModule().setModule(extension.getModule());
         return true;
     }
@@ -54,8 +54,11 @@ public class PhpScriptConfigurationProducer extends RunConfigurationProducer<Php
             return false;
         }
 
-        String scriptPath = configuration.getScriptPath();
-        VirtualFile file = scriptPath == null ? null : LocalFileSystem.getInstance().findFileByPath(scriptPath);
-        return file != null && Comparing.equal(file, phpFile.getVirtualFile());
+        VirtualFile file = phpFile.getVirtualFile();
+        return file != null && Comparing.equal(configuration.getScriptPath(), toScriptPath(file));
+    }
+
+    private static String toScriptPath(VirtualFile file) {
+        return FileUtil.toSystemIndependentName(file.toNioPath().toString());
     }
 }

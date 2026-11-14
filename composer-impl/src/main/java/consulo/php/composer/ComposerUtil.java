@@ -17,7 +17,10 @@
 package consulo.php.composer;
 
 import consulo.annotation.access.RequiredReadAction;
+import consulo.application.Application;
 import consulo.application.ReadAction;
+import consulo.application.platform.PlatformTarget;
+import consulo.application.platform.PlatformTargetManager;
 import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkTable;
 import consulo.module.Module;
@@ -35,6 +38,7 @@ import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -52,10 +56,10 @@ public final class ComposerUtil {
      * A package may be linked by its directory or by its {@code composer.json} - both name the same settings.
      */
     public static @Nullable ComposerProjectSettings findProjectSettings(Project project, String packagePath) {
-        Path packageDirectory = toPackageDirectory(Path.of(packagePath));
+        Path packageDirectory = toPackageDirectory(toPath(project, packagePath));
         for (ComposerProjectSettings settings : ComposerSettings.getInstance(project).getLinkedProjectsSettings()) {
             String linkedProjectPath = settings.getExternalProjectPath();
-            if (linkedProjectPath != null && toPackageDirectory(Path.of(linkedProjectPath)).equals(packageDirectory)) {
+            if (linkedProjectPath != null && toPackageDirectory(toPath(project, linkedProjectPath)).equals(packageDirectory)) {
                 return settings;
             }
         }
@@ -80,7 +84,7 @@ public final class ComposerUtil {
     public static ComposerExecutionSettings createExecutionSettings(Project project, String linkedProjectPath) {
         ComposerProjectSettings settings = findProjectSettings(project, linkedProjectPath);
         String composerExecutable = settings == null ? null : settings.getComposerExecutable();
-        Path packageDirectory = toPackageDirectory(Path.of(linkedProjectPath));
+        Path packageDirectory = toPackageDirectory(toPath(project, linkedProjectPath));
         Module module = ReadAction.compute(() -> findModule(project, packageDirectory));
         return new ComposerExecutionSettings(
             composerExecutable == null ? ComposerConstants.DEFAULT_EXECUTABLE : composerExecutable,
@@ -95,7 +99,7 @@ public final class ComposerUtil {
     public static @Nullable Module findModule(Project project, Path packageDirectory) {
         for (Module module : ModuleManager.getInstance(project).getModules()) {
             for (VirtualFile contentRoot : ModuleRootManager.getInstance(module).getContentRoots()) {
-                if (contentRoot.isInLocalFileSystem() && contentRoot.toNioPath().equals(packageDirectory)) {
+                if (contentRoot.isInLocalLikeFileSystem() && contentRoot.toNioPath().equals(packageDirectory)) {
                     return module;
                 }
             }
@@ -112,8 +116,7 @@ public final class ComposerUtil {
         if (sdk == null) {
             sdk = ContainerUtil.getFirstItem(SdkTable.getInstance().getSdksOfType(PhpSdkType.getInstance()));
         }
-        String home = sdk == null ? null : sdk.getHomePath();
-        return home == null ? null : PhpSdkType.getExecutable(Platform.current(), Path.of(home)).toString();
+        return sdk == null || sdk.getHomePath() == null ? null : PhpSdkType.getExecutable(sdk).toString();
     }
 
     /**
@@ -131,9 +134,28 @@ public final class ComposerUtil {
         command.addAll(arguments);
 
         GeneralCommandLine commandLine = new GeneralCommandLine(command);
+        // on the machine of the package
+        commandLine.withPlatform(platformOf(workDirectory));
         commandLine.withWorkingDirectory(workDirectory);
         commandLine.withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE);
         return commandLine;
+    }
+
+    /**
+     * A path of the settings - a path of the machine of the project.
+     */
+    public static Path toPath(@Nullable Project project, String path) {
+        Platform platform = project != null ? project.getPlatform() : Platform.current();
+        return platform == Platform.current() ? Path.of(path) : platform.fs().getPath(path);
+    }
+
+    private static Platform platformOf(Path path) {
+        if (path.getFileSystem() == FileSystems.getDefault()) {
+            return Platform.current();
+        }
+        PlatformTarget target = Application.get().getInstance(PlatformTargetManager.class).findTargetOf(path);
+        Platform platform = target == null ? null : target.getPlatform();
+        return platform != null ? platform : Platform.current();
     }
 
     public static String toPresentation(List<String> arguments) {

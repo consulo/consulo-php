@@ -61,6 +61,8 @@ public class ComposerNewModuleSetupStep extends UnifiedProjectOrModuleNameStep<C
         bundleBoxBuilder.withSdkTypeFilterByClass(PhpSdkType.class);
         BundleBox bundleBox = bundleBoxBuilder.build();
         bundleBox.getComponent().selectFirst();
+        // the interpreters of the target machine
+        bindBundleBox(bundleBox);
         builder.addLabeled(ComposerLocalize.newProjectPhpSdkLabel(), bundleBox.getComponent());
         myBundleBox = bundleBox;
 

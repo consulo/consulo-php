@@ -1,7 +1,8 @@
 package consulo.php.impl.xdebug;
 
-import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.platform.Platform;
 import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -13,28 +14,39 @@ public final class PhpDebugUtil {
     private PhpDebugUtil() {
     }
 
+    /**
+     * The uri of the file as Xdebug knows it - the path of the machine of the file ({@code file:///C:/a.php} on Windows).
+     */
     @Nonnull
     public static String toFileUri(@Nonnull VirtualFile file) {
-        return "file://" + file.getPath();
+        return toFileUri(file.toNioPath().toString());
     }
 
     @Nonnull
     public static String toFileUri(@Nonnull String path) {
-        return "file://" + path;
+        String independent = path.replace('\\', '/');
+        return independent.startsWith("/") ? "file://" + independent : "file:///" + independent;
     }
 
+    /**
+     * The file of an uri of Xdebug - a path of {@code platform}, the machine of the script.
+     */
     @Nullable
-    public static VirtualFile toVirtualFile(@Nonnull String fileUri) {
+    public static VirtualFile toVirtualFile(@Nonnull String fileUri, @Nonnull Platform platform) {
         try {
             String path;
             if (fileUri.startsWith("file://")) {
                 URI uri = new URI(fileUri);
                 path = uri.getPath();
+                // file:///C:/a.php - the path of a drive
+                if (path.length() > 2 && path.charAt(0) == '/' && path.charAt(2) == ':') {
+                    path = path.substring(1);
+                }
             }
             else {
                 path = fileUri;
             }
-            return LocalFileSystem.getInstance().findFileByPath(path);
+            return VirtualFileManager.getInstance().findFileByNioPath(platform.fs().getPath(path));
         }
         catch (Exception e) {
             return null;

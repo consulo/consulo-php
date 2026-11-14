@@ -34,7 +34,7 @@ import java.util.List;
 public class ComposerAutoImportAware implements ExternalSystemAutoImportAware {
     @Override
     public @Nullable String getAffectedExternalProjectPath(String changedFileOrDirPath, Project project) {
-        Path changed = Path.of(changedFileOrDirPath);
+        Path changed = ComposerUtil.toPath(project, changedFileOrDirPath);
         Path fileName = changed.getFileName();
         if (fileName == null) {
             return null;
@@ -54,7 +54,7 @@ public class ComposerAutoImportAware implements ExternalSystemAutoImportAware {
 
     @Override
     public List<Path> getAffectedExternalProjectFilePaths(String projectPath, Project project) {
-        Path directory = ComposerUtil.toPackageDirectory(Path.of(projectPath));
+        Path directory = ComposerUtil.toPackageDirectory(ComposerUtil.toPath(project, projectPath));
         return List.of(directory.resolve(ComposerConstants.COMPOSER_JSON), directory.resolve(ComposerConstants.COMPOSER_LOCK));
     }
 }

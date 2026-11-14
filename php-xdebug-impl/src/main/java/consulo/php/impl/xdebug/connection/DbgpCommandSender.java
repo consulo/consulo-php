@@ -1,5 +1,6 @@
 package consulo.php.impl.xdebug.connection;
 
+import consulo.platform.Platform;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -7,6 +8,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class DbgpCommandSender {
     private final DbgpClient myClient;
+
+    /**
+     * The machine of the debugged script - its paths are the ones of the file uris.
+     */
+    @Nonnull
+    public Platform getPlatform() {
+        return myClient.getPlatform();
+    }
 
     public DbgpCommandSender(@Nonnull DbgpClient client) {
         myClient = client;

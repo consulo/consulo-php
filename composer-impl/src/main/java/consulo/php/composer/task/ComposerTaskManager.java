@@ -50,7 +50,7 @@ public class ComposerTaskManager implements ExternalSystemTaskManager<ComposerEx
                              @Nullable String debuggerSetup,
                              ExternalSystemTaskNotificationListener listener) throws ExternalSystemException {
         ComposerExecutionSettings executionSettings = settings != null ? settings : new ComposerExecutionSettings(ComposerConstants.DEFAULT_EXECUTABLE, null);
-        Path packageDirectory = ComposerUtil.toPackageDirectory(Path.of(projectPath));
+        Path packageDirectory = ComposerUtil.toPackageDirectory(ComposerUtil.toPath(id.findProject(), projectPath));
         for (String taskName : taskNames) {
             List<String> arguments = toArguments(taskName);
             arguments.addAll(scriptParameters);

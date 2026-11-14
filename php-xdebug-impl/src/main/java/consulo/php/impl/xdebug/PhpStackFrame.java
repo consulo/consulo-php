@@ -43,7 +43,7 @@ public class PhpStackFrame extends XStackFrame {
     @Nullable
     @Override
     public XSourcePosition getSourcePosition() {
-        VirtualFile file = PhpDebugUtil.toVirtualFile(myFileUri);
+        VirtualFile file = PhpDebugUtil.toVirtualFile(myFileUri, myCommandSender.getPlatform());
         if (file == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public class PhpStackFrame extends XStackFrame {
         String display = myWhere != null && !myWhere.isEmpty() ? myWhere : "{main}";
         component.append(display, SimpleTextAttributes.REGULAR_ATTRIBUTES);
 
-        VirtualFile file = PhpDebugUtil.toVirtualFile(myFileUri);
+        VirtualFile file = PhpDebugUtil.toVirtualFile(myFileUri, myCommandSender.getPlatform());
         if (file != null) {
             component.append(" (" + file.getName() + ":" + myLine + ")", SimpleTextAttributes.GRAYED_ATTRIBUTES);
         }

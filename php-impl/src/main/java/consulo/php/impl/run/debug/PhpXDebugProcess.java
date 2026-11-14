@@ -1,5 +1,6 @@
 package consulo.php.impl.run.debug;
 
+import consulo.process.ProcessHandlerBuilder;
 import consulo.content.bundle.Sdk;
 import consulo.execution.debug.XDebugProcess;
 import consulo.execution.debug.XDebugSession;
@@ -10,7 +11,7 @@ import consulo.execution.debug.evaluation.XDebuggerEditorsProvider;
 import consulo.execution.debug.frame.XSuspendContext;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.ui.console.ConsoleView;
-import consulo.execution.ui.console.TextConsoleBuilder;
+import consulo.execution.ui.ExecutionConsole;
 import consulo.execution.ui.console.TextConsoleBuilderFactory;
 import consulo.language.util.ModuleUtilCore;
 import consulo.logging.Logger;
@@ -21,21 +22,16 @@ import consulo.php.impl.xdebug.connection.DbgpClient;
 import consulo.php.impl.xdebug.connection.DbgpCommandSender;
 import consulo.php.impl.xdebug.connection.DbgpResponse;
 import consulo.php.module.extension.PhpModuleExtension;
-import consulo.php.sdk.PhpSdkType;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
 import consulo.process.cmd.GeneralCommandLine;
-import consulo.process.local.ProcessHandlerFactory;
-import consulo.util.io.FileUtil;
-import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -58,17 +54,26 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
     // XLineBreakpoint -> Xdebug breakpoint ID
     private final Map<XLineBreakpoint<PhpLineBreakpointProperties>, String> myBreakpointToIdMap = new ConcurrentHashMap<>();
 
+    private final ConsoleView myConsole;
     private volatile ProcessHandler myProcessHandler;
     private volatile boolean myConnected;
 
     public PhpXDebugProcess(@Nonnull XDebugSession session, @Nonnull ExecutionEnvironment environment) throws ExecutionException {
         super(session);
         myEnvironment = environment;
-        myClient = new DbgpClient(DEFAULT_PORT, this);
+        // Xdebug connects to a port of the machine of the script
+        myClient = new DbgpClient(DEFAULT_PORT, findSdk(environment).getPlatform(), this);
         myCommandSender = new DbgpCommandSender(myClient);
         myBreakpointHandlers = new XBreakpointHandler[]{new PhpLineBreakpointHandler(this)};
+        // the console of the session - the process is started after the session ui is built
+        myConsole = TextConsoleBuilderFactory.getInstance().createBuilder(environment.getProject()).getConsole();
 
         session.setPauseActionSupported(false);
+    }
+
+    @Override
+    public ExecutionConsole createConsole() {
+        return myConsole;
     }
 
     @Nonnull
@@ -103,25 +108,25 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
         }
     }
 
-    private void launchPhpProcess() throws ExecutionException {
-        PhpScriptConfiguration config = (PhpScriptConfiguration) myEnvironment.getRunProfile();
-
+    @Nonnull
+    private static Sdk findSdk(@Nonnull ExecutionEnvironment environment) throws ExecutionException {
+        PhpScriptConfiguration config = (PhpScriptConfiguration) environment.getRunProfile();
         Module module = config.getConfigurationModule().getModule();
         if (module == null) {
             throw new ExecutionException("Module is not selected");
         }
-
         Sdk sdk = ModuleUtilCore.getSdk(module, PhpModuleExtension.class);
         if (sdk == null) {
             throw new ExecutionException("PHP SDK is not selected");
         }
+        return sdk;
+    }
 
-        String executableFile = PhpSdkType.getExecutableFile(sdk.getHomePath());
+    private void launchPhpProcess() throws ExecutionException {
+        PhpScriptConfiguration config = (PhpScriptConfiguration) myEnvironment.getRunProfile();
+        Sdk sdk = findSdk(myEnvironment);
 
-        GeneralCommandLine commandLine = new GeneralCommandLine();
-        commandLine.withExePath(FileUtil.toSystemDependentName(executableFile));
-        commandLine.withWorkDirectory(StringUtil.nullize(config.getWorkingDirectory()));
-        commandLine.withEnvironment(config.getEnvs());
+        GeneralCommandLine commandLine = config.createCommandLine(sdk);
 
         // add xdebug environment variables
         commandLine.withEnvironment("XDEBUG_MODE", "debug");
@@ -129,20 +134,8 @@ public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listen
             "client_host=127.0.0.1 client_port=" + myClient.getPort() + " idekey=consulo");
         commandLine.withEnvironment("XDEBUG_SESSION", "consulo");
 
-        List<String> args = new ArrayList<>();
-        args.add(FileUtil.toSystemDependentName(StringUtil.notNullize(config.getScriptPath())));
-        args.addAll(StringUtil.split(StringUtil.notNullize(config.getProgramParameters()), " "));
-        commandLine.withParameters(args);
-        commandLine.withParentEnvironmentType(
-            config.isPassParentEnvs()
-                ? GeneralCommandLine.ParentEnvironmentType.SYSTEM
-                : GeneralCommandLine.ParentEnvironmentType.NONE
-        );
-
-        TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(myEnvironment.getProject());
-        ConsoleView console = consoleBuilder.getConsole();
-        myProcessHandler = ProcessHandlerFactory.getInstance().createProcessHandler(commandLine);
-        console.attachToProcess(myProcessHandler);
+        myProcessHandler = ProcessHandlerBuilder.create(commandLine).build();
+        myConsole.attachToProcess(myProcessHandler);
 
         getSession().getRunContentDescriptor().setProcessHandler(myProcessHandler);
         myProcessHandler.addProcessListener(new ProcessListener() {

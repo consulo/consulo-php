@@ -36,14 +36,12 @@ import consulo.php.composer.newProject.ComposerProjectTemplate;
 import consulo.php.icon.PhpIconGroup;
 import consulo.php.module.extension.PhpMutableModuleExtension;
 import consulo.php.sdk.PhpSdkType;
-import consulo.platform.Platform;
 import consulo.project.Project;
 import consulo.project.startup.StartupManager;
 import consulo.ui.ex.wizard.WizardStep;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -124,10 +122,9 @@ public class ComposerNewModuleBuilder implements NewModuleBuilder {
     }
 
     private static @Nullable String findPhpExecutable(@Nullable Sdk sdk) {
-        String home = sdk == null ? null : sdk.getHomePath();
-        if (home == null) {
+        if (sdk == null || sdk.getHomePath() == null) {
             return ComposerUtil.findPhpExecutable(null);
         }
-        return PhpSdkType.getExecutable(Platform.current(), Path.of(home)).toString();
+        return PhpSdkType.getExecutable(sdk).toString();
     }
 }

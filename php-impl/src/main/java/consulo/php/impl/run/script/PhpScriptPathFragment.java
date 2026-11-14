@@ -9,6 +9,7 @@ import consulo.fileChooser.FileChooserDescriptorFactory;
 import consulo.fileChooser.FileChooserTextBoxBuilder;
 import consulo.localize.LocalizeValue;
 import consulo.php.localize.PhpLocalize;
+import consulo.platform.Platform;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.util.io.FileUtil;
@@ -38,9 +39,12 @@ class PhpScriptPathFragment implements RunConfigurationFragment<PhpScriptConfigu
     @Override
     public RunConfigurationFragmentEditor<PhpScriptConfiguration> createEditor(Project project, Disposable parent) {
         FileChooserTextBoxBuilder builder = FileChooserTextBoxBuilder.create(project);
-        builder.fileChooserDescriptor(FileChooserDescriptorFactory.createSingleFileDescriptor(PhpFileType.INSTANCE));
+        // the script is run on the machine of the project
+        Platform platform = project.getPlatform();
+        builder.fileChooserDescriptor(FileChooserDescriptorFactory.createSingleFileDescriptor(PhpFileType.INSTANCE).withPlatform(platform));
         builder.uiDisposable(parent);
         FileChooserTextBoxBuilder.Controller scriptPath = builder.build();
+        scriptPath.setFileSystem(platform == Platform.current() ? null : platform.fs().getPath("/").getFileSystem());
 
         return new RunConfigurationFragmentEditor<>() {
             @RequiredUIAccess

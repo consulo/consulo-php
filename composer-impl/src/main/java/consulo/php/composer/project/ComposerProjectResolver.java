@@ -40,8 +40,8 @@ import consulo.php.composer.localize.ComposerLocalize;
 import consulo.php.composer.setting.ComposerExecutionSettings;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
-import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Files;
@@ -70,7 +70,7 @@ public class ComposerProjectResolver implements ExternalSystemProjectResolver<Co
                                                               @Nullable ComposerExecutionSettings settings,
                                                               ExternalSystemTaskNotificationListener listener)
         throws ExternalSystemException, IllegalArgumentException, IllegalStateException {
-        Path packageDirectory = ComposerUtil.toPackageDirectory(Path.of(projectPath));
+        Path packageDirectory = ComposerUtil.toPackageDirectory(ComposerUtil.toPath(id.findProject(), projectPath));
         Path composerJsonPath = packageDirectory.resolve(ComposerConstants.COMPOSER_JSON);
         if (!Files.isRegularFile(composerJsonPath)) {
             throw new IllegalArgumentException(ComposerLocalize.errorNoComposerJson(packageDirectory).get());
@@ -83,7 +83,7 @@ public class ComposerProjectResolver implements ExternalSystemProjectResolver<Co
 
         listener.onStatusChange(new ExternalSystemTaskNotificationEvent(id, ComposerLocalize.statusReading().get()));
 
-        VirtualFile composerJson = LocalFileSystem.getInstance().refreshAndFindFileByNioFile(composerJsonPath);
+        VirtualFile composerJson = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(composerJsonPath);
         if (composerJson == null) {
             throw new IllegalArgumentException(ComposerLocalize.errorNoComposerJson(packageDirectory).get());
         }

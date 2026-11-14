@@ -33,14 +33,15 @@ import consulo.module.Module;
 import consulo.module.ModuleManager;
 import consulo.module.content.ModuleRootManager;
 import consulo.module.content.layer.ModifiableRootModel;
+import consulo.php.composer.ComposerUtil;
 import consulo.php.composer.importer.ComposerImporter;
 import consulo.php.composer.importer.ComposerPackage;
 import consulo.php.module.extension.PhpMutableModuleExtension;
 import consulo.php.sdk.PhpSdkType;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
-import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import jakarta.inject.Inject;
 
 import java.util.Collection;
@@ -118,7 +119,8 @@ public class ComposerPackageDataService implements ProjectDataService<ComposerPa
 
             // frameworks configure the module from the required packages, like Maven importers
             ComposerPackage composerPackage = data.getPackage();
-            VirtualFile packageRoot = LocalFileSystem.getInstance().findFileByPath(data.getPackageDirectory());
+            VirtualFile packageRoot =
+                VirtualFileManager.getInstance().findFileByNioPath(ComposerUtil.toPath(module.getProject(), data.getPackageDirectory()));
             if (packageRoot != null) {
                 for (ComposerImporter importer : importers) {
                     if (importer.isApplicable(composerPackage)) {

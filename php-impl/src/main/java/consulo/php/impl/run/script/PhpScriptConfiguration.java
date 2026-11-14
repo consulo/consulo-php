@@ -1,5 +1,7 @@
 package consulo.php.impl.run.script;
 
+import consulo.platform.Platform;
+import consulo.process.ProcessHandlerBuilder;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.compiler.execution.CompileStepBeforeRun;
 import consulo.content.bundle.Sdk;
@@ -25,9 +27,7 @@ import consulo.php.sdk.PhpSdkType;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
 import consulo.process.cmd.GeneralCommandLine;
-import consulo.process.local.ProcessHandlerFactory;
 import consulo.project.Project;
-import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
@@ -143,24 +143,38 @@ public class PhpScriptConfiguration extends ModuleBasedConfiguration<RunConfigur
 					throw new ExecutionException("PHP SDK is not selected");
 				}
 
-				String executableFile = PhpSdkType.getExecutableFile(sdk.getHomePath());
-
-				GeneralCommandLine commandLine = new GeneralCommandLine();
-				commandLine.withExePath(FileUtil.toSystemDependentName(executableFile));
-				commandLine.withWorkDirectory(StringUtil.nullize(conf.getWorkingDirectory()));
-				commandLine.withEnvironment(conf.getEnvs());
-				List<String> args = new ArrayList<>();
-				args.add(FileUtil.toSystemDependentName(conf.getScriptPath()));
-				args.addAll(StringUtil.split(StringUtil.notNullize(conf.getProgramParameters()), " "));
-				commandLine.withParameters(args);
-				commandLine.withParentEnvironmentType(conf.isPassParentEnvs() ? GeneralCommandLine.ParentEnvironmentType.SYSTEM : GeneralCommandLine.ParentEnvironmentType.NONE);
+				GeneralCommandLine commandLine = conf.createCommandLine(sdk);
 
 				TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(environment.getProject());
 				ConsoleView console = consoleBuilder.getConsole();
-				ProcessHandler processHandler = ProcessHandlerFactory.getInstance().createProcessHandler(commandLine);
+				ProcessHandler processHandler = ProcessHandlerBuilder.create(commandLine).build();
 				console.attachToProcess(processHandler);
 				return new DefaultExecutionResult(console, processHandler);
 			}
 		};
+	}
+
+	/**
+	 * The script with the interpreter of {@code sdk} - on the machine of the SDK, the paths are the ones of that machine
+	 */
+	public GeneralCommandLine createCommandLine(Sdk sdk)
+	{
+		Platform platform = sdk.getPlatform();
+
+		GeneralCommandLine commandLine = new GeneralCommandLine();
+		commandLine.withPlatform(platform);
+		commandLine.withExecutablePath(PhpSdkType.getExecutable(sdk));
+		String workingDirectory = StringUtil.nullize(getWorkingDirectory());
+		if(workingDirectory != null)
+		{
+			commandLine.withWorkingDirectory(platform.fs().getPath(workingDirectory));
+		}
+		commandLine.withEnvironment(getEnvs());
+		List<String> args = new ArrayList<>();
+		args.add(platform.fs().getPath(StringUtil.notNullize(getScriptPath())).toString());
+		args.addAll(StringUtil.split(StringUtil.notNullize(getProgramParameters()), " "));
+		commandLine.withParameters(args);
+		commandLine.withParentEnvironmentType(isPassParentEnvs() ? GeneralCommandLine.ParentEnvironmentType.SYSTEM : GeneralCommandLine.ParentEnvironmentType.NONE);
+		return commandLine;
 	}
 }
