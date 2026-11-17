@@ -9,6 +9,7 @@ import consulo.execution.debug.breakpoint.XBreakpointHandler;
 import consulo.execution.debug.breakpoint.XLineBreakpoint;
 import consulo.execution.debug.evaluation.XDebuggerEditorsProvider;
 import consulo.execution.debug.frame.XSuspendContext;
+import consulo.execution.debug.step.HasRunToPosition;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.ui.console.ConsoleView;
 import consulo.execution.ui.ExecutionConsole;
@@ -37,7 +38,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listener, PhpBreakpointListener {
+public class PhpXDebugProcess extends XDebugProcess implements DbgpClient.Listener, PhpBreakpointListener, HasRunToPosition {
     private static final Logger LOG = Logger.getInstance(PhpXDebugProcess.class);
     private static final int DEFAULT_PORT = 9003;
 
